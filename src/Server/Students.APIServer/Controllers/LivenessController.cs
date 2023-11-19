@@ -35,7 +35,6 @@ namespace Students.APIServer.Controllers
                 StatusCodes.Status200OK,
                 new DefaultResponse
                 {
-                    Status = Status.Ok,
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                 });
         }
