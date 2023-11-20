@@ -14,6 +14,10 @@ public class Group
     /// </summary>
     public string Name { get; set; }
     /// <summary>
+    /// Id образовательной программы
+    /// </summary>
+    public Guid EducationProgramId { get; set; }
+    /// <summary>
     /// Образорвательная программа
     /// </summary>
     public EducationProgram EducationProgram { get; set; }

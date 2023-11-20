@@ -18,9 +18,17 @@ public class EducationProgram
     /// </summary>
     public int HoursCount { get; set; }
     /// <summary>
+    /// Id Вида программы
+    /// </summary>
+    public Guid EducationTypeId { get; set; }
+    /// <summary>
     /// Вид программы
     /// </summary>
     public EducationType EducationType { get; set; }
+    /// <summary>
+    /// Id Формы обучения
+    /// </summary>
+    public Guid EducationFormId { get; set; }
     /// <summary>
     /// Форма обучения
     /// </summary>
@@ -37,6 +45,10 @@ public class EducationProgram
     /// Модульная программа
     /// </summary>
     public bool IsModularProgram { get; set; }
+    /// <summary>
+    /// Id ВЭД программы
+    /// </summary>
+    public Guid FEAProgramId { get; set; }
     /// <summary>
     /// ВЭД программы
     /// </summary>
