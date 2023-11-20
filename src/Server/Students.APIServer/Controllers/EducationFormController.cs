@@ -131,7 +131,7 @@ public class EducationFormController : ControllerBase
                     });
             }
 
-            oldForm = form;
+            oldForm.Name = form.Name;
             await _ctx.SaveChangesAsync();
             return StatusCode(StatusCodes.Status200OK, form);
         }
