@@ -18,14 +18,14 @@ namespace Students.APIServer.Controllers;
 public class EducationFormController : ControllerBase
 {
     private readonly ILogger<LivenessController> logger;
-    private readonly EducationFormService educationFormService;
+    private readonly IEducationFormService educationFormService;
 
     /// <summary>
     /// Default constructor
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="educationFormService"></param>
-    public EducationFormController(ILogger<LivenessController> logger, EducationFormService educationFormService)
+    public EducationFormController(ILogger<LivenessController> logger, IEducationFormService educationFormService)
     {
         this.logger = logger;
         this.educationFormService = educationFormService;
