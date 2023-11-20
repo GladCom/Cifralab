@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Students.APIServer.Services.EducationFormService;
 using Students.DBCore.Contexts;
 using Students.Models;
 
@@ -15,18 +17,18 @@ namespace Students.APIServer.Controllers;
 [ApiVersion("1.0")]
 public class EducationFormController : ControllerBase
 {
-    private readonly ILogger<LivenessController> _logger;
-    private readonly StudentContext _ctx;
+    private readonly ILogger<LivenessController> logger;
+    private readonly IEducationFormService educationFormService;
 
     /// <summary>
     /// Default constructor
     /// </summary>
     /// <param name="logger"></param>
-    /// <param name="ctx"></param>
-    public EducationFormController(ILogger<LivenessController> logger, StudentContext ctx)
+    /// <param name="educationFormService"></param>
+    public EducationFormController(ILogger<LivenessController> logger, IEducationFormService educationFormService)
     {
-        _logger = logger;
-        _ctx = ctx;
+        this.logger = logger;
+        this.educationFormService = educationFormService;
     }
 
     /// <summary>
@@ -38,12 +40,12 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            return StatusCode(StatusCodes.Status200OK,
-                await _ctx.EducationForms.ToListAsync());
+            var result = await educationFormService.GetAll();
+            return Ok(result);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while getting Education Forms");
+            logger.LogError(e, "Error while getting Education Forms");
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new DefaultResponse
                 {
@@ -62,7 +64,7 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            var form = await _ctx.EducationForms.FindAsync(id);
+            var form = await educationFormService.GetFormById(id);
             if (form == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
@@ -72,11 +74,11 @@ public class EducationFormController : ControllerBase
                     });
             }
 
-            return StatusCode(StatusCodes.Status200OK, form);
+            return Ok(form);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while getting Education Form by Id");
+            logger.LogError(e, "Error while getting Education Form by Id");
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new DefaultResponse
                 {
@@ -95,13 +97,12 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            await _ctx.EducationForms.AddAsync(form);
-            await _ctx.SaveChangesAsync();
+            await educationFormService.Create(form);
             return StatusCode(StatusCodes.Status201Created, form);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while creating new Education Form");
+            logger.LogError(e, "Error while creating new Education Form");
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new DefaultResponse
                 {
@@ -121,23 +122,21 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            var oldForm = await _ctx.EducationForms.FindAsync(id);
+            var oldForm = await educationFormService.Update(id, form);
             if (oldForm == null)
             {
-                return StatusCode(StatusCodes.Status404NotFound,
+                return NotFound(
                     new DefaultResponse
                     {
                         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                     });
             }
 
-            oldForm.Name = form.Name;
-            await _ctx.SaveChangesAsync();
-            return StatusCode(StatusCodes.Status200OK, form);
+            return Ok(form);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while updating Education Form");
+            logger.LogError(e, "Error while updating Education Form");
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new DefaultResponse
                 {
@@ -145,7 +144,7 @@ public class EducationFormController : ControllerBase
                 });
         }
     }
-    
+
     /// <summary>
     /// Удалить форму обучения
     /// </summary>
@@ -156,19 +155,16 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            var form = await _ctx.EducationForms.FindAsync(id);
+            var form = await educationFormService.Delete(id);
             if (form == null)
             {
-                return StatusCode(StatusCodes.Status404NotFound,
+                return NotFound(
                     new DefaultResponse
                     {
                         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                     });
             }
-
-            _ctx.EducationForms.Remove(form);
-            await _ctx.SaveChangesAsync();
-            return StatusCode(StatusCodes.Status200OK,
+            return Ok(
                 new DefaultResponse
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
@@ -176,7 +172,7 @@ public class EducationFormController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while deleting Education Form");
+            logger.LogError(e, "Error while deleting Education Form");
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new DefaultResponse
                 {
