@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Microsoft.OpenApi.Models;
 using Students.APIServer.Extension;
+using Students.APIServer.Services.EducationFormService;
 using Students.DBCore.Contexts;
 using Students.Models;
 
@@ -31,8 +32,8 @@ builder.Services.AddSwaggerGen(options =>
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentEducation>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentStatus>>();
 });
+builder.Services.AddScoped<IEducationFormService, EducationFormService>();
 builder.Services.AddApiVersioning();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
