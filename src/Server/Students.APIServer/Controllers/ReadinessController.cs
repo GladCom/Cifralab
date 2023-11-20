@@ -44,7 +44,6 @@ public class ReadinessController : ControllerBase
                     StatusCodes.Status200OK,
                     new DefaultResponse
                     {
-                        Status = Status.Ok,
                         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                     });
             }
@@ -53,7 +52,6 @@ public class ReadinessController : ControllerBase
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new DefaultResponse
                     {
-                        Status = Status.Error,
                         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                     });
             }
@@ -64,7 +62,6 @@ public class ReadinessController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new DefaultResponse
                 {
-                    Status = Status.Error,
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                 });
         }
