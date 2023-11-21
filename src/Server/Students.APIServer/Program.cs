@@ -18,8 +18,10 @@ builder.Services.AddSwaggerGen(options =>
 {
     var basePath = AppContext.BaseDirectory;
 
-    var xmlPath = Path.Combine(basePath, "Students.APIServer.xml");
-    options.IncludeXmlComments(xmlPath);
+    var apiDoc = Path.Combine(basePath, "Students.APIServer.xml");
+    var modelsDoc = Path.Combine(basePath, "Students.Models.xml");
+    options.IncludeXmlComments(apiDoc);
+    options.IncludeXmlComments(modelsDoc);
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationForm>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationProgram>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationType>>();
