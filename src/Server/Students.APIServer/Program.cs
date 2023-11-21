@@ -35,8 +35,8 @@ builder.Services.AddSwaggerGen(options =>
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentEducation>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentStatus>>();
 });
+builder.Services.AddScoped<IEducationFormService, EducationFormService>();
 builder.Services.AddApiVersioning();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
