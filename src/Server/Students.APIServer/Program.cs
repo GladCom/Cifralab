@@ -13,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<StudentContext, PgContext>();
 builder.Services.AddSingleton<StudentContext, InMemoryContext>();
-builder.Services.AddScoped(typeof(IGenericRepository<EducationForm>), typeof(GenericRepository<EducationForm>));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddSwaggerGen(options =>
 {
     var basePath = AppContext.BaseDirectory;
