@@ -76,7 +76,7 @@ public class Request
     /// <summary>
     /// Приказ об отчислении
     /// </summary>
-    public string OrderOfExpulsion { get; set; }
+    public string? OrderOfExpulsion { get; set; }
     /// <summary>
     ///Id Сферы деятельности ур. 1
     /// </summary>

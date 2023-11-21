@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Microsoft.OpenApi.Models;
 using Students.APIServer.Extension;
+using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
 
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<StudentContext, PgContext>();
 builder.Services.AddSingleton<StudentContext, InMemoryContext>();
+builder.Services.AddScoped(typeof(IGenericRepository<EducationForm>), typeof(GenericRepository<EducationForm>));
 builder.Services.AddSwaggerGen(options =>
 {
     var basePath = AppContext.BaseDirectory;

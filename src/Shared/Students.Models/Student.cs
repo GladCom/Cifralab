@@ -29,7 +29,7 @@ public class Student
     /// <summary>
     /// Фамилия, указанная в дипломе о ВО или СПО
     /// </summary>
-    public string FullNameDocument { get; set; }
+    public string? FullNameDocument { get; set; }
     /// <summary>
     /// Серия документа о ВО/СПО
     /// </summary>

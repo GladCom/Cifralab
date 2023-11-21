@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
 
@@ -15,18 +16,18 @@ namespace Students.APIServer.Controllers;
 [ApiVersion("1.0")]
 public class EducationFormController : ControllerBase
 {
-    private readonly ILogger<LivenessController> _logger;
-    private readonly StudentContext _ctx;
+    private readonly ILogger<EducationFormController> _logger;
+    private readonly IGenericRepository<EducationForm> _rep;
 
     /// <summary>
     /// Default constructor
     /// </summary>
     /// <param name="logger"></param>
-    /// <param name="ctx"></param>
-    public EducationFormController(ILogger<LivenessController> logger, StudentContext ctx)
+    /// <param name="repository"></param>
+    public EducationFormController(ILogger<EducationFormController> logger, IGenericRepository<EducationForm> repository)
     {
         _logger = logger;
-        _ctx = ctx;
+        _rep = repository;
     }
 
     /// <summary>
@@ -39,7 +40,7 @@ public class EducationFormController : ControllerBase
         try
         {
             return StatusCode(StatusCodes.Status200OK,
-                await _ctx.EducationForms.ToListAsync());
+                await _rep.Get());
         }
         catch (Exception e)
         {
@@ -62,7 +63,7 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            var form = await _ctx.EducationForms.FindAsync(id);
+            var form = await _rep.FindById(id);
             if (form == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
@@ -95,8 +96,7 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            await _ctx.EducationForms.AddAsync(form);
-            await _ctx.SaveChangesAsync();
+            await _rep.Create(form);
             return StatusCode(StatusCodes.Status201Created, form);
         }
         catch (Exception e)
@@ -121,18 +121,7 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            var oldForm = await _ctx.EducationForms.FindAsync(id);
-            if (oldForm == null)
-            {
-                return StatusCode(StatusCodes.Status404NotFound,
-                    new DefaultResponse
-                    {
-                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-                    });
-            }
-
-            oldForm.Name = form.Name;
-            await _ctx.SaveChangesAsync();
+            await _rep.Update(form);
             return StatusCode(StatusCodes.Status200OK, form);
         }
         catch (Exception e)
@@ -156,7 +145,7 @@ public class EducationFormController : ControllerBase
     {
         try
         {
-            var form = await _ctx.EducationForms.FindAsync(id);
+            var form = await _rep.FindById(id);
             if (form == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
@@ -166,8 +155,7 @@ public class EducationFormController : ControllerBase
                     });
             }
 
-            _ctx.EducationForms.Remove(form);
-            await _ctx.SaveChangesAsync();
+            await _rep.Remove(form);
             return StatusCode(StatusCodes.Status200OK,
                 new DefaultResponse
                 {
