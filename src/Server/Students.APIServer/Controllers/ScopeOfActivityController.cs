@@ -8,9 +8,9 @@ namespace Students.APIServer.Controllers;
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
-public class EducationFormController : GenericAPiController<EducationForm>
+public class ScopeOfActivityController : GenericAPiController<ScopeOfActivity>
 {
-    public EducationFormController(IGenericRepository<EducationForm> repository, ILogger<EducationForm> logger) : base(repository, logger)
+    public ScopeOfActivityController(IGenericRepository<ScopeOfActivity> repository, ILogger<ScopeOfActivity> logger) : base(repository, logger)
     {
     }
 }

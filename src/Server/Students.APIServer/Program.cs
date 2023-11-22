@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.OpenApi.Models;
 using Students.APIServer.Extension;
-using Students.APIServer.Services.EducationFormService;
+using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
 
@@ -13,12 +13,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<StudentContext, PgContext>();
 builder.Services.AddSingleton<StudentContext, InMemoryContext>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddSwaggerGen(options =>
 {
     var basePath = AppContext.BaseDirectory;
 
-    var xmlPath = Path.Combine(basePath, "Students.APIServer.xml");
-    options.IncludeXmlComments(xmlPath);
+    var apiDoc = Path.Combine(basePath, "Students.APIServer.xml");
+    var modelsDoc = Path.Combine(basePath, "Students.Models.xml");
+    options.IncludeXmlComments(apiDoc);
+    options.IncludeXmlComments(modelsDoc);
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationForm>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationProgram>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationType>>();
