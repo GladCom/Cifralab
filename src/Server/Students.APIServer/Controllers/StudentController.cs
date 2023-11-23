@@ -31,12 +31,18 @@ public class StudentController : GenericAPiController<Student>
         return StatusCode(StatusCodes.Status200OK, _studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
     }
     
+    // Отключение базового метода ListAll
     [ApiExplorerSettings(IgnoreApi=true)]
     public override Task<IActionResult>ListAll()
     {
         return null;
     }
 
+    /// <summary>
+    /// Получить объект по Id с включением связанных объектов
+    /// </summary>
+    /// <param name="id">Id Объекта</param>
+    /// <returns>Объект</returns>
     public override async Task<IActionResult> Get(Guid id)
     {
         try
