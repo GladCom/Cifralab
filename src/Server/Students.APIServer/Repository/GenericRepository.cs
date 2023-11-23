@@ -5,8 +5,8 @@ namespace Students.APIServer.Repository;
 
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-    StudentContext _context;
-    DbSet<TEntity> _dbSet;
+    private readonly StudentContext _context;
+    private readonly DbSet<TEntity> _dbSet;
  
     public GenericRepository(StudentContext context)
     {

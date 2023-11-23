@@ -157,7 +157,6 @@ public sealed class InMemoryContext : StudentContext
                 JobCV = "Опыть в IT 10 лет",
                 EducationContract = "Договор №1 от 01.01.2021",
                 DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307")
-                
             },
             new Request
             {
@@ -182,7 +181,8 @@ public sealed class InMemoryContext : StudentContext
                 Speciality = "Инженер-программист",
                 JobCV = "Опыть в IT 10 лет",
                 EducationContract = "Договор №1 от 01.01.2021",
-                DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307")
+                DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307"),
+                StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6")
             }
         );
         modelBuilder.Entity<Group>().HasData(
@@ -205,8 +205,9 @@ public sealed class InMemoryContext : StudentContext
                 DocumentNumber = "АААА123456",
                 DocumentSeries = "1234",
                 SNILS = "123-456-789 00",
+               
             }
-            );
+        );
 
         #endregion
     }
