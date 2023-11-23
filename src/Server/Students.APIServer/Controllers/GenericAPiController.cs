@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository;
 using Students.Models;
 
@@ -26,7 +27,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     /// </summary>
     /// <returns>Список объектов</returns>
     [HttpGet()]
-    public async Task<IActionResult> ListAll()
+    public virtual async Task<IActionResult> ListAll()
     {
         try
         {
@@ -49,7 +50,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     /// <param name="id">Id Объекта</param>
     /// <returns>Объект</returns>
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(Guid id)
+    public virtual async Task<IActionResult> Get(Guid id)
     {
         try
         {
@@ -82,7 +83,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     /// <param name="form">Объект</param>
     /// <returns>Объект</returns>
     [HttpPost()]
-    public async Task<IActionResult> Post([FromBody] TEntity form)
+    public virtual async Task<IActionResult> Post([FromBody] TEntity form)
     {
         try
         {
@@ -107,7 +108,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     /// <param name="form">объект</param>
     /// <returns>объект</returns>
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromBody] TEntity form)
+    public virtual async Task<IActionResult> Put(Guid id, [FromBody] TEntity form)
     {
         try
         {
@@ -131,7 +132,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     /// <param name="id">Id объекта</param>
     /// <returns>DefaultResponse</returns>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public virtual async Task<IActionResult> Delete(Guid id)
     {
         try
         {
