@@ -28,7 +28,7 @@ public class StudentController : GenericAPiController<Student>
     [HttpGet("paged")]
     public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
     {
-        return StatusCode(StatusCodes.Status200OK, _studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
+        return StatusCode(StatusCodes.Status200OK, await _studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
     }
     
     // Отключение базового метода ListAll

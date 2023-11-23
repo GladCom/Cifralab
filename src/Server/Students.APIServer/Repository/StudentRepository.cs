@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Students.APIServer.Extension.Pagination;
 using Students.DBCore.Contexts;
 using Students.Models;
 
@@ -12,14 +13,15 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
         _ctx = context;
     }
 
-    public IEnumerable<Student> GetStudentsByPage(int page, int pageSize)
+    public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
     {
-        return _ctx.Students.Skip((page - 1) * pageSize).Take(pageSize);
+        return await  PagedPage<Student>.ToPagedPage(_ctx.Students, page, pageSize);
+
     }
 
     public async Task<Student?> FindById(Guid id)
     {
-        return await _ctx.Students
+        return await _ctx.Students.AsNoTracking()
             .Include(x=>x.Groups)
             .Include(x=>x.Requests)
             .FirstOrDefaultAsync(x=>x.Id == id);
