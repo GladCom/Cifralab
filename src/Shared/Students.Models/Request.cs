@@ -1,3 +1,5 @@
+using System.Diagnostics.Contracts;
+
 namespace Students.Models;
 
 /// <summary>
@@ -125,4 +127,12 @@ public class Request
     /// Вид выданного документа о квалификации
     /// </summary>
     public StudentDocument DocumentType { get; set; }
+    /// <summary>
+    /// Id студента
+    /// </summary>
+    public Guid? StudentId { get; set; }
+    /// <summary>
+    /// Cтудент
+    /// </summary>
+    public Student? Student { get; set; }
 }
