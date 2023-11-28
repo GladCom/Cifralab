@@ -32,11 +32,11 @@ public class StudentController : GenericAPiController<Student>
     }
     
     // Отключение базового метода ListAll
-    [ApiExplorerSettings(IgnoreApi=true)]
-    public override Task<IActionResult>ListAll()
-    {
-        return null;
-    }
+    // [ApiExplorerSettings(IgnoreApi=true)]
+    // public override Task<IActionResult>ListAll()
+    // {
+    //     return null;
+    // }
 
     /// <summary>
     /// Получить объект по Id с включением связанных объектов
