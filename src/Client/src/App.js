@@ -5,7 +5,6 @@ import NaviBar from './components/Navibar';
 import MediaCard from './components/MediaCard';
 import SideBar from './components/SideBar';
 import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
-import Students from './components/Students.jsx';
 import StudentTable from './components/StudentTable.jsx';
 import "./assets/css/dino.css"
 
