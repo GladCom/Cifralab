@@ -6,6 +6,7 @@ import SideBar from './components/SideBar';
 import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
 import "./assets/css/dino.css"
 import CollapsibleTable from './components/StudentTable.jsx';
+import EditableTable from './common/EditableTableExample/EditableTable.jsx';
 
 function App() {
   return (

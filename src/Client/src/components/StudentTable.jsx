@@ -14,6 +14,8 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TableRow from '@mui/material/TableRow';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Checkbox from '@mui/material/Checkbox';
@@ -24,29 +26,28 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { alpha } from '@mui/material/styles';
+import {
+    GridRowModes,
+    DataGrid,
+    GridToolbarContainer,
+    GridToolbarExport,
+    GridActionsCellItem,
+    GridRowEditStopReasons,
+  } from '@mui/x-data-grid';
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
+function EditToolbar(props) {
+    const { setRows, setRowModesModel } = props;
+  
+    const handleClick = () => {
+      const id = 1;
+    };
+  
+    return (
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+          Add record
+        </Button>
+    );
+  }
 
 function EnhancedTableToolbar(props) {
     const { numSelected } = props;
@@ -78,7 +79,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Nutrition
+            Students
           </Typography>
         )}
   
@@ -176,6 +177,7 @@ export default function CollapsibleTable() {
   return (
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
+    <EditToolbar></EditToolbar>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
