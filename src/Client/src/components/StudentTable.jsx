@@ -1,191 +1,202 @@
-import React, { useEffect, useState } from 'react'
-import { json } from 'react-router-dom';
-
+import * as React from 'react';
+import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import {
-  GridRowModes,
-  DataGrid,
-  GridToolbarContainer,
-  GridActionsCellItem,
-  GridRowEditStopReasons,
-} from '@mui/x-data-grid';
-import {
-  randomCreatedDate,
-  randomTraderName,
-  randomId,
-  randomArrayItem,
-  random,
-} from '@mui/x-data-grid-generator';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import { TablePagination } from '@mui/material';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Toolbar from '@mui/material/Toolbar';
+import Checkbox from '@mui/material/Checkbox';
+import Tooltip from '@mui/material/Tooltip';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { visuallyHidden } from '@mui/utils';
+import { alpha } from '@mui/material/styles';
 
-function EditToolbar(props) {
-    const { setRows, setRowModesModel } = props;
-  
-    const handleClick = () => {
-      const id = randomId();
-      setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-      setRowModesModel((oldModel) => ({
-        ...oldModel,
-        [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-      }));
-    };
+function createData(name, calories, fat, carbs, protein, price) {
+  return {
+    name,
+    calories,
+    fat,
+    carbs,
+    protein,
+    price,
+    history: [
+      {
+        date: '2020-01-05',
+        customerId: '11091700',
+        amount: 3,
+      },
+      {
+        date: '2020-01-02',
+        customerId: 'Anonymous',
+        amount: 1,
+      },
+    ],
+  };
+}
+
+function EnhancedTableToolbar(props) {
+    const { numSelected } = props;
   
     return (
-      <GridToolbarContainer>
-        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-          Add record
-        </Button>
-      </GridToolbarContainer>
+      <Toolbar
+        sx={{
+          pl: { sm: 2 },
+          pr: { xs: 1, sm: 1 },
+          ...(numSelected > 0 && {
+            bgcolor: (theme) =>
+              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          }),
+        }}
+      >
+        {numSelected > 0 ? (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            {numSelected} selected
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            Nutrition
+          </Typography>
+        )}
+  
+        {numSelected > 0 ? (
+          <Tooltip title="Delete">
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton>
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Toolbar>
     );
   }
 
-  
+function Row(props) {
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
 
-const userTableStyles = {
-    height: '650px',
-    width: '100%',
-        '& .actions': {
-          color: 'text.secondary',
-        },
-        '& .textPrimary': {
-          color: 'text.primary',
-        },
-};
+  return (
+    <React.Fragment>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {row?.fullName}
+        </TableCell>
+        <TableCell align="right">{row?.birthDate}</TableCell>
+        <TableCell align="right">{row?.snils}</TableCell>
+        <TableCell align="right">{row?.documentSeries}</TableCell>
+        <TableCell align="right">{row?.documentNumber}</TableCell>
+        <TableCell align="right">{row?.nationality}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Requests
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Request Author</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell align="right">Education Program Name</TableCell>
+                    <TableCell align="right">Education Form Id</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row?.requests?.map((requestsRow) => (
+                    <TableRow key={requestsRow?.fullName}>
+                      <TableCell component="th" scope="row">
+                        {requestsRow?.fullName}
+                      </TableCell>
+                      <TableCell>{requestsRow?.educationProgram?.createdAt}</TableCell>
+                      <TableCell align="right">{requestsRow?.educationProgram?.name}</TableCell>
+                      <TableCell align="right">{requestsRow?.educationFormId}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
 
-const StudentTable = ({ onError }) => {
-    const [rows, setRows] = React.useState({});
-    const [rowModesModel, setRowModesModel] = React.useState({});
-    const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        fetch('http://localhost:5137/Student/paged?page=0&size=20')
-            .then((response) => response.json())
-            .then((json) => setUsers(json.data))
-            .catch(() => console.log({users}))
 
-    }, []);
+export default function CollapsibleTable() {
+    const [selected, setSelected] = React.useState([]);
+    const [rows, setRows] = React.useState([{}]);
+      React.useEffect(() => {
+    fetch('http://localhost:5137/Student/paged?page=0&size=50')
+        .then((response) => response.json())
+        .then((json) => setRows(json.data))
+        .catch(() => console.log(12345))
 
-    const handleRowEditStop = (params, event) => {
-        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-          event.defaultMuiPrevented = true;
-        }
-      };
+}, []);
+  return (
+    <Box>
+    <EnhancedTableToolbar numSelected={selected.length} />
+    <TableContainer component={Paper}>
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            <TableCell>Id</TableCell>
+            <TableCell align="right">Birth Date</TableCell>
+            <TableCell align="right">SNILS</TableCell>
+            <TableCell align="right">Doc Number</TableCell>
+            <TableCell align="right">Doc Series</TableCell>
+            <TableCell align="right">Nationality</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows?.map((row) => (
+            <Row key={row?.id} row={row} />
+          ))}
+        </TableBody>
 
-      const handleEditClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-      };
-
-      const handleSaveClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-      };
-    
-      const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
-      };
-    
-      const handleCancelClick = (id) => () => {
-        setRowModesModel({
-          ...rowModesModel,
-          [id]: { mode: GridRowModes.View, ignoreModifications: true },
-        });
-    
-        const editedRow = rows.find((row) => row.id === id);
-        if (editedRow.isNew) {
-          setRows(rows.filter((row) => row.id !== id));
-        }
-      };
-
-      const processRowUpdate = (newRow) => {
-        const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-        return updatedRow;
-      };
-    
-      const handleRowModesModelChange = (newRowModesModel) => {
-        setRowModesModel(newRowModesModel);
-      };
-
-      const columns = [
-        { field: 'id', headerName: 'User ID', width: 150, editable: true },
-        { field: 'fullName', headerName: 'Name', width: 150, editable: true },
-        { field: 'birthDate', headerName: 'Username', width: 150, editable: true },
-        {
-            field: 'actions',
-            type: 'actions',
-            headerName: 'Actions',
-            width: 100,
-            cellClassName: 'actions',
-            getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
-              if (isInEditMode) {
-                return [
-                  <GridActionsCellItem
-                    icon={<SaveIcon />}
-                    label="Save"
-                    sx={{
-                      color: 'primary.main',
-                    }}
-                    onClick={handleSaveClick(id)}
-                  />,
-                  <GridActionsCellItem
-                    icon={<CancelIcon />}
-                    label="Cancel"
-                    className="textPrimary"
-                    onClick={handleCancelClick(id)}
-                    color="inherit"
-                  />,
-                ];
-              }
-      
-              return [
-                <GridActionsCellItem
-                  icon={<EditIcon />}
-                  label="Edit"
-                  className="textPrimary"
-                  onClick={handleEditClick(id)}
-                  color="inherit"
-                />,
-                <GridActionsCellItem
-                  icon={<DeleteIcon />}
-                  label="Delete"
-                  onClick={handleDeleteClick(id)}
-                  color="inherit"
-                />,
-              ];
-            },
-        }
-    ];
-    
-
-    return (
-        <Box sx={userTableStyles}>           
-            <DataGrid
-                rows={users}
-                columns={columns}
-                slots={{
-                  toolbar: EditToolbar,
-                }}
-                loading={!users.length}
-                editMode="row"
-                rowModesModel={rowModesModel}
-                onRowModesModelChange={handleRowModesModelChange}
-                onRowEditStop={handleRowEditStop}
-                processRowUpdate={processRowUpdate}
-
-                slotProps={{
-                  toolbar: { setRows, setRowModesModel },
-                }}
-            >
-                <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy" style="position: absolute; width: 100%; height: 100%; z-index: 999;"></iframe>
-            </DataGrid>
-        </Box>
-    );
-};
-
-export default StudentTable;
+      </Table>
+    </TableContainer>
+    </Box>
+  );
+}
