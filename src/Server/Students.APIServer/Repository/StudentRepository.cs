@@ -9,15 +9,13 @@ namespace Students.APIServer.Repository;
 public class StudentRepository : GenericRepository<Student>, IStudentRepository
 {
     private readonly StudentContext _ctx;
-    public StudentRepository(StudentContext context) : base(context)
-    {
+    public StudentRepository(StudentContext context) : base(context) {
         _ctx = context;
     }
 
     public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
     {
         return await  PagedPage<Student>.ToPagedPage(_ctx.Students, page, pageSize);
-
     }
 
     public async Task<Student?> FindById(Guid id)
@@ -28,16 +26,24 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
             .FirstOrDefaultAsync(x=>x.Id == id);
 
     }
-        public async Task<Student?> FindByPhone(string phone)
+    public async Task<Student?> FindByPhone(string phone)
     {
         return await _ctx.Students.AsNoTracking()
             .FirstOrDefaultAsync(x =>
-            (x.PhonePrepeared).Equals((phone.GetPhoneFromStr())));
+            (x.Phone.GetPhoneFromStr()).Equals((phone.GetPhoneFromStr())));
     }
     public async Task<Student?> FindByEmail(string email)
     {
         return await _ctx.Students.AsNoTracking()
             .FirstOrDefaultAsync(x => 
-            x.EmailPrepeared.Equals(email.ToLower()));
+            x.Email.ToLower().Equals(email.ToLower()));
+    }
+
+    public async Task<Student?> FindByPhoneAndEmail(string phone, string email)
+    {
+        return await _ctx.Students.AsNoTracking()
+            .FirstOrDefaultAsync(x =>
+            (x.Phone.GetPhoneFromStr()).Equals((phone.GetPhoneFromStr()))
+          &&(x.Email.ToLower().Equals(email.ToLower())));
     }
 }
