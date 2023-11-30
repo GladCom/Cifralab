@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Students.APIServer.Extension;
 using Students.APIServer.Extension.Pagination;
 using Students.DBCore.Contexts;
 using Students.Models;
@@ -26,5 +27,17 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
             .Include(x=>x.Requests)
             .FirstOrDefaultAsync(x=>x.Id == id);
 
+    }
+        public async Task<Student?> FindByPhone(string phone)
+    {
+        return await _ctx.Students.AsNoTracking()
+            .FirstOrDefaultAsync(x =>
+            (x.PhonePrepeared).Equals((phone.GetPhoneFromStr())));
+    }
+    public async Task<Student?> FindByEmail(string email)
+    {
+        return await _ctx.Students.AsNoTracking()
+            .FirstOrDefaultAsync(x => 
+            x.EmailPrepeared.Equals(email.ToLower()));
     }
 }
