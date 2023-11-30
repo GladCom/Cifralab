@@ -39,12 +39,12 @@ public class Request
     /// E-mail
     /// </summary>
     public string Email { get; set; }
-    public string EmailPrepeared { get { return Email.ToLower(); } }
+    //public string EmailPrepeared { get { return Email.ToLower(); } }
     /// <summary>
     /// Телефон
     /// </summary>
     public string Phone { get; set; }
-    public string PhonePrepeared { get { return Phone.Substring(Phone.Length - 10); } }
+    //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     /// <summary>
     /// Дата и время подачи заявки
     /// </summary>
