@@ -2,8 +2,17 @@ using Students.Models;
 
 namespace Students.APIServer.Extension.Pagination;
 
+/// <summary>
+/// Класс содержит методы для преобразования данных
+/// </summary>
 public class Mapper
 {
+    /// <summary>
+    /// Преобразование вебхука в заявку на обучение
+    /// </summary>
+    /// <param name="form"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static Request WebhookToRequest(RequestWebhook form)
     {
         return new Request
