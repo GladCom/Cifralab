@@ -21,7 +21,7 @@ public class Student
     /// <summary>
     /// Заявки на обучение
     /// </summary>
-    public List<Request> Requests { get; set; }
+    public List<Request>? Requests { get; set; }
     /// <summary>
     /// СНИЛС
     /// </summary>
@@ -45,6 +45,10 @@ public class Student
     /// <summary>
     /// Группы
     /// </summary>
-    public List<Group> Groups { get; set; }
-    
+    public List<Group>? Groups { get; set; }
+    public string Phone { get; set; }
+    //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
+    public string Email { get; set; }
+    //public string EmailPrepeared { get { return Email.ToLower(); } }
+
 }
