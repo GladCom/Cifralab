@@ -21,11 +21,11 @@ namespace Students.APIServer.Repository
             _studentRepository = studRep;
             _modelState = new ModelStateDictionary();
         }
-        protected bool ValidateRequest(Request requestToValidate)
+        protected async Task<bool> ValidateRequest(Request requestToValidate)
         {
-             if (FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
+             if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
                 _modelState.AddModelError("Заявка", "Пользователь с этим e-mail адресом уже оставил заявку на этот курс.");
-            if (FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
+             if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
                 _modelState.AddModelError("Заявка", "Пользователь с этим номером телефона уже оставил заявку на этот курс.");
  
             return _modelState.IsValid;
@@ -33,10 +33,10 @@ namespace Students.APIServer.Repository
 
         public async Task<Request?> Create(Request item)
         {
-            if (!ValidateRequest(item)) return null;
-            var existStudent = _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
+            if (!await ValidateRequest(item)) return null;
+            var existStudent = await _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
             //Меняем GUID студента когда нашли его в базе по связке телефон и email
-            if (existStudent != null) item.StudentId = existStudent.Result.Id;
+            if (existStudent != null) item.StudentId = existStudent.Id;
 
             return await base.Create(item);
         }
