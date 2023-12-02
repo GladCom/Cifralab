@@ -26,7 +26,7 @@ public class Request
     /// <summary>
     /// Образовательная программа
     /// </summary>
-    public EducationProgram EducationProgram { get; set; }
+    public EducationProgram? EducationProgram { get; set; }
     /// <summary>
     /// Информация о прохождении вступительного испытания
     /// </summary>
@@ -39,10 +39,12 @@ public class Request
     /// E-mail
     /// </summary>
     public string Email { get; set; }
+    //public string EmailPrepeared { get { return Email.ToLower(); } }
     /// <summary>
     /// Телефон
     /// </summary>
     public string Phone { get; set; }
+    //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     /// <summary>
     /// Дата и время подачи заявки
     /// </summary>
@@ -54,7 +56,7 @@ public class Request
     /// <summary>
     /// Образование
     /// </summary>
-    public StudentEducation StudentEducation { get; set; }
+    public StudentEducation? StudentEducation { get; set; }
     /// <summary>
     ///Id Статуса
     /// </summary>
@@ -62,7 +64,7 @@ public class Request
     /// <summary>
     /// Статус
     /// </summary>
-    public StudentStatus StudentStatus { get; set; }
+    public StudentStatus? StudentStatus { get; set; }
     /// <summary>
     ///Id Источника финансирования
     /// </summary>
@@ -70,7 +72,7 @@ public class Request
     /// <summary>
     /// Источник финансирования
     /// </summary>
-    public FinancingType FinancingType { get; set; }
+    public FinancingType? FinancingType { get; set; }
     /// <summary>
     /// Приказ о зачислении
     /// </summary>
@@ -86,7 +88,7 @@ public class Request
     /// <summary>
     /// Сфера деятельности ур. 1
     /// </summary>
-    public ScopeOfActivity ScopeOfActivityLv1 { get; set; }
+    public ScopeOfActivity? ScopeOfActivityLv1 { get; set; }
     /// <summary>
     ///Id Сферы деятельности ур. 2
     /// </summary>
@@ -94,7 +96,7 @@ public class Request
     /// <summary>
     /// Сфера деятельности ур. 2 
     /// </summary>
-    public ScopeOfActivity ScopeOfActivityLv2 { get; set; }
+    public ScopeOfActivity? ScopeOfActivityLv2 { get; set; }
     /// <summary>
     /// ОВЗ (Инвалидность)
     /// </summary>
@@ -126,7 +128,7 @@ public class Request
     /// <summary>
     /// Вид выданного документа о квалификации
     /// </summary>
-    public StudentDocument DocumentType { get; set; }
+    public StudentDocument? DocumentType { get; set; }
     /// <summary>
     /// Id студента
     /// </summary>

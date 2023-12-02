@@ -46,5 +46,9 @@ public class Student
     /// Группы
     /// </summary>
     public List<Group>? Groups { get; set; }
-    
+    public string Phone { get; set; }
+    //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
+    public string Email { get; set; }
+    //public string EmailPrepeared { get { return Email.ToLower(); } }
+
 }
