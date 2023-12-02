@@ -45,7 +45,7 @@ function EditToolbar(props) {
 }
 
 export default function FullFeaturedCrudGrid() {
-  const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -158,7 +158,7 @@ export default function FullFeaturedCrudGrid() {
   return (
     <Box
       sx={{
-        height: 500,
+        height: 200,
         width: '100%',
         '& .actions': {
           color: 'text.secondary',
@@ -185,11 +185,11 @@ export default function FullFeaturedCrudGrid() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 1,
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[1]}
       />
     </Box>
   );
