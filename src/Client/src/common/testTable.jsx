@@ -24,7 +24,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import StudentCard from "../common/StudentCard.jsx";
+import StudentCard from "./StudentCard.jsx";
 import Input from '@mui/joy/Input';
 import { visuallyHidden } from '@mui/utils';
 import { alpha } from '@mui/material/styles';
@@ -38,6 +38,23 @@ import {
   } from '@mui/x-data-grid';
 import axios from 'axios';
 
+
+
+
+
+function EditToolbar(props) {
+    const { setRows, setRowModesModel } = props;
+  
+    const handleClick = () => {
+      StudentCard(true);
+    };
+  
+    return (
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+          Add record
+        </Button>
+    );
+  }
 
 function EnhancedTableToolbar(props) {
     const { numSelected } = props;
@@ -91,39 +108,82 @@ function EnhancedTableToolbar(props) {
   }
 function Row(props) {
   const {row} = props;
-  const [isNew, setIsNew] = React.useState(true);
   const [Row, setRow ] = React.useState({});
+  const {edit} = false;
   const [open, setOpen] = React.useState(false);
-  const [edit, setEdit] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Edit");
-  const [birthDate, setBirthDate] =React.useState(row?.birthDate);
-
   const handleDelete = (id) =>
   {
   console.log(id);
   axios.delete('http://localhost:5137/Student/'+id);
   window.location.reload();
   }
-
-  const handleEdit = (row) =>
+//******************************************************************************************** */
+  const [birthDate, setBirthDate] = React.useState(row?.birthDate);
+  const [isHiddenBD, setHiddenBD] = React.useState(true);
+  const handleEditBirthDate = () =>
   {
-    console.log(isNew)
-    if(edit)
-      setEditSave("Save");
+    if(isHiddenBD)
+      setBirthDate("");
     else
-    {
-      setEditSave("Edit");
-
-        axios.post('http://localhost:5137/Student', row)
-        console.log(row);
-        setIsNew(false);
-
-        //axios.put('http://localhost:5137/Student/'+row.id, row);
-    }
-    console.log("test");
-    setEdit(!edit);
+      setBirthDate(row?.birthDate);
+    setHiddenBD(!isHiddenBD);
   }
 
+  const [snils, setSnils] = React.useState(row?.snils);
+  const [isHiddenSnils, setHiddenSnils] = React.useState(true);
+  const handleEditSnils = () =>
+  {
+    if(isHiddenSnils)
+      setSnils("");
+    else
+      setSnils(row?.snils);
+    setHiddenSnils(!isHiddenSnils);
+  }
+
+  const [id, setId] = React.useState(row?.id);
+  const [isHiddenId, setHiddenId] = React.useState(true);
+  const handleEditId = () =>
+  {
+    if(isHiddenId)
+      setId("");
+    else
+      setId(row?.id);
+    setHiddenId(!isHiddenId);
+  }
+
+  const [docS, setDocS] = React.useState(row?.documentSeries);
+  const [isHiddenDocS, setHiddenDocS] = React.useState(true);
+  const handleEditDocS = () =>
+  {
+    if(isHiddenDocS)
+      setDocS("");
+    else
+      setDocS(row?.documentSeries);
+    setHiddenDocS(!isHiddenDocS);
+  }
+
+  const [docN, setDocN] = React.useState(row?.documentNumber);
+  const [isHiddenDocN, setHiddenDocN] = React.useState(true);
+  const handleEditDocN = () =>
+  {
+    if(isHiddenDocN)
+      setDocN("");
+    else
+      setDocN(row?.documentNumber);
+    setHiddenDocN(!isHiddenDocN);
+  }
+
+  const [nationality, setNationality] = React.useState(row?.nationality);
+  const [isHiddenNationality, setHiddenNationality] = React.useState(true);
+  const handleEditNationality = () =>
+  {
+    if(isHiddenNationality)
+      setNationality("");
+    else
+      setNationality(row?.nationality);
+    setHiddenNationality(!isHiddenNationality);
+  }
+//******************************************************************************************** */
   
   return (
     <React.Fragment>
@@ -137,18 +197,28 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          <Input value={row?.fullName} readOnly={edit} onChange={(e) => setRow(row.fullName = e.target.value)}/>
+        <TableCell align="right" onDoubleClick={handleEditId}>
+          {id}<input hidden={isHiddenId} value={row?.id} type="text" onChange={(e) => setRow(row.id = e.target.value)}></input>
         </TableCell>
-        <TableCell align="right" width={180}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} width={180}/></TableCell>
-        <TableCell align="right"><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)}/></TableCell>
+        <TableCell align="right" onDoubleClick={handleEditBirthDate}>
+          {birthDate}<input hidden={isHiddenBD} value={row?.birthDate} type="text" onChange={(e) => setRow(row.birthDate = e.target.value)}></input>
+        </TableCell>
+        <TableCell align="right" onDoubleClick={handleEditSnils}>
+          {snils}<input hidden={isHiddenSnils} value={row?.snils} type="text" onChange={(e) => setRow(row.snils = e.target.value)}></input>
+        </TableCell>
+        <TableCell align="right" onDoubleClick={handleEditDocS}>
+          {docS}<input hidden={isHiddenDocS} value={row?.documentSeries} type="text" onChange={(e) => setRow(row.documentSeries = e.target.value)}></input>
+        </TableCell>
+        <TableCell align="right" onDoubleClick={handleEditDocN}>
+          {docN}<input hidden={isHiddenDocN} value={row?.documentNumber} type="text" onChange={(e) => setRow(row.documentNumber = e.target.value)}></input>
+        </TableCell>
+        <TableCell align="right" onDoubleClick={handleEditDocN}>
+          {docN}<input hidden={isHiddenDocN} value={row?.documentNumber} type="text" onChange={(e) => setRow(row.documentNumber = e.target.value)}></input>
+        </TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button size="sm" variant="plain" color="neutral" onClick={() => handleEdit(row)}>
-              {editSave}
+            <Button size="sm" variant="plain" color="neutral">
+              Edit
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
               Delete
@@ -176,17 +246,17 @@ function Row(props) {
                   {row?.requests?.map((requestsRow) => (
                     <TableRow key={requestsRow?.fullName}>
                       <TableCell component="th" scope="row">
-                        <Input value={requestsRow?.fullName} readOnly={true}/>
+                        <Input value={requestsRow?.fullName} readOnly={true}></Input>
                       </TableCell>
-                      <TableCell align="right"><Input value={requestsRow?.educationProgram?.createdAt}/></TableCell>                   
-                      <TableCell align="right"><Input value={requestsRow?.educationProgram?.name}/></TableCell>
-                      <TableCell align="right"><Input value={requestsRow?.educationFormId}/></TableCell>
+                      <TableCell align="right"><Input value={requestsRow?.educationProgram?.createdAt}></Input></TableCell>                   
+                      <TableCell align="right"><Input value={requestsRow?.educationProgram?.name}></Input></TableCell>
+                      <TableCell align="right"><Input value={requestsRow?.educationFormId}></Input></TableCell>
                       <td>
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                          <Button size="sm" variant="plain" color="neutral" onClick={handleEdit}>
+                          <Button size="sm" variant="plain" color="neutral">
                           Edit
                           </Button>
-                          <Button size="sm" variant="soft" color="danger" onClick={handleDelete}>
+                          <Button size="sm" variant="soft" color="danger">
                           Delete
                           </Button>
                         </Box>
@@ -208,28 +278,24 @@ function Row(props) {
 export default function CollapsibleTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
-    const handleClickAdd = () => {
-      console.log(111);
-      setRows((rows) => [...rows, {}]);
-    };
-    React.useEffect(() => {
+      React.useEffect(() => {
     fetch('http://localhost:5137/Student/paged?page=0&size=50')
         .then((response) => response.json())
         .then((json) => setRows(json.data))
-        .catch(() => console.log(12345))},[]);
+        .catch(() => console.log(12345))
+
+}, []);
   return (
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
-    <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
-      Add record
-    </Button>
+    <StudentCard/>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Full Name</TableCell>
-            <TableCell align="right" width={18}>Birth Date</TableCell>
+            <TableCell>Id</TableCell>
+            <TableCell align="right">Birth Date</TableCell>
             <TableCell align="right">SNILS</TableCell>
             <TableCell align="right">Doc Number</TableCell>
             <TableCell align="right">Doc Series</TableCell>
@@ -238,7 +304,7 @@ export default function CollapsibleTable() {
         </TableHead>
         <TableBody>
           {rows?.map((row) => (
-            <Row key={row?.id} row={row} isNew={row.isNew}/>
+            <Row key={row?.id} row={row}/>
           ))}
         </TableBody>
 
