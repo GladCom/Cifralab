@@ -24,6 +24,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import StudentCard from "./StudentCard.jsx";
 import { visuallyHidden } from '@mui/utils';
 import { alpha } from '@mui/material/styles';
 import {
@@ -39,7 +40,7 @@ function EditToolbar(props) {
     const { setRows, setRowModesModel } = props;
   
     const handleClick = () => {
-      const id = 1;
+      StudentCard(true);
     };
   
     return (
@@ -177,7 +178,7 @@ export default function CollapsibleTable() {
   return (
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
-    <EditToolbar></EditToolbar>
+    <StudentCard/>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
