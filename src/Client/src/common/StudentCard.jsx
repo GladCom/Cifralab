@@ -13,7 +13,7 @@ import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import Modal from '@mui/material/Modal';
 import AddIcon from '@mui/icons-material/Add';
-import FullFeaturedCrudGrid from '../common/StudentGroupsDataGrid.jsx';
+import FullFeaturedCrudGrid from './StudentGroupsDataGrid.jsx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
