@@ -205,8 +205,8 @@ public sealed class InMemoryContext : StudentContext
                 DocumentNumber = "АААА123456",
                 DocumentSeries = "1234",
                 SNILS = "123-456-789 00",
-                Email = "cdqwrqfesfdafsafsaawfqwfqwe",
-                Phone = "212415r3212124",
+                Email = "test@mail.ru",
+                Phone = "+71234567890",
                 FullNameDocument = "Эх, сейчас бы сиды полные"
             }
         );
