@@ -18,7 +18,7 @@ function App() {
         <Route path="/Students" element={<CollapsibleTable/>} />
         <Route path="/Groups" element={<GroupTable/>}/>
       </Routes>
-      <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe>
+     {/* <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe> */}
     </BrowserRouter>
 
   );
