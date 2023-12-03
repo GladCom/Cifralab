@@ -24,7 +24,7 @@ public class EducationProgram
     /// <summary>
     /// Вид программы
     /// </summary>
-    public EducationType EducationType { get; set; }
+    public EducationType? EducationType { get; set; }
     /// <summary>
     /// Id Формы обучения
     /// </summary>
@@ -32,7 +32,7 @@ public class EducationProgram
     /// <summary>
     /// Форма обучения
     /// </summary>
-    public EducationForm EducationForm { get; set; }
+    public EducationForm? EducationForm { get; set; }
     /// <summary>
     /// Сетевая форма
     /// </summary>
@@ -48,11 +48,11 @@ public class EducationProgram
     /// <summary>
     /// Id ВЭД программы
     /// </summary>
-    public Guid FEAProgramId { get; set; }
+    public Guid? FEAProgramId { get; set; }
     /// <summary>
     /// ВЭД программы
     /// </summary>
-    public FEAProgram FEAProgram { get; set; }
+    public FEAProgram? FEAProgram { get; set; }
     /// <summary>
     /// Обязательно наличие ВО
     /// </summary>

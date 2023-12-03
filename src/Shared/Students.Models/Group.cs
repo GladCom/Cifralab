@@ -20,7 +20,7 @@ public class Group
     /// <summary>
     /// Образорвательная программа
     /// </summary>
-    public EducationProgram EducationProgram { get; set; }
+    public EducationProgram? EducationProgram { get; set; }
     /// <summary>
     /// Начало обучения
     /// </summary>
@@ -32,5 +32,5 @@ public class Group
     /// <summary>
     /// Студенты
     /// </summary>
-    public List<Student> Students { get; set; }
+    public List<Student>? Students { get; set; }
 }

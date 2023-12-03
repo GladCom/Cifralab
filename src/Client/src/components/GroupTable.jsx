@@ -24,8 +24,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import StudentCard from "../common/StudentCard.jsx";
+import Input from '@mui/joy/Input';
 import { visuallyHidden } from '@mui/utils';
 import { alpha } from '@mui/material/styles';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import {
     GridRowModes,
     DataGrid,
@@ -34,22 +40,10 @@ import {
     GridActionsCellItem,
     GridRowEditStopReasons,
   } from '@mui/x-data-grid';
+import axios from 'axios';
 
-  function EditToolbar(props) {
-    const { setRows, setRowModesModel } = props;
-  
-    const handleClick = () => {
-      const id = 1;
-    };
-  
-    return (
-        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-          Add record
-        </Button>
-    );
-  }
 
-  function EnhancedTableToolbar(props) {
+function EnhancedTableToolbar(props) {
     const { numSelected } = props;
   
     return (
@@ -79,7 +73,7 @@ import {
             id="tableTitle"
             component="div"
           >
-            Students
+            Groups
           </Typography>
         )}
   
@@ -99,98 +93,171 @@ import {
       </Toolbar>
     );
   }
-  function Row(props) {
-    const { row } = props;
-    const [open, setOpen] = React.useState(false);
-  
-    return (
-      <React.Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-          <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            {row?.name}
-          </TableCell>
-          <TableCell align="right">{row?.educationProgramId}</TableCell>
-          {/* <TableCell align="right">{row?.educationProgram}</TableCell> */}
-          <TableCell align="right">{row?.startDate}</TableCell>
-          <TableCell align="right">{row?.endDate}</TableCell>
-          {/* <TableCell align="right">{row?.students}</TableCell> */}
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
-                <Typography variant="h6" gutterBottom component="div">
-                  Requests
-                </Typography>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Request Author</TableCell>
-                      <TableCell>Date</TableCell>
-                      <TableCell align="right">Education Program Name</TableCell>
-                      <TableCell align="right">Education Form Id</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row?.students?.map((requestsRow) => (
-                      <TableRow key={requestsRow?.id}>
-                        <TableCell component="th" scope="row">
-                          {requestsRow?.name}
-                        </TableCell>
-                        <TableCell>{requestsRow?.educationProgram?.createdAt}</TableCell>
-                        <TableCell align="right">{requestsRow?.educationProgram?.name}</TableCell>
-                        <TableCell align="right">{requestsRow?.educationFormId}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    );
+function Row(props) {
+  const {row} = props;
+  const [isNew, setIsNew] = React.useState(true);
+  const [Row, setRow ] = React.useState({});
+  const [open, setOpen] = React.useState(false);
+  const [edit, setEdit] = React.useState(true);
+  const [editRequest, setEditRequest] = React.useState(true);
+  const [editSave, setEditSave] = React.useState("Edit");
+  const [editSaveRequest, setEditSaveRequest] = React.useState("Edit");
+  const [educationPrograms, setEducationPrograms] = React.useState([{}]);
+
+  const handleDelete = (id) =>
+  {
+  console.log(id);
+  axios.delete('http://localhost:5137/EducationProgram/'+id);
+  window.location.reload();
   }
 
-  export default function GroupTable() {
+  const handleEdit = (row) =>
+  {
+    console.log(isNew)
+    if(edit)
+      setEditSave("Save");
+    else
+    {
+      setEditSave("Edit");
+
+        //axios.post('http://localhost:5137/Student', row)
+        console.log(row);
+       // setIsNew(false);
+
+        axios.put('http://localhost:5137/EducationProgram/'+row.id, row);
+    }
+    console.log("test");    
+    setEdit(!edit);
+  }
+
+  const handleChangeEducationProgram = (id) => {
+    row.educationProgram = educationPrograms.filter(x => x.id == id)[0];
+  }
+
+  React.useEffect(() => {
+    fetch('http://localhost:5137/EducationProgram')
+        .then((response) => response.json())
+        .then((json) => setEducationPrograms(json))
+        .catch(() => console.log())},[]);
+  
+  return (
+    <React.Fragment>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          <Input value={row?.id} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
+        </TableCell>
+        <TableCell>
+            <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <Select
+                    sx={{
+                        width: '380px',
+                    }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={educationPrograms[0].name}
+                    label="Age"
+                    onChange={(e) => handleChangeEducationProgram(e.target.value)}
+                    >
+                    {educationPrograms.map((program) => (
+                        <MenuItem value={program.id}>{program.name}</MenuItem>
+                    ))}
+                    </Select>
+                </FormControl>
+            </Box>
+        </TableCell>
+        <TableCell><Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
+        <TableCell><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
+        <td>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button size="sm" variant="plain" color="neutral" onClick={() => handleEdit(row)}>
+              {editSave}
+            </Button>
+            <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
+              Delete
+             </Button>
+          </Box>
+        </td>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Requests
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>EducationProgramId</TableCell>
+                    <TableCell>Education Program Name</TableCell>
+                    <TableCell>Interview</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row?.students?.map((requestsRow) => (                  
+                    <TableRow key={requestsRow?.id}>
+                      <TableCell component="th" scope="row">
+                        <Input readOnly={editRequest} value={requestsRow?.educationProgramId} onChange={(e) => setRow(requestsRow.educationProgramId = e.target.value)}/>
+                      </TableCell>
+                      <TableCell><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
+                      <TableCell><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
+export default function GroupTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
-      React.useEffect(() => {
+
+    const handleClickAdd = () => {
+      console.log(111);
+      setRows((rows) => [...rows, {}]);
+    };
+
+    React.useEffect(() => {
     fetch('http://localhost:5137/Group')
         .then((response) => response.json())
         .then((json) => setRows(json))
-        .catch(() => console.log(12345))
-
-}, []);
+        .catch(() => console.log(12345))},[]);
   return (
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
-    <EditToolbar></EditToolbar>
+    <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
+      Add record
+    </Button>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Id</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Education Program Id</TableCell>
-            <TableCell align="right">Education Program</TableCell>
-            <TableCell align="right">Start Date</TableCell>
-            <TableCell align="right">End Date</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell >Education Program</TableCell>
+            <TableCell >startDate</TableCell>
+            <TableCell >endDate</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows?.map((row) => (
-            <Row key={row?.id} row={row} />
+            <Row key={row?.id} row={row} isNew={row.isNew}/>
           ))}
         </TableBody>
 

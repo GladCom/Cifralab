@@ -28,6 +28,10 @@ import StudentCard from "../common/StudentCard.jsx";
 import Input from '@mui/joy/Input';
 import { visuallyHidden } from '@mui/utils';
 import { alpha } from '@mui/material/styles';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import {
     GridRowModes,
     DataGrid,
@@ -95,8 +99,11 @@ function Row(props) {
   const [Row, setRow ] = React.useState({});
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
+  const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState("Edit");
+  const [editSaveRequest, setEditSaveRequest] = React.useState("Edit");
   const [birthDate, setBirthDate] =React.useState(row?.birthDate);
+  const [requests, setRequests] = React.useState([row.requests]);
 
   const handleDelete = (id) =>
   {
@@ -113,17 +120,21 @@ function Row(props) {
     else
     {
       setEditSave("Edit");
+        if(row?.isNew)
+        {
+          row.email = "blablabla";
+          row.phone = "blablabla";
+          delete row.isNew;
+          axios.post('http://localhost:5137/Student', row)
+        }
+        else
+          axios.put('http://localhost:5137/Student/'+row.id, row);
 
-        axios.post('http://localhost:5137/Student', row)
         console.log(row);
-        setIsNew(false);
-
-        //axios.put('http://localhost:5137/Student/'+row.id, row);
     }
-    console.log("test");
+    console.log("test");    
     setEdit(!edit);
   }
-
   
   return (
     <React.Fragment>
@@ -140,7 +151,7 @@ function Row(props) {
         <TableCell component="th" scope="row">
           <Input value={row?.fullName} readOnly={edit} onChange={(e) => setRow(row.fullName = e.target.value)}/>
         </TableCell>
-        <TableCell align="right" width={180}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} width={180}/></TableCell>
+        <TableCell align="right" type="date" width={180}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} width={180}/></TableCell>
         <TableCell align="right"><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}/></TableCell>
         <TableCell align="right"><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)}/></TableCell>
         <TableCell align="right"><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)}/></TableCell>
@@ -166,31 +177,48 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Request Author</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell align="right">Education Program Name</TableCell>
-                    <TableCell align="right">Education Form Id</TableCell>
+                    <TableCell>EducationProgramId</TableCell>
+                    <TableCell>Education Program Name</TableCell>
+                    <TableCell>Interview</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row?.requests?.map((requestsRow) => (
-                    <TableRow key={requestsRow?.fullName}>
+                  {row?.requests?.map((requestsRow) => (                  
+                    <TableRow key={requestsRow?.id}>
                       <TableCell component="th" scope="row">
-                        <Input value={requestsRow?.fullName} readOnly={true}/>
+                        <Input readOnly={editRequest} value={requestsRow?.educationProgramId} onChange={(e) => setRow(requestsRow.educationProgramId = e.target.value)}/>
                       </TableCell>
-                      <TableCell align="right"><Input value={requestsRow?.educationProgram?.createdAt}/></TableCell>                   
-                      <TableCell align="right"><Input value={requestsRow?.educationProgram?.name}/></TableCell>
-                      <TableCell align="right"><Input value={requestsRow?.educationFormId}/></TableCell>
-                      <td>
-                        <Box sx={{ display: 'flex', gap: 1 }}>
-                          <Button size="sm" variant="plain" color="neutral" onClick={handleEdit}>
-                          Edit
-                          </Button>
-                          <Button size="sm" variant="soft" color="danger" onClick={handleDelete}>
-                          Delete
-                          </Button>
-                        </Box>
-                      </td>
+                      <TableCell><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
+                      <TableCell><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Groups
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Education Program Name</TableCell>
+                    <TableCell>Start Date</TableCell>
+                    <TableCell>End Date</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row?.groups?.map((groupsRow) => (                  
+                    <TableRow key={groupsRow?.id}>
+                      <TableCell component="th" scope="row">
+                        <Input readOnly={editRequest} value={groupsRow?.name} onChange={(e) => setRow(groupsRow.name = e.target.value)}/>
+                      </TableCell>
+                      <TableCell><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
+                      <TableCell><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
+                      <TableCell><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -203,15 +231,15 @@ function Row(props) {
   );
 }
 
-
-
 export default function CollapsibleTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
+
     const handleClickAdd = () => {
       console.log(111);
-      setRows((rows) => [...rows, {}]);
+      setRows((rows) => [...rows, {isNew: true}]);
     };
+
     React.useEffect(() => {
     fetch('http://localhost:5137/Student/paged?page=0&size=50')
         .then((response) => response.json())
