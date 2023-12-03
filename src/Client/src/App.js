@@ -8,6 +8,7 @@ import "./assets/css/dino.css"
 import CollapsibleTable from './components/StudentTable.jsx';
 import GroupTable from './components/GroupTable.jsx'
 import EditableTable from './common/EditableTableExample/EditableTable.jsx';
+import RequestTable from './components/RequestTable.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/Home" element={<MediaCard/>} />
         <Route path="/Students" element={<CollapsibleTable/>} />
         <Route path="/Groups" element={<GroupTable/>}/>
+        <Route path="/Requests" element={<RequestTable/>}/>
       </Routes>
      {/* <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe> */}
     </BrowserRouter>
