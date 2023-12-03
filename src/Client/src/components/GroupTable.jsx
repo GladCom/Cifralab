@@ -73,7 +73,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Students
+            Groups
           </Typography>
         )}
   
@@ -102,13 +102,12 @@ function Row(props) {
   const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState("Edit");
   const [editSaveRequest, setEditSaveRequest] = React.useState("Edit");
-  const [birthDate, setBirthDate] =React.useState(row?.birthDate);
-  const [requests, setRequests] = React.useState([row.requests]);
+  const [educationPrograms, setEducationPrograms] = React.useState([{}]);
 
   const handleDelete = (id) =>
   {
   console.log(id);
-  axios.delete('http://localhost:5137/Student/'+id);
+  axios.delete('http://localhost:5137/EducationProgram/'+id);
   window.location.reload();
   }
 
@@ -120,21 +119,26 @@ function Row(props) {
     else
     {
       setEditSave("Edit");
-        if(row?.isNew)
-        {
-          row.email = "blablabla";
-          row.phone = "blablabla";
-          delete row.isNew;
-          axios.post('http://localhost:5137/Student', row)
-        }
-        else
-          axios.put('http://localhost:5137/Student/'+row.id, row);
 
+        //axios.post('http://localhost:5137/Student', row)
         console.log(row);
+       // setIsNew(false);
+
+        axios.put('http://localhost:5137/EducationProgram/'+row.id, row);
     }
     console.log("test");    
     setEdit(!edit);
   }
+
+  const handleChangeEducationProgram = (id) => {
+    row.educationProgram = educationPrograms.filter(x => x.id == id)[0];
+  }
+
+  React.useEffect(() => {
+    fetch('http://localhost:5137/EducationProgram')
+        .then((response) => response.json())
+        .then((json) => setEducationPrograms(json))
+        .catch(() => console.log())},[]);
   
   return (
     <React.Fragment>
@@ -149,13 +153,31 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          <Input value={row?.fullName} readOnly={edit} onChange={(e) => setRow(row.fullName = e.target.value)}/>
+          <Input value={row?.id} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
-        <TableCell align="right" type="date" width={180}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} width={180}/></TableCell>
-        <TableCell align="right"><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)}/></TableCell>
+        <TableCell>
+            <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <Select
+                    sx={{
+                        width: '380px',
+                    }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={educationPrograms[0].name}
+                    label="Age"
+                    onChange={(e) => handleChangeEducationProgram(e.target.value)}
+                    >
+                    {educationPrograms.map((program) => (
+                        <MenuItem value={program.id}>{program.name}</MenuItem>
+                    ))}
+                    </Select>
+                </FormControl>
+            </Box>
+        </TableCell>
+        <TableCell><Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
+        <TableCell><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button size="sm" variant="plain" color="neutral" onClick={() => handleEdit(row)}>
@@ -183,7 +205,7 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row?.requests?.map((requestsRow) => (                  
+                  {row?.students?.map((requestsRow) => (                  
                     <TableRow key={requestsRow?.id}>
                       <TableCell component="th" scope="row">
                         <Input readOnly={editRequest} value={requestsRow?.educationProgramId} onChange={(e) => setRow(requestsRow.educationProgramId = e.target.value)}/>
@@ -196,54 +218,25 @@ function Row(props) {
               </Table>
             </Box>
           </Collapse>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Groups
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row?.groups?.map((groupsRow) => (                  
-                    <TableRow key={groupsRow?.id}>
-                      <TableCell component="th" scope="row">
-                        <Input readOnly={editRequest} value={groupsRow?.name} onChange={(e) => setRow(groupsRow.name = e.target.value)}/>
-                      </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
         </TableCell>
       </TableRow>
     </React.Fragment>
   );
 }
 
-export default function CollapsibleTable() {
+export default function GroupTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
     const handleClickAdd = () => {
       console.log(111);
-      setRows((rows) => [...rows, {isNew: true}]);
+      setRows((rows) => [...rows, {}]);
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/Student/paged?page=0&size=50')
+    fetch('http://localhost:5137/Group')
         .then((response) => response.json())
-        .then((json) => setRows(json.data))
+        .then((json) => setRows(json))
         .catch(() => console.log(12345))},[]);
   return (
     <Box>
@@ -256,12 +249,10 @@ export default function CollapsibleTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Full Name</TableCell>
-            <TableCell align="right" width={18}>Birth Date</TableCell>
-            <TableCell align="right">SNILS</TableCell>
-            <TableCell align="right">Doc Number</TableCell>
-            <TableCell align="right">Doc Series</TableCell>
-            <TableCell align="right">Nationality</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell >Education Program</TableCell>
+            <TableCell >startDate</TableCell>
+            <TableCell >endDate</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
