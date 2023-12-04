@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
+using Students.APIServer.Repository;
 using Students.Models;
 
 namespace Students.APIServer.Controllers;
@@ -15,14 +16,16 @@ namespace Students.APIServer.Controllers;
 public class IntegrationController : ControllerBase
 {
     private readonly ILogger<IntegrationController> _logger;
+    private readonly IRequestRepository _requestRepository;
 
     /// <summary>
     /// Default constructor
     /// </summary>
     /// <param name="logger"></param>
-    public IntegrationController(ILogger<IntegrationController> logger)
+    public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository)
     {
         _logger = logger;
+        _requestRepository = requestRepository;
     }
 
     /// <summary>
@@ -36,8 +39,8 @@ public class IntegrationController : ControllerBase
         try
         {
             var request = Mapper.WebhookToRequest(form);
-            //TODO: Добавить вызов метода репозитоория для создания заявки на обучение
-            return null;
+            var result = await _requestRepository.Create(request);
+            return StatusCode(StatusCodes.Status200OK, form);
         }
         catch (Exception e)
         {
