@@ -1,13 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import "./components/Navibar"
-import NaviBar from './components/Navibar';
-import MediaCard from './components/MediaCard';
+import "./common/Navibar.jsx"
+import MediaCard from './common/MediaCard.jsx';
 import SideBar from './components/SideBar';
 import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
-import StudentTable from './components/StudentTable.jsx';
 import "./assets/css/dino.css"
-
+import CollapsibleTable from './components/StudentTable.jsx';
+import EditableTable from './common/EditableTableExample/EditableTable.jsx';
 
 function App() {
   return (
@@ -15,9 +14,9 @@ function App() {
       <SideBar/>
       <Routes>
         <Route path="/Home" element={<MediaCard/>} />
-        <Route path="/Students" element={<StudentTable/>} />
+        <Route path="/Students" element={<CollapsibleTable/>} />
       </Routes>
-      <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe>
+     {/* <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe> */}
     </BrowserRouter>
 
   );
