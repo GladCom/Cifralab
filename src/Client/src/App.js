@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <SideBar/>
       <Routes>
-        <Route path="/Home" element={<GroupTable/>} />
+        <Route path="/Groups" element={<GroupTable/>} />
         <Route path="/Students" element={<CollapsibleTable/>} />
       </Routes>
      {/* <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe> */}

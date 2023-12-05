@@ -155,18 +155,19 @@ function Row(props) {
         <TableCell component="th" scope="row">
           <Input value={row?.id} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
-        <TableCell>
+        <TableCell sx={{width: '100px', height: '35px'}}>
             <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Education Program</InputLabel>
                     <Select
                     sx={{
-                        width: '380px',
+                        width: '480px',
+                        height: '35px'
                     }}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={educationPrograms[0].name}
-                    label="Age"
+                    label="Education Program"
                     onChange={(e) => handleChangeEducationProgram(e.target.value)}
                     >
                     {educationPrograms.map((program) => (
@@ -176,8 +177,8 @@ function Row(props) {
                 </FormControl>
             </Box>
         </TableCell>
-        <TableCell><Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
-        <TableCell><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
+        <TableCell sx={{width: '100px', height: '35px'}}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
+        <TableCell sx={{width: '100px', height: '35px'}}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button size="sm" variant="plain" color="neutral" onClick={() => handleEdit(row)}>
