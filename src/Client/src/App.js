@@ -6,7 +6,9 @@ import SideBar from './components/SideBar';
 import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
 import "./assets/css/dino.css"
 import CollapsibleTable from './components/StudentTable.jsx';
+import GroupTable from './components/GroupTable.jsx'
 import EditableTable from './common/EditableTableExample/EditableTable.jsx';
+import RequestTable from './components/RequestTable.jsx';
 import GroupTable from './components/GroupTable.jsx';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
       <Routes>
         <Route path="/Home" element={<GroupTable/>} />
         <Route path="/Students" element={<CollapsibleTable/>} />
+        <Route path="/Groups" element={<GroupTable/>}/>
+        <Route path="/Requests" element={<RequestTable/>}/>
       </Routes>
      {/* <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe> */}
     </BrowserRouter>
