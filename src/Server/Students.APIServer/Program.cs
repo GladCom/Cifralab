@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddDbContext<StudentContext, PgContext>();
-builder.Services.AddDbContext<StudentContext, InMemoryContext>();
+builder.Services.AddDbContext<StudentContext, PgContext>();
+//builder.Services.AddDbContext<StudentContext, InMemoryContext>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
@@ -56,11 +56,11 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 app.UseCors("CorsPolicy");
 app.UseAuthorization();

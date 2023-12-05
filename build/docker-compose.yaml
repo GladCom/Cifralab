@@ -6,5 +6,24 @@ services:
         environment:
             - 'ASPNETCORE_URLS=http://+'
             - TZ=Europe/Moscow
+            - DBServer=postgres
+            - DBPort=5432
+            - DBName=cifralabs_studentDB
+            - DBLogin=cifralabs_studentDB_Service
+            - 'DBPassword=P@ssw0rd!'
         container_name: students.api
         image: cifralabs.studentsapi:latest
+        restart: unless-stopped
+
+    postgres:
+        image: postgres:latest
+        environment:
+            POSTGRES_DB: "cifralabs_studentDB"
+            POSTGRES_USER: "cifralabs_studentDB_Service"
+            POSTGRES_PASSWORD: "P@ssw0rd!"
+            PGDATA: /data/postgres
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./pgdata:/data/postgres
+        restart: unless-stopped
