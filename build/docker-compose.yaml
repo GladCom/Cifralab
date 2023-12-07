@@ -27,3 +27,4 @@ services:
         volumes:
             - ./pgdata:/data/postgres
         restart: unless-stopped
+        container_name: postgres

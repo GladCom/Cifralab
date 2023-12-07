@@ -400,3 +400,7 @@ src/.idea/*
 
 .DS_Store
 build/pgdata/
+
+docs/.idea/
+
+docs/Writerside/.idea/
