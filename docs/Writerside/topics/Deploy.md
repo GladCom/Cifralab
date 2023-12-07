@@ -2,11 +2,11 @@
 
 Развертывание приложения Students.API
 
-> **Highlight important information**
+> **Среда для развертывания**
 >
-> You can change the element to *tip* or *warning* by renaming the style attribute below.
+> Необходимо убедиться, что на компьютере для развертывания установлен пакет Docker и Docker Compose
 >
-{style="note"}
+
 
 ## Локальный запуск
 Для локального запуска API сервера необходимо подключить InMemoryContext вместо PgContext.
