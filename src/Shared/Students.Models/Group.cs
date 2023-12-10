@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 namespace Students.Models;
 
 /// <summary>
@@ -8,6 +12,8 @@ public class Group
     /// <summary>
     /// Id группы
     /// </summary>
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя группы
@@ -20,6 +26,7 @@ public class Group
     /// <summary>
     /// Образорвательная программа
     /// </summary>
+    [JsonIgnore]
     public EducationProgram? EducationProgram { get; set; }
     /// <summary>
     /// Начало обучения
