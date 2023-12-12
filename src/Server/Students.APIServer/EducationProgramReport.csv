@@ -1,0 +1,3 @@
+Id,Name,HoursCount,EducationTypeId,EducationType,EducationFormId,EducationForm,IsNetworkProgram,IsDOTProgram,IsModularProgram,FEAProgramId,FEAProgram,IsCollegeProgram
+b3c907d0-b166-4d56-a378-8a3de358093d,Бизнес-анализ для специалистов с начальным уровнем подготовки,72,7eda9352-0057-4cbd-a102-b0f817a9f3dc,,64fc4ea9-fea1-4ea5-a20f-f33c42438d48,,False,False,False,7dba8ac7-4a5c-4412-a2d9-d4e4b654ed6e,,False
+2b693feb-55ab-44c4-8a5e-d61d074c23fe,Проектирование на языке C#,72,7eda9352-0057-4cbd-a102-b0f817a9f3dc,,64fc4ea9-fea1-4ea5-a20f-f33c42438d48,,False,False,False,7dba8ac7-4a5c-4412-a2d9-d4e4b654ed6e,,False

@@ -37,9 +37,9 @@ namespace Students.APIServer.Controllers
             try
             {
                 return File(
-                    await _reportRepository.GetAll(), 
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-                    "DataReport.xlsx");
+                    await _reportRepository.GetAllCSV(),
+                    "application/zip", 
+                    "Reports.zip");
             }
             catch (Exception e)
             {
