@@ -112,7 +112,15 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     {
         try
         {
-            await _rep.Update(form);
+            var result = await _rep.Update(id, form);
+            if (result == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new DefaultResponse
+                    {
+                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                    });
+            }
             return StatusCode(StatusCodes.Status200OK, form);
         }
         catch (Exception e)
