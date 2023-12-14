@@ -9,32 +9,17 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Toolbar from '@mui/material/Toolbar';
-import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Input from '@mui/joy/Input';
 import { alpha } from '@mui/material/styles';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import ListItemText from '@mui/material/ListItemText';
 import axios from 'axios';
 
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: 100,
-      width: 250,
-    },
-  },
-};
 
 function EnhancedTableToolbar(props) {
     const { numSelected } = props;
@@ -94,13 +79,10 @@ function Row(props) {
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState("Edit");
-  const [requests, setRequests] = React.useState([row.requests]);
-  const [groups, setGroups] = React.useState([row.groups]);
 
   const handleDelete = (id) =>
   {
-    console.log(id);
-    axios.delete('http://localhost:5137/Student/'+id);
+    axios.delete('http://localhost:5137/EducationProgram/'+id);
     window.location.reload();
   }
 
@@ -114,119 +96,37 @@ function Row(props) {
       setEditSave("Edit");
         if(row?.isNew)
         {
-          row.email = "blablabla";
-          row.phone = "blablabla";
           delete row.isNew;
-          axios.post('http://localhost:5137/Student', row)
+          axios.post('http://localhost:5137/EducationProgram', row)
         }
         else
-          axios.put('http://localhost:5137/Student/'+row.id, row);
+          axios.put('http://localhost:5137/EducationProgram/'+row.id, row);
 
         console.log(row);
-    }
-    console.log("test");    
+    }  
     setEdit(!edit);
-  }
-  
-  React.useEffect(() => {
-    fetch('http://localhost:5137/Request')
-        .then((response) => response.json())
-        .then((json) => setRequests(json))
-        .catch(() => console.log())},[]);
-
-  React.useEffect(() => {
-     fetch('http://localhost:5137/Group')
-        .then((response) => response.json())
-        .then((json) => setGroups(json))
-        .catch(() => console.log())},[]);
-
-  const handleChandeRequests = (id) => {
-    let request = requests.filter(x => x.id == id[1])[0];
-    if(row?.requests == null || row?.requests == undefined)
-      row.requests = [];  
-    if (row?.requests.indexOf(request) == -1)
-      setRow(row?.requests.push(request));
-    else
-      setRow(row?.requests.splice(row?.requests.indexOf(request), 1));
-  }
-
-  const handleChandeGroups = (id) => {
-    let group = groups.filter(x => x.id == id[1])[0];
-    if(row?.groups == null || row?.groups == undefined)
-      row.groups = [];  
-    if (row?.groups.indexOf(group) == -1)
-      setRow(row?.groups.push(group));
-    else
-      setRow(row?.groups.splice(row?.groups.indexOf(group), 1));
   }
 
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
         <TableCell component="th" scope="row" sx={{ m: 1, width: 450 }}>
-          <Input value={row?.fullName} readOnly={edit} onChange={(e) => setRow(row.fullName = e.target.value)}/>
+          <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
-        <TableCell align="right" type="date" sx={{ m: 1, width: 111 }}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} sx={{ m: 1, width: 110 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 150 }}><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}sx={{ m: 1, width: 140 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)} sx={{ m: 1, width: 69 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 130 }}><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)} sx={{ m: 1, width: 129 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)} sx={{ m: 1, width: 60 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}>
-          <div>
-            <FormControl sx={{ m: 1, width: 160}}>
-              <Select
-              labelId="demo-multiple-checkbox-label"
-              id="demo-multiple-checkbox"
-              multiple
-              value={["Requests"]}
-              onChange={(e) => handleChandeRequests(e.target.value)}
-              renderValue={(selected) => selected.join(', ')}
-              MenuProps={MenuProps}
-              sx={{height: 36}}
-              readOnly={edit}
-              >
-              {requests.map((request) => (
-                <MenuItem key={request?.id} value={request?.id}>
-                  <Checkbox checked={row?.requests?.indexOf(request) > -1} />
-                  <ListItemText primary={[request?.fullName, request?.id]} />
-                </MenuItem>
-              ))}
-              </Select>
-            </FormControl>
-          </div>
+        <TableCell  >
+            <Input value={row?.hoursCount} readOnly={edit} onChange={(e) => setRow(row.hoursCount = e.target.value)}/>
         </TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}>
-          <div>
-            <FormControl sx={{ m: 1, width: 160}}>
-              <Select
-              labelId="demo-multiple-checkbox-label"
-              id="demo-multiple-checkbox"
-              multiple
-              value={["Groups"]}
-              onChange={(e) => handleChandeGroups(e.target.value)}
-              renderValue={(selected) => selected.join(', ')}
-              MenuProps={MenuProps}
-              sx={{height: 36}}
-              readOnly={edit}
-              >
-              {groups.map((group) => (
-                <MenuItem key={group?.id} value={group?.id}>
-                  <Checkbox checked={row?.groups?.indexOf(group) > -1} />
-                  <ListItemText primary={[group?.name, ' ',group?.id]} />
-                </MenuItem>
-              ))}
-              </Select>
-            </FormControl>
-          </div>
+        <TableCell sx={{ m: 1, width: 150 }}>
+            <Input value={row?.isNetworkProgram} readOnly={edit} onChange={(e) => setRow(row.isNetworkProgram = e.target.value)}sx={{ m: 1, width: 140 }}/>
+        </TableCell>
+        <TableCell  sx={{ m: 1, width: 70 }}>
+            <Input value={row?.isDOTProgram} readOnly={edit} onChange={(e) => setRow(row.isDOTProgram = e.target.value)} sx={{ m: 1, width: 69 }}/>
+        </TableCell>
+        <TableCell  sx={{ m: 1, width: 130 }}>
+            <Input value={row?.isModularProgram} readOnly={edit} onChange={(e) => setRow(row.isModularProgram = e.target.value)} sx={{ m: 1, width: 129 }}/>
+        </TableCell>
+        <TableCell  sx={{ m: 1, width: 70 }}>
+            <Input value={row?.isCollegeProgram} readOnly={edit} onChange={(e) => setRow(row.isCollegeProgram = e.target.value)} sx={{ m: 1, width: 60 }}/>
         </TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -303,7 +203,7 @@ function Row(props) {
   );
 }
 
-export default function StudentTable() {
+export default function EducationProgramTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
@@ -312,9 +212,9 @@ export default function StudentTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/Student/paged?page=0&size=50')
+    fetch('http://localhost:5137/EducationProgram')
         .then((response) => response.json())
-        .then((json) => setRows(json.data))
+        .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);
   return (
     <Box>
@@ -326,15 +226,12 @@ export default function StudentTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell sx={{ m: 1, width: 450 }}>Full Name</TableCell>
-            <TableCell align="right" sx={{ m: 1, width: 111 }}>Birth Date</TableCell>
-            <TableCell align="right">SNILS</TableCell>
-            <TableCell align="right">Doc Number</TableCell>
-            <TableCell align="right">Doc Series</TableCell>
-            <TableCell align="right">Nationality</TableCell>
-            <TableCell align="right">Requests</TableCell>
-            <TableCell align="right">Groups</TableCell>
+            <TableCell sx={{ m: 1, width: 450 }}>Name</TableCell>
+            <TableCell >Hours Count</TableCell>
+            <TableCell >isNetworkProgram</TableCell>
+            <TableCell >isDOTProgram</TableCell>
+            <TableCell >isModularProgram</TableCell>
+            <TableCell >isCollegeProgram</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

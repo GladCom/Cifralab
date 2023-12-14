@@ -5,11 +5,10 @@ import MediaCard from './common/MediaCard.jsx';
 import SideBar from './components/SideBar';
 import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
 import "./assets/css/dino.css"
-import CollapsibleTable from './components/StudentTable.jsx';
+import StudentTable from './components/StudentTable.jsx';
 import GroupTable from './components/GroupTable.jsx'
-import EditableTable from './common/EditableTableExample/EditableTable.jsx';
 import RequestTable from './components/RequestTable.jsx';
-import GroupTable from './components/GroupTable.jsx';
+import EducationProgramTable from './components/tables/EducationProgram.jsx';
 
 function App() {
   return (
@@ -17,11 +16,12 @@ function App() {
       <SideBar/>
       <Routes>
         <Route path="/Groups" element={<GroupTable/>} />
-        <Route path="/Students" element={<CollapsibleTable/>} />
+        <Route path="/Students" element={<StudentTable/>} />
         <Route path="/Groups" element={<GroupTable/>}/>
         <Route path="/Requests" element={<RequestTable/>}/>
+        <Route path="/EducationPrograms" element={<EducationProgramTable/>}/>
       </Routes>
-     {/* <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe> */}
+     {/* { <iframe src="https://chromedino.com/" frameborder="0" scrolling="no" width="100%" height="100%" loading="lazy"></iframe> } */}
     </BrowserRouter>
 
   );

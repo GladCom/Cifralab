@@ -36,7 +36,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     }
     public async Task<TEntity> Update(TEntity item)
     {
-        _context.Entry(item).State = EntityState.Modified;
+        _context.Update(item);
         await _context.SaveChangesAsync();
         return item;
     }
