@@ -187,9 +187,9 @@ function Row(props) {
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               multiple
-              value={["Requests"]}
+              value={[row?.requests]}
               onChange={(e) => handleChandeRequests(e.target.value)}
-              renderValue={(selected) => selected.join(', ')}
+              renderValue={() => row?.requests?.map(x => x.fullName)?.join(', ')}            
               MenuProps={MenuProps}
               sx={{height: 36}}
               readOnly={edit}
@@ -211,9 +211,9 @@ function Row(props) {
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               multiple
-              value={["Groups"]}
+              value={[row?.groups]}
               onChange={(e) => handleChandeGroups(e.target.value)}
-              renderValue={(selected) => selected.join(', ')}
+              renderValue={() => row?.groups?.map(x => x.name)?.join(', ')}            
               MenuProps={MenuProps}
               sx={{height: 36}}
               readOnly={edit}
