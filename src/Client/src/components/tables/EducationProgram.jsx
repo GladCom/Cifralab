@@ -19,7 +19,19 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Input from '@mui/joy/Input';
 import { alpha } from '@mui/material/styles';
 import axios from 'axios';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import ListItemText from '@mui/material/ListItemText';
 
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 100,
+      width: 250,
+    },
+  },
+};
 
 function EnhancedTableToolbar(props) {
     const { numSelected } = props;
@@ -79,6 +91,8 @@ function Row(props) {
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState("Edit");
+  const [educationForms, setEducationFroms] = React.useState([]);
+  const [educationTypes, setEducationTypes] = React.useState([]);
 
   const handleDelete = (id) =>
   {
@@ -107,26 +121,82 @@ function Row(props) {
     setEdit(!edit);
   }
 
+  React.useEffect(() => {
+    fetch('http://localhost:5137/EducationForm')
+        .then((response) => response.json())
+        .then((json) => setEducationFroms(json))
+        .catch(() => console.log('err'))},[]);
+
+  React.useEffect(() => {
+    fetch('http://localhost:5137/EducationType')
+        .then((response) => response.json())
+        .then((json) => setEducationTypes(json))
+        .catch(() => console.log('err'))},[]);
+
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell component="th" scope="row" sx={{ m: 1, width: 450 }}>
-          <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
+        <TableCell component="th" scope="row" sx={{ m: 1, width: "auto" }} title={row?.name}>
+          <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)} />
         </TableCell>
-        <TableCell  >
+        <TableCell sx={{ m: 1, width: "auto" }}>
             <Input value={row?.hoursCount} readOnly={edit} onChange={(e) => setRow(row.hoursCount = e.target.value)}/>
         </TableCell>
-        <TableCell sx={{ m: 1, width: 150 }}>
-            <Input value={row?.isNetworkProgram} readOnly={edit} onChange={(e) => setRow(row.isNetworkProgram = e.target.value)}sx={{ m: 1, width: 140 }}/>
+        <TableCell sx={{ m: 1, width: "5%" }}>
+          <div>
+            <FormControl >
+              <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              value={row.educationFormId}
+              onChange={(e) => setRow(row.educationFormId = e.target.value)}
+              renderValue={() => educationForms?.filter(x => x.id == row.educationFormId)[0]?.name}
+              MenuProps={MenuProps}
+              sx={{height: 36}}
+              readOnly={edit}
+              >
+              {educationForms.map((form) => (
+                <MenuItem key={form?.id} value={form?.id}>
+                  <ListItemText primary={form?.name} />
+                </MenuItem>
+              ))}
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
-        <TableCell  sx={{ m: 1, width: 70 }}>
-            <Input value={row?.isDOTProgram} readOnly={edit} onChange={(e) => setRow(row.isDOTProgram = e.target.value)} sx={{ m: 1, width: 69 }}/>
+        <TableCell sx={{ m: 1, width: "5%" }}>
+          <div>
+            <FormControl >
+              <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              value={row.educationTypeId}
+              onChange={(e) => setRow(row.educationTypeId = e.target.value)}
+              renderValue={() => educationTypes?.filter(x => x.id == row.educationTypeId)[0]?.name}
+              MenuProps={MenuProps}
+              sx={{height: 36}}
+              readOnly={edit}
+              >
+              {educationTypes.map((type) => (
+                <MenuItem key={type?.id} value={type?.id}>
+                  <ListItemText primary={type?.name} />
+                </MenuItem>
+              ))}
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
-        <TableCell  sx={{ m: 1, width: 130 }}>
-            <Input value={row?.isModularProgram} readOnly={edit} onChange={(e) => setRow(row.isModularProgram = e.target.value)} sx={{ m: 1, width: 129 }}/>
+        <TableCell sx={{ m: 1, width: "5%" }}>
+            <Input value={row?.isNetworkProgram} readOnly={edit} onChange={(e) => setRow(row.isNetworkProgram = e.target.value)}/>
         </TableCell>
-        <TableCell  sx={{ m: 1, width: 70 }}>
-            <Input value={row?.isCollegeProgram} readOnly={edit} onChange={(e) => setRow(row.isCollegeProgram = e.target.value)} sx={{ m: 1, width: 60 }}/>
+        <TableCell sx={{ m: 1, width: "5%" }}>
+            <Input value={row?.isDOTProgram} readOnly={edit} onChange={(e) => setRow(row.isDOTProgram = e.target.value)}/>
+        </TableCell>
+        <TableCell sx={{ m: 1, width: "5%" }}>
+            <Input value={row?.isModularProgram} readOnly={edit} onChange={(e) => setRow(row.isModularProgram = e.target.value)}/>
+        </TableCell>
+        <TableCell sx={{ m: 1, width: "5%" }}>
+            <Input value={row?.isCollegeProgram} readOnly={edit} onChange={(e) => setRow(row.isCollegeProgram = e.target.value)}/>
         </TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -138,66 +208,6 @@ function Row(props) {
              </Button>
           </Box>
         </td>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Requests
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>EducationProgramId</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Interview</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row?.requests?.map((requestsRow) => (                  
-                    <TableRow key={requestsRow?.id}>
-                      <TableCell component="th" scope="row">
-                        <Input readOnly={editRequest} value={requestsRow?.educationProgramId} onChange={(e) => setRow(requestsRow.educationProgramId = e.target.value)}/>
-                      </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Groups
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row?.groups?.map((groupsRow) => (                  
-                    <TableRow key={groupsRow?.id}>
-                      <TableCell component="th" scope="row">
-                        <Input readOnly={editRequest} value={groupsRow?.name} onChange={(e) => setRow(groupsRow.name = e.target.value)}/>
-                      </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -226,8 +236,10 @@ export default function EducationProgramTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ m: 1, width: 450 }}>Name</TableCell>
-            <TableCell >Hours Count</TableCell>
+            <TableCell sx={{ m: 1, width: "auto" }}>Name</TableCell>
+            <TableCell sx={{ m: 1, width: "auto" }}>Hours Count</TableCell>
+            <TableCell >Education Form</TableCell>
+            <TableCell >Education Type</TableCell>
             <TableCell >isNetworkProgram</TableCell>
             <TableCell >isDOTProgram</TableCell>
             <TableCell >isModularProgram</TableCell>
