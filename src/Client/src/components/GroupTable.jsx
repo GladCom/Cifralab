@@ -205,8 +205,8 @@ function Row(props) {
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               multiple
-              value={["Students"]}
-              renderValue={(selected) => selected.join(', ')}
+              value={[row?.students]}
+              renderValue={() => row?.students?.map(x => x.fullName)?.join(', ')}
               onChange={(e) => handleChandeStudents(e.target.value)}
               MenuProps={MenuProps}
               sx={{height: 36}}
