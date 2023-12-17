@@ -2,6 +2,6 @@
 {
     public interface IReportRepository
     {
-        Task<byte[]> GetAll();
+        Task<byte[]> GetAllCSV();
     }
 }
