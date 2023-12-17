@@ -1,5 +1,7 @@
-﻿using Students.Models;
+﻿using FastExcel;
+using Students.Models;
 using System.Data;
+using System.IO;
 using System.IO.Compression;
 
 namespace Students.APIServer.Repository
@@ -38,6 +40,76 @@ namespace Students.APIServer.Repository
             _studentStatusRepository = studentStatusRepository;
         }
 
+        public async Task<byte[]> GetAllExcel()
+        {
+            //start
+            Console.WriteLine("start");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "DataReport.xlsx");
+            var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Template.xlsx");
+
+            var fi = new FileInfo(path);
+            var tfi = new FileInfo(templatePath);
+
+            var studentsWorksheet = WriteOnePage(_studentRepository);
+            var educationProgramWorksheet = WriteOnePage(_educationProgramRepository);
+            var FEAProgramFormWorksheet = WriteOnePage(_FEAProgramFormRepository);
+            var groupWorksheet = WriteOnePage(_groupRepository);
+            var requestWorksheet = WriteOnePage(_requestRepository);
+            var scopeOfActivityWorksheet = WriteOnePage(_scopeOfActivityRepository);
+            var studentDocumentWorksheet = WriteOnePage(_studentDocumentRepository);
+            var studentEducationWorksheet = WriteOnePage(_studentEducationRepository);
+            var studentStatusWorksheet = WriteOnePage(_studentStatusRepository);
+
+            //end
+            using (FastExcel.FastExcel fastExcel = new FastExcel.FastExcel(tfi, fi))
+            {
+                fastExcel.Write(await studentsWorksheet, "Студенты");
+                fastExcel.Write(await educationProgramWorksheet, "Программы обучения");
+                fastExcel.Write(await FEAProgramFormWorksheet, "FEAProgramForm");
+                fastExcel.Write(await groupWorksheet, "Группы");
+                fastExcel.Write(await requestWorksheet, "Обращения");
+                fastExcel.Write(await scopeOfActivityWorksheet, "scopeOfActivity");
+                fastExcel.Write(await studentDocumentWorksheet, "Документы студентов");
+                fastExcel.Write(await studentEducationWorksheet, "Обучение студентов");
+                fastExcel.Write(await studentStatusWorksheet, "Статус студентов");
+            }
+            return File.ReadAllBytes(path);
+        }
+
+        private async Task<Worksheet> WriteOnePage<T>(IGenericRepository<T> repository) where T : class
+        {
+            var data = await repository.Get();
+
+            var worksheet = new Worksheet();
+
+            var dataF = data.FirstOrDefault();
+            if (dataF == null)
+                throw new Exception("Entity is empty!");
+
+            var properties = dataF.GetType().GetProperties().ToList();
+            var celss = properties.Select(p => new Cell(properties.IndexOf(p) + 1, p.Name));
+            var listData = data.ToList();
+
+            var rows = new List<Row>()
+            {
+                new Row(1, celss)
+            };
+
+            for (int i = 0; i < listData.Count; i++)
+            {
+                var cells = new List<Cell>();
+                for (int j = 0; j < properties.Count; j++)
+                {
+                    var cell = new Cell(j + 1, properties[j].GetValue(listData[i])?.ToString());
+                    cells.Add(cell);
+                }
+                rows.Add(new Row(i + 2, cells));
+            }
+
+            worksheet.Rows = rows.ToArray();
+            return worksheet;
+        }
+
         public async Task<byte[]> GetAllCSV()
         {
             var files = new List<string>();
@@ -62,15 +134,15 @@ namespace Students.APIServer.Repository
             files.Add(studentEducationPath);
             files.Add(studentStatusPath);
 
-            GetCSV(FillDataTable(await _studentRepository.Get()), studentsPath);
-            GetCSV(FillDataTable(await _educationProgramRepository.Get()), educationProgramPath);
-            GetCSV(FillDataTable(await _FEAProgramFormRepository.Get()), FEAProgramFormPath);
-            GetCSV(FillDataTable(await _groupRepository.Get()), groupRepositoryPath);
-            GetCSV(FillDataTable(await _requestRepository.Get()), requestPath);
-            GetCSV(FillDataTable(await _scopeOfActivityRepository.Get()), scopeOfActivityPath);
-            GetCSV(FillDataTable(await _studentDocumentRepository.Get()), studentDocumentPath);
-            GetCSV(FillDataTable(await _studentEducationRepository.Get()), studentEducationPath);
-            GetCSV(FillDataTable(await _studentStatusRepository.Get()), studentStatusPath);
+            GetCSV(await WriteOneDT(_studentRepository), studentsPath);
+            GetCSV(await WriteOneDT(_educationProgramRepository), educationProgramPath);
+            GetCSV(await WriteOneDT(_FEAProgramFormRepository), FEAProgramFormPath);
+            GetCSV(await WriteOneDT(_groupRepository), groupRepositoryPath);
+            GetCSV(await WriteOneDT(_requestRepository), requestPath);
+            GetCSV(await WriteOneDT(_scopeOfActivityRepository), scopeOfActivityPath);
+            GetCSV(await WriteOneDT(_studentDocumentRepository), studentDocumentPath);
+            GetCSV(await WriteOneDT(_studentEducationRepository), studentEducationPath);
+            GetCSV(await WriteOneDT(_studentStatusRepository), studentStatusPath);
 
             var zipPath = Path.Combine(Directory.GetCurrentDirectory(), "Reports.zip");
             using (var zip = ZipFile.Open(zipPath, ZipArchiveMode.Create))
@@ -84,11 +156,16 @@ namespace Students.APIServer.Repository
             return File.ReadAllBytes(zipPath);
         }
 
-        private DataTable FillDataTable<T>(IEnumerable<T> data) where T : class
+        private async Task<DataTable> WriteOneDT<T>(IGenericRepository<T> repository) where T : class
         {
+            var data = await repository.Get();
+
             DataTable table = new DataTable();
 
-            var dataF = data.FirstOrDefault() ?? throw new Exception("Entity is empty!");
+            var dataF = data.FirstOrDefault();
+            if (dataF == null)
+                throw new Exception("Entity is empty!");
+
             var properties = dataF.GetType().GetProperties().ToList();
             var listData = data.ToList();
 
