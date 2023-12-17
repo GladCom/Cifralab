@@ -34,9 +34,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         await _context.SaveChangesAsync();
         return item;
     }
-    public async Task<TEntity> Update(TEntity item)
+    public async Task<TEntity> Update(Guid Id, TEntity item)
     {
-        _context.Update(item);
+        var oldItem = await _dbSet.FindAsync(Id);
+        if (oldItem == null)
+        {
+            return null;
+        }
+        item.GetType().GetProperty("Id")?.SetValue(item, Id);
+        _context.Entry(oldItem).CurrentValues.SetValues(item);
         await _context.SaveChangesAsync();
         return item;
     }
