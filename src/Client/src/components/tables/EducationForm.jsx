@@ -82,7 +82,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/EducationProgram/'+id);
+    axios.delete('http://localhost:5137/EducationForm/'+id);
     window.location.reload();
   }
 
@@ -97,10 +97,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/EducationProgram', row)
+          axios.post('http://localhost:5137/EducationForm', row)
         }
         else
-          axios.put('http://localhost:5137/EducationProgram/'+row.id, row);
+          axios.put('http://localhost:5137/EducationForm/'+row.id, row);
 
         console.log(row);
     }  
@@ -110,23 +110,8 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell component="th" scope="row" sx={{ m: 1, width: 450 }}>
-          <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
-        </TableCell>
-        <TableCell  >
-            <Input value={row?.hoursCount} readOnly={edit} onChange={(e) => setRow(row.hoursCount = e.target.value)}/>
-        </TableCell>
-        <TableCell sx={{ m: 1, width: 150 }}>
-            <Input value={row?.isNetworkProgram} readOnly={edit} onChange={(e) => setRow(row.isNetworkProgram = e.target.value)}sx={{ m: 1, width: 140 }}/>
-        </TableCell>
-        <TableCell  sx={{ m: 1, width: 70 }}>
-            <Input value={row?.isDOTProgram} readOnly={edit} onChange={(e) => setRow(row.isDOTProgram = e.target.value)} sx={{ m: 1, width: 69 }}/>
-        </TableCell>
-        <TableCell  sx={{ m: 1, width: 130 }}>
-            <Input value={row?.isModularProgram} readOnly={edit} onChange={(e) => setRow(row.isModularProgram = e.target.value)} sx={{ m: 1, width: 129 }}/>
-        </TableCell>
-        <TableCell  sx={{ m: 1, width: 70 }}>
-            <Input value={row?.isCollegeProgram} readOnly={edit} onChange={(e) => setRow(row.isCollegeProgram = e.target.value)} sx={{ m: 1, width: 60 }}/>
+        <TableCell>
+            <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -139,71 +124,11 @@ function Row(props) {
           </Box>
         </td>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Requests
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>EducationProgramId</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Interview</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row?.requests?.map((requestsRow) => (                  
-                    <TableRow key={requestsRow?.id}>
-                      <TableCell component="th" scope="row">
-                        <Input readOnly={editRequest} value={requestsRow?.educationProgramId} onChange={(e) => setRow(requestsRow.educationProgramId = e.target.value)}/>
-                      </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Groups
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row?.groups?.map((groupsRow) => (                  
-                    <TableRow key={groupsRow?.id}>
-                      <TableCell component="th" scope="row">
-                        <Input readOnly={editRequest} value={groupsRow?.name} onChange={(e) => setRow(groupsRow.name = e.target.value)}/>
-                      </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
     </React.Fragment>
   );
 }
 
-export default function EducationProgramTable() {
+export default function EducationFormTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
@@ -212,7 +137,7 @@ export default function EducationProgramTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/EducationProgram')
+    fetch('http://localhost:5137/EducationForm')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);
@@ -226,20 +151,14 @@ export default function EducationProgramTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell width="50%">Name</TableCell>
-            <TableCell >Hours Count</TableCell>
-            <TableCell >isNetworkProgram</TableCell>
-            <TableCell >isDOTProgram</TableCell>
-            <TableCell >isModularProgram</TableCell>
-            <TableCell >isCollegeProgram</TableCell>
-          </TableRow>q
+            <TableCell >Name</TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>
           {rows?.map((row) => (
             <Row key={row?.id} row={row} isNew={row.isNew}/>
           ))}
         </TableBody>
-
       </Table>
     </TableContainer>
     </Box>
