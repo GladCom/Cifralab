@@ -207,7 +207,7 @@ public sealed class InMemoryContext : StudentContext
                 SNILS = "123-456-789 00",
                 Email = "test@mail.ru",
                 Phone = "+71234567890",
-               
+                FullNameDocument = "Эх, сейчас бы сиды полные"
             }
         );
 

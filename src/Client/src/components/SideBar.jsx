@@ -11,18 +11,37 @@ function BasicExample() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="home">Home</Nav.Link>
+            <Nav.Link href="groups">Groups</Nav.Link>
             <Nav.Link href="students">Students</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
+            <NavDropdown title="Lists" id="basic-nav-dropdown">
+              <NavDropdown.Item href="educationPrograms">
+                Education Programs  
+                </NavDropdown.Item>
+              <NavDropdown.Item href="educationForms">
+                Education Forms
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
+              <NavDropdown.Item href="educationTypes">
+                Education Types
               </NavDropdown.Item>
+              {/* <NavDropdown.Divider /> */}
+              <NavDropdown.Item href="FEAPrograms">
+                FEA Programs
+              </NavDropdown.Item> 
+              <NavDropdown.Item href="FinancingTypes">
+                Financing Types
+              </NavDropdown.Item> 
+              <NavDropdown.Item href="ScopeOfActivities">
+                Scopes of activities
+              </NavDropdown.Item> 
+              <NavDropdown.Item href="StudentsDocuments">
+                Students Documents
+              </NavDropdown.Item> 
+              <NavDropdown.Item href="StudentsEducations">
+                Students Educations
+              </NavDropdown.Item> 
+              <NavDropdown.Item href="StudentsStatus">
+                Students Status
+              </NavDropdown.Item> 
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
