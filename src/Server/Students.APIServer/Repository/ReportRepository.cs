@@ -1,8 +1,5 @@
 ﻿using FastExcel;
 using Students.Models;
-using System.Data;
-using System.IO;
-using System.IO.Compression;
 
 namespace Students.APIServer.Repository
 {
@@ -40,7 +37,7 @@ namespace Students.APIServer.Repository
             _studentStatusRepository = studentStatusRepository;
         }
 
-        public async Task<byte[]> GetAllExcel()
+        public async Task<byte[]> GetAll()
         {
             //start
             Console.WriteLine("start");
@@ -109,120 +106,6 @@ namespace Students.APIServer.Repository
             worksheet.Rows = rows.ToArray();
             return worksheet;
         }
-
-        public async Task<byte[]> GetAllCSV()
-        {
-            var files = new List<string>();
-
-            var studentsPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentsReport.csv");
-            var educationProgramPath = Path.Combine(Directory.GetCurrentDirectory(), "EducationProgramReport.csv");
-            var FEAProgramFormPath = Path.Combine(Directory.GetCurrentDirectory(), "FEAProgramFormReport.csv");
-            var groupRepositoryPath = Path.Combine(Directory.GetCurrentDirectory(), "GroupRepositoryReport.csv");
-            var requestPath = Path.Combine(Directory.GetCurrentDirectory(), "RequestReport.csv");
-            var scopeOfActivityPath = Path.Combine(Directory.GetCurrentDirectory(), "ScopeOfActivityReport.csv");
-            var studentDocumentPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentDocumentReport.csv");
-            var studentEducationPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentEducationReport.csv");
-            var studentStatusPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentStatusReport.csv");
-
-            files.Add(studentsPath);
-            files.Add(educationProgramPath);
-            files.Add(FEAProgramFormPath);
-            files.Add(groupRepositoryPath);
-            files.Add(requestPath);
-            files.Add(scopeOfActivityPath);
-            files.Add(studentDocumentPath);
-            files.Add(studentEducationPath);
-            files.Add(studentStatusPath);
-
-            GetCSV(await WriteOneDT(_studentRepository), studentsPath);
-            GetCSV(await WriteOneDT(_educationProgramRepository), educationProgramPath);
-            GetCSV(await WriteOneDT(_FEAProgramFormRepository), FEAProgramFormPath);
-            GetCSV(await WriteOneDT(_groupRepository), groupRepositoryPath);
-            GetCSV(await WriteOneDT(_requestRepository), requestPath);
-            GetCSV(await WriteOneDT(_scopeOfActivityRepository), scopeOfActivityPath);
-            GetCSV(await WriteOneDT(_studentDocumentRepository), studentDocumentPath);
-            GetCSV(await WriteOneDT(_studentEducationRepository), studentEducationPath);
-            GetCSV(await WriteOneDT(_studentStatusRepository), studentStatusPath);
-
-            var zipPath = Path.Combine(Directory.GetCurrentDirectory(), "Reports.zip");
-            using (var zip = ZipFile.Open(zipPath, ZipArchiveMode.Create))
-            {
-                foreach (var file in files)
-                {
-                    // Add the entry for each file
-                    zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
-                }
-            }
-            return File.ReadAllBytes(zipPath);
-        }
-
-        private async Task<DataTable> WriteOneDT<T>(IGenericRepository<T> repository) where T : class
-        {
-            var data = await repository.Get();
-
-            DataTable table = new DataTable();
-
-            var dataF = data.FirstOrDefault();
-            if (dataF == null)
-                throw new Exception("Entity is empty!");
-
-            var properties = dataF.GetType().GetProperties().ToList();
-            var listData = data.ToList();
-
-            foreach(var p in properties)
-            {
-                table.Columns.Add(p.Name);
-            }
-            for(int i = 0; i < listData.Count; i++)
-            {
-                object[] array = new object[properties.Count];
-                for (int j = 0; j < properties.Count; j++)
-                {
-                    array[j] = properties[j].GetValue(listData[i])?.ToString();
-                }
-                table.Rows.Add(array);
-            }
-            return table;
-        }
-
-        public static void GetCSV(DataTable dtDataTable, string strFilePath)
-        {
-            StreamWriter sw = new StreamWriter(strFilePath, false);
-            //headers
-            for (int i = 0; i < dtDataTable.Columns.Count; i++)
-            {
-                sw.Write(dtDataTable.Columns[i]);
-                if (i < dtDataTable.Columns.Count - 1)
-                {
-                    sw.Write(",");
-                }
-            }
-            sw.Write(sw.NewLine);
-            foreach (DataRow dr in dtDataTable.Rows)
-            {
-                for (int i = 0; i < dtDataTable.Columns.Count; i++)
-                {
-                    if (!Convert.IsDBNull(dr[i]))
-                    {
-                        string value = dr[i].ToString();
-                        if (value.Contains(','))
-                        {
-                            value = String.Format("\"{0}\"", value);
-                            sw.Write(value);
-                        }
-                        else
-                        {
-                            sw.Write(dr[i].ToString());
-                        }
-                    }
-                    if (i < dtDataTable.Columns.Count - 1)
-                    {
-                        sw.Write(",");
-                    }
-                }
-                sw.Write(sw.NewLine);
-            }
-            sw.Close();
-        }
     }
+
 }
