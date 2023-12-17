@@ -132,7 +132,7 @@ function Row(props) {
     setEdit(!edit);
   }
   const handleChangeEducationProgram = (id) => {
-    row.educationProgram = educationPrograms.filter(x => x.id == id)[0];
+    setRow(row.educationProgramId = educationPrograms.filter(x => x.id == id)[0]?.id);
   }
 
   React.useEffect(() => {
@@ -173,28 +173,26 @@ function Row(props) {
           <Input value={row?.id} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
         <TableCell sx={{width: '100px', height: '35px'}}>
-            <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Education Program</InputLabel>
-                    <Select
-                    sx={{
-                        width: '480px',
-                        height: '35px',
-                        justifyContent: 'center'
-                    }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={educationPrograms[0].name}
-                    label="Education Program"
-                    onChange={(e) => handleChangeEducationProgram(e.target.value)}
-                    readOnly={edit}
-                    >
-                    {educationPrograms.map((program) => (
-                        <MenuItem value={program.id}>{program.name}</MenuItem>
-                    ))}
-                    </Select>
-                </FormControl>
-            </Box>
+          <div>
+            <FormControl sx={{ m: 1, width: 160}}>
+              <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              value={[row?.educationProgramId]}
+              renderValue={() => educationPrograms?.filter(x => x.id == row.educationProgramId)[0]?.name}
+              onChange={(e) => handleChangeEducationProgram(e.target.value)}
+              MenuProps={MenuProps}
+              sx={{height: 36}}
+              readOnly={edit}
+              >
+              {educationPrograms.map((program) => (
+                <MenuItem key={program?.id} value={program?.id}>
+                  <ListItemText primary={program?.name}/>
+                </MenuItem>
+              ))}
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
         <TableCell sx={{width: '100px', height: '35px'}}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
         <TableCell sx={{width: '100px', height: '35px'}}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
