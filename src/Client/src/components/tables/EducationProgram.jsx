@@ -62,7 +62,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Программы обучения
+            Students
           </Typography>
         )}
   
@@ -89,7 +89,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Изменить");
+  const [editSave, setEditSave] = React.useState("Edit");
   const [educationForms, setEducationFroms] = React.useState([]);
   const [educationTypes, setEducationTypes] = React.useState([]);
 
@@ -103,10 +103,10 @@ function Row(props) {
   {
     console.log(isNew)
     if(edit)
-      setEditSave("Сохранить");
+      setEditSave("Save");
     else
     {
-      setEditSave("Изменить");
+      setEditSave("Edit");
         if(row?.isNew)
         {
           delete row.isNew;
@@ -135,13 +135,13 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell align="center" component="th" scope="row" sx={{ m: 1, width: "auto" }} title={row?.name}>
+        <TableCell component="th" scope="row" sx={{ m: 1, width: "auto" }} title={row?.name}>
           <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)} />
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "auto" }} title={row?.hoursCount}>
+        <TableCell sx={{ m: 1, width: "auto" }}>
             <Input value={row?.hoursCount} readOnly={edit} onChange={(e) => setRow(row.hoursCount = e.target.value)}/>
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row.educationFormId}>
+        <TableCell sx={{ m: 1, width: "5%" }}>
           <div>
             <FormControl >
               <Select
@@ -163,7 +163,7 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row.educationTypeId}>
+        <TableCell sx={{ m: 1, width: "5%" }}>
           <div>
             <FormControl >
               <Select
@@ -185,16 +185,16 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isNetworkProgram}>
+        <TableCell sx={{ m: 1, width: "5%" }}>
             <Input value={row?.isNetworkProgram} readOnly={edit} onChange={(e) => setRow(row.isNetworkProgram = e.target.value)}/>
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isDOTProgram}>
+        <TableCell sx={{ m: 1, width: "5%" }}>
             <Input value={row?.isDOTProgram} readOnly={edit} onChange={(e) => setRow(row.isDOTProgram = e.target.value)}/>
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isModularProgram}>
+        <TableCell sx={{ m: 1, width: "5%" }}>
             <Input value={row?.isModularProgram} readOnly={edit} onChange={(e) => setRow(row.isModularProgram = e.target.value)}/>
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isCollegeProgram}>
+        <TableCell sx={{ m: 1, width: "5%" }}>
             <Input value={row?.isCollegeProgram} readOnly={edit} onChange={(e) => setRow(row.isCollegeProgram = e.target.value)}/>
         </TableCell>
         <td>
@@ -203,7 +203,7 @@ function Row(props) {
               {editSave}
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
-              Удалить
+              Delete
              </Button>
           </Box>
         </td>
@@ -229,20 +229,20 @@ export default function EducationProgramTable() {
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
     <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
-      Добавить
+      Add record
     </Button>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ m: 1, width: "auto" }}>Имя</TableCell>
-            <TableCell align="center" sx={{ m: 1, width: "auto" }}>Кол-во часов</TableCell>
-            <TableCell align="center">Форма обучения</TableCell>
-            <TableCell align="center">Тип образования</TableCell>
-            <TableCell align="center">Онлайн обучение</TableCell>
-            <TableCell align="center">isDOTProgram</TableCell>
-            <TableCell align="center">Модульное обучение</TableCell>
-            <TableCell align="center">Очное обучение</TableCell>
+            <TableCell sx={{ m: 1, width: "auto" }}>Name</TableCell>
+            <TableCell sx={{ m: 1, width: "auto" }}>Hours Count</TableCell>
+            <TableCell >Education Form</TableCell>
+            <TableCell >Education Type</TableCell>
+            <TableCell >isNetworkProgram</TableCell>
+            <TableCell >isDOTProgram</TableCell>
+            <TableCell >isModularProgram</TableCell>
+            <TableCell >isCollegeProgram</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

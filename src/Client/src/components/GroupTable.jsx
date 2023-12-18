@@ -25,7 +25,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
-import style from './style/Tables.css';
+
 import axios from 'axios';
 
 const MenuProps = {
@@ -66,9 +66,8 @@ function EnhancedTableToolbar(props) {
             variant="h6"
             id="tableTitle"
             component="div"
-            color="black"
           >
-            Группы
+            Groups
           </Typography>
         )}
   
@@ -95,7 +94,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Изменить");
+  const [editSave, setEditSave] = React.useState("Edit");
   const [educationPrograms, setEducationPrograms] = React.useState([{}]);
   const [students, setStudents] = React.useState([]);
 
@@ -108,10 +107,10 @@ function Row(props) {
   const handleEdit = (row) =>
   {
     if(edit)
-      setEditSave("Сохранить");
+      setEditSave("Save");
     else
     {
-      setEditSave("Изменить");
+      setEditSave("Edit");
         if(row?.isNew)
         {
           delete row.isNew;
@@ -153,7 +152,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell align="center">
+        <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -162,12 +161,12 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="center" component="th" scope="row" title={row?.id}>
+        <TableCell component="th" scope="row">
           <Input value={row?.id} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
-        <TableCell align="center" sx={{width: '250px', height: '35px'}} title={row?.educationProgramId}>
+        <TableCell sx={{width: '100px', height: '35px'}}>
           <div>
-            <FormControl sx={{ m: 1, width: 250}}>
+            <FormControl sx={{ m: 1, width: 160}}>
               <Select
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
@@ -176,7 +175,7 @@ function Row(props) {
               onChange={(e) => handleChangeEducationProgram(e.target.value)}
               MenuProps={MenuProps}
               sx={{height: 36}}
-              readOnly={edit} 
+              readOnly={edit}
               >
               {educationPrograms.map((program) => (
                 <MenuItem key={program?.id} value={program?.id}>
@@ -187,11 +186,11 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="center" sx={{width: '100px', height: '35px'}} title={row?.startDate}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
-        <TableCell align="center" sx={{width: '100px', height: '35px'}} title={row?.endDate}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
-        <TableCell align="center" sx={{ m: 1, width: 70 }} title={row?.students}>
+        <TableCell sx={{width: '100px', height: '35px'}}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
+        <TableCell sx={{width: '100px', height: '35px'}}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
+        <TableCell align="right" sx={{ m: 1, width: 70 }}>
           <div>
-            <FormControl sx={{ m: 1, width: 260}}>
+            <FormControl sx={{ m: 1, width: 160}}>
               <Select
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
@@ -219,7 +218,7 @@ function Row(props) {
               {editSave}
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
-              Удалить
+              Delete
              </Button>
           </Box>
         </td>
@@ -229,24 +228,24 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Студенты
+                Requests
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">ID</TableCell>
-                    <TableCell align="center">Имя</TableCell>
-                    <TableCell align="center">Фамилия</TableCell>
+                    <TableCell>Id</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Name</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row?.students?.map((student) => (                  
                     <TableRow key={student?.id}>
-                      <TableCell align="center" title={student?.id}><Input value={student?.id}/></TableCell>                   
-                      <TableCell align="center" component="th" scope="row" title={student?.fullName}>
+                      <TableCell><Input value={student?.id}/></TableCell>                   
+                      <TableCell component="th" scope="row">
                         <Input value={student?.fullName}/>
                       </TableCell>
-                      <TableCell align="center" title={student?.fullName}><Input value={student?.fullName} /></TableCell>
+                      <TableCell><Input value={student?.fullName} /></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -277,18 +276,18 @@ export default function GroupTable() {
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
     <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
-      Добавить
+      Add record
     </Button>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell align="center">Имя</TableCell>
-            <TableCell align="center" >Образовательная программа</TableCell>
-            <TableCell align="center">Дата начала</TableCell>
-            <TableCell align="center">Дата окончания</TableCell>
-            <TableCell align="center">Студенты</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell >Education Program</TableCell>
+            <TableCell >startDate</TableCell>
+            <TableCell >endDate</TableCell>
+            <TableCell >Students</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
