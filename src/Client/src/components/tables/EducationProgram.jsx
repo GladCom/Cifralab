@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -96,7 +95,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/EducationProgram/'+id);
+    axios.delete(global.config.conf.address.denis + 'EducationProgram/'+id);
     window.location.reload();
   }
 
@@ -111,10 +110,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/EducationProgram', row)
+          axios.post(global.config.conf.address.denis + 'EducationProgram', row)
         }
         else
-          axios.put('http://localhost:5137/EducationProgram/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'EducationProgram/'+row.id, row);
 
         console.log(row);
     }  
@@ -122,13 +121,13 @@ function Row(props) {
   }
 
   React.useEffect(() => {
-    fetch('http://localhost:5137/EducationForm')
+    fetch(global.config.conf.address.denis + 'EducationForm')
         .then((response) => response.json())
         .then((json) => setEducationFroms(json))
         .catch(() => console.log('err'))},[]);
 
   React.useEffect(() => {
-    fetch('http://localhost:5137/EducationType')
+    fetch(global.config.conf.address.denis + 'EducationType')
         .then((response) => response.json())
         .then((json) => setEducationTypes(json))
         .catch(() => console.log('err'))},[]);
@@ -222,7 +221,7 @@ export default function EducationProgramTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/EducationProgram')
+    fetch(global.config.conf.address.denis + 'EducationProgram')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);

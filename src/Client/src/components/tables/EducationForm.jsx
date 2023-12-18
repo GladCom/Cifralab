@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -82,7 +81,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/EducationForm/'+id);
+    axios.delete(global.config.conf.address.denis + 'EducationForm/'+id);
     window.location.reload();
   }
 
@@ -97,10 +96,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/EducationForm', row)
+          axios.post(global.config.conf.address.denis + 'EducationForm', row)
         }
         else
-          axios.put('http://localhost:5137/EducationForm/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'EducationForm/'+row.id, row);
 
         console.log(row);
     }  
@@ -137,7 +136,7 @@ export default function EducationFormTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/EducationForm')
+    fetch(global.config.conf.address.denis + 'EducationForm')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);

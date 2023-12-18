@@ -17,6 +17,7 @@ import ScopeOfActivityTable from './components/tables/ScopeOfActivity.jsx';
 import StudentDocumentTable from './components/tables/StudentDocument.jsx';
 import StudentEducationTable from './components/tables/StudentEducation.jsx';
 import StudentStatusTable from './components/tables/StudentStatus.jsx';
+import './config.js';
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
         <Route path="/FEAPrograms" element={<FEAProgramTable/>}/>
         <Route path="/FinancingTypes" element={<FinancingTypeTable/>}/>
         <Route path="/ScopeOfActivities" element={<ScopeOfActivityTable/>}/>
-        <Route path="/StudentDocuments" element={<StudentDocumentTable/>}/>
+        <Route path="/StudentsDocuments" element={<StudentDocumentTable/>}/>
         <Route path="/StudentsEducations" element={<StudentEducationTable/>}/>
         <Route path="/StudentsStatus" element={<StudentStatusTable/>}/>
       </Routes>

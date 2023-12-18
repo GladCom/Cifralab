@@ -100,7 +100,7 @@ function Row(props) {
   const handleDelete = (id) =>
   {
     console.log(id);
-    axios.delete('http://localhost:5137/Student/'+id);
+    axios.delete(global.config.conf.address.denis + 'Student/'+id);
     window.location.reload();
   }
 
@@ -117,10 +117,10 @@ function Row(props) {
           row.email = "blablabla";
           row.phone = "blablabla";
           delete row.isNew;
-          axios.post('http://localhost:5137/Student', row)
+          axios.post(global.config.conf.address.denis + 'Student', row)
         }
         else
-          axios.put('http://localhost:5137/Student/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'Student/'+row.id, row);
 
         console.log(row);
     }
@@ -129,13 +129,13 @@ function Row(props) {
   }
   
   React.useEffect(() => {
-    fetch('http://localhost:5137/Request')
+    fetch(global.config.conf.address.denis + 'Request')
         .then((response) => response.json())
         .then((json) => setRequests(json))
         .catch(() => console.log())},[]);
 
   React.useEffect(() => {
-     fetch('http://localhost:5137/Group')
+     fetch(global.config.conf.address.denis + 'Group')
         .then((response) => response.json())
         .then((json) => setGroups(json))
         .catch(() => console.log())},[]);
@@ -312,9 +312,9 @@ export default function StudentTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/Student/paged?page=0&size=50')
+    fetch(global.config.conf.address.denis + 'Student')
         .then((response) => response.json())
-        .then((json) => setRows(json.data))
+        .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);
   return (
     <Box>

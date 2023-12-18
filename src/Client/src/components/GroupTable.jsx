@@ -1,11 +1,9 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import { TablePagination } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -16,19 +14,13 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import StudentCard from "../common/StudentCard.jsx";
 import Input from '@mui/joy/Input';
-import { visuallyHidden } from '@mui/utils';
 import { alpha } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -108,7 +100,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/Group/'+id);
+    axios.delete(global.config.conf.address.denis + 'Group/'+id);
     window.location.reload();
   }
 
@@ -122,10 +114,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/Group', row)
+          axios.post(global.config.conf.address.denis + 'Group', row)
         }
         else
-          axios.put('http://localhost:5137/Group/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'Group/'+row.id, row);
 
         console.log(row);
     }
@@ -136,13 +128,13 @@ function Row(props) {
   }
 
   React.useEffect(() => {
-    fetch('http://localhost:5137/EducationProgram')
+    fetch(global.config.conf.address.denis + 'EducationProgram')
         .then((response) => response.json())
         .then((json) => setEducationPrograms(json))
         .catch(() => console.log())},[]);
 
   React.useEffect(() => {
-   fetch('http://localhost:5137/Student')
+   fetch(global.config.conf.address.denis + 'Student')
       .then((response) => response.json())
       .then((json) => setStudents(json))
       .catch(() => console.log())},[]);
@@ -276,7 +268,7 @@ export default function GroupTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/Group')
+    fetch(global.config.conf.address.denis + 'Group')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log(12345))},[]);

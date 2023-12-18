@@ -26,7 +26,7 @@ public class Student
     /// <summary>
     /// Заявки на обучение
     /// </summary>
-    [JsonIgnore]
+
     public List<Request>? Requests { get; set; }
     /// <summary>
     /// СНИЛС
@@ -51,7 +51,7 @@ public class Student
     /// <summary>
     /// Группы
     /// </summary>
-    [JsonIgnore]
+
     public List<Group>? Groups { get; set; }
     public string Phone { get; set; }
     //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
