@@ -2,15 +2,21 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import cyfraLogo from '../img/cyfraLogo.png'
 
 function BasicExample() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" sticky="top" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">Cyfra-Lab</Navbar.Brand>
+        <Navbar.Brand href="#home"><img
+              src={cyfraLogo}
+              width="80"
+              height="37"
+              alt="Cyfra-logo"
+            /></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="justify-content-end">
             <Nav.Link href="groups">Groups</Nav.Link>
             <Nav.Link href="students">Students</Nav.Link>
             <NavDropdown title="Lists" id="basic-nav-dropdown">

@@ -183,7 +183,7 @@ function Row(props) {
               onChange={(e) => handleChangeEducationProgram(e.target.value)}
               MenuProps={MenuProps}
               sx={{height: 36}}
-              readOnly={edit}
+             /* readOnly={edit} */
               >
               {educationPrograms.map((program) => (
                 <MenuItem key={program?.id} value={program?.id}>
