@@ -56,7 +56,7 @@ public class EducationProgram
     /// <summary>
     /// Id ВЭД программы
     /// </summary>
-    public Guid FEAProgramId { get; set; }
+    public Guid? FEAProgramId { get; set; }
     /// <summary>
     /// ВЭД программы
     /// </summary>
