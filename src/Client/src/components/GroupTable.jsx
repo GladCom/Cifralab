@@ -242,7 +242,7 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">ID</TableCell>
+                    <TableCell align="center">ID Студента</TableCell>
                     <TableCell align="center">Имя</TableCell>
                     <TableCell align="center">Фамилия</TableCell>
                   </TableRow>
