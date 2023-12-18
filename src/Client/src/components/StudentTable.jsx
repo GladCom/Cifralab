@@ -26,6 +26,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
 import axios from 'axios';
+import style from './style/Tables.css';
 
 const MenuProps = {
   PaperProps: {
@@ -66,7 +67,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Students
+            Студенты
           </Typography>
         )}
   
@@ -93,7 +94,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Edit");
+  const [editSave, setEditSave] = React.useState("Изменить");
   const [requests, setRequests] = React.useState([row.requests]);
   const [groups, setGroups] = React.useState([row.groups]);
 
@@ -108,10 +109,10 @@ function Row(props) {
   {
     console.log(isNew)
     if(edit)
-      setEditSave("Save");
+      setEditSave("Сохранить");
     else
     {
-      setEditSave("Edit");
+      setEditSave("Изменить");
         if(row?.isNew)
         {
           row.email = "blablabla";
@@ -172,15 +173,15 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row" sx={{ m: 1, width: 450 }}>
+        <TableCell align="center" component="th" scope="row" sx={{ m: 1, width: 450 }} title={row?.fullName}>
           <Input value={row?.fullName} readOnly={edit} onChange={(e) => setRow(row.fullName = e.target.value)}/>
         </TableCell>
-        <TableCell align="right" type="date" sx={{ m: 1, width: 111 }}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} sx={{ m: 1, width: 110 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 150 }}><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}sx={{ m: 1, width: 140 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)} sx={{ m: 1, width: 69 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 130 }}><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)} sx={{ m: 1, width: 129 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)} sx={{ m: 1, width: 60 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}>
+        <TableCell align="center" type="date" sx={{ m: 1, width: 111 }} title={row?.birthDate}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} sx={{ m: 1, width: 110 }}/></TableCell>
+        <TableCell align="center" sx={{ m: 1, width: 150 }} title={row?.snils}><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}sx={{ m: 1, width: 140 }}/></TableCell>
+        <TableCell align="center" sx={{ m: 1, width: 70 }} title={row?.documentSeries}><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)} sx={{ m: 1, width: 69 }}/></TableCell>
+        <TableCell align="center" sx={{ m: 1, width: 130 }} title={row?.documentNumber}><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)} sx={{ m: 1, width: 129 }}/></TableCell>
+        <TableCell align="center" sx={{ m: 1, width: 70 }} title={row?.nationality}><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)} sx={{ m: 1, width: 60 }}/></TableCell>
+        <TableCell align="center" sx={{ m: 1, width: 70 }}>
           <div>
             <FormControl sx={{ m: 1, width: 160}}>
               <Select
@@ -204,7 +205,7 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}>
+        <TableCell   sx={{ m: 1, width: 70 }}>
           <div>
             <FormControl sx={{ m: 1, width: 160}}>
               <Select
@@ -234,7 +235,7 @@ function Row(props) {
               {editSave}
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
-              Delete
+              Удалить
              </Button>
           </Box>
         </td>
@@ -244,24 +245,24 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Requests
+                Программа
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>EducationProgramId</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Interview</TableCell>
+                    <TableCell align="center">ID Программы обучения</TableCell>
+                    <TableCell align="center">Название программы обучения</TableCell>
+                    <TableCell align="center">Собеседование</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row?.requests?.map((requestsRow) => (                  
                     <TableRow key={requestsRow?.id}>
-                      <TableCell component="th" scope="row">
+                      <TableCell component="th" scope="row" align="center">
                         <Input readOnly={editRequest} value={requestsRow?.educationProgramId} onChange={(e) => setRow(requestsRow.educationProgramId = e.target.value)}/>
                       </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
+                      <TableCell align="center"><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
+                      <TableCell align="center"><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -271,15 +272,15 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Groups
+                Группы
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
+                    <TableCell align="center">Название</TableCell>
+                    <TableCell align="center">Название программы обучения</TableCell>
+                    <TableCell align="center">Дата начала</TableCell>
+                    <TableCell align="center">Дата окончания</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -288,9 +289,9 @@ function Row(props) {
                       <TableCell component="th" scope="row">
                         <Input readOnly={editRequest} value={groupsRow?.name} onChange={(e) => setRow(groupsRow.name = e.target.value)}/>
                       </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
+                      <TableCell align="center"><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
+                      <TableCell align="center"><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
+                      <TableCell align="center"><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -320,21 +321,21 @@ export default function StudentTable() {
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
     <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
-      Add record
+      Добавить
     </Button>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell sx={{ m: 1, width: 450 }}>Full Name</TableCell>
-            <TableCell align="right" sx={{ m: 1, width: 111 }}>Birth Date</TableCell>
-            <TableCell align="right">SNILS</TableCell>
-            <TableCell align="right">Doc Number</TableCell>
-            <TableCell align="right">Doc Series</TableCell>
-            <TableCell align="right">Nationality</TableCell>
-            <TableCell align="right">Requests</TableCell>
-            <TableCell align="right">Groups</TableCell>
+            <TableCell align="center">Полное имя</TableCell>
+            <TableCell align="center">Дата рождения</TableCell>
+            <TableCell align="center">СНИЛС</TableCell>
+            <TableCell align="center">Номер паспорта</TableCell>
+            <TableCell align="center">Серия паспорта</TableCell>
+            <TableCell align="center">Национальность</TableCell>
+            <TableCell align="center">Программа</TableCell>
+            <TableCell align="center">Группы</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

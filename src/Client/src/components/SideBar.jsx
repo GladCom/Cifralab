@@ -2,21 +2,26 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import cyfraLogo from '../img/cyfraLogo.png';
+import style from "./style/SideBar.css";
 
 function BasicExample() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar sticky="top" className="navBar">
       <Container>
-        <Navbar.Brand href="#home">Cyfra-Lab</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="groups">Groups</Nav.Link>
-            <Nav.Link href="students">Students</Nav.Link>
-            <NavDropdown title="Lists" id="basic-nav-dropdown">
-              <NavDropdown.Item href="educationPrograms">
-                Education Programs  
-                </NavDropdown.Item>
+        <Navbar.Brand href="#home"><img
+              src={cyfraLogo}
+              width="80"
+              height="37"
+              alt="Cyfra-logo"
+            /></Navbar.Brand>
+        <Navbar.Toggle/>
+        <Navbar.Collapse>
+          <Nav>
+            <Nav.Link className="navLink" href="groups">Группы</Nav.Link>
+            <Nav.Link className="navLink" href="students">Студенты</Nav.Link>
+            <Nav.Link className="navLink" href="educationPrograms">Программы обучения </Nav.Link>
+            <NavDropdown title="Остальные" className='navLink'>
               <NavDropdown.Item href="educationForms">
                 Education Forms
               </NavDropdown.Item>

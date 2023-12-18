@@ -19,6 +19,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import Input from "@mui/joy/Input";
 import { alpha } from "@mui/material/styles";
 import axios from "axios";
+import style from "./style/Tables.css"
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
