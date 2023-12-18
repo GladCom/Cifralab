@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+    students.api:
+        ports:
+            - '80:80'
+        environment:
+            - 'ASPNETCORE_URLS=http://+'
+            - TZ=Europe/Moscow
+        container_name: students.api
+        image: cifralabs.studentsapi:latest
