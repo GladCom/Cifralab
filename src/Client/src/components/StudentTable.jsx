@@ -1,11 +1,9 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import { TablePagination } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -16,32 +14,27 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import StudentCard from "../common/StudentCard.jsx";
 import Input from '@mui/joy/Input';
-import { visuallyHidden } from '@mui/utils';
 import { alpha } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {
-    GridRowModes,
-    DataGrid,
-    GridToolbarContainer,
-    GridToolbarExport,
-    GridActionsCellItem,
-    GridRowEditStopReasons,
-  } from '@mui/x-data-grid';
+import ListItemText from '@mui/material/ListItemText';
 import axios from 'axios';
 
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 100,
+      width: 250,
+    },
+  },
+};
 
 function EnhancedTableToolbar(props) {
     const { numSelected } = props;
@@ -101,15 +94,14 @@ function Row(props) {
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState("Edit");
-  const [editSaveRequest, setEditSaveRequest] = React.useState("Edit");
-  const [birthDate, setBirthDate] =React.useState(row?.birthDate);
   const [requests, setRequests] = React.useState([row.requests]);
+  const [groups, setGroups] = React.useState([row.groups]);
 
   const handleDelete = (id) =>
   {
-  console.log(id);
-  axios.delete('http://localhost:5137/Student/'+id);
-  window.location.reload();
+    console.log(id);
+    axios.delete('http://localhost:5137/Student/'+id);
+    window.location.reload();
   }
 
   const handleEdit = (row) =>
@@ -136,6 +128,38 @@ function Row(props) {
     setEdit(!edit);
   }
   
+  React.useEffect(() => {
+    fetch('http://localhost:5137/Request')
+        .then((response) => response.json())
+        .then((json) => setRequests(json))
+        .catch(() => console.log())},[]);
+
+  React.useEffect(() => {
+     fetch('http://localhost:5137/Group')
+        .then((response) => response.json())
+        .then((json) => setGroups(json))
+        .catch(() => console.log())},[]);
+
+  const handleChandeRequests = (id) => {
+    let request = requests.filter(x => x.id == id[1])[0];
+    if(row?.requests == null || row?.requests == undefined)
+      row.requests = [];  
+    if (row?.requests.indexOf(request) == -1)
+      setRow(row?.requests.push(request));
+    else
+      setRow(row?.requests.splice(row?.requests.indexOf(request), 1));
+  }
+
+  const handleChandeGroups = (id) => {
+    let group = groups.filter(x => x.id == id[1])[0];
+    if(row?.groups == null || row?.groups == undefined)
+      row.groups = [];  
+    if (row?.groups.indexOf(group) == -1)
+      setRow(row?.groups.push(group));
+    else
+      setRow(row?.groups.splice(row?.groups.indexOf(group), 1));
+  }
+
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -148,14 +172,62 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell component="th" scope="row" sx={{ m: 1, width: 450 }}>
           <Input value={row?.fullName} readOnly={edit} onChange={(e) => setRow(row.fullName = e.target.value)}/>
         </TableCell>
-        <TableCell align="right" type="date" width={180}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} width={180}/></TableCell>
-        <TableCell align="right"><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)}/></TableCell>
-        <TableCell align="right"><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)}/></TableCell>
+        <TableCell align="right" type="date" sx={{ m: 1, width: 111 }}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} sx={{ m: 1, width: 110 }}/></TableCell>
+        <TableCell align="right" sx={{ m: 1, width: 150 }}><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}sx={{ m: 1, width: 140 }}/></TableCell>
+        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)} sx={{ m: 1, width: 69 }}/></TableCell>
+        <TableCell align="right" sx={{ m: 1, width: 130 }}><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)} sx={{ m: 1, width: 129 }}/></TableCell>
+        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)} sx={{ m: 1, width: 60 }}/></TableCell>
+        <TableCell align="right" sx={{ m: 1, width: 70 }}>
+          <div>
+            <FormControl sx={{ m: 1, width: 160}}>
+              <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              multiple
+              value={[row?.requests]}
+              onChange={(e) => handleChandeRequests(e.target.value)}
+              renderValue={() => row?.requests?.map(x => x.fullName)?.join(', ')}            
+              MenuProps={MenuProps}
+              sx={{height: 36}}
+              readOnly={edit}
+              >
+              {requests.map((request) => (
+                <MenuItem key={request?.id} value={request?.id}>
+                  <Checkbox checked={row?.requests?.indexOf(request) > -1} />
+                  <ListItemText primary={[request?.fullName, request?.id]} />
+                </MenuItem>
+              ))}
+              </Select>
+            </FormControl>
+          </div>
+        </TableCell>
+        <TableCell align="right" sx={{ m: 1, width: 70 }}>
+          <div>
+            <FormControl sx={{ m: 1, width: 160}}>
+              <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              multiple
+              value={[row?.groups]}
+              onChange={(e) => handleChandeGroups(e.target.value)}
+              renderValue={() => row?.groups?.map(x => x.name)?.join(', ')}            
+              MenuProps={MenuProps}
+              sx={{height: 36}}
+              readOnly={edit}
+              >
+              {groups.map((group) => (
+                <MenuItem key={group?.id} value={group?.id}>
+                  <Checkbox checked={row?.groups?.indexOf(group) > -1} />
+                  <ListItemText primary={[group?.name, ' ',group?.id]} />
+                </MenuItem>
+              ))}
+              </Select>
+            </FormControl>
+          </div>
+        </TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button size="sm" variant="plain" color="neutral" onClick={() => handleEdit(row)}>
@@ -231,12 +303,11 @@ function Row(props) {
   );
 }
 
-export default function CollapsibleTable() {
+export default function StudentTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
     const handleClickAdd = () => {
-      console.log(111);
       setRows((rows) => [...rows, {isNew: true}]);
     };
 
@@ -244,7 +315,7 @@ export default function CollapsibleTable() {
     fetch('http://localhost:5137/Student/paged?page=0&size=50')
         .then((response) => response.json())
         .then((json) => setRows(json.data))
-        .catch(() => console.log(12345))},[]);
+        .catch(() => console.log('err'))},[]);
   return (
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
@@ -256,12 +327,14 @@ export default function CollapsibleTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Full Name</TableCell>
-            <TableCell align="right" width={18}>Birth Date</TableCell>
+            <TableCell sx={{ m: 1, width: 450 }}>Full Name</TableCell>
+            <TableCell align="right" sx={{ m: 1, width: 111 }}>Birth Date</TableCell>
             <TableCell align="right">SNILS</TableCell>
             <TableCell align="right">Doc Number</TableCell>
             <TableCell align="right">Doc Series</TableCell>
             <TableCell align="right">Nationality</TableCell>
+            <TableCell align="right">Requests</TableCell>
+            <TableCell align="right">Groups</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

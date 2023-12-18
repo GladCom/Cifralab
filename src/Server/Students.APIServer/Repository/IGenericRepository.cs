@@ -7,5 +7,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
     Task<IEnumerable<TEntity>> Get();
     Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate);
     Task Remove(TEntity item);
-    Task<TEntity> Update(TEntity item);
+    Task<TEntity> Update(Guid Id,TEntity item);
 }
