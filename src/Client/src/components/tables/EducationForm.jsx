@@ -50,7 +50,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Студенты
+            Students
           </Typography>
         )}
   
@@ -109,7 +109,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell title={row?.name}>
+        <TableCell>
             <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
         <td>
