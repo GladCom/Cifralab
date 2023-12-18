@@ -4,7 +4,7 @@ using System.IO.Compression;
 
 namespace Students.APIServer.Repository
 {
-    public class ReportRepository : IReportRepository
+    public class CSVReportRepository : IReportRepository
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IGenericRepository<EducationForm> _educationFormRepository;
@@ -19,7 +19,7 @@ namespace Students.APIServer.Repository
         private readonly IGenericRepository<StudentEducation> _studentEducationRepository;
         private readonly IGenericRepository<StudentStatus> _studentStatusRepository;
 
-        public ReportRepository(
+        public CSVReportRepository(
             IStudentRepository studentRepository,
             IGenericRepository<EducationForm> educationFormRepository,
             IGenericRepository<EducationProgram> educationProgramRepository,
@@ -51,22 +51,23 @@ namespace Students.APIServer.Repository
         /// Создаёт csv всех таблиц и помещает их в zip архив.
         /// </summary>
         /// <returns>zip архив в виде byte[]</returns>
-        public async Task<byte[]> GetAllCSV()
+        public async Task<byte[]> GetAll()
         {
             var files = new List<string>();
+            var directory = Path.GetTempPath();
 
-            var studentsPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentsReport.csv");
-            var educationFormPath = Path.Combine(Directory.GetCurrentDirectory(), "EducationFormReport.csv");
-            var educationProgramPath = Path.Combine(Directory.GetCurrentDirectory(), "EducationProgramReport.csv");
-            var educationTypePath = Path.Combine(Directory.GetCurrentDirectory(), "EducationTypeReport.csv");
-            var FEAProgramFormPath = Path.Combine(Directory.GetCurrentDirectory(), "FEAProgramFormReport.csv");
-            var financingTypePath = Path.Combine(Directory.GetCurrentDirectory(), "FinancingTypeReport.csv");
-            var groupRepositoryPath = Path.Combine(Directory.GetCurrentDirectory(), "GroupRepositoryReport.csv");
-            var requestPath = Path.Combine(Directory.GetCurrentDirectory(), "RequestReport.csv");
-            var scopeOfActivityPath = Path.Combine(Directory.GetCurrentDirectory(), "ScopeOfActivityReport.csv");
-            var studentDocumentPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentDocumentReport.csv");
-            var studentEducationPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentEducationReport.csv");
-            var studentStatusPath = Path.Combine(Directory.GetCurrentDirectory(), "StudentStatusReport.csv");
+            var studentsPath = Path.Combine(directory, "StudentsReport.csv");
+            var educationFormPath = Path.Combine(directory, "EducationFormReport.csv");
+            var educationProgramPath = Path.Combine(directory, "EducationProgramReport.csv");
+            var educationTypePath = Path.Combine(directory, "EducationTypeReport.csv");
+            var FEAProgramFormPath = Path.Combine(directory, "FEAProgramFormReport.csv");
+            var financingTypePath = Path.Combine(directory  , "FinancingTypeReport.csv");
+            var groupRepositoryPath = Path.Combine(directory, "GroupRepositoryReport.csv");
+            var requestPath = Path.Combine(directory, "RequestReport.csv");
+            var scopeOfActivityPath = Path.Combine(directory, "ScopeOfActivityReport.csv");
+            var studentDocumentPath = Path.Combine(directory, "StudentDocumentReport.csv");
+            var studentEducationPath = Path.Combine(directory, "StudentEducationReport.csv");
+            var studentStatusPath = Path.Combine(directory, "StudentStatusReport.csv");
 
             files.Add(studentsPath);
             files.Add(educationFormPath);
@@ -95,23 +96,22 @@ namespace Students.APIServer.Repository
             GetCSV(await WriteOneDT(_studentStatusRepository), studentStatusPath);
 
             var zipPath = Path.Combine(Directory.GetCurrentDirectory(), "Reports.zip");
-            var mode = Directory.Exists(zipPath) ? ZipArchiveMode.Update : ZipArchiveMode.Create;
-            if (Directory.Exists(zipPath))
-                using (var zip = ZipFile.Open(zipPath, mode))
+            var mode = File.Exists(zipPath) ? ZipArchiveMode.Update : ZipArchiveMode.Create;
+            using (var zip = ZipFile.Open(zipPath, mode))
+            {
+                foreach (var file in files)
                 {
-                    foreach (var file in files)
-                    {
-                        // Add the entry for each file
-                        if (mode == ZipArchiveMode.Create)
-                            zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
+                    // Add the entry for each file
+                    if (mode == ZipArchiveMode.Create)
+                        zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
 
-                        if (mode == ZipArchiveMode.Update)
-                        {
-                            zip.GetEntry(Path.GetFileName(file))?.Delete();
-                            zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
-                        }
+                    if (mode == ZipArchiveMode.Update)
+                    {
+                        zip.GetEntry(Path.GetFileName(file))?.Delete();
+                        zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
                     }
                 }
+            }
             return File.ReadAllBytes(zipPath);
         }
 
@@ -144,7 +144,7 @@ namespace Students.APIServer.Repository
                 object[] array = new object[properties.Count];
                 for (int j = 0; j < properties.Count; j++)
                 {
-                    array[j] = properties[j].GetValue(listData[i])?.ToString(); 
+                    array[j] = properties[j].GetValue(listData[i])?.ToString();
                 }
                 table.Rows.Add(array);
             }

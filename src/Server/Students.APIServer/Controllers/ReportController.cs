@@ -2,8 +2,6 @@
 using Students.APIServer.Repository;
 using Students.Models;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Headers;
 
 namespace Students.APIServer.Controllers
 {
@@ -37,7 +35,7 @@ namespace Students.APIServer.Controllers
             try
             {
                 return File(
-                    await _reportRepository.GetAllCSV(),
+                    await _reportRepository.GetAll(),
                     "application/zip",
                     "Reports.zip");
             }
