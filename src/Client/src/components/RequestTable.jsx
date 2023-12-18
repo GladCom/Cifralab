@@ -37,6 +37,7 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import axios from "axios";
+import style from "./style/Tables.css"
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
