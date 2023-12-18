@@ -9,7 +9,6 @@ import CollapsibleTable from './components/StudentTable.jsx';
 import GroupTable from './components/GroupTable.jsx'
 import EditableTable from './common/EditableTableExample/EditableTable.jsx';
 import RequestTable from './components/RequestTable.jsx';
-import GroupTable from './components/GroupTable.jsx';
 
 function App() {
   return (
