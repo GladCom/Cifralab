@@ -1,24 +1,43 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
+import { TablePagination } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
+import Checkbox from "@mui/material/Checkbox";
 import Tooltip from "@mui/material/Tooltip";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import StudentCard from "../common/StudentCard.jsx";
 import Input from "@mui/joy/Input";
+import { visuallyHidden } from "@mui/utils";
 import { alpha } from "@mui/material/styles";
+import {
+  GridRowModes,
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridActionsCellItem,
+  GridRowEditStopReasons,
+} from "@mui/x-data-grid";
 import axios from "axios";
+import style from "./style/Tables.css"
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
@@ -84,7 +103,7 @@ function Row(props) {
 
   const handleDelete = (id) => {
     console.log(id);
-    axios.delete(global.config.conf.address.denis + "Request/" + id);
+    axios.delete("http://localhost:5137/Request/" + id);
     window.location.reload();
   };
 
@@ -94,7 +113,7 @@ function Row(props) {
     else {
       setEditSave("Edit");
 
-      axios.post(global.config.conf.address.denis + "Request", row);
+      axios.post("http://localhost:5137/Request", row);
       console.log(row);
       setIsNew(false);
     }
@@ -301,7 +320,7 @@ export default function RequestTable() {
     setRows((rows) => [...rows, {}]);
   };
   React.useEffect(() => {
-    fetch(global.config.conf.address.denis + "Request")
+    fetch("http://localhost:5137/Request")
       .then((response) => response.json())
       .then((json) => setRows(json))
       .catch(() => console.log(12345));

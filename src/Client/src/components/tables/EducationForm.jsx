@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -50,7 +51,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Students
+            Студенты
           </Typography>
         )}
   
@@ -81,7 +82,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete(global.config.conf.address.denis + 'EducationForm/'+id);
+    axios.delete('http://localhost:5137/EducationForm/'+id);
     window.location.reload();
   }
 
@@ -96,10 +97,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post(global.config.conf.address.denis + 'EducationForm', row)
+          axios.post('http://localhost:5137/EducationForm', row)
         }
         else
-          axios.put(global.config.conf.address.denis + 'EducationForm/'+row.id, row);
+          axios.put('http://localhost:5137/EducationForm/'+row.id, row);
 
         console.log(row);
     }  
@@ -109,7 +110,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
+        <TableCell title={row?.name}>
             <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
         <td>
@@ -136,7 +137,7 @@ export default function EducationFormTable() {
     };
 
     React.useEffect(() => {
-    fetch(global.config.conf.address.denis + 'EducationForm')
+    fetch('http://localhost:5137/EducationForm')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);
