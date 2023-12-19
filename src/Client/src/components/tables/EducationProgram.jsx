@@ -136,10 +136,10 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell align="center" component="th" scope="row" sx={{ m: 1, width: "auto" }} title={row?.name}>
+        <TableCell align="center" component="th" scope="row" sx={{ m: 1, width: "5%" }} title={row?.name}>
           <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)} />
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "auto" }} title={row?.hoursCount}>
+        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.hoursCount}>
             <Input value={row?.hoursCount} readOnly={edit} onChange={(e) => setRow(row.hoursCount = e.target.value)}/>
         </TableCell>
         <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row.educationFormId}>
@@ -152,7 +152,7 @@ function Row(props) {
               onChange={(e) => setRow(row.educationFormId = e.target.value)}
               renderValue={() => educationForms?.filter(x => x.id == row.educationFormId)[0]?.name}
               MenuProps={MenuProps}
-              sx={{height: 36}}
+              sx={{height: 36, width: "10rem"}}
               readOnly={edit}
               >
               {educationForms.map((form) => (
@@ -174,7 +174,7 @@ function Row(props) {
               onChange={(e) => setRow(row.educationTypeId = e.target.value)}
               renderValue={() => educationTypes?.filter(x => x.id == row.educationTypeId)[0]?.name}
               MenuProps={MenuProps}
-              sx={{height: 36}}
+              sx={{height: 36, width: "10rem"}}
               readOnly={edit}
               >
               {educationTypes.map((type) => (
@@ -186,7 +186,7 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isNetworkProgram}>
+        {/* <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isNetworkProgram}>
             <Input value={row?.isNetworkProgram} readOnly={edit} onChange={(e) => setRow(row.isNetworkProgram = e.target.value)}/>
         </TableCell>
         <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isDOTProgram}>
@@ -197,7 +197,7 @@ function Row(props) {
         </TableCell>
         <TableCell align="center" sx={{ m: 1, width: "5%" }} title={row?.isCollegeProgram}>
             <Input value={row?.isCollegeProgram} readOnly={edit} onChange={(e) => setRow(row.isCollegeProgram = e.target.value)}/>
-        </TableCell>
+        </TableCell> */}
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button size="sm" variant="plain" color="neutral" onClick={() => handleEdit(row)}>
@@ -236,14 +236,14 @@ export default function EducationProgramTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell align="center" sx={{ m: 1, width: "auto" }}>Имя</TableCell>
-            <TableCell align="center" sx={{ m: 1, width: "auto" }}>Кол-во часов</TableCell>
-            <TableCell align="center">Форма обучения</TableCell>
-            <TableCell align="center">Тип образования</TableCell>
-            <TableCell align="center">Онлайн обучение</TableCell>
-            <TableCell align="center">isDOTProgram</TableCell>
-            <TableCell align="center">Модульное обучение</TableCell>
-            <TableCell align="center">Очное обучение</TableCell>
+            <TableCell align="center" sx={{ m: 1, width: "5%" }}>Имя</TableCell>
+            <TableCell align="center" sx={{ m: 1, width: "5%" }}>Кол-во часов</TableCell>
+            <TableCell align="center" sx={{ m: 1, width: "5%" }}>Форма обучения</TableCell>
+            <TableCell align="center" sx={{ m: 1, width: "5%" }}>Тип образования</TableCell>
+            {/* <TableCell align="center" sx={{ m: 1, width: "5%" }}>Онлайн обучение</TableCell>
+            <TableCell align="center" sx={{ m: 1, width: "5%" }}>isDOTProgram</TableCell>
+            <TableCell align="center" sx={{ m: 1, width: "5%" }}>Модульное обучение</TableCell>
+            <TableCell align="center" sx={{ m: 1, width: "5%" }}>Очное обучение</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
