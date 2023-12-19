@@ -110,6 +110,7 @@ namespace Students.APIServer.Repository
                         zip.GetEntry(Path.GetFileName(file))?.Delete();
                         zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
                     }
+                    File.Delete(file);
                 }
             }
             return File.ReadAllBytes(zipPath);
