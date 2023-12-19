@@ -82,7 +82,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/EducationType/'+id);
+    axios.delete(global.config.conf.address.denis + 'EducationType/'+id);
     window.location.reload();
   }
 
@@ -97,10 +97,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/EducationType', row)
+          axios.post(global.config.conf.address.denis + 'EducationType', row)
         }
         else
-          axios.put('http://localhost:5137/EducationType/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'EducationType/'+row.id, row);
 
         console.log(row);
     }  
@@ -137,7 +137,7 @@ export default function EducationTypeTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/EducationType')
+    fetch(global.config.conf.address.denis + 'EducationType')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);

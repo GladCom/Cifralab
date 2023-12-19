@@ -114,7 +114,7 @@ function Row(props) {
   const handleDelete = (id) =>
   {
   console.log(id);
-  axios.delete('http://localhost:5137/Student/'+id);
+  axios.delete(global.config.conf.address.denis + 'Student/'+id);
   window.location.reload();
   }
 //******************************************************************************************** */
@@ -279,7 +279,7 @@ export default function CollapsibleTable() {
     const [selected, setSelected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
       React.useEffect(() => {
-    fetch('http://localhost:5137/Student/paged?page=0&size=50')
+    fetch(global.config.conf.address.denis + 'Student/paged?page=0&size=50')
         .then((response) => response.json())
         .then((json) => setRows(json.data))
         .catch(() => console.log(12345))

@@ -82,7 +82,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/FEAProgram/'+id);
+    axios.delete(global.config.conf.address.denis + 'FEAProgram/'+id);
     window.location.reload();
   }
 
@@ -97,10 +97,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/FEAProgram', row)
+          axios.post(global.config.conf.address.denis + 'FEAProgram', row)
         }
         else
-          axios.put('http://localhost:5137/FEAProgram/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'FEAProgram/'+row.id, row);
 
         console.log(row);
     }  
@@ -137,7 +137,7 @@ export default function FEAProgramTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/FEAProgram')
+    fetch(global.config.conf.address.denis + 'FEAProgram')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);

@@ -82,7 +82,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/ScopeOfActivity/'+id);
+    axios.delete(global.config.conf.address.denis + 'ScopeOfActivity/'+id);
     window.location.reload();
   }
 
@@ -97,10 +97,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/ScopeOfActivity', row)
+          axios.post(global.config.conf.address.denis + 'ScopeOfActivity', row)
         }
         else
-          axios.put('http://localhost:5137/ScopeOfActivity/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'ScopeOfActivity/'+row.id, row);
 
         console.log(row);
     }  
@@ -140,7 +140,7 @@ export default function ScopeOfActivityTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/ScopeOfActivity')
+    fetch(global.config.conf.address.denis + 'ScopeOfActivity')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);

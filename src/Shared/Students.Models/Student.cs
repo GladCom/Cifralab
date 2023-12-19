@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Students.Models;
@@ -25,6 +26,7 @@ public class Student
     /// <summary>
     /// Заявки на обучение
     /// </summary>
+
     public List<Request>? Requests { get; set; }
     /// <summary>
     /// СНИЛС
@@ -37,18 +39,19 @@ public class Student
     /// <summary>
     /// Серия документа о ВО/СПО
     /// </summary>
-    public string DocumentSeries { get; set; }
+    public string? DocumentSeries { get; set; }
     /// <summary>
     /// Номер документа о ВО/СПО
     /// </summary>
-    public string DocumentNumber { get; set; }
+    public string? DocumentNumber { get; set; }
     /// <summary>
     /// Гражданство
     /// </summary>
-    public string Nationality { get; set; }
+    public string? Nationality { get; set; }
     /// <summary>
     /// Группы
     /// </summary>
+
     public List<Group>? Groups { get; set; }
     public string Phone { get; set; }
     //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }

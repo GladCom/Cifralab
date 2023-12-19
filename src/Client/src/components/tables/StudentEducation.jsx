@@ -82,7 +82,7 @@ function Row(props) {
 
   const handleDelete = (id) =>
   {
-    axios.delete('http://localhost:5137/StudentEducation/'+id);
+    axios.delete(global.config.conf.address.denis + 'StudentEducation/'+id);
     window.location.reload();
   }
 
@@ -97,10 +97,10 @@ function Row(props) {
         if(row?.isNew)
         {
           delete row.isNew;
-          axios.post('http://localhost:5137/StudentEducation', row)
+          axios.post(global.config.conf.address.denis + 'StudentEducation', row)
         }
         else
-          axios.put('http://localhost:5137/StudentEducation/'+row.id, row);
+          axios.put(global.config.conf.address.denis + 'StudentEducation/'+row.id, row);
 
         console.log(row);
     }  
@@ -137,7 +137,7 @@ export default function StudentEducationTable() {
     };
 
     React.useEffect(() => {
-    fetch('http://localhost:5137/StudentEducation')
+    fetch(global.config.conf.address.denis + 'StudentEducation')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log('err'))},[]);
