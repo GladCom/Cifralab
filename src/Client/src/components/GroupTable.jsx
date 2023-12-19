@@ -165,17 +165,18 @@ function Row(props) {
           <IconButton
             aria-label="expand row"
             size="small"
+            sx={{ width: "2rem" }}
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell align="center" component="th" scope="row" title={row?.id}>
-          <Input value={row?.id} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
+          <Input value={row?.id} sx={{width: "20rem"}} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
-        <TableCell align="center" sx={{width: '250px', height: '35px'}} title={row?.educationProgramId}>
+        <TableCell align="center" sx={{width: '20rem', height: '35px'}} title={row?.educationProgramId}>
           <div>
-            <FormControl sx={{ m: 1, width: 250}}>
+            <FormControl sx={{ m: 1, width: "20rem"}}>
               <Select
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
@@ -195,9 +196,9 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="center" sx={{width: '100px', height: '35px'}} title={row?.startDate}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
-        <TableCell align="center" sx={{width: '100px', height: '35px'}} title={row?.endDate}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
-        <TableCell align="center" sx={{ m: 1, width: 70 }} title={row?.students}>
+        <TableCell align="center" sx={{width: '10rem', height: '35px'}} title={row?.startDate}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
+        <TableCell align="center" sx={{width: '10rem', height: '35px'}} title={row?.endDate}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
+        <TableCell align="center" sx={{ m: 1, width: "10rem" }} title={row?.students}>
           <div>
             <FormControl sx={{ m: 1, width: 260}}>
               <Select
@@ -233,7 +234,7 @@ function Row(props) {
         </td>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -242,19 +243,19 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">ID Студента</TableCell>
-                    <TableCell align="center">Имя</TableCell>
-                    <TableCell align="center">Фамилия</TableCell>
+                    <TableCell align="center" sx={{width: "10rem"}}>ID Студента</TableCell>
+                    <TableCell align="center" sx={{width: "20rem"}}>Имя</TableCell>
+                    <TableCell align="center" sx={{width: "20rem"}}>Фамилия</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row?.students?.map((student) => (                  
                     <TableRow key={student?.id}>
-                      <TableCell align="center" title={student?.id}><Input value={student?.id}/></TableCell>                   
+                      <TableCell align="center" title={student?.id}><Input value={student?.id} sx={{width: "20rem"}}/></TableCell>                   
                       <TableCell align="center" component="th" scope="row" title={student?.fullName}>
-                        <Input value={student?.fullName}/>
+                        <Input value={student?.fullName} sx={{width: "20rem"}}/>
                       </TableCell>
-                      <TableCell align="center" title={student?.fullName}><Input value={student?.fullName} /></TableCell>
+                      <TableCell align="center" title={student?.fullName}><Input value={student?.fullName} sx={{width: "20rem"}}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -291,12 +292,12 @@ export default function GroupTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell align="center">Имя</TableCell>
-            <TableCell align="center" >Образовательная программа</TableCell>
-            <TableCell align="center">Дата начала</TableCell>
-            <TableCell align="center">Дата окончания</TableCell>
-            <TableCell align="center">Студенты</TableCell>
+            <TableCell sx={{ width: "2rem" }}/>
+            <TableCell align="center" sx={{width: "20rem"}}>Имя</TableCell>
+            <TableCell align="center" sx={{width: "20rem"}}>Образовательная программа</TableCell>
+            <TableCell align="center" sx={{width: "10rem"}}>Дата начала</TableCell>
+            <TableCell align="center" sx={{width: "10rem"}}>Дата окончания</TableCell>
+            <TableCell align="center" sx={{width: "10rem"}}>Студенты</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
