@@ -26,8 +26,7 @@ function App() {
       <Routes>
         <Route path="/Groups" element={<GroupTable/>} />
         <Route path="/Students" element={<StudentTable/>} />
-        <Route path="/Groups" element={<GroupTable/>}/>
-        <Route path="/Requests" element={<RequestTable/>}/>
+        <Route path="/Requests" element={<RequestTable/>} />
         <Route path="/EducationPrograms" element={<EducationProgramTable/>}/>
         <Route path="/EducationForms" element={<EducationFormTable/>}/>
         <Route path="/EducationTypes" element={<EducationTypeTable/>}/>
