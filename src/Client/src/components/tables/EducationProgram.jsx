@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -98,7 +97,7 @@ function Row(props) {
   const [educationTypes, setEducationTypes] = React.useState([]);
 
   const handleDelete = (id) => {
-    axios.delete("http://localhost:5137/EducationProgram/" + id);
+    axios.delete(global.config.conf.address.denis + "EducationProgram/" + id);
     window.location.reload();
   };
 
@@ -109,8 +108,12 @@ function Row(props) {
       setEditSave("Изменить");
       if (row?.isNew) {
         delete row.isNew;
-        axios.post("http://localhost:5137/EducationProgram", row);
-      } else axios.put("http://localhost:5137/EducationProgram/" + row.id, row);
+        axios.post(global.config.conf.address.denis + "EducationProgram", row);
+      } else
+        axios.put(
+          global.config.conf.address.denis + "EducationProgram/" + row.id,
+          row
+        );
 
       console.log(row);
     }
@@ -118,14 +121,14 @@ function Row(props) {
   };
 
   React.useEffect(() => {
-    fetch("http://localhost:5137/EducationForm")
+    fetch(global.config.conf.address.denis + "EducationForm")
       .then((response) => response.json())
       .then((json) => setEducationFroms(json))
       .catch(() => console.log("err"));
   }, []);
 
   React.useEffect(() => {
-    fetch("http://localhost:5137/EducationType")
+    fetch(global.config.conf.address.denis + "EducationType")
       .then((response) => response.json())
       .then((json) => setEducationTypes(json))
       .catch(() => console.log("err"));
@@ -201,36 +204,80 @@ function Row(props) {
           </div>
         </TableCell>
         <TableCell align="center" title={row?.isNetworkProgram}>
-          <Input
-            value={row?.isNetworkProgram}
-            readOnly={edit}
-            sx={{ height: 36, width: "8rem" }}
-            onChange={(e) => setRow((row.isNetworkProgram = e.target.value))}
-          />
+          <div>
+            <FormControl>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={row.isNetworkProgram}
+                onChange={(e) => setRow((row.isNetworkProgram = e.target.value))}
+                MenuProps={MenuProps}
+                sx={{ height: 36, width: "7rem" }}
+                readOnly={edit}
+              >
+                <MenuItem value="true">true</MenuItem>
+                <MenuItem value="false">false</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
         <TableCell align="center" title={row?.isDOTProgram}>
-          <Input
-            value={row?.isDOTProgram}
-            readOnly={edit}
-            sx={{ height: 36, width: "8rem" }}
-            onChange={(e) => setRow((row.isDOTProgram = e.target.value))}
-          />
+          <div>
+            <FormControl>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={row.isDOTProgram}
+                onChange={(e) => setRow((row.isDOTProgram = e.target.value))}
+                MenuProps={MenuProps}
+                sx={{ height: 36, width: "7rem" }}
+                readOnly={edit}
+              >
+                <MenuItem value="true">true</MenuItem>
+                <MenuItem value="false">false</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
         <TableCell align="center" title={row?.isModularProgram}>
-          <Input
-            value={row?.isModularProgram}
-            readOnly={edit}
-            sx={{ height: 36, width: "8rem" }}
-            onChange={(e) => setRow((row.isModularProgram = e.target.value))}
-          />
+          <div>
+            <FormControl>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={row.isModularProgram}
+                onChange={(e) =>
+                  setRow((row.isModularProgram = e.target.value))
+                }
+                MenuProps={MenuProps}
+                sx={{ height: 36, width: "7rem" }}
+                readOnly={edit}
+              >
+                <MenuItem value="true">true</MenuItem>
+                <MenuItem value="false">false</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
         <TableCell align="center" title={row?.isCollegeProgram}>
-          <Input
-            value={row?.isCollegeProgram}
-            readOnly={edit}
-            sx={{ height: 36, width: "8rem" }}
-            onChange={(e) => setRow((row.isCollegeProgram = e.target.value))}
-          />
+          <div>
+            <FormControl>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={row.isCollegeProgram}
+                onChange={(e) =>
+                  setRow((row.isCollegeProgram = e.target.value))
+                }
+                MenuProps={MenuProps}
+                sx={{ height: 36, width: "7rem" }}
+                readOnly={edit}
+              >
+                <MenuItem value="true">true</MenuItem>
+                <MenuItem value="false">false</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
         <td>
           <Box sx={{ display: "flex", gap: 1 }}>
@@ -266,7 +313,7 @@ export default function EducationProgramTable() {
   };
 
   React.useEffect(() => {
-    fetch("http://localhost:5137/EducationProgram")
+    fetch(global.config.conf.address.denis + "/EducationProgram")
       .then((response) => response.json())
       .then((json) => setRows(json))
       .catch(() => console.log("err"));
