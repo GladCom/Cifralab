@@ -100,5 +100,33 @@ module.exports = global.config = {
             ru_RU: "Тип финансирования",
             en_US: "Financing type"
         },
+        students: {
+            ru_RU: "Студенты",
+            en_US: "Students"
+        },
+        id: {
+            ru_RU: "Идентификатор",
+            en_US: "Id"
+        },
+        addRecord: {
+            ru_RU: "Добавить запись",
+            en_US: "Add record"
+        },
+        hoursCount: {
+            ru_RU: "Количество часов",
+            en_US: "Hours count"
+        },
+        educationForm: {
+            ru_RU: "Форма обучения",
+            en_US: "Education form"
+        },
+        educationType: {
+            ru_RU: "Тип обучения",
+            en_US: "Education type"
+        },
+        source: {
+            ru_RU: "Источник",
+            en_US: "Source"
+        },
     }
 };
