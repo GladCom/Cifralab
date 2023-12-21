@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import SwitchLang from './Switch';
 
 function BasicExample() {
   return (
@@ -12,6 +13,7 @@ function BasicExample() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="groups">Groups</Nav.Link>
+            <Nav.Link href="requests">Requests</Nav.Link>
             <Nav.Link href="students">Students</Nav.Link>
             <NavDropdown title="Lists" id="basic-nav-dropdown">
               <NavDropdown.Item href="educationPrograms">
@@ -45,6 +47,7 @@ function BasicExample() {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
+        <SwitchLang />
       </Container>
     </Navbar>
   );

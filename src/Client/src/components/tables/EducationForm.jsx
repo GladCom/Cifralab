@@ -50,7 +50,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Students
+            {global.config.conf.educationForm[window.localStorage.getItem("lang")]}
           </Typography>
         )}
   
@@ -74,10 +74,9 @@ function Row(props) {
   const {row} = props;
   const [isNew, setIsNew] = React.useState(true);
   const [Row, setRow ] = React.useState({});
-  const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Edit");
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
 
   const handleDelete = (id) =>
   {
@@ -89,10 +88,10 @@ function Row(props) {
   {
     console.log(isNew)
     if(edit)
-      setEditSave("Save");
+      setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
     else
     {
-      setEditSave("Edit");
+      setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
         if(row?.isNew)
         {
           delete row.isNew;
@@ -118,7 +117,7 @@ function Row(props) {
               {editSave}
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
-              Delete
+            {global.config.conf.delete[window.localStorage.getItem("lang")]}
              </Button>
           </Box>
         </td>
@@ -144,13 +143,13 @@ export default function EducationFormTable() {
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
     <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
-      Add record
+    {global.config.conf.addRecord[window.localStorage.getItem("lang")]}
     </Button>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell >Name</TableCell>
+            <TableCell >{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
