@@ -23,6 +23,7 @@ namespace Students.APIServer.Repository
         }
         protected async Task<bool> ValidateRequest(Request requestToValidate)
         {
+             if(_ctx.Requests == null || _ctx.Requests.Count()==0) return _modelState.IsValid;
              if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
                 _modelState.AddModelError("Заявка", "Пользователь с этим e-mail адресом уже оставил заявку на этот курс.");
              if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
