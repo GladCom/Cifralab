@@ -80,7 +80,6 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editSave, setEditSave] = React.useState("Edit");
-  const [birthDate, setBirthDate] = React.useState(row?.birthDate);
 
   const handleDelete = (id) => {
     console.log(id);
@@ -88,19 +87,28 @@ function Row(props) {
     window.location.reload();
   };
 
-  const handleEdit = (row) => {
-    console.log(isNew);
-    if (edit) setEditSave("Save");
-    else {
+  const handleEdit = (row) =>
+  {
+    console.log(isNew)
+    if(edit)
+      setEditSave("Save");
+    else
+    {
       setEditSave("Edit");
+        if(row?.isNew)
+        {
+          console.log(row.id)
+          delete row.isNew;
+          axios.post(global.config.conf.address.denis + 'Request', row)
+        }
+        else
+          axios.put(global.config.conf.address.denis + 'Request/'+row?.id, row);
 
-      axios.post(global.config.conf.address.denis + "Request", row);
-      console.log(row);
-      setIsNew(false);
+        console.log(row);
     }
-    console.log("test");
+    console.log("test");    
     setEdit(!edit);
-  };
+  }
 
   return (
     <React.Fragment>
@@ -216,7 +224,7 @@ function Row(props) {
           <Input
             value={row?.disability}
             readOnly={edit}
-            onChange={(e) => setRow((row.disability = e.target.value))}
+            onChange={(e) => setRow((row.disability = Boolean(e.target.value)))}
           />
         </TableCell>
         <TableCell align="center">
@@ -297,8 +305,7 @@ export default function RequestTable() {
   const [selected, setSelected] = React.useState([]);
   const [rows, setRows] = React.useState([{}]);
   const handleClickAdd = () => {
-    console.log(111);
-    setRows((rows) => [...rows, {}]);
+    setRows((rows) => [...rows, {isNew: true}]);
   };
   React.useEffect(() => {
     fetch(global.config.conf.address.denis + "Request")
