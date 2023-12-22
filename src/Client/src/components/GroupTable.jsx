@@ -94,7 +94,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Edit");
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [educationPrograms, setEducationPrograms] = React.useState([{}]);
   const [students, setStudents] = React.useState([]);
 
@@ -107,10 +107,10 @@ function Row(props) {
   const handleEdit = (row) =>
   {
     if(edit)
-      setEditSave("Save");
+      setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
     else
     {
-      setEditSave("Edit");
+      setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
         if(row?.isNew)
         {
           delete row.isNew;
@@ -218,7 +218,7 @@ function Row(props) {
               {editSave}
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
-              Delete
+            {global.config.conf.delete[window.localStorage.getItem("lang")]}
              </Button>
           </Box>
         </td>
@@ -228,14 +228,14 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Requests
+                {global.config.conf.requests[window.localStorage.getItem("lang")]}
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Id</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Name</TableCell>
+                    <TableCell>{global.config.conf.id[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -283,11 +283,11 @@ export default function GroupTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Name</TableCell>
-            <TableCell >Education Program</TableCell>
-            <TableCell >startDate</TableCell>
-            <TableCell >endDate</TableCell>
-            <TableCell >Students</TableCell>
+            <TableCell>{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.eduProgram[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.startDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.endDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.students[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

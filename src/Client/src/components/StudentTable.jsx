@@ -93,7 +93,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Edit");
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [requests, setRequests] = React.useState([row.requests]);
   const [groups, setGroups] = React.useState([row.groups]);
 
@@ -108,10 +108,10 @@ function Row(props) {
   {
     console.log(isNew)
     if(edit)
-      setEditSave("Save");
+      setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
     else
     {
-      setEditSave("Edit");
+      setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
         if(row?.isNew)
         {
           row.email = "blablabla";
@@ -234,7 +234,7 @@ function Row(props) {
               {editSave}
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
-              Delete
+              {global.config.conf.delete[window.localStorage.getItem("lang")]}
              </Button>
           </Box>
         </td>
@@ -244,14 +244,14 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Requests
+              {global.config.conf.requests[window.localStorage.getItem("lang")]}
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>EducationProgramId</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Interview</TableCell>
+                    <TableCell>{global.config.conf.eduProgramId[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.eduProgramName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.interview[window.localStorage.getItem("lang")]}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -271,15 +271,15 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Groups
+              {global.config.conf.groups[window.localStorage.getItem("lang")]}
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Education Program Name</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
+                    <TableCell>{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.eduProgramName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.startDate[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.endDate[window.localStorage.getItem("lang")]}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -327,14 +327,14 @@ export default function StudentTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell sx={{ m: 1, width: 450 }}>Full Name</TableCell>
-            <TableCell align="right" sx={{ m: 1, width: 111 }}>Birth Date</TableCell>
-            <TableCell align="right">SNILS</TableCell>
-            <TableCell align="right">Doc Number</TableCell>
-            <TableCell align="right">Doc Series</TableCell>
-            <TableCell align="right">Nationality</TableCell>
-            <TableCell align="right">Requests</TableCell>
-            <TableCell align="right">Groups</TableCell>
+            <TableCell sx={{ m: 1, width: 450 }}>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="right" sx={{ m: 1, width: 111 }}>{global.config.conf.birthDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="right">{global.config.conf.snils[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="right">{global.config.conf.docNumber[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="right">{global.config.conf.docSeries[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="right">{global.config.conf.nationality[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="right">{global.config.conf.requests[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="right">{global.config.conf.groups[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

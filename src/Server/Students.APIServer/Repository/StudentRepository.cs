@@ -41,9 +41,15 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
 
     public async Task<Student?> FindByPhoneAndEmail(string phone, string email)
     {
-        return await _ctx.Students.AsNoTracking()
-            .FirstOrDefaultAsync(x =>
-            (x.Phone.GetPhoneFromStr()).Equals((phone.GetPhoneFromStr()))
-          &&(x.Email.ToLower().Equals(email.ToLower())));
+        var students = _ctx.Students.AsNoTracking().AsAsyncEnumerable();
+        await foreach (var item in students)
+        {
+            if (item.Phone.GetPhoneFromStr().Equals(phone.GetPhoneFromStr())
+                && (item.Email.ToLower().Equals(email.ToLower())))
+            {
+                return item;
+            }
+        }
+        return null;
     }
 }
