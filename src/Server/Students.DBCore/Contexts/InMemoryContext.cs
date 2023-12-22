@@ -210,6 +210,13 @@ public sealed class InMemoryContext : StudentContext
                 FullNameDocument = "Эх, сейчас бы сиды полные"
             }
         );
+        modelBuilder.Entity<StudentInGroup>().HasData(
+            new StudentInGroup
+        	{
+                StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
+                GroupId = new Guid("1D60B8BB-83E7-4410-A53B-7E46ADA4EBD6")
+            }
+        );
 
         #endregion
     }
