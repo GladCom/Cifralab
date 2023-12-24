@@ -48,60 +48,43 @@ namespace Students.APIServer.Repository
         }
 
         /// <summary>
-        /// Создаёт csv всех таблиц и помещает их в zip архив.
+        /// Записывает все сущности в csv и возвращает все данные.
         /// </summary>
-        /// <returns>zip архив в виде byte[]</returns>
+        /// <returns>Mассив байт с архивом, содержащим все отчёты в формате csv.</returns>
         public async Task<byte[]> GetAll()
         {
-            var files = new List<string>();
-            var directory = Path.GetTempPath();
+            var reportMapping = new Dictionary<string, DataTable>()
+            {
+                { "StudentsReport.csv", await WriteOneDT(_studentRepository) },
+                { "EducationFormReport.csv", await WriteOneDT(_educationFormRepository) },
+                { "EducationProgramReport.csv", await WriteOneDT(_educationProgramRepository) },
+                { "EducationTypeReport.csv", await WriteOneDT(_educationTypeRepository) },
+                { "FEAProgramFormReport.csv", await WriteOneDT(_FEAProgramFormRepository) },
+                { "FinancingTypeReport.csv", await WriteOneDT(_financingTypeRepository) },
+                { "GroupRepositoryReport.csv", await WriteOneDT(_groupRepository) },
+                { "RequestReport.csv", await WriteOneDT(_requestRepository) },
+                { "ScopeOfActivityReport.csv", await WriteOneDT(_scopeOfActivityRepository) },
+                { "StudentDocumentReport.csv", await WriteOneDT(_studentDocumentRepository) },
+                { "StudentEducationReport.csv", await WriteOneDT(_studentEducationRepository) },
+                { "StudentStatusReport.csv", await WriteOneDT(_studentStatusRepository) }
+            };
+            var files = WriteCSVsTempPath(reportMapping);
+            return GetZipWithAllFiles(files);
+        }
 
-            var studentsPath = Path.Combine(directory, "StudentsReport.csv");
-            var educationFormPath = Path.Combine(directory, "EducationFormReport.csv");
-            var educationProgramPath = Path.Combine(directory, "EducationProgramReport.csv");
-            var educationTypePath = Path.Combine(directory, "EducationTypeReport.csv");
-            var FEAProgramFormPath = Path.Combine(directory, "FEAProgramFormReport.csv");
-            var financingTypePath = Path.Combine(directory  , "FinancingTypeReport.csv");
-            var groupRepositoryPath = Path.Combine(directory, "GroupRepositoryReport.csv");
-            var requestPath = Path.Combine(directory, "RequestReport.csv");
-            var scopeOfActivityPath = Path.Combine(directory, "ScopeOfActivityReport.csv");
-            var studentDocumentPath = Path.Combine(directory, "StudentDocumentReport.csv");
-            var studentEducationPath = Path.Combine(directory, "StudentEducationReport.csv");
-            var studentStatusPath = Path.Combine(directory, "StudentStatusReport.csv");
-
-            files.Add(studentsPath);
-            files.Add(educationFormPath);
-            files.Add(educationProgramPath);
-            files.Add(educationTypePath);
-            files.Add(FEAProgramFormPath);
-            files.Add(financingTypePath);
-            files.Add(groupRepositoryPath);
-            files.Add(requestPath);
-            files.Add(scopeOfActivityPath);
-            files.Add(studentDocumentPath);
-            files.Add(studentEducationPath);
-            files.Add(studentStatusPath);
-
-            GetCSV(await WriteOneDT(_studentRepository), studentsPath);
-            GetCSV(await WriteOneDT(_educationFormRepository), educationFormPath);
-            GetCSV(await WriteOneDT(_educationProgramRepository), educationProgramPath);
-            GetCSV(await WriteOneDT(_educationTypeRepository), educationTypePath);
-            GetCSV(await WriteOneDT(_FEAProgramFormRepository), FEAProgramFormPath);
-            GetCSV(await WriteOneDT(_financingTypeRepository), financingTypePath);
-            GetCSV(await WriteOneDT(_groupRepository), groupRepositoryPath);
-            GetCSV(await WriteOneDT(_requestRepository), requestPath);
-            GetCSV(await WriteOneDT(_scopeOfActivityRepository), scopeOfActivityPath);
-            GetCSV(await WriteOneDT(_studentDocumentRepository), studentDocumentPath);
-            GetCSV(await WriteOneDT(_studentEducationRepository), studentEducationPath);
-            GetCSV(await WriteOneDT(_studentStatusRepository), studentStatusPath);
-
+        /// <summary>
+        /// Записывает все файлы в zip архив.
+        /// </summary>
+        /// <param name="files">Лист путей до файлов.</param>
+        /// <returns>Mассив байт с архивом, содержащим все файлы.</returns>
+        private byte[] GetZipWithAllFiles(List<string> files)
+        {
             var zipPath = Path.Combine(Directory.GetCurrentDirectory(), "Reports.zip");
             var mode = File.Exists(zipPath) ? ZipArchiveMode.Update : ZipArchiveMode.Create;
             using (var zip = ZipFile.Open(zipPath, mode))
             {
                 foreach (var file in files)
                 {
-                    // Add the entry for each file
                     if (mode == ZipArchiveMode.Create)
                         zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
 
@@ -110,10 +93,29 @@ namespace Students.APIServer.Repository
                         zip.GetEntry(Path.GetFileName(file))?.Delete();
                         zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
                     }
+
                     File.Delete(file);
                 }
             }
+
             return File.ReadAllBytes(zipPath);
+        }
+
+        /// <summary>
+        /// Записывает все сущности перечисленные в словаре в значении по пути указанному в ключе.
+        /// </summary>
+        /// <param name="reportMapping">Словарь. Ключ - путь к файлу, значение - таблица с данными.</param>
+        /// <returns></returns>
+        private List<string> WriteCSVsTempPath(Dictionary<string, DataTable> reportMapping)
+        {
+            var files = new List<string>();
+            foreach (var mapping in reportMapping)
+            {
+                var filePath = Path.Combine(Path.GetTempPath(), mapping.Key);
+                GetCSV(mapping.Value, filePath);
+                files.Add(filePath);
+            }
+            return files;
         }
 
         /// <summary>
