@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import TableRow from "@mui/material/TableRow";
+import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Toolbar from "@mui/material/Toolbar";
@@ -33,61 +34,74 @@ const MenuProps = {
 };
 
 function EnhancedTableToolbar(props) {
-    const { numSelected } = props;
-  
-    return (
-      <Toolbar
-        sx={{
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-          ...(numSelected > 0 && {
-            bgcolor: (theme) =>
-              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-          }),
-        }}
-      >
-        {numSelected > 0 ? (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            {global.config.conf.educationForm[window.localStorage.getItem("lang")]}
-          </Typography>
-        )}
-  
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </Toolbar>
-    );
-  }
+  const { numSelected } = props;
+
+  return (
+    <Toolbar
+      sx={{
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 },
+        ...(numSelected > 0 && {
+          bgcolor: (theme) =>
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
+        }),
+      }}
+    >
+      {numSelected > 0 ? (
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          {
+            global.config.conf.educationForm[
+              window.localStorage.getItem("lang")
+            ]
+          }
+        </Typography>
+      )}
+
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
+  );
+}
 function Row(props) {
-  const {row} = props;
+  const { row } = props;
   const [isNew] = React.useState(true);
-  const [, setRow ] = React.useState({});
+  const [, setRow] = React.useState({});
   const [edit, setEdit] = React.useState(true);
-  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
+  const [editSave, setEditSave] = React.useState(
+    global.config.conf.edit[window.localStorage.getItem("lang")]
+  );
+  const [isNetworkProgram, setIsNetworkProgram] = React.useState(false);
+  const [isDOTProgram, setIsDOTProgram] = React.useState(false);
+  const [isModularProgram, setIsModularProgram] = React.useState(false);
+  const [isCollegeProgram, setIsCollegeProgram] = React.useState(false);
   const [educationForms, setEducationFroms] = React.useState([]);
   const [educationTypes, setEducationTypes] = React.useState([]);
 
@@ -96,25 +110,40 @@ function Row(props) {
     window.location.reload();
   };
 
-  const handleEdit = (row) =>
-  {
-    console.log(isNew)
-    if(edit)
+  const handleEdit = (row) => {
+    console.log(isNew);
+    if (edit)
       setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
-    else
-    {
+    else {
       setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
-        if(row?.isNew)
-        {
-          delete row.isNew;
-          axios.post(global.config.conf.address.denis + 'EducationProgram', row)
-        }
-        else
-          axios.put(global.config.conf.address.denis + 'EducationProgram/'+row.id, row);
+      if (row?.isNew) {
+        delete row.isNew;
+        axios.post(global.config.conf.address.denis + "EducationProgram", row);
+      } else
+        axios.put(
+          global.config.conf.address.denis + "EducationProgram/" + row.id,
+          row
+        );
 
       console.log(row);
     }
     setEdit(!edit);
+  };
+
+  const handleIsNetworkProgram = (value) => {
+    setIsNetworkProgram(!isNetworkProgram);
+  };
+
+  const handleIsDOTProgram = (value) => {
+    setIsDOTProgram(isDOTProgram);
+  };
+
+  const handleIsModularProgram = (value) => {
+    setIsModularProgram(isModularProgram);
+  };
+
+  const handleIsCollegeProgram = (value) => {
+    setIsCollegeProgram(isCollegeProgram);
   };
 
   React.useEffect(() => {
@@ -154,14 +183,17 @@ function Row(props) {
           <div>
             <FormControl>
               <Select
-              labelId="demo-multiple-checkbox-label"
-              id="demo-multiple-checkbox"
-              value={row.educationFormId}
-              onChange={(e) => setRow(row.educationFormId = e.target.value)}
-              renderValue={() => educationForms?.filter(x => x.id === row.educationFormId)[0]?.name}
-              MenuProps={MenuProps}
-              sx={{height: 36}}
-              readOnly={edit}
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={row.educationFormId}
+                onChange={(e) => setRow((row.educationFormId = e.target.value))}
+                renderValue={() =>
+                  educationForms?.filter((x) => x.id === row.educationFormId)[0]
+                    ?.name
+                }
+                MenuProps={MenuProps}
+                sx={{ height: 36 }}
+                readOnly={edit}
               >
                 {educationForms.map((form) => (
                   <MenuItem key={form?.id} value={form?.id}>
@@ -176,14 +208,17 @@ function Row(props) {
           <div>
             <FormControl>
               <Select
-              labelId="demo-multiple-checkbox-label"
-              id="demo-multiple-checkbox"
-              value={row.educationTypeId}
-              onChange={(e) => setRow(row.educationTypeId = e.target.value)}
-              renderValue={() => educationTypes?.filter(x => x.id === row.educationTypeId)[0]?.name}
-              MenuProps={MenuProps}
-              sx={{height: 36}}
-              readOnly={edit}
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={row.educationTypeId}
+                onChange={(e) => setRow((row.educationTypeId = e.target.value))}
+                renderValue={() =>
+                  educationTypes?.filter((x) => x.id === row.educationTypeId)[0]
+                    ?.name
+                }
+                MenuProps={MenuProps}
+                sx={{ height: 36 }}
+                readOnly={edit}
               >
                 {educationTypes.map((type) => (
                   <MenuItem key={type?.id} value={type?.id}>
@@ -194,81 +229,36 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="center" title={row?.isNetworkProgram}>
-          <div>
-            <FormControl>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={row.isNetworkProgram}
-                onChange={(e) => setRow((row.isNetworkProgram = e.target.value))}
-                MenuProps={MenuProps}
-                sx={{ height: 36, width: "7rem" }}
-                readOnly={edit}
-              >
-                <MenuItem value="true">true</MenuItem>
-                <MenuItem value="false">false</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
+        <TableCell align="center" title={row?.isNetworkProgram} readOnly={edit}>
+          <Checkbox
+            checked={isNetworkProgram}
+            onChange={(e) => handleIsNetworkProgram(e.target.value)}
+            inputProps={{"aria-label": "controlled" } }
+          />
         </TableCell>
         <TableCell align="center" title={row?.isDOTProgram}>
-          <div>
-            <FormControl>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={row.isDOTProgram}
-                onChange={(e) => setRow((row.isDOTProgram = e.target.value))}
-                MenuProps={MenuProps}
-                sx={{ height: 36, width: "7rem" }}
-                readOnly={edit}
-              >
-                <MenuItem value="true">true</MenuItem>
-                <MenuItem value="false">false</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
+          <Checkbox
+            checked={isDOTProgram}
+            onChange={(e) => handleIsDOTProgram(e.target.value)}
+            inputProps={{ "aria-label": "controlled" }}
+            readOnly={edit}
+          />
         </TableCell>
         <TableCell align="center" title={row?.isModularProgram}>
-          <div>
-            <FormControl>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={row.isModularProgram}
-                onChange={(e) =>
-                  setRow((row.isModularProgram = e.target.value))
-                }
-                MenuProps={MenuProps}
-                sx={{ height: 36, width: "7rem" }}
-                readOnly={edit}
-              >
-                <MenuItem value="true">true</MenuItem>
-                <MenuItem value="false">false</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
+          <Checkbox
+            checked={isModularProgram}
+            onChange={(e) => handleIsModularProgram(e.target.value)}
+            inputProps={{ "aria-label": "controlled" }}
+            readOnly={edit}
+          />
         </TableCell>
         <TableCell align="center" title={row?.isCollegeProgram}>
-          <div>
-            <FormControl>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                value={row.isCollegeProgram}
-                onChange={(e) =>
-                  setRow((row.isCollegeProgram = e.target.value))
-                }
-                MenuProps={MenuProps}
-                sx={{ height: 36, width: "7rem" }}
-                readOnly={edit}
-              >
-                <MenuItem value="true">true</MenuItem>
-                <MenuItem value="false">false</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
+          <Checkbox
+            checked={isCollegeProgram}
+            onChange={(e) => handleIsCollegeProgram(e.target.value)}
+            inputProps={{ "aria-label": "controlled" }}
+            readOnly={edit}
+          />
         </TableCell>
         <td>
           <Box sx={{ display: "flex", gap: 1 }}>
@@ -280,9 +270,14 @@ function Row(props) {
             >
               {editSave}
             </Button>
-            <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
+            <Button
+              size="sm"
+              variant="soft"
+              color="danger"
+              onClick={(e) => handleDelete(row?.id)}
+            >
               {global.config.conf.delete[window.localStorage.getItem("lang")]}
-             </Button>
+            </Button>
           </Box>
         </td>
       </TableRow>
@@ -291,8 +286,8 @@ function Row(props) {
 }
 
 export default function EducationProgramTable() {
-    const [selected] = React.useState([]);
-    const [rows, setRows] = React.useState([{}]);
+  const [selected] = React.useState([]);
+  const [rows, setRows] = React.useState([{}]);
 
   const handleClickAdd = () => {
     setRows((rows) => [...rows, { isNew: true }]);
@@ -306,32 +301,51 @@ export default function EducationProgramTable() {
   }, []);
   return (
     <Box>
-    <EnhancedTableToolbar numSelected={selected.length} />
-    <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
-      {global.config.conf.addRecord[window.localStorage.getItem("lang")]}
-    </Button>
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ m: 1, width: "auto" }}>{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell sx={{ m: 1, width: "auto" }}>{global.config.conf.hoursCount[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell >{global.config.conf.educationForm[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell >{global.config.conf.educationForm[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell >isNetworkProgram</TableCell>
-            <TableCell >isDOTProgram</TableCell>
-            <TableCell >isModularProgram</TableCell>
-            <TableCell >isCollegeProgram</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows?.map((row) => (
-            <Row key={row?.id} row={row} isNew={row.isNew}/>
-          ))}
-        </TableBody>
-
-      </Table>
-    </TableContainer>
+      <EnhancedTableToolbar numSelected={selected.length} />
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
+        {global.config.conf.addRecord[window.localStorage.getItem("lang")]}
+      </Button>
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ m: 1, width: "auto" }}>
+                {global.config.conf.name[window.localStorage.getItem("lang")]}
+              </TableCell>
+              <TableCell sx={{ m: 1, width: "auto" }}>
+                {
+                  global.config.conf.hoursCount[
+                    window.localStorage.getItem("lang")
+                  ]
+                }
+              </TableCell>
+              <TableCell>
+                {
+                  global.config.conf.educationForm[
+                    window.localStorage.getItem("lang")
+                  ]
+                }
+              </TableCell>
+              <TableCell>
+                {
+                  global.config.conf.educationForm[
+                    window.localStorage.getItem("lang")
+                  ]
+                }
+              </TableCell>
+              <TableCell>isNetworkProgram</TableCell>
+              <TableCell>isDOTProgram</TableCell>
+              <TableCell>isModularProgram</TableCell>
+              <TableCell>isCollegeProgram</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows?.map((row) => (
+              <Row key={row?.id} row={row} isNew={row.isNew} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 }
