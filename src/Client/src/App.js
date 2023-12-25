@@ -1,10 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import "./common/Navibar.jsx"
-import MediaCard from './common/MediaCard.jsx';
 import SideBar from './components/SideBar';
-import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
-import "./assets/css/dino.css"
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import StudentTable from './components/StudentTable.jsx';
 import GroupTable from './components/GroupTable.jsx'
 import RequestTable from './components/RequestTable.jsx';
@@ -26,8 +23,7 @@ function App() {
       <Routes>
         <Route path="/Groups" element={<GroupTable/>} />
         <Route path="/Students" element={<StudentTable/>} />
-        <Route path="/Groups" element={<GroupTable/>}/>
-        <Route path="/Requests" element={<RequestTable/>}/>
+        <Route path="/Requests" element={<RequestTable/>} />
         <Route path="/EducationPrograms" element={<EducationProgramTable/>}/>
         <Route path="/EducationForms" element={<EducationFormTable/>}/>
         <Route path="/EducationTypes" element={<EducationTypeTable/>}/>

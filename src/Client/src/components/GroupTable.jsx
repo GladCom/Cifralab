@@ -89,12 +89,10 @@ function EnhancedTableToolbar(props) {
   }
 function Row(props) {
   const {row} = props;
-  const [isNew, setIsNew] = React.useState(true);
-  const [Row, setRow ] = React.useState({});
+  const [, setRow ] = React.useState({});
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
-  const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Изменить");
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [educationPrograms, setEducationPrograms] = React.useState([{}]);
   const [students, setStudents] = React.useState([]);
 
@@ -107,10 +105,10 @@ function Row(props) {
   const handleEdit = (row) =>
   {
     if(edit)
-      setEditSave("Сохранить");
+      setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
     else
     {
-      setEditSave("Изменить");
+      setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
         if(row?.isNew)
         {
           delete row.isNew;
@@ -124,7 +122,7 @@ function Row(props) {
     setEdit(!edit);
   }
   const handleChangeEducationProgram = (id) => {
-    setRow(row.educationProgramId = educationPrograms.filter(x => x.id == id)[0]?.id);
+    setRow(row.educationProgramId = educationPrograms.filter(x => x.id === id)[0]?.id);
   }
 
   React.useEffect(() => {
@@ -140,10 +138,10 @@ function Row(props) {
       .catch(() => console.log())},[]);
 
   const handleChandeStudents = (id) => {
-    let student = students.filter(x => x.id == id[1])[0];
-    if(row?.students == null || row?.students == undefined)
+    let student = students.filter(x => x.id === id[1])[0];
+    if(row?.students == null || row?.students === undefined)
       row.students = [];  
-    if (row?.students.indexOf(student) == -1)
+    if (row?.students.indexOf(student) === -1)
       setRow(row?.students.push(student));
     else
       setRow(row?.students.splice(row?.students.indexOf(student), 1));
@@ -172,7 +170,7 @@ function Row(props) {
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               value={[row?.educationProgramId]}
-              renderValue={() => educationPrograms?.filter(x => x.id == row.educationProgramId)[0]?.name}
+              renderValue={() => educationPrograms?.filter(x => x.id === row.educationProgramId)[0]?.name}
               onChange={(e) => handleChangeEducationProgram(e.target.value)}
               MenuProps={MenuProps}
               sx={{height: 36}}
@@ -219,7 +217,7 @@ function Row(props) {
               {editSave}
             </Button>
             <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
-              Удалить
+            {global.config.conf.delete[window.localStorage.getItem("lang")]}
              </Button>
           </Box>
         </td>
@@ -229,14 +227,14 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Студенты
+                {global.config.conf.requests[window.localStorage.getItem("lang")]}
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center" sx={{width: "10rem"}}>ID Студента</TableCell>
-                    <TableCell align="center" sx={{width: "20rem"}}>Имя</TableCell>
-                    <TableCell align="center" sx={{width: "20rem"}}>Фамилия</TableCell>
+                    <TableCell>{global.config.conf.id[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -260,7 +258,7 @@ function Row(props) {
 }
 
 export default function GroupTable() {
-    const [selected, setSelected] = React.useState([]);
+    const [selected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
     const handleClickAdd = () => {
@@ -283,12 +281,12 @@ export default function GroupTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{ width: "2rem" }}/>
-            <TableCell align="center" sx={{width: "20rem"}}>Имя</TableCell>
-            <TableCell align="center" sx={{width: "20rem"}}>Образовательная программа</TableCell>
-            <TableCell align="center" sx={{width: "10rem"}}>Дата начала</TableCell>
-            <TableCell align="center" sx={{width: "10rem"}}>Дата окончания</TableCell>
-            <TableCell align="center" sx={{width: "10rem"}}>Студенты</TableCell>
+            <TableCell />
+            <TableCell>{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.eduProgram[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.startDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.endDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell >{global.config.conf.students[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

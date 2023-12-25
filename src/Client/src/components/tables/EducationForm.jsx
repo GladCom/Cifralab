@@ -72,14 +72,65 @@ function EnhancedTableToolbar(props) {
     </Toolbar>
   );
 }
+    const { numSelected } = props;
+  
+    return (
+      <Toolbar
+        sx={{
+          pl: { sm: 2 },
+          pr: { xs: 1, sm: 1 },
+          ...(numSelected > 0 && {
+            bgcolor: (theme) =>
+              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          }),
+        }}
+      >
+        {numSelected > 0 ? (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            {numSelected} selected
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            {global.config.conf.educationForm[window.localStorage.getItem("lang")]}
+          </Typography>
+        )}
+  
+        {numSelected > 0 ? (
+          <Tooltip title="Delete">
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton>
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Toolbar>
+    );
+  }
 function Row(props) {
   const { row } = props;
   const [isNew, setIsNew] = React.useState(true);
   const [Row, setRow] = React.useState({});
   const [open, setOpen] = React.useState(false);
+  const {row} = props;
+  const [isNew] = React.useState(true);
+  const [, setRow ] = React.useState({});
   const [edit, setEdit] = React.useState(true);
-  const [editRequest, setEditRequest] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Edit");
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
 
   const handleDelete = (id) => {
     axios.delete(global.config.conf.address.denis +"EducationForm/" + id);
@@ -99,6 +150,21 @@ function Row(props) {
           global.config.conf.address.denis + "EducationForm/" + row.id,
           row
         );
+  const handleEdit = (row) =>
+  {
+    console.log(isNew)
+    if(edit)
+      setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
+    else
+    {
+      setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
+        if(row?.isNew)
+        {
+          delete row.isNew;
+          axios.post(global.config.conf.address.denis + 'EducationForm', row)
+        }
+        else
+          axios.put(global.config.conf.address.denis + 'EducationForm/'+row.id, row);
 
       console.log(row);
     }
@@ -133,6 +199,9 @@ function Row(props) {
             >
               Delete
             </Button>
+            <Button size="sm" variant="soft" color="danger"  onClick={(e) => handleDelete(row?.id)}>
+            {global.config.conf.delete[window.localStorage.getItem("lang")]}
+             </Button>
           </Box>
         </td>
       </TableRow>
@@ -143,6 +212,8 @@ function Row(props) {
 export default function EducationFormTable() {
   const [selected, setSelected] = React.useState([]);
   const [rows, setRows] = React.useState([{}]);
+    const [selected] = React.useState([]);
+    const [rows, setRows] = React.useState([{}]);
 
   const handleClickAdd = () => {
     setRows((rows) => [...rows, { isNew: true }]);
@@ -174,6 +245,24 @@ export default function EducationFormTable() {
           </TableBody>
         </Table>
       </TableContainer>
+    <EnhancedTableToolbar numSelected={selected.length} />
+    <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
+    {global.config.conf.addRecord[window.localStorage.getItem("lang")]}
+    </Button>
+    <TableContainer component={Paper}>
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            <TableCell >{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows?.map((row) => (
+            <Row key={row?.id} row={row} isNew={row.isNew}/>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </Box>
   );
 }

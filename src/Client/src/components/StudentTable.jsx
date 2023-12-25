@@ -94,10 +94,15 @@ function Row(props) {
   const { row } = props;
   const [isNew, setIsNew] = React.useState(true);
   const [Row, setRow] = React.useState({});
+  const {row} = props;
+  const [isNew] = React.useState(true);
+  const [, setRow ] = React.useState({});
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
   const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState("Изменить");
+  const [editRequest] = React.useState(true);
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [requests, setRequests] = React.useState([row.requests]);
   const [groups, setGroups] = React.useState([row.groups]);
 
@@ -118,6 +123,23 @@ function Row(props) {
         delete row.isNew;
         axios.post(global.config.conf.address.denis +"Student", row);
       } else axios.put(global.config.conf.address.denis +"Student/" + row.id, row);
+  const handleEdit = (row) =>
+  {
+    console.log(isNew)
+    if(edit)
+      setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
+    else
+    {
+      setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
+        if(row?.isNew)
+        {
+          row.email = "blablabla";
+          row.phone = "blablabla";
+          delete row.isNew;
+          axios.post(global.config.conf.address.denis + 'Student', row)
+        }
+        else
+          axios.put(global.config.conf.address.denis + 'Student/'+row.id, row);
 
       console.log(row);
     }

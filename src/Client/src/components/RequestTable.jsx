@@ -75,12 +75,10 @@ function EnhancedTableToolbar(props) {
 }
 function Row(props) {
   const { row } = props;
-  const [isNew, setIsNew] = React.useState(true);
-  const [Row, setRow] = React.useState({});
-  const [open, setOpen] = React.useState(false);
+  const [isNew] = React.useState(true);
+  const [, setRow] = React.useState({});
   const [edit, setEdit] = React.useState(true);
-  const [editSave, setEditSave] = React.useState("Edit");
-  const [birthDate, setBirthDate] = React.useState(row?.birthDate);
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
 
   const handleDelete = (id) => {
     console.log(id);
@@ -88,19 +86,28 @@ function Row(props) {
     window.location.reload();
   };
 
-  const handleEdit = (row) => {
-    console.log(isNew);
-    if (edit) setEditSave("Save");
-    else {
+  const handleEdit = (row) =>
+  {
+    console.log(isNew)
+    if(edit)
+      setEditSave("Save");
+    else
+    {
       setEditSave("Edit");
+        if(row?.isNew)
+        {
+          console.log(row.id)
+          delete row.isNew;
+          axios.post(global.config.conf.address.denis + 'Request', row)
+        }
+        else
+          axios.put(global.config.conf.address.denis + 'Request/'+row?.id, row);
 
-      axios.post(global.config.conf.address.denis +"/Request", row);
-      console.log(row);
-      setIsNew(false);
+        console.log(row);
     }
-    console.log("test");
+    console.log("test");    
     setEdit(!edit);
-  };
+  }
 
   return (
     <React.Fragment>
@@ -216,7 +223,7 @@ function Row(props) {
           <Input
             value={row?.disability}
             readOnly={edit}
-            onChange={(e) => setRow((row.disability = e.target.value))}
+            onChange={(e) => setRow((row.disability = Boolean(e.target.value)))}
           />
         </TableCell>
         <TableCell align="center">
@@ -294,11 +301,10 @@ function Row(props) {
 }
 
 export default function RequestTable() {
-  const [selected, setSelected] = React.useState([]);
+  const [selected] = React.useState([]);
   const [rows, setRows] = React.useState([{}]);
   const handleClickAdd = () => {
-    console.log(111);
-    setRows((rows) => [...rows, {}]);
+    setRows((rows) => [...rows, {isNew: true}]);
   };
   React.useEffect(() => {
     fetch(global.config.conf.address.denis +"/Request")
@@ -317,17 +323,17 @@ export default function RequestTable() {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell align="center">Full Name</TableCell>
-              <TableCell align="center">Birth Date</TableCell>
-              <TableCell align="center">Education Program</TableCell>
-              <TableCell align="center">Entrance Examination</TableCell>
-              <TableCell align="center">Interview</TableCell>
+              <TableCell align="center">{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.birthDate[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.eduProgram[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.entranceExamination[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.interview[window.localStorage.getItem("lang")]}</TableCell>
               <TableCell align="center">Email</TableCell>
-              <TableCell align="center">Phone</TableCell>
-              <TableCell align="center">Created At</TableCell>
-              <TableCell align="center">Student Education</TableCell>
-              <TableCell align="center">Student Status</TableCell>
-              <TableCell align="center">Financing Type</TableCell>
+              <TableCell align="center">{global.config.conf.phone[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.created[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.studentEducation[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.studentStatus[window.localStorage.getItem("lang")]}</TableCell>
+              <TableCell align="center">{global.config.conf.financingType[window.localStorage.getItem("lang")]}</TableCell>
               <TableCell align="center">Order Of Admission</TableCell>
               <TableCell align="center">Order Of Expulsion</TableCell>
               <TableCell align="center">Scope Of Activity Lv.1</TableCell>
