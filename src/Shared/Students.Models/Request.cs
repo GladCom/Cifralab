@@ -1,4 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Students.Models;
 
@@ -10,6 +13,8 @@ public class Request
     /// <summary>
     /// Id заявки
     /// </summary>
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// ФИО
@@ -26,23 +31,26 @@ public class Request
     /// <summary>
     /// Образовательная программа
     /// </summary>
-    public EducationProgram EducationProgram { get; set; }
+    [JsonIgnore]
+    public EducationProgram? EducationProgram { get; set; }
     /// <summary>
     /// Информация о прохождении вступительного испытания
     /// </summary>
-    public string EntranceExamination { get; set; }
+    public string? EntranceExamination { get; set; }
     /// <summary>
     /// Информация о прохождении собеседования
     /// </summary>
-    public string Interview { get; set; }
+    public string? Interview { get; set; }
     /// <summary>
     /// E-mail
     /// </summary>
     public string Email { get; set; }
+    //public string EmailPrepeared { get { return Email.ToLower(); } }
     /// <summary>
     /// Телефон
     /// </summary>
     public string Phone { get; set; }
+    //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     /// <summary>
     /// Дата и время подачи заявки
     /// </summary>
@@ -50,31 +58,34 @@ public class Request
     /// <summary>
     ///Id Образования
     /// </summary>
-    public Guid StudentEducationId { get; set; }
+    public Guid? StudentEducationId { get; set; }
     /// <summary>
     /// Образование
     /// </summary>
-    public StudentEducation StudentEducation { get; set; }
+    [JsonIgnore]
+    public StudentEducation? StudentEducation { get; set; }
     /// <summary>
     ///Id Статуса
     /// </summary>
-    public Guid StudentStatusId { get; set; }
+    public Guid? StudentStatusId { get; set; }
     /// <summary>
     /// Статус
     /// </summary>
-    public StudentStatus StudentStatus { get; set; }
+    [JsonIgnore]
+    public StudentStatus? StudentStatus { get; set; }
     /// <summary>
     ///Id Источника финансирования
     /// </summary>
-    public Guid FinancingTypeId { get; set; }
+    public Guid? FinancingTypeId { get; set; }
     /// <summary>
     /// Источник финансирования
     /// </summary>
-    public FinancingType FinancingType { get; set; }
+    [JsonIgnore]
+    public FinancingType? FinancingType { get; set; }
     /// <summary>
     /// Приказ о зачислении
     /// </summary>
-    public string OrderOfAdmission { get; set; }
+    public string? OrderOfAdmission { get; set; }
     /// <summary>
     /// Приказ об отчислении
     /// </summary>
@@ -82,27 +93,29 @@ public class Request
     /// <summary>
     ///Id Сферы деятельности ур. 1
     /// </summary>
-    public Guid ScopeOfActivityLv1Id { get; set; }
+    public Guid? ScopeOfActivityLv1Id { get; set; }
     /// <summary>
     /// Сфера деятельности ур. 1
     /// </summary>
-    public ScopeOfActivity ScopeOfActivityLv1 { get; set; }
+    [JsonIgnore]
+    public ScopeOfActivity? ScopeOfActivityLv1 { get; set; }
     /// <summary>
     ///Id Сферы деятельности ур. 2
     /// </summary>
-    public Guid ScopeOfActivityLv2Id { get; set; }
+    public Guid? ScopeOfActivityLv2Id { get; set; }
     /// <summary>
     /// Сфера деятельности ур. 2 
     /// </summary>
-    public ScopeOfActivity ScopeOfActivityLv2 { get; set; }
+    [JsonIgnore]
+    public ScopeOfActivity? ScopeOfActivityLv2 { get; set; }
     /// <summary>
     /// ОВЗ (Инвалидность)
     /// </summary>
-    public bool Disability { get; set; }
+    public bool? Disability { get; set; }
     /// <summary>
     /// Информация о трудоустройстве после окончания обучения
     /// </summary>
-    public string JobResult { get; set; }
+    public string? JobResult { get; set; }
     /// <summary>
     /// Направление подготовки / специальность
     /// </summary>
@@ -118,15 +131,16 @@ public class Request
     /// <summary>
     /// Номер и дата договора об обучении
     /// </summary>
-    public string EducationContract { get; set; }
+    public string? EducationContract { get; set; }
     /// <summary>
     /// Id вида документа
     /// </summary>
-    public Guid DocumentTypeId { get; set; }
+    public Guid? DocumentTypeId { get; set; }
     /// <summary>
     /// Вид выданного документа о квалификации
     /// </summary>
-    public StudentDocument DocumentType { get; set; }
+    [JsonIgnore]
+    public StudentDocument? DocumentType { get; set; }
     /// <summary>
     /// Id студента
     /// </summary>
@@ -134,5 +148,6 @@ public class Request
     /// <summary>
     /// Cтудент
     /// </summary>
+    [JsonIgnore]
     public Student? Student { get; set; }
 }

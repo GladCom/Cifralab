@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 namespace Students.Models;
 
 /// <summary>
@@ -8,6 +12,8 @@ public class EducationProgram
     /// <summary>
     /// Id программы
     /// </summary>
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Наименование программы
@@ -24,7 +30,8 @@ public class EducationProgram
     /// <summary>
     /// Вид программы
     /// </summary>
-    public EducationType EducationType { get; set; }
+    [JsonIgnore]
+    public EducationType? EducationType { get; set; }
     /// <summary>
     /// Id Формы обучения
     /// </summary>
@@ -32,7 +39,8 @@ public class EducationProgram
     /// <summary>
     /// Форма обучения
     /// </summary>
-    public EducationForm EducationForm { get; set; }
+    [JsonIgnore]
+    public EducationForm? EducationForm { get; set; }
     /// <summary>
     /// Сетевая форма
     /// </summary>
@@ -48,11 +56,12 @@ public class EducationProgram
     /// <summary>
     /// Id ВЭД программы
     /// </summary>
-    public Guid FEAProgramId { get; set; }
+    public Guid? FEAProgramId { get; set; }
     /// <summary>
     /// ВЭД программы
     /// </summary>
-    public FEAProgram FEAProgram { get; set; }
+    [JsonIgnore]
+    public FEAProgram? FEAProgram { get; set; }
     /// <summary>
     /// Обязательно наличие ВО
     /// </summary>

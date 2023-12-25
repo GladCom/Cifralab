@@ -1,8 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Students.DBCore.Contexts;
 
 public class PgContext : StudentContext
 {
-    // TODO Place connection string here
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseNpgsql(
+            $"Host={Environment.GetEnvironmentVariable("DBServer")};Port={Environment.GetEnvironmentVariable("DBPort")};Database={Environment.GetEnvironmentVariable("DBName")};Username={Environment.GetEnvironmentVariable("DBLogin")};Password={Environment.GetEnvironmentVariable("DBPassword")};",
+            o => o.CommandTimeout(30));
+#if DEBUG
+        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+#endif
+    }
 }

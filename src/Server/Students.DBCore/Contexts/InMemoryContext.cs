@@ -205,7 +205,16 @@ public sealed class InMemoryContext : StudentContext
                 DocumentNumber = "АААА123456",
                 DocumentSeries = "1234",
                 SNILS = "123-456-789 00",
-               
+                Email = "test@mail.ru",
+                Phone = "+71234567890",
+                FullNameDocument = "Эх, сейчас бы сиды полные"
+            }
+        );
+        modelBuilder.Entity<StudentInGroup>().HasData(
+            new StudentInGroup
+        	{
+                StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
+                GroupId = new Guid("1D60B8BB-83E7-4410-A53B-7E46ADA4EBD6")
             }
         );
 
