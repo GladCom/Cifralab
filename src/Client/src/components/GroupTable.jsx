@@ -89,11 +89,9 @@ function EnhancedTableToolbar(props) {
   }
 function Row(props) {
   const {row} = props;
-  const [isNew, setIsNew] = React.useState(true);
-  const [Row, setRow ] = React.useState({});
+  const [, setRow ] = React.useState({});
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
-  const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [educationPrograms, setEducationPrograms] = React.useState([{}]);
   const [students, setStudents] = React.useState([]);
@@ -124,7 +122,7 @@ function Row(props) {
     setEdit(!edit);
   }
   const handleChangeEducationProgram = (id) => {
-    setRow(row.educationProgramId = educationPrograms.filter(x => x.id == id)[0]?.id);
+    setRow(row.educationProgramId = educationPrograms.filter(x => x.id === id)[0]?.id);
   }
 
   React.useEffect(() => {
@@ -140,10 +138,10 @@ function Row(props) {
       .catch(() => console.log())},[]);
 
   const handleChandeStudents = (id) => {
-    let student = students.filter(x => x.id == id[1])[0];
-    if(row?.students == null || row?.students == undefined)
+    let student = students.filter(x => x.id === id[1])[0];
+    if(row?.students == null || row?.students === undefined)
       row.students = [];  
-    if (row?.students.indexOf(student) == -1)
+    if (row?.students.indexOf(student) === -1)
       setRow(row?.students.push(student));
     else
       setRow(row?.students.splice(row?.students.indexOf(student), 1));
@@ -171,7 +169,7 @@ function Row(props) {
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               value={[row?.educationProgramId]}
-              renderValue={() => educationPrograms?.filter(x => x.id == row.educationProgramId)[0]?.name}
+              renderValue={() => educationPrograms?.filter(x => x.id === row.educationProgramId)[0]?.name}
               onChange={(e) => handleChangeEducationProgram(e.target.value)}
               MenuProps={MenuProps}
               sx={{height: 36}}
@@ -259,7 +257,7 @@ function Row(props) {
 }
 
 export default function GroupTable() {
-    const [selected, setSelected] = React.useState([]);
+    const [selected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
     const handleClickAdd = () => {

@@ -88,11 +88,11 @@ function EnhancedTableToolbar(props) {
   }
 function Row(props) {
   const {row} = props;
-  const [isNew, setIsNew] = React.useState(true);
-  const [Row, setRow ] = React.useState({});
+  const [isNew] = React.useState(true);
+  const [, setRow ] = React.useState({});
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
-  const [editRequest, setEditRequest] = React.useState(true);
+  const [editRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [requests, setRequests] = React.useState([row.requests]);
   const [groups, setGroups] = React.useState([row.groups]);
@@ -141,20 +141,20 @@ function Row(props) {
         .catch(() => console.log())},[]);
 
   const handleChandeRequests = (id) => {
-    let request = requests.filter(x => x.id == id[1])[0];
-    if(row?.requests == null || row?.requests == undefined)
+    let request = requests.filter(x => x.id === id[1])[0];
+    if(row?.requests == null || row?.requests === undefined)
       row.requests = [];  
-    if (row?.requests.indexOf(request) == -1)
+    if (row?.requests.indexOf(request) === -1)
       setRow(row?.requests.push(request));
     else
       setRow(row?.requests.splice(row?.requests.indexOf(request), 1));
   }
 
   const handleChandeGroups = (id) => {
-    let group = groups.filter(x => x.id == id[1])[0];
-    if(row?.groups == null || row?.groups == undefined)
+    let group = groups.filter(x => x.id === id[1])[0];
+    if(row?.groups == null || row?.groups === undefined)
       row.groups = [];  
-    if (row?.groups.indexOf(group) == -1)
+    if (row?.groups.indexOf(group) === -1)
       setRow(row?.groups.push(group));
     else
       setRow(row?.groups.splice(row?.groups.indexOf(group), 1));
@@ -304,7 +304,7 @@ function Row(props) {
 }
 
 export default function StudentTable() {
-    const [selected, setSelected] = React.useState([]);
+    const [selected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
     const handleClickAdd = () => {

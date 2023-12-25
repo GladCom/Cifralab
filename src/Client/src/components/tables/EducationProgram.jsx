@@ -84,9 +84,8 @@ function EnhancedTableToolbar(props) {
   }
 function Row(props) {
   const {row} = props;
-  const [isNew, setIsNew] = React.useState(true);
-  const [Row, setRow ] = React.useState({});
-  const [open, setOpen] = React.useState(false);
+  const [isNew] = React.useState(true);
+  const [, setRow ] = React.useState({});
   const [edit, setEdit] = React.useState(true);
   const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [educationForms, setEducationFroms] = React.useState([]);
@@ -148,7 +147,7 @@ function Row(props) {
               id="demo-multiple-checkbox"
               value={row.educationFormId}
               onChange={(e) => setRow(row.educationFormId = e.target.value)}
-              renderValue={() => educationForms?.filter(x => x.id == row.educationFormId)[0]?.name}
+              renderValue={() => educationForms?.filter(x => x.id === row.educationFormId)[0]?.name}
               MenuProps={MenuProps}
               sx={{height: 36}}
               readOnly={edit}
@@ -170,7 +169,7 @@ function Row(props) {
               id="demo-multiple-checkbox"
               value={row.educationTypeId}
               onChange={(e) => setRow(row.educationTypeId = e.target.value)}
-              renderValue={() => educationTypes?.filter(x => x.id == row.educationTypeId)[0]?.name}
+              renderValue={() => educationTypes?.filter(x => x.id === row.educationTypeId)[0]?.name}
               MenuProps={MenuProps}
               sx={{height: 36}}
               readOnly={edit}
@@ -212,7 +211,7 @@ function Row(props) {
 }
 
 export default function EducationProgramTable() {
-    const [selected, setSelected] = React.useState([]);
+    const [selected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
     const handleClickAdd = () => {
