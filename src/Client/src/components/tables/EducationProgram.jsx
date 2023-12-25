@@ -62,7 +62,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            {global.config.conf.students[window.localStorage.getItem("lang")]}
+            {global.config.conf.educationForm[window.localStorage.getItem("lang")]}
           </Typography>
         )}
   

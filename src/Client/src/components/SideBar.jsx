@@ -12,37 +12,36 @@ function BasicExample() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="groups">Groups</Nav.Link>
-            <Nav.Link href="requests">Requests</Nav.Link>
-            <Nav.Link href="students">Students</Nav.Link>
-            <NavDropdown title="Lists" id="basic-nav-dropdown">
+            <Nav.Link href="groups">{global.config.conf.groups[window.localStorage.getItem("lang")]}</Nav.Link>
+            <Nav.Link href="requests">{global.config.conf.requests[window.localStorage.getItem("lang")]}</Nav.Link>
+            <Nav.Link href="students">{global.config.conf.students[window.localStorage.getItem("lang")]}</Nav.Link>
+            <NavDropdown title={global.config.conf.list[window.localStorage.getItem("lang")]} id="basic-nav-dropdown">
               <NavDropdown.Item href="educationPrograms">
-                Education Programs  
+              {global.config.conf.eduProgram[window.localStorage.getItem("lang")]}  
                 </NavDropdown.Item>
               <NavDropdown.Item href="educationForms">
-                Education Forms
+              {global.config.conf.educationForm[window.localStorage.getItem("lang")]}
               </NavDropdown.Item>
               <NavDropdown.Item href="educationTypes">
-                Education Types
+              {global.config.conf.educationType[window.localStorage.getItem("lang")]}
               </NavDropdown.Item>
-              {/* <NavDropdown.Divider /> */}
               <NavDropdown.Item href="FEAPrograms">
-                FEA Programs
+              {global.config.conf.feaProgram[window.localStorage.getItem("lang")]}
               </NavDropdown.Item> 
               <NavDropdown.Item href="FinancingTypes">
-                Financing Types
+              {global.config.conf.financingType[window.localStorage.getItem("lang")]}
               </NavDropdown.Item> 
               <NavDropdown.Item href="ScopeOfActivities">
-                Scopes of activities
+              {global.config.conf.scopeOfActivity[window.localStorage.getItem("lang")]}
               </NavDropdown.Item> 
               <NavDropdown.Item href="StudentsDocuments">
-                Students Documents
+              {global.config.conf.studentsDoc[window.localStorage.getItem("lang")]}
               </NavDropdown.Item> 
               <NavDropdown.Item href="StudentsEducations">
-                Students Educations
+              {global.config.conf.studentEducation[window.localStorage.getItem("lang")]}
               </NavDropdown.Item> 
               <NavDropdown.Item href="StudentsStatus">
-                Students Status
+              {global.config.conf.studentStatus[window.localStorage.getItem("lang")]}
               </NavDropdown.Item> 
             </NavDropdown>
           </Nav>

@@ -67,7 +67,7 @@ function EnhancedTableToolbar(props) {
             component="div"
             color="black"
           >
-            Группы
+            {global.config.conf.groups[window.localStorage.getItem("lang")]}
           </Typography>
         )}
   

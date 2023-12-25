@@ -50,7 +50,7 @@ function EnhancedTableToolbar(props) {
             id="tableTitle"
             component="div"
           >
-            Students
+            {global.config.conf.studentEducation[window.localStorage.getItem("lang")]}
           </Typography>
         )}
   
