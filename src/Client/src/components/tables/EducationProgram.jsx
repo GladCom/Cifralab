@@ -95,6 +95,7 @@ function Row(props) {
   const [isNew] = React.useState(true);
   const [, setRow] = React.useState({});
   const [edit, setEdit] = React.useState(true);
+  const [isDisabled, setIsDisabled] = React.useState(true);
   const [editSave, setEditSave] = React.useState(
     global.config.conf.edit[window.localStorage.getItem("lang")]
   );
@@ -112,8 +113,10 @@ function Row(props) {
 
   const handleEdit = (row) => {
     console.log(isNew);
-    if (edit)
+    if (edit){
       setEditSave(global.config.conf.save[window.localStorage.getItem("lang")]);
+      setIsDisabled(false);
+    }
     else {
       setEditSave(global.config.conf.edit[window.localStorage.getItem("lang")]);
       if (row?.isNew) {
@@ -128,6 +131,7 @@ function Row(props) {
       console.log(row);
     }
     setEdit(!edit);
+    setIsDisabled(!isDisabled);
   };
 
   const handleIsNetworkProgram = (value) => {
@@ -234,6 +238,7 @@ function Row(props) {
             checked={isNetworkProgram}
             onChange={(e) => handleIsNetworkProgram(e.target.value)}
             inputProps={{"aria-label": "controlled" } }
+            disabled = {isDisabled}
           />
         </TableCell>
         <TableCell align="center" title={row?.isDOTProgram}>
@@ -241,7 +246,7 @@ function Row(props) {
             checked={isDOTProgram}
             onChange={(e) => handleIsDOTProgram(e.target.value)}
             inputProps={{ "aria-label": "controlled" }}
-            readOnly={edit}
+            disabled = {isDisabled}
           />
         </TableCell>
         <TableCell align="center" title={row?.isModularProgram}>
@@ -249,7 +254,7 @@ function Row(props) {
             checked={isModularProgram}
             onChange={(e) => handleIsModularProgram(e.target.value)}
             inputProps={{ "aria-label": "controlled" }}
-            readOnly={edit}
+            disabled = {isDisabled}
           />
         </TableCell>
         <TableCell align="center" title={row?.isCollegeProgram}>
@@ -257,7 +262,7 @@ function Row(props) {
             checked={isCollegeProgram}
             onChange={(e) => handleIsCollegeProgram(e.target.value)}
             inputProps={{ "aria-label": "controlled" }}
-            readOnly={edit}
+            disabled = {isDisabled}
           />
         </TableCell>
         <td>
