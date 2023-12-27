@@ -66,11 +66,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          {
-            global.config.conf.educationForm[
-              window.localStorage.getItem("lang")
-            ]
-          }
+            EducationProgram
         </Typography>
       )}
 
