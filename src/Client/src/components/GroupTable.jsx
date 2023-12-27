@@ -25,7 +25,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
-
 import axios from 'axios';
 
 const MenuProps = {
@@ -66,8 +65,9 @@ function EnhancedTableToolbar(props) {
             variant="h6"
             id="tableTitle"
             component="div"
+            color="black"
           >
-            Groups
+            {global.config.conf.groups[window.localStorage.getItem("lang")]}
           </Typography>
         )}
   
@@ -89,11 +89,9 @@ function EnhancedTableToolbar(props) {
   }
 function Row(props) {
   const {row} = props;
-  const [isNew, setIsNew] = React.useState(true);
-  const [Row, setRow ] = React.useState({});
+  const [, setRow ] = React.useState({});
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(true);
-  const [editRequest, setEditRequest] = React.useState(true);
   const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [educationPrograms, setEducationPrograms] = React.useState([{}]);
   const [students, setStudents] = React.useState([]);
@@ -117,33 +115,33 @@ function Row(props) {
           axios.post(global.config.conf.address.denis + 'Group', row)
         }
         else
-          axios.put(global.config.conf.address.denis + 'Group/'+row.id, row);
+        axios.put(global.config.conf.address.denis + 'Group/'+row.id, row);
 
         console.log(row);
     }
     setEdit(!edit);
   }
   const handleChangeEducationProgram = (id) => {
-    setRow(row.educationProgramId = educationPrograms.filter(x => x.id == id)[0]?.id);
+    setRow(row.educationProgramId = educationPrograms.filter(x => x.id === id)[0]?.id);
   }
 
   React.useEffect(() => {
-    fetch(global.config.conf.address.denis + 'EducationProgram')
+    fetch(global.config.conf.address.denis +'EducationProgram')
         .then((response) => response.json())
         .then((json) => setEducationPrograms(json))
         .catch(() => console.log())},[]);
 
   React.useEffect(() => {
-   fetch(global.config.conf.address.denis + 'Student')
+   fetch(global.config.conf.address.denis +'Student')
       .then((response) => response.json())
       .then((json) => setStudents(json))
       .catch(() => console.log())},[]);
 
   const handleChandeStudents = (id) => {
-    let student = students.filter(x => x.id == id[1])[0];
-    if(row?.students == null || row?.students == undefined)
+    let student = students.filter(x => x.id === id[1])[0];
+    if(row?.students == null || row?.students === undefined)
       row.students = [];  
-    if (row?.students.indexOf(student) == -1)
+    if (row?.students.indexOf(student) === -1)
       setRow(row?.students.push(student));
     else
       setRow(row?.students.splice(row?.students.indexOf(student), 1));
@@ -152,30 +150,31 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
+        <TableCell align="center">
           <IconButton
             aria-label="expand row"
             size="small"
+            sx={{ width: "2rem" }}
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          <Input value={row?.id} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
+        <TableCell align="center" component="th" scope="row" title={row?.id}>
+          <Input value={row?.id} sx={{width: "20rem"}} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
-        <TableCell sx={{width: '100px', height: '35px'}}>
+        <TableCell align="center" sx={{width: '20rem', height: '35px'}} title={row?.educationProgramId}>
           <div>
-            <FormControl sx={{ m: 1, width: 160}}>
+            <FormControl sx={{ m: 1, width: "20rem"}}>
               <Select
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
               value={[row?.educationProgramId]}
-              renderValue={() => educationPrograms?.filter(x => x.id == row.educationProgramId)[0]?.name}
+              renderValue={() => educationPrograms?.filter(x => x.id === row.educationProgramId)[0]?.name}
               onChange={(e) => handleChangeEducationProgram(e.target.value)}
               MenuProps={MenuProps}
               sx={{height: 36}}
-              readOnly={edit}
+              readOnly={edit} 
               >
               {educationPrograms.map((program) => (
                 <MenuItem key={program?.id} value={program?.id}>
@@ -186,11 +185,11 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell sx={{width: '100px', height: '35px'}}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
-        <TableCell sx={{width: '100px', height: '35px'}}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}>
+        <TableCell align="center" sx={{width: '10rem', height: '35px'}} title={row?.startDate}>< Input value={row?.startDate} readOnly={edit} onChange={(e) => setRow(row.startDate = e.target.value)}/></TableCell>
+        <TableCell align="center" sx={{width: '10rem', height: '35px'}} title={row?.endDate}><Input value={row?.endDate} readOnly={edit} onChange={(e) => setRow(row.endDate = e.target.value)}/></TableCell>
+        <TableCell align="center" sx={{ m: 1, width: "10rem" }} title={row?.students}>
           <div>
-            <FormControl sx={{ m: 1, width: 160}}>
+            <FormControl sx={{ m: 1, width: 260}}>
               <Select
               labelId="demo-multiple-checkbox-label"
               id="demo-multiple-checkbox"
@@ -224,7 +223,7 @@ function Row(props) {
         </td>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -241,11 +240,11 @@ function Row(props) {
                 <TableBody>
                   {row?.students?.map((student) => (                  
                     <TableRow key={student?.id}>
-                      <TableCell><Input value={student?.id}/></TableCell>                   
-                      <TableCell component="th" scope="row">
-                        <Input value={student?.fullName}/>
+                      <TableCell align="center" title={student?.id}><Input value={student?.id} sx={{width: "20rem"}}/></TableCell>                   
+                      <TableCell align="center" component="th" scope="row" title={student?.fullName}>
+                        <Input value={student?.fullName} sx={{width: "20rem"}}/>
                       </TableCell>
-                      <TableCell><Input value={student?.fullName} /></TableCell>
+                      <TableCell align="center" title={student?.fullName}><Input value={student?.fullName} sx={{width: "20rem"}}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -259,7 +258,7 @@ function Row(props) {
 }
 
 export default function GroupTable() {
-    const [selected, setSelected] = React.useState([]);
+    const [selected] = React.useState([]);
     const [rows, setRows] = React.useState([{}]);
 
     const handleClickAdd = () => {
@@ -268,7 +267,7 @@ export default function GroupTable() {
     };
 
     React.useEffect(() => {
-    fetch(global.config.conf.address.denis + 'Group')
+    fetch(global.config.conf.address.denis +'Group')
         .then((response) => response.json())
         .then((json) => setRows(json))
         .catch(() => console.log(12345))},[]);
@@ -276,7 +275,7 @@ export default function GroupTable() {
     <Box>
     <EnhancedTableToolbar numSelected={selected.length} />
     <Button color="primary" startIcon={<AddIcon />} onClick={handleClickAdd}>
-      Add record
+      Добавить
     </Button>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">

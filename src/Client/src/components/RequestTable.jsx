@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -53,7 +52,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Requests
+          {global.config.conf.requests[window.localStorage.getItem("lang")]}
         </Typography>
       )}
 
@@ -75,16 +74,14 @@ function EnhancedTableToolbar(props) {
 }
 function Row(props) {
   const { row } = props;
-  const [isNew, setIsNew] = React.useState(true);
-  const [Row, setRow] = React.useState({});
-  const [open, setOpen] = React.useState(false);
+  const [isNew] = React.useState(true);
+  const [, setRow] = React.useState({});
   const [edit, setEdit] = React.useState(true);
   const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
-  const [birthDate, setBirthDate] = React.useState(row?.birthDate);
 
   const handleDelete = (id) => {
     console.log(id);
-    axios.delete(global.config.conf.address.denis + "Request/" + id);
+    axios.delete(global.config.conf.address.denis +"/Request/" + id);
     window.location.reload();
   };
 
@@ -303,13 +300,13 @@ function Row(props) {
 }
 
 export default function RequestTable() {
-  const [selected, setSelected] = React.useState([]);
+  const [selected] = React.useState([]);
   const [rows, setRows] = React.useState([{}]);
   const handleClickAdd = () => {
     setRows((rows) => [...rows, {isNew: true}]);
   };
   React.useEffect(() => {
-    fetch(global.config.conf.address.denis + "Request")
+    fetch(global.config.conf.address.denis +"/Request")
       .then((response) => response.json())
       .then((json) => setRows(json))
       .catch(() => console.log(12345));
