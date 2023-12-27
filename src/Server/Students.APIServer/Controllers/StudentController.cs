@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository;
 using Students.Models;
@@ -30,20 +29,44 @@ public class StudentController : GenericAPiController<Student>
     {
         return StatusCode(StatusCodes.Status200OK, await _studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
     }
-    
-    // Отключение базового метода ListAll
-    // [ApiExplorerSettings(IgnoreApi=true)]
-    // public override Task<IActionResult>ListAll()
-    // {
-    //     return null;
-    // }
-
     /// <summary>
-    /// Получить объект по Id с включением связанных объектов
+    /// Список групп в которых состоит студент
     /// </summary>
-    /// <param name="id">Id Объекта</param>
-    /// <returns>Объект</returns>
-    public override async Task<IActionResult> Get(Guid id)
+    /// <param name="student"></param>
+    /// <returns></returns>
+	[HttpGet("GetListGroupsOfStudentExists")]
+	public async Task<IActionResult> GetListGroupsOfStudentExists(Guid student)
+	{
+		return StatusCode(StatusCodes.Status200OK, 
+            await _studentRepository.GetListGroupsOfStudentExists(student));
+	}
+    /// <summary>
+    /// Добавить студента в группу
+    /// </summary>
+    /// <param name="studentId"></param>
+    /// <param name="groupID"></param>
+    /// <returns></returns>
+	[HttpPost("AddStudentToGroup")]
+	public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupID)
+	{
+		return StatusCode(StatusCodes.Status200OK,
+			await _studentRepository.AddStudentToGroup(studentId, groupID));
+	}
+	
+
+	// Отключение базового метода ListAll
+	// [ApiExplorerSettings(IgnoreApi=true)]
+	// public override Task<IActionResult>ListAll()
+	// {
+	//     return null;
+	// }
+
+	/// <summary>
+	/// Получить объект по Id с включением связанных объектов
+	/// </summary>
+	/// <param name="id">Id Объекта</param>
+	/// <returns>Объект</returns>
+	public override async Task<IActionResult> Get(Guid id)
     {
         try
         {

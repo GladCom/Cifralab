@@ -12,7 +12,6 @@ namespace Students.APIServer.Controllers;
 [ApiVersion("1.0")]
 public class RequestController : GenericAPiController<Request>
 {
-    
     private readonly ILogger<Request> _logger;
     private readonly IRequestRepository _requestRepository;
     public RequestController(IGenericRepository<Request> repository, ILogger<Request> logger, IRequestRepository requestRepository) : base(repository, logger)
