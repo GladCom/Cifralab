@@ -99,6 +99,7 @@ function Row(props) {
   const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [educationForms, setEducationFroms] = React.useState([]);
   const [educationTypes, setEducationTypes] = React.useState([]);
+  const [FEAPrograms, setFEAPrograms] = React.useState([]);
 
   const handleDelete = (id) => {
     axios.delete(global.config.conf.address.denis + "EducationProgram/" + id);
@@ -142,6 +143,13 @@ function Row(props) {
       .catch(() => console.log("err"));
   }, []);
 
+  React.useEffect(() => {
+    fetch(global.config.conf.address.denis + "FEAProgram")
+      .then((response) => response.json())
+      .then((json) => setFEAPrograms(json))
+      .catch(() => console.log("err"));
+  }, []);
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -158,7 +166,7 @@ function Row(props) {
             value={row?.hoursCount}
             readOnly={edit}
             sx={{ height: 36, width: "8rem" }}
-            onChange={(e) => setRow((row.hoursCount = e.target.value))}
+            onChange={(e) => setRow((row.hoursCount = Number(e.target.value)))}
           />
         </TableCell>
         <TableCell align="center" title={row.educationFormId}>
@@ -203,6 +211,30 @@ function Row(props) {
                 readOnly={edit}
               >
                 {educationTypes.map((type) => (
+                  <MenuItem key={type?.id} value={type?.id}>
+                    <ListItemText primary={type?.name} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+        </TableCell>
+        <TableCell align="center" title={row.feaProgramId}>
+          <div>
+            <FormControl>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={row.feaProgramId}
+                onChange={(e) => setRow((row.feaProgramId = e.target.value))}
+                renderValue={() =>
+                  FEAPrograms?.filter((x) => x.id === row.feaProgramId)[0]?.name
+                }
+                MenuProps={MenuProps}
+                sx={{ height: 36 }}
+                readOnly={edit}
+              >
+                {FEAPrograms.map((type) => (
                   <MenuItem key={type?.id} value={type?.id}>
                     <ListItemText primary={type?.name} />
                   </MenuItem>
@@ -318,6 +350,7 @@ export default function EducationProgramTable() {
                   ]
                 }
               </TableCell>
+              <TableCell>FEA Program</TableCell>
               <TableCell>isNetworkProgram</TableCell>
               <TableCell>isDOTProgram</TableCell>
               <TableCell>isModularProgram</TableCell>
