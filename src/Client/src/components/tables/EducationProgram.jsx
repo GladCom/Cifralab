@@ -96,13 +96,7 @@ function Row(props) {
   const [, setRow] = React.useState({});
   const [edit, setEdit] = React.useState(true);
   const [isDisabled, setIsDisabled] = React.useState(true);
-  const [editSave, setEditSave] = React.useState(
-    global.config.conf.edit[window.localStorage.getItem("lang")]
-  );
-  const [isNetworkProgram, setIsNetworkProgram] = React.useState(false);
-  const [isDOTProgram, setIsDOTProgram] = React.useState(false);
-  const [isModularProgram, setIsModularProgram] = React.useState(false);
-  const [isCollegeProgram, setIsCollegeProgram] = React.useState(false);
+  const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
   const [educationForms, setEducationFroms] = React.useState([]);
   const [educationTypes, setEducationTypes] = React.useState([]);
 
@@ -132,22 +126,6 @@ function Row(props) {
     }
     setEdit(!edit);
     setIsDisabled(!isDisabled);
-  };
-
-  const handleIsNetworkProgram = (value) => {
-    setIsNetworkProgram(!isNetworkProgram);
-  };
-
-  const handleIsDOTProgram = (value) => {
-    setIsDOTProgram(!isDOTProgram);
-  };
-
-  const handleIsModularProgram = (value) => {
-    setIsModularProgram(!isModularProgram);
-  };
-
-  const handleIsCollegeProgram = (value) => {
-    setIsCollegeProgram(!isCollegeProgram);
   };
 
   React.useEffect(() => {
@@ -235,32 +213,32 @@ function Row(props) {
         </TableCell>
         <TableCell align="center" title={row?.isNetworkProgram} readOnly={edit}>
           <Checkbox
-            checked={isNetworkProgram}
-            onChange={(e) => handleIsNetworkProgram(e.target.value)}
+            checked={row.isNetworkProgram}
+            onClick={() => setRow(row.isNetworkProgram = !row.isNetworkProgram)}
             inputProps={{"aria-label": "controlled" } }
             disabled = {isDisabled}
           />
         </TableCell>
         <TableCell align="center" title={row?.isDOTProgram}>
           <Checkbox
-            checked={isDOTProgram}
-            onChange={(e) => handleIsDOTProgram(e.target.value)}
+            checked={row?.isDOTProgram}
+            onChange={() => setRow(row.isDOTProgram = !row.isDOTProgram)}
             inputProps={{ "aria-label": "controlled" }}
             disabled = {isDisabled}
           />
         </TableCell>
         <TableCell align="center" title={row?.isModularProgram}>
           <Checkbox
-            checked={isModularProgram}
-            onChange={(e) => handleIsModularProgram(e.target.value)}
+            checked={row?.isModularProgram}
+            onClick={() => setRow(row.isModularProgram = !row.isModularProgram)}
             inputProps={{ "aria-label": "controlled" }}
             disabled = {isDisabled}
           />
         </TableCell>
         <TableCell align="center" title={row?.isCollegeProgram}>
           <Checkbox
-            checked={isCollegeProgram}
-            onChange={(e) => handleIsCollegeProgram(e.target.value)}
+            checked={row?.isCollegeProgram}
+            onClick={() => setRow(row.isCollegeProgram = !row.isCollegeProgram)}
             inputProps={{ "aria-label": "controlled" }}
             disabled = {isDisabled}
           />
@@ -295,15 +273,17 @@ export default function EducationProgramTable() {
   const [rows, setRows] = React.useState([{}]);
 
   const handleClickAdd = () => {
-    setRows((rows) => [...rows, { isNew: true }]);
-  };
-
+    setRows((rows) => [...rows, { isNew: true, isNetworkProgram: false, isDOTProgram: false, isCollegeProgram: false, isModularProgram: false }]);
+  }
   React.useEffect(() => {
-    fetch(global.config.conf.address.denis + "/EducationProgram")
+    
+    fetch(global.config.conf.address.denis + "EducationProgram")
       .then((response) => response.json())
       .then((json) => setRows(json))
       .catch(() => console.log("err"));
+    console.log(rows)
   }, []);
+  
   return (
     <Box>
       <EnhancedTableToolbar numSelected={selected.length} />
