@@ -139,15 +139,15 @@ function Row(props) {
   };
 
   const handleIsDOTProgram = (value) => {
-    setIsDOTProgram(isDOTProgram);
+    setIsDOTProgram(!isDOTProgram);
   };
 
   const handleIsModularProgram = (value) => {
-    setIsModularProgram(isModularProgram);
+    setIsModularProgram(!isModularProgram);
   };
 
   const handleIsCollegeProgram = (value) => {
-    setIsCollegeProgram(isCollegeProgram);
+    setIsCollegeProgram(!isCollegeProgram);
   };
 
   React.useEffect(() => {
