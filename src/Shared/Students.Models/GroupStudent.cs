@@ -15,7 +15,7 @@ namespace Students.Models
 		//[ForeignKey("Group")]
 		public Guid GroupsId { get; set; }
 
-		public virtual Student Student { get; set; }
-		public virtual Group Group { get; set; }
+		public virtual Student? Student { get; set; }
+		public virtual Group? Group { get; set; }
 	}
 }
