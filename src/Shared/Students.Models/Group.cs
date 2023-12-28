@@ -40,4 +40,7 @@ public class Group
     /// Студенты
     /// </summary>
     public List<Student>? Students { get; set; }
+
+	//Для таблицы Группы студентов для связи многие ко многим
+	public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
 }
