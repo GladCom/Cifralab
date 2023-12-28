@@ -7,9 +7,9 @@ namespace Students.APIServer.Repository
 	public class GroupRepository : GenericRepository<Group>, IGroupRepository
 	{
 		private readonly StudentContext _ctx;
-		private IStudentInGroupRepository _studentInGroupRepository;
+		private IGroupStudentRepository _studentInGroupRepository;
 
-		public GroupRepository(StudentContext context, IStudentInGroupRepository studInGroupRep) : base(context)
+		public GroupRepository(StudentContext context, IGroupStudentRepository studInGroupRep) : base(context)
 		{
 			_ctx = context;
 			_studentInGroupRepository = studInGroupRep;

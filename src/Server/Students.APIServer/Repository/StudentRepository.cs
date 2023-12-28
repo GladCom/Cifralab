@@ -10,8 +10,8 @@ namespace Students.APIServer.Repository;
 public class StudentRepository : GenericRepository<Student>, IStudentRepository
 {
     private readonly StudentContext _ctx;
-	private IStudentInGroupRepository _studentInGroupRepository;
-	public StudentRepository(StudentContext context, IStudentInGroupRepository studInGroupRep) : base(context) {
+	private IGroupStudentRepository _studentInGroupRepository;
+	public StudentRepository(StudentContext context, IGroupStudentRepository studInGroupRep) : base(context) {
         _ctx = context;
 		_studentInGroupRepository = studInGroupRep;
 	}
@@ -28,8 +28,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
 	//}
 	public async Task<IEnumerable<Group?>> GetListGroupsOfStudentExists(Guid studentId) {
          var result = from x in _ctx.Groups
-                     join y in _ctx.StudentInGroups.Where(x => x.StudentId == studentId).Select(s => s)
-                     on x.Id equals y.GroupId
+                     join y in _ctx.GroupStudent.Where(x => x.StudentsId == studentId).Select(s => s)
+                     on x.Id equals y.GroupsId
                      select x;
 
         return await result.ToListAsync().ConfigureAwait(false);

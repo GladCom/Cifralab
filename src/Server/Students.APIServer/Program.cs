@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StudentContext, InMemoryContext>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-builder.Services.AddScoped<IStudentInGroupRepository, StudentInGroupRepository>();
+builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddScoped<IReportRepository, CSVReportRepository>();

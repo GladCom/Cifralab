@@ -17,11 +17,11 @@ public abstract class StudentContext : DbContext
     public DbSet<StudentStatus> StudentStatuses { get; set; }
     public DbSet<StudentEducation> StudentEducations { get; set; }
     public DbSet<StudentDocument> StudentDocuments { get; set; }
-    public DbSet<StudentInGroup> StudentInGroups { get; set; }
+    public DbSet<GroupStudent> GroupStudent { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<StudentInGroup>()
-			  .HasKey(m => new { m.StudentId, m.GroupId });
+		modelBuilder.Entity<GroupStudent>()
+			  .HasKey(m => new { m.StudentsId, m.GroupsId });
 	}
 }
