@@ -107,8 +107,8 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
-            <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
+        <TableCell align="center">
+            <Input align="center" value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
         <td>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -148,7 +148,7 @@ export default function EducationFormTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell >{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center" >{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -3,12 +3,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import SwitchLang from './Switch';
+import cyfraLogo from '../img/cyfraLogo.png';
 
 function BasicExample() {
   return (
     <Navbar sticky="top" className="navBar">
       <Container>
-        <Navbar.Brand href="#home">Cyfra-Lab</Navbar.Brand>
+      <Navbar.Brand href="#home"><img
+              src={cyfraLogo}
+              width="80"
+              height="37"
+              alt="Cyfra-logo"
+            /></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

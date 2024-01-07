@@ -107,7 +107,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
+        <TableCell align="center">
             <Input value={row?.name} readOnly={edit} onChange={(e) => setRow(row.name = e.target.value)}/>
         </TableCell>
         <td>
@@ -148,7 +148,7 @@ export default function StudentStatusTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell >{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center" >{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
