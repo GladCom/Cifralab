@@ -74,5 +74,5 @@ app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.Run();
