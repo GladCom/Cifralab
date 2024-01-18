@@ -3,8 +3,22 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import SwitchLang from './Switch';
+import LocalPizzaIcon from '@mui/icons-material/LocalPizza';
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function BasicExample() {
+
+  const navigate = useNavigate();
+  const handleClick = async () =>
+  {
+    axios.defaults.headers.common['Accept'] = '*/*';
+    axios.defaults.headers.common['Accept-Encoding'] = 'gzip, deflate';
+    axios.defaults.headers.common['Accept-Language'] = 'ru,en;q=0.9,en-GB;q=0.8,en-US;q=0.7';
+    window.location.href = `${global.config.conf.address.denis}Report`;
+  }
+
   return (
     <Navbar sticky="top" className="navBar">
       <Container>
@@ -46,6 +60,9 @@ function BasicExample() {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
+        <Button onClick={() => handleClick()} variant="text">
+          <LocalPizzaIcon sx={{marginRight: "3rem"}}/>
+        </Button>
         <SwitchLang />
       </Container>
     </Navbar>
