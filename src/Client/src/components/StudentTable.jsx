@@ -163,7 +163,7 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
+        <TableCell align="center">
           <IconButton
             aria-label="expand row"
             size="small"
@@ -172,15 +172,15 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row" sx={{ m: 1, width: 450 }}>
+        <TableCell align="center" component="th" scope="row" sx={{ m: 1, width: 450 }}>
           <Input value={row?.fullName} readOnly={edit} onChange={(e) => setRow(row.fullName = e.target.value)}/>
         </TableCell>
-        <TableCell align="right" type="date" sx={{ m: 1, width: 111 }}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} sx={{ m: 1, width: 110 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 150 }}><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}sx={{ m: 1, width: 140 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)} sx={{ m: 1, width: 69 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 130 }}><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)} sx={{ m: 1, width: 129 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)} sx={{ m: 1, width: 60 }}/></TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}>
+        <TableCell align="center"   type="date" sx={{ m: 1, width: 111 }}><Input value={row?.birthDate} readOnly={edit} onChange={(e) => setRow(row.birthDate = e.target.value)} sx={{ m: 1, width: 110 }}/></TableCell>
+        <TableCell align="center"   sx={{ m: 1, width: 150 }}><Input value={row?.snils} readOnly={edit} onChange={(e) => setRow(row.snils = e.target.value)}sx={{ m: 1, width: 140 }}/></TableCell>
+        <TableCell align="center"   sx={{ m: 1, width: 70 }}><Input value={row?.documentSeries} readOnly={edit} onChange={(e) => setRow(row.documentSeries = e.target.value)} sx={{ m: 1, width: 69 }}/></TableCell>
+        <TableCell align="center"   sx={{ m: 1, width: 130 }}><Input value={row?.documentNumber} readOnly={edit} onChange={(e) => setRow(row.documentNumber = e.target.value)} sx={{ m: 1, width: 129 }}/></TableCell>
+        <TableCell align="center"   sx={{ m: 1, width: 70 }}><Input value={row?.nationality} readOnly={edit} onChange={(e) => setRow(row.nationality = e.target.value)} sx={{ m: 1, width: 60 }}/></TableCell>
+        <TableCell align="center"   sx={{ m: 1, width: 70 }}>
           <div>
             <FormControl sx={{ m: 1, width: 160}}>
               <Select
@@ -204,7 +204,7 @@ function Row(props) {
             </FormControl>
           </div>
         </TableCell>
-        <TableCell align="right" sx={{ m: 1, width: 70 }}>
+        <TableCell align="center"   sx={{ m: 1, width: 70 }}>
           <div>
             <FormControl sx={{ m: 1, width: 160}}>
               <Select
@@ -240,7 +240,7 @@ function Row(props) {
         </td>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -249,19 +249,19 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>{global.config.conf.eduProgramId[window.localStorage.getItem("lang")]}</TableCell>
-                    <TableCell>{global.config.conf.eduProgramName[window.localStorage.getItem("lang")]}</TableCell>
-                    <TableCell>{global.config.conf.interview[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.eduProgramId[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.eduProgramName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.interview[window.localStorage.getItem("lang")]}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row?.requests?.map((requestsRow) => (                  
                     <TableRow key={requestsRow?.id}>
-                      <TableCell component="th" scope="row">
+                      <TableCell align="center" component="th" scope="row">
                         <Input readOnly={editRequest} value={requestsRow?.educationProgramId} onChange={(e) => setRow(requestsRow.educationProgramId = e.target.value)}/>
                       </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
+                      <TableCell align="center"><Input readOnly={editRequest} value={requestsRow?.educationProgram?.name} onChange={(e) => setRow(requestsRow.educationProgram.name = e.target.value)}/></TableCell>                   
+                      <TableCell align="center"><Input readOnly={editRequest} value={requestsRow?.interview} onChange={(e) => setRow(requestsRow.interview = e.target.value)}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -276,21 +276,21 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
-                    <TableCell>{global.config.conf.eduProgramName[window.localStorage.getItem("lang")]}</TableCell>
-                    <TableCell>{global.config.conf.startDate[window.localStorage.getItem("lang")]}</TableCell>
-                    <TableCell>{global.config.conf.endDate[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.eduProgramName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.startDate[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.endDate[window.localStorage.getItem("lang")]}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row?.groups?.map((groupsRow) => (                  
                     <TableRow key={groupsRow?.id}>
-                      <TableCell component="th" scope="row">
+                      <TableCell align="center" component="th" scope="row">
                         <Input readOnly={editRequest} value={groupsRow?.name} onChange={(e) => setRow(groupsRow.name = e.target.value)}/>
                       </TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
-                      <TableCell><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
+                      <TableCell align="center"><Input readOnly={editRequest} value={groupsRow?.educationProgram?.name} onChange={(e) => setRow(groupsRow.educationProgram.name = e.target.value)}/></TableCell>                   
+                      <TableCell align="center"><Input readOnly={editRequest} value={groupsRow?.startDate} onChange={(e) => setRow(groupsRow.startDate = e.target.value)}/></TableCell>
+                      <TableCell align="center"><Input readOnly={editRequest} value={groupsRow?.endDate} onChange={(e) => setRow(groupsRow.endDate = e.target.value)}/></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -326,15 +326,15 @@ export default function StudentTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell sx={{ m: 1, width: 450 }}>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell align="right" sx={{ m: 1, width: 111 }}>{global.config.conf.birthDate[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell align="right">{global.config.conf.snils[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell align="right">{global.config.conf.docNumber[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell align="right">{global.config.conf.docSeries[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell align="right">{global.config.conf.nationality[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell align="right">{global.config.conf.requests[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell align="right">{global.config.conf.groups[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center" />
+            <TableCell align="center" sx={{ m: 1, width: 450 }}>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center"   sx={{ m: 1, width: 111 }}>{global.config.conf.birthDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center"  >{global.config.conf.snils[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center"  >{global.config.conf.docNumber[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center"  >{global.config.conf.docSeries[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center"  >{global.config.conf.nationality[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center"  >{global.config.conf.requests[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center"  >{global.config.conf.groups[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

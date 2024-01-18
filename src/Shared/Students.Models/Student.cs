@@ -56,6 +56,9 @@ public class Student
     public string Phone { get; set; }
     //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     public string Email { get; set; }
-    //public string EmailPrepeared { get { return Email.ToLower(); } }
+	//public string EmailPrepeared { get { return Email.ToLower(); } }
+
+    //Для таблицы Группы студентов для связи многие ко многим
+	public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
 
 }

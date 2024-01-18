@@ -223,7 +223,7 @@ function Row(props) {
         </td>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
+        <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -232,9 +232,9 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>{global.config.conf.id[window.localStorage.getItem("lang")]}</TableCell>
-                    <TableCell>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
-                    <TableCell>{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.id[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
+                    <TableCell align="center">{global.config.conf.fullName[window.localStorage.getItem("lang")]}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -282,11 +282,11 @@ export default function GroupTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell >{global.config.conf.eduProgram[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell >{global.config.conf.startDate[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell >{global.config.conf.endDate[window.localStorage.getItem("lang")]}</TableCell>
-            <TableCell >{global.config.conf.students[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center">{global.config.conf.name[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center" >{global.config.conf.eduProgram[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center" >{global.config.conf.startDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center" >{global.config.conf.endDate[window.localStorage.getItem("lang")]}</TableCell>
+            <TableCell align="center" >{global.config.conf.students[window.localStorage.getItem("lang")]}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

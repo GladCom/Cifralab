@@ -15,9 +15,23 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import Checkbox from '@mui/material/Checkbox';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import ListItemText from '@mui/material/ListItemText';
 import Input from "@mui/joy/Input";
 import { alpha } from "@mui/material/styles";
 import axios from "axios";
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 100,
+      width: 250,
+    },
+  },
+};
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
@@ -78,6 +92,7 @@ function Row(props) {
   const [, setRow] = React.useState({});
   const [edit, setEdit] = React.useState(true);
   const [editSave, setEditSave] = React.useState(global.config.conf.edit[window.localStorage.getItem("lang")]);
+  const [students, setStudents] = React.useState([]);
 
   const handleDelete = (id) => {
     console.log(id);
@@ -106,6 +121,22 @@ function Row(props) {
     }
     console.log("test");    
     setEdit(!edit);
+  }
+
+  React.useEffect(() => {
+    fetch(global.config.conf.address.denis +'Student')
+       .then((response) => response.json())
+       .then((json) => setStudents(json))
+       .catch(() => console.log())},[]);
+
+  const handleChandeStudents = (id) => {
+    let student = students.filter(x => x.id === id[1])[0];
+    if(row?.students == null || row?.students === undefined)
+      row.students = [];  
+    if (row?.students.indexOf(student) === -1)
+      setRow(row?.students.push(student));
+    else
+      setRow(row?.students.splice(row?.students.indexOf(student), 1));
   }
 
   return (
@@ -267,12 +298,29 @@ function Row(props) {
             onChange={(e) => setRow((row.documentType = e.target.value))}
           />
         </TableCell>
-        <TableCell align="center">
-          <Input
-            value={row?.student}
-            readOnly={edit}
-            onChange={(e) => setRow((row.student = e.target.value))}
-          />
+        <TableCell align="center" sx={{ m: 1, width: "10rem" }} title={row?.students}>
+          <div>
+            <FormControl sx={{ m: 1, width: 260}}>
+              <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              multiple
+              value={[row?.students]}
+              renderValue={() => row?.students?.map(x => x.fullName)?.join(', ')}
+              onChange={(e) => handleChandeStudents(e.target.value)}
+              MenuProps={MenuProps}
+              sx={{height: 36}}
+              readOnly={edit}
+              >
+              {students.map((student) => (
+                <MenuItem key={student?.id} value={student?.id} sx={{width: 500}}>
+                  <Checkbox checked={row?.students?.indexOf(student) > -1} />
+                  <ListItemText primary={[student?.fullName, ' ', student?.id]} sx={{width: 499}}/>
+                </MenuItem>
+              ))}
+              </Select>
+            </FormControl>
+          </div>
         </TableCell>
         <td>
           <Box sx={{ display: "flex", gap: 1 }}>

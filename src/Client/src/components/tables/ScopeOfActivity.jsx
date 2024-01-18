@@ -107,10 +107,10 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
+        <TableCell align="center">
             <Input value={row?.nameOfScope} readOnly={edit} onChange={(e) => setRow(row.nameOfScope = e.target.value)}/>
         </TableCell>
-        <TableCell>
+        <TableCell align="center">
             <Input value={row?.level} readOnly={edit} onChange={(e) => setRow(row.level = e.target.value)}/>
         </TableCell>
         <td>
@@ -151,10 +151,10 @@ export default function ScopeOfActivityTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell >Name Of Scope</TableCell>
+            <TableCell align="center" >Name Of Scope</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell >Level</TableCell>
+            <TableCell align="center" >Level</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

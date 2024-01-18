@@ -322,35 +322,35 @@ export default function EducationProgramTable() {
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ m: 1, width: "auto" }}>
+              <TableCell align="center" sx={{ m: 1, width: "auto" }}>
                 {global.config.conf.name[window.localStorage.getItem("lang")]}
               </TableCell>
-              <TableCell sx={{ m: 1, width: "auto" }}>
+              <TableCell align="center" sx={{ m: 1, width: "auto" }}>
                 {
                   global.config.conf.hoursCount[
                     window.localStorage.getItem("lang")
                   ]
                 }
               </TableCell>
-              <TableCell>
+              <TableCell align="center">
                 {
                   global.config.conf.educationForm[
                     window.localStorage.getItem("lang")
                   ]
                 }
               </TableCell>
-              <TableCell>
+              <TableCell align="center">
                 {
                   global.config.conf.educationForm[
                     window.localStorage.getItem("lang")
                   ]
                 }
               </TableCell>
-              <TableCell>FEA Program</TableCell>
-              <TableCell>isNetworkProgram</TableCell>
-              <TableCell>isDOTProgram</TableCell>
-              <TableCell>isModularProgram</TableCell>
-              <TableCell>isCollegeProgram</TableCell>
+              <TableCell align="center">FEA Program</TableCell>
+              <TableCell align="center">isNetworkProgram</TableCell>
+              <TableCell align="center">isDOTProgram</TableCell>
+              <TableCell align="center">isModularProgram</TableCell>
+              <TableCell align="center">isCollegeProgram</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -9,5 +9,7 @@ public interface IStudentRepository : IGenericRepository<Student>
     Task<Student> FindByPhone(string phone);
     Task<Student> FindByEmail(string Email);
     Task<Student> FindByPhoneAndEmail(string phone, string Email);
+    Task<IEnumerable<Group?>> GetListGroupsOfStudentExists(Guid studentId);
+    Task<Guid> AddStudentToGroup(Guid stud, Guid group);
 
 }

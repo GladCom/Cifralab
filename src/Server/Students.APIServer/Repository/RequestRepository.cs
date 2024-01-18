@@ -44,18 +44,24 @@ namespace Students.APIServer.Repository
         public async Task<Request?> FindRequestByEmailFromRequestAsync(Request request)
         {
             if(request == null) throw new ArgumentNullException(nameof(request));
-             return await _ctx.Requests.AsNoTracking()
+             return await Task.FromResult(_ctx.Requests.AsNoTracking()
             .FirstOrDefaultAsync(x =>
                        x.Email.ToLower().Equals(request.Email.ToLower()) 
-                    && x.EducationProgramId.Equals(request.EducationProgramId));
+                    && x.EducationProgramId.Equals(request.EducationProgramId))).Result;
         }
         public async Task<Request?> FindRequestByPhoneFromRequestAsync(Request request)
         {
-                if (request == null) throw new ArgumentNullException(nameof(request));
-            return await _ctx.Requests.AsNoTracking()
-            .FirstOrDefaultAsync(x => 
-                   x.Phone.GetPhoneFromStr().Equals(request.Phone.GetPhoneFromStr())
-                && x.EducationProgramId.Equals(request.EducationProgramId));
+            if (request == null) throw new ArgumentNullException(nameof(request));
+			var Requests = _ctx.Requests.AsNoTracking().AsAsyncEnumerable();
+            await foreach (var item in Requests)
+            {
+                if (item.Phone.GetPhoneFromStr().Equals(request.Phone.GetPhoneFromStr())
+            && item.EducationProgramId.Equals(request.EducationProgramId))
+                {
+                    return item;
+                }
+            }
+			return null;
         }
 
         public async Task<IEnumerable<Request>> FindRequesListByStudentGuidAsync(Guid id)
