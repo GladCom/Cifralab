@@ -41,6 +41,9 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     public EducationForm? EducationForm { get; set; }
+
+    Тут есть вопрос к аналитикам эту часть они вынесли в группу обучения
+    ....................
     /// <summary>
     /// Сетевая форма
     /// </summary>
@@ -49,10 +52,20 @@ public class EducationProgram
     /// Применение ДОТ
     /// </summary>
     public bool IsDOTProgram { get; set; }
+    .......................................................
+    
+    Модульная программа вообще boolean
+    /// <summary>
+    /// Ид Модульная программа
+    /// </summary>
+    public Guid? ModularProgramId { get; set; }
+
     /// <summary>
     /// Модульная программа
     /// </summary>
-    public bool IsModularProgram { get; set; }
+    [JsonIgnore]
+    public ModularProgram ModularProgram { get; set; }
+
     /// <summary>
     /// Id ВЭД программы
     /// </summary>
@@ -62,6 +75,25 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     public FEAProgram? FEAProgram { get; set; }
+
+    /// <summary>
+    /// Id источника финансирования
+    /// </summary>
+    public Guid? FinancingTypeId { get; set; }
+
+    /// <summary>
+    /// Источник финансирования
+    /// </summary>
+    [JsonIgnore]
+    public FinancingType FinancingType { get; set; }
+
+    /// <summary>
+    /// Группы обучения
+    /// </summary>
+    public List<Group> Groups { get; set; }
+
+
+    ??????????????????
     /// <summary>
     /// Обязательно наличие ВО
     /// </summary>

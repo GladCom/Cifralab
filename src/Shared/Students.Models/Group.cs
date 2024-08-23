@@ -36,11 +36,16 @@ public class Group
     /// Конец обучения
     /// </summary>
     public DateOnly EndDate { get; set; }
+
+    //не хватает сетевой формы и ДОТ которые частично определены в образовательной программе
+    //По данным предыдущей комманды и текущий модели есть повторяемость данных для разных
+    //сущнотей как буд-то это декорирование свойств наружу от внутренних элементов
+
     /// <summary>
     /// Студенты
     /// </summary>
-    public List<Student>? Students { get; set; }
+    public List<Person>? Persons { get; set; }
 
-	//Для таблицы Группы студентов для связи многие ко многим
-	public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
+    //Для таблицы Группы персон для связи многие ко многим
+    public virtual ICollection<GroupPerson>? GroupPerson { get; set; }
 }
