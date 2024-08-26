@@ -42,8 +42,8 @@ public class EducationProgram
     [JsonIgnore]
     public EducationForm? EducationForm { get; set; }
 
-    Тут есть вопрос к аналитикам эту часть они вынесли в группу обучения
-    ....................
+    //Тут есть вопрос к аналитикам эту часть они вынесли в группу обучения
+    //....................
     /// <summary>
     /// Сетевая форма
     /// </summary>
@@ -52,19 +52,24 @@ public class EducationProgram
     /// Применение ДОТ
     /// </summary>
     public bool IsDOTProgram { get; set; }
-    .......................................................
+    //.......................................................
     
-    Модульная программа вообще boolean
+    public bool IsModularProgram { get; set; }
+
+
     /// <summary>
-    /// Ид Модульная программа
+    /// Модульная программа
+    /// </summary>
     /// </summary>
     public Guid? ModularProgramId { get; set; }
 
+    /*
     /// <summary>
     /// Модульная программа
     /// </summary>
     [JsonIgnore]
     public ModularProgram ModularProgram { get; set; }
+    */
 
     /// <summary>
     /// Id ВЭД программы

@@ -25,7 +25,7 @@ public class Person
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
-    
+
     /// <summary>
     /// Фамилия
     /// экспорт из заявки
@@ -45,7 +45,7 @@ public class Person
     /// экспорт из заявки
     /// </summary>
     //Возможно нужна стратегия отображения ФИО, но тогда через конструктор
-    public string FullName => $"{Family} {Name} {Patron}"; 
+    public string FullName => $"{Family} {Name} {Patron}";
     /// <summary>
     /// Дата рождения
     /// </summary>
@@ -106,8 +106,8 @@ public class Person
     /// ОВЗ (инвалид)
     /// Справочник
     /// </summary>
-    public bool? Disability{ get; set; }
-    
+    public bool? Disability { get; set; }
+
     //Поля блока образования, вероятно, если заморачиваться, тоже скинуть в отдельную таблицу
     /// <summary>
     /// Уровень образования
@@ -130,6 +130,10 @@ public class Person
     /// Номер документа о ВО/СПО
     /// </summary>
     public string? DocumentNumber { get; set; }
+    /// <summary>
+    /// Дата получения диплома
+    /// </summary>
+    punlic Datetime DateTakeDiplom { get; set; }
 
     /// <summary>
     /// Сфера деятельности, уже есть как бы класс сфера деятельности с уровнями

@@ -40,20 +40,14 @@ public class Request
     public EducationProgram? EducationProgram { get; set; }
 
     /// <summary>
-    /// Документ повышения квалификации
+    /// Вид документа повышения квалификации для него сделать пеерчисление или классический справочник
     /// </summary>
-    public string DocumentRiseQualification { get; set; }
+    public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
 
     /// <summary>
-    /// Номер договора - че за нах это отдельная сущность или два реквизита в одной строке????
+    /// lдата и  Номер договора - че за нах это отдельная сущность или два реквизита в одной строке????
     /// </summary>
-    /// Если что это можно структурой сделать
-    public string DocumentRiseQualification { get; set; }
-
-    /// <summary>
-    /// Дата договора - че за нах это отдельная сущность или два реквизита в одной строке????
-    /// </summary>
-    public DateTime DateDocumentRiseQualification { get; set; }
+    public string DataNumberDogovor { get; set; }
 
     /// <summary>
     /// Статус заявки
@@ -71,8 +65,21 @@ public class Request
     /// </summary>
     public List<Order> Orders { get; set; }
 
+    ///Вся ниже лежащая ересь похоже на реквизиты одного документа КАРЛ!!!
+    /// <summary>
+    /// Дата выдачи удостоверения назовите это нормально
+    /// </summary>
+    public DateTime DateTakeUdostoverenie { get; set; }
 
+    /// <summary>
+    /// Номер выдачи удостоверения назовите это нормально
+    /// </summary>
+    public DateTime NumberTakeUdostoverenie { get; set; }
 
+    /// <summary>
+    /// Регистрационный номер
+    /// </summary>
+    public string RegistrationNumber
 
 
     /* вот это вот все реквизиты картоки персоны, 
