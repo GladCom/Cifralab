@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Students.Models;
 
@@ -27,11 +28,14 @@ public class Order
     /// <summary>
     /// Вид приказа
     /// </summary>
-    public KindOrder Kind { get; set; } 
-
+    public KindOrder Kind { get; set; }
+    /// <summary>
+    /// Id Заявка
+    /// </summary>
+    public Guid RequestId { get; set; }
     /// <summary>
     /// Заявка
     /// </summary>
-    [JSonIgnor]
-    public Request { get; set; }
+    [JsonIgnore]
+    public Request Request { get; set; }
 }

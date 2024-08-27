@@ -39,14 +39,14 @@ public class Request
     public EducationProgram? EducationProgram { get; set; }
 
     /// <summary>
-    /// Идентификатор Вид документа повышения квалификации
+    /// Идентификатор Вида документа повышения квалификации
     /// </summary>
-    public Guid KindDocumentRiseQualificationId { get; set; }
+    public Guid DocumentRiseQualificationId { get; set; }
 
     /// <summary>
     /// Вид документа повышения квалификации
     /// </summary>
-    public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
+    public DocumentRiseQualification? DocumentRiseQualification { get; set; }
 
     /// <summary>
     /// дата и  Номер договора - че за нах это отдельная сущность или два реквизита в одной строке????
@@ -65,25 +65,16 @@ public class Request
 
     /// <summary>
     /// Приказы
-    /// Приказы нужно делать
     /// </summary>
     public List<Order> Orders { get; set; }
 
     ///Вся ниже лежащая ересь похоже на реквизиты одного документа КАРЛ и похоже на документ повышения квалификации!!!
-    /// <summary>
-    /// Дата выдачи удостоверения назовите это нормально
-    /// </summary>
-    public DateTime DateCertificate { get; set; }
-
-    /// <summary>
-    /// Номер выдачи удостоверения назовите это нормально
-    /// </summary>
-    public string NumberCertificate { get; set; }
+    
 
     /// <summary>
     /// Регистрационный номер
     /// </summary>
-    public string RegistrationNumber
+    public string RegistrationNumber { get; set; }
 
 
     /* вот это вот все реквизиты картоки персоны, 

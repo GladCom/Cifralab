@@ -102,7 +102,7 @@ public class Person
     /// </summary>
     public string IT_Experience { get; set; }
 
-    /// </summary>
+    /// <summary>
     /// ОВЗ (инвалид)
     /// Справочник
     /// </summary>
@@ -118,6 +118,8 @@ public class Person
     /// Специальность
     /// </summary>
     public string? Speciality { get; set; }
+
+    //тут по хорошему тоже отдельный документ должен быть
     /// <summary>
     /// Фамилия, указанная в дипломе о ВО или СПО
     /// </summary>
@@ -133,7 +135,7 @@ public class Person
     /// <summary>
     /// Дата получения диплома
     /// </summary>
-    punlic Datetime DateTakeDiplom { get; set; }
+    public DateTime DateTakeDiplom { get; set; }
 
     /// <summary>
     /// Сфера деятельности, уже есть как бы класс сфера деятельности с уровнями

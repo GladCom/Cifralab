@@ -22,7 +22,7 @@ public class EducationProgram
     /// <summary>
     /// Стоимость обучения
     /// </summary>
-    public double Cost { get; set; }; 
+    public double Cost { get; set; }
     /// <summary>
     /// Количество часов
     /// </summary>
