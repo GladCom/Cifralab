@@ -37,10 +37,18 @@ public class Group
     /// </summary>
     public DateOnly EndDate { get; set; }
 
-    //не хватает сетевой формы и ДОТ которые частично определены в образовательной программе
-    //По данным предыдущей комманды и текущий модели есть повторяемость данных для разных
-    //сущнотей как буд-то это декорирование свойств наружу от внутренних элементов
-
+    /// <summary>
+    /// Сетевая форма
+    /// </summary>
+    public bool IsNetworkProgram { get; set; }
+    /// <summary>
+    /// Применение ДОТ
+    /// </summary>
+    public bool IsDOTProgram { get; set; }
+    /// <summary>
+    /// Применение ДОТ полностью
+    /// </summary>
+    public bool IsFullDOTProgram { get; set; }
     /// <summary>
     /// Студенты
     /// </summary>

@@ -20,6 +20,10 @@ public class EducationProgram
     /// </summary>
     public string Name { get; set; }
     /// <summary>
+    /// Стоимость обучения
+    /// </summary>
+    public double Cost { get; set; }; 
+    /// <summary>
     /// Количество часов
     /// </summary>
     public int HoursCount { get; set; }
@@ -41,35 +45,10 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     public EducationForm? EducationForm { get; set; }
-
-    //Тут есть вопрос к аналитикам эту часть они вынесли в группу обучения
-    //....................
     /// <summary>
-    /// Сетевая форма
+    /// Модульная программа
     /// </summary>
-    public bool IsNetworkProgram { get; set; }
-    /// <summary>
-    /// Применение ДОТ
-    /// </summary>
-    public bool IsDOTProgram { get; set; }
-    //.......................................................
-    
     public bool IsModularProgram { get; set; }
-
-
-    /// <summary>
-    /// Модульная программа
-    /// </summary>
-    /// </summary>
-    public Guid? ModularProgramId { get; set; }
-
-    /*
-    /// <summary>
-    /// Модульная программа
-    /// </summary>
-    [JsonIgnore]
-    public ModularProgram ModularProgram { get; set; }
-    */
 
     /// <summary>
     /// Id ВЭД программы
@@ -98,7 +77,7 @@ public class EducationProgram
     public List<Group> Groups { get; set; }
 
 
-    ??????????????????
+    //Вот это наследие от прежних разрабов - похоже не нужно
     /// <summary>
     /// Обязательно наличие ВО
     /// </summary>

@@ -31,7 +31,6 @@ public class Request
     /// <summary>
     ///  Id образовательной программы 
     /// </summary>
-    //(в соответсвии с моделью  - это фиксированный список, но уже сделан справочник и это хорошо)
     public Guid EducationProgramId { get; set; }
     /// <summary>
     /// Образовательная программа
@@ -40,12 +39,17 @@ public class Request
     public EducationProgram? EducationProgram { get; set; }
 
     /// <summary>
-    /// Вид документа повышения квалификации для него сделать пеерчисление или классический справочник
+    /// Идентификатор Вид документа повышения квалификации
+    /// </summary>
+    public Guid KindDocumentRiseQualificationId { get; set; }
+
+    /// <summary>
+    /// Вид документа повышения квалификации
     /// </summary>
     public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
 
     /// <summary>
-    /// lдата и  Номер договора - че за нах это отдельная сущность или два реквизита в одной строке????
+    /// дата и  Номер договора - че за нах это отдельная сущность или два реквизита в одной строке????
     /// </summary>
     public string DataNumberDogovor { get; set; }
 
@@ -65,16 +69,16 @@ public class Request
     /// </summary>
     public List<Order> Orders { get; set; }
 
-    ///Вся ниже лежащая ересь похоже на реквизиты одного документа КАРЛ!!!
+    ///Вся ниже лежащая ересь похоже на реквизиты одного документа КАРЛ и похоже на документ повышения квалификации!!!
     /// <summary>
     /// Дата выдачи удостоверения назовите это нормально
     /// </summary>
-    public DateTime DateTakeUdostoverenie { get; set; }
+    public DateTime DateCertificate { get; set; }
 
     /// <summary>
     /// Номер выдачи удостоверения назовите это нормально
     /// </summary>
-    public DateTime NumberTakeUdostoverenie { get; set; }
+    public string NumberCertificate { get; set; }
 
     /// <summary>
     /// Регистрационный номер
