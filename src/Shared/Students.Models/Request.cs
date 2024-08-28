@@ -26,7 +26,7 @@ public class Request
     /// Персона
     /// </summary>
     [JsonIgnore]
-    public Person? Person { get; set; }
+    public Student? Student { get; set; }
 
     /// <summary>
     ///  Id образовательной программы 
