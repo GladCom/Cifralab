@@ -28,7 +28,13 @@ public class Order
     /// <summary>
     /// Вид приказа
     /// </summary>
+    public Guid KindOrderId { get; set; }
+
+    /// <summary>
+    /// Вид приказа
+    /// </summary>
     public KindOrder Kind { get; set; }
+
     /// <summary>
     /// Id Заявка
     /// </summary>

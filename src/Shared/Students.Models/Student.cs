@@ -49,7 +49,7 @@ public class Student
     /// <summary>
     /// Дата рождения
     /// </summary>
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
     /// <summary>
     /// Возраст
     /// </summary>
@@ -171,7 +171,7 @@ public class Student
 
     //Для таблицы Группы Персон для связи многие ко многим (по сути виртуальная сущность - 
     //промежуток между группой обучения и персоной)
-	public virtual ICollection<Group>? GroupStudent { get; set; }
+	public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
 
     /// <summary>
     /// Заявки на обучение

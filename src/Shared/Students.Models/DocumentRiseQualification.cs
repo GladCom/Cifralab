@@ -18,7 +18,7 @@ public class DocumentRiseQualification
     /// <summary>
     /// Вид документа повышения квалификации
     /// </summary>
-    public int KindDocumentRiseQualificationId { get; set; }
+    public Guid KindDocumentRiseQualificationId { get; set; }
     /// <summary>
     /// Вид документа повышения квалификации
     /// </summary>

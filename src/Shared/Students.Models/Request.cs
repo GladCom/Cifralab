@@ -21,7 +21,7 @@ public class Request
     /// Id Персона
     /// экспорт из заявки
     /// </summary>
-    public Guid? PersonId { get; set; }
+    public Guid? StudentId { get; set; }
     /// <summary>
     /// Персона
     /// </summary>

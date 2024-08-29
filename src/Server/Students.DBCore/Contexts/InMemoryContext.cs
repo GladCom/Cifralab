@@ -52,11 +52,11 @@ public sealed class InMemoryContext : StudentContext
                 HoursCount = 72,
                 EducationTypeId = new Guid("7EDA9352-0057-4CBD-A102-B0F817A9F3DC"),
                 EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
-                IsNetworkProgram = false,
-                IsDOTProgram = false,
                 IsModularProgram = false,
                 FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
-                IsCollegeProgram = false
+                IsCollegeProgram = false,
+                Cost = 1234.5,
+                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")
             },
             new EducationProgram
             {
@@ -65,11 +65,11 @@ public sealed class InMemoryContext : StudentContext
                 HoursCount = 72,
                 EducationTypeId = new Guid("7EDA9352-0057-4CBD-A102-B0F817A9F3DC"),
                 EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
-                IsNetworkProgram = false,
-                IsDOTProgram = false,
                 IsModularProgram = false,
                 FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
-                IsCollegeProgram = false
+                IsCollegeProgram = false,
+                Cost = 54.7,
+                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")
             }
         );
 
@@ -132,56 +132,80 @@ public sealed class InMemoryContext : StudentContext
                 Name = "Обучается"
             }
         );
+        modelBuilder.Entity<KindDocumentRiseQualification>().HasData(
+            new KindDocumentRiseQualification
+            {
+                Id = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
+                Name = "Свидетельство"
+            },
+            new KindDocumentRiseQualification
+            {
+                Id = new Guid("85F88509-87AE-42EB-99CE-9CDB07918138"),
+                Name = "Диплом"
+            }
+        );
+        modelBuilder.Entity<DocumentRiseQualification>().HasData(
+            new DocumentRiseQualification
+            {
+                Id = new Guid("8A42A22F-FCE7-441F-965F-F7FEDDF38F3D"),
+                KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
+                Name = "Справка (вероятно не нужное поле)",
+                Date = new DateTime(2024, 8, 29), //возможно поменять на DateOnly
+                Number = "ФЕ 34"
+            }
+        );
         modelBuilder.Entity<Request>().HasData(
             new Request
             {
                 Id = new Guid("6A4D3929-B049-4400-80EF-264C90914F61"),
                 EducationProgramId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
-                Email = "student1@mail.ru",
-                Interview = "Прошел",
-                BirthDate = new DateOnly(1990, 5, 10),
-                CreatedAt = new DateTime(2023, 10, 15, 8, 0, 0),
-                Phone = "+71234567890",
-                EntranceExamination = "Прошел",
-                FullName = "Иванов Иван Иванович",
-                StudentStatusId = new Guid("8877A2F7-B866-4881-922C-C2BAA9D1C7EF"),
-                StudentEducationId = new Guid("7CF2BA34-080B-4FEF-8BFE-83731AC54742"),
-                Disability = false,
-                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
-                ScopeOfActivityLv1Id = new Guid("6C3776FC-F3AC-4F4A-92D5-1E94A5596F6A"),
-                ScopeOfActivityLv2Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
-                JobResult = "Работаю",
-                OrderOfAdmission = "Приказ №1 от 01.01.2021",
-                Address = "г. Москва, ул. Ленина, д. 1, кв. 1",
-                Speciality = "Инженер-программист",
-                JobCV = "Опыть в IT 10 лет",
-                EducationContract = "Договор №1 от 01.01.2021",
-                DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307")
+                DocumentRiseQualificationId = new Guid("8A42A22F-FCE7-441F-965F-F7FEDDF38F3D"),
+                //Interview = "Прошел",
+                //BirthDate = new DateOnly(1990, 5, 10),
+                //CreatedAt = new DateTime(2023, 10, 15, 8, 0, 0),
+                //Phone = "+71234567890",
+                //EntranceExamination = "Прошел",
+                //FullName = "Иванов Иван Иванович",
+                //StudentStatusId = new Guid("8877A2F7-B866-4881-922C-C2BAA9D1C7EF"),
+                //StudentEducationId = new Guid("7CF2BA34-080B-4FEF-8BFE-83731AC54742"),
+                //Disability = false,
+                //FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                //ScopeOfActivityLv1Id = new Guid("6C3776FC-F3AC-4F4A-92D5-1E94A5596F6A"),
+                //ScopeOfActivityLv2Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
+                //JobResult = "Работаю",
+                //OrderOfAdmission = "Приказ №1 от 01.01.2021",
+                //Address = "г. Москва, ул. Ленина, д. 1, кв. 1",
+                //Speciality = "Инженер-программист",
+                //JobCV = "Опыть в IT 10 лет",
+                DataNumberDogovor = "Договор №1 от 01.01.2021", //вернуть на EducationContract
+                //EducationContract = "Договор №1 от 01.01.2021",
+                //DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307")
             },
             new Request
             {
                 Id = new Guid("7BFC4F24-7F38-4F3F-9B17-1A0C82323DBB"),
                 EducationProgramId = new Guid("2B693FEB-55AB-44C4-8A5E-D61D074C23FE"),
-                Email = "student2@mail.ru",
-                Interview = "Прошел",
-                BirthDate = new DateOnly(1995, 1, 22),
-                CreatedAt = new DateTime(2023, 09, 16, 12, 45, 0),
-                Phone = "+71234567890",
-                EntranceExamination = "Прошел",
-                FullName = "Петров Петр Петрович",
-                StudentEducationId = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
-                StudentStatusId = new Guid("8FA04109-EF98-4CBD-B5A9-0799ECE57097"),
-                Disability = false,
-                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
-                ScopeOfActivityLv1Id = new Guid("6C3776FC-F3AC-4F4A-92D5-1E94A5596F6A"),
-                ScopeOfActivityLv2Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
-                JobResult = "Работаю",
-                OrderOfAdmission = "Приказ №1 от 01.01.2021",
-                Address = "г. Москва, ул. Ленина, д. 1, кв. 1",
-                Speciality = "Инженер-программист",
-                JobCV = "Опыть в IT 10 лет",
-                EducationContract = "Договор №1 от 01.01.2021",
-                DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307"),
+                //Email = "student2@mail.ru",
+                //Interview = "Прошел",
+                //BirthDate = new DateOnly(1995, 1, 22),
+                //CreatedAt = new DateTime(2023, 09, 16, 12, 45, 0),
+                //Phone = "+71234567890",
+                //EntranceExamination = "Прошел",
+                //FullName = "Петров Петр Петрович",
+                //StudentEducationId = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
+                //StudentStatusId = new Guid("8FA04109-EF98-4CBD-B5A9-0799ECE57097"),
+                //Disability = false,
+                //FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                //ScopeOfActivityLv1Id = new Guid("6C3776FC-F3AC-4F4A-92D5-1E94A5596F6A"),
+                //ScopeOfActivityLv2Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
+                //JobResult = "Работаю",
+                //OrderOfAdmission = "Приказ №1 от 01.01.2021",
+                //Address = "г. Москва, ул. Ленина, д. 1, кв. 1",
+                //Speciality = "Инженер-программист",
+                //JobCV = "Опыть в IT 10 лет",
+                //EducationContract = "Договор №1 от 01.01.2021",
+                DataNumberDogovor = "Договор №1 от 01.01.2021", //вернуть на EducationContract
+                //DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307"),
                 StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6")
             }
         );
@@ -192,7 +216,27 @@ public sealed class InMemoryContext : StudentContext
                 EducationProgramId = new Guid("2B693FEB-55AB-44C4-8A5E-D61D074C23FE"),
                 StartDate = new DateOnly(2023, 12, 1),
                 EndDate = new DateOnly(2023, 12, 31),
-                Name = "Группа 1"
+                Name = "Группа 1",
+                IsNetworkProgram = false,
+                IsDOTProgram = false,
+                IsFullDOTProgram = false
+            }
+        );
+        modelBuilder.Entity<KindOrder>().HasData(
+            new KindOrder
+            {
+                Id = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
+                Name = "Новый вид приказа"
+            }
+        );
+        modelBuilder.Entity<Order>().HasData(
+            new Order
+            {
+                Id = new Guid("C9D7307E-F019-416E-9677-50EC9377D4FB"),
+                Number = "xxx 55",
+                Date = new DateTime(2024, 8, 29),
+                Kind = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
+                RequestId = new Guid("6A4D3929-B049-4400-80EF-264C90914F61")
             }
         );
         modelBuilder.Entity<Student>().HasData(
@@ -200,7 +244,9 @@ public sealed class InMemoryContext : StudentContext
             {
                 Id = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
                 BirthDate = new DateOnly(1990, 5, 10),
-                FullName = "Иванов Иван Иванович",
+                Family = "Иванов",
+                Name = "Иван",
+                Patron = "Иванович",
                 Nationality = "РФ",
                 DocumentNumber = "АААА123456",
                 DocumentSeries = "1234",

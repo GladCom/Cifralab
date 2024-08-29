@@ -9,7 +9,7 @@ namespace Students.Models
 		//[Key]
 		//[Column(Order = 0)]
 		//[ForeignKey("Student")]
-		public Guid GroupStudentId { get; set; }
+		public Guid StudentsId { get; set; }
 		//[Key]
 		//[Column(Order = 1)]
 		//[ForeignKey("Group")]
