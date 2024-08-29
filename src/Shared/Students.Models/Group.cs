@@ -12,8 +12,6 @@ public class Group
     /// <summary>
     /// Id группы
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя группы

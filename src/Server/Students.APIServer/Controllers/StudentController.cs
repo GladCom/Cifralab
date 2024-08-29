@@ -29,6 +29,7 @@ public class StudentController : GenericAPiController<Student>
     {
         return StatusCode(StatusCodes.Status200OK, await _studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
     }
+
     /// <summary>
     /// Список групп в которых состоит студент
     /// </summary>
@@ -40,6 +41,7 @@ public class StudentController : GenericAPiController<Student>
 		return StatusCode(StatusCodes.Status200OK, 
             await _studentRepository.GetListGroupsOfStudentExists(student));
 	}
+
     /// <summary>
     /// Добавить студента в группу
     /// </summary>
