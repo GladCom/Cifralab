@@ -235,7 +235,7 @@ public sealed class InMemoryContext : StudentContext
                 Id = new Guid("C9D7307E-F019-416E-9677-50EC9377D4FB"),
                 Number = "xxx 55",
                 Date = new DateTime(2024, 8, 29),
-                Kind = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
+                KindOrderId = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
                 RequestId = new Guid("6A4D3929-B049-4400-80EF-264C90914F61")
             }
         );

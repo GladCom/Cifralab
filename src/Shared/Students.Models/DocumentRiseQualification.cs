@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Students.Models;
 
@@ -12,8 +10,6 @@ public class DocumentRiseQualification
     /// <summary>
     /// Id документа
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Вид документа повышения квалификации
@@ -23,7 +19,7 @@ public class DocumentRiseQualification
     /// Вид документа повышения квалификации
     /// </summary>
     [JsonIgnore]
-    public KindDocumentRiseQualification kindDocumentRiseQualification { get; set; }
+    public KindDocumentRiseQualification KindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Имя программы
     /// </summary>

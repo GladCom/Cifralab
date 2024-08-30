@@ -4,21 +4,22 @@ using Students.Models;
 
 namespace Students.DBCore.Confuguration
 {
-  /// <summary>
-  /// Конфигурация сущности студентов.
-  /// </summary>
-  internal class StudentConfiguration : IEntityTypeConfiguration<Student>
-  {
-    public void Configure(EntityTypeBuilder<Student> builder)
+    /// <summary>
+    /// Конфигурация сущности студентов.
+    /// </summary>
+    internal class StudentConfiguration : IEntityTypeConfiguration<Student>
     {
-      builder.HasKey(x => x.Id);
+        public void Configure(EntityTypeBuilder<Student> builder)
+        {
+            builder.HasKey(x => x.Id);
 
-      builder.Property(x => x.Id)
-        .IsRequired()
-        .ValueGeneratedOnAdd();
+            builder.Property(x => x.Id)
+              .IsRequired()
+              .ValueGeneratedOnAdd();
 
-      builder.HasMany(gs => gs.GroupStudent)
-        .WithOne(s => s.Student);
+            builder.HasMany(r => r.Requests)
+                .WithOne(s => s.Student)
+                .HasForeignKey(s => s.StudentId);
+        }
     }
-  }
 }

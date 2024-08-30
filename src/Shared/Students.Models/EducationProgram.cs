@@ -12,8 +12,6 @@ public class EducationProgram
     /// <summary>
     /// Id программы
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Наименование программы
@@ -59,7 +57,6 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     public FEAProgram? FEAProgram { get; set; }
-
     /// <summary>
     /// Id источника финансирования
     /// </summary>

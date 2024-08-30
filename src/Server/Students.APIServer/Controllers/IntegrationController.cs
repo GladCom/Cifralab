@@ -35,23 +35,23 @@ public class IntegrationController : ControllerBase
     /// </summary>
     /// <param name="form"></param>
     /// <returns></returns>
-    [HttpPost("EducationRequest")]
-    public async Task<IActionResult> Post([FromBody] RequestWebhook form)
-    {
-        try
-        {
-            var request = Mapper.WebhookToRequest(form, _studentEducationRepository);
-            var result = await _requestRepository.Create(request);
-            return StatusCode(StatusCodes.Status200OK, form);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Error while creating new Entity");
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                new DefaultResponse
-                {
-                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-                });
-        }
-    }
+    //[HttpPost("EducationRequest")]
+    //public async Task<IActionResult> Post([FromBody] RequestWebhook form)
+    //{
+    //    try
+    //    {
+    //        var request = Mapper.WebhookToRequest(form, _studentEducationRepository);
+    //        var result = await _requestRepository.Create(request);
+    //        return StatusCode(StatusCodes.Status200OK, form);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        _logger.LogError(e, "Error while creating new Entity");
+    //        return StatusCode(StatusCodes.Status500InternalServerError,
+    //            new DefaultResponse
+    //            {
+    //                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+    //            });
+    //    }
+    //}
 }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Students.Models;
 
@@ -12,8 +10,6 @@ public class Order
     /// <summary>
     /// Id приказа
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Номер приказа
@@ -33,7 +29,7 @@ public class Order
     /// <summary>
     /// Вид приказа
     /// </summary>
-    public KindOrder Kind { get; set; }
+    public KindOrder KindOrder { get; set; }
 
     /// <summary>
     /// Id Заявка

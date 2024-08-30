@@ -21,48 +21,48 @@ namespace Students.APIServer.Repository
             _studentRepository = studRep;
             _modelState = new ModelStateDictionary();
         }
-        protected async Task<bool> ValidateRequest(Request requestToValidate)
-        {
-             if(_ctx.Requests == null || _ctx.Requests.Count()==0) return _modelState.IsValid;
-             if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
-                _modelState.AddModelError("Заявка", "Пользователь с этим e-mail адресом уже оставил заявку на этот курс.");
-             if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
-                _modelState.AddModelError("Заявка", "Пользователь с этим номером телефона уже оставил заявку на этот курс.");
+        //protected async Task<bool> ValidateRequest(Request requestToValidate)
+        //{
+        //     if(_ctx.Requests == null || _ctx.Requests.Count()==0) return _modelState.IsValid;
+        //     if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
+        //        _modelState.AddModelError("Заявка", "Пользователь с этим e-mail адресом уже оставил заявку на этот курс.");
+        //     if (await FindRequestByPhoneFromRequestAsync(requestToValidate) != null)
+        //        _modelState.AddModelError("Заявка", "Пользователь с этим номером телефона уже оставил заявку на этот курс.");
  
-            return _modelState.IsValid;
-        }
+        //    return _modelState.IsValid;
+        //}
 
-        public async Task<Request?> Create(Request item)
-        {
-            if (!await ValidateRequest(item)) return null;
-            var existStudent = await _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
-            //Меняем GUID студента когда нашли его в базе по связке телефон и email
-            if (existStudent != null) item.StudentId = existStudent.Id;
+   //     public async Task<Request?> Create(Request item)
+   //     {
+   //         if (!await ValidateRequest(item)) return null;
+   //         var existStudent = await _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
+   //         //Меняем GUID студента когда нашли его в базе по связке телефон и email
+   //         if (existStudent != null) item.StudentId = existStudent.Id;
 
-            return await base.Create(item);
-        }
-        public async Task<Request?> FindRequestByEmailFromRequestAsync(Request request)
-        {
-            if(request == null) throw new ArgumentNullException(nameof(request));
-             return await Task.FromResult(_ctx.Requests.AsNoTracking()
-            .FirstOrDefaultAsync(x =>
-                       x.Email.ToLower().Equals(request.Email.ToLower()) 
-                    && x.EducationProgramId.Equals(request.EducationProgramId))).Result;
-        }
-        public async Task<Request?> FindRequestByPhoneFromRequestAsync(Request request)
-        {
-            if (request == null) throw new ArgumentNullException(nameof(request));
-			var Requests = _ctx.Requests.AsNoTracking().AsAsyncEnumerable();
-            await foreach (var item in Requests)
-            {
-                if (item.Phone.GetPhoneFromStr().Equals(request.Phone.GetPhoneFromStr())
-            && item.EducationProgramId.Equals(request.EducationProgramId))
-                {
-                    return item;
-                }
-            }
-			return null;
-        }
+   //         return await base.Create(item);
+   //     }
+   //     public async Task<Request?> FindRequestByEmailFromRequestAsync(Request request)
+   //     {
+   //         if(request == null) throw new ArgumentNullException(nameof(request));
+   //          return await Task.FromResult(_ctx.Requests.AsNoTracking()
+   //         .FirstOrDefaultAsync(x =>
+   //                    x.Email.ToLower().Equals(request.Email.ToLower()) 
+   //                 && x.EducationProgramId.Equals(request.EducationProgramId))).Result;
+   //     }
+   //     public async Task<Request?> FindRequestByPhoneFromRequestAsync(Request request)
+   //     {
+   //         if (request == null) throw new ArgumentNullException(nameof(request));
+			//var Requests = _ctx.Requests.AsNoTracking().AsAsyncEnumerable();
+   //         await foreach (var item in Requests)
+   //         {
+   //             if (item.Phone.GetPhoneFromStr().Equals(request.Phone.GetPhoneFromStr())
+   //         && item.EducationProgramId.Equals(request.EducationProgramId))
+   //             {
+   //                 return item;
+   //             }
+   //         }
+			//return null;
+   //     }
 
         public async Task<IEnumerable<Request>> FindRequesListByStudentGuidAsync(Guid id)
         {

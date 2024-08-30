@@ -15,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StudentContext, PgContext>();
 //builder.Services.AddDbContext<StudentContext, InMemoryContext>();
+builder.Services.AddScoped<StudentContext>();
+builder.Services.AddScoped<PgContext>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
