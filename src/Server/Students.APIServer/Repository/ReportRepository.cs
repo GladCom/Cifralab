@@ -9,13 +9,12 @@ namespace Students.APIServer.Repository
         private readonly IStudentRepository _studentRepository;
         private readonly IGenericRepository<EducationForm> _educationFormRepository;
         private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
-        private readonly IGenericRepository<EducationType> _educationTypeRepository;
+        private readonly IGenericRepository<KindDocumentRiseQualification> _kindDocumentRiseQualificationRepository;
         private readonly IGenericRepository<FEAProgram> _FEAProgramFormRepository;
         private readonly IGenericRepository<FinancingType> _financingTypeRepository;
         private readonly IGenericRepository<Group> _groupRepository;
         private readonly IGenericRepository<Request> _requestRepository;
         private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
-        private readonly IGenericRepository<StudentDocument> _studentDocumentRepository;
         private readonly IGenericRepository<StudentEducation> _studentEducationRepository;
         private readonly IGenericRepository<StudentStatus> _studentStatusRepository;
 
@@ -23,26 +22,24 @@ namespace Students.APIServer.Repository
             IStudentRepository studentRepository,
             IGenericRepository<EducationForm> educationFormRepository,
             IGenericRepository<EducationProgram> educationProgramRepository,
-            IGenericRepository<EducationType> educationTypeRepository,
+            IGenericRepository<KindDocumentRiseQualification> kindDocumentRiseQualificationRepository,
             IGenericRepository<FEAProgram> fEAProgramFormRepository,
             IGenericRepository<FinancingType> financingTypeRepository,
             IGenericRepository<Group> groupRepository,
             IGenericRepository<Request> requestRepository,
             IGenericRepository<ScopeOfActivity> scopeOfActivityRepository,
-            IGenericRepository<StudentDocument> studentDocumentRepository,
             IGenericRepository<StudentEducation> studentEducationRepository,
             IGenericRepository<StudentStatus> studentStatusRepository)
         {
             _studentRepository = studentRepository;
             _educationFormRepository = educationFormRepository;
             _educationProgramRepository = educationProgramRepository;
-            _educationTypeRepository = educationTypeRepository;
+            _kindDocumentRiseQualificationRepository = kindDocumentRiseQualificationRepository;
             _FEAProgramFormRepository = fEAProgramFormRepository;
             _financingTypeRepository = financingTypeRepository;
             _groupRepository = groupRepository;
             _requestRepository = requestRepository;
             _scopeOfActivityRepository = scopeOfActivityRepository;
-            _studentDocumentRepository = studentDocumentRepository;
             _studentEducationRepository = studentEducationRepository;
             _studentStatusRepository = studentStatusRepository;
         }
@@ -58,13 +55,12 @@ namespace Students.APIServer.Repository
                 { "StudentsReport.csv", await WriteOneDT(_studentRepository) },
                 { "EducationFormReport.csv", await WriteOneDT(_educationFormRepository) },
                 { "EducationProgramReport.csv", await WriteOneDT(_educationProgramRepository) },
-                { "EducationTypeReport.csv", await WriteOneDT(_educationTypeRepository) },
+                { "KindDocumentRiseQualification.csv", await WriteOneDT(_kindDocumentRiseQualificationRepository) },
                 { "FEAProgramFormReport.csv", await WriteOneDT(_FEAProgramFormRepository) },
                 { "FinancingTypeReport.csv", await WriteOneDT(_financingTypeRepository) },
                 { "GroupRepositoryReport.csv", await WriteOneDT(_groupRepository) },
                 { "RequestReport.csv", await WriteOneDT(_requestRepository) },
                 { "ScopeOfActivityReport.csv", await WriteOneDT(_scopeOfActivityRepository) },
-                { "StudentDocumentReport.csv", await WriteOneDT(_studentDocumentRepository) },
                 { "StudentEducationReport.csv", await WriteOneDT(_studentEducationRepository) },
                 { "StudentStatusReport.csv", await WriteOneDT(_studentStatusRepository) }
             };

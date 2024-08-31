@@ -25,11 +25,6 @@ public sealed class InMemoryContext : StudentContext
             new EducationForm { Id = Guid.NewGuid(), Name = "Заочная" },
             new EducationForm { Id = Guid.NewGuid(), Name = "Очно-заочная" }
         );
-        modelBuilder.Entity<EducationType>().HasData(
-            new EducationType
-                { Id = new Guid("7EDA9352-0057-4CBD-A102-B0F817A9F3DC"), Name = "Программа повышения квалификации" },
-            new EducationType { Id = Guid.NewGuid(), Name = "Программа профессиональной переподготовки" }
-        );
         modelBuilder.Entity<FEAProgram>().HasData(
             new FEAProgram
             {
@@ -50,7 +45,6 @@ public sealed class InMemoryContext : StudentContext
                 Id = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
                 Name = "Бизнес-анализ для специалистов с начальным уровнем подготовки",
                 HoursCount = 72,
-                EducationTypeId = new Guid("7EDA9352-0057-4CBD-A102-B0F817A9F3DC"),
                 EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
                 IsModularProgram = false,
                 FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
@@ -63,7 +57,6 @@ public sealed class InMemoryContext : StudentContext
                 Id = new Guid("2B693FEB-55AB-44C4-8A5E-D61D074C23FE"),
                 Name = "Проектирование на языке C#",
                 HoursCount = 72,
-                EducationTypeId = new Guid("7EDA9352-0057-4CBD-A102-B0F817A9F3DC"),
                 EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
                 IsModularProgram = false,
                 FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
@@ -96,18 +89,6 @@ public sealed class InMemoryContext : StudentContext
                 NameOfScope = "Руководители предприятий и организаций"
             }
         );
-        modelBuilder.Entity<StudentDocument>().HasData(
-            new StudentDocument
-            {
-                Id = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307"),
-                Name = "Удостоверение о повышении квалификации"
-            },
-            new StudentDocument
-            {
-                Id = new Guid("4304E2DF-513F-4C1C-8CA8-7E21B1D91EF3"),
-                Name = "Диплом о профессиональной переподготовке"
-            }
-        );
         modelBuilder.Entity<StudentEducation>().HasData(
             new StudentEducation
             {
@@ -136,12 +117,12 @@ public sealed class InMemoryContext : StudentContext
             new KindDocumentRiseQualification
             {
                 Id = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
-                Name = "Свидетельство"
+                Name = "Удостоверение о повышении квалификации"
             },
             new KindDocumentRiseQualification
             {
                 Id = new Guid("85F88509-87AE-42EB-99CE-9CDB07918138"),
-                Name = "Диплом"
+                Name = "Диплом о профессиональной переподготовке"
             }
         );
         modelBuilder.Entity<DocumentRiseQualification>().HasData(
@@ -235,7 +216,7 @@ public sealed class InMemoryContext : StudentContext
                 Id = new Guid("C9D7307E-F019-416E-9677-50EC9377D4FB"),
                 Number = "xxx 55",
                 Date = new DateTime(2024, 8, 29),
-                Kind = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
+                KindOrderId = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
                 RequestId = new Guid("6A4D3929-B049-4400-80EF-264C90914F61")
             }
         );

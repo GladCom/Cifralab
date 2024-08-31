@@ -28,15 +28,6 @@ public class EducationProgram
     /// </summary>
     public int HoursCount { get; set; }
     /// <summary>
-    /// Id Вида программы
-    /// </summary>
-    public Guid EducationTypeId { get; set; }
-    /// <summary>
-    /// Вид программы
-    /// </summary>
-    [JsonIgnore]
-    public EducationType? EducationType { get; set; }
-    /// <summary>
     /// Id Формы обучения
     /// </summary>
     public Guid EducationFormId { get; set; }
@@ -45,6 +36,15 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     public EducationForm? EducationForm { get; set; }
+    /// <summary>
+    /// Вид документа повышения квалификации
+    /// </summary>
+    public Guid KindDocumentRiseQualificationId { get; set; }
+    /// <summary>
+    /// Вид документа повышения квалификации
+    /// </summary>
+    [JsonIgnore]
+    public KindDocumentRiseQualification kindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Модульная программа
     /// </summary>
