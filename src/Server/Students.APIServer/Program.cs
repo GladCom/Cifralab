@@ -31,16 +31,17 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(modelsDoc);
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationForm>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationProgram>>();
-    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationType>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<KindDocumentRiseQualification>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<FEAProgram>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<FinancingType>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Group>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Request>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<ScopeOfActivity>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Student>>();
-    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentDocument>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<DocumentRiseQualification>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentEducation>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentStatus>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Order>>();
 });
 
 builder.Services.AddCors(options =>

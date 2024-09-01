@@ -18,7 +18,7 @@ public class EducationProgram
     /// <summary>
     /// Наименование программы
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
     /// <summary>
     /// Стоимость обучения
     /// </summary>

@@ -18,7 +18,7 @@ public class Order
     /// <summary>
     /// Номер приказа
     /// </summary>
-    public string Number { get; set; }
+    public string? Number { get; set; }
 
     /// <summary>
     /// дата приказа

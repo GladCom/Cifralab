@@ -31,7 +31,7 @@ public class Request
     /// <summary>
     ///  Id образовательной программы 
     /// </summary>
-    public Guid EducationProgramId { get; set; }
+    public Guid? EducationProgramId { get; set; }
     /// <summary>
     /// Образовательная программа
     /// </summary>

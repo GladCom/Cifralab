@@ -17,5 +17,5 @@ public class FEAProgram
     /// <summary>
     /// Имя ВЭД
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }

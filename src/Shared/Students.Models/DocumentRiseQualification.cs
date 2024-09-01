@@ -23,7 +23,7 @@ public class DocumentRiseQualification
     /// Вид документа повышения квалификации
     /// </summary>
     [JsonIgnore]
-    public KindDocumentRiseQualification kindDocumentRiseQualification { get; set; }
+    public KindDocumentRiseQualification? kindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Имя программы
     /// </summary>

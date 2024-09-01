@@ -14,29 +14,29 @@ public class Mapper
     /// <param name="form"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static Request WebhookToRequest(RequestWebhook form, IGenericRepository<StudentEducation> studentRepository)
+    public static Request WebhookToRequest(RequestWebhook form, IGenericRepository<Student> studentRepository, IGenericRepository<EducationProgram> educationProgramRepository)
     {
+        var student = studentRepository.Get().Result.FirstOrDefault(x => x.FullName == form.Name && x.BirthDate.ToString() == form.Birthday && x.Email == form.Email);
+
+        if (student == null)
+        {
+            student = new Student()
+            {
+                Address = form.Address,
+                Family = form.Name.Split(" ").FirstOrDefault(),
+                Name = form.Name.Split(" ")[1],
+                Patron = form.Name.Split(" ").LastOrDefault(),
+                BirthDate = DateOnly.Parse(form.Birthday),
+                IT_Experience = form.IT_Experience,
+                Email = form.Email
+                //CreatedAt = DateTime.Now,
+            };
+        }
+
         return new Request
         {
             Id = Guid.NewGuid(),
-           FullName = form.Name,
-            Email = form.Email,
-            Phone = form.Phone,
-            CreatedAt = DateTime.Now,
-            BirthDate = DateOnly.Parse(form.Birthday),
-            JobCV = form.IT_Experience,
-            Address = form.Address,
-            // TODO: Необходим поиск по типу образования
-            // StudentEducationId = form.EducationLevel switch
-            // {
-            //     "Высшее образование" => studentRepository.Get(x=>x.Name == "Высшее образование").Result.First().Id,
-            //     "Среднее профессиональное образование" => new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
-            //     _ => throw new ArgumentException("Неверный уровень образования")
-            // },
-            StudentEducationId = studentRepository.Get().Result.FirstOrDefault(x=>x.Name == form.EducationLevel)?.Id ,
-            
-            
-            
+            EducationProgramId = educationProgramRepository.Get().Result.FirstOrDefault(x => x.Name == form.Education)?.Id
         };
     }
 }

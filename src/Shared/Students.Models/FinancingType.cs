@@ -24,5 +24,5 @@ public class FinancingType
     /// <summary>
     /// Имя типа финансирования
     /// </summary>
-    public string SourceName { get; set; }
+    public string? SourceName { get; set; }
 }

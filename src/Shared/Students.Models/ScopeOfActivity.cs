@@ -17,7 +17,7 @@ public class ScopeOfActivity
     /// <summary>
     /// Имя сферы деятельности
     /// </summary>
-    public string NameOfScope { get; set; }
+    public string? NameOfScope { get; set; }
     /// <summary>
     /// Уровень сферы деятельности
     /// </summary>

@@ -17,17 +17,19 @@ public class IntegrationController : ControllerBase
 {
     private readonly ILogger<IntegrationController> _logger;
     private readonly IRequestRepository _requestRepository;
-    private readonly IGenericRepository<StudentEducation> _studentEducationRepository;
+    private readonly IGenericRepository<Student> _studentRepository;
+    private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
 
     /// <summary>
     /// Default constructor
     /// </summary>
     /// <param name="logger"></param>
-    public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository, IGenericRepository<StudentEducation> studentEducationRepository)
+    public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository, IGenericRepository<Student> studentRepository, IGenericRepository<EducationProgram> educationProgramRepository)
     {
         _logger = logger;
         _requestRepository = requestRepository;
-        _studentEducationRepository = studentEducationRepository;
+        _studentRepository = studentRepository;
+        _educationProgramRepository = educationProgramRepository;
     }
 
     /// <summary>
@@ -40,7 +42,7 @@ public class IntegrationController : ControllerBase
     {
         try
         {
-            var request = Mapper.WebhookToRequest(form, _studentEducationRepository);
+            var request = Mapper.WebhookToRequest(form, _studentRepository, _educationProgramRepository);
             var result = await _requestRepository.Create(request);
             return StatusCode(StatusCodes.Status200OK, form);
         }

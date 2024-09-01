@@ -17,5 +17,5 @@ public class KindOrder
     /// <summary>
     /// Имя программы
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }

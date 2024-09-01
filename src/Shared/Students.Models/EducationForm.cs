@@ -17,5 +17,5 @@ public class EducationForm
     /// <summary>
     /// Имя формы обучения
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }

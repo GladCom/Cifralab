@@ -18,7 +18,7 @@ public class Group
     /// <summary>
     /// Имя группы
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
     /// <summary>
     /// Id образовательной программы
     /// </summary>
