@@ -36,7 +36,10 @@ public class Mapper
         return new Request
         {
             Id = Guid.NewGuid(),
-            EducationProgramId = educationProgramRepository.Get().Result.FirstOrDefault(x => x.Name == form.Education)?.Id
+            Email = form.Email,
+            Phone = form.Phone,
+            EducationProgramId = educationProgramRepository.Get().Result.FirstOrDefault(x => x.Name == form.Education)?.Id,
+            StudentId = student?.Id
         };
     }
 }

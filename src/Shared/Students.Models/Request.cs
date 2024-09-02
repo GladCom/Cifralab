@@ -76,6 +76,19 @@ public class Request
     /// </summary>
     public string RegistrationNumber { get; set; }
 
+    #region PotomuchtoMincifraNeOtdaetSNILS
+
+    /// <summary>
+    /// E-mail
+    /// </summary>
+    public string Email { get; set; }
+    //public string EmailPrepeared { get { return Email.ToLower(); } }
+    /// <summary>
+    /// Телефон
+    /// </summary>
+    public string Phone { get; set; }
+    #endregion PotomuchtoMincifraNeOtdaetSNILS
+
 
     /* вот это вот все реквизиты картоки персоны, 
        хз не понятно зачем это проксируется сюда, как буд-то это уже DTO с объединеением внутренних данных

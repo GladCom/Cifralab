@@ -35,9 +35,9 @@ namespace Students.APIServer.Repository
         public async Task<Request?> Create(Request item)
         {
             if (!await ValidateRequest(item)) return null;
-            //var existStudent = await _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
+            var existStudent = await _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
             //Меняем GUID студента когда нашли его в базе по связке телефон и email
-            //if (existStudent != null) item.StudentId = existStudent.Id;
+            if (existStudent != null) item.StudentId = existStudent.Id;
 
             return await base.Create(item);
         }
@@ -47,7 +47,7 @@ namespace Students.APIServer.Repository
              return await Task.FromResult(_ctx.Requests.AsNoTracking()
             .FirstOrDefaultAsync(x =>
                        //x.Email.ToLower().Equals(request.Email.ToLower()) 
-                       x.Student.Email.ToLower().Equals(request.Student.Email.ToLower())
+                       x.Email.ToLower().Equals(request.Email.ToLower())
                     && x.EducationProgramId.Equals(request.EducationProgramId))).Result;
         }
         public async Task<Request?> FindRequestByPhoneFromRequestAsync(Request request)
@@ -56,7 +56,7 @@ namespace Students.APIServer.Repository
 			var Requests = _ctx.Requests.AsNoTracking().AsAsyncEnumerable();
             await foreach (var item in Requests)
             {
-                if (item.Student.Phone.ToLower().Equals(request.Student.Phone.ToLower())
+                if (item.Phone.ToLower().Equals(request.Phone.ToLower())
             && item.EducationProgramId.Equals(request.EducationProgramId))
                 {
                     return item;
