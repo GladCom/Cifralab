@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Students.Models;
 
 /// <summary>
@@ -11,8 +8,6 @@ public class FEAProgram
     /// <summary>
     /// Id ВЭД
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя ВЭД
