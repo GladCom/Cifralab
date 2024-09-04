@@ -130,7 +130,6 @@ public sealed class InMemoryContext : StudentContext
             {
                 Id = new Guid("8A42A22F-FCE7-441F-965F-F7FEDDF38F3D"),
                 KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
-                Name = "Справка (вероятно не нужное поле)",
                 Date = new DateTime(2024, 8, 29), //возможно поменять на DateOnly
                 Number = "ФЕ 34"
             }

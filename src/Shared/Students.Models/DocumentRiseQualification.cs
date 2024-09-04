@@ -24,10 +24,6 @@ public class DocumentRiseQualification
     /// </summary>
     [JsonIgnore]
     public KindDocumentRiseQualification? kindDocumentRiseQualification { get; set; }
-    /// <summary>
-    /// Имя программы
-    /// </summary>
-    public string Name { get; set; }
 
     /// <summary>
     /// Дата выдачи удостоверения назовите это нормально

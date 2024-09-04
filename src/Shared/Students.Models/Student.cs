@@ -6,15 +6,6 @@ using System.Text.RegularExpressions;
 namespace Students.Models;
 
 /// <summary>
-/// Пол человека
-/// </summary>
-public enum SexHuman
-{
-    Men,
-    Woman
-}
-
-/// <summary>
 /// Студент (в модели это персона)
 /// </summary>
 public class Student
