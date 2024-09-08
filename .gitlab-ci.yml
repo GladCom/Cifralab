@@ -1,0 +1,11 @@
+
+stages:
+  - compile
+
+# Проверка компиляции бэкенд
+backend-compile:
+  stage: compile
+  image: microsoft/dotnet
+  tags: [ common ]
+  script:
+    - dotnet build
