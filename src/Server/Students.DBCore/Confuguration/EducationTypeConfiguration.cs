@@ -4,6 +4,7 @@ using Students.Models;
 
 namespace Students.DBCore.Confuguration
 {
+    /*
     internal class EducationTypeConfiguration : IEntityTypeConfiguration<EducationType>
     {
         public void Configure(EntityTypeBuilder<EducationType> builder)
@@ -15,4 +16,5 @@ namespace Students.DBCore.Confuguration
                 .ValueGeneratedOnAdd();
         }
     }
+    */
 }

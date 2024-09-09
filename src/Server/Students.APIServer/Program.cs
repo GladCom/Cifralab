@@ -67,11 +67,11 @@ app.UseCors(builder => builder
 .AllowAnyMethod()
 .AllowAnyHeader());
 
-// if (app.Environment.IsDevelopment())
-// {
+ //if (app.Environment.IsDevelopment())
+ //{
     app.UseSwagger();
     app.UseSwaggerUI();
-// }
+ //}
 
 app.UseCors("CorsPolicy");
 app.UseAuthorization();

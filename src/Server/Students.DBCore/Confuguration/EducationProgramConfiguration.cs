@@ -18,9 +18,11 @@ namespace Students.DBCore.Confuguration
                 .WithOne(ep => ep.EducationProgram)
                 .HasForeignKey(ep => ep.EducationProgramId);
 
+            /*
             builder.HasOne(et => et.EducationType)
                 .WithMany()
                 .HasForeignKey(et => et.EducationTypeId);
+            */
 
             builder.HasOne(ef => ef.EducationForm)
                 .WithMany()
