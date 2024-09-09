@@ -21,6 +21,7 @@ namespace Students.APIServer.Repository
             _studentRepository = studRep;
             _modelState = new ModelStateDictionary();
         }
+
         protected async Task<bool> ValidateRequest(Request requestToValidate)
         {
              if(_ctx.Requests == null || _ctx.Requests.Count()==0) return _modelState.IsValid;
@@ -70,5 +71,19 @@ namespace Students.APIServer.Repository
             return await Task.FromResult( _ctx.Requests.AsNoTracking().Where(x => x.StudentId.Equals(id)).ToList().AsEnumerable());
         }
 
+        /// <summary>
+        /// Добавление приказа в заявку.
+        /// </summary>
+        /// <param name="id">Идентификатор заявки.</param>
+        /// <param name="order">Приказ.</param>
+        /// <returns>Task.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public async Task<Guid> AddOrderToRequest(Guid id, Order order)
+        {
+            var findRequest = await _ctx.Set<Request>().FindAsync(id);
+            if(findRequest == null) throw new ArgumentNullException(nameof(findRequest));
+            findRequest!.Orders.Add(order);
+            return id;
+        }
     }
 }

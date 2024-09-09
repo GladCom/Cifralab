@@ -14,7 +14,7 @@ namespace Students.DBCore.Confuguration
                 .IsRequired()
                 .ValueGeneratedOnAdd();
 
-            builder.HasOne(k => k.kindDocumentRiseQualification)
+            builder.HasOne(k => k.KindDocumentRiseQualification)
                 .WithMany()
                 .HasForeignKey(k => k.KindDocumentRiseQualificationId);
         }
