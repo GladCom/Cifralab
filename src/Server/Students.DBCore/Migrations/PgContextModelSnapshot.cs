@@ -34,7 +34,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasIndex("StudentsId");
 
-                    b.ToTable("GroupStudent");
+                    b.ToTable("GroupStudent", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.EducationForm", b =>
@@ -49,7 +49,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EducationForms");
+                    b.ToTable("EducationForms", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.EducationProgram", b =>
@@ -94,7 +94,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasIndex("FEAProgramId");
 
-                    b.ToTable("EducationPrograms");
+                    b.ToTable("EducationPrograms", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.EducationType", b =>
@@ -109,7 +109,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EducationTypes");
+                    b.ToTable("EducationTypes", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.FEAProgram", b =>
@@ -124,7 +124,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FEAPrograms");
+                    b.ToTable("FEAPrograms", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.FinancingType", b =>
@@ -139,7 +139,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FinancingTypes");
+                    b.ToTable("FinancingTypes", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.Group", b =>
@@ -165,7 +165,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasIndex("EducationProgramId");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.Request", b =>
@@ -267,7 +267,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasIndex("StudentStatusId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Requests", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.ScopeOfActivity", b =>
@@ -285,7 +285,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ScopesOfActivity");
+                    b.ToTable("ScopesOfActivity", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.Student", b =>
@@ -330,7 +330,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.StudentDocument", b =>
@@ -345,7 +345,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StudentDocuments");
+                    b.ToTable("StudentDocuments", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.StudentEducation", b =>
@@ -360,7 +360,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StudentEducations");
+                    b.ToTable("StudentEducations", (string)null);
                 });
 
             modelBuilder.Entity("Students.Models.StudentStatus", b =>
@@ -375,7 +375,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StudentStatuses");
+                    b.ToTable("StudentStatuses", (string)null);
                 });
 
             modelBuilder.Entity("GroupStudent", b =>

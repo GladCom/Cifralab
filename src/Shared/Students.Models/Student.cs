@@ -13,8 +13,6 @@ public class Student
     /// <summary>
     /// Id студента
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     /// <summary>
@@ -71,13 +69,13 @@ public class Student
     /// <summary>
     /// СНИЛС
     /// </summary>
-    public string SNILS { get; set; }
+    public string? SNILS { get; set; }
 
     /// <summary>
     /// Адрес, по хорошему нужен либо справочник, либо формат стандарта ГОСТа Р 6.30-2003
     /// экспорт из заявки
     /// </summary>
-    public string Address { get; set; }
+    public string? Address { get; set; }
 
 
     //список полей для связи, вероятно нужно в отдельную таблицу
@@ -85,25 +83,25 @@ public class Student
     /// Телефон
     /// экспорт из заявки
     /// </summary>
-    public string Phone { get; set; }
+    public string? Phone { get; set; }
     //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     /// <summary>
     /// Электронный адрес
     /// экспорт из заявки
     /// </summary>
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     /// <summary>
     /// Проекты
     /// экспорт из заявки
     /// </summary>
-    public string Projects { get; set; }
+    public string? Projects { get; set; }
 
     /// <summary>
     /// Проекты
     /// экспорт из заявки
     /// </summary>
-    public string IT_Experience { get; set; }
+    public string? IT_Experience { get; set; }
 
     /// <summary>
     /// ОВЗ (инвалид)
