@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.Contracts;
 using System.Text.Json.Serialization;
 
 namespace Students.Models;
@@ -13,8 +10,6 @@ public class Request
     /// <summary>
     /// Id заявки, Как буд-то тут перебор необходимых данных
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     /// <summary>

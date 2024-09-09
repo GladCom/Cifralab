@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Students.Models;
+﻿namespace Students.Models;
 
 /// <summary>
 /// Вид приказа
@@ -11,8 +8,6 @@ public class KindOrder
     /// <summary>
     /// Id программы
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя программы
