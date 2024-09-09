@@ -9,5 +9,6 @@ namespace Students.APIServer.Repository
         Task<IEnumerable<Request>> FindRequesListByStudentGuidAsync(Guid id);
         Task<Request> FindRequestByPhoneFromRequestAsync(Request request);
         Task<Request> FindRequestByEmailFromRequestAsync(Request request);
+        Task<Guid> AddOrderToRequest(Guid id, Order order);
     }
 }

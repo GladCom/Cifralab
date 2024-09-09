@@ -2,7 +2,6 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository;
 using Students.Models;
-using System;
 using System.Diagnostics;
 
 namespace Students.APIServer.Controllers;
@@ -71,6 +70,19 @@ public class RequestController : GenericAPiController<Request>
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
                 });
         }
+    }
+
+    /// <summary>
+    /// Добавление приказа.
+    /// </summary>
+    /// <param name="id">Идентификатор заявки.</param>
+    /// <param name="order">Приказ.</param>
+    /// <returns>ActionResult.</returns>
+    [HttpPost("AddOrderToRequest")]
+    public async Task<ActionResult> AddOrderToRequest(Guid id, Order order)
+    {
+        await _requestRepository.AddOrderToRequest(id, order);
+        return StatusCode(StatusCodes.Status200OK);
     }
 }
     
