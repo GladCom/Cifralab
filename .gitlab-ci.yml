@@ -10,4 +10,4 @@ backend-compile:
   rules:
     - when: on_success
   script:
-    - dotnet build
+    - dotnet build ./src
