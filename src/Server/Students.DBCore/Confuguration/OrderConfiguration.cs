@@ -18,7 +18,7 @@ namespace Students.DBCore.Confuguration
                 .WithMany(o => o.Orders)
                 .HasForeignKey(r => r.RequestId);
 
-            builder.HasOne(k => k.KindOrder)
+            builder.HasOne(k => k.Kind)
                 .WithMany()
                 .HasForeignKey(k => k.KindOrderId);
         }
