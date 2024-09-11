@@ -5,7 +5,7 @@ stages:
 # Проверка компиляции бэкенд
 backend-compile:
   stage: compile
-  image: microsoft/dotnet
+  image: mcr.microsoft.com/dotnet/sdk:8.0
   tags: [ common ]
   rules:
     - when: on_success
