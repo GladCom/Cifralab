@@ -22,8 +22,8 @@ public sealed class InMemoryContext : StudentContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<EducationForm>().HasData(
             new EducationForm { Id = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"), Name = "Очная" },
-            new EducationForm { Id = Guid.NewGuid(), Name = "Заочная" },
-            new EducationForm { Id = Guid.NewGuid(), Name = "Очно-заочная" }
+            new EducationForm { Id = new Guid("DFA6FEDB-932D-431A-8E9A-0C6666A10041"), Name = "Заочная" },
+            new EducationForm { Id = new Guid("5AFFDA31-3A2E-4BEA-85EE-F4C67564B3B2"), Name = "Очно-заочная" }
         );
         modelBuilder.Entity<FEAProgram>().HasData(
             new FEAProgram
@@ -65,6 +65,28 @@ public sealed class InMemoryContext : StudentContext
                 FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")
             }
         );
+        modelBuilder.Entity<StatusRequest>().HasData(
+            new StatusRequest
+            {
+                Id = new Guid("949A5221-63E6-4A92-BDBC-3BE7ACB6CDDD"),
+                Name = "новая заявка"
+            },
+            new StatusRequest
+            {
+                Id = new Guid("8B70E4C5-54FB-46C7-84CF-3B46128D7D8B"),
+                Name = "вступительное испытание"
+            },
+            new StatusRequest
+            {
+                Id = new Guid("043AEBE6-BCE0-4DD4-B0C0-1582852A6EFD"),
+                Name = "не соответствует"
+            },
+            new StatusRequest
+            {
+                Id = new Guid("499322AC-CA21-4217-9E31-F94F33B4FE13"),
+                Name = "в архиве"
+            }
+        );
 
         modelBuilder.Entity<FinancingType>().HasData(
             new FinancingType
@@ -73,7 +95,30 @@ public sealed class InMemoryContext : StudentContext
                 SourceName = "За счет бюджетных ассигнований федерального бюджета"
             },
             new FinancingType
-                { Id = Guid.NewGuid(), SourceName = "За счет бюджетных ассигнований бюджетов субъектов РФ" }
+            {
+                Id = new Guid("2C89D40C-FEAB-495B-A7AD-173930081862"),
+                SourceName = "За счет бюджетных ассигнований бюджетов субъектов РФ"
+            },
+            new FinancingType
+            {
+                Id = new Guid("D8DB8FF7-7AF8-43F3-B258-A61D28F5B022"),
+                SourceName = "За счет бюджетных ассигнований местных бюджетов"
+            },
+            new FinancingType
+            {
+                Id = new Guid("EFD7B981-2B64-4803-B331-B1674775F599"),
+                SourceName = "По договорам за счет средств физических лиц"
+            },
+            new FinancingType
+            {
+                Id = new Guid("6B311D2C-3394-4285-9B6B-799E9A852E4F"),
+                SourceName = "По договорам за счет средств юридических лиц"
+            },
+            new FinancingType
+            {
+                Id = new Guid("1A5F57E6-0F03-4810-BF9F-BEAAAB0075E5"),
+                SourceName = "За счет собственных средств организации"
+            }
         );
         modelBuilder.Entity<ScopeOfActivity>().HasData(
             new ScopeOfActivity
@@ -84,9 +129,118 @@ public sealed class InMemoryContext : StudentContext
             },
             new ScopeOfActivity
             {
+                Id = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F"),
+                Level = ScopeOfActivityLevel.Level1,
+                NameOfScope = "Работники образовательных организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("41C02A83-14DD-41EC-9EEB-6718FEBD53D5"),
+                Level = ScopeOfActivityLevel.Level1,
+                NameOfScope = "Гос. Служащие"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("33934742-89F3-45E9-B094-A64816B352C3"),
+                Level = ScopeOfActivityLevel.Level1,
+                NameOfScope = "Незанятые лица по направлению службы занятости"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("6DEEDB35-3804-48BF-91A3-95D21F533E1B"),
+                Level = ScopeOfActivityLevel.Level1,
+                NameOfScope = "Другие"
+            },
+
+            new ScopeOfActivity
+            {
                 Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
                 Level = ScopeOfActivityLevel.Level2,
                 NameOfScope = "Руководители предприятий и организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("14A416A5-6C4B-42EC-B256-93F7238F56E3"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Руководители дошкольных образовательных организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("ECF6A4DA-0136-4897-8559-4DF47BAF2E79"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Руководители общеобразовательных организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("E9D4ADE5-B78D-4CAC-B8CC-80EE1989C8FF"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Руководители профессиональных образовательных организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("508E21B1-99BE-48A6-BA6C-9F4F800EDC40"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Руководители образовательных организаций ВО"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("C56BFF2C-CF4A-4133-8EB9-D06043AF561F"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Руководители организаций ДПО"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("CA4DC6F3-34D4-41EA-A9B4-D890C31754DC"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Руководители организаций дополнительного образования"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("6C1AC0BF-366B-4F03-9829-646BB8C24911"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Педагогические работники дошкольных образовательных организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("C8F559AF-1F93-4B1F-B1BC-156E3FD86AD4"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Педагогические работники общеобразовательных организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("AFC40C5A-CA03-4F23-91A8-DD055C86DB2D"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Педагогические работники профессиональных образовательных организаций"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("8F003E01-7866-42C3-8367-41780CEEA239"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Педагогические работники образовательных организаций ВО"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("91E7725A-ACAE-4156-B4D0-383483C5CC39"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Педагогические работники организаций ДПО"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("29D5F4D3-2D42-4980-8369-986C594A4D6B"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Педагогические работники организаций дополнительного образования"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("76342C39-145B-4153-9BD3-94BBCA00357E"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Руководители гос.служащие"
+            },
+            new ScopeOfActivity
+            {
+                Id = new Guid("791B9C31-4A87-4CF7-9F0B-9F0C14DFE3E1"),
+                Level = ScopeOfActivityLevel.Level2,
+                NameOfScope = "Безработные"
             }
         );
         modelBuilder.Entity<StudentEducation>().HasData(
@@ -105,12 +259,17 @@ public sealed class InMemoryContext : StudentContext
             new StudentStatus
             {
                 Id = new Guid("8877A2F7-B866-4881-922C-C2BAA9D1C7EF"),
-                Name = "Абитуриент"
+                Name = "обучение"
             },
             new StudentStatus
             {
                 Id = new Guid("8FA04109-EF98-4CBD-B5A9-0799ECE57097"),
-                Name = "Обучается"
+                Name = "отчислен"
+            },
+            new StudentStatus
+            {
+                Id = new Guid("BC233A40-66CE-4AC3-9BC4-323A083A4351"),
+                Name = "завершил"
             }
         );
         modelBuilder.Entity<KindDocumentRiseQualification>().HasData(
@@ -143,7 +302,8 @@ public sealed class InMemoryContext : StudentContext
                 //Interview = "Прошел",
                 //BirthDate = new DateOnly(1990, 5, 10),
                 //CreatedAt = new DateTime(2023, 10, 15, 8, 0, 0),
-                //Phone = "+71234567890",
+                Phone = "+71234567890",
+                Email = "fff@mail.ru",
                 //EntranceExamination = "Прошел",
                 //FullName = "Иванов Иван Иванович",
                 //StudentStatusId = new Guid("8877A2F7-B866-4881-922C-C2BAA9D1C7EF"),
@@ -160,16 +320,17 @@ public sealed class InMemoryContext : StudentContext
                 DataNumberDogovor = "Договор №1 от 01.01.2021", //вернуть на EducationContract
                 //EducationContract = "Договор №1 от 01.01.2021",
                 //DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307")
+                StatusRequestId = new Guid("949A5221-63E6-4A92-BDBC-3BE7ACB6CDDD")
             },
             new Request
             {
                 Id = new Guid("7BFC4F24-7F38-4F3F-9B17-1A0C82323DBB"),
                 EducationProgramId = new Guid("2B693FEB-55AB-44C4-8A5E-D61D074C23FE"),
-                //Email = "student2@mail.ru",
+                Email = "student2@mail.ru",
                 //Interview = "Прошел",
                 //BirthDate = new DateOnly(1995, 1, 22),
                 //CreatedAt = new DateTime(2023, 09, 16, 12, 45, 0),
-                //Phone = "+71234567890",
+                Phone = "+71234567890",
                 //EntranceExamination = "Прошел",
                 //FullName = "Петров Петр Петрович",
                 //StudentEducationId = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
@@ -186,7 +347,9 @@ public sealed class InMemoryContext : StudentContext
                 //EducationContract = "Договор №1 от 01.01.2021",
                 DataNumberDogovor = "Договор №1 от 01.01.2021", //вернуть на EducationContract
                 //DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307"),
-                StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6")
+                StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
+                StatusRequestId = new Guid("949A5221-63E6-4A92-BDBC-3BE7ACB6CDDD"),
+                StudentStatusId = new Guid("8877A2F7-B866-4881-922C-C2BAA9D1C7EF")
             }
         );
         modelBuilder.Entity<Group>().HasData(
@@ -206,7 +369,12 @@ public sealed class InMemoryContext : StudentContext
             new KindOrder
             {
                 Id = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
-                Name = "Новый вид приказа"
+                Name = "О зачислении"
+            },
+            new KindOrder
+            {
+                Id = new Guid("88DD5DAF-2272-4FC3-9D65-82E65B09266D"),
+                Name = "Об отчислении"
             }
         );
         modelBuilder.Entity<Order>().HasData(
@@ -233,7 +401,7 @@ public sealed class InMemoryContext : StudentContext
                 SNILS = "123-456-789 00",
                 Email = "test@mail.ru",
                 Phone = "+71234567890",
-                FullNameDocument = "Эх, сейчас бы сиды полные"
+                FullNameDocument = "Эх, сейчас бы сиды полные",
             }
         );
         modelBuilder.Entity<GroupStudent>().HasData(

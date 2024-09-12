@@ -36,7 +36,7 @@ public class Request
     /// <summary>
     /// Идентификатор Вида документа повышения квалификации
     /// </summary>
-    public Guid DocumentRiseQualificationId { get; set; }
+    public Guid? DocumentRiseQualificationId { get; set; }
 
     /// <summary>
     /// Вид документа повышения квалификации
@@ -46,22 +46,42 @@ public class Request
     /// <summary>
     /// дата и  Номер договора - че за нах это отдельная сущность или два реквизита в одной строке????
     /// </summary>
-    public string DataNumberDogovor { get; set; }
+    public string? DataNumberDogovor { get; set; }
+
+    /// <summary>
+    /// Идентификатор Статус заявки
+    /// </summary>
+
+    public Guid? StatusRequestId { get; set; }
 
     /// <summary>
     /// Статус заявки
     /// </summary>
-    public StatusRequest Status { get; set; }
+    [JsonIgnore]
+    public StatusRequest? Status { get; set; }
+
+    /// <summary>
+    /// Идентификатор статуса студента
+    /// </summary>
+    public Guid? StudentStatusId { get; set; }
+    /// <summary>
+    /// Статус студента. Правильно было бы внести этот статус именно в класс студента
+    /// Сам класс студента разделить на 2 класса - студент и персона.
+    /// Персона содержала бы информацию о личных данных, без ссылок (просто справочник). Студент имел бы ссылку на Персону
+    /// Сам студент был бы связан с заявкой
+    /// </summary>
+    [JsonIgnore]
+    public StudentStatus? StudentStatus { get; set; }
 
     /// <summary>
     /// Статус вступительного испытания
     /// </summary>
-    public StatusEntrancExams StatusEntrancExams { get; set; }
+    public StatusEntrancExams? StatusEntrancExams { get; set; }
 
     /// <summary>
     /// Приказы
     /// </summary>
-    public List<Order> Orders { get; set; }
+    public List<Order>? Orders { get; set; }
 
     ///Вся ниже лежащая ересь похоже на реквизиты одного документа КАРЛ и похоже на документ повышения квалификации!!!
     
@@ -69,7 +89,7 @@ public class Request
     /// <summary>
     /// Регистрационный номер
     /// </summary>
-    public string RegistrationNumber { get; set; }
+    public string? RegistrationNumber { get; set; }
 
     #region PotomuchtoMincifraNeOtdaetSNILS
 

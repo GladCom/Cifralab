@@ -16,5 +16,9 @@ public enum StatusEntrancExams
     /// <summary>
     /// собеседование
     /// </summary>
-    Interview
+    Interview,
+    /// <summary>
+    /// выполнено
+    /// </summary>
+    Done
 }

@@ -13,10 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<StudentContext, PgContext>();
-//builder.Services.AddDbContext<StudentContext, InMemoryContext>();
-builder.Services.AddScoped<StudentContext>();
-builder.Services.AddScoped<PgContext>();
+//builder.Services.AddDbContext<StudentContext, PgContext>();
+builder.Services.AddDbContext<StudentContext, InMemoryContext>();
+builder.Services.AddScoped<InMemoryContext>();
+//builder.Services.AddScoped<StudentContext>();
+//builder.Services.AddScoped<PgContext>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
@@ -35,6 +36,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationProgram>>();
     //options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationType>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<FEAProgram>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StatusRequest>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<FinancingType>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Group>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Request>>();
@@ -66,11 +68,11 @@ app.UseCors(builder => builder
 .AllowAnyMethod()
 .AllowAnyHeader());
 
- //if (app.Environment.IsDevelopment())
- //{
+ if (app.Environment.IsDevelopment())
+ {
     app.UseSwagger();
     app.UseSwaggerUI();
- //}
+ }
 
 app.UseCors("CorsPolicy");
 app.UseAuthorization();

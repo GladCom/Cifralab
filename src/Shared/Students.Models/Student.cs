@@ -21,12 +21,12 @@ public class Student
     /// <summary>
     /// Имя
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
     /// <summary>
     /// Отчество
     /// экспорт из заявки
     /// </summary>
-    public string Patron { get; set; }
+    public string? Patron { get; set; }
     /// <summary>
     /// ФИО
     /// экспорт из заявки
@@ -73,7 +73,7 @@ public class Student
     /// Адрес, по хорошему нужен либо справочник, либо формат стандарта ГОСТа Р 6.30-2003
     /// экспорт из заявки
     /// </summary>
-    public string? Address { get; set; }
+    public string Address { get; set; }
 
 
     //список полей для связи, вероятно нужно в отдельную таблицу
@@ -81,13 +81,13 @@ public class Student
     /// Телефон
     /// экспорт из заявки
     /// </summary>
-    public string? Phone { get; set; }
+    public string Phone { get; set; }
     //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     /// <summary>
     /// Электронный адрес
     /// экспорт из заявки
     /// </summary>
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
     /// <summary>
     /// Проекты
@@ -99,13 +99,16 @@ public class Student
     /// Проекты
     /// экспорт из заявки
     /// </summary>
-    public string? IT_Experience { get; set; }
+    public string IT_Experience { get; set; }
 
     /// <summary>
     /// ОВЗ (инвалид)
     /// Справочник
     /// </summary>
     public bool? Disability { get; set; }
+
+    //НА КАКОЙ УРОВЕНЬ ТЫ СЕБЯ ЧУВСТВУШЬб СУКА JUNIOR, MIDDLE, SENIOR - ЭТО КАК ЗАПИСЫВАТЬ???
+
 
     //Поля блока образования, вероятно, если заморачиваться, тоже скинуть в отдельную таблицу
     /// <summary>
@@ -134,19 +137,19 @@ public class Student
     /// <summary>
     /// Дата получения диплома
     /// </summary>
-    public DateTime DateTakeDiplom { get; set; }
+    public DateTime? DateTakeDiplom { get; set; }
 
     /// <summary>
     /// Сфера деятельности, уже есть как бы класс сфера деятельности с уровнями
     /// Хоть и список, но по факту должен содержать только 2 значения (1 уровень и второй???)
     /// </summary>
-    public ScopeOfActivity ScopeOfActivityLevelOne { get; set; }
+    public ScopeOfActivity? ScopeOfActivityLevelOne { get; set; }
 
     /// <summary>
     /// Сфера деятельности, уже есть как бы класс сфера деятельности с уровнями
     /// Хоть и список, но по факту должен содержать только 2 значения (1 уровень и второй???)
     /// </summary>
-    public ScopeOfActivity ScopeOfActivityLevelTwo { get; set; }
+    public ScopeOfActivity? ScopeOfActivityLevelTwo { get; set; }
     
     /// <summary>
     /// Группы

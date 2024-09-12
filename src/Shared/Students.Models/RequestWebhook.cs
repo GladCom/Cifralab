@@ -8,7 +8,7 @@ public class RequestWebhook
     /// <summary>
     /// ФИО
     /// </summary>
-    public string? Name { get; set; }
+    public string Name { get; set; }
     /// <summary>
     /// Дата рождения
     /// </summary>

@@ -11,6 +11,7 @@ namespace Students.APIServer.Repository
         private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
         private readonly IGenericRepository<KindDocumentRiseQualification> _kindDocumentRiseQualificationRepository;
         private readonly IGenericRepository<FEAProgram> _FEAProgramFormRepository;
+        private readonly IGenericRepository<StatusRequest> _StatusRequestRepository;
         private readonly IGenericRepository<FinancingType> _financingTypeRepository;
         private readonly IGenericRepository<Group> _groupRepository;
         private readonly IGenericRepository<Request> _requestRepository;
@@ -24,6 +25,7 @@ namespace Students.APIServer.Repository
             IGenericRepository<EducationProgram> educationProgramRepository,
             IGenericRepository<KindDocumentRiseQualification> kindDocumentRiseQualificationRepository,
             IGenericRepository<FEAProgram> fEAProgramFormRepository,
+            IGenericRepository<StatusRequest> fStatusRequestRepository,
             IGenericRepository<FinancingType> financingTypeRepository,
             IGenericRepository<Group> groupRepository,
             IGenericRepository<Request> requestRepository,
@@ -36,6 +38,7 @@ namespace Students.APIServer.Repository
             _educationProgramRepository = educationProgramRepository;
             _kindDocumentRiseQualificationRepository = kindDocumentRiseQualificationRepository;
             _FEAProgramFormRepository = fEAProgramFormRepository;
+            _StatusRequestRepository = fStatusRequestRepository;
             _financingTypeRepository = financingTypeRepository;
             _groupRepository = groupRepository;
             _requestRepository = requestRepository;
@@ -57,6 +60,7 @@ namespace Students.APIServer.Repository
                 { "EducationProgramReport.csv", await WriteOneDT(_educationProgramRepository) },
                 { "KindDocumentRiseQualification.csv", await WriteOneDT(_kindDocumentRiseQualificationRepository) },
                 { "FEAProgramFormReport.csv", await WriteOneDT(_FEAProgramFormRepository) },
+                { "StatusRequestReport.csv", await WriteOneDT(_StatusRequestRepository) },
                 { "FinancingTypeReport.csv", await WriteOneDT(_financingTypeRepository) },
                 { "GroupRepositoryReport.csv", await WriteOneDT(_groupRepository) },
                 { "RequestReport.csv", await WriteOneDT(_requestRepository) },

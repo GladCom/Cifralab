@@ -1,32 +1,16 @@
 ﻿namespace Students.Models;
 
 /// <summary>
-/// Summary description for Class1
+/// статусы заявок
 /// </summary>
-public enum StatusRequest
+public class StatusRequest
 {
-	/// <summary>
-	/// Заявка
-	/// </summary>
-	Request,
-	/// <summary>
-	/// обучается
-	/// </summary>
-	Studing,
     /// <summary>
-    /// Отчислен досрочно
+    /// Id статуса
     /// </summary>
-    ExpelledEarly,
+    public Guid Id { get; set; }
     /// <summary>
-    /// завершил обучение
+    /// Имя статуса
     /// </summary>
-    CompletedTraining,
-    /// <summary>
-    /// не соответсвует требованиям
-    /// </summary>
-    DoesNotMeetConditions,
-    /// <summary>
-    /// дубликат для формироваия рассылок
-    /// </summary>
-    DublicateForGeneratingMailings
+    public string? Name { get; set; }
 }

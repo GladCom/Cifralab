@@ -20,15 +20,23 @@ public class Mapper
 
         if (student == null)
         {
+            var fio = form.Name.Split(" ");
             student = new Student()
             {
                 Address = form.Address,
-                Family = form.Name.Split(" ").FirstOrDefault(),
-                Name = form.Name.Split(" ")[1],
-                Patron = form.Name.Split(" ").LastOrDefault(),
+                Family = fio.FirstOrDefault(),
+                Name = fio.Count() > 1 ? fio[1]  : "",
+                Patron = fio.LastOrDefault() == fio.FirstOrDefault() ? "" : fio.LastOrDefault(),
+                
                 BirthDate = DateOnly.Parse(form.Birthday),
                 IT_Experience = form.IT_Experience,
-                Email = form.Email
+                Email = form.Email,
+                Phone = form.Phone,
+                Sex = SexHuman.Men,
+                EducationLevel = form.EducationLevel
+                //Speciality = form.
+                //Не хватает поля в вебхуке
+                //.Projects = form.
                 //CreatedAt = DateTime.Now,
             };
         }
