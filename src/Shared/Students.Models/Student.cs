@@ -96,7 +96,7 @@ public class Student
     public string? Projects { get; set; }
 
     /// <summary>
-    /// Проекты
+    /// опыт в ИТ
     /// экспорт из заявки
     /// </summary>
     public string IT_Experience { get; set; }
@@ -106,9 +106,6 @@ public class Student
     /// Справочник
     /// </summary>
     public bool? Disability { get; set; }
-
-    //НА КАКОЙ УРОВЕНЬ ТЫ СЕБЯ ЧУВСТВУШЬб СУКА JUNIOR, MIDDLE, SENIOR - ЭТО КАК ЗАПИСЫВАТЬ???
-
 
     //Поля блока образования, вероятно, если заморачиваться, тоже скинуть в отдельную таблицу
     /// <summary>

@@ -402,6 +402,9 @@ public sealed class InMemoryContext : StudentContext
                 Email = "test@mail.ru",
                 Phone = "+71234567890",
                 FullNameDocument = "Эх, сейчас бы сиды полные",
+                Address = "Иваново",
+                IT_Experience = "Какой-то опыт есть",
+                EducationLevel = "Высшее образование"
             }
         );
         modelBuilder.Entity<GroupStudent>().HasData(
