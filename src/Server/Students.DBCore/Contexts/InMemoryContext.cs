@@ -31,12 +31,105 @@ public sealed class InMemoryContext : StudentContext
                 Id = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
                 Name = "Сельское, лесное хозяйство, охота, рыболовство и рыбоводство"
             },
-            new FEAProgram { Id = Guid.NewGuid(), Name = "Добыча полезных ископаемых" },
-            new FEAProgram { Id = Guid.NewGuid(), Name = "Обрабатывающие производства" },
+            new FEAProgram
+            { 
+                Id = new Guid("A372123C-2E7C-47A7-BFE6-80D3F6EB5DB4"), 
+                Name = "Добыча полезных ископаемых" 
+            },
+            new FEAProgram
+            { 
+                Id = new Guid("0E192D99-1A96-4987-AB32-1CBC93D19483"), 
+                Name = "Обрабатывающие производства" 
+            },
             new FEAProgram
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("9ABA2438-0EDB-4892-9C4D-528E55A163E2"),
                 Name = "Обеспечение электрической энергией, газом и паром; кондиционирование воздуха"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("6556CCAE-0953-4CE5-BAD7-CD45CDAB0430"),
+                Name = "Водоснабжение, водоотведение, организация сбора и утилизации отходов, деятельность по ликвидации загрязнений"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("B1C84659-5E03-4481-9C06-D1AF2DCCB1D1"),
+                Name = "Строительство"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("F5677A6B-7BBD-4F23-A20B-CDB22DF0B791"),
+                Name = "Торговля оптовая и розничная; ремонт автотранспортных средств и мотоциклов"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("256479FE-DB32-4BAD-A8F1-1E7FFE6FDF7F"),
+                Name = "Транспортировка и хранение"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("ACEC08BC-B442-4250-B031-F06290661F60"),
+                Name = "Деятельность гостиниц и предприятий общественного питания"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("0B55103E-CCCB-4D43-8C8F-EF38DAA57D1A"),
+                Name = "Деятельность в области информации и связи"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("29AA5936-2CA3-4387-AF90-5142F698C5E7"),
+                Name = "Деятельность финансовая и страховая"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("E918F975-3774-4C88-A8E9-44AAACBA50CA"),
+                Name = "Деятельность по операциям с недвижимым имуществом"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("CD22CD4F-BAD3-4090-94E8-FA5563D3FB73"),
+                Name = "Деятельность профессиональная, научная и техническая"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("A90495B2-B81B-4220-A6D7-2EC755318F47"),
+                Name = "Деятельность административная и сопутствующие дополнительные услуги"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("B76547B7-8756-4C8D-A62E-2A428D8E1B23"),
+                Name = "Государственное управление и обеспечение военной безопасности; социальное обеспечение"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("6E72CBFF-741E-49E5-B37D-0EE1F8FAA3C4"),
+                Name = "Образование"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("25ADCDDD-D3CB-4FAB-AAE4-06ECB534027F"),
+                Name = "Деятельность в области здравоохранения и социальных услуг"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("A0E6AC5D-6467-4DAF-BE89-39679858ED59"),
+                Name = "Деятельность в области культуры, спорта, организации досуг и развлечений"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("EF462C10-A340-477C-BD10-D06682C357B3"),
+                Name = "Предоставление прочих видов услуг"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("2BD97038-C34F-45FA-A09E-A6342B248A35"),
+                Name = "Деятельность домашних хозяйств как работодателей; недифференцированная деятельность частных домашних хозяйств"
+            },
+            new FEAProgram
+            {
+                Id = new Guid("17B2F00D-A764-4214-BE2D-89DC8E5E8817"),
+                Name = "Деятельность экстерриториальных организаций и органов"
             }
         );
         modelBuilder.Entity<EducationProgram>().HasData(
@@ -85,6 +178,21 @@ public sealed class InMemoryContext : StudentContext
             {
                 Id = new Guid("499322AC-CA21-4217-9E31-F94F33B4FE13"),
                 Name = "в архиве"
+            },
+            new StatusRequest
+            {
+                Id = new Guid("BD671117-09C1-481D-98B3-35D8981FD515"),
+                Name = "обучение"
+            },
+            new StatusRequest
+            {
+                Id = new Guid("A5DC52F9-199E-4572-A906-134EEC697CE2"),
+                Name = "отчислен"
+            },
+            new StatusRequest
+            {
+                Id = new Guid("3D3996AF-8287-49C3-AD8C-EC54DB0D318B"),
+                Name = "завершил"
             }
         );
 
@@ -253,6 +361,16 @@ public sealed class InMemoryContext : StudentContext
             {
                 Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
                 Name = "Среднее профессиональное образование"
+            },
+            new StudentEducation
+            {
+                Id = new Guid("60AB01D9-0B9E-47D4-8623-C4F441276365"),
+                Name = "Студент ВО"
+            },
+            new StudentEducation
+            {
+                Id = new Guid("48658492-AA7F-4763-ABAA-7FB958CBA87B"),
+                Name = "Студент СПО"
             }
         );
         modelBuilder.Entity<StudentStatus>().HasData(
