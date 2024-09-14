@@ -11,8 +11,6 @@ public class TypeEducation
     /// <summary>
     /// Id образования
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя образования
