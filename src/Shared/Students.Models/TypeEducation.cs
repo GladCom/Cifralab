@@ -6,7 +6,7 @@ namespace Students.Models;
 /// <summary>
 /// Образование студента
 /// </summary>
-public class StudentEducation
+public class TypeEducation
 {
     /// <summary>
     /// Id образования

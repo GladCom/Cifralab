@@ -351,23 +351,23 @@ public sealed class InMemoryContext : StudentContext
                 NameOfScope = "Безработные"
             }
         );
-        modelBuilder.Entity<StudentEducation>().HasData(
-            new StudentEducation
+        modelBuilder.Entity<TypeEducation>().HasData(
+            new TypeEducation
             {
                 Id = new Guid("7CF2BA34-080B-4FEF-8BFE-83731AC54742"),
                 Name = "Высшее образование"
             },
-            new StudentEducation
+            new TypeEducation
             {
                 Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
                 Name = "Среднее профессиональное образование"
             },
-            new StudentEducation
+            new TypeEducation
             {
                 Id = new Guid("60AB01D9-0B9E-47D4-8623-C4F441276365"),
                 Name = "Студент ВО"
             },
-            new StudentEducation
+            new TypeEducation
             {
                 Id = new Guid("48658492-AA7F-4763-ABAA-7FB958CBA87B"),
                 Name = "Студент СПО"

@@ -16,7 +16,7 @@ namespace Students.APIServer.Repository
         private readonly IGenericRepository<Group> _groupRepository;
         private readonly IGenericRepository<Request> _requestRepository;
         private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
-        private readonly IGenericRepository<StudentEducation> _studentEducationRepository;
+        private readonly IGenericRepository<TypeEducation> _studentEducationRepository;
         private readonly IGenericRepository<StudentStatus> _studentStatusRepository;
 
         public CSVReportRepository(
@@ -30,7 +30,7 @@ namespace Students.APIServer.Repository
             IGenericRepository<Group> groupRepository,
             IGenericRepository<Request> requestRepository,
             IGenericRepository<ScopeOfActivity> scopeOfActivityRepository,
-            IGenericRepository<StudentEducation> studentEducationRepository,
+            IGenericRepository<TypeEducation> studentEducationRepository,
             IGenericRepository<StudentStatus> studentStatusRepository)
         {
             _studentRepository = studentRepository;

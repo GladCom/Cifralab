@@ -351,7 +351,7 @@ namespace Students.DBCore.Migrations
                     b.ToTable("StudentDocuments");
                 });
 
-            modelBuilder.Entity("Students.Models.StudentEducation", b =>
+            modelBuilder.Entity("Students.Models.TypeEducation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -458,7 +458,7 @@ namespace Students.DBCore.Migrations
                         .WithMany()
                         .HasForeignKey("ScopeOfActivityLv2Id");
 
-                    b.HasOne("Students.Models.StudentEducation", "StudentEducation")
+                    b.HasOne("Students.Models.TypeEducation", "TypeEducation")
                         .WithMany()
                         .HasForeignKey("StudentEducationId");
 
@@ -482,7 +482,7 @@ namespace Students.DBCore.Migrations
 
                     b.Navigation("Student");
 
-                    b.Navigation("StudentEducation");
+                    b.Navigation("TypeEducation");
 
                     b.Navigation("StudentStatus");
                 });

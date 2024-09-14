@@ -16,7 +16,7 @@ public abstract class StudentContext : DbContext
     public DbSet<ScopeOfActivity> ScopesOfActivity { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<StudentStatus> StudentStatuses { get; set; }
-    public DbSet<StudentEducation> StudentEducations { get; set; }
+    public DbSet<TypeEducation> StudentEducations { get; set; }
     //public DbSet<StudentDocument> StudentDocuments { get; set; }
     public DbSet<GroupStudent> GroupStudent { get; set; }
 
@@ -27,7 +27,7 @@ public abstract class StudentContext : DbContext
         modelBuilder.ApplyConfiguration(new EducationProgramConfiguration());
         modelBuilder.ApplyConfiguration(new DocumentRiseQualificationConfiguration());
         modelBuilder.ApplyConfiguration(new EducationFormConfiguration());
-        //modelBuilder.ApplyConfiguration(new EducationTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new TypeEducationConfiguration());
         modelBuilder.ApplyConfiguration(new FEAProgramConfiguration());
         modelBuilder.ApplyConfiguration(new FinancingTypeConfiguration());
         modelBuilder.ApplyConfiguration(new KindDocumentRiseQualificationConfiguration());

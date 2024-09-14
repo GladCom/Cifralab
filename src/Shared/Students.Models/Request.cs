@@ -146,7 +146,7 @@ public class Request
         /// Образование
         /// </summary>
         [JsonIgnore]
-        public StudentEducation? StudentEducation { get; set; }
+        public TypeEducation? TypeEducation { get; set; }
         /// <summary>
         ///Id Статуса
         /// </summary>

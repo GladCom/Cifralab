@@ -4,10 +4,9 @@ using Students.Models;
 
 namespace Students.DBCore.Confuguration
 {
-    /*
-    internal class EducationTypeConfiguration : IEntityTypeConfiguration<EducationType>
+    internal class TypeEducationConfiguration : IEntityTypeConfiguration<TypeEducation>
     {
-        public void Configure(EntityTypeBuilder<EducationType> builder)
+        public void Configure(EntityTypeBuilder<TypeEducation> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -16,5 +15,4 @@ namespace Students.DBCore.Confuguration
                 .ValueGeneratedOnAdd();
         }
     }
-    */
 }

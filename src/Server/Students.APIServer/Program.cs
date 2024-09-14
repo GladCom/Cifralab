@@ -34,7 +34,6 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(modelsDoc);
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationForm>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationProgram>>();
-    //options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<EducationType>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<FEAProgram>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StatusRequest>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<FinancingType>>();
@@ -43,7 +42,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<ScopeOfActivity>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Student>>();
     //options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentDocument>>();
-    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentEducation>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<TypeEducation>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentStatus>>();
 });
 
