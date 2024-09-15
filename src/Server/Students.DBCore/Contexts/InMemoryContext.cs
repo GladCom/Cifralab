@@ -522,7 +522,7 @@ public sealed class InMemoryContext : StudentContext
                 FullNameDocument = "Эх, сейчас бы сиды полные",
                 Address = "Иваново",
                 IT_Experience = "Какой-то опыт есть",
-                EducationLevel = "Высшее образование"
+                TypeEducationId = new Guid("7CF2BA34-080B-4FEF-8BFE-83731AC54742")
             }
         );
         modelBuilder.Entity<GroupStudent>().HasData(

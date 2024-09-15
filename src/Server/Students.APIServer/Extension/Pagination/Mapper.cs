@@ -40,7 +40,7 @@ public class Mapper
     /// <param name="form"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static Student WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository)
+    public static Student WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository, IGenericRepository<TypeEducation> typeEducationRepository)
     {
         var fio = form.Name.Split(" ");
         return new Student()
@@ -55,7 +55,7 @@ public class Mapper
             Email = form.Email,
             Phone = form.Phone,
             Sex = SexHuman.Men,
-            EducationLevel = form.EducationLevel
+            TypeEducation = typeEducationRepository.Get().Result.Where(x => x.Name == form.EducationLevel).FirstOrDefault(),
             //Speciality = form.
             //Не хватает поля в вебхуке
             //.Projects = form.

@@ -21,6 +21,7 @@ public class IntegrationController : ControllerBase
     private readonly IGenericRepository<Student> _studentRepository;
     private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
     private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
+    private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
 
     /// <summary>
     /// Default constructor
@@ -28,13 +29,14 @@ public class IntegrationController : ControllerBase
     /// <param name="logger"></param>
     public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository, 
                 IGenericRepository<Student> studentRepository, IGenericRepository<EducationProgram> educationProgramRepository,
-                IGenericRepository<StatusRequest> statusRequestRepository)
+                IGenericRepository<StatusRequest> statusRequestRepository, IGenericRepository<TypeEducation> typeEducationRepository)
     {
         _logger = logger;
         _requestRepository = requestRepository;
         _studentRepository = studentRepository;
         _educationProgramRepository = educationProgramRepository;
         _statusRequestRepository = statusRequestRepository;
+        _typeEducationRepository = typeEducationRepository;
     }
 
     /// <summary>
@@ -55,7 +57,7 @@ public class IntegrationController : ControllerBase
             {
                 if (!_studentRepository.Get().Result.Any(x => x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email))
                 {
-                    student = Mapper.WebhookToStudent(form, _studentRepository);
+                    student = Mapper.WebhookToStudent(form, _studentRepository, _typeEducationRepository);
                     student = await _studentRepository.Create(student);
                 }
             }

@@ -16,7 +16,7 @@ namespace Students.APIServer.Repository
         private readonly IGenericRepository<Group> _groupRepository;
         private readonly IGenericRepository<Request> _requestRepository;
         private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
-        private readonly IGenericRepository<TypeEducation> _studentEducationRepository;
+        private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
         private readonly IGenericRepository<StudentStatus> _studentStatusRepository;
 
         public CSVReportRepository(
@@ -30,7 +30,7 @@ namespace Students.APIServer.Repository
             IGenericRepository<Group> groupRepository,
             IGenericRepository<Request> requestRepository,
             IGenericRepository<ScopeOfActivity> scopeOfActivityRepository,
-            IGenericRepository<TypeEducation> studentEducationRepository,
+            IGenericRepository<TypeEducation> typeEducationRepository,
             IGenericRepository<StudentStatus> studentStatusRepository)
         {
             _studentRepository = studentRepository;
@@ -43,7 +43,7 @@ namespace Students.APIServer.Repository
             _groupRepository = groupRepository;
             _requestRepository = requestRepository;
             _scopeOfActivityRepository = scopeOfActivityRepository;
-            _studentEducationRepository = studentEducationRepository;
+            _typeEducationRepository = typeEducationRepository;
             _studentStatusRepository = studentStatusRepository;
         }
 
@@ -65,7 +65,7 @@ namespace Students.APIServer.Repository
                 { "GroupRepositoryReport.csv", await WriteOneDT(_groupRepository) },
                 { "RequestReport.csv", await WriteOneDT(_requestRepository) },
                 { "ScopeOfActivityReport.csv", await WriteOneDT(_scopeOfActivityRepository) },
-                { "StudentEducationReport.csv", await WriteOneDT(_studentEducationRepository) },
+                { "TypeEducationReport.csv", await WriteOneDT(_typeEducationRepository) },
                 { "StudentStatusReport.csv", await WriteOneDT(_studentStatusRepository) }
             };
             var files = WriteCSVsTempPath(reportMapping);
