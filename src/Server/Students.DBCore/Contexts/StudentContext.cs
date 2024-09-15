@@ -19,6 +19,7 @@ public abstract class StudentContext : DbContext
     public DbSet<TypeEducation> StudentEducations { get; set; }
     //public DbSet<StudentDocument> StudentDocuments { get; set; }
     public DbSet<GroupStudent> GroupStudent { get; set; }
+    public DbSet<TypeEducation> TypeEducation { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

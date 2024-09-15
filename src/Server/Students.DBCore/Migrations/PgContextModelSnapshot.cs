@@ -347,9 +347,6 @@ namespace Students.DBCore.Migrations
                     b.Property<string>("DocumentSeries")
                         .HasColumnType("text");
 
-                    b.Property<string>("EducationLevel")
-                        .HasColumnType("text");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -396,11 +393,16 @@ namespace Students.DBCore.Migrations
                     b.Property<string>("Speciality")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("TypeEducationId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ScopeOfActivityLevelOneId");
 
                     b.HasIndex("ScopeOfActivityLevelTwoId");
+
+                    b.HasIndex("TypeEducationId");
 
                     b.ToTable("Students");
                 });
@@ -571,9 +573,15 @@ namespace Students.DBCore.Migrations
                         .WithMany()
                         .HasForeignKey("ScopeOfActivityLevelTwoId");
 
+                    b.HasOne("Students.Models.TypeEducation", "TypeEducation")
+                        .WithMany()
+                        .HasForeignKey("TypeEducationId");
+
                     b.Navigation("ScopeOfActivityLevelOne");
 
                     b.Navigation("ScopeOfActivityLevelTwo");
+
+                    b.Navigation("TypeEducation");
                 });
 
             modelBuilder.Entity("Students.Models.EducationProgram", b =>

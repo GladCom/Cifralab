@@ -33,6 +33,7 @@ namespace Students.DBCore.Confuguration
             builder.HasOne(ep => ep.Status)
                 .WithMany()
                 .HasForeignKey(ep => ep.StatusRequestId);
+
             builder.HasOne(ep => ep.StudentStatus)
                 .WithMany()
                 .HasForeignKey(ep => ep.StudentStatusId);

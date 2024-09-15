@@ -20,6 +20,10 @@ namespace Students.DBCore.Confuguration
             builder.HasMany(r => r.Requests)
                 .WithOne(s => s.Student)
                 .HasForeignKey(s => s.StudentId);
+
+            builder.HasOne(te => te.TypeEducation)
+                .WithMany()
+                .HasForeignKey(te => te.TypeEducationId);
         }
     }
 }
