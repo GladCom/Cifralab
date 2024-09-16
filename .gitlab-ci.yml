@@ -24,9 +24,9 @@ deploy-on-test:
   #     when: on_success
   script:
     - apk update
-    - apk add --no-cache bash usermod 
+    - apk add --no-cache bash 
     - cat /etc/shells
-    - usermod --shell /bin/bash
+    - cat /etc/passwd
     - echo $SHELL
     - CI_COMMIT_TITLE="Merge branch 'my_cool_branch' into 'main'"
     - echo $CI_COMMIT_TITLE
