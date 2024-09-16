@@ -25,5 +25,7 @@ deploy-on-test:
   #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
   #     when: on_success
   script:
+    - ls -la
+    - ls -la ./build
     - IMAGE_TAG=$(./build/image-tag.sh $CI_COMMIT_TITLE)
     - ./build/build.sh $IMAGE_TAG
