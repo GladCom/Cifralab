@@ -25,6 +25,6 @@ deploy-on-test:
   script:
     - ls -la
     - ls -la ./build
-    - ./build/image-tag.sh $CI_COMMIT_TITLE
-    - IMAGE_TAG=$(./build/image-tag.sh $CI_COMMIT_TITLE)
+    - build/image-tag.sh $CI_COMMIT_TITLE
+    - IMAGE_TAG=$(build/image-tag.sh $CI_COMMIT_TITLE)
     - ./build/build.sh $IMAGE_TAG
