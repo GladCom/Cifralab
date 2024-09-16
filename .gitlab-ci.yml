@@ -27,10 +27,7 @@ deploy-on-test:
     - apk add --no-cache bash 
     # TODO убрать, это для тестов
     - CI_COMMIT_TITLE="Merge branch 'my_cool_branch' into 'main'"
-    - IMAGE_TAG=$(bash ./build/image-tag.sh $CI_COMMIT_TITLE)
+    - IMAGE_TAG=$(bash ./build/image-tag.sh "$CI_COMMIT_TITLE")
     - echo "$IMAGE_TAG"
-    # - echo $IMAGE_TAG
-    # - build/image-tag.sh $CI_COMMIT_TITLE
-    # - IMAGE_TAG=$(build/image-tag.sh $CI_COMMIT_TITLE)
-    # - ./build/build.sh $IMAGE_TAG
+    - ./build/build.sh $IMAGE_TAG
     # - bash ./build/image-tag.sh $CI_COMMIT_TITLE
