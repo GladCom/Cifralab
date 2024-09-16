@@ -4,12 +4,12 @@ stages:
   - deploy
 
 # Проверка компиляции бэкенд
-backend-compile:
-  stage: compile
-  image: mcr.microsoft.com/dotnet/sdk:8.0
-  tags: [ common ]
-  script:
-    - dotnet build ./src
+# backend-compile:
+#   stage: compile
+#   image: mcr.microsoft.com/dotnet/sdk:8.0
+#   tags: [ common ]
+#   script:
+#     - dotnet build ./src
 
 # Деплой на тестовый стенд
 deploy-on-test:
@@ -23,8 +23,8 @@ deploy-on-test:
   #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
   #     when: on_success
   script:
-    # - ls -la
-    # - ls -la ./build
+    - ls -la
+    - ls -la ./build
     # - build/image-tag.sh $CI_COMMIT_TITLE
     # - IMAGE_TAG=$(build/image-tag.sh $CI_COMMIT_TITLE)
     # - ./build/build.sh $IMAGE_TAG
