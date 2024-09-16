@@ -25,8 +25,8 @@ deploy-on-test:
   script:
     - apk add --no-cache bash
     - cat /etc/shells
+    - usermod --shell /bin/bash
     - echo $SHELL
-    - SHELL='bin/bash'
     - CI_COMMIT_TITLE="Merge branch 'my_cool_branch' into 'main'"
     - echo $CI_COMMIT_TITLE
     - ./build/image-tag.sh $CI_COMMIT_TITLE
