@@ -1,6 +1,7 @@
 
 stages:
   - compile
+  - deploy
 
 # Проверка компиляции бэкенд
 backend-compile:
@@ -11,3 +12,17 @@ backend-compile:
     - when: on_success
   script:
     - dotnet build ./src
+
+# Деплой на тестовый стенд
+deploy-on-test:
+  stage: deploy
+  image: docker
+  services: 
+    - docker:dind
+  tags: [ common ]
+  # TODO вернуть правила, закоментировано для тестов
+  # rules:
+  #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
+  #     when: on_success
+  script:
+    - echo "Hello world"
