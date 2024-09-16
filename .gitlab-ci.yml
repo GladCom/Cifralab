@@ -23,10 +23,10 @@ deploy-on-test:
   #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
   #     when: on_success
   script:
+    # TODO Унести в докеробраз
     - apk add --no-cache bash 
+    # TODO убрать, это для тестов
     - CI_COMMIT_TITLE="Merge branch 'my_cool_branch' into 'main'"
-    - echo $CI_COMMIT_TITLE
-    - ./build/image-tag.sh "$CI_COMMIT_TITLE"
     - IMAGE_TAG=$(bash ./build/image-tag.sh $CI_COMMIT_TITLE)
     - echo "$IMAGE_TAG"
     # - echo $IMAGE_TAG
