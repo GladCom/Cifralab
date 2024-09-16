@@ -25,4 +25,13 @@ deploy-on-test:
   #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
   #     when: on_success
   script:
-    - echo "Hello world"
+    # Когда заливаем в main тег образа это имя сливаемой ветки.
+    # Берем имя ветки из переменной CI_COMMIT_TITLE, там будет что-то подобное:
+    # "Merge branch 'my_cool_branch' into 'main'"
+    - image_tag_name=$(echo "${title}" | cut -d ' ' -f 3)
+    - image_tag_name="${image_tag_name:1:-1}"
+    # - image_tag_name="${image_tag_name////_}"
+    # Убераем из имени некоторые сиволы допустимы для веток git но не для тегов docker
+    - image_tag_name=$(echo "${image_tag_name}" | tr -d "{}[]:;,")
+    echo image_tag_name
+    # - ./build/build.sh 
