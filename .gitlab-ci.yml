@@ -23,14 +23,11 @@ deploy-on-test:
   #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
   #     when: on_success
   script:
-    - apk update
     - apk add --no-cache bash 
-    - cat /etc/shells
-    - cat /etc/passwd
-    - echo $SHELL
     - CI_COMMIT_TITLE="Merge branch 'my_cool_branch' into 'main'"
     - echo $CI_COMMIT_TITLE
     - ./build/image-tag.sh $CI_COMMIT_TITLE
+    - echo $IMAGE_TAG
     # - IMAGE_TAG=$(bash ./build/image-tag.sh $CI_COMMIT_TITLE)
     # - echo $IMAGE_TAG
     # - build/image-tag.sh $CI_COMMIT_TITLE
