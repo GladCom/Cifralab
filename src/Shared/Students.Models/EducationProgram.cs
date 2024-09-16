@@ -40,7 +40,7 @@ public class EducationProgram
     /// Вид документа повышения квалификации
     /// </summary>
     [JsonIgnore]
-    public KindDocumentRiseQualification kindDocumentRiseQualification { get; set; }
+    public KindDocumentRiseQualification KindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Модульная программа
     /// </summary>

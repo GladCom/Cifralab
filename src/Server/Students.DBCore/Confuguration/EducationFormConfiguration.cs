@@ -13,6 +13,8 @@ namespace Students.DBCore.Confuguration
             builder.Property(x => x.Id)
                 .IsRequired()
                 .ValueGeneratedOnAdd();
+
+            builder.Property(x => x.Name);
         }
     }
 }

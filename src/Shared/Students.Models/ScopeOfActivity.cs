@@ -11,8 +11,6 @@ public class ScopeOfActivity
     /// <summary>
     /// Id сферы деятельности
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя сферы деятельности

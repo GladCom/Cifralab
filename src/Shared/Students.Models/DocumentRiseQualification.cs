@@ -19,7 +19,7 @@ public class DocumentRiseQualification
     /// Вид документа повышения квалификации
     /// </summary>
     [JsonIgnore]
-    public KindDocumentRiseQualification? kindDocumentRiseQualification { get; set; }
+    public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
 
     /// <summary>
     /// Дата выдачи удостоверения назовите это нормально

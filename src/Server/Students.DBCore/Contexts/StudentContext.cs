@@ -35,6 +35,10 @@ public abstract class StudentContext : DbContext
         modelBuilder.ApplyConfiguration(new KindOrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new RequestConfiguration());
+        modelBuilder.ApplyConfiguration(new ScopeOfActivityConfiguration());
+        modelBuilder.ApplyConfiguration(new StatusRequestConfiguration());
+
+
         modelBuilder
             .Entity<Student>()
             .HasMany(c => c.Groups)

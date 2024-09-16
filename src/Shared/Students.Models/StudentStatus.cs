@@ -11,8 +11,6 @@ public class StudentStatus
     /// <summary>
     /// Id статуса
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя статуса
