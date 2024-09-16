@@ -1,1 +1,1 @@
-docker compose --file docker-compose.yaml up -d
+docker compose --file ./bild/docker-compose.yaml up -d
