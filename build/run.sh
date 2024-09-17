@@ -3,4 +3,4 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 echo $DIR;
 
-docker compose --file docker-compose.yaml up -d
+docker compose --file build/docker-compose.yaml up -d
