@@ -29,7 +29,6 @@ deploy-on-test:
     # - IMAGE_TAG=$(bash ./build/image-tag.sh "$CI_COMMIT_TITLE")
     # TODO В будущем будет поддержка тегов для возможности отката, пока толкьо latest
     - IMAGE_TAG="latest"
-    - sudo apt-get install docker.io -y
     - docker --version
     - ./build/build.sh $IMAGE_TAG
     - ./build/down.sh $IMAGE_TAG
