@@ -32,5 +32,5 @@ deploy-on-test:
     # TODO Унести в докеробраз
     - apk add --no-cache bash 
     - ./build/build.sh $IMAGE_TAG
-    - ./build/down.sh $IMAGE_TAG
+    # - ./build/down.sh $IMAGE_TAG
     # - ./build/run.sh $IMAGE_TAG
