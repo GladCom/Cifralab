@@ -17,7 +17,7 @@ deploy-on-test:
   # image: docker
   # services: 
   #   - docker:dind
-  tags: [ compile ]
+  tags: [ common ]
   # tags: [ deploy ]
   # TODO вернуть правила, закоментировано для тестов
   # rules:
