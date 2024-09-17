@@ -23,13 +23,14 @@ deploy-on-test:
   # rules:
   #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
   #     when: on_success
+  variables: 
+    DOCKER_HOST: tcp://docker:2375/
   script:
     # TODO Унести в докеробраз
     - apk add --no-cache bash 
     # - IMAGE_TAG=$(bash ./build/image-tag.sh "$CI_COMMIT_TITLE")
     # TODO В будущем будет поддержка тегов для возможности отката, пока толкьо latest
     - IMAGE_TAG="latest"
-    - curl --unix-socket /var/run/docker.sock http://localhost/version
     - ./build/build.sh $IMAGE_TAG
     - ./build/down.sh $IMAGE_TAG
     # - ./build/run.sh $IMAGE_TAG
