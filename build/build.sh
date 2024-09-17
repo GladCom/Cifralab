@@ -6,7 +6,11 @@ cd ../src;
 
 # Первый аргумент имя тега, значение по умолчанию latest
 TAG="${1:-latest}";
-IMAGE="cifralabs.studentsapi:$TAG"
+IMAGE="cifralabs.students.api:$TAG"
 echo $IMAGE
 
+# Сборка бэкенда
 docker build -t $IMAGE .
+
+# Сборка фронтенда
+docker build -t cifralabs.students.front:latest ./Client
