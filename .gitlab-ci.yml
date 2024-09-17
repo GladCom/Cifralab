@@ -15,8 +15,8 @@ stages:
 deploy-on-test:
   stage: deploy
   image: docker
-  services: 
-    - docker:dind
+#   services: 
+#     - docker:dind
   tags: [ common ]
   # tags: [ deploy ]
   # TODO вернуть правила, закоментировано для тестов
