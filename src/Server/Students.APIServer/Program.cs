@@ -44,6 +44,10 @@ builder.Services.AddSwaggerGen(options =>
     //options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentDocument>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<TypeEducation>>();
     options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<StudentStatus>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<KindDocumentRiseQualification>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<DocumentRiseQualification>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<KindOrder>>();
+    options.SchemaFilter<Swagger.ExcludeIdPropertyFilter<Order>>();
 });
 
 builder.Services.AddCors(options =>
