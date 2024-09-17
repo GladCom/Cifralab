@@ -13,8 +13,8 @@ stages:
 
 # Деплой на тестовый стенд
 deploy-on-test:
-  #  stage: deploy
-  image: docker
+  stage: deploy
+  # image: docker
   #   services: 
   #     - docker:dind
   # tags: [ common ]
