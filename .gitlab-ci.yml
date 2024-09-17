@@ -30,4 +30,4 @@ deploy-on-test:
     - IMAGE_TAG="latest"
     - ./build/build.sh $IMAGE_TAG
     - ./build/down.sh $IMAGE_TAG
-    - ./build/run.sh $IMAGE_TAG
+    # - ./build/run.sh $IMAGE_TAG
