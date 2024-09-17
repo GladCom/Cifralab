@@ -85,5 +85,10 @@ namespace Students.APIServer.Repository
             findRequest!.Orders.Add(order);
             return id;
         }
+
+        public async Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize)
+        {
+            return await PagedPage<Request>.ToPagedPage(_ctx.Requests, page, pageSize);
+        }
     }
 }

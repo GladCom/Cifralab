@@ -1,3 +1,4 @@
+using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
 
@@ -10,5 +11,6 @@ namespace Students.APIServer.Repository
         Task<Request> FindRequestByPhoneFromRequestAsync(Request request);
         Task<Request> FindRequestByEmailFromRequestAsync(Request request);
         Task<Guid> AddOrderToRequest(Guid id, Order order);
+        Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize);
     }
 }

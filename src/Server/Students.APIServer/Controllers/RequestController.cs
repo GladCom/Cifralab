@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository;
 using Students.Models;
 using System.Diagnostics;
@@ -83,6 +84,16 @@ public class RequestController : GenericAPiController<Request>
     {
         await _requestRepository.AddOrderToRequest(id, order);
         return StatusCode(StatusCodes.Status200OK);
+    }
+
+    /// <summary>
+    /// Список объектов с разделением по страницам
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("paged")]
+    public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
+    {
+        return StatusCode(StatusCodes.Status200OK, await _requestRepository.GetRequestsByPage(pageable.PageNumber, pageable.PageSize));
     }
 }
     
