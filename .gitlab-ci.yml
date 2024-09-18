@@ -4,12 +4,12 @@ stages:
   - deploy
 
 # Проверка компиляции бэкенд
-# backend-compile:
-#   stage: compile
-#   image: mcr.microsoft.com/dotnet/sdk:8.0
-#   tags: [ common ]
-#   script:
-#     - dotnet build ./src
+backend-compile:
+  stage: compile
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  tags: [ common ]
+  script:
+    - dotnet build ./src
 
 # Деплой на тестовый стенд
 deploy-on-test:
@@ -19,10 +19,9 @@ deploy-on-test:
   #     - docker:dind
   # tags: [ common ]
   tags: [ deploy ]
-  # TODO вернуть правила, закоментировано для тестов
-  # rules:
-  #   - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
-  #     when: on_success
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
+      when: on_success
   script:
     # - IMAGE_TAG=$(bash ./build/image-tag.sh "$CI_COMMIT_TITLE")
     # TODO В будущем будет поддержка тегов для возможности отката, пока толкьо latest

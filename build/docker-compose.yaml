@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-    students.api:
+    cifralabs.students.api:
         ports:
             - '80:80'
         environment:
@@ -12,7 +12,14 @@ services:
             - DBLogin=cifralabs_studentDB_Service
             - 'DBPassword=P@ssw0rd!'
         container_name: students.api
-        image: cifralabs.studentsapi:latest
+        image: cifralabs.students.api:latest
+        restart: unless-stopped
+        
+    cifralabs.students.front:
+        ports:
+            - '2056:3000'
+        container_name: cifralabs.students.front
+        image: cifralabs.students.front:latest
         restart: unless-stopped
 
     postgres:
