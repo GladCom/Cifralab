@@ -14,12 +14,14 @@ namespace Students.APIServer.Repository
         private readonly StudentContext _ctx;
         private IStudentRepository _studentRepository;
         private ModelStateDictionary _modelState;
+        private IOrderRepository _orderRepository;
 
-        public RequestRepository(StudentContext context,  IStudentRepository studRep) : base(context)
+        public RequestRepository(StudentContext context,  IStudentRepository studRep, IOrderRepository orderRepository) : base(context)
         {
             _ctx = context;
             _studentRepository = studRep;
             _modelState = new ModelStateDictionary();
+            _orderRepository = orderRepository;
         }
 
         protected async Task<bool> ValidateRequest(Request requestToValidate)
@@ -80,9 +82,13 @@ namespace Students.APIServer.Repository
         /// <exception cref="ArgumentNullException"></exception>
         public async Task<Guid> AddOrderToRequest(Guid id, Order order)
         {
-            var findRequest = await _ctx.Set<Request>().FindAsync(id);
+            var findRequest = await FindById(id);
+            //var findRequest = await _ctx.Set<Request>().FindAsync(id);
             if(findRequest == null) throw new ArgumentNullException(nameof(findRequest));
-            findRequest!.Orders.Add(order);
+            
+            order.RequestId = id;
+            var actualOrder = await _orderRepository.Create(order);
+
             return id;
         }
 

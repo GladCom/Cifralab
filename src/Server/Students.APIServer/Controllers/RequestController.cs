@@ -19,6 +19,8 @@ public class RequestController : GenericAPiController<Request>
         _requestRepository = requestRepository;
         _logger = logger;
     }
+
+    //это лишнее, это копия базового метода
     public override async Task<IActionResult> Get(Guid id)
     {
         try
@@ -46,6 +48,7 @@ public class RequestController : GenericAPiController<Request>
         }
     }
 
+    //это лишнее, это копия базового метода
     public override async Task<IActionResult> Post(Request request)
     {
         try

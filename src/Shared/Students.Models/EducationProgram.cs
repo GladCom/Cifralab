@@ -77,4 +77,9 @@ public class EducationProgram
     /// Обязательно наличие ВО
     /// </summary>
     public bool IsCollegeProgram { get; set; }
+
+    /// <summary>
+    /// Признак программы в архиве
+    /// </summary>
+    public bool IsArchive { get; set; }
 }
