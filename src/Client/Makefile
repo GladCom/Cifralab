@@ -11,3 +11,6 @@ start: #  Запуск приложения (на localhost:3000)
 
 lint: #  Запуск линтера
 	npx eslint
+
+server: #  Запуск тестового сервера
+	node test_server/server.js

@@ -3,7 +3,7 @@ import Layout from '../shared/Layout';
 
 const GroupsPage = () => {
     return (
-        <Layout>
+        <Layout title="Группы">
             <span>Страница с группами</span>
         </Layout>
     );

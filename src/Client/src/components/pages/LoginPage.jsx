@@ -4,6 +4,10 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { actions as userActions } from '../../slices/userSlice.js';
 
+const containerStyle = {
+    background: 'linear-gradient(to bottom right, #e968a4, #005aff)',
+};
+
 const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -13,6 +17,7 @@ const LoginPage = () => {
 
     const onSubmitHandle = (e) => {   //  TODO: в дальнейшем переделать
         e.preventDefault();
+
         if (login !== 'user' || pass !== '123') {
             setWrongass(true);
             setLogin('');
@@ -45,7 +50,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="container vh-100">
+        <div className="container vh-100" style={containerStyle}>
             <div className="row auto justify-content-center align-items-center vh-100">
                 <div className="col-md-5">
                     <div className="card">
