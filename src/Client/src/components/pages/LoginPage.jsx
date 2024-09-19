@@ -50,9 +50,9 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="container vh-100" style={containerStyle}>
+        <div className="container-fluid vh-100" style={containerStyle}>
             <div className="row auto justify-content-center align-items-center vh-100">
-                <div className="col-md-5">
+                <div className="col-md-5 col-lg-3">
                     <div className="card">
                         <div className="card-header text-center">
                             <h4>Авторизация</h4>
