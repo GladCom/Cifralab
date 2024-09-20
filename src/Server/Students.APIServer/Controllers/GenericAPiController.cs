@@ -6,6 +6,10 @@ using Students.Models;
 
 namespace Students.APIServer.Controllers;
 
+/// <summary>
+/// Абстрактный generic контроллер
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
 public abstract class GenericAPiController<TEntity> : ControllerBase where TEntity : class
 {
     private readonly IGenericRepository<TEntity> _rep;
@@ -23,7 +27,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     }
     
     /// <summary>
-    /// Список объектов
+    /// Список всех объектов
     /// </summary>
     /// <returns>Список объектов</returns>
     [HttpGet()]

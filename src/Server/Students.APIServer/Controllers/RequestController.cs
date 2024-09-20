@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace Students.APIServer.Controllers;
 
+/// <summary>
+/// Контроллер заявок
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
@@ -14,6 +17,12 @@ public class RequestController : GenericAPiController<Request>
 {
     private readonly ILogger<Request> _logger;
     private readonly IRequestRepository _requestRepository;
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="repository">Репозиторий заявок</param>
+    /// <param name="logger">Логгер</param>
+    /// <param name="requestRepository">Репозиторий заявок (как-будто лучше использовать этот параметр вместо двух???)</param>
     public RequestController(IGenericRepository<Request> repository, ILogger<Request> logger, IRequestRepository requestRepository) : base(repository, logger)
     {
         _requestRepository = requestRepository;
@@ -21,6 +30,11 @@ public class RequestController : GenericAPiController<Request>
     }
 
     //это лишнее, это копия базового метода
+    /// <summary>
+    /// Получение завяки по идентификатору
+    /// </summary>
+    /// <param name="id">идентификатор заявки</param>
+    /// <returns></returns>
     public override async Task<IActionResult> Get(Guid id)
     {
         try
@@ -49,6 +63,11 @@ public class RequestController : GenericAPiController<Request>
     }
 
     //это лишнее, это копия базового метода
+    /// <summary>
+    /// Создание новой заявки
+    /// </summary>
+    /// <param name="request">заявка</param>
+    /// <returns>Состояние запроса + Заявка</returns>
     public override async Task<IActionResult> Post(Request request)
     {
         try
@@ -77,11 +96,11 @@ public class RequestController : GenericAPiController<Request>
     }
 
     /// <summary>
-    /// Добавление приказа.
+    /// Добавление приказа
     /// </summary>
-    /// <param name="id">Идентификатор заявки.</param>
-    /// <param name="order">Приказ.</param>
-    /// <returns>ActionResult.</returns>
+    /// <param name="id">Идентификатор заявки</param>
+    /// <param name="order">Приказ</param>
+    /// <returns>Состояние запроса</returns>
     [HttpPost("AddOrderToRequest")]
     public async Task<ActionResult> AddOrderToRequest(Guid id, Order order)
     {
@@ -90,9 +109,9 @@ public class RequestController : GenericAPiController<Request>
     }
 
     /// <summary>
-    /// Список объектов с разделением по страницам
+    /// Список заявок с разделением по страницам
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Состояние запроса + список заявок с разделением по страницам </returns>
     [HttpGet("paged")]
     public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
     {

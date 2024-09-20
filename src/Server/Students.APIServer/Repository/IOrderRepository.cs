@@ -3,7 +3,7 @@
 namespace Students.APIServer.Repository
 {
     /// <summary>
-    /// Интерфейс репозитория.
+    /// Репозиторий приказов.
     /// </summary>
     public interface IOrderRepository : IGenericRepository<Order>
     {

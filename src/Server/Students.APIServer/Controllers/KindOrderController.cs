@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers
 {
     /// <summary>
-    /// Виды документов.
+    /// Контроллер видов приказов
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -19,10 +19,11 @@ namespace Students.APIServer.Controllers
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="repository">Репозиторий.</param>
-        /// <param name="logger">Логгер.</param>
+        /// <param name="repository">Репозиторий типов приказов</param>
+        /// <param name="logger">Логгер</param>
         public KindOrderController(IGenericRepository<KindOrder> repository, ILogger<KindOrder> logger) : base(repository, logger)
         {
+            // на самом деле это нах не нужно. Лучше сделать логгер и репозиторий GenericAPiController видимым для наследника
             _genericRepository = repository;
             _logger = logger;
         }

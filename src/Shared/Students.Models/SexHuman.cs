@@ -11,7 +11,7 @@ namespace Students.Models
     /// </summary>
     public enum SexHuman
     {
-        Men,
-        Woman
+        Woman = 0,
+        Men = 1
     }
 }

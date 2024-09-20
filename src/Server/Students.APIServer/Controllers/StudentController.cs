@@ -7,6 +7,9 @@ using Students.Models;
 
 namespace Students.APIServer.Controllers;
 
+/// <summary>
+/// Контроллер студентов
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
@@ -14,6 +17,12 @@ public class StudentController : GenericAPiController<Student>
 {
     private readonly IStudentRepository _studentRepository;
     private readonly ILogger<Student> _logger;
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="repository">Репозиторий студентов</param>
+    /// <param name="logger">Логгер</param>
+    /// <param name="studentRepository">Репозиторий студентов</param>
     public StudentController(IGenericRepository<Student> repository, ILogger<Student> logger, IStudentRepository studentRepository) : base(repository, logger)
     {
         _studentRepository = studentRepository;
@@ -21,7 +30,7 @@ public class StudentController : GenericAPiController<Student>
     }
 
     /// <summary>
-    /// Список объектов с разделением по страницам
+    /// Список студентов с разделением по страницам (кажется это можно вынести в абстрактный класс)
     /// </summary>
     /// <returns></returns>
     [HttpGet("paged")]
@@ -31,9 +40,9 @@ public class StudentController : GenericAPiController<Student>
     }
 
     /// <summary>
-    /// Список групп в которых состоит студент
+    /// Список групп, в которых состоит студент
     /// </summary>
-    /// <param name="student"></param>
+    /// <param name="student">Идентификатор студента</param>
     /// <returns></returns>
 	[HttpGet("GetListGroupsOfStudentExists")]
 	public async Task<IActionResult> GetListGroupsOfStudentExists(Guid student)
@@ -45,8 +54,8 @@ public class StudentController : GenericAPiController<Student>
     /// <summary>
     /// Добавить студента в группу
     /// </summary>
-    /// <param name="studentId"></param>
-    /// <param name="groupID"></param>
+    /// <param name="studentId">Идентификатор студента</param>
+    /// <param name="groupID">Идентификатор группы</param>
     /// <returns></returns>
 	[HttpPost("AddStudentToGroup")]
 	public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupID)
@@ -54,20 +63,12 @@ public class StudentController : GenericAPiController<Student>
 		return StatusCode(StatusCodes.Status200OK,
 			await _studentRepository.AddStudentToGroup(studentId, groupID));
 	}
-	
-
-	// Отключение базового метода ListAll
-	// [ApiExplorerSettings(IgnoreApi=true)]
-	// public override Task<IActionResult>ListAll()
-	// {
-	//     return null;
-	// }
 
 	/// <summary>
-	/// Получить объект по Id с включением связанных объектов
+	/// Получить студента
 	/// </summary>
-	/// <param name="id">Id Объекта</param>
-	/// <returns>Объект</returns>
+	/// <param name="id">Идентификатор студента</param>
+	/// <returns>Состояние запроса + студент</returns>
 	public override async Task<IActionResult> Get(Guid id)
     {
         try

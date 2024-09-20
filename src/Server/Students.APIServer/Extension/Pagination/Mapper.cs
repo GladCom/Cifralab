@@ -35,11 +35,12 @@ public class Mapper
     }
 
     /// <summary>
-    /// Преобразование вебхука в студента
+    /// Преобразование вебхука (данных от минцифры) в студента. Подумать над RequestWebhook, возможно сделать 2 его варианта (второй, состоящий из слова test / test  для установки связи между минцифрой и нашим сервисом)
     /// </summary>
-    /// <param name="form"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
+    /// <param name="form">вебхук (данне от минцифры)</param>
+    /// <param name="studentRepository">Репозиторий студентов</param>
+    /// <param name="typeEducationRepository">Репозиторий типов образований</param>
+    /// <returns>Студент</returns>
     public static Student WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository, IGenericRepository<TypeEducation> typeEducationRepository)
     {
         var fio = form.Name.Split(" ");
@@ -56,6 +57,7 @@ public class Mapper
             Phone = form.Phone,
             Sex = SexHuman.Men,
             TypeEducation = typeEducationRepository.Get().Result.Where(x => x.Name == form.EducationLevel).FirstOrDefault(),
+            //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
             //Speciality = form.
             //Не хватает поля в вебхуке
             //.Projects = form.

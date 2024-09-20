@@ -9,11 +9,16 @@ namespace Students.APIServer.Extension;
 public class Swagger
 {
     /// <summary>
-    /// ExcludeIdPropertyFilter
+    /// Фильтр свойств модели swagger, исключающий свойства - идентификаторы (ExcludeIdPropertyFilter)
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Тип объекта</typeparam>
     public class ExcludeIdPropertyFilter<T> : ISchemaFilter
     {
+        /// <summary>
+        /// Применение фильтра
+        /// </summary>
+        /// <param name="model">Схема API</param>
+        /// <param name="context">Контекст схемы</param>
         public void Apply(OpenApiSchema model, SchemaFilterContext context)
         {
             var type = context.Type;

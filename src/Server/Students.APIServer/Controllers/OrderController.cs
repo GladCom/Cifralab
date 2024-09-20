@@ -6,24 +6,24 @@ using Students.Models;
 namespace Students.APIServer.Controllers
 {
     /// <summary>
-    /// Список приказов.
+    /// Контроллер приказов
     /// </summary>
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
     public class OrderController : GenericAPiController<Order>
     {
-        private readonly IGenericRepository<Order> _genericRepository;
+        private readonly IOrderRepository _orderRepository;
         private readonly ILogger _loger;
 
         /// <summary>
-        /// Конструктор.
+        /// Конструктор
         /// </summary>
-        /// <param name="repository">Репозиторий.</param>
+        /// <param name="repository">Репозиторий приказов</param>
         /// <param name="logger">Логгер.</param>
-        public OrderController(IGenericRepository<Order> repository, ILogger<Order> logger) : base(repository, logger)
+        public OrderController(IOrderRepository orderКepository, ILogger<Order> logger) : base(orderКepository, logger)
         {
-            _genericRepository = repository;
+            _orderRepository = orderКepository;
             _loger = logger;
         }
     }

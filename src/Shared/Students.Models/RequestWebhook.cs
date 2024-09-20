@@ -1,7 +1,7 @@
 ﻿namespace Students.Models;
 
 /// <summary>
-/// Вебхук для обработки формы заявки на обучение
+/// Вебхук для обработки формы заявки на обучение, сюда добавить недостающие данные от минцифры типа nullable
 /// </summary>
 public class RequestWebhook
 {
