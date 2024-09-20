@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using Students.APIServer.Extension;
 using Students.APIServer.Extension.Pagination;
 using Students.DBCore.Contexts;
 using Students.Models;
-using System.Numerics;
 
 namespace Students.APIServer.Repository
 {

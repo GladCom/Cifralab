@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Students.DBCore.Contexts;
+﻿using Students.DBCore.Contexts;
 using Students.Models;
 
 namespace Students.APIServer.Repository

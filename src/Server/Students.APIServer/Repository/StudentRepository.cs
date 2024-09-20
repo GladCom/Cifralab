@@ -3,7 +3,6 @@ using Students.APIServer.Extension;
 using Students.APIServer.Extension.Pagination;
 using Students.DBCore.Contexts;
 using Students.Models;
-using System.Collections;
 
 namespace Students.APIServer.Repository;
 

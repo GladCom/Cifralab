@@ -1,9 +1,5 @@
 using Students.APIServer.Repository;
 using Students.Models;
-using System.Net;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 
 namespace Students.APIServer.Extension.Pagination;
 

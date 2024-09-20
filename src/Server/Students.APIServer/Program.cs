@@ -1,7 +1,4 @@
 using System.Text.Json.Serialization;
-using Asp.Versioning;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.OpenApi.Models;
 using Students.APIServer.Extension;
 using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
