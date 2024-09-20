@@ -80,12 +80,13 @@ namespace Students.APIServer.Repository
                     && x.EducationProgramId.Equals(request.EducationProgramId))).Result;
         }
 
-        // <summary>
+
+        /// <summary>
         /// Поиск похожих заявок по номеру телефона
         /// </summary>
         /// <param name="request">заявка</param>
-        /// <returns>Заявка</returns>
-        /// <exception cref="ArgumentNullException">Входящих аараметр не должен дыть пустым</exception>
+        /// <returns>заявка</returns>
+        /// <exception cref="ArgumentNullException">Входящих параметр не должен дыть пустым</exception>
         public async Task<Request?> FindRequestByPhoneFromRequestAsync(Request request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
@@ -101,10 +102,11 @@ namespace Students.APIServer.Repository
 			return null;
         }
 
-        // <summary>
+
+        /// <summary>
         /// Поиск заявок по идентификатору студента
         /// </summary>
-        /// <param name="request">идентификатор студента</param>
+        /// <param name="id">идентификатор студента</param>
         /// <returns>Список заявок</returns>
         public async Task<IEnumerable<Request>> FindRequesListByStudentGuidAsync(Guid id)
         {

@@ -4,6 +4,9 @@ using System.IO.Compression;
 
 namespace Students.APIServer.Repository
 {
+    /// <summary>
+    /// Репозиторий отчетов в формате CSV
+    /// </summary>
     public class CSVReportRepository : IReportRepository
     {
         private readonly IStudentRepository _studentRepository;
@@ -19,6 +22,21 @@ namespace Students.APIServer.Repository
         private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
         private readonly IGenericRepository<StudentStatus> _studentStatusRepository;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="studentRepository">Репозиторий студентов</param>
+        /// <param name="educationFormRepository">Репозиторий форм обучения</param>
+        /// <param name="educationProgramRepository">Репозиторий образовательных программ</param>
+        /// <param name="kindDocumentRiseQualificationRepository">Репозиторий видов документов повышения квалификации</param>
+        /// <param name="fEAProgramFormRepository">Репозиторий ВЭД программ</param>
+        /// <param name="fStatusRequestRepository">Репозиторий статусов заявок</param>
+        /// <param name="financingTypeRepository">Репозиторрий типов финансирования</param>
+        /// <param name="groupRepository">Репозитоорий групп</param>
+        /// <param name="requestRepository">Репозиторий заявок</param>
+        /// <param name="scopeOfActivityRepository">Репозиторий сфер деятельности</param>
+        /// <param name="typeEducationRepository">Репозиторий типов образования</param>
+        /// <param name="studentStatusRepository">Репозиторий статусов студента</param>
         public CSVReportRepository(
             IStudentRepository studentRepository,
             IGenericRepository<EducationForm> educationFormRepository,
@@ -147,7 +165,7 @@ namespace Students.APIServer.Repository
                 object[] array = new object[properties.Count];
                 for (int j = 0; j < properties.Count; j++)
                 {
-                    array[j] = properties[j].GetValue(listData[i])?.ToString();
+                    array[j] = properties[j]?.GetValue(listData[i])?.ToString();
                 }
                 table.Rows.Add(array);
             }
@@ -178,15 +196,15 @@ namespace Students.APIServer.Repository
                 {
                     if (!Convert.IsDBNull(dr[i]))
                     {
-                        string value = dr[i].ToString();
-                        if (value.Contains(','))
+                        string value = dr[i]?.ToString();
+                        if (value!.Contains(','))
                         {
                             value = String.Format("\"{0}\"", value);
                             sw.Write(value);
                         }
                         else
                         {
-                            sw.Write(dr[i].ToString());
+                            sw.Write(dr[i]!.ToString());
                         }
                     }
                     if (i < dtDataTable.Columns.Count - 1)

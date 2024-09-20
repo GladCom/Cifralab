@@ -19,7 +19,7 @@ namespace Students.APIServer.Controllers
         /// <summary>
         /// Конструктор
         /// </summary>
-        /// <param name="repository">Репозиторий приказов</param>
+        /// <param name="orderКepository">Репозиторий приказов</param>
         /// <param name="logger">Логгер.</param>
         public OrderController(IOrderRepository orderКepository, ILogger<Order> logger) : base(orderКepository, logger)
         {
