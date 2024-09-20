@@ -9,6 +9,9 @@ using System.Numerics;
 
 namespace Students.APIServer.Repository
 {
+    /// <summary>
+    /// Репозиторий заявок
+    /// </summary>
     public class RequestRepository : GenericRepository<Request>, IRequestRepository
     {
         private readonly StudentContext _ctx;
@@ -16,6 +19,12 @@ namespace Students.APIServer.Repository
         private ModelStateDictionary _modelState;
         private IOrderRepository _orderRepository;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="context">Контекст базы данных</param>
+        /// <param name="studRep">Репозиторий студентов</param>
+        /// <param name="orderRepository">Репозиторий приказов</param>
         public RequestRepository(StudentContext context,  IStudentRepository studRep, IOrderRepository orderRepository) : base(context)
         {
             _ctx = context;
@@ -24,6 +33,11 @@ namespace Students.APIServer.Repository
             _orderRepository = orderRepository;
         }
 
+        /// <summary>
+        /// Валидация заявки
+        /// </summary>
+        /// <param name="requestToValidate">Заявка</param>
+        /// <returns></returns>
         protected async Task<bool> ValidateRequest(Request requestToValidate)
         {
              if(_ctx.Requests == null || _ctx.Requests.Count()==0) return _modelState.IsValid;
@@ -35,6 +49,11 @@ namespace Students.APIServer.Repository
             return _modelState.IsValid;
         }
 
+        /// <summary>
+        /// Создание заявки
+        /// </summary>
+        /// <param name="item">Заявка</param>
+        /// <returns>Заявка</returns>
         public async Task<Request?> Create(Request item)
         {
             if (!await ValidateRequest(item)) return null;
@@ -44,6 +63,13 @@ namespace Students.APIServer.Repository
 
             return await base.Create(item);
         }
+
+        /// <summary>
+        /// Поиск похожих заявок по email
+        /// </summary>
+        /// <param name="request">заявка</param>
+        /// <returns>Заявка</returns>
+        /// <exception cref="ArgumentNullException">Входящих аараметр не должен дыть пустым</exception>
         public async Task<Request?> FindRequestByEmailFromRequestAsync(Request request)
         {
             if(request == null) throw new ArgumentNullException(nameof(request));
@@ -53,6 +79,13 @@ namespace Students.APIServer.Repository
                        x.Email.ToLower().Equals(request.Email.ToLower())
                     && x.EducationProgramId.Equals(request.EducationProgramId))).Result;
         }
+
+        // <summary>
+        /// Поиск похожих заявок по номеру телефона
+        /// </summary>
+        /// <param name="request">заявка</param>
+        /// <returns>Заявка</returns>
+        /// <exception cref="ArgumentNullException">Входящих аараметр не должен дыть пустым</exception>
         public async Task<Request?> FindRequestByPhoneFromRequestAsync(Request request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
@@ -68,6 +101,11 @@ namespace Students.APIServer.Repository
 			return null;
         }
 
+        // <summary>
+        /// Поиск заявок по идентификатору студента
+        /// </summary>
+        /// <param name="request">идентификатор студента</param>
+        /// <returns>Список заявок</returns>
         public async Task<IEnumerable<Request>> FindRequesListByStudentGuidAsync(Guid id)
         {
             return await Task.FromResult( _ctx.Requests.AsNoTracking().Where(x => x.StudentId.Equals(id)).ToList().AsEnumerable());
@@ -78,8 +116,8 @@ namespace Students.APIServer.Repository
         /// </summary>
         /// <param name="id">Идентификатор заявки.</param>
         /// <param name="order">Приказ.</param>
-        /// <returns>Task.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <returns>Идентификатор заявки</returns>
+        /// <exception cref="ArgumentNullException">Не найдена заявки с указанным идентификатором</exception>
         public async Task<Guid> AddOrderToRequest(Guid id, Order order)
         {
             var findRequest = await FindById(id);
@@ -92,6 +130,12 @@ namespace Students.APIServer.Repository
             return id;
         }
 
+        /// <summary>
+        /// Пагинация списка заявок
+        /// </summary>
+        /// <param name="page">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
+        /// <returns></returns>
         public async Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize)
         {
             return await PagedPage<Request>.ToPagedPage(_ctx.Requests, page, pageSize);
