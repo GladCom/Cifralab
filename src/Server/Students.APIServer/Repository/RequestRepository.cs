@@ -70,11 +70,11 @@ namespace Students.APIServer.Repository
         public async Task<Request?> FindRequestByEmailFromRequestAsync(Request request)
         {
             if(request == null) throw new ArgumentNullException(nameof(request));
-             return await Task.FromResult(_ctx.Requests.AsNoTracking()
-            .FirstOrDefaultAsync(x =>
-                       //x.Email.ToLower().Equals(request.Email.ToLower()) 
-                       x.Email.ToLower().Equals(request.Email.ToLower())
-                    && x.EducationProgramId.Equals(request.EducationProgramId))).Result;
+            return await Task.FromResult(_ctx.Requests.AsNoTracking()
+                .FirstOrDefaultAsync(x =>
+                //x.Email.ToLower().Equals(request.Email.ToLower())
+                x.Email.ToLower().Equals(request.Email.ToLower()) &&
+                x.EducationProgramId.Equals(request.EducationProgramId))).Result;
         }
 
 
@@ -90,8 +90,8 @@ namespace Students.APIServer.Repository
 			var Requests = _ctx.Requests.AsNoTracking().AsAsyncEnumerable();
             await foreach (var item in Requests)
             {
-                if (item.Phone.ToLower().Equals(request.Phone.ToLower())
-            && item.EducationProgramId.Equals(request.EducationProgramId))
+                if (item.Phone.ToLower().Equals(request.Phone.ToLower()) &&
+                    item.EducationProgramId.Equals(request.EducationProgramId))
                 {
                     return item;
                 }
