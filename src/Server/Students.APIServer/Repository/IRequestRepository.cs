@@ -20,13 +20,13 @@ namespace Students.APIServer.Repository
         /// </summary>
         /// <param name="request">Заявка</param>
         /// <returns>Заявка</returns>
-        Task<Request> FindRequestByPhoneFromRequestAsync(Request request);
+        Task<Request?> FindRequestByPhoneFromRequestAsync(Request request);
         /// <summary>
         /// Поиск заявок по mail из заявки
         /// </summary>
         /// <param name="request">электронная почта</param>
         /// <returns>Заявка</returns>
-        Task<Request> FindRequestByEmailFromRequestAsync(Request request);
+        Task<Request?> FindRequestByEmailFromRequestAsync(Request request);
         /// <summary>
         /// Добавление приказа в заявку
         /// </summary>

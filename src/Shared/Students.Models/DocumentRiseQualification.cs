@@ -29,5 +29,5 @@ public class DocumentRiseQualification
     /// <summary>
     /// Номер выдачи удостоверения назовите это нормально
     /// </summary>
-    public string Number { get; set; }
+    public string Number { get; set; } = string.Empty;
 }

@@ -153,8 +153,8 @@ namespace Students.APIServer.Repository
             if (dataF == null)
                 throw new Exception("Entity is empty!");
 
-            var properties = dataF.GetType().GetProperties().ToList();
-            var listData = data.ToList();
+            var properties = dataF!.GetType().GetProperties().ToList();
+            var listData = data!.ToList();
 
             foreach (var p in properties)
             {
@@ -162,10 +162,10 @@ namespace Students.APIServer.Repository
             }
             for (int i = 0; i < listData.Count; i++)
             {
-                object[] array = new object[properties.Count];
+                object?[] array = new object[properties.Count];
                 for (int j = 0; j < properties.Count; j++)
                 {
-                    array[j] = properties[j]?.GetValue(listData[i])?.ToString();
+                    array[j] = properties[j].GetValue(listData[i])?.ToString();
                 }
                 table.Rows.Add(array);
             }
@@ -196,7 +196,7 @@ namespace Students.APIServer.Repository
                 {
                     if (!Convert.IsDBNull(dr[i]))
                     {
-                        string value = dr[i]?.ToString();
+                        string value = dr[i].ToString()!;
                         if (value!.Contains(','))
                         {
                             value = String.Format("\"{0}\"", value);

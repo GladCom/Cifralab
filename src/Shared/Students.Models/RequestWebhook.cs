@@ -1,4 +1,6 @@
-﻿namespace Students.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Students.Models;
 
 /// <summary>
 /// Вебхук для обработки формы заявки на обучение, сюда добавить недостающие данные от минцифры типа nullable
@@ -8,45 +10,56 @@ public class RequestWebhook
     /// <summary>
     /// ФИО
     /// </summary>
-    public string Name { get; set; }
+    [Required]
+    public string Name { get; set; } = string.Empty;
     /// <summary>
     /// Дата рождения
     /// </summary>
-    public string Birthday { get; set; }
+    [Required]
+    public string Birthday { get; set; } = string.Empty;
     /// <summary>
     /// Уровень образования
     /// </summary>
-    public string EducationLevel { get; set; }
+    [Required]
+    public string EducationLevel { get; set; } = string.Empty;
     /// <summary>
     /// Направление образования
     /// </summary>
-    public string Education { get; set; }
+    [Required]
+    public string Education { get; set; } = string.Empty;
     /// <summary>
     /// Опыт работы в IT
     /// </summary>
-    public string IT_Experience { get; set; }
+    [Required]
+    public string IT_Experience { get; set; } = string.Empty;
     /// <summary>
     /// Адрес
     /// </summary>
-    public string Address { get; set; }
+    [Required]
+    public string Address { get; set; } = string.Empty;
     /// <summary>
     /// Мобильный телефон
     /// </summary>
-    public string Phone { get; set; }
+    [Required]
+    public string Phone { get; set; } = string.Empty;
     /// <summary>
     /// Email
     /// </summary>
-    public string Email { get; set; }
+    [Required]
+    public string Email { get; set; } = string.Empty;
     /// <summary>
     /// Согласие на обработку персональных данных
     /// </summary>
-    public string Agreement { get; set; }
+    [Required]
+    public string Agreement { get; set; } = string.Empty;
     /// <summary>
     /// Идентификатор транзакции
     /// </summary>
-    public string tranid { get; set; }
+    [Required]
+    public string tranid { get; set; } = string.Empty;
     /// <summary>
     /// Идентификатор формы
     /// </summary>
-    public string formid { get; set; }
+    [Required]
+    public string formid { get; set; } = string.Empty;
 }

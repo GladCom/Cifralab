@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Students.Models;
 
 /// <summary>
@@ -14,7 +16,8 @@ public class Student
     /// Фамилия
     /// экспорт из заявки
     /// </summary>
-    public string Family { get; set; }
+    [Required]
+    public string Family { get; set; } = string.Empty;
     /// <summary>
     /// Имя
     /// </summary>
@@ -70,7 +73,8 @@ public class Student
     /// Адрес, по хорошему нужен либо справочник, либо формат стандарта ГОСТа Р 6.30-2003
     /// экспорт из заявки
     /// </summary>
-    public string Address { get; set; }
+    [Required]
+    public string Address { get; set; } = string.Empty;
 
 
     //список полей для связи, вероятно нужно в отдельную таблицу
@@ -78,13 +82,15 @@ public class Student
     /// Телефон
     /// экспорт из заявки
     /// </summary>
-    public string Phone { get; set; }
+    [Required]
+    public string Phone { get; set; } = string.Empty;
     //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     /// <summary>
     /// Электронный адрес
     /// экспорт из заявки
     /// </summary>
-    public string Email { get; set; }
+    [Required]
+    public string Email { get; set; } = string.Empty;
 
     /// <summary>
     /// Проекты
@@ -96,7 +102,8 @@ public class Student
     /// опыт в ИТ
     /// экспорт из заявки
     /// </summary>
-    public string IT_Experience { get; set; }
+    [Required]
+    public string IT_Experience { get; set; } = "";
 
     /// <summary>
     /// ОВЗ (инвалид)
@@ -158,6 +165,9 @@ public class Student
 
     //Для таблицы Группы Персон для связи многие ко многим (по сути виртуальная сущность - 
     //промежуток между группой обучения и персоной)
+    /// <summary>
+    /// Свойство связки один ко многим
+    /// </summary>
 	public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
 
     /// <summary>

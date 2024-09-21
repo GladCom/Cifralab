@@ -41,18 +41,18 @@ public class Mapper
     /// <returns>Студент</returns>
     public static Student WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository, IGenericRepository<TypeEducation> typeEducationRepository)
     {
-        var fio = form.Name.Split(" ");
+        var fio = form.Name!.Split(" ");
         return new Student()
         {
-            Address = form.Address,
-            Family = fio?.FirstOrDefault() ?? "",
-            Name = fio?.Count() > 1 ? fio[1] : "",
-            Patron = fio?.LastOrDefault() == fio?.FirstOrDefault() ? "" : fio?.LastOrDefault(),
+            Address = form.Address!,
+            Family = fio!.FirstOrDefault() ?? "",
+            Name = fio!.Count() > 1 ? fio[1] : "",
+            Patron = fio!.LastOrDefault() == fio!.FirstOrDefault() ? "" : fio!.LastOrDefault(),
 
             BirthDate = DateOnly.Parse(form.Birthday),
-            IT_Experience = form.IT_Experience,
-            Email = form.Email,
-            Phone = form.Phone,
+            IT_Experience = form.IT_Experience!,
+            Email = form.Email!,
+            Phone = form.Phone!,
             Sex = SexHuman.Men,
             TypeEducation = typeEducationRepository.Get().Result.Where(x => x.Name == form.EducationLevel).FirstOrDefault(),
             //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных

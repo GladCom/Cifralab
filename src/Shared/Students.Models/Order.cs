@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Students.Models;
 
@@ -29,6 +30,7 @@ public class Order
     /// <summary>
     /// Вид приказа
     /// </summary>
+    [Required]
     public KindOrder KindOrder { get; set; }
 
     /// <summary>
@@ -39,5 +41,6 @@ public class Order
     /// Заявка
     /// </summary>
     [JsonIgnore]
+    [Required]
     public Request Request { get; set; }
 }

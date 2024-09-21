@@ -45,7 +45,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     /// </summary>
     /// <param name="id">Идентификатор сущности</param>
     /// <returns>Сущность</returns>
-    public async Task<TEntity> FindById(Guid id)
+    public virtual async Task<TEntity?> FindById(Guid id)
     {
         return await _dbSet.FindAsync(id);
     }
@@ -55,7 +55,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     /// </summary>
     /// <param name="item">Сущность</param>
     /// <returns>Сущность</returns>
-    public async Task<TEntity> Create(TEntity item)
+    public virtual async Task<TEntity> Create(TEntity item)
     {
         _dbSet.Add(item);
         await _context.SaveChangesAsync();
@@ -67,7 +67,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     /// <param name="Id"></param>
     /// <param name="item">Сущность</param>
     /// <returns>Сущность</returns>
-    public async Task<TEntity> Update(Guid Id, TEntity item)
+    public async Task<TEntity?> Update(Guid Id, TEntity item)
     {
         var oldItem = await _dbSet.FindAsync(Id);
         if (oldItem == null)

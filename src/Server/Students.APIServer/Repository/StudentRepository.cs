@@ -63,7 +63,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     /// </summary>
     /// <param name="id">Идентификатор студента</param>
     /// <returns>Студент</returns>
-    public async Task<Student?> FindById(Guid id)
+    public async override Task<Student?> FindById(Guid id)
     {
         return await _ctx.Students.AsNoTracking()
             .Include(x=>x.Groups)

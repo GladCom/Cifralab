@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Students.Models;
@@ -96,11 +97,13 @@ public class Request
     /// <summary>
     /// E-mail
     /// </summary>
-    public string Email { get; set; }
+    [Required]
+    public string Email { get; set; } = string.Empty;
     //public string EmailPrepeared { get { return Email.ToLower(); } }
     /// <summary>
     /// Телефон
     /// </summary>
-    public string Phone { get; set; }
+    [Required]
+    public string Phone { get; set; } = string.Empty;
     #endregion PotomuchtoMincifraNeOtdaetSNILS
 }

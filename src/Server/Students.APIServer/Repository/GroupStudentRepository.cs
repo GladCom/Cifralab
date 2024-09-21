@@ -53,7 +53,7 @@ namespace Students.APIServer.Repository
 		/// </summary>
 		/// <param name="student">Студент</param>
 		/// <returns>Студент</returns>
-		public async Task<GroupStudent> GetActualGroupOfStudent(Student student)
+		public async Task<GroupStudent?> GetActualGroupOfStudent(Student student)
 		{
 			return await _ctx.GroupStudent.AsNoTracking().FirstOrDefaultAsync(x => x.StudentsId == student.Id);
 		}

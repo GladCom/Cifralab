@@ -17,7 +17,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
     /// </summary>
     /// <param name="id">идентификатор</param>
     /// <returns>объект</returns>
-    Task<TEntity> FindById(Guid id);
+    Task<TEntity?> FindById(Guid id);
     /// <summary>
     /// Список объектов
     /// </summary>
@@ -41,5 +41,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
     /// <param name="Id">Идентификатор объекта</param>
     /// <param name="item">объект</param>
     /// <returns>объект</returns>
-    Task<TEntity> Update(Guid Id,TEntity item);
+    Task<TEntity?> Update(Guid Id,TEntity item);
 }

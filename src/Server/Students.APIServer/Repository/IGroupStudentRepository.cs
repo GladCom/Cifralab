@@ -18,7 +18,7 @@ namespace Students.APIServer.Repository
 		/// </summary>
 		/// <param name="student">Студент</param>
 		/// <returns>Группа студентов</returns>
-		Task<GroupStudent> GetActualGroupOfStudent(Student student);
+		Task<GroupStudent?> GetActualGroupOfStudent(Student student);
 		/// <summary>
 		/// Добавление студентf в группу
 		/// </summary>

@@ -51,5 +51,8 @@ public class Group
     public List<Student>? Students { get; set; }
 
     //Для таблицы Группы персон для связи многие ко многим
+    /// <summary>
+    /// Свойсто связка многие ко многим
+    /// </summary>
     public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
 }

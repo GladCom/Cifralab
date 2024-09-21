@@ -20,20 +20,20 @@ public interface IStudentRepository : IGenericRepository<Student>
     /// </summary>
     /// <param name="phone">Номер телефона</param>
     /// <returns>Студент</returns>
-    Task<Student> FindByPhone(string phone);
+    Task<Student?> FindByPhone(string phone);
     /// <summary>
     /// Поиск по электронной почте
     /// </summary>
     /// <param name="Email">Номер электронноый почты</param>
     /// <returns>Студент</returns>
-    Task<Student> FindByEmail(string Email);
+    Task<Student?> FindByEmail(string Email);
     /// <summary>
     /// Поиск по номеру телефона и электронной почте
     /// </summary>
     /// <param name="phone">Номер телефона</param>
     /// <param name="Email">Электронная почта</param>
     /// <returns>Студент</returns>
-    Task<Student> FindByPhoneAndEmail(string phone, string Email);
+    Task<Student?> FindByPhoneAndEmail(string phone, string Email);
     /// <summary>
     /// Список групп студента
     /// </summary>

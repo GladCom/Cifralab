@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Students.Models;
@@ -40,6 +41,7 @@ public class EducationProgram
     /// Вид документа повышения квалификации
     /// </summary>
     [JsonIgnore]
+    [Required]
     public KindDocumentRiseQualification KindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Модульная программа
@@ -64,12 +66,13 @@ public class EducationProgram
     /// Источник финансирования
     /// </summary>
     [JsonIgnore]
+    [Required]
     public FinancingType FinancingType { get; set; }
 
     /// <summary>
     /// Группы обучения
     /// </summary>
-    public List<Group> Groups { get; set; }
+    public List<Group>? Groups { get; set; }
 
 
     //Вот это наследие от прежних разрабов - похоже не нужно

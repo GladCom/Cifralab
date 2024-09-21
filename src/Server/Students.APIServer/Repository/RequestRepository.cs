@@ -51,9 +51,10 @@ namespace Students.APIServer.Repository
         /// </summary>
         /// <param name="item">Заявка</param>
         /// <returns>Заявка</returns>
-        public async Task<Request?> Create(Request item)
+        public override async Task<Request> Create(Request item)
         {
-            if (!await ValidateRequest(item)) return null;
+            //Убираем валидацию на наличие подобной. Создаваться будет всегда, пометкой и удалением займется пользователь
+            //if (!await ValidateRequest(item)) return null;
             var existStudent = await _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
             //Меняем GUID студента когда нашли его в базе по связке телефон и email
             if (existStudent != null) item.StudentId = existStudent.Id;

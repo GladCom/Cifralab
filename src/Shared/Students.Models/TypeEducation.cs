@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 namespace Students.Models;
 
 /// <summary>
@@ -12,5 +13,6 @@ public class TypeEducation
     /// <summary>
     /// Имя образования
     /// </summary>
-    public string Name { get; set; }
+    [Required]
+    public string Name { get; set; } = string.Empty;
 }
