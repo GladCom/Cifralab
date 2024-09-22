@@ -12,7 +12,7 @@ app.use(cors());
 app.get('/student', (req, res) => {
   setTimeout(() => {
     res.json({ data: students });
-  }, 1000);
+  }, 0);
   //res.json({ data: students });
 });
 
@@ -20,7 +20,7 @@ app.get('/student/:id', (req, res) => {
   const studentId = req.params.id;
   setTimeout(() => {
     res.json({ data: students.filter((s) => s.id === studentId) });
-  }, 1000);
+  }, 0);
   //res.json({ data: students.filter((s) => s.id === studentId) });
 });
 
