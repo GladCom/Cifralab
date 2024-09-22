@@ -17,7 +17,7 @@ public class Student
     /// экспорт из заявки
     /// </summary>
     [Required]
-    public string Family { get; set; } = string.Empty;
+    public required string Family { get; set; }
     /// <summary>
     /// Имя
     /// </summary>
@@ -74,7 +74,7 @@ public class Student
     /// экспорт из заявки
     /// </summary>
     [Required]
-    public string Address { get; set; } = string.Empty;
+    public required string Address { get; set; }
 
 
     //список полей для связи, вероятно нужно в отдельную таблицу
@@ -83,14 +83,14 @@ public class Student
     /// экспорт из заявки
     /// </summary>
     [Required]
-    public string Phone { get; set; } = string.Empty;
+    public required string Phone { get; set; }
     //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
     /// <summary>
     /// Электронный адрес
     /// экспорт из заявки
     /// </summary>
     [Required]
-    public string Email { get; set; } = string.Empty;
+    public required string Email { get; set; }
 
     /// <summary>
     /// Проекты
@@ -103,7 +103,7 @@ public class Student
     /// экспорт из заявки
     /// </summary>
     [Required]
-    public string IT_Experience { get; set; } = "";
+    public required string IT_Experience { get; set; }
 
     /// <summary>
     /// ОВЗ (инвалид)

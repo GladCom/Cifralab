@@ -42,7 +42,7 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     [Required]
-    public KindDocumentRiseQualification KindDocumentRiseQualification { get; set; }
+    public required KindDocumentRiseQualification KindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Модульная программа
     /// </summary>
@@ -67,7 +67,7 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     [Required]
-    public FinancingType FinancingType { get; set; }
+    public required FinancingType FinancingType { get; set; }
 
     /// <summary>
     /// Группы обучения

@@ -31,7 +31,7 @@ public class Order
     /// Вид приказа
     /// </summary>
     [Required]
-    public KindOrder KindOrder { get; set; }
+    public required KindOrder KindOrder { get; set; }
 
     /// <summary>
     /// Id Заявка
@@ -42,5 +42,5 @@ public class Order
     /// </summary>
     [JsonIgnore]
     [Required]
-    public Request Request { get; set; }
+    public required Request Request { get; set; }
 }

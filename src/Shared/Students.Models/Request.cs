@@ -98,12 +98,12 @@ public class Request
     /// E-mail
     /// </summary>
     [Required]
-    public string Email { get; set; } = string.Empty;
+    public required string Email { get; set; }
     //public string EmailPrepeared { get { return Email.ToLower(); } }
     /// <summary>
     /// Телефон
     /// </summary>
     [Required]
-    public string Phone { get; set; } = string.Empty;
+    public required string Phone { get; set; }
     #endregion PotomuchtoMincifraNeOtdaetSNILS
 }

@@ -34,7 +34,19 @@ namespace TestAPI
         [Test]
         public void NewEducationProgram()
         {
-            var educationProgram = new EducationProgram();
+            var educationProgram = new EducationProgram()
+            {
+                FinancingType = new FinancingType() 
+                {
+                    Id = Guid.NewGuid(),
+                    SourceName = "Тест"
+                },
+                KindDocumentRiseQualification = new KindDocumentRiseQualification()
+                {
+                    Id= Guid.NewGuid(),
+                    Name = "Тест"
+                }
+            };
             
             Assert.IsNotNull(educationProgram);
         }

@@ -11,55 +11,55 @@ public class RequestWebhook
     /// ФИО
     /// </summary>
     [Required]
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
     /// <summary>
     /// Дата рождения
     /// </summary>
     [Required]
-    public string Birthday { get; set; } = string.Empty;
+    public required string Birthday { get; set; }
     /// <summary>
     /// Уровень образования
     /// </summary>
     [Required]
-    public string EducationLevel { get; set; } = string.Empty;
+    public required string EducationLevel { get; set; }
     /// <summary>
     /// Направление образования
     /// </summary>
     [Required]
-    public string Education { get; set; } = string.Empty;
+    public required string Education { get; set; }
     /// <summary>
     /// Опыт работы в IT
     /// </summary>
     [Required]
-    public string IT_Experience { get; set; } = string.Empty;
+    public required string IT_Experience { get; set; }
     /// <summary>
     /// Адрес
     /// </summary>
     [Required]
-    public string Address { get; set; } = string.Empty;
+    public required string Address { get; set; }
     /// <summary>
     /// Мобильный телефон
     /// </summary>
     [Required]
-    public string Phone { get; set; } = string.Empty;
+    public required string Phone { get; set; }
     /// <summary>
     /// Email
     /// </summary>
     [Required]
-    public string Email { get; set; } = string.Empty;
+    public required string Email { get; set; }
     /// <summary>
     /// Согласие на обработку персональных данных
     /// </summary>
     [Required]
-    public string Agreement { get; set; } = string.Empty;
+    public required string Agreement { get; set; }
     /// <summary>
     /// Идентификатор транзакции
     /// </summary>
     [Required]
-    public string tranid { get; set; } = string.Empty;
+    public required string tranid { get; set; }
     /// <summary>
     /// Идентификатор формы
     /// </summary>
     [Required]
-    public string formid { get; set; } = string.Empty;
+    public required string formid { get; set; }
 }

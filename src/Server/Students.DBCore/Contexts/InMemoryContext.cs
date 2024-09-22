@@ -8,6 +8,7 @@ public sealed class InMemoryContext : StudentContext
     public InMemoryContext()
     {
         Database.EnsureCreated();
+
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,14 +33,14 @@ public sealed class InMemoryContext : StudentContext
                 Name = "Сельское, лесное хозяйство, охота, рыболовство и рыбоводство"
             },
             new FEAProgram
-            { 
-                Id = new Guid("A372123C-2E7C-47A7-BFE6-80D3F6EB5DB4"), 
-                Name = "Добыча полезных ископаемых" 
+            {
+                Id = new Guid("A372123C-2E7C-47A7-BFE6-80D3F6EB5DB4"),
+                Name = "Добыча полезных ископаемых"
             },
             new FEAProgram
-            { 
-                Id = new Guid("0E192D99-1A96-4987-AB32-1CBC93D19483"), 
-                Name = "Обрабатывающие производства" 
+            {
+                Id = new Guid("0E192D99-1A96-4987-AB32-1CBC93D19483"),
+                Name = "Обрабатывающие производства"
             },
             new FEAProgram
             {
@@ -143,7 +144,10 @@ public sealed class InMemoryContext : StudentContext
                 FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
                 IsCollegeProgram = false,
                 Cost = 1234.5,
-                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")
+                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                FinancingType = FinancingTypes!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")))!,
+                KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
+                KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
             },
             new EducationProgram
             {
@@ -155,7 +159,10 @@ public sealed class InMemoryContext : StudentContext
                 FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
                 IsCollegeProgram = false,
                 Cost = 54.7,
-                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")
+                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                FinancingType = FinancingTypes!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")))!,
+                KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
+                KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
             }
         );
         modelBuilder.Entity<StatusRequest>().HasData(
@@ -502,7 +509,9 @@ public sealed class InMemoryContext : StudentContext
                 Number = "xxx 55",
                 Date = new DateTime(2024, 8, 29),
                 KindOrderId = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
-                RequestId = new Guid("6A4D3929-B049-4400-80EF-264C90914F61")
+                RequestId = new Guid("6A4D3929-B049-4400-80EF-264C90914F61"),
+                KindOrder = KindOrders!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F")))!,
+                Request = Requests!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("6A4D3929-B049-4400-80EF-264C90914F61")))!
             }
         );
         modelBuilder.Entity<Student>().HasData(
