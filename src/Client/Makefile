@@ -9,6 +9,9 @@ build: # Сборка
 start: #  Запуск приложения (на localhost:3000)
 	npm start
 
+test: #  Запуск тестов (Jest)
+	npm test
+
 lint: #  Запуск линтера
 	npx eslint
 
