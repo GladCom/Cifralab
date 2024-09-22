@@ -12,9 +12,10 @@ const Student = ({ student }) => {
             style={{ cursor: 'pointer' }}
         >
             <div className="row">
-                <div className="col">{student.fullName}</div>
-                <div className="col">{student.birthDate}</div>
-                <div className="col">{student.phone}</div>
+                <div className="col-3">{student.fullName}</div>
+                <div className="col-1">{student.gender}</div>
+                <div className="col-2">{student.birthDate}</div>
+                <div className="col-2">{student.phone}</div>
                 <div className="col">{student.email}</div>
             </div>
         </li>

@@ -47,7 +47,7 @@ const GenderFilter = ({ onChange }) => {
     };
 
     return (
-        <div className="col-3">
+        <div className="col-1">
             <Dropdown menu={menuProps} >
                 <Button>
                     <Space>

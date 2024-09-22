@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 
 const contentStyle = {
-    'min-height': '80%',
+    minHeight: '80%',
 };
 
 const Content = ({ children }) => {

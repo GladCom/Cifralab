@@ -22,7 +22,7 @@ const customParser = (value) => {
 
 const DateFilter = ({ placeholder, onChange }) => {
     return (
-        <div className="col-3">
+        <div className="col-2">
             <Space>
                 <DatePicker
                     placeholder={placeholder}

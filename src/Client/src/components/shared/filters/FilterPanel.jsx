@@ -4,7 +4,7 @@ const FilterPanel = ({ children }) => {
 
     const style = {
         height: '10vh',
-        'min-height': '50px',
+        minHeight: '50px',
     };
 
     return (

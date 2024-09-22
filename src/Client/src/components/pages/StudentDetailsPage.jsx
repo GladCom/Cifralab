@@ -18,9 +18,9 @@ const StudentDetailsPage = () => {
         <Layout title="Персональные данные студента" isLoading={isLoading}>
             <span>{student?.fullName}</span>
             <br />
-            <span>{student?.birthDate}</span>
-            <br />
             <span>{student?.gender}</span>
+            <br />
+            <span>{student?.birthDate}</span>
             <br />
             <span>{student?.snils}</span>
             <br />

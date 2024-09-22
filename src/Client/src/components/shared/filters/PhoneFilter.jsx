@@ -5,7 +5,7 @@ import 'react-phone-input-2/lib/style.css'
 
 const PhoneFilter = ({ placeholder, onChange }) => {
     return (
-        <div className="col-3">
+        <div className="col-2">
             <PhoneInput
                 country={'ru'}
                 onlyCountries={['ru']}

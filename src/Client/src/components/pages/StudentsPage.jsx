@@ -1,13 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import moment from 'moment';
 import Layout from '../shared/Layout';
-import FilterPanel from '../shared/filters/FilterPanel.jsx';
-import InputFilter from '../shared/filters/InputFilter.jsx';
-import DateFilter from '../shared/filters/DateFilter.jsx';
-import PhoneFilter from '../shared/filters/PhoneFilter.jsx';
-import GenderFilter from '../shared/filters/GenderFilter.jsx';
-import StudentsPanel from '../students/StudentsPanel.jsx';
-import { useGetStudentsQuery } from '../../services/studentsApi.js';
+import Catalog from '../catalog_provider/Catalog.jsx';
+import { config } from '../../catalogs/students.js'
 
 const checkName = ({ fullName }, key) => (
     fullName.toLowerCase().includes(key.toLowerCase())
@@ -32,38 +27,25 @@ const checkDate = ({ birthDate }, date) => {
 
     const parsedDate = moment(birthDate, "DD-MM-YYYY");
     return date.isSame(parsedDate, 'day');
-//     const [day, month, year] = birthDate.split('-');
-//     const { d, m, y } = date;
-//     const parsedBirthDateFromServer = new Date(year, month - 1, day);
-//     const parsedBirthDateFromFront = date;
-    
-// //return true;
-//     return parsedBirthDateFromServer.getTime() === date.getTime();
 };
 
 const StudentsPage = () => {
-    const { data, error, isLoading, refetch } = useGetStudentsQuery();
-    const [name, setNameValue] = useState('');
-    const [date, setDate] = useState(null);
-    const [gender, setGender] = useState(0);
-    const [phone, setPhone] = useState('');
+    // const [name, setNameValue] = useState('');
+    // const [date, setDate] = useState(null);
+    // const [gender, setGender] = useState(0);
+    // const [phone, setPhone] = useState('');
 
-    const filteredData = useMemo(() => data?.data.filter((item) => (
-        checkName(item, name)
-        && checkGender(item, gender)
-        //&&checkPhone(item, phone)
-        && checkDate(item, date)
-    )),[data, name, gender, date]);
+    // const filteredData = useMemo(() => data?.data.filter((item) => (
+    //     checkName(item, name)
+    //     && checkGender(item, gender)
+    //     //&&checkPhone(item, phone)
+    //     && checkDate(item, date)
+    // )),[data, name, gender, date]);
+
 
     return (
-        <Layout title="Студенты" isLoading={isLoading}>
-            <FilterPanel>
-                <InputFilter placeholder="Ф.И.О. студента" onChange={setNameValue} />
-                <GenderFilter placeholder="пол" onChange={setGender} />
-                <DateFilter placeholder="дата рождения" onChange={setDate} />
-                <PhoneFilter placeholder="телефон" />
-            </FilterPanel>
-            <StudentsPanel students={filteredData} />
+        <Layout title="Студенты">
+            <Catalog config={config} />
         </Layout>
     );
 };

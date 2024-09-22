@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Student from './Student.jsx';
 import {  Pagination  }  from 'antd';
-import { getDataForPage } from '../../services/paginator.js';
 import {
     UserOutlined,
     PhoneOutlined,
@@ -9,13 +8,12 @@ import {
     MailOutlined,
   } from '@ant-design/icons';
 
+
 const StudentsPanel = ({ students }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize, setPageSize] = useState(10);
 
-    const studentsOnPage = useMemo((
-        () => getDataForPage(students, currentPage, pageSize, 1)
-    ), [students, currentPage, pageSize]);
+    useEffect(() => setCurrentPage(0), [students]);
 
     const onShowSizeChange = useCallback((current, pageSize) => {
         setCurrentPage(current - 1);
@@ -27,30 +25,38 @@ const StudentsPanel = ({ students }) => {
         setPageSize(pageSize);
     });
 
+    const studentsOnPage = useMemo(() => (
+        getDataForPage(students, currentPage, pageSize, 1)
+    ), [students, currentPage, pageSize]);
+
     return (
         <>
             <div className="row m-1">
-                        <div className="col">
-                            <UserOutlined style={{ 'margin-right': '5px' }} />
+                        <div className="col-3">
+                            <UserOutlined style={columnNameStyle} />
                             <span>ФИО</span>
                         </div>
-                        <div className="col">
-                            <CalendarOutlined style={{ 'margin-right': '5px' }} />
+                        <div className="col-1">
+                            <UserOutlined style={columnNameStyle} />
+                            <span>Пол</span>
+                        </div>
+                        <div className="col-2">
+                            <CalendarOutlined style={columnNameStyle} />
                             <span>дата рождения</span>
                         </div>
-                        <div className="col">
-                            <PhoneOutlined style={{ 'margin-right': '5px' }} />
+                        <div className="col-2">
+                            <PhoneOutlined style={columnNameStyle} />
                             <span>телефон</span>
                         </div>
                         <div className="col">
-                            <MailOutlined style={{ 'margin-right': '5px' }} />
+                            <MailOutlined style={columnNameStyle} />
                             <span>email</span>
                         </div>
                     </div>
             <ul className="list-group">
             {
                 studentsOnPage?.map((s) => (
-                    <Student student={s} />
+                    <Student student={s} key={s.id} />
                 ))
             }
             </ul>
@@ -61,6 +67,7 @@ const StudentsPanel = ({ students }) => {
                 hideOnSinglePage
                 onChange={onCurrentPageChange}
                 onShowSizeChange={onShowSizeChange}
+                current={currentPage + 1}
                 defaultCurrent={1}
                 total={students.length}
             />

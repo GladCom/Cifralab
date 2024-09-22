@@ -5,11 +5,11 @@ import Logo from './Logo.jsx';
 
 const headerStyle = {
     height: '10%',
-    'min-height': '50px',
+    minHeight: '50px',
 };
 
 const titleStyle = {
-    'font-size': 'max(24px, 2vw)',
+    fontSize: 'max(24px, 2vw)',
 };
 
 const Header = ({ title }) => {
