@@ -1,7 +1,8 @@
 import React from 'react';
 
 const footerStyle = {
-    height: '10vh',
+    height: '10%',
+    minHeight: '50px',
 };
 
 const Footer = () => {

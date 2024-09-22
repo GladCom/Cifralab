@@ -2,13 +2,13 @@ import React from 'react';
 import Navbar from './Navbar';
 
 const contentStyle = {
-    height: '80vh',
+    minHeight: '80%',
 };
 
 const Content = ({ children }) => {
     return (
-        <div className='row vh-75' style={contentStyle}>
-            <Navbar className="col-2"/>
+        <div className='row' style={contentStyle}>
+            <Navbar className="col-2 border-right border-primary"/>
             <section className='col-10'>
                 {children}
             </section>

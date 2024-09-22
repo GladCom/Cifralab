@@ -8,6 +8,7 @@ const PrivateRoute = ({ children }) => {
 
     return (
         loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
+        //children
     );
 };
 

@@ -4,6 +4,7 @@ import PrivateRoute from './PrivateRoute.jsx'
 import LoginPage from './pages/LoginPage.jsx';
 import RequestServicePage from './pages/RequestServicePage.jsx';
 import StudentsPage from './pages/StudentsPage.jsx';
+import StudentDetailsPage from './pages/StudentDetailsPage.jsx';
 import GroupsPage from './pages/GroupsPage.jsx';
 import ProgramsPage from './pages/ProgramsPage.jsx';
 
@@ -22,6 +23,12 @@ const App = () => {
         <Route path="/students" element={(
             <PrivateRoute>
               <StudentsPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/students/:id" element={(
+            <PrivateRoute>
+              <StudentDetailsPage />
             </PrivateRoute>
           )}
         />

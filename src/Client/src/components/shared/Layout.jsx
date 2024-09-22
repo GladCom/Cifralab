@@ -3,11 +3,11 @@ import Footer from './Footer';
 import Header from './Header';
 import Content from './Content';
 
-const CustomLayout = ({ children }) => {
+const CustomLayout = ({ title, children }) => {
     return (
             <div className="container-fluid h-100">
                 <div className="row h-100">
-                    <Header />
+                    <Header title={title} />
                         <Content>
                             {children}
                         </Content>
