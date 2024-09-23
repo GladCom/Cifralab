@@ -1,0 +1,33 @@
+﻿using System.Text.Json.Serialization;
+
+namespace Students.Models;
+
+/// <summary>
+/// Документ повышения квалификации
+/// </summary>
+public class DocumentRiseQualification
+{
+    /// <summary>
+    /// Id документа
+    /// </summary>
+    public Guid Id { get; set; }
+    /// <summary>
+    /// Вид документа повышения квалификации
+    /// </summary>
+    public Guid KindDocumentRiseQualificationId { get; set; }
+    /// <summary>
+    /// Вид документа повышения квалификации
+    /// </summary>
+    [JsonIgnore]
+    public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
+
+    /// <summary>
+    /// Дата выдачи удостоверения назовите это нормально
+    /// </summary>
+    public DateTime Date { get; set; }
+
+    /// <summary>
+    /// Номер выдачи удостоверения назовите это нормально
+    /// </summary>
+    public string Number { get; set; } = string.Empty;
+}

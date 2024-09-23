@@ -1,21 +1,28 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-
 namespace Students.Models
 {
+	/// <summary>
+	/// Группа студентов (данный класс должен умереть)
+	/// </summary>
 	public class GroupStudent
 	{
-		//[Key]
-		//[Column(Order = 0)]
-		//[ForeignKey("Student")]
+		/// <summary>
+		/// Идентификатор студента
+		/// </summary>
 		public Guid StudentsId { get; set; }
-		//[Key]
-		//[Column(Order = 1)]
-		//[ForeignKey("Group")]
+		/// <summary>
+		/// Ижентификатор группы
+		/// </summary>
+
 		public Guid GroupsId { get; set; }
+		/// <summary>
+		/// Студент (навигационное свойство)
+		/// </summary>
 
 		public virtual Student? Student { get; set; }
-		public virtual Group? Group { get; set; }
+        /// <summary>
+        /// Группа (навигационное свойство)
+        /// </summary>
+
+        public virtual Group? Group { get; set; }
 	}
 }

@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace Students.APIServer.Controllers
 {
     /// <summary>
-    /// ReportController
+    /// Контроллер отчетов
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -16,10 +16,11 @@ namespace Students.APIServer.Controllers
         private readonly ILogger<ReportController> _logger;
 
         /// <summary>
-        /// Default constructor
+        /// Конструктор
         /// </summary>
-        /// <param name="logger"></param>
-        public ReportController(ILogger<ReportController> logger, IReportRepository reportRepository)
+        /// <param name="reportRepository">Репозиторий отчетов</param>
+        /// <param name="logger">Логгер</param>
+        public ReportController(IReportRepository reportRepository, ILogger<ReportController> logger)
         {
             _logger = logger;
             _reportRepository = reportRepository;

@@ -19,8 +19,8 @@ public class ReadinessController : ControllerBase
     /// <summary>
     /// Default constructor
     /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="ctx"></param>
+    /// <param name="logger">Логгер</param>
+    /// <param name="ctx">Контекст базы данных</param>
     public ReadinessController(ILogger<LivenessController> logger, StudentContext ctx)
     {
         _logger = logger;

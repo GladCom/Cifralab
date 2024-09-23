@@ -4,9 +4,8 @@ using Students.Models;
 
 namespace Students.APIServer.Controllers
 {
-    
     /// <summary>
-    /// LivenessController
+    /// Контроллер живучести сервиса
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -15,16 +14,16 @@ namespace Students.APIServer.Controllers
         private readonly ILogger<LivenessController> _logger;
 
         /// <summary>
-        /// Default constructor
+        /// Конструктор
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">Логгер</param>
         public LivenessController(ILogger<LivenessController> logger)
         {
             _logger = logger;
         }
 
         /// <summary>
-        /// Liveness Probe - testing the application without dependencies
+        /// Тест живучести сервиса - тестирование приложения без зависимостейй
         /// </summary>
         /// <returns>IActionResult</returns>
         [HttpGet(Name = "Liveness Probe")]

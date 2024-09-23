@@ -15,32 +15,78 @@ namespace Students.APIServer.Controllers;
 [ApiVersion("1.0")]
 public class IntegrationController : ControllerBase
 {
+    /// <summary>
+    /// Логгер контроллера
+    /// </summary>
     private readonly ILogger<IntegrationController> _logger;
+    /// <summary>
+    /// Репозиторий заявок
+    /// </summary>
     private readonly IRequestRepository _requestRepository;
-    private readonly IGenericRepository<StudentEducation> _studentEducationRepository;
+    /// <summary>
+    /// Репозиторий студентов
+    /// </summary>
+    private readonly IGenericRepository<Student> _studentRepository;
+    /// <summary>
+    /// Репозиторий образовательных программ
+    /// </summary>
+    private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
+    /// <summary>
+    /// Репозиторий статусов заявок
+    /// </summary>
+    private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
+    /// <summary>
+    /// Репозиторий типов образований
+    /// </summary>
+    private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
 
     /// <summary>
-    /// Default constructor
+    /// Конструктор
     /// </summary>
-    /// <param name="logger"></param>
-    public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository, IGenericRepository<StudentEducation> studentEducationRepository)
+    /// <param name="logger">Логгер контроллера</param>
+    /// <param name="requestRepository">Репозиторий заявок</param>
+    /// <param name="studentRepository">Репозиторий студентов</param>
+    /// <param name="educationProgramRepository">Репозиторий образовательных программ</param>
+    /// <param name="statusRequestRepository">Репозиторий статусов заявок</param>
+    /// <param name="typeEducationRepository">Репозиторий типов образований</param>
+    public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository, 
+                IGenericRepository<Student> studentRepository, IGenericRepository<EducationProgram> educationProgramRepository,
+                IGenericRepository<StatusRequest> statusRequestRepository, IGenericRepository<TypeEducation> typeEducationRepository)
     {
         _logger = logger;
         _requestRepository = requestRepository;
-        _studentEducationRepository = studentEducationRepository;
+        _studentRepository = studentRepository;
+        _educationProgramRepository = educationProgramRepository;
+        _statusRequestRepository = statusRequestRepository;
+        _typeEducationRepository = typeEducationRepository;
     }
 
     /// <summary>
     /// Создание заявки на обчение по вебхуку
     /// </summary>
-    /// <param name="form"></param>
-    /// <returns></returns>
+    /// <param name="form">интеграционные данные от минцифры</param>
+    /// <returns>Возвращает статус запроса</returns>
     [HttpPost("EducationRequest")]
     public async Task<IActionResult> Post([FromBody] RequestWebhook form)
     {
         try
         {
-            var request = Mapper.WebhookToRequest(form, _studentEducationRepository);
+            var request = Mapper.WebhookToRequest(form, _educationProgramRepository, _statusRequestRepository);
+
+            var student = _studentRepository.Get().Result.FirstOrDefault(x => x.FullName == form.Name && x.BirthDate.ToString() == form.Birthday && x.Email == form.Email);
+
+            if (student == null)
+            {
+                if (!_studentRepository.Get().Result.Any(x => x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email))
+                {
+                    student = Mapper.WebhookToStudent(form, _studentRepository, _typeEducationRepository);
+                    student = await _studentRepository.Create(student);
+                }
+            }
+
+            request.StudentId = student?.Id;
+            request.Student = student;
+
             var result = await _requestRepository.Create(request);
             return StatusCode(StatusCodes.Status200OK, form);
         }
@@ -54,4 +100,5 @@ public class IntegrationController : ControllerBase
                 });
         }
     }
+
 }

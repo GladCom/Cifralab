@@ -22,19 +22,27 @@ namespace Students.DBCore.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("GroupStudent", b =>
+            modelBuilder.Entity("Students.Models.DocumentRiseQualification", b =>
                 {
-                    b.Property<Guid>("GroupsId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("StudentsId")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("KindDocumentRiseQualificationId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("GroupsId", "StudentsId");
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.HasIndex("StudentsId");
+                    b.HasKey("Id");
 
-                    b.ToTable("GroupStudent");
+                    b.HasIndex("KindDocumentRiseQualificationId");
+
+                    b.ToTable("DocumentRiseQualification");
                 });
 
             modelBuilder.Entity("Students.Models.EducationForm", b =>
@@ -44,7 +52,6 @@ namespace Students.DBCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -58,13 +65,17 @@ namespace Students.DBCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<double>("Cost")
+                        .HasColumnType("double precision");
+
                     b.Property<Guid>("EducationFormId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("EducationTypeId")
+                    b.Property<Guid?>("FEAProgramId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("FEAProgramId")
+                    b.Property<Guid?>("FinancingTypeId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<int>("HoursCount")
@@ -73,43 +84,26 @@ namespace Students.DBCore.Migrations
                     b.Property<bool>("IsCollegeProgram")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsDOTProgram")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsModularProgram")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsNetworkProgram")
-                        .HasColumnType("boolean");
+                    b.Property<Guid>("KindDocumentRiseQualificationId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EducationFormId");
 
-                    b.HasIndex("EducationTypeId");
-
                     b.HasIndex("FEAProgramId");
 
+                    b.HasIndex("FinancingTypeId");
+
+                    b.HasIndex("KindDocumentRiseQualificationId");
+
                     b.ToTable("EducationPrograms");
-                });
-
-            modelBuilder.Entity("Students.Models.EducationType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EducationTypes");
                 });
 
             modelBuilder.Entity("Students.Models.FEAProgram", b =>
@@ -119,7 +113,6 @@ namespace Students.DBCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -134,7 +127,6 @@ namespace Students.DBCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("SourceName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -154,8 +146,16 @@ namespace Students.DBCore.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
+                    b.Property<bool>("IsDOTProgram")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsFullDOTProgram")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsNetworkProgram")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateOnly>("StartDate")
@@ -168,79 +168,106 @@ namespace Students.DBCore.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("Students.Models.GroupStudent", b =>
+                {
+                    b.Property<Guid>("StudentsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("GroupsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("StudentsId", "GroupsId");
+
+                    b.HasIndex("GroupsId");
+
+                    b.ToTable("GroupStudent", (string)null);
+                });
+
+            modelBuilder.Entity("Students.Models.KindDocumentRiseQualification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KindDocumentRiseQualification");
+                });
+
+            modelBuilder.Entity("Students.Models.KindOrder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KindOrder");
+                });
+
+            modelBuilder.Entity("Students.Models.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("KindOrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KindOrderId");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("Students.Models.Request", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
+                    b.Property<string>("DataNumberDogovor")
                         .HasColumnType("text");
 
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool?>("Disability")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid?>("DocumentTypeId")
+                    b.Property<Guid?>("DocumentRiseQualificationId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("EducationContract")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("EducationProgramId")
+                    b.Property<Guid?>("EducationProgramId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("EntranceExamination")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("FinancingTypeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Interview")
-                        .HasColumnType("text");
-
-                    b.Property<string>("JobCV")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("JobResult")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OrderOfAdmission")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OrderOfExpulsion")
-                        .HasColumnType("text");
-
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ScopeOfActivityLv1Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("ScopeOfActivityLv2Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Speciality")
-                        .IsRequired()
+                    b.Property<string>("RegistrationNumber")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("StudentEducationId")
+                    b.Property<int?>("StatusEntrancExams")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("StatusRequestId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("StudentId")
@@ -251,17 +278,11 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DocumentTypeId");
+                    b.HasIndex("DocumentRiseQualificationId");
 
                     b.HasIndex("EducationProgramId");
 
-                    b.HasIndex("FinancingTypeId");
-
-                    b.HasIndex("ScopeOfActivityLv1Id");
-
-                    b.HasIndex("ScopeOfActivityLv2Id");
-
-                    b.HasIndex("StudentEducationId");
+                    b.HasIndex("StatusRequestId");
 
                     b.HasIndex("StudentId");
 
@@ -280,12 +301,25 @@ namespace Students.DBCore.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("NameOfScope")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("ScopesOfActivity");
+                });
+
+            modelBuilder.Entity("Students.Models.StatusRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StatusRequest");
                 });
 
             modelBuilder.Entity("Students.Models.Student", b =>
@@ -294,73 +328,83 @@ namespace Students.DBCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("DocumentNumber")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DateTakeDiplom")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool?>("Disability")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("DocumentNumber")
+                        .HasColumnType("text");
+
                     b.Property<string>("DocumentSeries")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("Family")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FullNameDocument")
                         .HasColumnType("text");
 
-                    b.Property<string>("Nationality")
+                    b.Property<string>("IT_Experience")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nationality")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Patron")
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("SNILS")
-                        .IsRequired()
+                    b.Property<string>("Projects")
                         .HasColumnType("text");
 
+                    b.Property<string>("SNILS")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("ScopeOfActivityLevelOneId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ScopeOfActivityLevelTwoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Sex")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Speciality")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("TypeEducationId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ScopeOfActivityLevelOneId");
+
+                    b.HasIndex("ScopeOfActivityLevelTwoId");
+
+                    b.HasIndex("TypeEducationId");
 
                     b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("Students.Models.StudentDocument", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StudentDocuments");
-                });
-
-            modelBuilder.Entity("Students.Models.StudentEducation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StudentEducations");
                 });
 
             modelBuilder.Entity("Students.Models.StudentStatus", b =>
@@ -378,19 +422,30 @@ namespace Students.DBCore.Migrations
                     b.ToTable("StudentStatuses");
                 });
 
-            modelBuilder.Entity("GroupStudent", b =>
+            modelBuilder.Entity("Students.Models.TypeEducation", b =>
                 {
-                    b.HasOne("Students.Models.Group", null)
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeEducation");
+                });
+
+            modelBuilder.Entity("Students.Models.DocumentRiseQualification", b =>
+                {
+                    b.HasOne("Students.Models.KindDocumentRiseQualification", "KindDocumentRiseQualification")
                         .WithMany()
-                        .HasForeignKey("GroupsId")
+                        .HasForeignKey("KindDocumentRiseQualificationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Students.Models.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("KindDocumentRiseQualification");
                 });
 
             modelBuilder.Entity("Students.Models.EducationProgram", b =>
@@ -401,29 +456,35 @@ namespace Students.DBCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Students.Models.EducationType", "EducationType")
+                    b.HasOne("Students.Models.FEAProgram", "FEAProgram")
                         .WithMany()
-                        .HasForeignKey("EducationTypeId")
+                        .HasForeignKey("FEAProgramId");
+
+                    b.HasOne("Students.Models.FinancingType", "FinancingType")
+                        .WithMany()
+                        .HasForeignKey("FinancingTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Students.Models.FEAProgram", "FEAProgram")
+                    b.HasOne("Students.Models.KindDocumentRiseQualification", "KindDocumentRiseQualification")
                         .WithMany()
-                        .HasForeignKey("FEAProgramId")
+                        .HasForeignKey("KindDocumentRiseQualificationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("EducationForm");
 
-                    b.Navigation("EducationType");
-
                     b.Navigation("FEAProgram");
+
+                    b.Navigation("FinancingType");
+
+                    b.Navigation("KindDocumentRiseQualification");
                 });
 
             modelBuilder.Entity("Students.Models.Group", b =>
                 {
                     b.HasOne("Students.Models.EducationProgram", "EducationProgram")
-                        .WithMany()
+                        .WithMany("Groups")
                         .HasForeignKey("EducationProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -431,33 +492,57 @@ namespace Students.DBCore.Migrations
                     b.Navigation("EducationProgram");
                 });
 
-            modelBuilder.Entity("Students.Models.Request", b =>
+            modelBuilder.Entity("Students.Models.GroupStudent", b =>
                 {
-                    b.HasOne("Students.Models.StudentDocument", "DocumentType")
-                        .WithMany()
-                        .HasForeignKey("DocumentTypeId");
-
-                    b.HasOne("Students.Models.EducationProgram", "EducationProgram")
-                        .WithMany()
-                        .HasForeignKey("EducationProgramId")
+                    b.HasOne("Students.Models.Group", "Group")
+                        .WithMany("GroupStudent")
+                        .HasForeignKey("GroupsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Students.Models.FinancingType", "FinancingType")
-                        .WithMany()
-                        .HasForeignKey("FinancingTypeId");
+                    b.HasOne("Students.Models.Student", "Student")
+                        .WithMany("GroupStudent")
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLv1")
-                        .WithMany()
-                        .HasForeignKey("ScopeOfActivityLv1Id");
+                    b.Navigation("Group");
 
-                    b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLv2")
-                        .WithMany()
-                        .HasForeignKey("ScopeOfActivityLv2Id");
+                    b.Navigation("Student");
+                });
 
-                    b.HasOne("Students.Models.StudentEducation", "StudentEducation")
+            modelBuilder.Entity("Students.Models.Order", b =>
+                {
+                    b.HasOne("Students.Models.KindOrder", "KindOrder")
                         .WithMany()
-                        .HasForeignKey("StudentEducationId");
+                        .HasForeignKey("KindOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Students.Models.Request", "Request")
+                        .WithMany("Orders")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("KindOrder");
+
+                    b.Navigation("Request");
+                });
+
+            modelBuilder.Entity("Students.Models.Request", b =>
+                {
+                    b.HasOne("Students.Models.DocumentRiseQualification", "DocumentRiseQualification")
+                        .WithMany()
+                        .HasForeignKey("DocumentRiseQualificationId");
+
+                    b.HasOne("Students.Models.EducationProgram", "EducationProgram")
+                        .WithMany()
+                        .HasForeignKey("EducationProgramId");
+
+                    b.HasOne("Students.Models.StatusRequest", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusRequestId");
 
                     b.HasOne("Students.Models.Student", "Student")
                         .WithMany("Requests")
@@ -467,25 +552,57 @@ namespace Students.DBCore.Migrations
                         .WithMany()
                         .HasForeignKey("StudentStatusId");
 
-                    b.Navigation("DocumentType");
+                    b.Navigation("DocumentRiseQualification");
 
                     b.Navigation("EducationProgram");
 
-                    b.Navigation("FinancingType");
-
-                    b.Navigation("ScopeOfActivityLv1");
-
-                    b.Navigation("ScopeOfActivityLv2");
+                    b.Navigation("Status");
 
                     b.Navigation("Student");
-
-                    b.Navigation("StudentEducation");
 
                     b.Navigation("StudentStatus");
                 });
 
             modelBuilder.Entity("Students.Models.Student", b =>
                 {
+                    b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLevelOne")
+                        .WithMany()
+                        .HasForeignKey("ScopeOfActivityLevelOneId");
+
+                    b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLevelTwo")
+                        .WithMany()
+                        .HasForeignKey("ScopeOfActivityLevelTwoId");
+
+                    b.HasOne("Students.Models.TypeEducation", "TypeEducation")
+                        .WithMany()
+                        .HasForeignKey("TypeEducationId");
+
+                    b.Navigation("ScopeOfActivityLevelOne");
+
+                    b.Navigation("ScopeOfActivityLevelTwo");
+
+                    b.Navigation("TypeEducation");
+                });
+
+            modelBuilder.Entity("Students.Models.EducationProgram", b =>
+                {
+                    b.Navigation("Groups");
+                });
+
+            modelBuilder.Entity("Students.Models.Group", b =>
+                {
+                    b.Navigation("GroupStudent");
+                });
+
+            modelBuilder.Entity("Students.Models.Request", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Students.Models.Student", b =>
+                {
+                    b.Navigation("GroupStudent");
+
                     b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618

@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.Contracts;
 using System.Text.Json.Serialization;
 
 namespace Students.Models;
@@ -11,143 +9,101 @@ namespace Students.Models;
 public class Request
 {
     /// <summary>
-    /// Id заявки
+    /// Id заявки, Как буд-то тут перебор необходимых данных
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
+
     /// <summary>
-    /// ФИО
+    /// Id Персона
+    /// экспорт из заявки
     /// </summary>
-    public string FullName { get; set; }
+    public Guid? StudentId { get; set; }
     /// <summary>
-    /// Дата рождения
+    /// Персона
     /// </summary>
-    public DateOnly BirthDate { get; set; }
+    [JsonIgnore]
+    public Student? Student { get; set; }
+
     /// <summary>
-    ///  Id образовательной программы
+    ///  Id образовательной программы 
     /// </summary>
-    public Guid EducationProgramId { get; set; }
+    public Guid? EducationProgramId { get; set; }
     /// <summary>
     /// Образовательная программа
     /// </summary>
     [JsonIgnore]
     public EducationProgram? EducationProgram { get; set; }
+
     /// <summary>
-    /// Информация о прохождении вступительного испытания
+    /// Идентификатор Вида документа повышения квалификации
     /// </summary>
-    public string? EntranceExamination { get; set; }
+    public Guid? DocumentRiseQualificationId { get; set; }
+
     /// <summary>
-    /// Информация о прохождении собеседования
+    /// Вид документа повышения квалификации
     /// </summary>
-    public string? Interview { get; set; }
+    public DocumentRiseQualification? DocumentRiseQualification { get; set; }
+
+    /// <summary>
+    /// дата и  Номер договора - че за нах это отдельная сущность или два реквизита в одной строке????
+    /// </summary>
+    public string? DataNumberDogovor { get; set; }
+
+    /// <summary>
+    /// Идентификатор Статус заявки
+    /// </summary>
+
+    public Guid? StatusRequestId { get; set; }
+
+    /// <summary>
+    /// Статус заявки
+    /// </summary>
+    [JsonIgnore]
+    public StatusRequest? Status { get; set; }
+
+    /// <summary>
+    /// Идентификатор статуса студента
+    /// </summary>
+    public Guid? StudentStatusId { get; set; }
+    /// <summary>
+    /// Статус студента. Правильно было бы внести этот статус именно в класс студента
+    /// Сам класс студента разделить на 2 класса - студент и персона.
+    /// Персона содержала бы информацию о личных данных, без ссылок (просто справочник). Студент имел бы ссылку на Персону
+    /// Сам студент был бы связан с заявкой
+    /// </summary>
+    [JsonIgnore]
+    public StudentStatus? StudentStatus { get; set; }
+
+    /// <summary>
+    /// Статус вступительного испытания
+    /// </summary>
+    public StatusEntrancExams? StatusEntrancExams { get; set; }
+
+    /// <summary>
+    /// Приказы
+    /// </summary>
+    public List<Order>? Orders { get; set; }
+
+    ///Вся ниже лежащая ересь похоже на реквизиты одного документа КАРЛ и похоже на документ повышения квалификации!!!
+    
+
+    /// <summary>
+    /// Регистрационный номер
+    /// </summary>
+    public string? RegistrationNumber { get; set; }
+
+    #region PotomuchtoMincifraNeOtdaetSNILS
+
     /// <summary>
     /// E-mail
     /// </summary>
-    public string Email { get; set; }
+    [Required]
+    public required string Email { get; set; }
     //public string EmailPrepeared { get { return Email.ToLower(); } }
     /// <summary>
     /// Телефон
     /// </summary>
-    public string Phone { get; set; }
-    //public string PhonePrepeared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
-    /// <summary>
-    /// Дата и время подачи заявки
-    /// </summary>
-    public DateTime CreatedAt { get; set; }
-    /// <summary>
-    ///Id Образования
-    /// </summary>
-    public Guid? StudentEducationId { get; set; }
-    /// <summary>
-    /// Образование
-    /// </summary>
-    [JsonIgnore]
-    public StudentEducation? StudentEducation { get; set; }
-    /// <summary>
-    ///Id Статуса
-    /// </summary>
-    public Guid? StudentStatusId { get; set; }
-    /// <summary>
-    /// Статус
-    /// </summary>
-    [JsonIgnore]
-    public StudentStatus? StudentStatus { get; set; }
-    /// <summary>
-    ///Id Источника финансирования
-    /// </summary>
-    public Guid? FinancingTypeId { get; set; }
-    /// <summary>
-    /// Источник финансирования
-    /// </summary>
-    [JsonIgnore]
-    public FinancingType? FinancingType { get; set; }
-    /// <summary>
-    /// Приказ о зачислении
-    /// </summary>
-    public string? OrderOfAdmission { get; set; }
-    /// <summary>
-    /// Приказ об отчислении
-    /// </summary>
-    public string? OrderOfExpulsion { get; set; }
-    /// <summary>
-    ///Id Сферы деятельности ур. 1
-    /// </summary>
-    public Guid? ScopeOfActivityLv1Id { get; set; }
-    /// <summary>
-    /// Сфера деятельности ур. 1
-    /// </summary>
-    [JsonIgnore]
-    public ScopeOfActivity? ScopeOfActivityLv1 { get; set; }
-    /// <summary>
-    ///Id Сферы деятельности ур. 2
-    /// </summary>
-    public Guid? ScopeOfActivityLv2Id { get; set; }
-    /// <summary>
-    /// Сфера деятельности ур. 2 
-    /// </summary>
-    [JsonIgnore]
-    public ScopeOfActivity? ScopeOfActivityLv2 { get; set; }
-    /// <summary>
-    /// ОВЗ (Инвалидность)
-    /// </summary>
-    public bool? Disability { get; set; }
-    /// <summary>
-    /// Информация о трудоустройстве после окончания обучения
-    /// </summary>
-    public string? JobResult { get; set; }
-    /// <summary>
-    /// Направление подготовки / специальность
-    /// </summary>
-    public string Speciality { get; set; }
-    /// <summary>
-    /// Опыт в IT
-    /// </summary>
-    public string JobCV { get; set; }
-    /// <summary>
-    /// Место проживания
-    /// </summary>
-    public string Address { get; set; }
-    /// <summary>
-    /// Номер и дата договора об обучении
-    /// </summary>
-    public string? EducationContract { get; set; }
-    /// <summary>
-    /// Id вида документа
-    /// </summary>
-    public Guid? DocumentTypeId { get; set; }
-    /// <summary>
-    /// Вид выданного документа о квалификации
-    /// </summary>
-    [JsonIgnore]
-    public StudentDocument? DocumentType { get; set; }
-    /// <summary>
-    /// Id студента
-    /// </summary>
-    public Guid? StudentId { get; set; }
-    /// <summary>
-    /// Cтудент
-    /// </summary>
-    [JsonIgnore]
-    public Student? Student { get; set; }
+    [Required]
+    public required string Phone { get; set; }
+    #endregion PotomuchtoMincifraNeOtdaetSNILS
 }

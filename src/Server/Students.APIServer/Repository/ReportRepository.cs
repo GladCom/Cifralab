@@ -4,46 +4,64 @@ using System.IO.Compression;
 
 namespace Students.APIServer.Repository
 {
+    /// <summary>
+    /// Репозиторий отчетов в формате CSV
+    /// </summary>
     public class CSVReportRepository : IReportRepository
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IGenericRepository<EducationForm> _educationFormRepository;
         private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
-        private readonly IGenericRepository<EducationType> _educationTypeRepository;
+        private readonly IGenericRepository<KindDocumentRiseQualification> _kindDocumentRiseQualificationRepository;
         private readonly IGenericRepository<FEAProgram> _FEAProgramFormRepository;
+        private readonly IGenericRepository<StatusRequest> _StatusRequestRepository;
         private readonly IGenericRepository<FinancingType> _financingTypeRepository;
         private readonly IGenericRepository<Group> _groupRepository;
         private readonly IGenericRepository<Request> _requestRepository;
         private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
-        private readonly IGenericRepository<StudentDocument> _studentDocumentRepository;
-        private readonly IGenericRepository<StudentEducation> _studentEducationRepository;
+        private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
         private readonly IGenericRepository<StudentStatus> _studentStatusRepository;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="studentRepository">Репозиторий студентов</param>
+        /// <param name="educationFormRepository">Репозиторий форм обучения</param>
+        /// <param name="educationProgramRepository">Репозиторий образовательных программ</param>
+        /// <param name="kindDocumentRiseQualificationRepository">Репозиторий видов документов повышения квалификации</param>
+        /// <param name="fEAProgramFormRepository">Репозиторий ВЭД программ</param>
+        /// <param name="fStatusRequestRepository">Репозиторий статусов заявок</param>
+        /// <param name="financingTypeRepository">Репозиторрий типов финансирования</param>
+        /// <param name="groupRepository">Репозитоорий групп</param>
+        /// <param name="requestRepository">Репозиторий заявок</param>
+        /// <param name="scopeOfActivityRepository">Репозиторий сфер деятельности</param>
+        /// <param name="typeEducationRepository">Репозиторий типов образования</param>
+        /// <param name="studentStatusRepository">Репозиторий статусов студента</param>
         public CSVReportRepository(
             IStudentRepository studentRepository,
             IGenericRepository<EducationForm> educationFormRepository,
             IGenericRepository<EducationProgram> educationProgramRepository,
-            IGenericRepository<EducationType> educationTypeRepository,
+            IGenericRepository<KindDocumentRiseQualification> kindDocumentRiseQualificationRepository,
             IGenericRepository<FEAProgram> fEAProgramFormRepository,
+            IGenericRepository<StatusRequest> fStatusRequestRepository,
             IGenericRepository<FinancingType> financingTypeRepository,
             IGenericRepository<Group> groupRepository,
             IGenericRepository<Request> requestRepository,
             IGenericRepository<ScopeOfActivity> scopeOfActivityRepository,
-            IGenericRepository<StudentDocument> studentDocumentRepository,
-            IGenericRepository<StudentEducation> studentEducationRepository,
+            IGenericRepository<TypeEducation> typeEducationRepository,
             IGenericRepository<StudentStatus> studentStatusRepository)
         {
             _studentRepository = studentRepository;
             _educationFormRepository = educationFormRepository;
             _educationProgramRepository = educationProgramRepository;
-            _educationTypeRepository = educationTypeRepository;
+            _kindDocumentRiseQualificationRepository = kindDocumentRiseQualificationRepository;
             _FEAProgramFormRepository = fEAProgramFormRepository;
+            _StatusRequestRepository = fStatusRequestRepository;
             _financingTypeRepository = financingTypeRepository;
             _groupRepository = groupRepository;
             _requestRepository = requestRepository;
             _scopeOfActivityRepository = scopeOfActivityRepository;
-            _studentDocumentRepository = studentDocumentRepository;
-            _studentEducationRepository = studentEducationRepository;
+            _typeEducationRepository = typeEducationRepository;
             _studentStatusRepository = studentStatusRepository;
         }
 
@@ -58,14 +76,14 @@ namespace Students.APIServer.Repository
                 { "StudentsReport.csv", await WriteOneDT(_studentRepository) },
                 { "EducationFormReport.csv", await WriteOneDT(_educationFormRepository) },
                 { "EducationProgramReport.csv", await WriteOneDT(_educationProgramRepository) },
-                { "EducationTypeReport.csv", await WriteOneDT(_educationTypeRepository) },
+                { "KindDocumentRiseQualification.csv", await WriteOneDT(_kindDocumentRiseQualificationRepository) },
                 { "FEAProgramFormReport.csv", await WriteOneDT(_FEAProgramFormRepository) },
+                { "StatusRequestReport.csv", await WriteOneDT(_StatusRequestRepository) },
                 { "FinancingTypeReport.csv", await WriteOneDT(_financingTypeRepository) },
                 { "GroupRepositoryReport.csv", await WriteOneDT(_groupRepository) },
                 { "RequestReport.csv", await WriteOneDT(_requestRepository) },
                 { "ScopeOfActivityReport.csv", await WriteOneDT(_scopeOfActivityRepository) },
-                { "StudentDocumentReport.csv", await WriteOneDT(_studentDocumentRepository) },
-                { "StudentEducationReport.csv", await WriteOneDT(_studentEducationRepository) },
+                { "TypeEducationReport.csv", await WriteOneDT(_typeEducationRepository) },
                 { "StudentStatusReport.csv", await WriteOneDT(_studentStatusRepository) }
             };
             var files = WriteCSVsTempPath(reportMapping);
@@ -135,8 +153,8 @@ namespace Students.APIServer.Repository
             if (dataF == null)
                 throw new Exception("Entity is empty!");
 
-            var properties = dataF.GetType().GetProperties().ToList();
-            var listData = data.ToList();
+            var properties = dataF!.GetType().GetProperties().ToList();
+            var listData = data!.ToList();
 
             foreach (var p in properties)
             {
@@ -144,7 +162,7 @@ namespace Students.APIServer.Repository
             }
             for (int i = 0; i < listData.Count; i++)
             {
-                object[] array = new object[properties.Count];
+                object?[] array = new object[properties.Count];
                 for (int j = 0; j < properties.Count; j++)
                 {
                     array[j] = properties[j].GetValue(listData[i])?.ToString();
@@ -178,15 +196,15 @@ namespace Students.APIServer.Repository
                 {
                     if (!Convert.IsDBNull(dr[i]))
                     {
-                        string value = dr[i].ToString();
-                        if (value.Contains(','))
+                        string value = dr[i].ToString()!;
+                        if (value!.Contains(','))
                         {
                             value = String.Format("\"{0}\"", value);
                             sw.Write(value);
                         }
                         else
                         {
-                            sw.Write(dr[i].ToString());
+                            sw.Write(dr[i]!.ToString());
                         }
                     }
                     if (i < dtDataTable.Columns.Count - 1)

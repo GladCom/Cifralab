@@ -11,13 +11,11 @@ public class ScopeOfActivity
     /// <summary>
     /// Id сферы деятельности
     /// </summary>
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     /// <summary>
     /// Имя сферы деятельности
     /// </summary>
-    public string NameOfScope { get; set; }
+    public string? NameOfScope { get; set; }
     /// <summary>
     /// Уровень сферы деятельности
     /// </summary>
