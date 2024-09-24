@@ -14,9 +14,9 @@ backend-compile:
 deploy-on-test:
   stage: deploy
   tags: [ deploy ]
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
-#      when: on_success
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
+      when: on_success
   script:
     - ./build/down.sh
     - ./build/build.sh
