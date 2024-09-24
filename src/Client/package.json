@@ -11,6 +11,8 @@
     "@mui/x-data-grid": "^6.18.2",
     "@mui/x-data-grid-generator": "^6.18.2",
     "@reduxjs/toolkit": "^2.2.7",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.20.6",
     "axios": "^1.6.2",
@@ -36,11 +38,11 @@
     "ts": "^0.2.2",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://212.60.20.223",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -62,17 +64,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.25.4",
-    "@babel/preset-react": "^7.24.7",
     "@eslint/js": "^9.10.0",
-    "@testing-library/jest-dom": "^6.5.0",
-    "@testing-library/react": "^16.0.1",
-    "babel-jest": "^29.7.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-react": "^7.35.2",
-    "globals": "^15.9.0",
-    "jest": "^27.5.1",
-    "react-test-renderer": "^18.3.1"
+    "globals": "^15.9.0"
   }
 }
