@@ -17,3 +17,6 @@ lint: #  Запуск линтера
 
 server: #  Запуск тестового сервера
 	node test_server/server.js
+
+test: #  Запуск тестов (Jest)
+	npm test

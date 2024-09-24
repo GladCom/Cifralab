@@ -7,6 +7,9 @@ export const studentsApi = createApi({
     getStudents: builder.query({
       query: () => '',
     }),
+    getStudentsPaged: builder.query({
+      query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
+    }),
     getStudentById: builder.query({
       query: (id) => id,
     }),
@@ -27,6 +30,7 @@ export const studentsApi = createApi({
 
 export const {
   useGetStudentsQuery,
+  useGetStudentsPagedQuery,
   useGetStudentByIdQuery,
   useAddStudentMutation,
   useRemoveStudentMutation,

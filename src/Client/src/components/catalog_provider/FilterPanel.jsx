@@ -6,10 +6,22 @@ const style = {
     minHeight: '50px',
 };
 
-const FilterPanel = ({ columns, notFilteredData, filterData }) => {
-    const [filteredData, setFilteredData] = useState(notFilteredData);
-
-    useEffect(() => filterData(filteredData), [filteredData]);
+const student = {
+    "id": "f45def2e-76ef-4a80-9293-389ee309c975",
+        "fullName": "Дорох Дорохович Дорохов",
+        "birthDate": "1998-09-14",
+        "requests": null,
+        "snils": "123-456-108-18",
+        "fullNameDocument": null,
+        "documentSeries": "1053",
+        "documentNumber": "934",
+        "nationality": "РФ",
+        "groups": null,
+        "phone": "8(912)123-456-17",
+        "email": "8(912)12345619@mail.ru",
+        "groupStudent": null
+  };
+const FilterPanel = ({ query, columns, setQuery }) => {
 
     return (
         <div className="
@@ -22,15 +34,18 @@ const FilterPanel = ({ columns, notFilteredData, filterData }) => {
             border-primary"
             style={style}
         >
-            {columns.map(({ className, style, filter }) => {
+            {columns.map(({ name, className, style, filter }) => {
                 const Filter = filter.type;
                 return filter.enable 
-                    ? <Filter
-                        data={filteredData}
-                        setFilteredData={setFilteredData}
-                        className={className}
-                        style={style}
-                    />
+                    ? <div className={className}>
+                        <Filter
+                            name={name}
+                            query={query}
+                            setQuery={setQuery}
+                            className={className}
+                            style={style}
+                        />
+                    </div>
                     : null;
             })}
         </div>

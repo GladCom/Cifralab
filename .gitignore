@@ -404,3 +404,5 @@ build/pgdata/
 docs/.idea/
 
 docs/Writerside/.idea/
+
+src/Client/test_server/
