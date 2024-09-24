@@ -27,22 +27,23 @@ public class EducationProgram
     /// <summary>
     /// Id Формы обучения
     /// </summary>
-    public Guid EducationFormId { get; set; }
+    public Guid? EducationFormId { get; set; }
     /// <summary>
     /// Форма обучения
     /// </summary>
     [JsonIgnore]
+    [Required]
     public EducationForm? EducationForm { get; set; }
     /// <summary>
     /// Вид документа повышения квалификации
     /// </summary>
-    public Guid KindDocumentRiseQualificationId { get; set; }
+    public Guid? KindDocumentRiseQualificationId { get; set; }
     /// <summary>
     /// Вид документа повышения квалификации
     /// </summary>
     [JsonIgnore]
     [Required]
-    public required KindDocumentRiseQualification KindDocumentRiseQualification { get; set; }
+    public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Модульная программа
     /// </summary>
@@ -56,6 +57,7 @@ public class EducationProgram
     /// ВЭД программы
     /// </summary>
     [JsonIgnore]
+    [Required]
     public FEAProgram? FEAProgram { get; set; }
     /// <summary>
     /// Id источника финансирования
@@ -67,7 +69,7 @@ public class EducationProgram
     /// </summary>
     [JsonIgnore]
     [Required]
-    public required FinancingType FinancingType { get; set; }
+    public FinancingType? FinancingType { get; set; }
 
     /// <summary>
     /// Группы обучения
