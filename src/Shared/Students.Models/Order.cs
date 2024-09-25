@@ -25,22 +25,24 @@ public class Order
     /// <summary>
     /// Вид приказа
     /// </summary>
-    public Guid KindOrderId { get; set; }
+    [Required]
+    public Guid? KindOrderId { get; set; }
 
     /// <summary>
     /// Вид приказа
     /// </summary>
     [Required]
-    public required KindOrder KindOrder { get; set; }
+    public KindOrder? KindOrder { get; set; }
 
     /// <summary>
     /// Id Заявка
     /// </summary>
-    public Guid RequestId { get; set; }
+    [Required]
+    public Guid? RequestId { get; set; }
     /// <summary>
     /// Заявка
     /// </summary>
     [JsonIgnore]
     [Required]
-    public required Request Request { get; set; }
+    public Request? Request { get; set; }
 }
