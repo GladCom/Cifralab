@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Extension;
 using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
@@ -80,4 +81,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+await using var scope = app.Services.CreateAsyncScope();
+await using var db = scope.ServiceProvider.GetService<PgContext>();
+if (db != null)
+{
+    await db.Database.MigrateAsync();
+}
+
 app.Run();
