@@ -10,6 +10,7 @@ services:
             - DBName=cifralabs_studentDB
             - DBLogin=cifralabs_studentDB_Service
             - 'DBPassword=P@ssw0rd!'
+            - ASPNETCORE_ENVIRONMENT=Development
         container_name: students.api
         image: cifralabs.students.api:latest
         restart: unless-stopped
