@@ -29,6 +29,8 @@ namespace Students.DBCore.Confuguration
             builder.HasOne(ft => ft.FinancingType)
                 .WithMany()
                 .HasForeignKey(ft => ft.FinancingTypeId);
+
+            builder.Property(x => x.IsArchive);
         }
     }
 }
