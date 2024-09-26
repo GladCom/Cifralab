@@ -71,7 +71,7 @@ const Catalog = ({ config }) => {
                 hideOnSinglePage
                 onChange={onCurrentPageChange}
                 onShowSizeChange={onShowSizeChange}
-                current={pageNumber + 1}
+                current={pageNumber}
                 defaultCurrent={1}
                 total={data?.totalCount}
             />
