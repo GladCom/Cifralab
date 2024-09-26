@@ -20,5 +20,6 @@ public class TypeEducationController : GenericAPiController<TypeEducation>
     /// <param name="logger">Ëמדדונ</param>
     public TypeEducationController(IGenericRepository<TypeEducation> repository, ILogger<TypeEducation> logger) : base(repository, logger)
     {
+        logger.LogInformation($"Start {logger?.GetType().ToString()}");
     }
 }
