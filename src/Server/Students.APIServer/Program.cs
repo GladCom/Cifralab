@@ -7,6 +7,14 @@ using Students.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = new ConfigurationBuilder()
+  .AddJsonFile("appsettings.json")
+  .Build();
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddSeq(configuration.GetSection("Seq"));
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
