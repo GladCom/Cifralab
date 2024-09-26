@@ -10,7 +10,7 @@ import {  Pagination  }  from 'antd';
 
 const Catalog = ({ config }) => {
     const { columns, catalogData } = config;
-    const { getAllPagedAsync } = catalogData;
+    const { getAllPagedAsync, removeOneAsync } = catalogData;
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [queryString, setQueryString] = useState('');
@@ -55,16 +55,15 @@ const Catalog = ({ config }) => {
     if (error) {
         return <Error e={error} />;
     }
-console.log(data)
+
     return ( 
         <div>
             <FilterPanel
                 columns={columns}
                 query={query}
-                notFilteredData={data.data}
                 setQuery={setQuery}
             />
-            <DataPanel columns={columns} data={data?.data} />
+            <DataPanel columns={columns} data={data?.data} removeOneAsync={removeOneAsync} refetch={refetch} />
             <br />
             <Pagination
                 className="mb-3"
@@ -72,9 +71,9 @@ console.log(data)
                 hideOnSinglePage
                 onChange={onCurrentPageChange}
                 onShowSizeChange={onShowSizeChange}
-                current={pageNumber}
+                current={pageNumber + 1}
                 defaultCurrent={1}
-                total={data?.totalCount}
+                total={data?.total}
             />
             {isFetching && <Spinner />}
         </div>
