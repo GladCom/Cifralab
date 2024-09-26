@@ -73,7 +73,7 @@ const Catalog = ({ config }) => {
                 onShowSizeChange={onShowSizeChange}
                 current={pageNumber + 1}
                 defaultCurrent={1}
-                total={data?.total}
+                total={data?.totalCount}
             />
             {isFetching && <Spinner />}
         </div>
