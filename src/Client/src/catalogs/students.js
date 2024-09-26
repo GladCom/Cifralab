@@ -4,17 +4,27 @@ import {
     CalendarOutlined,
     MailOutlined,
 } from '@ant-design/icons';
-import { useGetStudentsQuery } from '../services/studentsApi.js';
-import { useGetStudentsPagedQuery, useAddStudentMutation } from '../services/studentsApi.js';
+import {
+    useGetStudentsQuery,
+    useGetStudentsPagedQuery,
+    useAddStudentMutation,
+    useRemoveStudentMutation,
+    useGetStudentByIdQuery,
+} from '../services/studentsApi.js';
 import FullNameFilter from '../components/catalog_provider/filters/FullNameFilter.jsx';
 
 const iconStyle = { marginRight: '5px' };
+
+const studentModel = {
+    family: 'string',
+    
+};
 
 export const config = {
     columns: [
         {
             info: 'ФИО',
-            name: 'fullName',
+            name: 'family',
             className: 'col-2',
             style: { },
             icon: {
@@ -22,8 +32,8 @@ export const config = {
                 style: {iconStyle},
             },
             filter: {
-                enable: true,
-                type: FullNameFilter,
+                enable: false,
+                type: () => {},
             },
         },
         {
@@ -42,8 +52,10 @@ export const config = {
         },
     ],
     catalogData: {
+        addNewAsync: useAddStudentMutation,
+        removeOneAsync: useRemoveStudentMutation,
+        getOneByIdAsync: useGetStudentByIdQuery,
         getAllAsync: useGetStudentsQuery,
         getAllPagedAsync: useGetStudentsPagedQuery,
-        addStudent: useAddStudentMutation,
     },
 };

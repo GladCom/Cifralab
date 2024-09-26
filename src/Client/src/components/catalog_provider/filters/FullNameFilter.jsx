@@ -12,7 +12,7 @@ const FullNameFilter = ({ name, query, setQuery }) => {
                     suffix={<SearchOutlined />}
                     onChange={({target}) => {
                         const { value } = target;
-                        setQuery({ ...query, ['family']: value });
+                        setQuery({ ...query, [name]: value });
                     }}
                 />
             </Space>

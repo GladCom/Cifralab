@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const studentsApi = createApi({
   reducerPath: 'students',
+  keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
   baseQuery: fetchBaseQuery({ baseUrl: '/student' }), //  TODO: уточнить url
   endpoints: (builder) => ({
     getStudents: builder.query({
@@ -9,6 +10,7 @@ export const studentsApi = createApi({
     }),
     getStudentsPaged: builder.query({
       query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
+      providesTags: ['Students'],
     }),
     getStudentById: builder.query({
       query: (id) => id,
@@ -24,6 +26,7 @@ export const studentsApi = createApi({
         url: id,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Students'],
     }),
   }),
 });
