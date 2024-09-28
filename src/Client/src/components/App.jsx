@@ -26,7 +26,7 @@ const App = () => {
             </PrivateRoute>
           )}
         />
-        <Route path="/students/:id" element={(
+        <Route path="/student/:id" element={(
             <PrivateRoute>
               <StudentDetailsPage />
             </PrivateRoute>

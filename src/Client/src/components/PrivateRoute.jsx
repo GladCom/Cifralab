@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -8,7 +8,6 @@ const PrivateRoute = ({ children }) => {
 
     return (
         loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
-        //children
     );
 };
 
