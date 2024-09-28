@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const { loggedIn } = JSON.parse(sessionStorage.getItem('loggedIn'));  //  TODO: удалить потом!
+
 const initialState = {
   userName: localStorage.getItem('userName'),
   token: localStorage.getItem('token'),
-  loggedIn: false,    //  TODO: скорей всего это состояние должно быть не здесь
+  loggedIn,    //  TODO: скорей всего это состояние должно быть не здесь
 };
 
 const userSlice = createSlice({
@@ -15,13 +17,15 @@ const userSlice = createSlice({
         state.loggedIn = true;
         state.userName = userName;
         state.token = token;
-        //  TODO: возможно где-то тут нужно сохранять данные в localStorage
+        
+        sessionStorage.setItem('loggedIn', JSON.stringify({ loggedIn: true }));
     },
     logoutUser: (state) => {
         state.loggedIn = false;
         state.userName = null;
         state.token = null;
-        //  TODO: возможно где-то тут нужно стирать данные из localStorage
+
+        sessionStorage.setItem('loggedIn', JSON.stringify({ loggedIn: false }));
     },
   },
 });
