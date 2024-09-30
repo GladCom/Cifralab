@@ -25,6 +25,7 @@ const Catalog = ({ config }) => {
     } = getAllPagedAsync({ pageNumber, pageSize, filterDataReq: queryString });
 
     const normalizedData = hasDetailsPage ? data?.data : data;
+    const totalItems = hasDetailsPage ? data?.totalCount : data?.length;
 
     const onShowSizeChange = useCallback((current, pageSize) => {
         setPageNumber(current);
@@ -87,7 +88,7 @@ const Catalog = ({ config }) => {
                 onShowSizeChange={onShowSizeChange}
                 current={pageNumber}
                 defaultCurrent={1}
-                total={normalizedData?.length}
+                total={totalItems}
             />
             {isFetching && <Spinner />}
         </div>
