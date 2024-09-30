@@ -7,6 +7,7 @@ import {
   ReadOutlined,
   FileDoneOutlined,
   ContactsOutlined,
+
   FilePptOutlined,
 } from '@ant-design/icons';
 
@@ -44,6 +45,12 @@ const Navbar = ( { className }) => {
               icon: <FilePptOutlined />,
               label: 'Программы',
               onClick: () => {navigate('/programs')},
+            },
+            {
+              key: '4',
+              icon: <ContactsOutlined />,
+              label: 'Заявки',
+              onClick: () => {navigate('/requests')},
             },
           ],
         },
