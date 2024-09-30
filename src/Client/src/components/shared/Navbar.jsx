@@ -50,6 +50,11 @@ const Navbar = ( { className }) => {
               label: 'Формы образования',
               onClick: () => {navigate('/educationForm')},
             },
+            {
+              key: '4',
+              label: 'Статусы заявки',
+              onClick: () => {navigate('/statusRequest')},
+            },
           ],
         },
         {

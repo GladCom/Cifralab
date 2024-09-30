@@ -8,6 +8,7 @@ import StudentDetailsPage from './student/StudentDetailsPage.jsx';
 import GroupsPage from './group/GroupsPage.jsx';
 import ProgramsPage from './program/ProgramsPage.jsx';
 import EducationFormPage from './catalogPages/EducationFormPage.jsx';
+import RequestStatusPage from './catalogPages/RequestStatusPage.jsx';
 
 const App = () => {
   return (
@@ -48,6 +49,12 @@ const App = () => {
         <Route path="/educationForm" element={(
             <PrivateRoute>
               <EducationFormPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/statusRequest" element={(
+            <PrivateRoute>
+              <RequestStatusPage />
             </PrivateRoute>
           )}
         />
