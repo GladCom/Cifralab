@@ -1,12 +1,23 @@
 import React, { useState, useCallback } from 'react';
-import Row from 'react-bootstrap/Row';
+import Stack from 'react-bootstrap/Stack';
 
-const Info = ({ visible, children }) => {
+const ChangeSymbol = () => (<span className="">* </span>);
 
-    return visible && (
-        <Row className="m-3">
-            { children }
-        </Row>
+const Info = ({ changed, editIcon, value, setEditingMode, editable }) => {
+    const EditIcon = editIcon;
+
+    return (
+        <Stack direction="horizontal" className="m-3">
+            <div className="me-1">
+                {changed && (<ChangeSymbol />)}
+                { value }
+            </div>
+            { editable && (
+                <div type="button" onClick={() => setEditingMode(true)}>
+                    <EditIcon />
+                </div>
+            )}
+        </Stack>
     );
 };
 

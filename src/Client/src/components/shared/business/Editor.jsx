@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import Row from 'react-bootstrap/Row';
+import Stack from 'react-bootstrap/Stack';
 
-const Editor = ({ visible, setValue, children }) => {
+const Editor = ({ children }) => {
 
-    return visible && (
-        <Row className="d-flex align-items-center m-3">
-            {children}
-        </Row>
+    return (
+        <Stack direction="horizontal" className="m-3">
+            {React.Children.map(children, (child, i) => (
+                <div key={i}>{child}</div>
+            ))}
+        </Stack>
     );
 };
 

@@ -1,16 +1,16 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import FilterPanel from './FilterPanel.jsx';
 import DataPanel from './DataPanel.jsx';
-import Spinner from '../shared/Spinner.jsx';
-import Empty from '../shared/Empty.jsx';
-import Error from '../shared/Error.jsx';
+import Spinner from '../Spinner.jsx';
+import Empty from '../Empty.jsx';
+import Error from '../Error.jsx';
 import {  Pagination  }  from 'antd';
 
 
 
 const Catalog = ({ config }) => {
-    const { columns, catalogData } = config;
-    const { getAllPagedAsync, removeOneAsync } = catalogData;
+    const { fields, properties, detailsLink, catalogData, hasDetailsPage } = config;
+    const { getAllPagedAsync, removeOneAsync, addOneAsync, getOneByIdAsync, editOneAsync } = catalogData;
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [queryString, setQueryString] = useState('');
@@ -23,6 +23,8 @@ const Catalog = ({ config }) => {
         isFetching,
         refetch
     } = getAllPagedAsync({ pageNumber, pageSize, filterDataReq: queryString });
+
+    const normalizedData = hasDetailsPage ? data?.data : data;
 
     const onShowSizeChange = useCallback((current, pageSize) => {
         setPageNumber(current);
@@ -59,11 +61,23 @@ const Catalog = ({ config }) => {
     return ( 
         <div>
             <FilterPanel
-                columns={columns}
+                columns={fields}
                 query={query}
                 setQuery={setQuery}
+                properties={properties}
+                addOneAsync={addOneAsync}
             />
-            <DataPanel columns={columns} data={data?.data} removeOneAsync={removeOneAsync} refetch={refetch} />
+            <DataPanel 
+                columns={fields}
+                data={normalizedData}
+                removeOneAsync={removeOneAsync}
+                refetch={refetch}
+                detailsLink={detailsLink}
+                hasDetailsPage={hasDetailsPage}
+                properties={properties}
+                getOneByIdAsync={getOneByIdAsync}
+                editOneAsync={editOneAsync}
+            />
             <br />
             <Pagination
                 className="mb-3"
@@ -73,7 +87,7 @@ const Catalog = ({ config }) => {
                 onShowSizeChange={onShowSizeChange}
                 current={pageNumber}
                 defaultCurrent={1}
-                total={data?.totalCount}
+                total={normalizedData?.length}
             />
             {isFetching && <Spinner />}
         </div>
