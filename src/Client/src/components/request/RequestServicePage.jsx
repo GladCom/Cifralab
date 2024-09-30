@@ -1,7 +1,7 @@
 import React from 'react';
-import Layout from '../shared/Layout';
+import Layout from '../shared/Layout.jsx';
 import FilterPanel from '../shared/filters/FilterPanel.jsx';
-import RequestPanel from '../requests/RequestPanel.jsx';
+import RequestPanel from './RequestPanel.jsx';
 
 const RequestServicePage = () => {
     return (
