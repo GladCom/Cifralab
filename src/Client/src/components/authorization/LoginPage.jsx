@@ -28,6 +28,8 @@ const LoginPage = () => {
         setWrongass(false);
         const newUserData = { userName: 'user', token: 'sdfsdfsfg4332422v42v' };
         dispatch(userActions.loginUser(newUserData));
+        sessionStorage.setItem('loggedIn', JSON.stringify({ loggedIn: true }));
+
         navigate('/requests');
     };
 

@@ -20,30 +20,35 @@ const Navbar = ( { className }) => {
           onClick: () => {navigate('/requests')},
         },
         {
+          key: 'sub2',
+          icon: <ContactsOutlined />,
+          label: 'Студенты',
+          onClick: () => {navigate('/students')},
+        },
+        {
             type: 'divider',
         },
         {
-          key: 'sub2',
+          key: 'sub3',
           icon: <ReadOutlined />,
           label: 'Справочники',
           children: [
             {
               key: '1',
-              icon: <ContactsOutlined />,
-              label: 'Студенты',
-              onClick: () => {navigate('/students')},
-            },
-            {
-              key: '2',
               icon: <TeamOutlined />,
               label: 'Группы',
               onClick: () => {navigate('/groups')},
             },
             {
-              key: '3',
+              key: '2',
               icon: <FilePptOutlined />,
               label: 'Программы',
               onClick: () => {navigate('/programs')},
+            },
+            {
+              key: '3',
+              label: 'Формы образования',
+              onClick: () => {navigate('/educationForm')},
             },
           ],
         },
@@ -51,7 +56,7 @@ const Navbar = ( { className }) => {
           type: 'divider',
         },
         {
-          key: 'sub3',
+          key: 'sub4',
           icon: <FileDoneOutlined />,
           label: 'Отчеты',
           onClick: () => {navigate('/requests')},

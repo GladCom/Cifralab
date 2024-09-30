@@ -1,5 +1,5 @@
-import Layout from '../shared/Layout';
-import Catalog from '../catalog_provider/Catalog.jsx';
+import Layout from '../shared/Layout.jsx';
+import Catalog from '../shared/catalog_provider/Catalog.jsx';
 import { config } from '../../catalogs/students.js'
 
 

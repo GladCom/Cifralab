@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute.jsx'
-import LoginPage from './pages/LoginPage.jsx';
-import RequestServicePage from './pages/RequestServicePage.jsx';
-import StudentsPage from './pages/StudentsPage.jsx';
-import StudentDetailsPage from './pages/StudentDetailsPage.jsx';
-import GroupsPage from './pages/GroupsPage.jsx';
-import ProgramsPage from './pages/ProgramsPage.jsx';
+import PrivateRoute from './authorization/PrivateRoute.jsx'
+import LoginPage from './authorization/LoginPage.jsx';
+import RequestServicePage from './request/RequestServicePage.jsx';
+import StudentsPage from './student/StudentsPage.jsx';
+import StudentDetailsPage from './student/StudentDetailsPage.jsx';
+import GroupsPage from './group/GroupsPage.jsx';
+import ProgramsPage from './program/ProgramsPage.jsx';
+import EducationFormPage from './catalogPages/EducationFormPage.jsx';
 
 const App = () => {
   return (
@@ -26,7 +27,7 @@ const App = () => {
             </PrivateRoute>
           )}
         />
-        <Route path="/students/:id" element={(
+        <Route path="/student/:id" element={(
             <PrivateRoute>
               <StudentDetailsPage />
             </PrivateRoute>
@@ -41,6 +42,12 @@ const App = () => {
         <Route path="/programs" element={(
             <PrivateRoute>
               <ProgramsPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/educationForm" element={(
+            <PrivateRoute>
+              <EducationFormPage />
             </PrivateRoute>
           )}
         />
