@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const { loggedIn } = JSON.parse(sessionStorage.getItem('loggedIn'));  //  TODO: удалить потом!
+const { loggedIn } = JSON.parse(sessionStorage.getItem('loggedIn')) ?? { loggedIn: false };  //  TODO: удалить потом!
 
 const initialState = {
   userName: localStorage.getItem('userName'),

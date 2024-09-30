@@ -11,12 +11,12 @@ const style = {
 
 const classes = "row d-flex align-items-center w-100 text-center border-bottom border-primary";
 
-const FilterPanel = ({ query, columns, setQuery, addOneAsync }) => {
+const FilterPanel = ({ query, columns, setQuery, addOneAsync, properties }) => {
     const [showAddOnePanel, setShowAddOnePanel] = useState(false);
 
     return (
         <>
-            {showAddOnePanel && <AddOneForm show={setShowAddOnePanel} />}
+            {showAddOnePanel && <AddOneForm show={setShowAddOnePanel} properties={properties} addOneAsync={addOneAsync} />}
             <div className={classes} style={style}>
                 {columns.map(({ name, className, style, filter }) => {
                     const Filter = filter.type;

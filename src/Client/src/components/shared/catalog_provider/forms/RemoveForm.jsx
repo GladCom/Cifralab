@@ -1,12 +1,8 @@
 import React, { useRef, useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import overlayStyle from './overlayStyle.js';
-import Error from '../../shared/Error.jsx';
+import Error from '../../Error.jsx';
 
-const formStyle = {
-  width: '30%',
-  height: '20%',
-};
 
 const RemoveForm = ({ show, validate, queryState, refetch }) => {
 
@@ -20,23 +16,30 @@ const RemoveForm = ({ show, validate, queryState, refetch }) => {
     //     console.log(isSuccess)
     // },[isSuccess]);
 
+    const handleClose = () => {
+        show(false);
+    };
+
     return (
         <>
             {isError && <Error e={error} />}
-            <div style={overlayStyle}>
-                <div className="border rounded bg-white p-3">
-                            Вы уверены, что хотите удалить запись?
+            <Modal show={true} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Внимание!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Вы уверены, что хотите удалить запись?</Modal.Body>
+                <Modal.Footer>
                     <Button variant="danger m-3" type="submit" onClick={() => {
                         validate();
                         show(false);
                     }}>
-                    Удалить
+                        Удалить
                     </Button>
-                    <Button variant="secondary m-3" onClick={() => show(false)}>
-                    Отмена
+                    <Button variant="secondary m-3" onClick={handleClose}>
+                        Отмена
                     </Button>
-                </div>
-            </div>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };
