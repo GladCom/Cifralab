@@ -4,6 +4,12 @@ import { authApi }  from '../services/authApi.js';
 import { studentsApi }  from '../services/studentsApi.js';
 import { educationFormApi }  from '../services/educationFormApi.js';
 import { requestStatusApi }  from '../services/requestStatusApi.js';
+import { typeEducationApi }  from '../services/typeEducationApi.js';
+import { studentStatusApi }  from '../services/studentStatusApi.js';
+import { kindOrderApi }  from '../services/kindOrderApi.js';
+import { kindDocumentRiseQualificationApi }  from '../services/kindDocumentRiseQualificationApi.js';
+import { financingTypeApi }  from '../services/financingTypeApi.js';
+import { fEAProgramApi }  from '../services/fEAProgramApi.js';
 
 export default configureStore({
   reducer: {
@@ -12,6 +18,12 @@ export default configureStore({
     [studentsApi.reducerPath]: studentsApi.reducer,
     [educationFormApi.reducerPath]: educationFormApi.reducer,
     [requestStatusApi.reducerPath]: requestStatusApi.reducer,
+    [typeEducationApi.reducerPath]: typeEducationApi.reducer,
+    [studentStatusApi.reducerPath]: studentStatusApi.reducer,
+    [kindOrderApi.reducerPath]: kindOrderApi.reducer,
+    [kindDocumentRiseQualificationApi.reducerPath]: kindDocumentRiseQualificationApi.reducer,
+    [financingTypeApi.reducerPath]: financingTypeApi.reducer,
+    [fEAProgramApi.reducerPath]: fEAProgramApi.reducer,
   },
   middleware: (
     (getDefaultMiddleware) => getDefaultMiddleware()
@@ -19,5 +31,11 @@ export default configureStore({
     .concat(studentsApi.middleware)
     .concat(educationFormApi.middleware)
     .concat(requestStatusApi.middleware)
+    .concat(typeEducationApi.middleware)
+    .concat(studentStatusApi.middleware)
+    .concat(kindOrderApi.middleware)
+    .concat(kindDocumentRiseQualificationApi.middleware)
+    .concat(financingTypeApi.middleware)
+    .concat(fEAProgramApi.middleware)
   ),
 });
