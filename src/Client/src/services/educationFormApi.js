@@ -4,7 +4,7 @@ export const educationFormApi = createApi({
   reducerPath: 'educationForm',
   baseQuery: fetchBaseQuery({ baseUrl: '/educationForm' }),
   endpoints: (builder) => ({
-    getStudents: builder.query({
+    getEducationForm: builder.query({
       query: () => '',
     }),
     getEducationFormPaged: builder.query({
