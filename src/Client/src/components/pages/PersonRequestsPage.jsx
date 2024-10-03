@@ -1,9 +1,9 @@
-import Layout from '../shared/Layout';
+import Layout from '../shared/Layout.jsx';
 import Catalog from '../catalog_provider/Catalog.jsx';
-import { config } from '../../catalogs/requests.js'
+import { config } from '../../catalogs/personrequests.js'
 
 
-const RequestsPage = () => {
+const PersonRequestsPage = () => {
 
     return (
         <Layout title="Заявки">
@@ -12,4 +12,4 @@ const RequestsPage = () => {
     );
 };
 
-export default RequestsPage;
+export default PersonRequestsPage;

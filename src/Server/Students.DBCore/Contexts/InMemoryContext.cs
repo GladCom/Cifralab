@@ -133,40 +133,6 @@ public sealed class InMemoryContext : StudentContext
                 Name = "Деятельность экстерриториальных организаций и органов"
             }
         );
-        modelBuilder.Entity<EducationProgram>().HasData(
-            new EducationProgram
-            {
-                Id = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
-                Name = "Бизнес-анализ для специалистов с начальным уровнем подготовки",
-                HoursCount = 72,
-                EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
-                EducationForm = EducationForms!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48")))!,
-                IsModularProgram = false,
-                FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
-                IsCollegeProgram = false,
-                Cost = 1234.5,
-                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
-                FinancingType = FinancingTypes!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")))!,
-                KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
-                KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
-            },
-            new EducationProgram
-            {
-                Id = new Guid("2B693FEB-55AB-44C4-8A5E-D61D074C23FE"),
-                Name = "Проектирование на языке C#",
-                HoursCount = 72,
-                EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
-                EducationForm = EducationForms!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48")))!,
-                IsModularProgram = false,
-                FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
-                IsCollegeProgram = false,
-                Cost = 54.7,
-                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
-                FinancingType = FinancingTypes!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")))!,
-                KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
-                KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
-            }
-        );
         modelBuilder.Entity<StatusRequest>().HasData(
             new StatusRequest
             {
@@ -202,39 +168,6 @@ public sealed class InMemoryContext : StudentContext
             {
                 Id = new Guid("3D3996AF-8287-49C3-AD8C-EC54DB0D318B"),
                 Name = "завершил"
-            }
-        );
-
-        modelBuilder.Entity<FinancingType>().HasData(
-            new FinancingType
-            {
-                Id = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
-                SourceName = "За счет бюджетных ассигнований федерального бюджета"
-            },
-            new FinancingType
-            {
-                Id = new Guid("2C89D40C-FEAB-495B-A7AD-173930081862"),
-                SourceName = "За счет бюджетных ассигнований бюджетов субъектов РФ"
-            },
-            new FinancingType
-            {
-                Id = new Guid("D8DB8FF7-7AF8-43F3-B258-A61D28F5B022"),
-                SourceName = "За счет бюджетных ассигнований местных бюджетов"
-            },
-            new FinancingType
-            {
-                Id = new Guid("EFD7B981-2B64-4803-B331-B1674775F599"),
-                SourceName = "По договорам за счет средств физических лиц"
-            },
-            new FinancingType
-            {
-                Id = new Guid("6B311D2C-3394-4285-9B6B-799E9A852E4F"),
-                SourceName = "По договорам за счет средств юридических лиц"
-            },
-            new FinancingType
-            {
-                Id = new Guid("1A5F57E6-0F03-4810-BF9F-BEAAAB0075E5"),
-                SourceName = "За счет собственных средств организации"
             }
         );
         modelBuilder.Entity<ScopeOfActivity>().HasData(
@@ -420,6 +353,72 @@ public sealed class InMemoryContext : StudentContext
                 Number = "ФЕ 34"
             }
         );
+        modelBuilder.Entity<FinancingType>().HasData(
+            new FinancingType
+            {
+                Id = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                SourceName = "За счет бюджетных ассигнований федерального бюджета"
+            },
+            new FinancingType
+            {
+                Id = new Guid("2C89D40C-FEAB-495B-A7AD-173930081862"),
+                SourceName = "За счет бюджетных ассигнований бюджетов субъектов РФ"
+            },
+            new FinancingType
+            {
+                Id = new Guid("D8DB8FF7-7AF8-43F3-B258-A61D28F5B022"),
+                SourceName = "За счет бюджетных ассигнований местных бюджетов"
+            },
+            new FinancingType
+            {
+                Id = new Guid("EFD7B981-2B64-4803-B331-B1674775F599"),
+                SourceName = "По договорам за счет средств физических лиц"
+            },
+            new FinancingType
+            {
+                Id = new Guid("6B311D2C-3394-4285-9B6B-799E9A852E4F"),
+                SourceName = "По договорам за счет средств юридических лиц"
+            },
+            new FinancingType
+            {
+                Id = new Guid("1A5F57E6-0F03-4810-BF9F-BEAAAB0075E5"),
+                SourceName = "За счет собственных средств организации"
+            }
+        );
+        modelBuilder.Entity<EducationProgram>().HasData(
+            new EducationProgram
+            {
+                Id = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                Name = "Бизнес-анализ для специалистов с начальным уровнем подготовки",
+                HoursCount = 72,
+                EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
+                //EducationForm = EducationForms!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48")))!,
+                IsModularProgram = false,
+                FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
+                IsCollegeProgram = false,
+                Cost = 1234.5,
+                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                //FinancingType = FinancingTypes!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")))!,
+                KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
+                //KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
+            },
+            new EducationProgram
+            {
+                Id = new Guid("2B693FEB-55AB-44C4-8A5E-D61D074C23FE"),
+                Name = "Проектирование на языке C#",
+                HoursCount = 72,
+                EducationFormId = new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48"),
+                //EducationForm = EducationForms!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("64FC4EA9-FEA1-4EA5-A20F-F33C42438D48")))!,
+                IsModularProgram = false,
+                FEAProgramId = new Guid("7DBA8AC7-4A5C-4412-A2D9-D4E4B654ED6E"),
+                IsCollegeProgram = false,
+                Cost = 54.7,
+                FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
+                //FinancingType = FinancingTypes!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")))!,
+                KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
+                //KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
+            }
+        );
         modelBuilder.Entity<Request>().HasData(
             new Request
             {
@@ -512,8 +511,8 @@ public sealed class InMemoryContext : StudentContext
                 Date = new DateTime(2024, 8, 29),
                 KindOrderId = new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F"),
                 RequestId = new Guid("6A4D3929-B049-4400-80EF-264C90914F61"),
-                KindOrder = KindOrders!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F")))!,
-                Request = Requests!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("6A4D3929-B049-4400-80EF-264C90914F61")))!
+                //KindOrder = KindOrders!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("CE1395D6-7696-4903-840B-4EAB48120D8F")))!,
+                //Request = Requests!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("6A4D3929-B049-4400-80EF-264C90914F61")))!
             }
         );
         modelBuilder.Entity<Student>().HasData(

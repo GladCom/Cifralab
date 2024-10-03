@@ -115,7 +115,8 @@ public class RequestController : GenericAPiController<Request>
     [HttpGet("paged")]
     public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
     {
-        return StatusCode(StatusCodes.Status200OK, await _requestRepository.GetRequestsByPage(pageable.PageNumber, pageable.PageSize));
+        var items = await _requestRepository.GetRequestsByPage(pageable.PageNumber, pageable.PageSize);
+        return StatusCode(StatusCodes.Status200OK, items);
     }
 }
     

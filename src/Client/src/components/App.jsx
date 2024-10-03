@@ -4,7 +4,7 @@ import PrivateRoute from './PrivateRoute.jsx'
 import LoginPage from './pages/LoginPage.jsx';
 import RequestServicePage from './pages/RequestServicePage.jsx';
 import StudentsPage from './pages/StudentsPage.jsx';
-import RequestsPage from './pages/RequestsPage.jsx';
+import PersonRequestsPage from './pages/PersonRequestsPage.jsx';
 import StudentDetailsPage from './pages/StudentDetailsPage.jsx';
 import GroupsPage from './pages/GroupsPage.jsx';
 import ProgramsPage from './pages/ProgramsPage.jsx';
@@ -18,7 +18,7 @@ const App = () => {
         <Route path="/requests" element={(
             <PrivateRoute>
               {/*<RequestServicePage />*/}
-              <RequestsPage />
+              <PersonRequestsPage />
             </PrivateRoute>
           )}
         />

@@ -1,27 +1,27 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const requestsApi = createApi({
-  reducerPath: 'requests',
+export const requestsAPI = createApi({
+  reducerPath: 'personrequests',
   keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
   baseQuery: fetchBaseQuery({ baseUrl: '/Request' }), //  TODO: уточнить url
   endpoints: (builder) => ({
-    getRequests: builder.query({
+    getPersonRequests: builder.query({
       query: () => '',
     }),
-    getRequestsPaged: builder.query({
+    getPersonRequestsPaged: builder.query({
       query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
-      providesTags: ['Requests'],
+      providesTags: ['Request'],
     }),
-    getRequestById: builder.query({
+    getPersonRequestById: builder.query({
       query: (id) => id,
     }),
-    addRequest: builder.mutation({
+    addPersonRequest: builder.mutation({
       query: (request) => ({
         method: 'POST',
         body: request,
       }),
     }),
-    removeRequest: builder.mutation({
+    removePersonRequest: builder.mutation({
       query: (id) => ({
         url: id,
         method: 'DELETE',
@@ -32,9 +32,9 @@ export const requestsApi = createApi({
 });
 
 export const {
-  useGetRequestsQuery,
-  useGetRequestsPagedQuery,
-  useGetRequestByIdQuery,
-  useAddRequestMutation,
-  useRemoveRequestMutation,
-} = requestsApi;
+  useGetPersonRequestsQuery,
+  useGetPersonRequestsPagedQuery,
+  useGetPersonRequestByIdQuery,
+  useAddPersonRequestMutation,
+  useRemovePersonRequestMutation,
+} = requestsAPI;

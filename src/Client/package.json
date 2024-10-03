@@ -36,7 +36,7 @@
     "ts": "^0.2.2",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://212.60.20.223",
+  "proxy": "http://localhost:5137",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

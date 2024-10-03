@@ -138,7 +138,14 @@ namespace Students.APIServer.Repository
         /// <returns></returns>
         public async Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize)
         {
-            return await PagedPage<Request>.ToPagedPage(_ctx.Requests, page, pageSize);
+            var items = await PagedPage<Request>.ToPagedPage(_ctx.Requests, page, pageSize);
+            foreach (var item in items.Data)
+            {
+                var req_stud = await _ctx.Requests.Where(x => x.Id.Equals(item.Id)).Include(y => y.Student).ToListAsync();
+                item.Student = req_stud.FirstOrDefault()?.Student;
+            }
+
+            return items;
         }
     }
 }

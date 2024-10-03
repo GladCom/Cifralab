@@ -28,7 +28,8 @@ const LoginPage = () => {
         setWrongass(false);
         const newUserData = { userName: 'user', token: 'sdfsdfsfg4332422v42v' };
         dispatch(userActions.loginUser(newUserData));
-        navigate('/requests');
+        /*{navigate('/requests');}*/
+        navigate('/students');
     };
 
     const onInputDataChange = ({ target }) => {
