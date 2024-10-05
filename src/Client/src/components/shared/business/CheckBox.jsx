@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Info from './common/Info.jsx';
@@ -6,25 +6,35 @@ import EditableInfo from './common/EditableInfo.jsx';
 import Editor from './Editor.jsx';
 
 const Form = ({ value, setValue }) => {
+    const title = value ? 'да' : 'нет';
 
     return (
         <Editor>
             <DropdownButton 
                 id="dropdown-basic-button"
-                title={value}
+                title={title}
                 size="sm"
             >
                 <Dropdown.Item onClick={() => {
-                    setValue(0);
+                    setValue(false);
                 }}>
-                    мужской
+                    нет
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => {
-                    setValue(1);
+                    setValue(true);
                 }}>
-                    женский
+                    да
                 </Dropdown.Item>
             </DropdownButton>
+        </Editor>
+    );
+};
+
+const NoValidationForm = ({ id, value, setValue, required }) => {
+
+    return (
+        <Editor>
+            В разработке
         </Editor>
     );
 };
@@ -37,25 +47,26 @@ const Filter = () => {
 };
 
 const Edit = ({ value, setValue, setMode }) => {
+    const title = value ? 'да' : 'нет';
 
     return (
         <Editor>
             <DropdownButton 
                 id="dropdown-basic-button"
-                title={value}
+                title={title}
                 size="sm"
             >
                 <Dropdown.Item onClick={() => {
-                    setValue(0);
+                    setValue(false);
                     setMode('editableInfo');
                 }}>
-                    мужской
+                    нет
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => {
-                    setValue(1);
+                    setValue(true);
                     setMode('editableInfo');
                 }}>
-                    женский
+                    да
                 </Dropdown.Item>
             </DropdownButton>
         </Editor>
@@ -68,40 +79,34 @@ const renderMode = {
     form: Form,
     filter: Filter,
     edit: Edit,
+    noValidationForm: NoValidationForm,
 };
 
-const genderLabelConverter = {
-    0: 'муж.',
-    1: 'жен.',
-    '': 'Выберите пол',
-};
-
-const Gender = ({ id, mode, value, setValue, required }) => {
+const YesNoSelect = ({ mode, value, setValue, required }) => {
     const [compMode, setCompMode] = useState(mode);
     const [initValue, setInitValue] = useState(value);
-    const [currentLabel, setCurrentLabel] = useState(genderLabelConverter[value]);
+    const [currentValue, setCurrentValue] = useState(value);
     const [changed, setChanged] = useState(false);
     
     useEffect(() => {
-        setCurrentLabel(genderLabelConverter[value] ?? 'z');
+        setCurrentValue(value);
     }, [value]);
-
+    
     const Component = renderMode[compMode] ?? renderMode.info;
 
     return (
         <Component
-            id={id}
-            value={currentLabel}
+            value={currentValue}
             changed={changed}
             required={required}
             setMode={setCompMode}
             setValue={(newValue) => {
                 setChanged(newValue !== initValue);
                 setValue(newValue);
-                setCurrentLabel(genderLabelConverter[newValue]);
+                setCurrentValue(newValue);
             }}
         />
     );
 };
 
-export default Gender;
+export default YesNoSelect;

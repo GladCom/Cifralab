@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../shared/Layout';
-import Catalog from '../shared/catalog_provider/Catalog.jsx';
-import { config } from '../../catalogs/requestStatus.js'
+import Catalog from '../shared/catalogProvider/Catalog.jsx';
+import config from '../../storage/catalogConfigs/requestStatus.js'
 
 const RequestStatusPage = () => {
     return (

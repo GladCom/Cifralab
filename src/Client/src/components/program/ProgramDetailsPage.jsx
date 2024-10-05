@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../shared/Layout.jsx';
 import { useParams } from 'react-router-dom';
+import { useGetStudentByIdQuery, useEditStudentMutation } from '../../services/studentsApi.js';
 import Spinner from '../shared/Spinner.jsx';
 import Empty from '../shared/Empty.jsx';
 import Error from '../shared/Error.jsx';
 import String from '../shared/business/String.jsx';
-import QueryableSelect from '../shared/business/QueryableSelect.jsx';
-import EducationTypeSelect from '../shared/business/selects/EducationTypeSelect.jsx'
-import YesNoSelect from '../shared/business/YesNoSelect.jsx';
+import Disability from '../shared/business/Disability.jsx';
+import EducationType from '../shared/business/EducationType.jsx';
 import Gender from '../shared/business/Gender.jsx';
 import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import studentsConfig from '../../storage/catalogConfigs/students.js';
-import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js'
-import formEducationConfig from '../../storage/catalogConfigs/educationForm.js'
 
-const StudentDetailsPage = () => {
+const ProgramDetailsPage = () => {
     const { id } = useParams();
-    const [studentData, setStudentData] = useState({ });
-    const { getOneByIdAsync, editOneAsync } = studentsConfig.crud;
-    const { data, error, isLoading, isFetching, refetch } = getOneByIdAsync(id);
+    const [studentData, setStudentData] = useState({});
+    const { data, error, isLoading, isFetching, refetch } = useGetStudentByIdQuery(id);
 
     const [
         editStudent,
         { error: editStudentError, isLoading: isEdittingStudent },
-      ] = editOneAsync();
+      ] = useEditStudentMutation();
 
     useEffect(() => {
         if (!isLoading && !isFetching) {
@@ -51,29 +47,29 @@ const StudentDetailsPage = () => {
 
     return (
         <Layout title="Персональные данные студента">
-            <h2 className="m-3">{studentData.family} {studentData?.name} {studentData?.patron}</h2>
+            <h2 className="m-3">{studentData?.family} {studentData?.name} {studentData?.patron}</h2>
             <Stack direction="horizontal">
                 <div>Фамилия:</div>
                 <div>
                     <String
-                        value={studentData?.family}
-                        mode='editableInfo'
+                        initValue={studentData?.family}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, family: value })}
                     />
                 </div>
                 <div>Имя:</div>
                 <div>
                     <String
-                        value={studentData?.name}
-                        mode='editableInfo'
+                        initValue={studentData?.name}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, name: value })}
                     />
                 </div>
                 <div>Отчество:</div>
                 <div>
                     <String
-                        value={studentData?.patron}
-                        mode='editableInfo'
+                        initValue={studentData?.patron}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, patron: value })}
                     />
                 </div>
@@ -82,8 +78,8 @@ const StudentDetailsPage = () => {
                 <div>Статус заявки:</div>
                 <div>
                     <String
-                        value={studentData?.patron}
-                        mode='editableInfo'
+                        initValue={studentData?.patron}
+                        editable={true}
                         setValue={() => {}}
                     />
                 </div>
@@ -92,8 +88,8 @@ const StudentDetailsPage = () => {
                 <div>Программа:</div>
                 <div>
                     <String
-                        value={studentData?.patron}
-                        mode='editableInfo'
+                        initValue={studentData?.patron}
+                        editable={true}
                         setValue={() => {}}
                     />
                 </div>
@@ -102,8 +98,8 @@ const StudentDetailsPage = () => {
                 <div>Группа:</div>
                 <div>
                     <String
-                        value={studentData?.groupStudent}
-                        mode='editableInfo'
+                        initValue={studentData?.groupStudent}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, groupStudent: value })}
                     />
                 </div>
@@ -111,11 +107,10 @@ const StudentDetailsPage = () => {
             <Stack direction="horizontal">
                 <div>Уровень образования:</div>
                 <div>
-                    <EducationTypeSelect
+                    <EducationType
                         mode='editableInfo'
                         id={studentData?.typeEducationId}
-                        crud={typeEducationConfig.crud}
-                        setValue={(value) => setStudentData({ ...studentData, typeEducationId: value })}
+                        setNewId={(value) => setStudentData({ ...studentData, typeEducationId: value })}
                     />
                 </div>
             </Stack>
@@ -123,8 +118,8 @@ const StudentDetailsPage = () => {
                 <div>Специальность:</div>
                 <div>
                     <String
-                        value={studentData?.speciality}
-                        mode='editableInfo'
+                        initValue={studentData?.speciality}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, speciality: value })}
                     />
                 </div>
@@ -133,8 +128,8 @@ const StudentDetailsPage = () => {
                 <div>Опыт в IT:</div>
                 <div>
                     <String
-                        value={studentData?.iT_Experience}
-                        mode='editableInfo'
+                        initValue={studentData?.iT_Experience}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, iT_Experience: value })}
                     />
                 </div>
@@ -143,8 +138,8 @@ const StudentDetailsPage = () => {
                 <div>Проекты:</div>
                 <div>
                     <String
-                        value={studentData?.projects}
-                        mode='editableInfo'
+                        initValue={studentData?.projects}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, projects: value })}
                     />
                 </div>
@@ -154,8 +149,8 @@ const StudentDetailsPage = () => {
                 <div>Дата рождения:</div>
                 <div>
                     <String
-                        value={studentData?.birthDate}
-                        mode='editableInfo'
+                        initValue={studentData?.birthDate}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, birthDate: value })}
                     />
                 </div>
@@ -164,8 +159,8 @@ const StudentDetailsPage = () => {
                 <div>Пол:</div>
                 <div>
                     <Gender
-                        value={studentData?.sex}
-                        mode='editableInfo'
+                        initValue={studentData?.sex}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, sex: value })}
                     />
                 </div>
@@ -174,8 +169,8 @@ const StudentDetailsPage = () => {
                 <div>Место проживания:</div>
                 <div>
                     <String
-                        value={studentData?.address}
-                        mode='editableInfo'
+                        initValue={studentData?.address}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, address: value })}
                     />
                 </div>
@@ -184,8 +179,8 @@ const StudentDetailsPage = () => {
                 <div>Телефон:</div>
                 <div>
                     <String
-                        value={studentData?.phone}
-                        mode='editableInfo'
+                        initValue={studentData?.phone}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, phone: value })}
                     />
                 </div>
@@ -194,8 +189,8 @@ const StudentDetailsPage = () => {
                 <div>E-mail:</div>
                 <div>
                     <String
-                        value={studentData?.email}
-                        mode='editableInfo'
+                        initValue={studentData?.email}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, email: value })}
                     />
                 </div>
@@ -204,8 +199,8 @@ const StudentDetailsPage = () => {
                 <div>СНИЛС:</div>
                 <div>
                     <String
-                        value={studentData?.snils}
-                        mode='editableInfo'
+                        initValue={studentData?.snils}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, snils: value })}
                     />
                 </div>
@@ -214,8 +209,8 @@ const StudentDetailsPage = () => {
                 <div>Гражданство:</div>
                 <div>
                     <String
-                        value={studentData?.nationality}
-                        mode='editableInfo'
+                        initValue={studentData?.nationality}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, nationality: value })}
                     />
                 </div>
@@ -223,9 +218,9 @@ const StudentDetailsPage = () => {
             <Stack direction="horizontal">
                 <div>ОВЗ:</div>
                 <div>
-                    <YesNoSelect
-                        value={studentData?.disability}
-                        mode='editableInfo'
+                    <Disability
+                        initValue={studentData?.disability}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, disability: value })}
                     />
                 </div>
@@ -234,8 +229,8 @@ const StudentDetailsPage = () => {
                 <div>Сфера деятельности ур. 1:</div>
                 <div>
                     <String
-                        value={studentData?.scopeOfActivityLevelOne}
-                        mode='editableInfo'
+                        initValue={studentData?.scopeOfActivityLevelOne}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, scopeOfActivityLevelOne: value })}
                     />
                 </div>
@@ -244,8 +239,8 @@ const StudentDetailsPage = () => {
                 <div>Сфера деятельности ур. 2:</div>
                 <div>
                     <String
-                        value={studentData?.scopeOfActivityLevelTwo}
-                        mode='editableInfo'
+                        initValue={studentData?.scopeOfActivityLevelTwo}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, scopeOfActivityLevelTwo: value })}
                     />
                 </div>
@@ -255,8 +250,8 @@ const StudentDetailsPage = () => {
                 <div>Фамилия в дипломе о ВО/СПО:</div>
                 <div>
                     <String
-                        value={studentData?.patron}
-                        mode='editableInfo'
+                        initValue={studentData?.patron}
+                        editable={true}
                         setValue={() => {}}
                     />
                 </div>
@@ -265,8 +260,8 @@ const StudentDetailsPage = () => {
                 <div>Серия документа о ВО/СПО:</div>
                 <div>
                     <String
-                        value={studentData?.documentSeries}
-                        mode='editableInfo'
+                        initValue={studentData?.documentSeries}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, documentSeries: value })}
                     />
                 </div>
@@ -275,8 +270,8 @@ const StudentDetailsPage = () => {
                 <div>Номер документа о ВО/СПО:</div>
                 <div>
                     <String
-                        value={studentData?.documentNumber}
-                        mode='editableInfo'
+                        initValue={studentData?.documentNumber}
+                        editable={true}
                         setValue={(value) => setStudentData({ ...studentData, documentNumber: value })}
                     />
                 </div>
@@ -285,8 +280,8 @@ const StudentDetailsPage = () => {
                 <div>Номер и дата договора об обучении:</div>
                 <div>
                     <String
-                        value={studentData?.patron}
-                        mode='editableInfo'
+                        initValue={studentData?.patron}
+                        editable={true}
                         setValue={() => {}}
                     />
                 </div>
@@ -294,11 +289,10 @@ const StudentDetailsPage = () => {
             <Stack direction="horizontal">
                 <div>Форма обучения:</div>
                 <div>
-                    <QueryableSelect
-                        value={studentData?.typeEducation}
-                        mode='editableInfo'
-                        crud={formEducationConfig.crud}
-                        setValue={(value) => setStudentData({ ...studentData, typeEducation: value })}
+                    <String
+                        initValue={studentData?.patron}
+                        editable={true}
+                        setValue={() => {}}
                     />
                 </div>
             </Stack>
@@ -315,4 +309,4 @@ const StudentDetailsPage = () => {
     );
 };
 
-export default StudentDetailsPage;
+export default ProgramDetailsPage;
