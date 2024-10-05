@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Info from './common/Info.jsx';
@@ -15,14 +15,14 @@ const Form = ({ value, setValue }) => {
                 size="sm"
             >
                 <Dropdown.Item onClick={() => {
-                    setValue(0);
+                    setValue(false);
                 }}>
-                    мужской
+                    нет
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => {
-                    setValue(1);
+                    setValue(true);
                 }}>
-                    женский
+                    да
                 </Dropdown.Item>
             </DropdownButton>
         </Editor>
@@ -46,16 +46,16 @@ const Edit = ({ value, setValue, setMode }) => {
                 size="sm"
             >
                 <Dropdown.Item onClick={() => {
-                    setValue(0);
+                    setValue(false);
                     setMode('editableInfo');
                 }}>
-                    мужской
+                    нет
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => {
-                    setValue(1);
+                    setValue(true);
                     setMode('editableInfo');
                 }}>
-                    женский
+                    да
                 </Dropdown.Item>
             </DropdownButton>
         </Editor>
@@ -70,21 +70,25 @@ const renderMode = {
     edit: Edit,
 };
 
-const genderLabelConverter = {
-    0: 'муж.',
-    1: 'жен.',
-    '': 'Выберите пол',
+const labelConverter = {
+    'true': 'да',
+    'false': 'нет',
+    '': 'Выберите  значение',
 };
 
-const Gender = ({ id, mode, value, setValue, required }) => {
+const YesNoSelect = ({ id, mode, value, setValue, required }) => {
     const [compMode, setCompMode] = useState(mode);
     const [initValue, setInitValue] = useState(value);
-    const [currentLabel, setCurrentLabel] = useState(genderLabelConverter[value]);
+    const [currentLabel, setCurrentLabel] = useState(labelConverter[value]);
     const [changed, setChanged] = useState(false);
     
     useEffect(() => {
-        setCurrentLabel(genderLabelConverter[value] ?? 'z');
+        setCurrentLabel(labelConverter[value] );
     }, [value]);
+
+    useEffect(() => {
+        setInitValue(value);
+    }, []);
 
     const Component = renderMode[compMode] ?? renderMode.info;
 
@@ -98,10 +102,10 @@ const Gender = ({ id, mode, value, setValue, required }) => {
             setValue={(newValue) => {
                 setChanged(newValue !== initValue);
                 setValue(newValue);
-                setCurrentLabel(genderLabelConverter[newValue]);
+                setCurrentLabel(labelConverter[newValue] );
             }}
         />
     );
 };
 
-export default Gender;
+export default YesNoSelect;

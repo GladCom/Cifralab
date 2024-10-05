@@ -1,11 +1,12 @@
 import React from 'react';
 import Layout from '../shared/Layout.jsx';
-import Empty from '../shared/Empty.jsx';
+import Catalog from '../shared/catalogProvider/Catalog.jsx';
+import config from '../../storage/catalogConfigs/educationPrograms.js'
 
 const ProgramsPage = () => {
     return (
         <Layout title="Программы">
-            <Empty />
+            <Catalog config={config} />
         </Layout>
     );
 };
