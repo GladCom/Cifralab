@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { actions as userActions } from '../../slices/userSlice.js';
+import { actions as userActions } from '../../storage/slices/userSlice.js';
 
 const containerStyle = {
     background: 'linear-gradient(to bottom right, #e968a4, #005aff)',
