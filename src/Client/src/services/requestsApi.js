@@ -37,4 +37,4 @@ export const {
   useGetPersonRequestByIdQuery,
   useAddPersonRequestMutation,
   useRemovePersonRequestMutation,
-} = requestsAPI;
+} = requestsApi;

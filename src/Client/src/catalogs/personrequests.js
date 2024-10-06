@@ -10,7 +10,7 @@ import {
     useAddPersonRequestMutation,
     useRemovePersonRequestMutation,
     useGetPersonRequestByIdQuery,
-} from '../services/requestsAPI.js';
+} from '../services/requestsApi.js';
 import FullNameFilter from '../components/catalog_provider/filters/FullNameFilter.jsx';
 
 const iconStyle = { marginRight: '5px' };
