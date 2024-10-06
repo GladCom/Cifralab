@@ -10,7 +10,7 @@ import { kindOrderApi }  from '../services/kindOrderApi.js';
 import { kindDocumentRiseQualificationApi }  from '../services/kindDocumentRiseQualificationApi.js';
 import { financingTypeApi }  from '../services/financingTypeApi.js';
 import { fEAProgramApi }  from '../services/fEAProgramApi.js';
-import { requestsApi }  from '../services/requestsApi.js';
+import { requestsAPI }  from '../services/requestsAPI.js';
 
 export default configureStore({
   reducer: {
@@ -25,7 +25,7 @@ export default configureStore({
     [kindDocumentRiseQualificationApi.reducerPath]: kindDocumentRiseQualificationApi.reducer,
     [financingTypeApi.reducerPath]: financingTypeApi.reducer,
     [fEAProgramApi.reducerPath]: fEAProgramApi.reducer,
-    [requestsApi.reducerPath]: requestsApi.reducer
+    [requestsAPI.reducerPath]: requestsAPI.reducer
   },
   middleware: (
     (getDefaultMiddleware) => getDefaultMiddleware()
@@ -39,6 +39,6 @@ export default configureStore({
     .concat(kindDocumentRiseQualificationApi.middleware)
     .concat(financingTypeApi.middleware)
     .concat(fEAProgramApi.middleware)
-    .concat(requestsApi.middleware)
+    .concat(requestsAPI.middleware)
   ),
 });
