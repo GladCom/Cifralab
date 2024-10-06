@@ -1,13 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute.jsx'
-import LoginPage from './pages/LoginPage.jsx';
-import RequestServicePage from './pages/RequestServicePage.jsx';
-import StudentsPage from './pages/StudentsPage.jsx';
-import PersonRequestsPage from './pages/PersonRequestsPage.jsx';
-import StudentDetailsPage from './pages/StudentDetailsPage.jsx';
-import GroupsPage from './pages/GroupsPage.jsx';
-import ProgramsPage from './pages/ProgramsPage.jsx';
+import PrivateRoute from './authorization/PrivateRoute.jsx'
+import LoginPage from './authorization/LoginPage.jsx';
+import RequestServicePage from './request/RequestServicePage.jsx';
+import StudentsPage from './student/StudentsPage.jsx';
+import StudentDetailsPage from './student/StudentDetailsPage.jsx';
+import GroupsPage from './group/GroupsPage.jsx';
+import ProgramsPage from './program/ProgramsPage.jsx';
+import EducationFormPage from './catalogPages/EducationFormPage.jsx';
+import RequestStatusPage from './catalogPages/RequestStatusPage.jsx';
+import TypeEducationPage from './catalogPages/TypeEducationPage.jsx';
+import StudentStatusPage from './catalogPages/StudentStatusPage.jsx';
+import KindOrderPage from './catalogPages/KindOrderPage.jsx';
+import KindDocumentRiseQualificationPage from './catalogPages/KindDocumentRiseQualificationPage.jsx';
+import FinancingTypePage from './catalogPages/FinancingTypePage.jsx';
+import FEAProgramPage from './catalogPages/FEAProgramPage.jsx';
 
 const App = () => {
   return (
@@ -28,7 +35,7 @@ const App = () => {
             </PrivateRoute>
           )}
         />
-        <Route path="/students/:id" element={(
+        <Route path="/student/:id" element={(
             <PrivateRoute>
               <StudentDetailsPage />
             </PrivateRoute>
@@ -43,6 +50,54 @@ const App = () => {
         <Route path="/programs" element={(
             <PrivateRoute>
               <ProgramsPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/educationForm" element={(
+            <PrivateRoute>
+              <EducationFormPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/statusRequest" element={(
+            <PrivateRoute>
+              <RequestStatusPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/typeEducation" element={(
+            <PrivateRoute>
+              <TypeEducationPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/studentStatus" element={(
+            <PrivateRoute>
+              <StudentStatusPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/kindOrder" element={(
+            <PrivateRoute>
+              <KindOrderPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/kindDocumentRiseQualification" element={(
+            <PrivateRoute>
+              <KindDocumentRiseQualificationPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/financingType" element={(
+            <PrivateRoute>
+              <FinancingTypePage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/fEAProgram" element={(
+            <PrivateRoute>
+              <FEAProgramPage />
             </PrivateRoute>
           )}
         />

@@ -2,6 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer  from './userSlice.js';
 import { authApi }  from '../services/authApi.js';
 import { studentsApi }  from '../services/studentsApi.js';
+import { educationFormApi }  from '../services/educationFormApi.js';
+import { requestStatusApi }  from '../services/requestStatusApi.js';
+import { typeEducationApi }  from '../services/typeEducationApi.js';
+import { studentStatusApi }  from '../services/studentStatusApi.js';
+import { kindOrderApi }  from '../services/kindOrderApi.js';
+import { kindDocumentRiseQualificationApi }  from '../services/kindDocumentRiseQualificationApi.js';
+import { financingTypeApi }  from '../services/financingTypeApi.js';
+import { fEAProgramApi }  from '../services/fEAProgramApi.js';
 import { requestsApi }  from '../services/requestsApi.js';
 
 export default configureStore({
@@ -9,12 +17,28 @@ export default configureStore({
     user: userReducer,
     [authApi.reducerPath]: authApi.reducer,
     [studentsApi.reducerPath]: studentsApi.reducer,
+    [educationFormApi.reducerPath]: educationFormApi.reducer,
+    [requestStatusApi.reducerPath]: requestStatusApi.reducer,
+    [typeEducationApi.reducerPath]: typeEducationApi.reducer,
+    [studentStatusApi.reducerPath]: studentStatusApi.reducer,
+    [kindOrderApi.reducerPath]: kindOrderApi.reducer,
+    [kindDocumentRiseQualificationApi.reducerPath]: kindDocumentRiseQualificationApi.reducer,
+    [financingTypeApi.reducerPath]: financingTypeApi.reducer,
+    [fEAProgramApi.reducerPath]: fEAProgramApi.reducer,
     [requestsApi.reducerPath]: requestsApi.reducer
   },
   middleware: (
     (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(authApi.middleware)
     .concat(studentsApi.middleware)
+    .concat(educationFormApi.middleware)
+    .concat(requestStatusApi.middleware)
+    .concat(typeEducationApi.middleware)
+    .concat(studentStatusApi.middleware)
+    .concat(kindOrderApi.middleware)
+    .concat(kindDocumentRiseQualificationApi.middleware)
+    .concat(financingTypeApi.middleware)
+    .concat(fEAProgramApi.middleware)
     .concat(requestsApi.middleware)
   ),
 });
