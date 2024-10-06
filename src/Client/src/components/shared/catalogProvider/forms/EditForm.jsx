@@ -54,9 +54,9 @@ const EditForm = ({ id, show, properties, getOneByIdAsync, editOneAsync, refetch
                                 <div>{name}</div>
                                 <Input
                                     key={key}
-                                    initValue={itemData[key]}
-                                    editable={true}
-                                    required={required}
+                                    id={id}
+                                    value={itemData[key]}
+                                    mode='editableInfo'
                                     setValue={(value) => {
                                         setItemData({ ...itemData, [key]: value })
                                     }}
