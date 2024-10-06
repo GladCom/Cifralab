@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Stack from 'react-bootstrap/Stack';
+import { notification } from 'antd';
 
 const RequiredSymbol = () => {
   return <span className="text-danger">* </span>;
@@ -57,7 +58,9 @@ const AddOneForm = ({ show, properties, crud }) => {
           <Button type="submit" variant="primary m-3">
             Добавить
           </Button>
-          <Button variant="secondary m-3" onClick={() => show(false)}>
+          <Button variant="secondary m-3" onClick={() => {
+            show(false)
+          }}>
             Отмена
           </Button>
         </Modal.Footer>

@@ -37,13 +37,13 @@ const Navbar = ( { className }) => {
               key: '1',
               icon: <TeamOutlined />,
               label: 'Группы',
-              onClick: () => {navigate('/groups')},
+              onClick: () => {navigate('/group')},
             },
             {
               key: '2',
               icon: <FilePptOutlined />,
               label: 'Программы',
-              onClick: () => {navigate('/programs')},
+              onClick: () => {navigate('/program')},
             },
             {
               key: '3',
