@@ -16,12 +16,12 @@ public abstract class StudentContext : DbContext
     public DbSet<ScopeOfActivity> ScopesOfActivity { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<StudentStatus> StudentStatuses { get; set; }
-    public DbSet<TypeEducation> StudentEducations { get; set; }
     //public DbSet<StudentDocument> StudentDocuments { get; set; }
     public DbSet<GroupStudent> GroupStudent { get; set; }
     public DbSet<TypeEducation> TypeEducation { get; set; }
     public DbSet<KindOrder> KindOrders { get; set; }
     public DbSet<KindDocumentRiseQualification> KindDocumentRiseQualifications { get; set; }
+    public DbSet<StatusRequest> StatusRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

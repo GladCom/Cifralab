@@ -31,7 +31,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     /// <returns>Список студентов с пагинацией</returns>
     public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
     {
-        return await  PagedPage<Student>.ToPagedPage(_ctx.Students, page, pageSize);
+        return await  PagedPage<Student>.ToPagedPage(_ctx.Students, page, pageSize, (x) => x.Family);
     }
 
     /// <summary>

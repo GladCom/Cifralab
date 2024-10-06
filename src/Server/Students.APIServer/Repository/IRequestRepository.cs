@@ -1,3 +1,4 @@
+using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
@@ -39,7 +40,15 @@ namespace Students.APIServer.Repository
         /// </summary>
         /// <param name="page">Номер страницы</param>
         /// <param name="pageSize">Размер страницы</param>
-        /// <returns></returns>
+        /// <returns>Пагинированные DTO заявок</returns>
         Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize);
+        /// <summary>
+        /// Пагинация заявок
+        /// </summary>
+        /// <param name="page">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
+        /// <returns>Пагинированные DTO заявок</returns>
+        Task<PagedPage<RequestsDTO>> GetRequestsDTOByPage(int page, int pageSize);
+        
     }
 }

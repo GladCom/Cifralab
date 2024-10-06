@@ -108,6 +108,7 @@ public class RequestController : GenericAPiController<Request>
         return StatusCode(StatusCodes.Status200OK);
     }
 
+    /*
     /// <summary>
     /// —писок за€вок с разделением по страницам
     /// </summary>
@@ -116,6 +117,19 @@ public class RequestController : GenericAPiController<Request>
     public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
     {
         var items = await _requestRepository.GetRequestsByPage(pageable.PageNumber, pageable.PageSize);
+        return StatusCode(StatusCodes.Status200OK, items);
+    }
+    */
+
+
+    /// <summary>
+    /// —писок за€вок с разделением по страницам
+    /// </summary>
+    /// <returns>—осто€ние запроса + список за€вок с разделением по страницам </returns>
+    [HttpGet("paged")]
+    public async Task<IActionResult> ListAllPagedDTO([FromQuery] Pageable pageable)
+    {
+        var items = await _requestRepository.GetRequestsDTOByPage(pageable.PageNumber, pageable.PageSize);
         return StatusCode(StatusCodes.Status200OK, items);
     }
 }

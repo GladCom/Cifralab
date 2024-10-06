@@ -16,16 +16,81 @@ import FullNameFilter from '../components/catalog_provider/filters/FullNameFilte
 const iconStyle = { marginRight: '5px' };
 
 const requestModel = {
-    studentfamily: 'string',
+    id: 'string',
+    studentId: 'string',
+    studentFullName: 'string',
+    birthDate: 'string',
+    address: 'string',
+    typeEducation: 'string',
+    typeEducationId: 'string',
     email: 'string',
-    phone: 'string'
+    educationProgramId: 'string',
+    educationProgram: 'string',
+    statusRequest: 'string',
+    statusRequestId: 'string'
 };
 
 export const config = {
     columns: [
         {
             info: 'Студент',
-            name: 'studentfamily',
+            name: 'studentFullName',
+            className: 'col-2',
+            style: { },
+            icon: {
+                type: UserOutlined,
+                style: {iconStyle},
+            },
+            filter: {
+                enable: false,
+                type: () => {},
+            }
+        },
+        {
+            info: 'Дата рождения',
+            name: 'birthDate',
+            className: 'col-2',
+            style: { },
+            icon: {
+                type: UserOutlined,
+                style: {iconStyle},
+            },
+            filter: {
+                enable: false,
+                type: () => {},
+            }
+        },
+        {
+            info: 'Место проживания',
+            name: 'address',
+            className: 'col-2',
+            style: { },
+            icon: {
+                type: UserOutlined,
+                style: {iconStyle},
+            },
+            filter: {
+                enable: false,
+                type: () => {},
+            }
+        },
+        {
+            info: 'Уровень образования',
+            name: 'typeEducation',
+            className: 'col-2',
+            style: { },
+            icon: {
+                type: UserOutlined,
+                style: {iconStyle},
+            },
+            filter: {
+                enable: false,
+                type: () => {},
+            }
+        },
+        {
+            info: 'Программа обучения',
+            name: 'educationProgram',
             className: 'col-2',
             style: { },
             icon: {
@@ -52,8 +117,8 @@ export const config = {
             }
         },
         {
-            info: 'Телефон',
-            name: 'phone',
+            info: 'Статус',
+            name: 'statusRequest',
             className: 'col-2',
             style: { },
             icon: {
