@@ -296,7 +296,8 @@ const StudentDetailsPage = () => {
                 <div>
                     <QueryableSelect
                         value={studentData?.typeEducation}
-                        mode='editableInfo'
+                        mode='info' //  TODO:   исправить когда бэк будет это возвращать
+                        property='name'
                         crud={formEducationConfig.crud}
                         setValue={(value) => setStudentData({ ...studentData, typeEducation: value })}
                     />

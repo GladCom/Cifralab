@@ -6,7 +6,9 @@ import RequestServicePage from './request/RequestServicePage.jsx';
 import StudentsPage from './student/StudentsPage.jsx';
 import StudentDetailsPage from './student/StudentDetailsPage.jsx';
 import GroupsPage from './group/GroupsPage.jsx';
+import GroupDetailsPage from './group/GroupDetailsPage.jsx';
 import ProgramsPage from './program/ProgramsPage.jsx';
+import ProgramDetailsPage from './program/ProgramDetailsPage.jsx';
 import EducationFormPage from './catalogPages/EducationFormPage.jsx';
 import RequestStatusPage from './catalogPages/RequestStatusPage.jsx';
 import TypeEducationPage from './catalogPages/TypeEducationPage.jsx';
@@ -40,15 +42,27 @@ const App = () => {
             </PrivateRoute>
           )}
         />
-        <Route path="/groups" element={(
+        <Route path="/group" element={(
             <PrivateRoute>
               <GroupsPage />
             </PrivateRoute>
           )}
         />
-        <Route path="/programs" element={(
+        <Route path="/group/:id" element={(
+            <PrivateRoute>
+              <GroupDetailsPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/program" element={(
             <PrivateRoute>
               <ProgramsPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/program/:id" element={(
+            <PrivateRoute>
+              <ProgramDetailsPage />
             </PrivateRoute>
           )}
         />

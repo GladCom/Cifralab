@@ -11,6 +11,7 @@ import { kindDocumentRiseQualificationApi }  from './services/kindDocumentRiseQu
 import { financingTypeApi }  from './services/financingTypeApi.js';
 import { feaProgramApi }  from './services/feaProgramApi.js';
 import { educationProgramApi }  from './services/educationProgramApi.js';
+import { groupsApi }  from './services/groupsApi.js';
 
 export default configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export default configureStore({
     [financingTypeApi.reducerPath]: financingTypeApi.reducer,
     [feaProgramApi.reducerPath]: feaProgramApi.reducer,
     [educationProgramApi.reducerPath]: educationProgramApi.reducer,
+    [groupsApi.reducerPath]: groupsApi.reducer,
   },
   middleware: (
     (getDefaultMiddleware) => getDefaultMiddleware()
@@ -40,5 +42,6 @@ export default configureStore({
     .concat(financingTypeApi.middleware)
     .concat(feaProgramApi.middleware)
     .concat(educationProgramApi.middleware)
+    .concat(groupsApi.middleware)
   ),
 });

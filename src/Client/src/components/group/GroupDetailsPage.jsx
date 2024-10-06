@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../shared/Layout.jsx';
 import { useParams } from 'react-router-dom';
-import { useGetEducationProgramByIdQuery, useEditEducationProgramMutation } from '../../storage/services/educationProgramApi.js';
+import { useGetGroupByIdQuery, useEditGroupMutation } from '../../storage/services/groupsApi.js';
 import Spinner from '../shared/Spinner.jsx';
 import Empty from '../shared/Empty.jsx';
 import Error from '../shared/Error.jsx';
@@ -13,21 +13,21 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
-const ProgramDetailsPage = () => {
+const GroupDetailsPage = () => {
     const { id } = useParams();
-    const [programData, setProgramData] = useState({});
-    const { data, error, isLoading, isFetching, refetch } = useGetEducationProgramByIdQuery(id);
+    const [groupData, setGroupData] = useState({});
+    const { data, error, isLoading, isFetching, refetch } = useGetGroupByIdQuery(id);
 
     const [
-        editProgram,
-        { error: editProgramError, isLoading: isEditingProgram },
-      ] = useEditEducationProgramMutation();
+        editStudent,
+        { error: editGroupError, isLoading: isEdittingGroup },
+      ] = useEditGroupMutation();
 
     useEffect(() => {
         if (!isLoading && !isFetching) {
             const newData = { ...data };
             delete newData.id;
-            setProgramData(newData);
+            setGroupData(newData);
         }
     }, [isLoading, isFetching]);
 
@@ -45,13 +45,12 @@ const ProgramDetailsPage = () => {
     }
 
     return (
-        <Layout title={programData?.name}>
-            
+        <Layout title={groupData?.name}>
             <hr />
             <Row>
                 <Col>
                     <Button onClick={() => {
-                        editProgram({ id, item: programData });
+                        editStudent({ id, item: groupData });
                         refetch();
                     }}>Сохранить</Button>
                 </Col>
@@ -60,4 +59,4 @@ const ProgramDetailsPage = () => {
     );
 };
 
-export default ProgramDetailsPage;
+export default GroupDetailsPage;
