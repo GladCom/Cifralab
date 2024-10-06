@@ -21,7 +21,7 @@ public class Request
     /// <summary>
     /// Персона
     /// </summary>
-    //[JsonIgnore]
+    [JsonIgnore]
     public Student? Student { get; set; }
 
     /// <summary>
