@@ -56,14 +56,17 @@ public class PagedPage<T> where T : class
     /// <summary>
     /// Пагинация
     /// </summary>
+    /// <typeparam name="OrderKey"></typeparam>
     /// <param name="source">Объект пагинации</param>
     /// <param name="pageNumber">Номер страницы</param>
     /// <param name="pageSize">Размер страницы</param>
-    /// <returns></returns>
-    public static async Task <PagedPage<T>> ToPagedPage(IQueryable<T> source, int pageNumber, int pageSize)
+    /// <param name="orderKey"></param>
+    /// <returns>Пагинированные данные</returns>
+
+    public static async Task <PagedPage<T>> ToPagedPage<OrderKey>(IQueryable<T> source, int pageNumber, int pageSize, Func<T, OrderKey> orderKey)
     {
         var count = source.Count();
         var items = await source.AsNoTracking().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-        return new PagedPage<T>(items, count, pageNumber, pageSize);
+        return new PagedPage<T>(items.OrderBy(orderKey).ToList(), count, pageNumber, pageSize);
     }
 }
