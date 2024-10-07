@@ -32,7 +32,6 @@ public class EducationProgram
     /// Форма обучения
     /// </summary>
     [JsonIgnore]
-    [Required]
     public EducationForm? EducationForm { get; set; }
     /// <summary>
     /// Вид документа повышения квалификации
@@ -42,7 +41,6 @@ public class EducationProgram
     /// Вид документа повышения квалификации
     /// </summary>
     [JsonIgnore]
-    [Required]
     public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
     /// <summary>
     /// Модульная программа
@@ -57,7 +55,6 @@ public class EducationProgram
     /// ВЭД программы
     /// </summary>
     [JsonIgnore]
-    [Required]
     public FEAProgram? FEAProgram { get; set; }
     /// <summary>
     /// Id источника финансирования
@@ -68,15 +65,15 @@ public class EducationProgram
     /// Источник финансирования
     /// </summary>
     [JsonIgnore]
-    [Required]
     public FinancingType? FinancingType { get; set; }
 
     /// <summary>
     /// Группы обучения
     /// </summary>
+    [JsonIgnore]
     public List<Group>? Groups { get; set; }
 
-
+    
     //Вот это наследие от прежних разрабов - похоже не нужно
     /// <summary>
     /// Обязательно наличие ВО
