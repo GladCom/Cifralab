@@ -1,77 +1,104 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Info from './Info.jsx';
+import React, { useState, useEffect } from 'react';
+import Info from './common/Info.jsx';
+import EditableInfo from './common/EditableInfo.jsx';
 import Editor from './Editor.jsx';
-import { EditOutlined, CheckOutlined } from '@ant-design/icons';
-import Button from 'react-bootstrap/Button';
+import YesNoButtons from './common/YesNoButtons.jsx';
 import { Input } from 'antd';
 
-const String = ({ initValue, setValue, editable, required, formMode, filterMode }) => {
-    const [editingMode, setEditingMode] = useState(false);
-    const [value, setStringValue] = useState(initValue);
-    const [valueChanged, setValueChanged] = useState(false);
-
-    useEffect(() => {
-        setStringValue(initValue);
-    }, [initValue]);
-
-    const showEditor = editingMode || formMode || filterMode;
-    const showInfo = !editingMode && !formMode && !filterMode;
+const Form = ({ value, setValue, required }) => {
 
     return (
-        <>
-            { showInfo && (
-                <Info 
-                    value={value}
-                    changed={valueChanged}
-                    editIcon={EditOutlined}
-                    editable={editable}
-                    setEditingMode={setEditingMode}
-                />
-            )}
-            { showEditor && (
-                <Editor>
-                    <Input 
-                        value={value}
-                        required={required}
-                        onChange={({ target }) => {
-                            setStringValue(target.value)
+        <Editor>
+            <Input 
+                value={value}
+                required={required}
+                onChange={({ target }) => {
+                    setValue(target.value)
+                }} 
+                onPressEnter={({ target }) => {
+                    setValue(target.value)
+                }} 
+            />
+        </Editor>
+    );
+};
 
-                            if(formMode || filterMode) {
-                                setValue(target.value);
-                            }
-                        }} 
-                        onPressEnter={() => {
-                            setEditingMode(false);
-                            setValue(value);
-                            setValueChanged(initValue !== value);
-                        }} 
-                    />
-                    { !formMode && !filterMode  && (
-                        <>
-                            <Button className="m-1" variant="outline-success" size="sm" onClick={() => {
-                                setEditingMode(false);
-                                setValue(value);
+const NoValidationForm = ({ value, setValue, required }) => {
 
-                                if (initValue !== value) {
-                                    setValueChanged(true);
-                                }
-                            }}>
-                                <CheckOutlined />
-                                Save
-                            </Button>
-                            <Button className="m-1" variant="outline-danger" size="sm" onClick={() => {
-                                setEditingMode(false);
-                                setStringValue(initValue);
-                                setValue(initValue);
-                            }}>
-                                Cancel
-                            </Button>
-                        </>
-                    )}
-                </Editor>
-            )}
-        </>
+    return (
+        <Editor>
+            В разработке
+        </Editor>
+    );
+};
 
+const Filter = () => {
+    //  TODO:   реализовать функционал
+    return (
+        <div>В разработке!</div>
+    );
+};
+
+const Edit = ({ value, setValue, setMode }) => {
+    const [newValue, setNewValue] = useState(value);
+
+    return (
+        <Editor>
+            <Input 
+                value={newValue}
+                onChange={({ target }) => {
+                    setNewValue(target.value)
+                }} 
+                onPressEnter={({ target }) => {
+                    setNewValue(target.value)
+                }} 
+            />
+            <YesNoButtons
+                setValue={() => {
+                    setValue(newValue);
+                }}
+                onClick={() => {
+                    setMode('editableInfo');
+                }}
+            />
+        </Editor>
+    );
+};
+
+const renderMode = {
+    info: Info,
+    editableInfo: EditableInfo,
+    form: Form,
+    filter: Filter,
+    edit: Edit,
+    noValidationForm: NoValidationForm,
+};
+
+const String = ({ id, mode, value, setValue, required }) => {
+    const [compMode, setCompMode] = useState(mode);
+    const [initValue, setInitValue] = useState(value);
+    const [currentValue, setCurrentValue] = useState(value);
+    const [changed, setChanged] = useState(false);
+
+    useEffect(() => {
+        setCurrentValue(value);
+    }, [value]);
+
+    const Component = renderMode[compMode] ?? renderMode.info;
+
+    return (
+        <Component
+            id={id}
+            value={currentValue}
+            changed={changed}
+            required={required}
+            setMode={setCompMode}
+            setValue={(newValue) => {
+                setChanged(newValue !== initValue);
+                setValue(newValue);
+                setCurrentValue(newValue);
+            }}
+        />
     );
 };
 

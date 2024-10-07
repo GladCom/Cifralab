@@ -1,9 +1,14 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Extension;
+using Students.APIServer.Report;
+using Students.APIServer.Report.Interfaces;
 using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
+using Students.APIServer.Repository.Reports;
 using Students.DBCore.Contexts;
 using Students.Models;
+using ClosedXML.Excel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +34,10 @@ builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
-builder.Services.AddScoped<IReportRepository, CSVReportRepository>();
+builder.Services.AddScoped<IReportRepository<PFDOModel>, PFDOReportRepository>();
+builder.Services.AddScoped<IReportRepository<RosstatModel>, RosstatReportRepository>();
+builder.Services.AddScoped<IReport<XLWorkbook>, GenerateReports>();
+//builder.Services.AddScoped<IReportRepository, CSVReportRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddSwaggerGen(options =>
 {
