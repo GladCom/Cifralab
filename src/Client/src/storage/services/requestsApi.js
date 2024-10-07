@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const requestsAPI = createApi({
+export const requestsApi = createApi({
   reducerPath: 'personrequests',
   keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
   baseQuery: fetchBaseQuery({ baseUrl: '/Request' }), //  TODO: уточнить url
@@ -21,6 +21,14 @@ export const requestsAPI = createApi({
         body: request,
       }),
     }),
+    editPersonRequest: builder.mutation({
+      query: ({ id, request }) => ({
+        url: id,
+        method: 'PUT',
+        body: request,
+      }),
+      invalidatesTags: ['Requests'],
+    }),
     removePersonRequest: builder.mutation({
       query: (id) => ({
         url: id,
@@ -36,5 +44,6 @@ export const {
   useGetPersonRequestsPagedQuery,
   useGetPersonRequestByIdQuery,
   useAddPersonRequestMutation,
+  useEditPersonRequestMutation,
   useRemovePersonRequestMutation,
-} = requestsAPI;
+} = requestsApi;

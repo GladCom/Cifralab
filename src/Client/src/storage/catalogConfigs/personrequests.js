@@ -1,17 +1,17 @@
-import React from 'react';
+import {
+    getAllAsync,
+    getAllPagedAsync,
+    getOneByIdAsync,
+    addOneAsync,
+    editOneAsync,
+    removeOneAsync,
+} from '../crud/personrequestsCrud.js';
 import {
     UserOutlined,
     PhoneOutlined,
     CalendarOutlined,
     MailOutlined,
 } from '@ant-design/icons';
-import {    
-    useGetPersonRequestsQuery,
-    useGetPersonRequestsPagedQuery,
-    useAddPersonRequestMutation,
-    useRemovePersonRequestMutation,
-    useGetPersonRequestByIdQuery,
-} from '../services/requestsAPI.js';
 
 import String from '../../components/shared/business/String.jsx';
 import Gender from '../../components/shared/business/Gender.jsx';
@@ -142,12 +142,12 @@ export const config = {
             },
         },
     ],
-
-    catalogData: {
-        addNewAsync: useAddPersonRequestMutation,
-        removeOneAsync: useRemovePersonRequestMutation,
-        getOneByIdAsync: useGetPersonRequestByIdQuery,
-        getAllAsync: useGetPersonRequestsQuery,
-        getAllPagedAsync: useGetPersonRequestsPagedQuery,
-    },
+    crud: {
+        getAllAsync,
+        getAllPagedAsync,
+        getOneByIdAsync,
+        addOneAsync,
+        editOneAsync,
+        removeOneAsync,
+    }
 };

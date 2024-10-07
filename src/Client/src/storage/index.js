@@ -12,7 +12,7 @@ import { financingTypeApi }  from './services/financingTypeApi.js';
 import { feaProgramApi }  from './services/feaProgramApi.js';
 import { educationProgramApi }  from './services/educationProgramApi.js';
 import { groupsApi }  from './services/groupsApi.js';
-import { requestsAPI }  from './services/requestsAPI.js';
+import { requestsApi }  from './services/requestsApi.js';
 
 export default configureStore({
   reducer: {
@@ -29,7 +29,7 @@ export default configureStore({
     [feaProgramApi.reducerPath]: feaProgramApi.reducer,
     [educationProgramApi.reducerPath]: educationProgramApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
-    [requestsAPI.reducerPath]: requestsAPI.reducer
+    [requestsApi.reducerPath]: requestsApi.reducer
   },
   middleware: (
     (getDefaultMiddleware) => getDefaultMiddleware()
@@ -45,6 +45,6 @@ export default configureStore({
     .concat(feaProgramApi.middleware)
     .concat(educationProgramApi.middleware)
     .concat(groupsApi.middleware)
-    .concat(requestsAPI.middleware)
+    .concat(requestsApi.middleware)
   ),
 });
