@@ -34,7 +34,7 @@ builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
-builder.Services.AddScoped<IReportRepository<PFDOModel>, PFDOReportRepository>();
+builder.Services.AddScoped<IReportRepository<FRDOModel>, PFDOReportRepository>();
 builder.Services.AddScoped<IReportRepository<RosstatModel>, RosstatReportRepository>();
 builder.Services.AddScoped<IReport<XLWorkbook>, GenerateReports>();
 //builder.Services.AddScoped<IReportRepository, CSVReportRepository>();

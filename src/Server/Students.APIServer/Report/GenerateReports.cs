@@ -14,7 +14,7 @@ namespace Students.APIServer.Report
     public class GenerateReports : IReport<XLWorkbook>
     {
         private readonly IReportRepository<RosstatModel> _reportRosstatRepository;
-        private readonly IReportRepository<PFDOModel> _reportPFDORepository;
+        private readonly IReportRepository<FRDOModel> _reportPFDORepository;
 
         /// <summary>
         /// Генератор отчетов для Росстата.
@@ -33,10 +33,10 @@ namespace Students.APIServer.Report
         }
 
         /// <summary>
-        /// Генерировать отчет ПФДО.
+        /// Генерировать отчет ФРДО.
         /// </summary>
         /// <returns>Книга.</returns>
-        public async Task<XLWorkbook?> GeneratePFDOReport()
+        public async Task<XLWorkbook?> GenerateFRDOReport()
         {
             var listReportData = await _reportPFDORepository.Get() ?? throw new ArgumentNullException("Нет данных.");
             var workbook = new XLWorkbook();
@@ -57,7 +57,7 @@ namespace Students.APIServer.Report
             int charCounter = 0;
             int cellCounter = 1;
 
-            PropertyInfo[] titles = typeof(PFDOModel).GetProperties() ?? throw new ArgumentNullException("Нет данных.");
+            PropertyInfo[] titles = typeof(FRDOModel).GetProperties() ?? throw new ArgumentNullException("Нет данных.");
 
             foreach (var title in titles)
             {
@@ -65,10 +65,9 @@ namespace Students.APIServer.Report
 
                 if (attributes != null && attributes.Length > 0)
                 {
-                    AttributeTitleEntity? column = attributes[0] as AttributeTitleEntity;
-                    if (column != null)
+                    if (attributes[0] is ColumnAttribute column)
                     {
-                        xLWorksheet.Cell(ExcelMetadata.ExcelColumnName[charCounter].ToString() + cellCounter).Value = column.Title;
+                        xLWorksheet.Cell(ExcelMetadata.ExcelColumnName[charCounter].ToString() + cellCounter).Value = column.Name;
                         charCounter++;
                     }
                 }
@@ -82,7 +81,7 @@ namespace Students.APIServer.Report
         /// <param name="xLWorksheet">Лист.</param>
         /// <param name="list">Список сущностей.</param>
         /// <returns>Лист.</returns>
-        private IXLWorksheet FillingCells(IXLWorksheet xLWorksheet, List<PFDOModel> list)
+        private IXLWorksheet FillingCells(IXLWorksheet xLWorksheet, List<FRDOModel> list)
         {
             int charCounter = 0;
             int cellCounter = 2;
@@ -106,7 +105,7 @@ namespace Students.APIServer.Report
         /// </summary>
         /// <param name="reportPFDORepository">Репозиторий.</param>
         /// <param name="reportRosstatRepository">Репозиторий.</param>
-        public GenerateReports(IReportRepository<PFDOModel> reportPFDORepository, IReportRepository<RosstatModel> reportRosstatRepository)
+        public GenerateReports(IReportRepository<FRDOModel> reportPFDORepository, IReportRepository<RosstatModel> reportRosstatRepository)
         {
             _reportRosstatRepository = reportRosstatRepository;
             _reportPFDORepository = reportPFDORepository;

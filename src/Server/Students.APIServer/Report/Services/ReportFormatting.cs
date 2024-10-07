@@ -16,6 +16,7 @@ namespace Students.APIServer.Report.Services
         public IXLWorksheet Formatting()
         {
             _xLWorksheet.Columns().AdjustToContents();
+
             return _xLWorksheet;
         }
 

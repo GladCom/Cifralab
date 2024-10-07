@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Students.Models
+﻿namespace Students.Models
 {
     /// <summary>
     /// Модель отчета.
     /// </summary>
-    public class PFDOModel
+    public class FRDOModel
     {
         //public string? TypeDocument {  get; set; }
         //public string? StatusDocument { get; set; }

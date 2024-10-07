@@ -6,7 +6,7 @@ namespace Students.APIServer.Repository.Reports
     /// <summary>
     /// Отчет ПФДО.
     /// </summary>
-    public class PFDOReportRepository : IReportRepository<PFDOModel>
+    public class PFDOReportRepository : IReportRepository<FRDOModel>
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IGenericRepository<EducationForm> _educationFormRepository;
@@ -25,13 +25,13 @@ namespace Students.APIServer.Repository.Reports
         /// Данные для формирования отчета.
         /// </summary>
         /// <returns>Список данных.</returns>
-        public async Task<List<PFDOModel>> Get()
+        public async Task<List<FRDOModel>> Get()
         {
             var listStudents = await _studentRepository.Get();
-            var pfdoModel = new List<PFDOModel>();
+            var pfdoModel = new List<FRDOModel>();
             foreach(var student in listStudents)
             {
-                pfdoModel.Add(new PFDOModel()
+                pfdoModel.Add(new FRDOModel()
                 {
                     RecipientLastName = student.Family,
                     RecipientName = student.Name,
