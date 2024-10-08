@@ -16,7 +16,7 @@ namespace Students.APIServer.Repository.Reports
         public async Task<List<RosstatModel>> Get()
         {
             var listStudents = await _studentRepository.Get();
-            return new List<RosstatModel>() { new RosstatModel() { CountStudents = listStudents.Count() } };
+            return new List<RosstatModel>() { new RosstatModel() { StudentCount = listStudents.Count() } };
         }
 
         /// <summary>
