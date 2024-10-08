@@ -32,7 +32,6 @@ public class EducationProgram
     /// Форма обучения
     /// </summary>
     [JsonIgnore]
-    [Required]
     public EducationForm? EducationForm { get; set; }
     /// <summary>
     /// Вид документа повышения квалификации
