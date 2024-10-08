@@ -17,15 +17,13 @@ namespace Students.APIServer.Report
         private readonly IReportRepository<FRDOModel> _reportPFDORepository;
 
         /// <summary>
-        /// Генератор отчетов для Росстата.
+        /// Генерировать отчет для Росстата.
         /// </summary>
         /// <returns>Книга.</returns>
         public async Task<XLWorkbook?> GenerateRosstatReport()
         {
-            IConfiguration config = new ConfigurationBuilder().AddJsonFile("reportsettings.json", true, true).Build();
-
             var listReportData = await _reportRosstatRepository.Get() ?? throw new ArgumentNullException("Нет данных.");
-            var template = new XLTemplate(config["ReportTemplate:RosstatReportTemplate"]);
+            var template = new XLTemplate(Directory.GetCurrentDirectory() + @"\Report\Templates\Form1-PK.xlsx");
             template.AddVariable(listReportData.FirstOrDefault());
             template.Generate();
 
@@ -39,40 +37,11 @@ namespace Students.APIServer.Report
         public async Task<XLWorkbook?> GenerateFRDOReport()
         {
             var listReportData = await _reportPFDORepository.Get() ?? throw new ArgumentNullException("Нет данных.");
-            var workbook = new XLWorkbook();
-            var worksheet = workbook.Worksheets.Add("Лист1");
-            CreateTitle(worksheet);
+            var workbook = new XLWorkbook(Directory.GetCurrentDirectory() + @"\Report\Templates\FRDO.xlsx");
+            var worksheet = workbook.Worksheet("Шаблон");
             FillingCells(worksheet, listReportData);
 
             return workbook;
-        }
-
-        /// <summary>
-        /// Занесение названия колонок.
-        /// </summary>
-        /// <param name="xLWorksheet">Лист.</param>
-        /// <returns>Лист.</returns>
-        private IXLWorksheet CreateTitle(IXLWorksheet xLWorksheet)
-        {
-            int charCounter = 0;
-            int cellCounter = 1;
-
-            PropertyInfo[] titles = typeof(FRDOModel).GetProperties() ?? throw new ArgumentNullException("Нет данных.");
-
-            foreach (var title in titles)
-            {
-                object[] attributes = title.GetCustomAttributes(false);
-
-                if (attributes != null && attributes.Length > 0)
-                {
-                    if (attributes[0] is ColumnAttribute column)
-                    {
-                        xLWorksheet.Cell(ExcelMetadata.ExcelColumnName[charCounter].ToString() + cellCounter).Value = column.Name;
-                        charCounter++;
-                    }
-                }
-            }
-            return xLWorksheet;
         }
 
         /// <summary>
@@ -88,10 +57,11 @@ namespace Students.APIServer.Report
 
             foreach (var row in list)
             {
-                PropertyInfo[] cells = row.GetType().GetProperties() ?? throw new ArgumentNullException("Нет данных.");
+                PropertyInfo[] cells = row.GetType().GetProperties();
                 foreach (PropertyInfo cell in cells)
                 {
-                    xLWorksheet.Cell(ExcelMetadata.ExcelColumnName[charCounter].ToString() + cellCounter).Value = cell.GetValue(row)!.ToString();
+                    var cellValue = cell.GetValue(row) is null ? string.Empty : cell.GetValue(row)!.ToString();
+                    xLWorksheet.Cell(ExcelMetadata.ExcelColumnName[charCounter].ToString() + cellCounter).Value = cellValue;
                     charCounter++;
                 }
                 charCounter = 0;
