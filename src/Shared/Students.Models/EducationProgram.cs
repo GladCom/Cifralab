@@ -4,111 +4,110 @@ using System.Text.Json.Serialization;
 namespace Students.Models;
 
 /// <summary>
-/// Образовательная программа
+/// Образовательная программа.
 /// </summary>
 public class EducationProgram
 {
   /// <summary>
-  /// Id программы
+  /// Id программы.
   /// </summary>
   public Guid Id { get; set; }
 
   /// <summary>
-  /// Наименование программы
+  /// Наименование программы.
   /// </summary>
   public string? Name { get; set; }
 
   /// <summary>
-  /// Стоимость обучения
+  /// Стоимость обучения.
   /// </summary>
   public double Cost { get; set; }
 
   /// <summary>
-  /// Количество часов
+  /// Количество часов.
   /// </summary>
   public int HoursCount { get; set; }
 
   /// <summary>
-  /// Id Формы обучения
+  /// Id Формы обучения.
   /// </summary>
   public Guid? EducationFormId { get; set; }
 
   /// <summary>
-  /// Форма обучения
+  /// Форма обучения.
   /// </summary>
   [JsonIgnore]
   [Required]
   public EducationForm? EducationForm { get; set; }
 
   /// <summary>
-  /// Вид документа повышения квалификации
+  /// Вид документа повышения квалификации.
   /// </summary>
   public Guid? KindDocumentRiseQualificationId { get; set; }
 
   /// <summary>
-  /// Вид документа повышения квалификации
+  /// Вид документа повышения квалификации.
   /// </summary>
   [JsonIgnore]
   [Required]
   public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
 
   /// <summary>
-  /// Модульная программа
+  /// Модульная программа.
   /// </summary>
   public bool IsModularProgram { get; set; }
 
   /// <summary>
-  /// Id ВЭД программы
+  /// Id ВЭД программы.
   /// </summary>
   public Guid? FEAProgramId { get; set; }
 
   /// <summary>
-  /// ВЭД программы
+  /// ВЭД программы.
   /// </summary>
   [JsonIgnore]
   [Required]
   public FEAProgram? FEAProgram { get; set; }
 
   /// <summary>
-  /// Id источника финансирования
+  /// Id источника финансирования.
   /// </summary>
   public Guid? FinancingTypeId { get; set; }
 
   /// <summary>
-  /// Источник финансирования
+  /// Источник финансирования.
   /// </summary>
   [JsonIgnore]
   [Required]
   public FinancingType? FinancingType { get; set; }
 
   /// <summary>
-  /// Группы обучения
+  /// Группы обучения.
   /// </summary>
   public List<Group>? Groups { get; set; }
 
-  //Вот это наследие от прежних разрабов - похоже не нужно
   /// <summary>
-  /// Обязательно наличие ВО
+  /// Обязательно наличие ВО (Вот это наследие от прежних разрабов - похоже не нужно).
   /// </summary>
   public bool IsCollegeProgram { get; set; }
 
   /// <summary>
-  /// Признак программы в архиве
+  /// Признак программы в архиве.
   /// </summary>
   public bool IsArchive { get; set; }
 
   /// <summary>
-  /// Сетевая форма
+  /// Сетевая форма.
   /// </summary>
   public bool IsNetworkProgram { get; set; }
 
   /// <summary>
-  /// Применение ДОТ
+  /// Применение ДОТ.
   /// </summary>
   public bool IsDOTProgram { get; set; }
 
   /// <summary>
-  /// Применение ДОТ полностью
+  /// Применение ДОТ полностью.
   /// </summary>
   public bool IsFullDOTProgram { get; set; }
 }

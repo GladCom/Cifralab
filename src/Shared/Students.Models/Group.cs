@@ -3,49 +3,49 @@ using System.Text.Json.Serialization;
 namespace Students.Models;
 
 /// <summary>
-/// Группа обучения
+/// Группа обучения.
 /// </summary>
 public class Group
 {
     /// <summary>
-    /// Id группы
+    /// Id группы.
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Имя группы
+    /// Имя группы.
     /// </summary>
     public string? Name { get; set; }
 
     /// <summary>
-    /// Id образовательной программы
+    /// Id образовательной программы.
     /// </summary>
     public Guid EducationProgramId { get; set; }
 
     /// <summary>
-    /// Образорвательная программа
+    /// Образорвательная программа.
     /// </summary>
     [JsonIgnore]
     public EducationProgram? EducationProgram { get; set; }
 
     /// <summary>
-    /// Начало обучения
+    /// Начало обучения.
     /// </summary>
     public DateOnly StartDate { get; set; }
 
     /// <summary>
-    /// Конец обучения
+    /// Конец обучения.
     /// </summary>
     public DateOnly EndDate { get; set; }
 
     /// <summary>
-    /// Студенты
+    /// Студенты.
     /// </summary>
     public List<Student>? Students { get; set; }
 
-    //Для таблицы Группы персон для связи многие ко многим
+    //Для таблицы Группы персон для связи многие ко многим.
     /// <summary>
-    /// Свойсто связка многие ко многим
+    /// Свойсто связка многие ко многим.
     /// </summary>
     public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
 }
