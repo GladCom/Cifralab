@@ -68,14 +68,13 @@ namespace Students.DBCore.Migrations
                     b.Property<double>("Cost")
                         .HasColumnType("double precision");
 
-                    b.Property<Guid>("EducationFormId")
+                    b.Property<Guid?>("EducationFormId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("FEAProgramId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("FinancingTypeId")
-                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<int>("HoursCount")
@@ -87,10 +86,19 @@ namespace Students.DBCore.Migrations
                     b.Property<bool>("IsCollegeProgram")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDOTProgram")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsFullDOTProgram")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsModularProgram")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("KindDocumentRiseQualificationId")
+                    b.Property<bool>("IsNetworkProgram")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("KindDocumentRiseQualificationId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -148,15 +156,6 @@ namespace Students.DBCore.Migrations
 
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
-
-                    b.Property<bool>("IsDOTProgram")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsFullDOTProgram")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsNetworkProgram")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -224,13 +223,15 @@ namespace Students.DBCore.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("KindOrderId")
+                    b.Property<Guid?>("KindOrderId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Number")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("RequestId")
+                    b.Property<Guid?>("RequestId")
+                        .IsRequired()
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -323,7 +324,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StatusRequest");
+                    b.ToTable("StatusRequests");
                 });
 
             modelBuilder.Entity("Students.Models.Student", b =>
@@ -397,7 +398,7 @@ namespace Students.DBCore.Migrations
                     b.Property<string>("Speciality")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("TypeEducationId")
+                    b.Property<Guid>("TypeEducationId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -456,9 +457,7 @@ namespace Students.DBCore.Migrations
                 {
                     b.HasOne("Students.Models.EducationForm", "EducationForm")
                         .WithMany()
-                        .HasForeignKey("EducationFormId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EducationFormId");
 
                     b.HasOne("Students.Models.FEAProgram", "FEAProgram")
                         .WithMany()
@@ -466,15 +465,11 @@ namespace Students.DBCore.Migrations
 
                     b.HasOne("Students.Models.FinancingType", "FinancingType")
                         .WithMany()
-                        .HasForeignKey("FinancingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FinancingTypeId");
 
                     b.HasOne("Students.Models.KindDocumentRiseQualification", "KindDocumentRiseQualification")
                         .WithMany()
-                        .HasForeignKey("KindDocumentRiseQualificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("KindDocumentRiseQualificationId");
 
                     b.Navigation("EducationForm");
 
@@ -579,7 +574,9 @@ namespace Students.DBCore.Migrations
 
                     b.HasOne("Students.Models.TypeEducation", "TypeEducation")
                         .WithMany()
-                        .HasForeignKey("TypeEducationId");
+                        .HasForeignKey("TypeEducationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ScopeOfActivityLevelOne");
 
