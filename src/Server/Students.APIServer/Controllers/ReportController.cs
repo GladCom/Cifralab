@@ -11,7 +11,6 @@ namespace Students.APIServer.Controllers
     [Route("[controller]")]
     public class ReportController : ControllerBase
     {
-        //private readonly IReportRepository _reportRepository;
         private readonly ILogger<ReportController> _logger;
         private readonly IReport<XLWorkbook> _report;
 
@@ -22,32 +21,35 @@ namespace Students.APIServer.Controllers
         [HttpPost("GetRostatReport")]
         public async Task<FileResult> GetRosstatReport()
         {
-            return CreateFileReport(await _report.GenerateRosstatReport(), "Росстат");
+            var workbook = await _report.GenerateRosstatReport() ?? throw new ArgumentNullException("Нет данных."); 
+            return CreateFileReport(workbook, "Росстат");
         }
 
         /// <summary>
-        /// Получить отчет ПФДО.
+        /// Получить отчет ФРДО.
         /// </summary>
         /// <returns>Отчет.</returns>
         [HttpPost("GetPFDOReport")]
         public async Task<FileResult> GetPFDOReport()
         {
-            return CreateFileReport(await _report.GeneratePFDOReport(), "ПФДО");
+            var workbook = await _report.GenerateFRDOReport() 
+                ?? throw new ArgumentNullException("Нет данных.");
+            return CreateFileReport(workbook, "ФРДО");
         }
 
         /// <summary>
         /// Создание файла.
         /// </summary>
         /// <param name="workbook">Книга.</param>
-        /// <param name="titleReport">Название отчета.</param>
+        /// <param name="nameReport">Название отчета.</param>
         /// <returns>Файл.</returns>
-        private FileContentResult CreateFileReport(XLWorkbook workbook, string titleReport)
+        private FileContentResult CreateFileReport(XLWorkbook workbook, string nameReport)
         {
             FileContentResult result;
             using (MemoryStream stream = new MemoryStream())
             {
                 workbook.SaveAs(stream);
-                result = File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Отчет {titleReport} {DateTime.Now}.xlsx");
+                result = File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Отчет {nameReport} {DateTime.Now}.xlsx");
                 stream.Close();
             }
             return result;
@@ -62,32 +64,6 @@ namespace Students.APIServer.Controllers
         {
             _report = report;
             _logger = logger;
-            //_reportRepository = reportRepository;
         }
-
-        ///// <summary>
-        ///// Полная выгрузка.
-        ///// </summary>
-        ///// <returns>Excel файл со всеми сущностями.</returns>
-        //[HttpGet()]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    try
-        //    {
-        //        return File(
-        //            await _reportRepository.GetAll(),
-        //            "application/zip",
-        //            "Reports.zip");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _logger.LogError(e, "Error while getting Entity");
-        //        return StatusCode(StatusCodes.Status500InternalServerError,
-        //            new DefaultResponse
-        //            {
-        //                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-        //            });
-        //    }
-        //}
     }
 }

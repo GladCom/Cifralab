@@ -8,6 +8,7 @@ namespace Students.Models;
 /// </summary>
 public class EducationProgram
 {
+
   /// <summary>
   /// Id программы.
   /// </summary>
