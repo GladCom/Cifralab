@@ -1,14 +1,30 @@
 stages:
   - compile
+  - test
   - deploy
 
 # Проверка компиляции бэкенд
 backend-compile:
   stage: compile
-  image: mcr.microsoft.com/dotnet/sdk:8.0
+  image: mcr.microsoft.com/dotnet/sdk:7.0
   tags: [ common ]
   script:
     - dotnet build ./src
+
+# Запус юнит тестов
+backend-test:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:7.0
+  tags: [ common ]
+  artifacts:
+    when: always
+    paths:
+      - ./**/*.Result.xml
+    reports:
+      junit:
+        - ./**/*.Result.xml
+  script:
+    - dotnet test ./test/TestAPI --test-adapter-path . --logger 'junit;LogFilePath=../Artifacts/{assembly}.Result.xml;MethodFormat=Class;FailureBodyFormat=Verbose'
 
 # Деплой на тестовый стенд
 deploy-on-test:
