@@ -6,7 +6,7 @@ stages:
 # Проверка компиляции бэкенд
 #backend-compile:
 #  stage: compile
-#  image: mcr.microsoft.com/dotnet/sdk:8.0
+#  image: mcr.microsoft.com/dotnet/sdk:7.0
 #  tags: [ common ]
 #  script:
 #    - dotnet build ./src
@@ -14,7 +14,7 @@ stages:
 # Запус юнит тестов
 backend-test:
   stage: test
-  image: mcr.microsoft.com/dotnet/sdk:8.0
+  image: mcr.microsoft.com/dotnet/sdk:7.0
   tags: [ common ]
   artifacts:
     when: always
