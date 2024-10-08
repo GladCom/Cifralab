@@ -1,4 +1,5 @@
-﻿using Students.APIServer.Repository.Interfaces;
+﻿using MoreLinq;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
 namespace Students.APIServer.Repository.Reports
@@ -6,7 +7,7 @@ namespace Students.APIServer.Repository.Reports
     /// <summary>
     /// Отчет ПФДО.
     /// </summary>
-    public class PFDOReportRepository : IReportRepository<FRDOModel>
+    public class FRDOReportRepository : IReportRepository<FRDOModel>
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IGenericRepository<EducationForm> _educationFormRepository;
@@ -28,15 +29,26 @@ namespace Students.APIServer.Repository.Reports
         public async Task<List<FRDOModel>> Get()
         {
             var listStudents = await _studentRepository.Get();
+            var typeEducationList = await _typeEducationRepository.Get();
             var pfdoModel = new List<FRDOModel>();
             foreach(var student in listStudents)
             {
+                var typeEducation = typeEducationList.Where(x => x.Id == student.TypeEducationId).FirstOrDefault();
+
                 pfdoModel.Add(new FRDOModel()
                 {
                     RecipientLastName = student.Family,
                     RecipientName = student.Name,
                     RecipientPatronymic = student.Patron,
-                    RecipientDateBirth = student.BirthDate
+                    RecipientDateBirth = student.BirthDate,
+                    RecipientGender = student.Sex.ToString(),
+                    RecipientSNILS = student.SNILS,
+                    SurnameIndicatedHE = student.FullNameDocument,
+                    SeriesHE = student.DocumentSeries,
+                    NumberHE = student.DocumentNumber,
+                    LevelEducationHE = typeEducation.Name,
+                    NameQualification = student.Speciality,
+
                 });
             }
             return pfdoModel;
@@ -57,7 +69,7 @@ namespace Students.APIServer.Repository.Reports
         /// <param name="scopeOfActivityRepository">Репозиторий сфер деятельности.</param>
         /// <param name="typeEducationRepository">Репозиторий типов образования.</param>
         /// <param name="studentStatusRepository">Репозиторий статусов студента.</param>
-        public PFDOReportRepository(
+        public FRDOReportRepository(
             IStudentRepository studentRepository,
             IGenericRepository<EducationForm> educationFormRepository,
             IGenericRepository<EducationProgram> educationProgramRepository,
@@ -69,7 +81,8 @@ namespace Students.APIServer.Repository.Reports
             IGenericRepository<Request> requestRepository,
             IGenericRepository<ScopeOfActivity> scopeOfActivityRepository,
             IGenericRepository<TypeEducation> typeEducationRepository,
-            IGenericRepository<StudentStatus> studentStatusRepository)
+            IGenericRepository<StudentStatus> studentStatusRepository
+            )
         {
             _studentRepository = studentRepository;
             _educationFormRepository = educationFormRepository;

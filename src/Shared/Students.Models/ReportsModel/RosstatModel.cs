@@ -10,6 +10,6 @@ namespace Students.Models
         /// <summary>
         /// Тестовый.
         /// </summary>
-        public int CountStudents { get; set; }
+        public int StudentCount { get; set; }
     }
 }

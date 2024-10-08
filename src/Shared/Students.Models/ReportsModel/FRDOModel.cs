@@ -5,66 +5,204 @@
     /// </summary>
     public class FRDOModel
     {
-        //public string? TypeDocument {  get; set; }
-        //public string? StatusDocument { get; set; }
-        //public string? ConfirmationLoss { get; set; }
-        //public string? ConfirmationExchange { get; set; }
-        //public string? ConfirmationDestruction { get; set; }
-        //public string? SeriesDocuments { get; set; }
-        //public string? DocumentNumber { get; set; }
-        //public string? DateOfIssueDocument { get; set; }
-        //public string? RegistrationNumber { get; set; }
-        //public string? AdditionalProfessionalProgram { get; set; }
-        //public string? NameAdditionalProfessionalProgram { get; set; }
-        //public string? NameFieldProfessionalActivity { get; set; }
-        //public string? EnlargedGroupsSpecialties { get; set; }
-        //public string? NameQualification { get; set; }
-        //public string? LevelEducationHE { get; set; }
-        //public string? SurnameIndicatedHE { get; set; }
-        //public string? SeriesHE { get; set; }
-        //public string? NumberHE { get; set; }
-        //public string? YearBeginningTraining { get; set; }
-        //public string? YearGraduation { get; set; }
-        //public string? DurationTraining { get; set; }
+        /// <summary>
+        /// Имя получателя.
+        /// </summary>
+        public string? TypeDocument { get; set; }
+
+        /// <summary>
+        /// Статус документа.
+        /// </summary>
+        public string? StatusDocument { get; set; }
+
+        /// <summary>
+        /// Подтверждение утраты.
+        /// </summary>
+        public string? ConfirmationLoss { get; set; }
+
+        /// <summary>
+        /// Подтверждение обмена.
+        /// </summary>
+        public string? ConfirmationExchange { get; set; }
+
+        /// <summary>
+        /// Подтверждение уничтожения.
+        /// </summary>
+        public string? ConfirmationDestruction { get; set; }
+
+        /// <summary>
+        /// Серия документа.
+        /// </summary>
+        public string? SeriesDocuments { get; set; }
+
+        /// <summary>
+        /// Номер документа.
+        /// </summary>
+        public string? DocumentNumber { get; set; }
+
+        /// <summary>
+        /// Дата выдачи документа.
+        /// </summary>
+        public string? DateOfIssueDocument { get; set; }
+
+        /// <summary>
+        /// Регистрационный номер.
+        /// </summary>
+        public string? RegistrationNumber { get; set; }
+
+        /// <summary>
+        /// Дополнительная профессиональная программа (повышение квалификации/ профессиональная переподготовка).
+        /// </summary>
+        public string? AdditionalProfessionalProgram { get; set; }
+
+        /// <summary>
+        /// Наименование дополнительной профессиональной программы.
+        /// </summary>
+        public string? NameAdditionalProfessionalProgram { get; set; }
+
+        /// <summary>
+        /// Наименование области профессиональной деятельности.
+        /// </summary>
+        public string? NameFieldProfessionalActivity { get; set; }
+
+        /// <summary>
+        /// Укрупненные группы специальностей.
+        /// </summary>
+        public string? EnlargedGroupsSpecialties { get; set; }
+
+        /// <summary>
+        /// Наименование  квалификации, профессии, специальности.
+        /// </summary>
+        public string? NameQualification { get; set; }
+
+        /// <summary>
+        /// Уровень образования ВО/СПО.
+        /// </summary>
+        public string? LevelEducationHE { get; set; }
+
+        /// <summary>
+        /// Фамилия указанная в дипломе о ВО или СПО.
+        /// </summary>
+        public string? SurnameIndicatedHE { get; set; }
+
+        /// <summary>
+        /// Серия документа о ВО/СПО.
+        /// </summary>
+        public string? SeriesHE { get; set; }
+
+        /// <summary>
+        /// Номер документа о ВО/СПО.
+        /// </summary>
+        public string? NumberHE { get; set; }
+
+        /// <summary>
+        /// Год начала обучения (для документа о квалификации).
+        /// </summary>
+        public string? YearBeginningTraining { get; set; }
+
+        /// <summary>
+        /// Год окончания обучения (для документа о квалификации).
+        /// </summary>
+        public string? YearGraduation { get; set; }
+
+        /// <summary>
+        /// Срок обучения,часов  (для документа о квалификации).
+        /// </summary>
+        public string? DurationTraining { get; set; }
 
         /// <summary>
         /// Фамилия получателя.
         /// </summary>
-        [Column("Фамилия получателя")]
         public string? RecipientLastName { get; set; }
 
         /// <summary>
         /// Имя получателя.
         /// </summary>
-        [Column("Имя получателя")]
         public string? RecipientName { get; set; }
 
         /// <summary>
         /// Отчество получателя.
         /// </summary>
-        [Column("Отчество получателя")]
         public string? RecipientPatronymic { get; set; }
 
         /// <summary>
         /// Дата рождения получателя.
         /// </summary>
-        [Column("Дата рождения получателя")]
         public DateOnly RecipientDateBirth { get; set; }
 
-        //public string? RecipientGender { get; set; }
-        //public string? SNILS { get; set; }
-        //public string? FormEducation { get; set; }
-        //public string? SourceFundingForTraining { get; set; }
-        //public string? FormEducationAtTimeTerminationEducation { get; set; }
-        //public string? RecipientCitizenship { get; set; }
-        //public string? NameDocumentEducationOriginalDocument { get; set; }
-        //public string? SeriesOriginalDocument { get; set; }
-        //public string? NumberOriginalDocument { get; set; }
-        //public string? RegistrationNumberOriginalDocument { get; set; }
-        //public string? DateIssueOriginalDocument { get; set; }
-        //public string? RecipientLastNameOriginalDocument { get; set; }
-        //public string? RecipientNameOriginalDocument { get; set; }
-        //public string? RecipientPatronymicOriginalDocument { get; set; }
-        //public string? NumberDocumentToChange { get; set; }
+        /// <summary>
+        /// Пол получателя.
+        /// </summary>
+        public string? RecipientGender { get; set; }
+
+        /// <summary>
+        /// СНИЛС.
+        /// </summary>
+        public string? RecipientSNILS { get; set; }
+
+        /// <summary>
+        /// Форма обучения.
+        /// </summary>
+        public string? FormEducation { get; set; }
+
+        /// <summary>
+        /// Источник финансирования обучения.
+        /// </summary>
+        public string? SourceFundingForTraining { get; set; }
+
+        /// <summary>
+        /// Форма получения образования на момент прекращения образовательных отношений.
+        /// </summary>
+        public string? FormEducationAtTimeTerminationEducation { get; set; }
+
+        /// <summary>
+        /// Гражданство получателя (код страны по ОКСМ).
+        /// </summary>
+        public string? RecipientCitizenship { get; set; }
+
+        /// <summary>
+        /// Наименование документа об образовании (оригинала).
+        /// </summary>
+        public string? NameDocumentEducationOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Серия (оригинала).
+        /// </summary>
+        public string? SeriesOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Номер (оригинала).
+        /// </summary>
+        public string? NumberOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Регистрационный N (оригинала).
+        /// </summary>
+        public string? RegistrationNumberOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Дата выдачи (оригинала).
+        /// </summary>
+        public string? DateIssueOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Фамилия получателя (оригинала).
+        /// </summary>
+        public string? RecipientLastNameOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Имя получателя (оригинала).
+        /// </summary>
+        public string? RecipientNameOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Отчество получателя (оригинала).
+        /// </summary>
+        public string? RecipientPatronymicOriginalDocument { get; set; }
+
+        /// <summary>
+        /// Номер документа для изменения.
+        /// </summary>
+        public string? NumberDocumentToChange { get; set; }
     }
 }
