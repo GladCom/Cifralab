@@ -32,6 +32,7 @@ public class EducationProgram
     /// Форма обучения
     /// </summary>
     [JsonIgnore]
+    [Required]
     public EducationForm? EducationForm { get; set; }
     /// <summary>
     /// Вид документа повышения квалификации
@@ -46,7 +47,6 @@ public class EducationProgram
     /// Модульная программа
     /// </summary>
     public bool IsModularProgram { get; set; }
-
     /// <summary>
     /// Id ВЭД программы
     /// </summary>
@@ -60,26 +60,21 @@ public class EducationProgram
     /// Id источника финансирования
     /// </summary>
     public Guid? FinancingTypeId { get; set; }
-
     /// <summary>
     /// Источник финансирования
     /// </summary>
     [JsonIgnore]
     public FinancingType? FinancingType { get; set; }
-
     /// <summary>
     /// Группы обучения
     /// </summary>
     [JsonIgnore]
     public List<Group>? Groups { get; set; }
-
-    
     //Вот это наследие от прежних разрабов - похоже не нужно
     /// <summary>
     /// Обязательно наличие ВО
     /// </summary>
     public bool IsCollegeProgram { get; set; }
-
     /// <summary>
     /// Признак программы в архиве
     /// </summary>
