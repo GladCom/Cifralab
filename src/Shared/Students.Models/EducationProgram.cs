@@ -38,7 +38,6 @@ public class EducationProgram
   /// Форма обучения.
   /// </summary>
   [JsonIgnore]
-  [Required]
   public EducationForm? EducationForm { get; set; }
 
   /// <summary>
@@ -50,7 +49,6 @@ public class EducationProgram
   /// Вид документа повышения квалификации.
   /// </summary>
   [JsonIgnore]
-  [Required]
   public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
 
   /// <summary>
@@ -67,7 +65,6 @@ public class EducationProgram
   /// ВЭД программы.
   /// </summary>
   [JsonIgnore]
-  [Required]
   public FEAProgram? FEAProgram { get; set; }
 
   /// <summary>
@@ -79,7 +76,6 @@ public class EducationProgram
   /// Источник финансирования.
   /// </summary>
   [JsonIgnore]
-  [Required]
   public FinancingType? FinancingType { get; set; }
 
   /// <summary>
