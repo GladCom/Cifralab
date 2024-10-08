@@ -8,6 +8,9 @@ backend-compile:
   stage: compile
   image: mcr.microsoft.com/dotnet/sdk:7.0
   tags: [ common ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
   script:
     - dotnet build ./src
 
@@ -16,6 +19,9 @@ backend-test:
   stage: test
   image: mcr.microsoft.com/dotnet/sdk:7.0
   tags: [ common ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
   artifacts:
     when: always
     paths:
@@ -35,5 +41,7 @@ deploy-on-test:
       when: on_success
   script:
     - ./build/down.sh
-    - ./build/build.sh
+    - BUILD_OUT=$(./build/build.sh)
     - ./build/run.sh
+    - BUILD_STATUS="${BUILD_OUT:0-1}"
+    - exit $BUILD_STATUS
