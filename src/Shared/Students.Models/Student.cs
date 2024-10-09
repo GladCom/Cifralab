@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Students.Models;
 
@@ -142,17 +143,26 @@ public class Student
     /// Дата получения диплома
     /// </summary>
     public DateTime? DateTakeDiplom { get; set; }
-
+    /// <summary>
+    /// Id сферы деятельности(1 уровень).
+    /// </summary>
+    public Guid ScopeOfActivityLevelOneId { get; set; }
     /// <summary>
     /// Сфера деятельности, уже есть как бы класс сфера деятельности с уровнями
     /// Хоть и список, но по факту должен содержать только 2 значения (1 уровень и второй???)
     /// </summary>
+    [JsonIgnore]
     public ScopeOfActivity? ScopeOfActivityLevelOne { get; set; }
 
     /// <summary>
+    /// Id сферы деятельности(2 уровень).
+    /// </summary>
+    public Guid ScopeOfActivityLevelTwoId { get; set; }
+    /// <summary>
     /// Сфера деятельности, уже есть как бы класс сфера деятельности с уровнями
     /// Хоть и список, но по факту должен содержать только 2 значения (1 уровень и второй???)
     /// </summary>
+    [JsonIgnore]
     public ScopeOfActivity? ScopeOfActivityLevelTwo { get; set; }
     
     /// <summary>
