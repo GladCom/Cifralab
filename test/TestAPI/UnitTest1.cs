@@ -4,51 +4,51 @@ namespace TestAPI
 {
     [Parallelizable(ParallelScope.Self)]
     [TestFixture]
-    /*
-    public class Tests : PageTest
-    {
-        [Test]
-        public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
-        {
-            await Page.GotoAsync("https://playwright.dev");
+  /*
+  public class Tests : PageTest
+  {
+      [Test]
+      public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
+      {
+          await Page.GotoAsync("https://playwright.dev");
 
-            // Expect a title "to contain" a substring.
-            await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
+          // Expect a title "to contain" a substring.
+          await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
 
-            // create a locator
-            var getStarted = Page.Locator("text=Get Started");
+          // create a locator
+          var getStarted = Page.Locator("text=Get Started");
 
-            // Expect an attribute "to be strictly equal" to the value.
-            await Expect(getStarted).ToHaveAttributeAsync("href", "/docs/intro");
+          // Expect an attribute "to be strictly equal" to the value.
+          await Expect(getStarted).ToHaveAttributeAsync("href", "/docs/intro");
 
-            // Click the get started link.
-            await getStarted.ClickAsync();
+          // Click the get started link.
+          await getStarted.ClickAsync();
 
-            // Expects the URL to contain intro.
-            await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
-        }
-    }
-    */
-    public class TestsEducationProgram
-    {
-        [Test]
-        public void NewEducationProgram()
-        {
-            var educationProgram = new EducationProgram()
-            {
-                FinancingType = new FinancingType() 
-                {
-                    Id = Guid.NewGuid(),
-                    SourceName = "义耱"
-                },
-                KindDocumentRiseQualification = new KindDocumentRiseQualification()
-                {
-                    Id= Guid.NewGuid(),
-                    Name = "义耱"
-                }
-            };
-            
-            Assert.IsNotNull(educationProgram);
-        }
-    }
+          // Expects the URL to contain intro.
+          await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
+      }
+  }
+  */
+  public class TestsEducationProgram
+  {
+    //[Test]
+    //public void NewEducationProgram()
+    //{
+    //  var educationProgram = new EducationProgram()
+    //  {
+    //    FinancingType = new FinancingType()
+    //    {
+    //      Id = Guid.NewGuid(),
+    //      SourceName = "义耱"
+    //    },
+    //    KindDocumentRiseQualification = new KindDocumentRiseQualification()
+    //    {
+    //      Id = Guid.NewGuid(),
+    //      Name = "义耱"
+    //    }
+    //  };
+
+    //  Assert.IsNotNull(educationProgram);
+    //}
+  }
 }
