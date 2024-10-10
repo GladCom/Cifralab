@@ -7,64 +7,60 @@ namespace Students.APIServer.Controllers;
 
 
 /// <summary>
-/// ReadinessController
+/// ReadinessController.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 public class ReadinessController : ControllerBase
 {
-    private readonly ILogger<LivenessController> _logger;
-    private readonly StudentContext _ctx;
+  #region Поля и свойства
 
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    /// <param name="logger">Логгер</param>
-    /// <param name="ctx">Контекст базы данных</param>
-    public ReadinessController(ILogger<LivenessController> logger, StudentContext ctx)
+  private readonly ILogger<LivenessController> _logger;
+  private readonly StudentContext _ctx;
+
+  #endregion
+
+  #region Методы
+
+  /// <summary>
+  /// Readiness Probe - checks all application dependencies.
+  /// </summary>
+  /// <returns>Да.</returns>
+  [HttpGet(Name = "Readiness Probe")]
+  public IActionResult Get()
+  {
+    try
     {
-        _logger = logger;
-        _ctx = ctx;
+      return StatusCode(_ctx.Database.CanConnect() ? StatusCodes.Status200OK : StatusCodes.Status500InternalServerError, new DefaultResponse
+      {
+        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+      });
     }
-
-
-    /// <summary>
-    /// Readiness Probe - checks all application dependencies
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet(Name = "Readiness Probe")]
-    public IActionResult Get()
+    catch (Exception e)
     {
-        try
+      _logger.LogCritical(e.Message);
+      return StatusCode(StatusCodes.Status500InternalServerError,
+        new DefaultResponse
         {
-            if (_ctx.Database.CanConnect())
-            {
-                return StatusCode
-                (
-                    StatusCodes.Status200OK,
-                    new DefaultResponse
-                    {
-                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-                    });
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    new DefaultResponse
-                    {
-                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-                    });
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                new DefaultResponse
-                {
-                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-                });
-        }
-
+          RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        });
     }
+  }
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Default constructor.
+  /// </summary>
+  /// <param name="logger">Логгер.</param>
+  /// <param name="ctx">Контекст базы данных.</param>
+  public ReadinessController(ILogger<LivenessController> logger, StudentContext ctx)
+  {
+    _logger = logger;
+    _ctx = ctx;
+  }
+
+  #endregion
 }
