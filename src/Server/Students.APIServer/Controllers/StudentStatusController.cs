@@ -1,6 +1,6 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
 namespace Students.APIServer.Controllers;
@@ -14,12 +14,13 @@ namespace Students.APIServer.Controllers;
 [ApiVersion("1.0")]
 public class StudentStatusController : GenericAPiController<StudentStatus>
 {
-    /// <summary>
-    /// Конструктор
-    /// </summary>
-    /// <param name="repository">Репозиторий студентов</param>
-    /// <param name="logger">Логгер</param>
-    public StudentStatusController(IGenericRepository<StudentStatus> repository, ILogger<StudentStatus> logger) : base(repository, logger)
-    {
-    }
+  /// <summary>
+  /// Конструктор
+  /// </summary>
+  /// <param name="repository">Репозиторий студентов</param>
+  /// <param name="logger">Логгер</param>
+  public StudentStatusController(IGenericRepository<StudentStatus> repository, ILogger<StudentStatus> logger) : base(
+    repository, logger)
+  {
+  }
 }

@@ -1,6 +1,6 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
 namespace Students.APIServer.Controllers;
@@ -13,12 +13,13 @@ namespace Students.APIServer.Controllers;
 [ApiVersion("1.0")]
 public class FinancingTypeController : GenericAPiController<FinancingType>
 {
-    /// <summary>
-    /// Конструктор
-    /// </summary>
-    /// <param name="repository">Репозиторий типов финансирования</param>
-    /// <param name="logger">Логгер</param>
-    public FinancingTypeController(IGenericRepository<FinancingType> repository, ILogger<FinancingType> logger) : base(repository, logger)
-    {
-    }
+  /// <summary>
+  /// Конструктор
+  /// </summary>
+  /// <param name="repository">Репозиторий типов финансирования</param>
+  /// <param name="logger">Логгер</param>
+  public FinancingTypeController(IGenericRepository<FinancingType> repository, ILogger<FinancingType> logger) : base(
+    repository, logger)
+  {
+  }
 }
