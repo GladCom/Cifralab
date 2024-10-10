@@ -384,7 +384,7 @@ namespace Students.DBCore.Migrations
                     b.Property<string>("SNILS")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ScopeOfActivityLevelOneId")
+                    b.Property<Guid>("ScopeOfActivityLevelOneId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ScopeOfActivityLevelTwoId")
@@ -570,7 +570,9 @@ namespace Students.DBCore.Migrations
                 {
                     b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLevelOne")
                         .WithMany()
-                        .HasForeignKey("ScopeOfActivityLevelOneId");
+                        .HasForeignKey("ScopeOfActivityLevelOneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLevelTwo")
                         .WithMany()

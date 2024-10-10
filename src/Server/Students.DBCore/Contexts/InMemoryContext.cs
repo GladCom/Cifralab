@@ -540,7 +540,8 @@ public sealed class InMemoryContext : StudentContext
           Address = "Иваново",
           IT_Experience = "Какой-то опыт есть",
           TypeEducationId = new Guid("7CF2BA34-080B-4FEF-8BFE-83731AC54742"),
-          Sex = SexHuman.Woman
+          Sex = SexHuman.Woman,
+          ScopeOfActivityLevelOneId = default
         }
     );
     modelBuilder.Entity<GroupStudent>().HasData(
