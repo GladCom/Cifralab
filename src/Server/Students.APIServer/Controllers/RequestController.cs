@@ -1,4 +1,4 @@
-п»їusing System.Diagnostics;
+using System.Diagnostics;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
@@ -8,28 +8,28 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ Р·Р°СЏРІРѕРє.
+/// Контроллер заявок.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
 public class RequestController : GenericAPiController<Request>
 {
-  #region РџРѕР»СЏ Рё СЃРІРѕР№СЃС‚РІР°
+  #region Поля и свойства
 
   private readonly ILogger<Request> _logger;
   private readonly IRequestRepository _requestRepository;
 
   #endregion
 
-  #region РњРµС‚РѕРґС‹
+  #region Методы
 
-  //СЌС‚Рѕ Р»РёС€РЅРµРµ, СЌС‚Рѕ РєРѕРїРёСЏ Р±Р°Р·РѕРІРѕРіРѕ РјРµС‚РѕРґР°
+  //это лишнее, это копия базового метода
   /// <summary>
-  /// РџРѕР»СѓС‡РµРЅРёРµ Р·Р°СЏРІРєРё РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
+  /// Получение заявки по идентификатору.
   /// </summary>
-  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°СЏРІРєРё.</param>
-  /// <returns>Р—Р°СЏРІРєР°.</returns>
+  /// <param name="id">Идентификатор заявки.</param>
+  /// <returns>Заявка.</returns>
   public override async Task<IActionResult> Get(Guid id)
   {
     try
@@ -57,12 +57,12 @@ public class RequestController : GenericAPiController<Request>
     }
   }
 
-  //СЌС‚Рѕ Р»РёС€РЅРµРµ, СЌС‚Рѕ РєРѕРїРёСЏ Р±Р°Р·РѕРІРѕРіРѕ РјРµС‚РѕРґР°
+  //это лишнее, это копия базового метода
   /// <summary>
-  /// РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ Р·Р°СЏРІРєРё.
+  /// Создание новой заявки.
   /// </summary>
-  /// <param name="request">Р—Р°СЏРІРєР°.</param>
-  /// <returns>РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РїСЂРѕСЃР° + Р—Р°СЏРІРєР°.</returns>
+  /// <param name="request">Заявка.</param>
+  /// <returns>Состояние запроса + Заявка.</returns>
   public override async Task<IActionResult> Post(Request request)
   {
     try
@@ -91,11 +91,11 @@ public class RequestController : GenericAPiController<Request>
   }
 
   /// <summary>
-  /// Р”РѕР±Р°РІР»РµРЅРёРµ РїСЂРёРєР°Р·Р°.
+  /// Добавление приказа.
   /// </summary>
-  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°СЏРІРєРё.</param>
-  /// <param name="order">РџСЂРёРєР°Р·.</param>
-  /// <returns>РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РїСЂРѕСЃР°.</returns>
+  /// <param name="id">Идентификатор заявки.</param>
+  /// <param name="order">Приказ.</param>
+  /// <returns>Состояние запроса.</returns>
   [HttpPost("AddOrderToRequest")]
   public async Task<ActionResult> AddOrderToRequest(Guid id, Order order)
   {
@@ -105,9 +105,9 @@ public class RequestController : GenericAPiController<Request>
 
   /*
   /// <summary>
-  /// РЎРїРёСЃРѕРє Р·Р°СЏРІРѕРє СЃ СЂР°Р·РґРµР»РµРЅРёРµРј РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј
+  /// Список заявок с разделением по страницам
   /// </summary>
-  /// <returns>РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РїСЂРѕСЃР° + СЃРїРёСЃРѕРє Р·Р°СЏРІРѕРє СЃ СЂР°Р·РґРµР»РµРЅРёРµРј РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј </returns>
+  /// <returns>Состояние запроса + список заявок с разделением по страницам </returns>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
   {
@@ -118,9 +118,9 @@ public class RequestController : GenericAPiController<Request>
 
 
   /// <summary>
-  /// РЎРїРёСЃРѕРє Р·Р°СЏРІРѕРє СЃ СЂР°Р·РґРµР»РµРЅРёРµРј РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј.
+  /// Список заявок с разделением по страницам.
   /// </summary>
-  /// <returns>РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РїСЂРѕСЃР° + СЃРїРёСЃРѕРє Р·Р°СЏРІРѕРє СЃ СЂР°Р·РґРµР»РµРЅРёРµРј РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј.</returns>
+  /// <returns>Состояние запроса + список заявок с разделением по страницам.</returns>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPagedDTO([FromQuery] Pageable pageable)
   {
@@ -130,14 +130,14 @@ public class RequestController : GenericAPiController<Request>
 
   #endregion
 
-  #region РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
+  #region Конструкторы
 
   /// <summary>
-  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository">Р РµРїРѕР·РёС‚РѕСЂРёР№ Р·Р°СЏРІРѕРє.</param>
-  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
-  /// <param name="requestRepository">Р РµРїРѕР·РёС‚РѕСЂРёР№ Р·Р°СЏРІРѕРє (РєР°Рє Р±СѓРґС‚Рѕ Р»СѓС‡С€Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЌС‚РѕС‚ РїР°СЂР°РјРµС‚СЂ РІРјРµСЃС‚Рѕ РґРІСѓС…???).</param>
+  /// <param name="repository">Репозиторий заявок.</param>
+  /// <param name="logger">Логгер.</param>
+  /// <param name="requestRepository">Репозиторий заявок (как будто лучше использовать этот параметр вместо двух???).</param>
   public RequestController(IGenericRepository<Request> repository, ILogger<Request> logger,
     IRequestRepository requestRepository) : base(repository, logger)
   {

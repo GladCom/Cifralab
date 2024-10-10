@@ -1,4 +1,4 @@
-п»їusing Asp.Versioning;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
@@ -6,28 +6,28 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РіСЂСѓРїРїС‹.
+/// Контроллер группы.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
 public class GroupController : GenericAPiController<Group>
 {
-  #region РџРѕР»СЏ Рё СЃРІРѕР№СЃС‚РІР°
+  #region Поля и свойства
 
   private readonly IGroupRepository _groupRepository;
   private readonly ILogger<Group> _logger;
 
   #endregion
 
-  #region РњРµС‚РѕРґС‹
+  #region Методы
 
   /// <summary>
-  /// Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‚СѓРґРµРЅС‚РѕРІ РІ РіСЂСѓРїРїСѓ.
+  /// Добавление студентов в группу.
   /// </summary>
-  /// <param name="studentList">РЎРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ.</param>
-  /// <param name="groupID">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹.</param>
-  /// <returns>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹.</returns>
+  /// <param name="studentList">Список студентов.</param>
+  /// <param name="groupID">Идентификатор группы.</param>
+  /// <returns>Идентификатор группы.</returns>
   [HttpPost("AddStudentToGroup")]
   public async Task<IActionResult> AddStudentToGroup(IEnumerable<Student> studentList, Guid groupID)
   {
@@ -37,13 +37,13 @@ public class GroupController : GenericAPiController<Group>
 
   #endregion
 
-  #region РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
+  #region Конструкторы
 
   /// <summary>
-  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// Конструктор.
   /// </summary>
-  /// <param name="groupRepository">Р РµРїРѕР·РёС‚РѕСЂРёР№ РіСЂСѓРїРї.</param>
-  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
+  /// <param name="groupRepository">Репозиторий групп.</param>
+  /// <param name="logger">Логгер.</param>
   public GroupController(IGroupRepository groupRepository, ILogger<Group> logger) : base(groupRepository, logger)
   {
     _groupRepository = groupRepository;

@@ -1,4 +1,4 @@
-﻿using Students.APIServer.Repository.Interfaces;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
 namespace Students.APIServer.Extension.Pagination;

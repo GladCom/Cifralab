@@ -1,4 +1,4 @@
-п»їusing Asp.Versioning;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ С‚РёРїРѕРІ С„РёРЅР°РЅСЃРёСЂРѕРІР°РЅРёСЏ.
+/// Контроллер типов финансирования.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class FinancingTypeController : GenericAPiController<FinancingType>
 {
   /// <summary>
-  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository">Р РµРїРѕР·РёС‚РѕСЂРёР№ С‚РёРїРѕРІ С„РёРЅР°РЅСЃРёСЂРѕРІР°РЅРёСЏ.</param>
-  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
+  /// <param name="repository">Репозиторий типов финансирования.</param>
+  /// <param name="logger">Логгер.</param>
   public FinancingTypeController(IGenericRepository<FinancingType> repository, ILogger<FinancingType> logger) : base(
     repository, logger)
   {

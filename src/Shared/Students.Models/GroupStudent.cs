@@ -1,26 +1,26 @@
-п»їnamespace Students.Models
+namespace Students.Models
 {
 	/// <summary>
-	/// Р“СЂСѓРїРїР° СЃС‚СѓРґРµРЅС‚РѕРІ (РґР°РЅРЅС‹Р№ РєР»Р°СЃСЃ РґРѕР»Р¶РµРЅ СѓРјРµСЂРµС‚СЊ)
+	/// Группа студентов (данный класс должен умереть)
 	/// </summary>
 	public class GroupStudent
 	{
 		/// <summary>
-		/// РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°
+		/// Идентификатор студента
 		/// </summary>
 		public Guid StudentsId { get; set; }
 		/// <summary>
-		/// РР¶РµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹
+		/// Ижентификатор группы
 		/// </summary>
 
 		public Guid GroupsId { get; set; }
 		/// <summary>
-		/// РЎС‚СѓРґРµРЅС‚ (РЅР°РІРёРіР°С†РёРѕРЅРЅРѕРµ СЃРІРѕР№СЃС‚РІРѕ)
+		/// Студент (навигационное свойство)
 		/// </summary>
 
 		public virtual Student? Student { get; set; }
         /// <summary>
-        /// Р“СЂСѓРїРїР° (РЅР°РІРёРіР°С†РёРѕРЅРЅРѕРµ СЃРІРѕР№СЃС‚РІРѕ)
+        /// Группа (навигационное свойство)
         /// </summary>
 
         public virtual Group? Group { get; set; }

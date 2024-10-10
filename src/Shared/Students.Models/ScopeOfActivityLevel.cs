@@ -1,4 +1,4 @@
-﻿namespace Students.Models;
+namespace Students.Models;
 
 /// <summary>
 /// Сферы деятельности

@@ -1,4 +1,4 @@
-п»їusing Asp.Versioning;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РіСЂСѓРїРї СЃС‚СѓРґРµРЅС‚РѕРІ.
+/// Контроллер групп студентов.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class StudentGroupController : GenericAPiController<GroupStudent>
 {
   /// <summary>
-  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository"> Р РµРїРѕР·РёС‚РѕСЂРёР№ РіСЂСѓРїРїС‹ СЃРѕ СЃС‚СѓРґРµРЅС‚Р°РјРё.</param>
-  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
+  /// <param name="repository"> Репозиторий группы со студентами.</param>
+  /// <param name="logger">Логгер.</param>
   public StudentGroupController(IGenericRepository<GroupStudent> repository, ILogger<GroupStudent> logger) : base(
     repository, logger)
   {
