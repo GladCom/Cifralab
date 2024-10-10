@@ -1,4 +1,4 @@
-using Students.APIServer.DTO;
+п»їusing Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
@@ -6,52 +6,52 @@ using Students.Models;
 namespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
-/// Интерфейс репозитория заявки.
+/// РРЅС‚РµСЂС„РµР№СЃ СЂРµРїРѕР·РёС‚РѕСЂРёСЏ Р·Р°СЏРІРєРё.
 /// </summary>
 public interface IRequestRepository : IGenericRepository<Request>
 {
   /// <summary>
-  /// Поиск заявок по идентификатору студента.
+  /// РџРѕРёСЃРє Р·Р°СЏРІРѕРє РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ СЃС‚СѓРґРµРЅС‚Р°.
   /// </summary>
-  /// <param name="id">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</param>
+  /// <returns>РЎРїРёСЃРѕРє Р·Р°СЏРІРѕРє.</returns>
   Task<IEnumerable<Request>> FindRequestListByStudentGuidAsync(Guid id);
 
   /// <summary>
-  /// Поиск заявок по номеру телефона из заявки.
+  /// РџРѕРёСЃРє Р·Р°СЏРІРѕРє РїРѕ РЅРѕРјРµСЂСѓ С‚РµР»РµС„РѕРЅР° РёР· Р·Р°СЏРІРєРё.
   /// </summary>
-  /// <param name="request">Заявка.</param>
-  /// <returns>Заявка.</returns>
+  /// <param name="request">Р—Р°СЏРІРєР°.</param>
+  /// <returns>Р—Р°СЏРІРєР°.</returns>
   Task<Request?> FindRequestByPhoneFromRequestAsync(Request request);
 
   /// <summary>
-  /// Поиск заявок по mail из заявки.
+  /// РџРѕРёСЃРє Р·Р°СЏРІРѕРє РїРѕ mail РёР· Р·Р°СЏРІРєРё.
   /// </summary>
-  /// <param name="request">Электронная почта.</param>
-  /// <returns>Заявка.</returns>
+  /// <param name="request">Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕС‡С‚Р°.</param>
+  /// <returns>Р—Р°СЏРІРєР°.</returns>
   Task<Request?> FindRequestByEmailFromRequestAsync(Request request);
 
   /// <summary>
-  /// Добавление приказа в заявку.
+  /// Р”РѕР±Р°РІР»РµРЅРёРµ РїСЂРёРєР°Р·Р° РІ Р·Р°СЏРІРєСѓ.
   /// </summary>
-  /// <param name="id">Идентификатор заявки.</param>
-  /// <param name="order">Приказ.</param>
-  /// <returns>Идентификатор заявки.</returns>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°СЏРІРєРё.</param>
+  /// <param name="order">РџСЂРёРєР°Р·.</param>
+  /// <returns>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°СЏРІРєРё.</returns>
   Task<Guid> AddOrderToRequest(Guid id, Order order);
 
   /// <summary>
-  /// Пагинация заявок.
+  /// РџР°РіРёРЅР°С†РёСЏ Р·Р°СЏРІРѕРє.
   /// </summary>
-  /// <param name="page">Номер страницы.</param>
-  /// <param name="pageSize">Размер страницы.</param>
-  /// <returns>Пагинированные DTO заявок.</returns>
+  /// <param name="page">РќРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <param name="pageSize">Р Р°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <returns>РџР°РіРёРЅРёСЂРѕРІР°РЅРЅС‹Рµ DTO Р·Р°СЏРІРѕРє.</returns>
   Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize);
 
   /// <summary>
-  /// Пагинация заявок.
+  /// РџР°РіРёРЅР°С†РёСЏ Р·Р°СЏРІРѕРє.
   /// </summary>
-  /// <param name="page">Номер страницы.</param>
-  /// <param name="pageSize">Размер страницы.</param>
-  /// <returns>Пагинированные DTO заявок.</returns>
+  /// <param name="page">РќРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <param name="pageSize">Р Р°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <returns>РџР°РіРёРЅРёСЂРѕРІР°РЅРЅС‹Рµ DTO Р·Р°СЏРІРѕРє.</returns>
   Task<PagedPage<RequestsDTO>> GetRequestsDTOByPage(int page, int pageSize);
 }

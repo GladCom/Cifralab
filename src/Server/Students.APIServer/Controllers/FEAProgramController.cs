@@ -1,4 +1,4 @@
-using Asp.Versioning;
+п»їusing Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер ВЭД программ.
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ Р’Р­Р” РїСЂРѕРіСЂР°РјРј.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class FEAProgramController : GenericAPiController<FEAProgram>
 {
   /// <summary>
-  /// Конструктор.
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
   /// </summary>
-  /// <param name="repository">Репозиторий ВЭД программ.</param>
-  /// <param name="logger">Логгер.</param>
+  /// <param name="repository">Р РµРїРѕР·РёС‚РѕСЂРёР№ Р’Р­Р” РїСЂРѕРіСЂР°РјРј.</param>
+  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
   public FEAProgramController(IGenericRepository<FEAProgram> repository, ILogger<FEAProgram> logger) : base(repository,
     logger)
   {
