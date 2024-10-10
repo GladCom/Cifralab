@@ -5,20 +5,23 @@
 /// </summary>
 public enum StatusEntrancExams
 {
-	/// <summary>
-	/// не сдано
-	/// </summary>
-	NotPassed,
-    /// <summary>
-    /// тестовое задание
-    /// </summary>
-    TestTask,
-    /// <summary>
-    /// собеседование
-    /// </summary>
-    Interview,
-    /// <summary>
-    /// выполнено
-    /// </summary>
-    Done
+  /// <summary>
+  /// Не сдано
+  /// </summary>
+  NotPassed,
+
+  /// <summary>
+  /// Тестовое задание
+  /// </summary>
+  TestTask,
+
+  /// <summary>
+  /// Собеседование
+  /// </summary>
+  Interview,
+
+  /// <summary>
+  /// Выполнено
+  /// </summary>
+  Done
 }

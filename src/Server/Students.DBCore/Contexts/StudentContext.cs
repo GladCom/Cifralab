@@ -46,7 +46,8 @@ public abstract class StudentContext : DbContext
             .HasMany(c => c.Groups)
             .WithMany(s => s.Students)
             .UsingEntity<GroupStudent>(
-                j => j
+                    
+    j => j
                     .HasOne(pt => pt.Group)
                     .WithMany(t => t.GroupStudent)
                     .HasForeignKey(pt => pt.GroupsId),
@@ -58,6 +59,10 @@ public abstract class StudentContext : DbContext
                 {
                     j.HasKey(t => new { t.StudentsId, t.GroupsId });
                     j.ToTable("GroupStudent");
+                    j.Property(x => x.GroupsId)
+                      .IsRequired();
+                    j.Property(x => x.StudentsId)
+                      .IsRequired();
                 });
     }
 }
