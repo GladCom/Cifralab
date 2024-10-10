@@ -118,6 +118,16 @@ public class Student
   /// экспорт из заявки, хотя по факту тут тоже некий справочник Высшее образование / Среднее профессиональное образование / Студент ВО / Студент СПО
   /// </summary>
   public Guid? TypeEducationId { get; set; }
+  
+  /// <summary>
+  /// Id сферы деятельности(1 уровень).
+  /// </summary>
+  public required Guid ScopeOfActivityLevelOneId { get; set; }
+
+  /// <summary>
+  /// Id сферы деятельности(2 уровень).
+  /// </summary>
+  public Guid? ScopeOfActivityLevelTwoId { get; set; }
 
   /// <summary>
   /// Специальность
