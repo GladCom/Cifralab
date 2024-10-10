@@ -38,6 +38,9 @@ internal class StudentConfiguration : IEntityTypeConfiguration<Student>
     builder.Property(x => x.IT_Experience)
       .IsRequired();
 
+    builder.Property(x => x.ScopeOfActivityLevelOneId)
+      .IsRequired();
+
     builder.HasMany(r => r.Requests)
       .WithOne(s => s.Student)
       .HasForeignKey(s => s.StudentId);
