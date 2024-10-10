@@ -1,13 +1,13 @@
-using Asp.Versioning;
+п»їusing Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
 namespace Students.APIServer.Controllers;
 
-//был создан как самостоятельный элемент, но в последних требованиях от аналитиков эти состояния перешли в состояния заявки
+//Р±С‹Р» СЃРѕР·РґР°РЅ РєР°Рє СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚, РЅРѕ РІ РїРѕСЃР»РµРґРЅРёС… С‚СЂРµР±РѕРІР°РЅРёСЏС… РѕС‚ Р°РЅР°Р»РёС‚РёРєРѕРІ СЌС‚Рё СЃРѕСЃС‚РѕСЏРЅРёСЏ РїРµСЂРµС€Р»Рё РІ СЃРѕСЃС‚РѕСЏРЅРёСЏ Р·Р°СЏРІРєРё
 /// <summary>
-/// Контроллер статусов студента.
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ СЃС‚Р°С‚СѓСЃРѕРІ СЃС‚СѓРґРµРЅС‚Р°.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -15,10 +15,10 @@ namespace Students.APIServer.Controllers;
 public class StudentStatusController : GenericAPiController<StudentStatus>
 {
   /// <summary>
-  /// Конструктор.
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
   /// </summary>
-  /// <param name="repository">Репозиторий студентов.</param>
-  /// <param name="logger">Логгер.</param>
+  /// <param name="repository">Р РµРїРѕР·РёС‚РѕСЂРёР№ СЃС‚СѓРґРµРЅС‚РѕРІ.</param>
+  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
   public StudentStatusController(IGenericRepository<StudentStatus> repository, ILogger<StudentStatus> logger) : base(
     repository, logger)
   {

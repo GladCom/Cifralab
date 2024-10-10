@@ -1,4 +1,4 @@
-using Asp.Versioning;
+п»їusing Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер сфер деятельности.
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ СЃС„РµСЂ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class ScopeOfActivityController : GenericAPiController<ScopeOfActivity>
 {
   /// <summary>
-  /// Конструктор.
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
   /// </summary>
-  /// <param name="repository">Репозиторий сфер деятельности.</param>
-  /// <param name="logger">Логгер.</param>
+  /// <param name="repository">Р РµРїРѕР·РёС‚РѕСЂРёР№ СЃС„РµСЂ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё.</param>
+  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
   public ScopeOfActivityController(IGenericRepository<ScopeOfActivity> repository, ILogger<ScopeOfActivity> logger) :
     base(repository, logger)
   {

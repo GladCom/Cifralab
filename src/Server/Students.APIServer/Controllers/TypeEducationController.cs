@@ -1,4 +1,4 @@
-using Asp.Versioning;
+п»їusing Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер типов образований.
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ С‚РёРїРѕРІ РѕР±СЂР°Р·РѕРІР°РЅРёР№.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class TypeEducationController : GenericAPiController<TypeEducation>
 {
   /// <summary>
-  /// Конструктор.
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
   /// </summary>
-  /// <param name="repository">Репозиторий типов образований.</param>
-  /// <param name="logger">Логгер.</param>
+  /// <param name="repository">Р РµРїРѕР·РёС‚РѕСЂРёР№ С‚РёРїРѕРІ РѕР±СЂР°Р·РѕРІР°РЅРёР№.</param>
+  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
   public TypeEducationController(IGenericRepository<TypeEducation> repository, ILogger<TypeEducation> logger) : base(
     repository, logger)
   {

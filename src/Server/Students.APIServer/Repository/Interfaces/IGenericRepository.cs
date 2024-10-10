@@ -1,50 +1,50 @@
-namespace Students.APIServer.Repository.Interfaces;
+п»їnamespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
-/// Интерфейс generic репозитория.
+/// РРЅС‚РµСЂС„РµР№СЃ generic СЂРµРїРѕР·РёС‚РѕСЂРёСЏ.
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
 public interface IGenericRepository<TEntity> where TEntity : class
 {
   /// <summary>
-  /// Создание.
+  /// РЎРѕР·РґР°РЅРёРµ.
   /// </summary>
-  /// <param name="item">Объект.</param>
-  /// <returns>Объект.</returns>
+  /// <param name="item">РћР±СЉРµРєС‚.</param>
+  /// <returns>РћР±СЉРµРєС‚.</returns>
   Task<TEntity> Create(TEntity item);
 
   /// <summary>
-  /// Поиск объекта по идентификатору.
+  /// РџРѕРёСЃРє РѕР±СЉРµРєС‚Р° РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
   /// </summary>
-  /// <param name="id">Идентификатор.</param>
-  /// <returns>Объект.</returns>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ.</param>
+  /// <returns>РћР±СЉРµРєС‚.</returns>
   Task<TEntity?> FindById(Guid id);
 
   /// <summary>
-  /// Список объектов.
+  /// РЎРїРёСЃРѕРє РѕР±СЉРµРєС‚РѕРІ.
   /// </summary>
-  /// <returns>Список объектов.</returns>
+  /// <returns>РЎРїРёСЃРѕРє РѕР±СЉРµРєС‚РѕРІ.</returns>
   Task<IEnumerable<TEntity>> Get();
 
   /// <summary>
-  /// Список объектов, с указанным условием.
+  /// РЎРїРёСЃРѕРє РѕР±СЉРµРєС‚РѕРІ, СЃ СѓРєР°Р·Р°РЅРЅС‹Рј СѓСЃР»РѕРІРёРµРј.
   /// </summary>
-  /// <param name="predicate">Условие.</param>
-  /// <returns>Список объектов, с указанным условием.</returns>
+  /// <param name="predicate">РЈСЃР»РѕРІРёРµ.</param>
+  /// <returns>РЎРїРёСЃРѕРє РѕР±СЉРµРєС‚РѕРІ, СЃ СѓРєР°Р·Р°РЅРЅС‹Рј СѓСЃР»РѕРІРёРµРј.</returns>
   Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate);
 
   /// <summary>
-  /// Удаление объекта.
+  /// РЈРґР°Р»РµРЅРёРµ РѕР±СЉРµРєС‚Р°.
   /// </summary>
-  /// <param name="item">Объект.</param>
-  /// <returns>Результат удаления.</returns>
+  /// <param name="item">РћР±СЉРµРєС‚.</param>
+  /// <returns>Р РµР·СѓР»СЊС‚Р°С‚ СѓРґР°Р»РµРЅРёСЏ.</returns>
   Task Remove(TEntity item);
 
   /// <summary>
-  /// Изменение объекта.
+  /// РР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚Р°.
   /// </summary>
-  /// <param name="id">Идентификатор объекта.</param>
-  /// <param name="item">Объект.</param>
-  /// <returns>Объект.</returns>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕР±СЉРµРєС‚Р°.</param>
+  /// <param name="item">РћР±СЉРµРєС‚.</param>
+  /// <returns>РћР±СЉРµРєС‚.</returns>
   Task<TEntity?> Update(Guid id, TEntity item);
 }

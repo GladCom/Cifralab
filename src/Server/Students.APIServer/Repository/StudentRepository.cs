@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+п»їusing Microsoft.EntityFrameworkCore;
 using Students.APIServer.Extension;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
@@ -8,35 +8,35 @@ using Students.Models;
 namespace Students.APIServer.Repository;
 
 /// <summary>
-/// Репозиторий студентов.
+/// Р РµРїРѕР·РёС‚РѕСЂРёР№ СЃС‚СѓРґРµРЅС‚РѕРІ.
 /// </summary>
 public class StudentRepository : GenericRepository<Student>, IStudentRepository
 {
-  #region Поля и свойства
+  #region РџРѕР»СЏ Рё СЃРІРѕР№СЃС‚РІР°
 
   private readonly StudentContext _ctx;
   private IGroupStudentRepository _studentInGroupRepository;
 
   #endregion
 
-  #region Методы
+  #region РњРµС‚РѕРґС‹
 
   /// <summary>
-  /// Список студентов с пагинацией.
+  /// РЎРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ СЃ РїР°РіРёРЅР°С†РёРµР№.
   /// </summary>
-  /// <param name="page">Номер страницы.</param>
-  /// <param name="pageSize">Размер страницы.</param>
-  /// <returns>Список студентов с пагинацией.</returns>
+  /// <param name="page">РќРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <param name="pageSize">Р Р°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <returns>РЎРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ СЃ РїР°РіРёРЅР°С†РёРµР№.</returns>
   public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
   {
     return await PagedPage<Student>.ToPagedPage(_ctx.Students, page, pageSize, (x) => x.Family);
   }
 
   /// <summary>
-  /// Список групп студента.
+  /// РЎРїРёСЃРѕРє РіСЂСѓРїРї СЃС‚СѓРґРµРЅС‚Р°.
   /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список групп студента.</returns>
+  /// <param name="studentId">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</param>
+  /// <returns>РЎРїРёСЃРѕРє РіСЂСѓРїРї СЃС‚СѓРґРµРЅС‚Р°.</returns>
   public async Task<IEnumerable<Group?>> GetListGroupsOfStudentExists(Guid studentId)
   {
     var result = from x in _ctx.Groups
@@ -47,11 +47,11 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   }
 
   /// <summary>
-  /// Добавление студента в группу.
+  /// Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‚СѓРґРµРЅС‚Р° РІ РіСЂСѓРїРїСѓ.
   /// </summary>
-  /// <param name="stud">Идентификатор студента.</param>
-  /// <param name="group">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
+  /// <param name="stud">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</param>
+  /// <param name="group">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹.</param>
+  /// <returns>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</returns>
   public async Task<Guid> AddStudentToGroup(Guid stud, Guid group)
   {
     await _studentInGroupRepository.AddStudentInGroup(stud, group);
@@ -59,10 +59,10 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   }
 
   /// <summary>
-  /// Поиск студента (с подгрузкой данных о группах и заявках) по идентификатору.
+  /// РџРѕРёСЃРє СЃС‚СѓРґРµРЅС‚Р° (СЃ РїРѕРґРіСЂСѓР·РєРѕР№ РґР°РЅРЅС‹С… Рѕ РіСЂСѓРїРїР°С… Рё Р·Р°СЏРІРєР°С…) РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
   /// </summary>
-  /// <param name="id">Идентификатор студента.</param>
-  /// <returns>Студент.</returns>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</param>
+  /// <returns>РЎС‚СѓРґРµРЅС‚.</returns>
   public override async Task<Student?> FindById(Guid id)
   {
     return await _ctx.Students.AsNoTracking()
@@ -73,10 +73,10 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   }
 
   /// <summary>
-  /// Поиск студента по номеру телефона.
+  /// РџРѕРёСЃРє СЃС‚СѓРґРµРЅС‚Р° РїРѕ РЅРѕРјРµСЂСѓ С‚РµР»РµС„РѕРЅР°.
   /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <returns>Студент.</returns>
+  /// <param name="phone">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°.</param>
+  /// <returns>РЎС‚СѓРґРµРЅС‚.</returns>
   public async Task<Student?> FindByPhone(string phone)
   {
     var students = _ctx.Students.AsNoTracking().AsAsyncEnumerable();
@@ -92,10 +92,10 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   }
 
   /// <summary>
-  /// Поиск студента по email.
+  /// РџРѕРёСЃРє СЃС‚СѓРґРµРЅС‚Р° РїРѕ email.
   /// </summary>
-  /// <param name="email">Электронная почта.</param>
-  /// <returns>Студент.</returns>
+  /// <param name="email">Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕС‡С‚Р°.</param>
+  /// <returns>РЎС‚СѓРґРµРЅС‚.</returns>
   public async Task<Student?> FindByEmail(string email)
   {
     return await _ctx.Students.AsNoTracking()
@@ -104,11 +104,11 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   }
 
   /// <summary>
-  /// Поиск телефона по номеру телефона и email.
+  /// РџРѕРёСЃРє С‚РµР»РµС„РѕРЅР° РїРѕ РЅРѕРјРµСЂСѓ С‚РµР»РµС„РѕРЅР° Рё email.
   /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <param name="email">Электронная почта.</param>
-  /// <returns>Студент.</returns>
+  /// <param name="phone">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°.</param>
+  /// <param name="email">Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕС‡С‚Р°.</param>
+  /// <returns>РЎС‚СѓРґРµРЅС‚.</returns>
   public async Task<Student?> FindByPhoneAndEmail(string phone, string email)
   {
     var students = _ctx.Students.AsNoTracking().AsAsyncEnumerable();
@@ -126,13 +126,13 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
 
   #endregion
 
-  #region Конструкторы
+  #region РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
 
   /// <summary>
-  /// Конструктор.
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
   /// </summary>
-  /// <param name="context">Контекст базы данных.</param>
-  /// <param name="studInGroupRep">Репозиторий групп студентов (это нужно удалить, заменить на репозиторий студентов).</param>
+  /// <param name="context">РљРѕРЅС‚РµРєСЃС‚ Р±Р°Р·С‹ РґР°РЅРЅС‹С….</param>
+  /// <param name="studInGroupRep">Р РµРїРѕР·РёС‚РѕСЂРёР№ РіСЂСѓРїРї СЃС‚СѓРґРµРЅС‚РѕРІ (СЌС‚Рѕ РЅСѓР¶РЅРѕ СѓРґР°Р»РёС‚СЊ, Р·Р°РјРµРЅРёС‚СЊ РЅР° СЂРµРїРѕР·РёС‚РѕСЂРёР№ СЃС‚СѓРґРµРЅС‚РѕРІ).</param>
   public StudentRepository(StudentContext context, IGroupStudentRepository studInGroupRep) : base(context)
   {
     _ctx = context;
