@@ -400,6 +400,10 @@ public sealed class InMemoryContext : StudentContext
           FinancingTypeId = new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D"),
           //FinancingType = FinancingTypes!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("B3C907D0-B166-4D56-A378-8A3DE358093D")))!,
           KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
+          IsArchive = false,
+          IsNetworkProgram = false,
+          IsDOTProgram = false,
+          IsFullDOTProgram = false,
           //KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
         },
         new EducationProgram
@@ -418,7 +422,8 @@ public sealed class InMemoryContext : StudentContext
           KindDocumentRiseQualificationId = new Guid("45146B2D-274F-4541-BF85-50D441503944"),
           IsNetworkProgram = false,
           IsDOTProgram = false,
-          IsFullDOTProgram = false
+          IsFullDOTProgram = false,
+          IsArchive = false
           //KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
         }
     );
@@ -519,7 +524,9 @@ public sealed class InMemoryContext : StudentContext
         new Student
         {
           Id = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
-          BirthDate = new DateOnly(1990, 5, 10),
+          BirthDate = new DateOnly(1990,
+            5,
+            10),
           Family = "Иванов",
           Name = "Иван",
           Patron = "Иванович",
@@ -532,7 +539,9 @@ public sealed class InMemoryContext : StudentContext
           FullNameDocument = "Эх, сейчас бы сиды полные",
           Address = "Иваново",
           IT_Experience = "Какой-то опыт есть",
-          TypeEducationId = new Guid("7CF2BA34-080B-4FEF-8BFE-83731AC54742")
+          TypeEducationId = new Guid("7CF2BA34-080B-4FEF-8BFE-83731AC54742"),
+          Sex = SexHuman.Woman,
+          ScopeOfActivityLevelOneId = default
         }
     );
     modelBuilder.Entity<GroupStudent>().HasData(

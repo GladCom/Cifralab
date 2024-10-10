@@ -5,12 +5,13 @@ namespace Students.Models;
 /// </summary>
 public enum ScopeOfActivityLevel
 {
-    /// <summary>
-    /// Уровнь 1
-    /// </summary>
-    Level1 = 1,
-    /// <summary>
-    /// Уровнь 2
-    /// </summary>
-    Level2 = 2,
+  /// <summary>
+  /// Уровень 1
+  /// </summary>
+  Level1 = 1,
+
+  /// <summary>
+  /// Уровень 2
+  /// </summary>
+  Level2 = 2,
 }

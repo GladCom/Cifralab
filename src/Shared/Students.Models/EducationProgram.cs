@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Students.Models;
@@ -8,7 +7,6 @@ namespace Students.Models;
 /// </summary>
 public class EducationProgram
 {
-
   /// <summary>
   /// Id программы.
   /// </summary>
@@ -22,39 +20,27 @@ public class EducationProgram
   /// <summary>
   /// Стоимость обучения.
   /// </summary>
-  public double Cost { get; set; }
+  public required double Cost { get; set; }
 
   /// <summary>
   /// Количество часов.
   /// </summary>
-  public int HoursCount { get; set; }
+  public required int HoursCount { get; set; }
 
   /// <summary>
   /// Id Формы обучения.
   /// </summary>
-  public Guid? EducationFormId { get; set; }
-
-  /// <summary>
-  /// Форма обучения.
-  /// </summary>
-  [JsonIgnore]
-  public EducationForm? EducationForm { get; set; }
+  public required Guid EducationFormId { get; set; }
 
   /// <summary>
   /// Вид документа повышения квалификации.
   /// </summary>
-  public Guid? KindDocumentRiseQualificationId { get; set; }
-
-  /// <summary>
-  /// Вид документа повышения квалификации.
-  /// </summary>
-  [JsonIgnore]
-  public KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
+  public required Guid KindDocumentRiseQualificationId { get; set; }
 
   /// <summary>
   /// Модульная программа.
   /// </summary>
-  public bool IsModularProgram { get; set; }
+  public required bool IsModularProgram { get; set; }
 
   /// <summary>
   /// Id ВЭД программы.
@@ -62,49 +48,62 @@ public class EducationProgram
   public Guid? FEAProgramId { get; set; }
 
   /// <summary>
+  /// Id источника финансирования.
+  /// </summary>
+  public required Guid FinancingTypeId { get; set; }
+
+  /// <summary>
+  /// Обязательно наличие ВО (Вот это наследие от прежних разрабов - похоже не нужно).
+  /// </summary>
+  public required bool IsCollegeProgram { get; set; }
+
+  /// <summary>
+  /// Признак программы в архиве.
+  /// </summary>
+  public required bool IsArchive { get; set; }
+
+  /// <summary>
+  /// Сетевая форма.
+  /// </summary>
+  public required bool IsNetworkProgram { get; set; }
+
+  /// <summary>
+  /// Применение ДОТ.
+  /// </summary>
+  public required bool IsDOTProgram { get; set; }
+
+  /// <summary>
+  /// Применение ДОТ полностью.
+  /// </summary>
+  public required bool IsFullDOTProgram { get; set; }
+
+  /// <summary>
+  /// Форма обучения.
+  /// </summary>
+  [JsonIgnore]
+  public virtual EducationForm EducationForm { get; set; } = null!;
+
+  /// <summary>
+  /// Вид документа повышения квалификации.
+  /// </summary>
+  [JsonIgnore]
+  public virtual KindDocumentRiseQualification KindDocumentRiseQualification { get; set; } = null!;
+
+  /// <summary>
   /// ВЭД программы.
   /// </summary>
   [JsonIgnore]
-  public FEAProgram? FEAProgram { get; set; }
-
-  /// <summary>
-  /// Id источника финансирования.
-  /// </summary>
-  public Guid? FinancingTypeId { get; set; }
+  public virtual FEAProgram? FEAProgram { get; set; }
 
   /// <summary>
   /// Источник финансирования.
   /// </summary>
   [JsonIgnore]
-  public FinancingType? FinancingType { get; set; }
+  public virtual FinancingType FinancingType { get; set; } = null!;
 
   /// <summary>
   /// Группы обучения.
   /// </summary>
-  public List<Group>? Groups { get; set; }
-
-  /// <summary>
-  /// Обязательно наличие ВО (Вот это наследие от прежних разрабов - похоже не нужно).
-  /// </summary>
-  public bool IsCollegeProgram { get; set; }
-
-  /// <summary>
-  /// Признак программы в архиве.
-  /// </summary>
-  public bool IsArchive { get; set; }
-
-  /// <summary>
-  /// Сетевая форма.
-  /// </summary>
-  public bool IsNetworkProgram { get; set; }
-
-  /// <summary>
-  /// Применение ДОТ.
-  /// </summary>
-  public bool IsDOTProgram { get; set; }
-
-  /// <summary>
-  /// Применение ДОТ полностью.
-  /// </summary>
-  public bool IsFullDOTProgram { get; set; }
+  [JsonIgnore]
+  public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 }

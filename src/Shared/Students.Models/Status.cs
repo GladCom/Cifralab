@@ -5,12 +5,13 @@
 /// </summary>
 public enum Status
 {
-    /// <summary>
-    /// ОК
-    /// </summary>
-    Ok = 10,
-    /// <summary>
-    /// Ошибка
-    /// </summary>
-    Error = 50
+  /// <summary>
+  /// ОК
+  /// </summary>
+  Ok = 10,
+
+  /// <summary>
+  /// Ошибка
+  /// </summary>
+  Error = 50
 }

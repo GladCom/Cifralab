@@ -57,6 +57,7 @@ public static class Mapper
       Phone = form.Phone!,
       Sex = SexHuman.Men,
       TypeEducation = typeEducationRepository.Get().Result.FirstOrDefault(x => x.Name == form.EducationLevel),
+      ScopeOfActivityLevelOneId = default,
       //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
       //Speciality = form.
       //Не хватает поля в вебхуке

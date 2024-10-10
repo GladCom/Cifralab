@@ -7,45 +7,47 @@ namespace Students.Models;
 /// </summary>
 public class Group
 {
-    /// <summary>
-    /// Id группы.
-    /// </summary>
-    public Guid Id { get; set; }
+  /// <summary>
+  /// Id группы.
+  /// </summary>
+  public Guid Id { get; set; }
 
-    /// <summary>
-    /// Имя группы.
-    /// </summary>
-    public string? Name { get; set; }
+  /// <summary>
+  /// Имя группы.
+  /// </summary>
+  public string? Name { get; set; }
 
-    /// <summary>
-    /// Id образовательной программы.
-    /// </summary>
-    public Guid EducationProgramId { get; set; }
+  /// <summary>
+  /// Id образовательной программы.
+  /// </summary>
+  public required Guid EducationProgramId { get; set; }
 
-    /// <summary>
-    /// Образорвательная программа.
-    /// </summary>
-    [JsonIgnore]
-    public EducationProgram? EducationProgram { get; set; }
+  /// <summary>
+  /// Начало обучения.
+  /// </summary>
+  public required DateOnly StartDate { get; set; }
 
-    /// <summary>
-    /// Начало обучения.
-    /// </summary>
-    public DateOnly StartDate { get; set; }
+  /// <summary>
+  /// Конец обучения.
+  /// </summary>
+  public required DateOnly EndDate { get; set; }
 
-    /// <summary>
-    /// Конец обучения.
-    /// </summary>
-    public DateOnly EndDate { get; set; }
+  /// <summary>
+  /// Образовательная программа.
+  /// </summary>
+  [JsonIgnore]
+  public virtual EducationProgram EducationProgram { get; set; } = null!;
 
-    /// <summary>
-    /// Студенты.
-    /// </summary>
-    public List<Student>? Students { get; set; }
+  /// <summary>
+  /// Студенты.
+  /// </summary>
+  [JsonIgnore]
+  public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 
-    //Для таблицы Группы персон для связи многие ко многим.
-    /// <summary>
-    /// Свойсто связка многие ко многим.
-    /// </summary>
-    public virtual ICollection<GroupStudent>? GroupStudent { get; set; }
+  //Для таблицы Группы персон для связи многие ко многим.
+  /// <summary>
+  /// Свойство связка многие ко многим.
+  /// </summary>
+  [JsonIgnore] 
+  public virtual ICollection<GroupStudent> GroupStudent { get; set; } = new List<GroupStudent>();
 }

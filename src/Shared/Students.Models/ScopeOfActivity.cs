@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Students.Models;
 
 /// <summary>
@@ -8,16 +5,18 @@ namespace Students.Models;
 /// </summary>
 public class ScopeOfActivity
 {
-    /// <summary>
-    /// Id сферы деятельности
-    /// </summary>
-    public Guid Id { get; set; }
-    /// <summary>
-    /// Имя сферы деятельности
-    /// </summary>
-    public string? NameOfScope { get; set; }
-    /// <summary>
-    /// Уровень сферы деятельности
-    /// </summary>
-    public ScopeOfActivityLevel Level { get; set; }
+  /// <summary>
+  /// Id сферы деятельности
+  /// </summary>
+  public Guid Id { get; set; }
+
+  /// <summary>
+  /// Имя сферы деятельности
+  /// </summary>
+  public string? NameOfScope { get; set; }
+
+  /// <summary>
+  /// Уровень сферы деятельности
+  /// </summary>
+  public required ScopeOfActivityLevel Level { get; set; }
 }
