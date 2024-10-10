@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер видов документов повышения квалификации
+/// Контроллер видов документов повышения квалификации.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class KindDocumentRiseQualificationController : GenericAPiController<KindDocumentRiseQualification>
 {
   /// <summary>
-  /// Конструктор
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий видов документов повышения квалификации</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="repository">Репозиторий видов документов повышения квалификации.</param>
+  /// <param name="logger">Логгер.</param>
   public KindDocumentRiseQualificationController(IGenericRepository<KindDocumentRiseQualification> repository,
     ILogger<KindDocumentRiseQualification> logger) : base(repository, logger)
   {

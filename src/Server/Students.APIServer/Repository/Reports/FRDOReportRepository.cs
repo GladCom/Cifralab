@@ -8,6 +8,8 @@ namespace Students.APIServer.Repository.Reports;
 /// </summary>
 public class FRDOReportRepository : IReportRepository<FRDOModel>
 {
+  #region Поля и свойства
+
   private readonly IStudentRepository _studentRepository;
   private readonly IGenericRepository<EducationForm> _educationFormRepository;
   private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
@@ -20,6 +22,10 @@ public class FRDOReportRepository : IReportRepository<FRDOModel>
   private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
   private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
   private readonly IGenericRepository<StudentStatus> _studentStatusRepository;
+
+  #endregion
+
+  #region Методы
 
   /// <summary>
   /// Данные для формирования отчета.
@@ -46,6 +52,10 @@ public class FRDOReportRepository : IReportRepository<FRDOModel>
         NameQualification = student.Speciality,
       }).ToList();
   }
+
+  #endregion
+
+  #region Конструкторы
 
   /// <summary>
   /// Конструктор.
@@ -90,4 +100,6 @@ public class FRDOReportRepository : IReportRepository<FRDOModel>
     _typeEducationRepository = typeEducationRepository;
     _studentStatusRepository = studentStatusRepository;
   }
+
+  #endregion
 }

@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер типов финансирования
+/// Контроллер типов финансирования.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class FinancingTypeController : GenericAPiController<FinancingType>
 {
   /// <summary>
-  /// Конструктор
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий типов финансирования</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="repository">Репозиторий типов финансирования.</param>
+  /// <param name="logger">Логгер.</param>
   public FinancingTypeController(IGenericRepository<FinancingType> repository, ILogger<FinancingType> logger) : base(
     repository, logger)
   {

@@ -5,27 +5,24 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер живучести сервиса
+/// Контроллер живучести сервиса.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 public class LivenessController : ControllerBase
 {
+  #region Поля и свойства
+
   private readonly ILogger<LivenessController> _logger;
 
-  /// <summary>
-  /// Конструктор
-  /// </summary>
-  /// <param name="logger">Логгер</param>
-  public LivenessController(ILogger<LivenessController> logger)
-  {
-    _logger = logger;
-  }
+  #endregion
+
+  #region Методы
 
   /// <summary>
-  /// Тест живучести сервиса - тестирование приложения без зависимостей
+  /// Тест живучести сервиса - тестирование приложения без зависимостей.
   /// </summary>
-  /// <returns>IActionResult</returns>
+  /// <returns>Да.</returns>
   [HttpGet(Name = "Liveness Probe")]
   public IActionResult Get()
   {
@@ -37,4 +34,19 @@ public class LivenessController : ControllerBase
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
       });
   }
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="logger">Логгер.</param>
+  public LivenessController(ILogger<LivenessController> logger)
+  {
+    _logger = logger;
+  }
+
+  #endregion
 }

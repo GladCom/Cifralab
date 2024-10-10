@@ -7,31 +7,25 @@ namespace Students.APIServer.Controllers;
 
 
 /// <summary>
-/// ReadinessController
+/// ReadinessController.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 public class ReadinessController : ControllerBase
 {
+  #region Поля и свойства
+
   private readonly ILogger<LivenessController> _logger;
   private readonly StudentContext _ctx;
 
-  /// <summary>
-  /// Default constructor
-  /// </summary>
-  /// <param name="logger">Логгер</param>
-  /// <param name="ctx">Контекст базы данных</param>
-  public ReadinessController(ILogger<LivenessController> logger, StudentContext ctx)
-  {
-    _logger = logger;
-    _ctx = ctx;
-  }
+  #endregion
 
+  #region Методы
 
   /// <summary>
-  /// Readiness Probe - checks all application dependencies
+  /// Readiness Probe - checks all application dependencies.
   /// </summary>
-  /// <returns></returns>
+  /// <returns>Да.</returns>
   [HttpGet(Name = "Readiness Probe")]
   public IActionResult Get()
   {
@@ -51,6 +45,22 @@ public class ReadinessController : ControllerBase
           RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
         });
     }
-
   }
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Default constructor.
+  /// </summary>
+  /// <param name="logger">Логгер.</param>
+  /// <param name="ctx">Контекст базы данных.</param>
+  public ReadinessController(ILogger<LivenessController> logger, StudentContext ctx)
+  {
+    _logger = logger;
+    _ctx = ctx;
+  }
+
+  #endregion
 }

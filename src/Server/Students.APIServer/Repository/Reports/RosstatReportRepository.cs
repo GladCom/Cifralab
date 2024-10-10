@@ -8,7 +8,14 @@ namespace Students.APIServer.Repository.Reports;
 /// </summary>
 public class RosstatReportRepository : IReportRepository<RosstatModel>
 {
+  #region Поля и свойства
+
   private readonly IStudentRepository _studentRepository;
+
+  #endregion
+
+  #region Методы
+
   /// <summary>
   /// Получить список сущностей.
   /// </summary>
@@ -19,6 +26,10 @@ public class RosstatReportRepository : IReportRepository<RosstatModel>
     return new List<RosstatModel>() { new() { StudentCount = listStudents.Count() } };
   }
 
+  #endregion
+
+  #region Конструкторы
+
   /// <summary>
   /// Конструктор.
   /// </summary>
@@ -27,4 +38,6 @@ public class RosstatReportRepository : IReportRepository<RosstatModel>
   {
     _studentRepository = studentRepository;
   }
+
+  #endregion
 }

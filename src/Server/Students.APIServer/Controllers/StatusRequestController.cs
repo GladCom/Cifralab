@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер статусов заявок
+/// Контроллер статусов заявок.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class StatusRequestController : GenericAPiController<StatusRequest>
 {
   /// <summary>
-  /// Конструктор
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий сатусов заявок</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="repository">Репозиторий стусов заявок.</param>
+  /// <param name="logger">Логгер.</param>
   public StatusRequestController(IGenericRepository<StatusRequest> repository, ILogger<StatusRequest> logger) : base(
     repository, logger)
   {

@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер групп студентов, данная шляпа должна умереть
+/// Контроллер групп студентов.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class StudentGroupController : GenericAPiController<GroupStudent>
 {
   /// <summary>
-  /// Конструктор
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository"> Репозиторий группы со студентами</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="repository"> Репозиторий группы со студентами.</param>
+  /// <param name="logger">Логгер.</param>
   public StudentGroupController(IGenericRepository<GroupStudent> repository, ILogger<GroupStudent> logger) : base(
     repository, logger)
   {

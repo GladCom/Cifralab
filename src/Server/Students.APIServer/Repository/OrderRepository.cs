@@ -9,7 +9,13 @@ namespace Students.APIServer.Repository;
 /// </summary>
 public class OrderRepository : GenericRepository<Order>, IOrderRepository
 {
+  #region Поля и свойства
+
   private readonly StudentContext _context;
+
+  #endregion
+
+  #region Конструкторы
 
   /// <summary>
   /// Конструктор.
@@ -19,4 +25,6 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
   {
     _context = context;
   }
+
+  #endregion
 }

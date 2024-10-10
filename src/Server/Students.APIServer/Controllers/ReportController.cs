@@ -5,14 +5,20 @@ using Students.APIServer.Report.Interfaces;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер отчетов
+/// Контроллер отчетов.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 public class ReportController : ControllerBase
 {
+  #region Поля и свойства
+
   private readonly ILogger<ReportController> _logger;
   private readonly IReport<XLWorkbook> _report;
+
+  #endregion
+
+  #region Методы
 
   /// <summary>
   /// Получить отчет для Росстата.
@@ -21,7 +27,7 @@ public class ReportController : ControllerBase
   [HttpPost("GetRostatReport")]
   public async Task<FileResult> GetRosstatReport()
   {
-    var workbook = await _report.GenerateRosstatReport() ?? throw new ArgumentNullException("Нет данных."); 
+    var workbook = await _report.GenerateRosstatReport() ?? throw new ArgumentNullException("Нет данных.");
     return CreateFileReport(workbook, "Росстат");
   }
 
@@ -32,7 +38,7 @@ public class ReportController : ControllerBase
   [HttpPost("GetPFDOReport")]
   public async Task<FileResult> GetPFDOReport()
   {
-    var workbook = await _report.GenerateFRDOReport() 
+    var workbook = await _report.GenerateFRDOReport()
                    ?? throw new ArgumentNullException("Нет данных.");
     return CreateFileReport(workbook, "ФРДО");
   }
@@ -53,14 +59,20 @@ public class ReportController : ControllerBase
     return result;
   }
 
+  #endregion
+
+  #region Конструкторы
+
   /// <summary>
-  /// Конструктор
+  /// Конструктор.
   /// </summary>
   /// <param name="report">Отчет.</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="logger">Логгер.</param>
   public ReportController(IReport<XLWorkbook> report, ILogger<ReportController> logger)
   {
     _report = report;
     _logger = logger;
   }
+
+  #endregion
 }

@@ -8,33 +8,25 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер студентов
+/// Контроллер студентов.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
 public class StudentController : GenericAPiController<Student>
 {
+  #region Поля и свойства
+
   private readonly IStudentRepository _studentRepository;
   private readonly ILogger<Student> _logger;
 
-  /// <summary>
-  /// Конструктор
-  /// </summary>
-  /// <param name="repository">Репозиторий студентов</param>
-  /// <param name="logger">Логгер</param>
-  /// <param name="studentRepository">Репозиторий студентов</param>
-  public StudentController(IGenericRepository<Student> repository, ILogger<Student> logger,
-    IStudentRepository studentRepository) : base(repository, logger)
-  {
-    _studentRepository = studentRepository;
-    _logger = logger;
-  }
+  #endregion
+
+  #region Методы
 
   /// <summary>
-  /// Список студентов с разделением по страницам (кажется это можно вынести в абстрактный класс)
+  /// Список студентов с разделением по страницам (кажется это можно вынести в абстрактный класс).
   /// </summary>
-  /// <returns></returns>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
   {
@@ -43,10 +35,10 @@ public class StudentController : GenericAPiController<Student>
   }
 
   /// <summary>
-  /// Список групп, в которых состоит студент
+  /// Список групп, в которых состоит студент.
   /// </summary>
-  /// <param name="student">Идентификатор студента</param>
-  /// <returns></returns>
+  /// <param name="student">Идентификатор студента.</param>
+  /// <returns>Список групп.</returns>
   [HttpGet("GetListGroupsOfStudentExists")]
   public async Task<IActionResult> GetListGroupsOfStudentExists(Guid student)
   {
@@ -55,11 +47,11 @@ public class StudentController : GenericAPiController<Student>
   }
 
   /// <summary>
-  /// Добавить студента в группу
+  /// Добавить студента в группу.
   /// </summary>
-  /// <param name="studentId">Идентификатор студента</param>
-  /// <param name="groupID">Идентификатор группы</param>
-  /// <returns></returns>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="groupID">Идентификатор группы.</param>
+  /// <returns>Идентификатор студента.</returns>
   [HttpPost("AddStudentToGroup")]
   public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupID)
   {
@@ -68,16 +60,16 @@ public class StudentController : GenericAPiController<Student>
   }
 
   /// <summary>
-  /// Получить студента
+  /// Получить студента.
   /// </summary>
-  /// <param name="id">Идентификатор студента</param>
-  /// <returns>Состояние запроса + студент</returns>
+  /// <param name="id">Идентификатор студент.а</param>
+  /// <returns>Состояние запроса + студент.</returns>
   public override async Task<IActionResult> Get(Guid id)
   {
     try
     {
       var form = await _studentRepository.FindById(id);
-      if (form == null)
+      if(form == null)
       {
         return StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -88,7 +80,7 @@ public class StudentController : GenericAPiController<Student>
 
       return StatusCode(StatusCodes.Status200OK, form);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       _logger.LogError(e, "Error while getting Entity by Id");
       return StatusCode(StatusCodes.Status500InternalServerError,
@@ -98,4 +90,23 @@ public class StudentController : GenericAPiController<Student>
         });
     }
   }
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="repository">Репозиторий студентов.</param>
+  /// <param name="logger">Логгер.</param>
+  /// <param name="studentRepository">Репозиторий студентов.</param>
+  public StudentController(IGenericRepository<Student> repository, ILogger<Student> logger,
+    IStudentRepository studentRepository) : base(repository, logger)
+  {
+    _studentRepository = studentRepository;
+    _logger = logger;
+  }
+
+  #endregion
 }

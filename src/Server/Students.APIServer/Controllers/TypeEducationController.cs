@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер типов образований
+/// Контроллер типов образований.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class TypeEducationController : GenericAPiController<TypeEducation>
 {
   /// <summary>
-  /// Конструктор
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий типов образований</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="repository">Репозиторий типов образований.</param>
+  /// <param name="logger">Логгер.</param>
   public TypeEducationController(IGenericRepository<TypeEducation> repository, ILogger<TypeEducation> logger) : base(
     repository, logger)
   {

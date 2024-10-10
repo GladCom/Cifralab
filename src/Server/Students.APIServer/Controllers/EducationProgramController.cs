@@ -6,7 +6,7 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер образовательных программ
+/// Контроллер образовательных программ.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,10 +14,10 @@ namespace Students.APIServer.Controllers;
 public class EducationProgramController : GenericAPiController<EducationProgram>
 {
   /// <summary>
-  /// Конструктор
+  /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий образовательных программ</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="repository">Репозиторий образовательных программ.</param>
+  /// <param name="logger">Логгер.</param>
   public EducationProgramController(IGenericRepository<EducationProgram> repository, ILogger<EducationProgram> logger) :
     base(repository, logger)
   {

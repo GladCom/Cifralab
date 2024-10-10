@@ -6,27 +6,22 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Абстрактный generic контроллер
+/// Абстрактный generic контроллер.
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
 public abstract class GenericAPiController<TEntity> : ControllerBase where TEntity : class
 {
+  #region Поля и свойства
+
   private readonly IGenericRepository<TEntity> _rep;
   private readonly ILogger<TEntity> _logger;
 
-  /// <summary>
-  /// Default constructor
-  /// </summary>
-  /// <param name="repository"></param>
-  /// <param name="logger"></param>
-  protected GenericAPiController(IGenericRepository<TEntity> repository, ILogger<TEntity> logger)
-  {
-    _rep = repository;
-    _logger = logger;
-  }
+  #endregion
+
+  #region Методы
 
   /// <summary>
-  /// Список всех объектов
+  /// Список всех объектов.
   /// </summary>
   /// <returns>Список объектов</returns>
   [HttpGet]
@@ -49,10 +44,10 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
   }
 
   /// <summary>
-  /// Получить объект по Id
+  /// Получить объект по Id.
   /// </summary>
-  /// <param name="id">Id Объекта</param>
-  /// <returns>Объект</returns>
+  /// <param name="id">Id Объекта.</param>
+  /// <returns>Объект.</returns>
   [HttpGet("{id}")]
   public virtual async Task<IActionResult> Get(Guid id)
   {
@@ -82,10 +77,10 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
   }
 
   /// <summary>
-  /// Новый объект
+  /// Новый объект.
   /// </summary>
-  /// <param name="form">Объект</param>
-  /// <returns>Объект</returns>
+  /// <param name="form">Объект.</param>
+  /// <returns>Объект.</returns>
   [HttpPost]
   public virtual async Task<IActionResult> Post([FromBody] TEntity form)
   {
@@ -106,11 +101,11 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
   }
 
   /// <summary>
-  /// Обновить объект
+  /// Обновить объект.
   /// </summary>
-  /// <param name="id">Id объекта</param>
-  /// <param name="form">объект</param>
-  /// <returns>объект</returns>
+  /// <param name="id">Id объекта.</param>
+  /// <param name="form">Объект.</param>
+  /// <returns>Объект.</returns>
   [HttpPut("{id}")]
   public virtual async Task<IActionResult> Put(Guid id, [FromBody] TEntity form)
   {
@@ -140,10 +135,10 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
   }
 
   /// <summary>
-  /// Удалить объект
+  /// Удалить объект.
   /// </summary>
-  /// <param name="id">Id объекта</param>
-  /// <returns>DefaultResponse</returns>
+  /// <param name="id">Id объекта.</param>
+  /// <returns>DefaultResponse.</returns>
   [HttpDelete("{id}")]
   public virtual async Task<IActionResult> Delete(Guid id)
   {
@@ -176,4 +171,21 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
         });
     }
   }
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="repository">Репозиторий.</param>
+  /// <param name="logger">Логгер.</param>
+  protected GenericAPiController(IGenericRepository<TEntity> repository, ILogger<TEntity> logger)
+  {
+    _rep = repository;
+    _logger = logger;
+  }
+
+  #endregion
 }

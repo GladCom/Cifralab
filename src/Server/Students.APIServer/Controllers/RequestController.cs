@@ -8,41 +8,34 @@ using Students.Models;
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер заявок
+/// Контроллер заявок.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
 public class RequestController : GenericAPiController<Request>
 {
+  #region Поля и свойства
+
   private readonly ILogger<Request> _logger;
   private readonly IRequestRepository _requestRepository;
 
-  /// <summary>
-  /// Конструктор
-  /// </summary>
-  /// <param name="repository">Репозиторий заявок</param>
-  /// <param name="logger">Логгер</param>
-  /// <param name="requestRepository">Репозиторий заявок (как будто лучше использовать этот параметр вместо двух???)</param>
-  public RequestController(IGenericRepository<Request> repository, ILogger<Request> logger,
-    IRequestRepository requestRepository) : base(repository, logger)
-  {
-    _requestRepository = requestRepository;
-    _logger = logger;
-  }
+  #endregion
+
+  #region Методы
 
   //это лишнее, это копия базового метода
   /// <summary>
-  /// Получение заявки по идентификатору
+  /// Получение заявки по идентификатору.
   /// </summary>
-  /// <param name="id">Идентификатор заявки</param>
-  /// <returns></returns>
+  /// <param name="id">Идентификатор заявки.</param>
+  /// <returns>Заявка.</returns>
   public override async Task<IActionResult> Get(Guid id)
   {
     try
     {
       var form = await _requestRepository.FindById(id);
-      if (form == null)
+      if(form == null)
       {
         return StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -53,7 +46,7 @@ public class RequestController : GenericAPiController<Request>
 
       return StatusCode(StatusCodes.Status200OK, form);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       _logger.LogError(e, "Error while getting Entity by Id");
       return StatusCode(StatusCodes.Status500InternalServerError,
@@ -66,16 +59,16 @@ public class RequestController : GenericAPiController<Request>
 
   //это лишнее, это копия базового метода
   /// <summary>
-  /// Создание новой заявки
+  /// Создание новой заявки.
   /// </summary>
-  /// <param name="request">заявка</param>
-  /// <returns>Состояние запроса + Заявка</returns>
+  /// <param name="request">Заявка.</param>
+  /// <returns>Состояние запроса + Заявка.</returns>
   public override async Task<IActionResult> Post(Request request)
   {
     try
     {
       var form = await _requestRepository.Create(request);
-      if (form is null)
+      if(form is null)
       {
         return StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -86,7 +79,7 @@ public class RequestController : GenericAPiController<Request>
 
       return StatusCode(StatusCodes.Status200OK, form);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       _logger.LogError(e, "Error while getting Entity by Id");
       return StatusCode(StatusCodes.Status500InternalServerError,
@@ -98,11 +91,11 @@ public class RequestController : GenericAPiController<Request>
   }
 
   /// <summary>
-  /// Добавление приказа
+  /// Добавление приказа.
   /// </summary>
-  /// <param name="id">Идентификатор заявки</param>
-  /// <param name="order">Приказ</param>
-  /// <returns>Состояние запроса</returns>
+  /// <param name="id">Идентификатор заявки.</param>
+  /// <param name="order">Приказ.</param>
+  /// <returns>Состояние запроса.</returns>
   [HttpPost("AddOrderToRequest")]
   public async Task<ActionResult> AddOrderToRequest(Guid id, Order order)
   {
@@ -125,14 +118,33 @@ public class RequestController : GenericAPiController<Request>
 
 
   /// <summary>
-  /// Список заявок с разделением по страницам
+  /// Список заявок с разделением по страницам.
   /// </summary>
-  /// <returns>Состояние запроса + список заявок с разделением по страницам </returns>
+  /// <returns>Состояние запроса + список заявок с разделением по страницам.</returns>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPagedDTO([FromQuery] Pageable pageable)
   {
     var items = await _requestRepository.GetRequestsDTOByPage(pageable.PageNumber, pageable.PageSize);
     return StatusCode(StatusCodes.Status200OK, items);
   }
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="repository">Репозиторий заявок.</param>
+  /// <param name="logger">Логгер.</param>
+  /// <param name="requestRepository">Репозиторий заявок (как будто лучше использовать этот параметр вместо двух???).</param>
+  public RequestController(IGenericRepository<Request> repository, ILogger<Request> logger,
+    IRequestRepository requestRepository) : base(repository, logger)
+  {
+    _requestRepository = requestRepository;
+    _logger = logger;
+  }
+
+  #endregion
 }
     

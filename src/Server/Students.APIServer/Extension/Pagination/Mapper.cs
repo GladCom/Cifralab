@@ -4,17 +4,17 @@ using Students.Models;
 namespace Students.APIServer.Extension.Pagination;
 
 /// <summary>
-/// Класс содержит методы для преобразования данных
+/// Класс содержит методы для преобразования данных.
 /// </summary>
-public class Mapper
+public static class Mapper
 {
   /// <summary>
-  /// Преобразование вебхука в заявку на обучение
+  /// Преобразование вебхука в заявку на обучение.
   /// </summary>
-  /// <param name="form">Данные, полученные из минцифры</param>
-  /// <param name="educationProgramRepository">Репозиторий образовательных программ</param>
-  /// <param name="statusRequestRepository">Репозиторий статусов заявок</param>
-  /// <returns>Заявка</returns>
+  /// <param name="form">Данные, полученные из минцифры.</param>
+  /// <param name="educationProgramRepository">Репозиторий образовательных программ.</param>
+  /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
+  /// <returns>Заявка.</returns>
   public static Request WebhookToRequest(RequestWebhook form,
     IGenericRepository<EducationProgram> educationProgramRepository,
     IGenericRepository<StatusRequest> statusRequestRepository)
@@ -34,17 +34,17 @@ public class Mapper
 
 
   /// <summary>
-  /// Преобразование вебхука (данных от минцифры) в студента. Подумать над RequestWebhook, возможно сделать 2 его варианта (второй, состоящий из слова test / test  для установки связи между минцифрой и нашим сервисом)
+  /// Преобразование вебхука (данных от минцифры) в студента. Подумать над RequestWebhook, возможно сделать 2 его варианта (второй, состоящий из слова test / test  для установки связи между минцифрой и нашим сервисом).
   /// </summary>
-  /// <param name="form">вебхук (данне от минцифры)</param>
-  /// <param name="studentRepository">Репозиторий студентов</param>
-  /// <param name="typeEducationRepository">Репозиторий типов образований</param>
-  /// <returns>Студент</returns>
+  /// <param name="form">Вебхук (данне от минцифры).</param>
+  /// <param name="studentRepository">Репозиторий студентов.</param>
+  /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
+  /// <returns>Студент.</returns>
   public static Student WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository,
     IGenericRepository<TypeEducation> typeEducationRepository)
   {
     var fio = form.Name!.Split(" ");
-    return new Student()
+    return new Student
     {
       Address = form.Address!,
       Family = fio!.FirstOrDefault() ?? "",

@@ -19,8 +19,8 @@ public class DocumentRiseQualifacationController : GenericAPiController<Document
   /// <summary>
   /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий документов повышения квалификации</param>
-  /// <param name="logger">Логгер</param>
+  /// <param name="repository">Репозиторий документов повышения квалификации.</param>
+  /// <param name="logger">Логгер.</param>
   public DocumentRiseQualifacationController(IGenericRepository<DocumentRiseQualification> repository, ILogger<DocumentRiseQualification> logger) : base(repository, logger)
   {
     _genericRepository = repository;
