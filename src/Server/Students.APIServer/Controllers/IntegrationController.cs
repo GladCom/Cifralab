@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;

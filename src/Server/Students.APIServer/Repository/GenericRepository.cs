@@ -1,58 +1,58 @@
-using Microsoft.EntityFrameworkCore;
+п»їusing Microsoft.EntityFrameworkCore;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 
 namespace Students.APIServer.Repository;
 
 /// <summary>
-/// Репозиторий Generic.
+/// Р РµРїРѕР·РёС‚РѕСЂРёР№ Generic.
 /// </summary>
-/// <typeparam name="TEntity">Сущность, с которой работает репозиторий.</typeparam>
+/// <typeparam name="TEntity">РЎСѓС‰РЅРѕСЃС‚СЊ, СЃ РєРѕС‚РѕСЂРѕР№ СЂР°Р±РѕС‚Р°РµС‚ СЂРµРїРѕР·РёС‚РѕСЂРёР№.</typeparam>
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-  #region Поля и свойства
+  #region РџРѕР»СЏ Рё СЃРІРѕР№СЃС‚РІР°
 
   private readonly StudentContext _context;
   private readonly DbSet<TEntity> _dbSet;
 
   #endregion
 
-  #region Методы
+  #region РњРµС‚РѕРґС‹
 
   /// <summary>
-  /// Получение списка сущностей с загрузкой из базы данных.
+  /// РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃСѓС‰РЅРѕСЃС‚РµР№ СЃ Р·Р°РіСЂСѓР·РєРѕР№ РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С….
   /// </summary>
-  /// <returns>Список сущностей с загрузкой из базы данных.</returns>
+  /// <returns>РЎРїРёСЃРѕРє СЃСѓС‰РЅРѕСЃС‚РµР№ СЃ Р·Р°РіСЂСѓР·РєРѕР№ РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С….</returns>
   public async Task<IEnumerable<TEntity>> Get()
   {
     return await _dbSet.AsNoTracking().ToListAsync();
   }
 
   /// <summary>
-  /// Получение списка сущностей.
+  /// РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃСѓС‰РЅРѕСЃС‚РµР№.
   /// </summary>
-  /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
-  /// <returns>Список сущностей.</returns>
+  /// <param name="predicate">Р¤СѓРЅРєС†РёСЏ, РїРѕ СѓСЃР»РѕРІРёСЋ РєРѕС‚РѕСЂРѕР№ РїСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РѕС‚Р±РѕСЂ РґР°РЅРЅС‹С… РёР· Р‘Р”.</param>
+  /// <returns>РЎРїРёСЃРѕРє СЃСѓС‰РЅРѕСЃС‚РµР№.</returns>
   public async Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate)
   {
     return await _dbSet.AsNoTracking().AsEnumerable().Where(predicate).AsQueryable().ToListAsync();
   }
 
   /// <summary>
-  /// Поиск сущности по идентификатору.
+  /// РџРѕРёСЃРє СЃСѓС‰РЅРѕСЃС‚Рё РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
   /// </summary>
-  /// <param name="id">Идентификатор сущности.</param>
-  /// <returns>Сущность.</returns>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃСѓС‰РЅРѕСЃС‚Рё.</param>
+  /// <returns>РЎСѓС‰РЅРѕСЃС‚СЊ.</returns>
   public virtual async Task<TEntity?> FindById(Guid id)
   {
     return await _dbSet.FindAsync(id);
   }
 
   /// <summary>
-  /// Создание сущности.
+  /// РЎРѕР·РґР°РЅРёРµ СЃСѓС‰РЅРѕСЃС‚Рё.
   /// </summary>
-  /// <param name="item">Сущность.</param>
-  /// <returns>Сущность.</returns>
+  /// <param name="item">РЎСѓС‰РЅРѕСЃС‚СЊ.</param>
+  /// <returns>РЎСѓС‰РЅРѕСЃС‚СЊ.</returns>
   public virtual async Task<TEntity> Create(TEntity item)
   {
     _dbSet.Add(item);
@@ -61,11 +61,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   }
 
   /// <summary>
-  /// Изменение сущности.
+  /// РР·РјРµРЅРµРЅРёРµ СЃСѓС‰РЅРѕСЃС‚Рё.
   /// </summary>
-  /// <param name="id">Идентификатор сущности.</param>
-  /// <param name="item">Обновлённая сущность.</param>
-  /// <returns>Сущность.</returns>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃСѓС‰РЅРѕСЃС‚Рё.</param>
+  /// <param name="item">РћР±РЅРѕРІР»С‘РЅРЅР°СЏ СЃСѓС‰РЅРѕСЃС‚СЊ.</param>
+  /// <returns>РЎСѓС‰РЅРѕСЃС‚СЊ.</returns>
   public async Task<TEntity?> Update(Guid id, TEntity item)
   {
     var oldItem = await _dbSet.FindAsync(id);
@@ -81,10 +81,10 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   }
 
   /// <summary>
-  /// Удаление сущности.
+  /// РЈРґР°Р»РµРЅРёРµ СЃСѓС‰РЅРѕСЃС‚Рё.
   /// </summary>
-  /// <param name="item">Сущность.</param>
-  /// <returns>Результат удаления.</returns>
+  /// <param name="item">РЎСѓС‰РЅРѕСЃС‚СЊ.</param>
+  /// <returns>Р РµР·СѓР»СЊС‚Р°С‚ СѓРґР°Р»РµРЅРёСЏ.</returns>
   public async Task Remove(TEntity item)
   {
     _dbSet.Remove(item);
@@ -93,12 +93,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
   #endregion
 
-  #region Конструкторы
+  #region РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
 
   /// <summary>
-  /// Конструктор.
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
   /// </summary>
-  /// <param name="context">Контекст базы данных.</param>
+  /// <param name="context">РљРѕРЅС‚РµРєСЃС‚ Р±Р°Р·С‹ РґР°РЅРЅС‹С….</param>
   public GenericRepository(StudentContext context)
   {
     _context = context;

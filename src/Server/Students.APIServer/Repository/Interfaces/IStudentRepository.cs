@@ -1,55 +1,55 @@
-using Students.APIServer.Extension.Pagination;
+п»їusing Students.APIServer.Extension.Pagination;
 using Students.Models;
 
 namespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
-/// Интерфейс репозитория студентов.
+/// РРЅС‚РµСЂС„РµР№СЃ СЂРµРїРѕР·РёС‚РѕСЂРёСЏ СЃС‚СѓРґРµРЅС‚РѕРІ.
 /// </summary>
 public interface IStudentRepository : IGenericRepository<Student>
 {
   /// <summary>
-  /// Пагинация писка студентов.
+  /// РџР°РіРёРЅР°С†РёСЏ РїРёСЃРєР° СЃС‚СѓРґРµРЅС‚РѕРІ.
   /// </summary>
-  /// <param name="page">Номер страницы.</param>
-  /// <param name="pageSize">Размер страницы.</param>
-  /// <returns>Список студентов с пагинацией.</returns>
+  /// <param name="page">РќРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <param name="pageSize">Р Р°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹.</param>
+  /// <returns>РЎРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ СЃ РїР°РіРёРЅР°С†РёРµР№.</returns>
   Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize);
 
   /// <summary>
-  /// Поиск по телефону.
+  /// РџРѕРёСЃРє РїРѕ С‚РµР»РµС„РѕРЅСѓ.
   /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <returns>Студент.</returns>
+  /// <param name="phone">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°.</param>
+  /// <returns>РЎС‚СѓРґРµРЅС‚.</returns>
   Task<Student?> FindByPhone(string phone);
 
   /// <summary>
-  /// Поиск по электронной почте.
+  /// РџРѕРёСЃРє РїРѕ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚Рµ.
   /// </summary>
-  /// <param name="email">Номер электронной почты.</param>
-  /// <returns>Студент.</returns>
+  /// <param name="email">РќРѕРјРµСЂ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚С‹.</param>
+  /// <returns>РЎС‚СѓРґРµРЅС‚.</returns>
   Task<Student?> FindByEmail(string email);
 
   /// <summary>
-  /// Поиск по номеру телефона и электронной почте.
+  /// РџРѕРёСЃРє РїРѕ РЅРѕРјРµСЂСѓ С‚РµР»РµС„РѕРЅР° Рё СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚Рµ.
   /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <param name="email">Электронная почта.</param>
-  /// <returns>Студент.</returns>
+  /// <param name="phone">РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°.</param>
+  /// <param name="email">Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕС‡С‚Р°.</param>
+  /// <returns>РЎС‚СѓРґРµРЅС‚.</returns>
   Task<Student?> FindByPhoneAndEmail(string phone, string email);
 
   /// <summary>
-  /// Список групп студента.
+  /// РЎРїРёСЃРѕРє РіСЂСѓРїРї СЃС‚СѓРґРµРЅС‚Р°.
   /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список групп студента.</returns>
+  /// <param name="studentId">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</param>
+  /// <returns>РЎРїРёСЃРѕРє РіСЂСѓРїРї СЃС‚СѓРґРµРЅС‚Р°.</returns>
   Task<IEnumerable<Group?>> GetListGroupsOfStudentExists(Guid studentId);
 
   /// <summary>
-  /// Добавление студента в группу.
+  /// Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‚СѓРґРµРЅС‚Р° РІ РіСЂСѓРїРїСѓ.
   /// </summary>
-  /// <param name="stud">Идентификатор студента.</param>
-  /// <param name="group">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
+  /// <param name="stud">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</param>
+  /// <param name="group">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹.</param>
+  /// <returns>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°.</returns>
   Task<Guid> AddStudentToGroup(Guid stud, Guid group);
 }
