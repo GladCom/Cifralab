@@ -8,7 +8,7 @@ import Editor from './Editor.jsx';
 const Form = ({ value, setValue }) => {
 
     return (
-        <Editor>
+        <>
             <DropdownButton 
                 id="dropdown-basic-button"
                 title={value}
@@ -25,7 +25,7 @@ const Form = ({ value, setValue }) => {
                     женский
                 </Dropdown.Item>
             </DropdownButton>
-        </Editor>
+        </>
     );
 };
 

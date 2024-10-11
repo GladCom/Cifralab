@@ -20,13 +20,13 @@ import formEducationConfig from '../../storage/catalogConfigs/educationForm.js'
 const StudentDetailsPage = () => {
     const { id } = useParams();
     const [studentData, setStudentData] = useState({ });
-    const { getOneByIdAsync, editOneAsync } = studentsConfig.crud;
-    const { data, error, isLoading, isFetching, refetch } = getOneByIdAsync(id);
+    const { useGetOneByIdAsync, useEditOneAsync } = studentsConfig.crud;
+    const { data, error, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
 
     const [
         editStudent,
         { error: editStudentError, isLoading: isEdittingStudent },
-      ] = editOneAsync();
+      ] = useEditOneAsync();
 
     useEffect(() => {
         if (!isLoading && !isFetching) {

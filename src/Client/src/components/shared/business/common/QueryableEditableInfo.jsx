@@ -3,8 +3,8 @@ import EditableInfo from './EditableInfo.jsx';
 
 
 const QueryableEditableInfo = ({ id, changed, setMode, crud, property }) => {
-    const { getOneByIdAsync } = crud;
-    const { data, error, isLoading, isFetching, refetch } = getOneByIdAsync(id);
+    const { useGetOneByIdAsync } = crud;
+    const { data, error, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
 
     return (
         <EditableInfo
