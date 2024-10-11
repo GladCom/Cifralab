@@ -8,10 +8,10 @@ import {
 } from '../services/groupsApi.js';
 
 export {
-  useGetGroupsQuery as getAllAsync,
-  useGetGroupsPagedQuery as getAllPagedAsync,
-  useGetGroupByIdQuery as getOneByIdAsync,
-  useAddGroupMutation as addOneAsync,
-  useEditGroupMutation as editOneAsync,
-  useRemoveGroupMutation as removeOneAsync,
+  useGetGroupsQuery as useGetAllAsync,
+  useGetGroupsPagedQuery as useGetAllPagedAsync,
+  useGetGroupByIdQuery as useGetOneByIdAsync,
+  useAddGroupMutation as useAddOneAsync,
+  useEditGroupMutation as useEditOneAsync,
+  useRemoveGroupMutation as useRemoveOneAsync,
 }

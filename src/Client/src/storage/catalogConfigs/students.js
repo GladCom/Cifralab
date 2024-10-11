@@ -1,10 +1,10 @@
 import {
-    getAllAsync,
-    getAllPagedAsync,
-    getOneByIdAsync,
-    addOneAsync,
-    editOneAsync,
-    removeOneAsync,
+    useGetAllAsync,
+    useGetAllPagedAsync,
+    useGetOneByIdAsync,
+    useAddOneAsync,
+    useEditOneAsync,
+    useRemoveOneAsync,
 } from '../crud/studentsCrud.js';
 import {
     UserOutlined,
@@ -12,6 +12,7 @@ import {
     CalendarOutlined,
     MailOutlined,
 } from '@ant-design/icons';
+import { Button, Space } from "antd";
 import String from '../../components/shared/business/String.jsx';
 import Gender from '../../components/shared/business/Gender.jsx';
 
@@ -82,11 +83,48 @@ export default {
         },
     ],
     crud: {
-        getAllAsync,
-        getAllPagedAsync,
-        getOneByIdAsync,
-        addOneAsync,
-        editOneAsync,
-        removeOneAsync,
-    }
+        useGetAllAsync,
+        useGetAllPagedAsync,
+        useGetOneByIdAsync,
+        useAddOneAsync,
+        useEditOneAsync,
+        useRemoveOneAsync,
+    },
+    columns: [
+        {
+            title: 'Ф.И.О. обучающегося',
+            dataIndex: 'fullName',
+            key: 'fullName',
+        },
+        {
+            title: 'Дата рождения',
+            dataIndex: 'birthDate',
+            key: 'birthDate',
+        },
+        {
+            title: 'Место проживания',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
+            title: 'Программа обучения',
+            dataIndex: 'groups[0].educationProgramId',
+            key: 'educationProgram',
+        },
+        {
+            title: 'Группа',
+            dataIndex: 'groups[0].name',
+            key: 'nameOfGroup',
+        },
+        {
+            title: 'Год обучения',
+            dataIndex: 'groups[0].endDate',
+            key: 'yaerOfEducation',
+        },
+        {
+            title: 'Статус заявки',
+            dataIndex: 'requests[0].statusRequestId',
+            key: 'statusReques',
+        },
+    ],
 };

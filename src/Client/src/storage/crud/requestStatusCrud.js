@@ -8,10 +8,10 @@ import {
 } from '../services/requestStatusApi';
 
 export {
-  useGetRequestStatusQuery as getAllAsync,
-  useGetRequestStatusPagedQuery as getAllPagedAsync,
-  useGetRequestStatusByIdQuery as getOneByIdAsync,
-  useAddRequestStatusMutation as addOneAsync,
-  useEditRequestStatusMutation as editOneAsync,
-  useRemoveRequestStatusMutation as removeOneAsync,
+  useGetRequestStatusQuery as useGetAllAsync,
+  useGetRequestStatusPagedQuery as useGetAllPagedAsync,
+  useGetRequestStatusByIdQuery as useGetOneByIdAsync,
+  useAddRequestStatusMutation as useAddOneAsync,
+  useEditRequestStatusMutation as useEditOneAsync,
+  useRemoveRequestStatusMutation as useRemoveOneAsync,
 }

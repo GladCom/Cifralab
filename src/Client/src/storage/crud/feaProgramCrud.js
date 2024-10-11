@@ -8,10 +8,10 @@ import {
 } from '../services/feaProgramApi';
 
 export {
-  useGetFEAProgramQuery as getAllAsync,
-  useGetFEAProgramPagedQuery as getAllPagedAsync,
-  useGetFEAProgramByIdQuery as getOneByIdAsync,
-  useAddFEAProgramMutation as addOneAsync,
-  useEditFEAProgramMutation as editOneAsync,
-  useRemoveFEAProgramMutation as removeOneAsync,
+  useGetFEAProgramQuery as useGetAllAsync,
+  useGetFEAProgramPagedQuery as useGetAllPagedAsync,
+  useGetFEAProgramByIdQuery as useGetOneByIdAsync,
+  useAddFEAProgramMutation as useAddOneAsync,
+  useEditFEAProgramMutation as useEditOneAsync,
+  useRemoveFEAProgramMutation as useRemoveOneAsync,
 }
