@@ -28,83 +28,6 @@ export default {
         isCollegeProgram: { name: 'Обязательно наличие ВО', type: YesNoSelect, show: true, required: true },
         isArchive: { name: 'В архиве', type: YesNoSelect, show: true, required: true },
     },
-    fields: [
-        {
-            info: 'Программа обучения',
-            property: 'name',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Вид программы',
-            property: 'kindDocumentRiseQualificationId',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Форма образования',
-            property: 'educationFormId',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Кол-во часов',
-            property: 'hoursCount',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'В архиве',
-            property: 'isArchive',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-    ],
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
@@ -112,5 +35,32 @@ export default {
         useAddOneAsync,
         useEditOneAsync,
         useRemoveOneAsync,
-    }
+    },
+    columns: [
+        {
+            title: 'Программа обучения',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Вид программы',
+            dataIndex: 'kindDocumentRiseQualificationId',
+            key: 'kindDocumentRiseQualificationId',
+        },
+        {
+            title: 'Форма обучения',
+            dataIndex: 'educationFormId',
+            key: 'educationFormId',
+        },
+        {
+            title: 'Кол-во часов',
+            dataIndex: 'hoursCount',
+            key: 'hoursCount',
+        },
+        {
+            title: 'В архив',
+            dataIndex: 'isArchive',
+            key: 'archive',
+        },
+    ],
 };

@@ -9,8 +9,6 @@ import {
 import String from '../../components/shared/business/String.jsx';
 import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx'
 
-const iconStyle = { marginRight: '5px' };
-
 export default {
     detailsLink: 'group',
     hasDetailsPage: true,
@@ -20,68 +18,6 @@ export default {
         startDate: { name: 'Дата начала', type: String, show: true, required: true },
         endDate: { name: 'Дата окончания', type: String, show: true, required: true },
     },
-    fields: [
-        {
-            info: 'Группа',
-            property: 'name',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Программа обучения',
-            property: 'educationProgramId',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Дата начала',
-            property: 'startDate',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Дата окончания',
-            property: 'endDate',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-    ],
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
@@ -89,5 +25,31 @@ export default {
         useAddOneAsync,
         useEditOneAsync,
         useRemoveOneAsync,
-    }
+    },
+    columns: [
+        {
+            title: 'Группа',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Программа обучения',
+            dataIndex: 'educationProgramId',
+            key: 'educationProgramId',
+        },
+        {
+            title: 'Дата начала',
+            dataIndex: 'startDate',
+            key: 'startDate',
+        },
+        {
+            title: 'Дата окончания',
+            dataIndex: 'endDate',
+            key: 'endDate',
+        },
+        {
+            title: 'В архив',
+            key: 'nameOfGroup',
+        },
+    ],
 };

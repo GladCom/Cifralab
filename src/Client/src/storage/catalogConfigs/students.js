@@ -6,17 +6,8 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/studentsCrud.js';
-import {
-    UserOutlined,
-    PhoneOutlined,
-    CalendarOutlined,
-    MailOutlined,
-} from '@ant-design/icons';
-import { Button, Space } from "antd";
 import String from '../../components/shared/business/String.jsx';
 import Gender from '../../components/shared/business/Gender.jsx';
-
-const iconStyle = { marginRight: '5px' };
 
 export default {
     detailsLink: 'student',
@@ -35,53 +26,6 @@ export default {
         projects: { name: 'Проекты', type: String, show: true, required: false },
         iT_Experience: { name: 'Опыт в IT', type: String, show: true, required: true },
     },
-    fields: [
-        {
-            info: 'ФИО',
-            property: 'fullName',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: UserOutlined,
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Пол',
-            property: 'sex',
-            component: Gender,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-        {
-            info: 'Адресс',
-            property: 'address',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
-        },
-    ],
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
