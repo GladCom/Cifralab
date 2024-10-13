@@ -34,9 +34,10 @@
     "react-tooltip": "^5.28.0",
     "sass": "^1.69.5",
     "ts": "^0.2.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.4.0"
   },
-  "proxy": "http://212.60.20.223",
+  "proxy": "http://localhost:5137",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
