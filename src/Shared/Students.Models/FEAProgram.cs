@@ -1,17 +1,17 @@
 ﻿namespace Students.Models;
 
 /// <summary>
-/// ВЭД программы
+/// ВЭД программа.
 /// </summary>
 public class FEAProgram
 {
   /// <summary>
-  /// Id ВЭД
+  /// Идентификатор ВЭД.
   /// </summary>
   public Guid Id { get; set; }
 
   /// <summary>
-  /// Имя ВЭД
+  /// Имя ВЭД.
   /// </summary>
   public string? Name { get; set; }
 }
