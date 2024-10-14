@@ -1,46 +1,44 @@
 import React, { useRef, useEffect } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Error from '../../Error.jsx';
+import { Modal, Form } from "antd";
 
 
-const RemoveForm = ({ show, validate, queryState, refetch }) => {
+const RemoveForm = ({ item, control, config, refetch }) => {
+    const { id } = item;
+    const [form] = Form.useForm();
+    const { crud } = config;
+    const { useRemoveOneAsync } = crud;
+    const [removeItem, queryState] = useRemoveOneAsync();
+    const { showRemoveForm, setShowRemoveForm } = control;
 
-    const { isSuccess, isError, error } = queryState;
 
-    // useEffect(() => {
-    //     if(isSuccess) {
-    //         show(false);
-    //         refetch();
-    //     }
-    //     console.log(isSuccess)
-    // },[isSuccess]);
-
-    const handleClose = () => {
-        show(false);
+    const onCreate = () => {
+        removeItem(id);
+        setShowRemoveForm(false);
     };
 
     return (
-        <>
-            {isError && <Error e={error} />}
-            <Modal show={true} onHide={handleClose} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Внимание!</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Вы уверены, что хотите удалить запись?</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="danger m-3" type="submit" onClick={() => {
-                        validate();
-                        show(false);
-                    }}>
-                        Удалить
-                    </Button>
-                    <Button variant="secondary m-3" onClick={handleClose}>
-                        Отмена
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
+        <Modal
+            title="Внимание! Вы удаляете запись!"
+            open={showRemoveForm}
+            onCancel={() => setShowRemoveForm(false)}
+            destroyOnClose
+            okButtonProps={{
+                autoFocus: true,
+                htmlType: 'submit',
+            }}
+            modalRender={(dom) => (
+            <Form
+                layout="horizontal"
+                form={form}
+                name="form_in_modal"
+                clearOnDestroy
+                onFinish={onCreate}
+            >
+                {dom}
+            </Form>
+            )}
+        >
+        </Modal>
     );
 };
 
