@@ -102,9 +102,9 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 await using var scope = app.Services.CreateAsyncScope();
 await using var db = scope.ServiceProvider.GetService<PgContext>();
-if (db != null)
-{
-    await db.Database.MigrateAsync();
-}
+//if (db != null)
+//{
+//    await db.Database.MigrateAsync();
+//}
 
 app.Run();

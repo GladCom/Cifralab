@@ -7,9 +7,6 @@ namespace Students.APIServer.Repository.Interfaces
   /// </summary>
   public interface IFEAProgramRepository : IGenericRepository<FEAProgram>
   {
-    /// <summary>
-    /// Заполнить БД первоначальными справочными данными.
-    /// </summary>
-    Task AddSeedData();
+
   }
 }

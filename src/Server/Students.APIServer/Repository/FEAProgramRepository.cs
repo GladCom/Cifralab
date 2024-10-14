@@ -49,25 +49,7 @@ namespace Students.APIServer.Repository
 
     #region Методы
 
-    /// <summary>
-    /// Добавить в справочник ВЭД первоначального набора данных.
-    /// </summary>
-    public async Task AddSeedData()
-    {
-      bool needToSave = false;
-      foreach (var feaprogram in feaPrograms)
-      {
-        if (_ctx.FEAPrograms.Where(e => e.Name != null && e.Name.Trim() == feaprogram).FirstOrDefault() == null)
-        {
-          _ctx.FEAPrograms.Add(new FEAProgram() { Id = Guid.NewGuid(), Name = feaprogram });
-          needToSave = true;
-        }
-      }
-      if (needToSave)
-      {
-        await _ctx.SaveChangesAsync();
-      }
-    }
+
 
     #endregion
 
