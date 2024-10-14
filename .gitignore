@@ -406,3 +406,4 @@ docs/.idea/
 docs/Writerside/.idea/
 
 src/Client/test_server/
+/src/Client/.vscode

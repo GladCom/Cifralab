@@ -28,7 +28,8 @@ public static class Mapper
       Phone = form.Phone,
       EducationProgramId = educationProgramRepository.Get().Result.FirstOrDefault(x => x.Name == form.Education)?.Id,
       StatusRequestId = status?.Id,
-      Status = status
+      Status = status,
+      Agreement = Convert.ToBoolean(form.Agreement)
     };
   }
 
