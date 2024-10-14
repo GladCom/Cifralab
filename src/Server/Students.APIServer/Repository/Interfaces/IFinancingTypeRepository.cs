@@ -7,9 +7,6 @@ namespace Students.APIServer.Repository.Interfaces
   /// </summary>
   public interface IFinancingTypeRepository : IGenericRepository<FinancingType>
   {
-    /// <summary>
-    /// Заполнить БД данными.
-    /// </summary>
-    Task AddSeedData();
+
   }
 }

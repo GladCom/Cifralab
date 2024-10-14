@@ -36,7 +36,7 @@ public class Group
   /// Образовательная программа.
   /// </summary>
   [JsonIgnore]
-  public virtual EducationProgram EducationProgram { get; set; } = null!;
+  public virtual EducationProgram? EducationProgram { get; set; }
 
   /// <summary>
   /// Студенты.
