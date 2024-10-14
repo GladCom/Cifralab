@@ -21,6 +21,7 @@ frontend-build:
   tags: [ common ]
   when: on_success
   script:
+    - cd ./src/client
     - npm ci
     - CI=false npm run build
   
