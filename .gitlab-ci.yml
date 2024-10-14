@@ -19,9 +19,11 @@ frontend-build:
   stage: compile
   image: node:current-alpine3.19
   tags: [ common ]
-  when: on_success
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
   script:
-    - cd ./src/client 
+    - cd ./src/Client 
     - npm ci
     - CI=false npm run build
   
