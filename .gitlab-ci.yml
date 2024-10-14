@@ -14,6 +14,19 @@ backend-compile:
   script:
     - dotnet build ./src
 
+# Проверка сборки frontend
+frontend-build:
+  stage: compile
+  image: node:current-alpine3.19
+  tags: [ common ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
+  script:
+    - cd ./src/Client 
+    - npm ci
+    - CI=false npm run build
+  
 # Запус юнит тестов
 backend-test:
   stage: test
