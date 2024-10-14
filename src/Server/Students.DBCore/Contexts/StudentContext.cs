@@ -69,5 +69,6 @@ public abstract class StudentContext : DbContext
         });
 
     modelBuilder.Entity<FEAProgram>().HasData(HasDataEntities.FEAProgramEntities);
+    modelBuilder.Entity<FinancingType>().HasData(HasDataEntities.FinancingTypeEntities);
   }
 }

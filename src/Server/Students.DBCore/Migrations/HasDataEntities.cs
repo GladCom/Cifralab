@@ -114,4 +114,38 @@ internal static class HasDataEntities
       Name = "Деятельность экстерриториальных организаций и органов"
     }
   };
+
+  public static List<FinancingType> FinancingTypeEntities { get; } = new()
+  {
+    new FinancingType
+    {
+      Id = Guid.Parse("06784e4c-dc85-4f51-9ee4-c87d3e478db4"),
+      SourceName = "За счет бюджетных ассигнований федерального бюджета"
+    },
+    new FinancingType
+    {
+      Id = Guid.Parse("0457cc26-6b4f-472b-bdbf-a9be3599e931"),
+      SourceName = "За счет бюджетных ассигнований бюджетов субъектов РФ"
+    },
+    new FinancingType
+    {
+      Id = Guid.Parse("34de84cf-271d-4546-80f7-3a9a65b3830b"),
+      SourceName = "За счет бюджетных ассигнований местных бюджетов"
+    },
+    new FinancingType
+    {
+      Id = Guid.Parse("533020ac-b4ae-4d7c-a946-fa5ff0b95633"),
+      SourceName = "По договорам за счет средств физических лиц"
+    },
+    new FinancingType
+    {
+      Id = Guid.Parse("66d030a8-7441-4d40-840c-d5d44c3d634e"),
+      SourceName = "По договорам за счет средств юридических лиц "
+    },
+    new FinancingType
+    {
+      Id = Guid.Parse("1f155a86-9bd1-4cbe-bc5e-829171cfb92b"),
+      SourceName = "За счет собственных средств организации"
+    }
+  };
 }
