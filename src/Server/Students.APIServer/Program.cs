@@ -39,6 +39,7 @@ builder.Services.AddScoped<IReportRepository<RosstatModel>, RosstatReportReposit
 builder.Services.AddScoped<IReport<XLWorkbook>, GenerateReports>();
 //builder.Services.AddScoped<IReportRepository, CSVReportRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IFinancingTypeRepository, FinancingTypeRepository>();
 builder.Services.AddSwaggerGen(options =>
 {
     var basePath = AppContext.BaseDirectory;
