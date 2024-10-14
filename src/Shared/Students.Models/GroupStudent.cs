@@ -21,12 +21,12 @@ namespace Students.Models
     /// Студент (навигационное свойство)
     /// </summary>
     [JsonIgnore]
-    public virtual Student Student { get; set; } = null!;
+    public virtual Student? Student { get; set; }
 
     /// <summary>
     /// Группа (навигационное свойство)
     /// </summary>
     [JsonIgnore]
-    public virtual Group Group { get; set; } = null!;
+    public virtual Group? Group { get; set; }
   }
 }

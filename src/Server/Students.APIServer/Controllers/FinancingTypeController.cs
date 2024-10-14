@@ -23,16 +23,7 @@ public class FinancingTypeController : GenericAPiController<FinancingType>
 
   #region Методы
 
-  /// <summary>
-  /// Заполнить БД данными.
-  /// </summary>
-  /// <returns>Статус запроса.</returns>
-  [HttpPost("AddSeedData")]
-  public async Task<IActionResult> AddSeedData()
-  {
-    await _financingTypeRepository.AddSeedData();
-    return Ok();
-  }
+
 
   #endregion
 

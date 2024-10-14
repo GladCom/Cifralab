@@ -31,5 +31,5 @@ public class DocumentRiseQualification
   /// Вид документа повышения квалификации
   /// </summary>
   [JsonIgnore]
-  public virtual KindDocumentRiseQualification KindDocumentRiseQualification { get; set; } = null!;
+  public virtual KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
 }

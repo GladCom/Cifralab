@@ -36,11 +36,11 @@ public class Order
   /// Вид приказа
   /// </summary>
   [JsonIgnore]
-  public virtual KindOrder KindOrder { get; set; } = null!;
+  public virtual KindOrder? KindOrder { get; set; }
 
   /// <summary>
   /// Заявка
   /// </summary>
   [JsonIgnore]
-  public virtual Request Request { get; set; } = null!;
+  public virtual Request? Request { get; set; }
 }
