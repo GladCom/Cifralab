@@ -454,7 +454,8 @@ public sealed class InMemoryContext : StudentContext
           DataNumberDogovor = "Договор №1 от 01.01.2021", //вернуть на EducationContract
                                                           //EducationContract = "Договор №1 от 01.01.2021",
                                                           //DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307")
-          StatusRequestId = new Guid("949A5221-63E6-4A92-BDBC-3BE7ACB6CDDD")
+          StatusRequestId = new Guid("949A5221-63E6-4A92-BDBC-3BE7ACB6CDDD"),
+          Agreement = true
         },
         new Request
         {
@@ -483,7 +484,8 @@ public sealed class InMemoryContext : StudentContext
                                                           //DocumentTypeId = new Guid("00B61F12-84FD-4352-B9BD-BF697642E307"),
           StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
           StatusRequestId = new Guid("949A5221-63E6-4A92-BDBC-3BE7ACB6CDDD"),
-          StudentStatusId = new Guid("8877A2F7-B866-4881-922C-C2BAA9D1C7EF")
+          StudentStatusId = new Guid("8877A2F7-B866-4881-922C-C2BAA9D1C7EF"),
+          Agreement = true
         }
     );
     modelBuilder.Entity<Group>().HasData(

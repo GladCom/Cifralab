@@ -109,4 +109,9 @@ public class Request
   /// </summary>
   [JsonIgnore]
   public virtual ICollection<Order>? Orders { get; set; }
+
+  /// <summary>
+  /// Согласие на обработу персональных данных
+  /// </summary>
+  public required bool Agreement { get; set; }
 }

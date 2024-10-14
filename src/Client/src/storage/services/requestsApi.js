@@ -17,8 +17,9 @@ export const requestsApi = createApi({
     }),
     addPersonRequest: builder.mutation({
       query: (request) => ({
+        url: '/NewRequest',
         method: 'POST',
-        body: request,
+        body: request
       }),
     }),
     editPersonRequest: builder.mutation({

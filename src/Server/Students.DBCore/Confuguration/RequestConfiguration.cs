@@ -20,6 +20,9 @@ internal class RequestConfiguration : IEntityTypeConfiguration<Request>
     builder.Property(x => x.Phone)
       .IsRequired();
 
+    builder.Property(x => x.Agreement)
+      .IsRequired();
+
     builder.HasOne(s => s.Student)
       .WithMany(r => r.Requests)
       .HasForeignKey(s => s.StudentId);

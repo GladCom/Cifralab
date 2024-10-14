@@ -4,7 +4,7 @@ export const requestStatusApi = createApi({
   reducerPath: 'requestStatus',
   baseQuery: fetchBaseQuery({ baseUrl: '/statusRequest' }),
   endpoints: (builder) => ({
-    getStudents: builder.query({
+    getRequestStatus: builder.query({
       query: () => '',
     }),
     getRequestStatusPaged: builder.query({
