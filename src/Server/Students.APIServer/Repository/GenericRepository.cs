@@ -35,7 +35,14 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <returns>Список сущностей.</returns>
   public async Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate)
   {
-    return await _dbSet.AsNoTracking().AsEnumerable().Where(predicate).AsQueryable().ToListAsync();
+    var items = new List<TEntity>();
+    await foreach (var item in _dbSet.AsNoTracking().AsAsyncEnumerable())
+    {
+      if(predicate(item))
+        items.Add(item);
+    }
+
+    return items;
   }
 
   /// <summary>
