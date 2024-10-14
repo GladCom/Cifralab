@@ -12,10 +12,12 @@ import Gender from '../shared/business/Gender.jsx';
 import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Snils from '../shared/business/validation/Snils.jsx'
 import Button from 'react-bootstrap/Button';
 import studentsConfig from '../../storage/catalogConfigs/students.js';
 import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js'
 import formEducationConfig from '../../storage/catalogConfigs/educationForm.js'
+import Email from '../shared/business/validation/Email.jsx';
 
 const StudentDetailsPage = () => {
     const { id } = useParams();
@@ -193,7 +195,7 @@ const StudentDetailsPage = () => {
             <Stack direction="horizontal">
                 <div>E-mail:</div>
                 <div>
-                    <String
+                    <Email
                         value={studentData?.email}
                         mode='editableInfo'
                         setValue={(value) => setStudentData({ ...studentData, email: value })}
@@ -203,7 +205,7 @@ const StudentDetailsPage = () => {
             <Stack direction="horizontal">
                 <div>СНИЛС:</div>
                 <div>
-                    <String
+                    <Snils
                         value={studentData?.snils}
                         mode='editableInfo'
                         setValue={(value) => setStudentData({ ...studentData, snils: value })}

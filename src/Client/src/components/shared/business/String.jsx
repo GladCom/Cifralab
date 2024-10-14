@@ -1,69 +1,89 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import Info from './common/Info.jsx';
 import EditableInfo from './common/EditableInfo.jsx';
 import Editor from './Editor.jsx';
 import YesNoButtons from './common/YesNoButtons.jsx';
 import { Input } from 'antd';
 
-const Form = ({ value, setValue, required }) => {
+const formatValue = (value, format) => (format ? format(value) : value);
 
-    return (
-        <Editor>
-            <Input 
-                value={value}
-                required={required}
-                onChange={({ target }) => {
-                    setValue(target.value)
-                }} 
-                onPressEnter={({ target }) => {
-                    setValue(target.value)
-                }} 
-            />
-        </Editor>
-    );
+const validateValue = async (value, validate) => {
+    if (!validate) return;
+    await validate(value);
 };
 
-const NoValidationForm = ({ value, setValue, required }) => {
+// Оптимизация компонента ErrorMessage с помощью React.memo
+const ErrorMessage = memo(({ error }) => error ? <span style={{ color: 'red' }}>{error}</span> : null);
+ErrorMessage.displayName = 'ErrorMessage';
 
-    return (
-        <Editor>
-            В разработке
-        </Editor>
-    );
-};
-
-const Filter = () => {
-    //  TODO:   реализовать функционал
-    return (
-        <div>В разработке!</div>
-    );
-};
-
-const Edit = ({ value, setValue, setMode }) => {
+// Оптимизация компонента Form с помощью React.memo
+const Form = memo(({ value, setValue, required, format }) => {
     const [newValue, setNewValue] = useState(value);
 
+    const handleChange = useCallback((inputValue) => {
+        const formattedValue = formatValue(inputValue, format);
+        setNewValue(formattedValue);
+        setValue(formattedValue);
+    }, [format, setValue]); // Зависимости для useCallback
+
     return (
         <Editor>
-            <Input 
+            <Input
                 value={newValue}
-                onChange={({ target }) => {
-                    setNewValue(target.value)
-                }} 
-                onPressEnter={({ target }) => {
-                    setNewValue(target.value)
-                }} 
-            />
-            <YesNoButtons
-                setValue={() => {
-                    setValue(newValue);
-                }}
-                onClick={() => {
-                    setMode('editableInfo');
-                }}
+                required={required}
+                onChange={({ target }) => handleChange(target.value)}
+                onPressEnter={({ target }) => handleChange(target.value)}
             />
         </Editor>
     );
-};
+});
+Form.displayName = 'Form';
+
+
+const NoValidationForm = memo(() => <Editor>В разработке</Editor>);
+NoValidationForm.displayName = 'NoValidationForm';
+
+
+const Filter = memo(() => <div>В разработке!</div>);
+Filter.displayName = 'Filter';
+
+
+const Edit = memo(({ value, setValue, setMode, validate, format }) => {
+    const [newValue, setNewValue] = useState(value);
+    const [error, setError] = useState('');
+
+    const handleChange = useCallback((inputValue) => {
+        const formattedValue = formatValue(inputValue, format);
+        setNewValue(formattedValue);
+    }, [format]);
+
+    const handleSave = useCallback(async () => {
+        try {
+            await validateValue(newValue, validate);
+            setValue(newValue);
+            setMode('editableInfo');
+            setError('');
+        } catch (validationError) {
+            setError(validationError.message || 'Validation failed');
+        }
+    }, [newValue, validate, setValue, setMode]);
+
+    return (
+        <Editor>
+            <Input
+                value={newValue}
+                onChange={({ target }) => handleChange(target.value)}
+                onPressEnter={handleSave}
+            />
+            <ErrorMessage error={error} />
+            <YesNoButtons
+                setValue={handleSave}
+                onClick={() => setMode('editableInfo')}
+            />
+        </Editor>
+    );
+});
+Edit.displayName = 'Edit';
 
 const renderMode = {
     info: Info,
@@ -74,32 +94,30 @@ const renderMode = {
     noValidationForm: NoValidationForm,
 };
 
-const String = ({ id, mode, value, setValue, required }) => {
+const String = memo(({ id, mode, value, setValue, required, validate, format }) => {
     const [compMode, setCompMode] = useState(mode);
-    const [initValue, setInitValue] = useState(value);
-    const [currentValue, setCurrentValue] = useState(value);
     const [changed, setChanged] = useState(false);
 
-    useEffect(() => {
-        setCurrentValue(value);
-    }, [value]);
+    const handleSetValue = useCallback((newValue) => {
+        setChanged(newValue !== value);
+        setValue(newValue);
+    }, [value, setValue]);
 
-    const Component = renderMode[compMode] ?? renderMode.info;
+    const Component = renderMode[compMode] || renderMode.info;
 
     return (
         <Component
             id={id}
-            value={currentValue}
+            value={value}
             changed={changed}
             required={required}
             setMode={setCompMode}
-            setValue={(newValue) => {
-                setChanged(newValue !== initValue);
-                setValue(newValue);
-                setCurrentValue(newValue);
-            }}
+            setValue={handleSetValue}
+            validate={validate}
+            format={format}
         />
     );
-};
+});
+String.displayName = 'String';
 
 export default String;

@@ -20,10 +20,10 @@ const Error = ({ e }) => {
   return (
     <div style={overlayStyle}>
         <div className="auto bg-white p-3 rounded">
-            <div><span className="fw-bold">ОШИБКА:</span> {originalStatus}</div>
-            <div><span className="fw-bold">Status:</span> {status}</div>
-            <div><span className="fw-bold">Data:</span> {data}</div>
-            <div><span className="fw-bold">Error:</span> {error}</div>
+            <div><span className="fw-bold">ОШИБКА:</span> {JSON.stringify(originalStatus)}</div>
+            <div><span className="fw-bold">Status:</span> {JSON.stringify(status)}</div>
+            <div><span className="fw-bold">Data:</span> {JSON.stringify(data)}</div>
+            <div><span className="fw-bold">Error:</span> {JSON.stringify(error)}</div>
             <hr />
             <div>Обновите страницу или вернитесь на предыдущую</div>
         </div>

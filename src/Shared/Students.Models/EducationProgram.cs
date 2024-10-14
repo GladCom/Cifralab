@@ -81,13 +81,13 @@ public class EducationProgram
   /// Форма обучения.
   /// </summary>
   [JsonIgnore]
-  public virtual EducationForm EducationForm { get; set; } = null!;
+  public virtual EducationForm? EducationForm { get; set; } //= null!;
 
   /// <summary>
   /// Вид документа повышения квалификации.
   /// </summary>
   [JsonIgnore]
-  public virtual KindDocumentRiseQualification KindDocumentRiseQualification { get; set; } = null!;
+  public virtual KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; } //= null!;
 
   /// <summary>
   /// ВЭД программы.
@@ -99,7 +99,7 @@ public class EducationProgram
   /// Источник финансирования.
   /// </summary>
   [JsonIgnore]
-  public virtual FinancingType FinancingType { get; set; } = null!;
+  public virtual FinancingType? FinancingType { get; set; }//= null!;
 
   /// <summary>
   /// Группы обучения.

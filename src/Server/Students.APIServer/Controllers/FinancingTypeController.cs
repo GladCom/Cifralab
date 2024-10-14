@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
@@ -13,13 +14,41 @@ namespace Students.APIServer.Controllers;
 [ApiVersion("1.0")]
 public class FinancingTypeController : GenericAPiController<FinancingType>
 {
+  #region Поля и свойства
+
+  IFinancingTypeRepository _financingTypeRepository;
+  private readonly ILogger<Group> _logger;
+
+  #endregion
+
+  #region Методы
+
+  /// <summary>
+  /// Заполнить БД данными.
+  /// </summary>
+  /// <returns>Статус запроса.</returns>
+  [HttpPost("AddSeedData")]
+  public async Task<IActionResult> AddSeedData()
+  {
+    await _financingTypeRepository.AddSeedData();
+    return Ok();
+  }
+
+  #endregion
+
+  #region Конструкторы
+
   /// <summary>
   /// Конструктор.
   /// </summary>
   /// <param name="repository">Репозиторий типов финансирования.</param>
   /// <param name="logger">Логгер.</param>
-  public FinancingTypeController(IGenericRepository<FinancingType> repository, ILogger<FinancingType> logger) : base(
-    repository, logger)
+  /// <param name="financingTypeRepository">Репозиторий типов финансирования.</param>
+  public FinancingTypeController(IGenericRepository<FinancingType> repository, 
+    ILogger<FinancingType> logger, IFinancingTypeRepository financingTypeRepository) : base(repository, logger)
   {
+    _financingTypeRepository = financingTypeRepository;
   }
+
+  #endregion
 }
