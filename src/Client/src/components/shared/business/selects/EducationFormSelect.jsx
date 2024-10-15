@@ -1,6 +1,6 @@
 import React from 'react';
 import QueryableSelect from '../QueryableSelect';
-import config from '../../../../storage/catalogConfigs/typeEducation.js';    
+import config from '../../../../storage/catalogConfigs/educationForm.js';    
 
 const EducationFormSelect = ({ id, mode, value, setValue, required }) => {
     const { crud } = config;
