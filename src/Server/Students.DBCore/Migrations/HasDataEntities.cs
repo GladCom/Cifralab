@@ -19,6 +19,16 @@ internal static class HasDataEntities
   public static List<StudentStatus> StudentStatusEntities => new(_studentStatusEntities);
   public static List<TypeEducation> TypeEducationEntities => new(_typeEducationsEntities);
 
+  public static List<DocumentRiseQualification> DocumentRiseQualificationEntities =>
+    new(_documentRiseQualificationEntities);
+
+  public static List<EducationProgram> EducationProgramEntities => new(_educationProgramEntities);
+  public static List<Group> GroupEntities => new(_groupEntities);
+  public static List<GroupStudent> GroupStudentEntities => new(_groupStudentEntities);
+  public static List<Order> OrderEntities => new(_orderEntities);
+  public static List<Request> RequestEntities => new(_requestEntities);
+  public static List<Student> StudentEntities => new(_studentEntities);
+
   #endregion
 
   #region Поля
@@ -420,6 +430,151 @@ internal static class HasDataEntities
     {
       Id = new Guid("3b7bf44e-a9a1-46d6-aadc-7acff647d24f"),
       Name = "Студент СПО"
+    }
+  };
+
+  private static readonly List<DocumentRiseQualification> _documentRiseQualificationEntities = new()
+  {
+    new DocumentRiseQualification
+    {
+      Id = new Guid("b28d1f29-0aa9-4209-8bab-cd49a8ad548d"),
+      KindDocumentRiseQualificationId = Guid.Parse("f3963a72-8d77-47cc-85e5-0e46c1846f15"),
+      Date = new DateTime(2024, 09, 09),
+      Number = "1"
+    },
+    new DocumentRiseQualification
+    {
+      Id = new Guid("5dde5f20-a247-45b5-b989-800a858d0b70"),
+      KindDocumentRiseQualificationId = Guid.Parse("aa7a8325-4b0d-4dd2-bedc-2c4a065ab332"),
+      Date = new DateTime(2024, 10, 09),
+      Number = "2"
+    }
+  };
+
+  private static readonly List<EducationProgram> _educationProgramEntities = new()
+  {
+    new EducationProgram
+    {
+      Id = new Guid("b741f950-19b2-472c-bf66-e84bec7c0bb5"),
+      Name = "Академия цифра",
+      Cost = 0,
+      HoursCount = 250,
+      EducationFormId = Guid.Parse("0241c1ac-bb5b-4ca1-bb46-89ba1e0c4287"),
+      KindDocumentRiseQualificationId = Guid.Parse("aa7a8325-4b0d-4dd2-bedc-2c4a065ab332"),
+      IsModularProgram = false,
+      FinancingTypeId = Guid.Parse("0457cc26-6b4f-472b-bdbf-a9be3599e931"),
+      IsCollegeProgram = false,
+      IsArchive = false,
+      IsNetworkProgram = false,
+      IsDOTProgram = false,
+      IsFullDOTProgram = false
+    }
+  };
+
+  private static readonly List<Group> _groupEntities = new()
+  {
+    new Group
+    {
+      Id = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7"),
+      Name = "С42-019-10",
+      EducationProgramId = Guid.Parse("b741f950-19b2-472c-bf66-e84bec7c0bb5"),
+      StartDate = new DateOnly(2024, 09, 01),
+      EndDate = new DateOnly(2025, 06, 01)
+    }
+  };
+
+  private static readonly List<GroupStudent> _groupStudentEntities = new()
+  {
+    new GroupStudent
+    {
+      StudentsId = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
+      GroupsId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7")
+    },
+    new GroupStudent
+    {
+      StudentsId = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
+      GroupsId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7")
+    }
+  };
+
+  private static readonly List<Order> _orderEntities = new()
+  {
+    new Order
+    {
+      Id = new Guid("0f6779b4-4e09-4f91-b7df-881205ea39d0"),
+      Number = "42",
+      Date = new DateTime(2024, 09, 01),
+      KindOrderId = new Guid("753df8b7-2d6f-4499-9f86-563771f016c1"),
+      RequestId = new Guid("4178e3fa-dca8-4e28-a815-46cfacb61fe5"),
+    }
+  };
+
+  private static readonly List<Request> _requestEntities = new()
+  {
+    new Request
+    {
+      Id = new Guid("4178e3fa-dca8-4e28-a815-46cfacb61fe5"),
+      StudentId = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
+      EducationProgramId = new Guid("b741f950-19b2-472c-bf66-e84bec7c0bb5"),
+      DocumentRiseQualificationId = new Guid("b28d1f29-0aa9-4209-8bab-cd49a8ad548d"),
+      DataNumberDogovor = "2024-09-01, 9876",
+      StatusRequestId = new Guid("d2b3c504-1890-43f4-a351-22eea9b8dc08"),
+      StudentStatusId = new Guid("69b4aaff-b67f-483d-98e3-98d39da93d7a"),
+      StatusEntrancExams = StatusEntrancExams.Done,
+      RegistrationNumber = "432",
+      Email = "III@gmail.com",
+      Phone = "1234567890",
+      Agreement = true
+    }
+  };
+
+  private static readonly List<Student> _studentEntities = new()
+  {
+    new Student
+    {
+      Id = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
+      Family = "Иванов",
+      Name = "Иван",
+      Patron = "Иванович",
+      BirthDate = new DateOnly(2003,
+        03,
+        03),
+      Sex = SexHuman.Men,
+      Nationality = "Россия",
+      Address = "Проспект Сишарпа, 42",
+      Phone = "1234567890",
+      Email = "III@gmail.com",
+      Projects = "Немало",
+      IT_Experience = "Есть",
+      Disability = false,
+      TypeEducationId = new Guid("a4f6d736-28e7-4a63-845e-24e62b433fc1"),
+      ScopeOfActivityLevelOneId = new Guid("e768a213-0421-4c6f-85b8-0069882870c6"),
+      Speciality = "Сварщик",
+      FullNameDocument = "Иванов",
+      DateTakeDiplom = new DateTime(2077, 01, 01)
+    },
+    new Student
+    {
+      Id = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
+      Family = "Иванова",
+      Name = "Анна",
+      Patron = "Ивановна",
+      BirthDate = new DateOnly(2004,
+        04,
+        04),
+      Sex = SexHuman.Woman,
+      Nationality = "Россия",
+      Address = "Проспект PHP, 47",
+      Phone = "0987654321",
+      Email = "IAI@gmail.com",
+      Projects = "Мало",
+      IT_Experience = "Есть",
+      Disability = false,
+      TypeEducationId = new Guid("f87eaad5-5d84-45ce-b862-8da5c45ead5b"),
+      ScopeOfActivityLevelOneId = new Guid("9b70f630-83bf-4805-b9c9-e0a96c0a39b2"),
+      Speciality = "HR",
+      FullNameDocument = "Иванова",
+      DateTakeDiplom = new DateTime(2042, 01, 01)
     }
   };
 
