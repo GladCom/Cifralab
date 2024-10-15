@@ -3,14 +3,14 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
-using Students.Models;
+using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Repository
 {
-  /// <summary>
-  /// Репозиторий ВЭД программ.
-  /// </summary>
-  public class FEAProgramRepository : GenericRepository<FEAProgram>, IFEAProgramRepository
+    /// <summary>
+    /// Репозиторий ВЭД программ.
+    /// </summary>
+    public class FEAProgramRepository : GenericRepository<FEAProgram>, IFEAProgramRepository
   {
     #region Поля и свойства
 

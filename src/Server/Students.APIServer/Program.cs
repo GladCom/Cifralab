@@ -9,6 +9,7 @@ using Students.APIServer.Repository.Reports;
 using Students.DBCore.Contexts;
 using Students.Models;
 using ClosedXML.Excel;
+using Students.Models.ReferenceModels;
 
 var builder = WebApplication.CreateBuilder(args);
 

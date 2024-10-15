@@ -2,6 +2,7 @@
 using Students.DBCore.Confuguration;
 using Students.DBCore.Migrations;
 using Students.Models;
+using Students.Models.ReferenceModels;
 
 namespace Students.DBCore.Contexts;
 

@@ -1,11 +1,11 @@
-﻿using Students.Models;
+﻿using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Repository.Interfaces
 {
-  /// <summary>
-  /// Интерфейс репозитория типа финансирования.
-  /// </summary>
-  public interface IFinancingTypeRepository : IGenericRepository<FinancingType>
+    /// <summary>
+    /// Интерфейс репозитория типа финансирования.
+    /// </summary>
+    public interface IFinancingTypeRepository : IGenericRepository<FinancingType>
   {
 
   }

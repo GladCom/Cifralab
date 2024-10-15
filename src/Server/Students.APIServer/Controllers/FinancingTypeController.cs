@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Controllers;
 
