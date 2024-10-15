@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'feaProgram',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         name: { name: 'Вэд программа', type: String, show: true, required: true },
     },

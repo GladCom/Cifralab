@@ -5,7 +5,7 @@ import {
     addOneAsync,
     editOneAsync,
     removeOneAsync,
-} from '../crud/personrequestsCrud.js';
+} from '../crud/personRequestsCrud.js';
 import {
     UserOutlined,
     PhoneOutlined,
@@ -22,9 +22,10 @@ import ScopeOfActivitySelect from '../../components/shared/business/selects/Scop
 import YesNoSelect from '../../components/shared/business/CheckBox.jsx';
 const iconStyle = { marginRight: '5px' };
 
-export const config = {
+export default {
     detailsLink: 'RequestDetailPage',
     hasDetailsPage: true,
+    serverPaged: true,
     properties: {
         family: { name: 'Фамилия', type: String, show: true, required: true },
         name: { name: 'Имя', type: String, show: true, required: true },

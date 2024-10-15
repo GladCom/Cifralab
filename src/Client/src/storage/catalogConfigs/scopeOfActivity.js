@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'scopeOfActivity',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         nameOfScope: { name: 'Сфера деятельности', type: String, show: true, required: true },
         level: { name: 'Уровень', type: String, show: true, required: true }

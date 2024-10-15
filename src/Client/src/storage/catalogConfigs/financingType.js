@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'financingType',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         sourceName: { name: 'Тип финансирования', type: String, show: true, required: true },
     },

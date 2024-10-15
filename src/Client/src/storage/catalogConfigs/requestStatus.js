@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'statusRequest',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         name: { name: 'Статус заявки', type: String, show: true, required: true },
     },

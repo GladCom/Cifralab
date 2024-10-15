@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'kindOrder',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         name: { name: 'Тип приказа', type: String, show: true, required: true },
     },

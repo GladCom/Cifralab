@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'typeEducation',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         name: { name: 'Тип образования', type: String, show: true, required: true },
     },
