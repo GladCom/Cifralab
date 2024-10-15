@@ -25,6 +25,7 @@ const iconStyle = { marginRight: '5px' };
 export const config = {
     detailsLink: 'RequestDetailPage',
     hasDetailsPage: true,
+    serverPaged: true,
     properties: {
         family: { name: 'Фамилия', type: String, show: true, required: true },
         name: { name: 'Имя', type: String, show: true, required: true },

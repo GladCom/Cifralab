@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'studentStatus',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         name: { name: 'Статус студента', type: String, show: true, required: true },
     },

@@ -16,6 +16,7 @@ import FinancingTypeSelect from '../../components/shared/business/selects/Financ
 export default {
     detailsLink: 'educationProgram',
     hasDetailsPage: true,
+    serverPaged: false,
     properties: {
         name: { name: 'Программа обучения', type: String, show: true, required: true },
         cost: { name: 'Стоимость', type: String, show: true, required: true },

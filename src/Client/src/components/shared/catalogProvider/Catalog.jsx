@@ -10,7 +10,7 @@ import {  Pagination  }  from 'antd';
 
 const Catalog = ({ config }) => {
     const { fields, properties, detailsLink, crud, hasDetailsPage } = config;
-    const { getAllPagedAsync, removeOneAsync, addOneAsync, getOneByIdAsync, editOneAsync } = crud;
+    const { getAllPagedAsync, removeOneAsync, addOneAsync, getOneByIdAsync, editOneAsync, serverPaged } = crud;
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [queryString, setQueryString] = useState('');
@@ -24,8 +24,8 @@ const Catalog = ({ config }) => {
         refetch
     } = getAllPagedAsync({ pageNumber, pageSize, filterDataReq: queryString });
 
-    const normalizedData = hasDetailsPage ? data?.data : data;
-    const totalItems = hasDetailsPage ? data?.totalCount : data?.length;
+    const normalizedData = serverPaged ? data?.data : data;
+    const totalItems = serverPaged ? data?.totalCount : data?.length;
 
     const onShowSizeChange = useCallback((current, pageSize) => {
         setPageNumber(current);

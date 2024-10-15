@@ -22,6 +22,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'student',
     hasDetailsPage: true,
+    serverPaged: true,
     properties: {
         family: { name: 'Фамилия', type: String, show: true, required: true },
         name: { name: 'Имя', type: String, show: true, required: true },

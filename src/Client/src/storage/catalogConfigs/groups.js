@@ -14,6 +14,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'group',
     hasDetailsPage: true,
+    serverPaged: false,
     properties: {
         name: { name: 'Наименование группы', type: String, show: true, required: true },
         educationProgramId: { name: 'Программа обучения', type: EducationProgramSelect, show: true, required: true },
