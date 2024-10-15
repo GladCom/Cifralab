@@ -12,12 +12,12 @@ import Gender from '../shared/business/Gender.jsx';
 import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Snils from '../shared/business/validation/Snils.jsx'
+import Snils from '../shared/business/validation/student/Snils.jsx'
 import Button from 'react-bootstrap/Button';
 import studentsConfig from '../../storage/catalogConfigs/students.js';
 import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js'
 import formEducationConfig from '../../storage/catalogConfigs/educationForm.js'
-import Email from '../shared/business/validation/Email.jsx';
+import Email from '../shared/business/validation/student/Email.jsx';
 
 const StudentDetailsPage = () => {
     const { id } = useParams();

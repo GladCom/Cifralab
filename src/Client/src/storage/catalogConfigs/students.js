@@ -14,8 +14,8 @@ import {
 } from '@ant-design/icons';
 import String from '../../components/shared/business/String.jsx';
 import Gender from '../../components/shared/business/Gender.jsx';
-import Snils from '../../components/shared/business/validation/Snils.jsx';
-import Email from '../../components/shared/business/validation/Email.jsx';
+import Snils from '../../components/shared/business/validation/student/Snils.jsx';
+import Email from '../../components/shared/business/validation/student/Email.jsx';
 
 const iconStyle = { marginRight: '5px' };
 
