@@ -70,5 +70,12 @@ public abstract class StudentContext : DbContext
 
     modelBuilder.Entity<FEAProgram>().HasData(HasDataEntities.FEAProgramEntities);
     modelBuilder.Entity<FinancingType>().HasData(HasDataEntities.FinancingTypeEntities);
+    modelBuilder.Entity<EducationForm>().HasData(HasDataEntities.EducationFormEntities);
+    modelBuilder.Entity<KindDocumentRiseQualification>().HasData(HasDataEntities.KindDocumentRiseQualificationEntities);
+    modelBuilder.Entity<KindOrder>().HasData(HasDataEntities.KindOrderEntities);
+    modelBuilder.Entity<ScopeOfActivity>().HasData(HasDataEntities.ScopeOfActivityEntities);
+    modelBuilder.Entity<StatusRequest>().HasData(HasDataEntities.StatusRequestEntities);
+    modelBuilder.Entity<StudentStatus>().HasData(HasDataEntities.StudentStatusEntities);
+    modelBuilder.Entity<TypeEducation>().HasData(HasDataEntities.TypeEducationEntities);
   }
 }
