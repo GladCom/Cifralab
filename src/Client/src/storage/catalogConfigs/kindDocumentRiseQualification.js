@@ -13,6 +13,7 @@ const iconStyle = { marginRight: '5px' };
 export default {
     detailsLink: 'kindDocumentRiseQualification',
     hasDetailsPage: false,
+    serverPaged: false,
     properties: {
         name: { name: 'Вид документа повышения квалификации', type: String, show: true, required: true },
     },
