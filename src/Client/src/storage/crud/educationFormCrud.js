@@ -8,10 +8,10 @@ import {
 } from '../services/educationFormApi';
 
 export {
-  useGetEducationFormQuery as getAllAsync,
-  useGetEducationFormPagedQuery as getAllPagedAsync,
-  useGetEducationFormByIdQuery as getOneByIdAsync,
-  useAddEducationFormMutation as addOneAsync,
-  useEditEducationFormMutation as editOneAsync,
-  useRemoveEducationFormMutation as removeOneAsync,
+  useGetEducationFormQuery as useGetAllAsync,
+  useGetEducationFormPagedQuery as useGetAllPagedAsync,
+  useGetEducationFormByIdQuery as useGetOneByIdAsync,
+  useAddEducationFormMutation as useAddOneAsync,
+  useEditEducationFormMutation as useEditOneAsync,
+  useRemoveEducationFormMutation as useRemoveOneAsync,
 }

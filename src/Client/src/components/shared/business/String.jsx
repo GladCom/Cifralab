@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
 import Info from './common/Info.jsx';
 import EditableInfo from './common/EditableInfo.jsx';
 import Editor from './Editor.jsx';
@@ -18,23 +18,36 @@ ErrorMessage.displayName = 'ErrorMessage';
 
 // Оптимизация компонента Form с помощью React.memo
 const Form = memo(({ value, setValue, required, format }) => {
-    const [newValue, setNewValue] = useState(value);
 
-    const handleChange = useCallback((inputValue) => {
-        const formattedValue = formatValue(inputValue, format);
-        setNewValue(formattedValue);
-        setValue(formattedValue);
-    }, [format, setValue]); // Зависимости для useCallback
+    //  TODO:   починить валидацию
+    // const [newValue, setNewValue] = useState(value);
 
+    // const handleChange = useCallback((inputValue) => {
+    //     const formattedValue = formatValue(inputValue, format);
+    //     setNewValue(formattedValue);
+    //     setValue(formattedValue);
+    // }, [format, setValue]); // Зависимости для useCallback
+
+    // return (
+    //     <Editor>
+    //         <Input
+    //             value={newValue}
+    //             required={required}
+    //             onChange={({ target }) => handleChange(target.value)}
+    //             onPressEnter={({ target }) => handleChange(target.value)}
+    //         />
+    //     </Editor>
+    // );
+
+    useEffect(() => {setValue(value)}, []);
+    
     return (
-        <Editor>
-            <Input
-                value={newValue}
-                required={required}
-                onChange={({ target }) => handleChange(target.value)}
-                onPressEnter={({ target }) => handleChange(target.value)}
-            />
-        </Editor>
+        <Input 
+            allowClear
+            defaultValue={value}
+            type="textarea"
+            onChange={({ target }) => setValue(target.value)}
+        />
     );
 });
 Form.displayName = 'Form';

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer  from './slices/userSlice.js';
+import notificationReducer  from './slices/notificationSlice.js';
 import { authApi }  from './services/authApi.js';
 import { studentsApi }  from './services/studentsApi.js';
 import { educationFormApi }  from './services/educationFormApi.js';
@@ -18,6 +19,7 @@ import { scopeOfActivityApi }  from './services/scopeOfActivityApi.js';
 export default configureStore({
   reducer: {
     user: userReducer,
+    notification: notificationReducer,
     [authApi.reducerPath]: authApi.reducer,
     [studentsApi.reducerPath]: studentsApi.reducer,
     [educationFormApi.reducerPath]: educationFormApi.reducer,
