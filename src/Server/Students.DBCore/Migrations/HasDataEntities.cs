@@ -1,4 +1,4 @@
-﻿using Students.Models;
+﻿using Students.Models.ReferenceModels;
 
 namespace Students.DBCore.Migrations;
 

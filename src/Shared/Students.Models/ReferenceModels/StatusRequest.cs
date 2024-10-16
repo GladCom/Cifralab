@@ -1,9 +1,9 @@
-﻿namespace Students.Models;
+﻿namespace Students.Models.ReferenceModels;
 
 /// <summary>
-/// Статус студента
+/// статусы заявок
 /// </summary>
-public class StudentStatus
+public class StatusRequest
 {
   /// <summary>
   /// Id статуса
@@ -13,5 +13,5 @@ public class StudentStatus
   /// <summary>
   /// Имя статуса
   /// </summary>
-  public required string Name { get; set; }
+  public string? Name { get; set; }
 }

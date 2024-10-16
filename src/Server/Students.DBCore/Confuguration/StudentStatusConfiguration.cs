@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Students.Models;
+using Students.Models.ReferenceModels;
 
 namespace Students.DBCore.Confuguration;
 

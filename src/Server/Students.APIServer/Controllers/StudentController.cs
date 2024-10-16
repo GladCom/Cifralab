@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 

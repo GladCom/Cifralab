@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Students.Models.ReferenceModels;
 
 namespace Students.Models;
 

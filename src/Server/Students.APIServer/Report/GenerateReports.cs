@@ -5,6 +5,7 @@ using Students.APIServer.Report.Services;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using System.Reflection;
+using Students.Models.ReportsModel;
 
 namespace Students.APIServer.Report
 {
