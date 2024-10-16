@@ -1,4 +1,6 @@
-﻿using Students.Models.ReferenceModels;
+﻿using Students.Models;
+using Students.Models.Enums;
+using Students.Models.ReferenceModels;
 
 namespace Students.DBCore.Migrations;
 
