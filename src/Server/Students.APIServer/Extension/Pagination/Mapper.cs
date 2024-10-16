@@ -22,7 +22,7 @@ public static class Mapper
     IGenericRepository<EducationProgram> educationProgramRepository,
     IGenericRepository<StatusRequest> statusRequestRepository)
   {
-    var status = statusRequestRepository.Get().Result.FirstOrDefault(x => x?.Name?.ToLower() == "новая");
+    var status = statusRequestRepository.Get().Result.FirstOrDefault(x => x?.Name?.ToLower() == "новая заявка");
 
     return new Request
     {

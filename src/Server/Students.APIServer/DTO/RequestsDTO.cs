@@ -74,7 +74,7 @@ public class NewRequestDTO
   /// <summary>
   /// Статус сзади вступительного экзамена.
   /// </summary>
-  public required StatusEntrancExams statusEntranceExams { get; set; }
+  public required string statusEntranceExams { get; set; }
 }
 
 /// <summary>
