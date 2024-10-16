@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection.Emit;
+using Microsoft.EntityFrameworkCore;
 using Students.DBCore.Confuguration;
 using Students.DBCore.Migrations;
 using Students.Models;
@@ -25,11 +26,20 @@ public abstract class StudentContext : DbContext
   //public DbSet<StudentDocument> StudentDocuments { get; set; }
   public DbSet<GroupStudent> GroupStudent { get; set; }
   public DbSet<TypeEducation> TypeEducation { get; set; }
+  public DbSet<Order> Orders { get; set; }
   public DbSet<KindOrder> KindOrders { get; set; }
   public DbSet<KindDocumentRiseQualification> KindDocumentRiseQualifications { get; set; }
+  public DbSet<DocumentRiseQualification> DocumentRiseQualifications { get; set; }
   public DbSet<StatusRequest> StatusRequests { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    MakeModelsConfiguration(modelBuilder);
+    FillReferenceEntities(modelBuilder);
+    FillRealEntities(modelBuilder);
+  }
+
+  private static void MakeModelsConfiguration(ModelBuilder modelBuilder)
   {
     modelBuilder.ApplyConfiguration(new GroupConfiguration());
     modelBuilder.ApplyConfiguration(new StudentConfiguration());
@@ -68,8 +78,29 @@ public abstract class StudentContext : DbContext
           j.Property(x => x.StudentsId)
             .IsRequired();
         });
+  }
 
+  private static void FillReferenceEntities(ModelBuilder modelBuilder)
+  {
     modelBuilder.Entity<FEAProgram>().HasData(HasDataEntities.FEAProgramEntities);
     modelBuilder.Entity<FinancingType>().HasData(HasDataEntities.FinancingTypeEntities);
+    modelBuilder.Entity<EducationForm>().HasData(HasDataEntities.EducationFormEntities);
+    modelBuilder.Entity<KindDocumentRiseQualification>().HasData(HasDataEntities.KindDocumentRiseQualificationEntities);
+    modelBuilder.Entity<KindOrder>().HasData(HasDataEntities.KindOrderEntities);
+    modelBuilder.Entity<ScopeOfActivity>().HasData(HasDataEntities.ScopeOfActivityEntities);
+    modelBuilder.Entity<StatusRequest>().HasData(HasDataEntities.StatusRequestEntities);
+    modelBuilder.Entity<StudentStatus>().HasData(HasDataEntities.StudentStatusEntities);
+    modelBuilder.Entity<TypeEducation>().HasData(HasDataEntities.TypeEducationEntities);
+  }
+
+  private static void FillRealEntities(ModelBuilder modelBuilder)
+  {
+    modelBuilder.Entity<DocumentRiseQualification>().HasData(HasDataEntities.DocumentRiseQualificationEntities);
+    modelBuilder.Entity<EducationProgram>().HasData(HasDataEntities.EducationProgramEntities);
+    modelBuilder.Entity<Group>().HasData(HasDataEntities.GroupEntities);
+    modelBuilder.Entity<GroupStudent>().HasData(HasDataEntities.GroupStudentEntities);
+    modelBuilder.Entity<Order>().HasData(HasDataEntities.OrderEntities);
+    modelBuilder.Entity<Request>().HasData(HasDataEntities.RequestEntities);
+    modelBuilder.Entity<Student>().HasData(HasDataEntities.StudentEntities);
   }
 }
