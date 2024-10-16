@@ -32,12 +32,12 @@ const EditForm = ({ item, control, config, refetch }) => {
         editItem(formValues);
         setShowEditForm(false);
     };
-
+    
     return (
         <Modal
             title="Правка"
             open={showEditForm}
-            confirmLoading={!isLoading && !isFetching}
+            confirmLoading={isLoading || isFetching}
             onCancel={() => setShowEditForm(false)}
             destroyOnClose
             okButtonProps={{
