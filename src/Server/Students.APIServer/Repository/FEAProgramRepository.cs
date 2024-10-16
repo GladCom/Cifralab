@@ -1,69 +1,39 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.EntityFrameworkCore;
-using Students.APIServer.Repository.Interfaces;
+﻿using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models.ReferenceModels;
 
-namespace Students.APIServer.Repository
+namespace Students.APIServer.Repository;
+
+/// <summary>
+/// Репозиторий ВЭД программ.
+/// </summary>
+public class FEAProgramRepository : GenericRepository<FEAProgram>, IFEAProgramRepository
 {
-    /// <summary>
-    /// Репозиторий ВЭД программ.
-    /// </summary>
-    public class FEAProgramRepository : GenericRepository<FEAProgram>, IFEAProgramRepository
+  #region Поля и свойства
+
+  /// <summary>
+  /// Контекст БД.
+  /// </summary>
+  private readonly StudentContext _ctx;
+
+  #endregion
+
+  #region Методы
+
+
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="context">Контекст базы данных.</param>
+  public FEAProgramRepository(StudentContext context) : base(context)
   {
-    #region Поля и свойства
-
-    /// <summary>
-    /// Контекст БД.
-    /// </summary>
-    private readonly StudentContext _ctx;
-
-    /// <summary>
-    /// Список ВЭД программ для первичного добавления в справочник.
-    /// </summary>
-    private static string[] feaPrograms =
-      {"Сельское, лесное хозяйство, охота, рыболовство и рыбоводство",
-      "Добыча полезных ископаемых",
-      "Обрабатывающие производства",
-      "Обеспечение электрической энергией, газом и паром; кондиционирование воздуха",
-      "Водоснабжение, водоотведение, организация сбора и утилизации отходов, деятельность по ликвидации загрязнений",
-      "Строительство",
-      "Торговля оптовая и розничная; ремонт автотранспортных средств и мотоциклов",
-      "Транспортировка и хранение",
-      "Деятельность гостиниц и предприятий общественного питания",
-      "Деятельность в области информации и связи",
-      "Деятельность финансовая и страховая",
-      "Деятельность по операциям с недвижимым имуществом",
-      "Деятельность профессиональная, научная и техническая",
-      "Деятельность административная и сопутствующие дополнительные услуги",
-      "Государственное управление и обеспечение военной безопасности; социальное обеспечение",
-      "Образование",
-      "Деятельность в области здравоохранения и социальных услуг",
-      "Деятельность в области культуры, спорта, организации досуг и развлечений",
-      "Предоставление прочих видов услуг",
-      "Деятельность домашних хозяйств как работодателей; недифференцированная деятельность частных домашних хозяйств" ,
-      "Деятельность экстерриториальных организаций и органов"};
-
-    #endregion
-
-    #region Методы
-
-
-
-    #endregion
-
-    #region Конструкторы
-
-    /// <summary>
-    /// Конструктор.
-    /// </summary>
-    /// <param name="context">Контекст базы данных.</param>
-    public FEAProgramRepository(StudentContext context) : base(context)
-    {
-      _ctx = context;
-    }
-
-    #endregion
+    _ctx = context;
   }
+
+  #endregion
 }

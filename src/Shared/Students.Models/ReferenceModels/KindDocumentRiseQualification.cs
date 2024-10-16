@@ -5,13 +5,13 @@
 /// </summary>
 public class KindDocumentRiseQualification
 {
-    /// <summary>
-    /// Id программы
-    /// </summary>
-    public Guid Id { get; set; }
+  /// <summary>
+  /// Id программы
+  /// </summary>
+  public Guid Id { get; set; }
 
-    /// <summary>
-    /// Имя программы
-    /// </summary>
-    public required string Name { get; set; }
+  /// <summary>
+  /// Имя программы
+  /// </summary>
+  public required string Name { get; set; }
 }

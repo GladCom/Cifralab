@@ -5,13 +5,13 @@
 /// </summary>
 public enum SexHuman
 {
-    /// <summary>
-    /// Женский
-    /// </summary>
-    Woman = 0,
+  /// <summary>
+  /// Женский
+  /// </summary>
+  Woman = 0,
 
-    /// <summary>
-    /// Мужской
-    /// </summary>
-    Men = 1
+  /// <summary>
+  /// Мужской
+  /// </summary>
+  Men = 1
 }

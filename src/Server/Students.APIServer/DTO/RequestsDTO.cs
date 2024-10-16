@@ -1,4 +1,4 @@
-﻿using Students.Models.ReferenceModels;
+﻿using Students.Models.Enums;
 
 namespace Students.APIServer.DTO;
 

@@ -10,6 +10,7 @@ using Students.DBCore.Contexts;
 using Students.Models;
 using ClosedXML.Excel;
 using Students.Models.ReferenceModels;
+using Students.Models.ReportsModel;
 
 var builder = WebApplication.CreateBuilder(args);
 

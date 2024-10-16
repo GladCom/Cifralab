@@ -5,13 +5,13 @@
 /// </summary>
 public class FinancingType
 {
-    /// <summary>
-    /// Id типа финансирования
-    /// </summary>
-    public Guid Id { get; set; }
+  /// <summary>
+  /// Id типа финансирования
+  /// </summary>
+  public Guid Id { get; set; }
 
-    /// <summary>
-    /// Имя типа финансирования
-    /// </summary>
-    public string? SourceName { get; set; }
+  /// <summary>
+  /// Имя типа финансирования
+  /// </summary>
+  public string? SourceName { get; set; }
 }
