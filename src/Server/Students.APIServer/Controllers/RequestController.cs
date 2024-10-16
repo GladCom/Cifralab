@@ -78,7 +78,7 @@ public class RequestController : GenericAPiController<Request>
       EducationProgramId = requestDTO.educationProgramId,
       //DocumentRiseQualificationId = requestDTO.
       StatusRequestId = _statusRequestRepository.Get().Result?.FirstOrDefault(x => x.Name?.ToLower() == "новая заявка")?.Id,
-      StatusEntrancExams = (StatusEntrancExams)Convert.ToInt16(requestDTO.statusEntranceExams),
+      StatusEntrancExams = (StatusEntrancExams)requestDTO.statusEntranceExams,
       Email = requestDTO.email ?? "",
       Phone = requestDTO.phone,
       Agreement = requestDTO.agreement
