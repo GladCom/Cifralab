@@ -1,6 +1,6 @@
 stages:
-  - test
   - compile
+  - test
   - deploy
 
 # Запуск юнит тестов
