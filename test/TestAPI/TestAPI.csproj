@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Server\Students.APIServer\Students.APIServer.csproj" />
+    <ProjectReference Include="..\..\src\Server\Students.DBCore\Students.DBCore.csproj" />
     <ProjectReference Include="..\..\src\Shared\Students.Models\Students.Models.csproj" />
   </ItemGroup>
 
