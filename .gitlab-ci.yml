@@ -3,6 +3,16 @@ stages:
   - test
   - deploy
 
+# Запуск юнит тестов
+frontend-test:
+  stage: test
+  image: node:current-alpine3.19
+  tags: [ common ]
+  script:
+    - cd ./src/Client
+    - npm install jest
+    - npm test
+
 # Проверка компиляции бэкенд
 backend-compile:
   stage: compile
