@@ -37,7 +37,7 @@ const EditForm = ({ item, control, config, refetch }) => {
         <Modal
             title="Правка"
             open={showEditForm}
-            confirmLoading={!isLoading && !isFetching}
+            confirmLoading={isLoading || isFetching}
             onCancel={() => setShowEditForm(false)}
             destroyOnClose
             okButtonProps={{
