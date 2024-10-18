@@ -9,7 +9,7 @@ import QueryableSelect from '../shared/business/QueryableSelect.jsx';
 import EducationTypeSelect from '../shared/business/selects/EducationTypeSelect.jsx';
 import YesNoSelect from '../shared/business/YesNoSelect.jsx';
 import Gender from '../shared/business/Gender.jsx';
-import { Row, Col, Space, Button } from 'antd';
+import { Flex, Button } from 'antd';
 import Snils from '../shared/business/validation/Snils.jsx';
 import studentsConfig from '../../storage/catalogConfigs/students.js';
 import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js';
@@ -53,260 +53,209 @@ const StudentDetailsPage = () => {
   return (
     <Layout title="Персональные данные студента">
       <h2 className="m-3">{studentData.family} {studentData?.name} {studentData?.patron}</h2>
-      <Space direction="vertical" size={0} style={{ display: 'flex' }}>
-        <Row style={rowStyle}>
-          <Col span={4}>Фамилия:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.family}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, family: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Имя:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.name}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, name: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Отчество:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.patron}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, patron: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Дата рождения:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.birthDate}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, birthDate: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Пол:</Col>
-          <Col span={8}>
-            <Gender
-              value={studentData?.sex}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, sex: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Место проживания:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.address}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, address: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Телефон:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.phone}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, phone: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>E-mail:</Col>
-          <Col span={8}>
-            <Email
-              value={studentData?.email}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, email: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>СНИЛС:</Col>
-          <Col span={8}>
-            <Snils
-              value={studentData?.snils}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, snils: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Гражданство:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.nationality}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, nationality: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Уровень образования:</Col>
-          <Col span={8}>
-            <EducationTypeSelect
-              mode='editableInfo'
-              id={studentData?.typeEducationId}
-              crud={typeEducationConfig.crud}
-              setValue={(value) => setStudentData({ ...studentData, typeEducationId: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Специальность:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.speciality}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, speciality: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Номер и дата договора об обучении:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.patron}
-              mode='editableInfo'
-              setValue={() => { }}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>ОВЗ:</Col>
-          <Col span={8}>
-            <YesNoSelect
-              value={studentData?.disability}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, disability: value })}
-            />
-          </Col>
-        </Row>
-
-        <Row style={rowStyle}>
-          <Col span={4}>Опыт в IT:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.iT_Experience}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, iT_Experience: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Проекты:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.projects}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, projects: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Статус заявки:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.patron}
-              mode='editableInfo'
-              setValue={() => { }}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Программа:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.patron}
-              mode='editableInfo'
-              setValue={() => { }}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Группа:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.groupStudent}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, groupStudent: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Форма обучения:</Col>
-          <Col span={8}>
-            <QueryableSelect
-              value={studentData?.typeEducation}
-              mode='info' // TODO: исправить когда бэк будет это возвращать
-              property='name'
-              crud={formEducationConfig.crud}
-              setValue={(value) => setStudentData({ ...studentData, typeEducation: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Сфера деятельности ур. 1:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.scopeOfActivityLevelOne}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, scopeOfActivityLevelOne: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Сфера деятельности ур. 2:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.scopeOfActivityLevelTwo}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, scopeOfActivityLevelTwo: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={rowStyle}>
-          <Col span={4}>Серия документа о ВО/СПО:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.documentSeries}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, documentSeries: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={{alignItems: 'center', marginBottom: '5px' }}>
-          <Col span={4}>Номер документа о ВО/СПО:</Col>
-          <Col span={8}>
-            <String
-              value={studentData?.documentNumber}
-              mode='editableInfo'
-              setValue={(value) => setStudentData({ ...studentData, documentNumber: value })}
-            />
-          </Col>
-        </Row>
-        <Row style={{ alignItems: 'center', marginBottom: '10px' }}>
-          <Col span={12}>
-            <Button type="primary" onClick={() => {
-              editStudent({ id, student: studentData });
-              refetch();
-            }}>Сохранить</Button>
-          </Col>
-        </Row>
-      </Space>
+      <Flex vertical>
+        <Flex style={rowStyle}>
+          Фамилия:
+          <String
+            value={studentData?.family}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, family: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Имя:
+          <String
+            value={studentData?.name}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, name: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Отчество:
+          <String
+            value={studentData?.patron}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, patron: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Дата рождения:
+          <String
+            value={studentData?.birthDate}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, birthDate: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Пол:
+          <Gender
+            value={studentData?.sex}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, sex: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Место проживания:
+          <String
+            value={studentData?.address}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, address: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Телефон:
+          <String
+            value={studentData?.phone}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, phone: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          E-mail:
+          <Email
+            value={studentData?.email}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, email: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          СНИЛС:
+          <Snils
+            value={studentData?.snils}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, snils: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Гражданство:
+          <String
+            value={studentData?.nationality}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, nationality: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Уровень образования:
+          <EducationTypeSelect
+            mode='editableInfo'
+            id={studentData?.typeEducationId}
+            crud={typeEducationConfig.crud}
+            setValue={(value) => setStudentData({ ...studentData, typeEducationId: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Специальность:
+          <String
+            value={studentData?.speciality}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, speciality: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Номер и дата договора об обучении:
+          <String
+            value={studentData?.patron}
+            mode='editableInfo'
+            setValue={() => { }}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          ОВЗ:
+          <YesNoSelect
+            value={studentData?.disability}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, disability: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Опыт в IT:
+          <String
+            value={studentData?.iT_Experience}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, iT_Experience: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Проекты:
+          <String
+            value={studentData?.projects}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, projects: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Статус заявки:
+          <String
+            value={studentData?.patron}
+            mode='editableInfo'
+            setValue={() => { }}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Программа:
+          <String
+            value={studentData?.patron}
+            mode='editableInfo'
+            setValue={() => { }}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Группа:
+          <String
+            value={studentData?.groupStudent}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, groupStudent: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Форма обучения:
+          <QueryableSelect
+            value={studentData?.typeEducation}
+            mode='info' // TODO: исправить когда бэк будет это возвращать
+            property='name'
+            crud={formEducationConfig.crud}
+            setValue={(value) => setStudentData({ ...studentData, typeEducation: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Сфера деятельности ур. 1:
+          <String
+            value={studentData?.scopeOfActivityLevelOne}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, scopeOfActivityLevelOne: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Сфера деятельности ур. 2:
+          <String
+            value={studentData?.scopeOfActivityLevelTwo}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, scopeOfActivityLevelTwo: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Серия документа о ВО/СПО:
+          <String
+            value={studentData?.documentSeries}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, documentSeries: value })}
+          />
+        </Flex>
+        <Flex style={rowStyle}>
+          Номер документа о ВО/СПО:
+          <String
+            value={studentData?.documentNumber}
+            mode='editableInfo'
+            setValue={(value) => setStudentData({ ...studentData, documentNumber: value })}
+          />
+        </Flex>
+        <Flex>
+          <Button type="primary" onClick={() => {
+            editStudent({ id, student: studentData });
+            refetch();
+          }}>Сохранить</Button>
+        </Flex>
+      </Flex>
     </Layout>
   );
 };
