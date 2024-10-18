@@ -3,7 +3,7 @@ using Students.DBCore.Contexts;
 using Students.Models;
 using Group = Students.Models.Group;
 
-namespace TestAPI;
+namespace TestAPI.RepositoryTests;
 
 [TestFixture]
 public class GroupStudentRepositoryTests
@@ -262,6 +262,7 @@ public class GroupStudentRepositoryTests
       GroupsId = groupsId
     };
   }
+
   private static Student GenerateNewStudent(Guid id)
   {
     return new Student

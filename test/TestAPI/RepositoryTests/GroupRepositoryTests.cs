@@ -3,8 +3,9 @@ using Students.DBCore.Contexts;
 using Students.Models;
 using Group = Students.Models.Group;
 
-namespace TestAPI;
+namespace TestAPI.RepositoryTests;
 
+[TestFixture]
 public class GroupRepositoryTests
 {
   private StudentContext _studentContext;

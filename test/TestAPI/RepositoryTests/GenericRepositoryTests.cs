@@ -3,7 +3,7 @@ using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
 
-namespace TestAPI;
+namespace TestAPI.RepositoryTests;
 
 [TestFixture]
 public class GenericRepositoryTests
@@ -238,7 +238,7 @@ public class GenericRepositoryTests
   }
 
   [Test]
-  public async Task Remove_Student_IsNotExistsException()
+  public void Remove_Student_IsNotExistsException()
   {
     //Arrange
     var student = GenerateNewStudent(this._guids[0]);
