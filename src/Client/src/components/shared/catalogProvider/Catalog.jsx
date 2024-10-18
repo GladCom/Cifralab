@@ -1,65 +1,100 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FilterPanel from './FilterPanel.jsx';
-import DataPanel from './DataPanel.jsx';
+import RemoveForm from './forms/RemoveForm.jsx';
+import EditForm from './forms/EditForm.jsx';
 import Spinner from '../Spinner.jsx';
 import Empty from '../Empty.jsx';
 import Error from '../Error.jsx';
-import {  Pagination  }  from 'antd';
+import { Button, Table, ConfigProvider } from 'antd';
 
-
+const { Column } = Table;
 
 const Catalog = ({ config }) => {
-    const { fields, properties, detailsLink, crud, hasDetailsPage, serverPaged } = config;
-    const { getAllPagedAsync, removeOneAsync, addOneAsync, getOneByIdAsync, editOneAsync } = crud;
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const { fields, properties, detailsLink, crud, hasDetailsPage, columns, serverPaged } = config;
+    const { useGetAllPagedAsync, useRemoveOneAsync, useAddOneAsync, useGetOneByIdAsync, useEditOneAsync } = crud;
+    const [item, setItem] = useState({});
     const [queryString, setQueryString] = useState('');
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [showRemoveForm, setShowRemoveForm] = useState(false);
     const [query, setQuery] = useState({});
+    const [data, setData] = useState();
+    const [loading, setLoading] = useState(false);
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: 1,
+            pageSize: 10,
+        },
+    });
+    const navigate = useNavigate();
 
     const { 
-        data,
+        data: dataFromServer,
         error,
         isLoading,
         isFetching,
         refetch
-    } = getAllPagedAsync({ pageNumber, pageSize, filterDataReq: queryString });
-
-    const normalizedData = serverPaged ? data?.data : data;
-    const totalItems = serverPaged ? data?.totalCount : data?.length;
-
-    console.log(serverPaged)
-
-    const onShowSizeChange = useCallback((current, pageSize) => {
-        setPageNumber(current);
-        setPageSize(pageSize);
+    } = useGetAllPagedAsync({ 
+        pageNumber: tableParams.pagination.current, 
+        pageSize: tableParams.pagination.pageSize, 
+        filterDataReq: queryString 
     });
 
-    const onCurrentPageChange = useCallback((page, pageSize) => {
-        setPageNumber(page);
-        setPageSize(pageSize);
-    });
+    useEffect(() => {
+        if (!isLoading && !isFetching) {
+            const normalizedData = serverPaged ? dataFromServer?.data : dataFromServer;
+            const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
+            setData(normalizedData);
+            setLoading(false);
+            setTableParams({
+                ...tableParams,
+                pagination: {
+                  ...tableParams.pagination,
+                  total,
+                  position: ['bottomLeft'],
+                },
+            });
+        }
+    }, [
+        dataFromServer,
+        tableParams.pagination?.current,
+        tableParams.pagination?.pageSize,
+        tableParams?.sortOrder,
+        tableParams?.sortField,
+        JSON.stringify(tableParams.filters),
+    ]);
 
     useEffect(() => {
         let queryString = '';
         for (const [key, value] of Object.entries(query)) {
             queryString += `&${key}=${value}`
         }
-        setPageNumber(1);
         setQueryString(queryString);
     }, [query]);
 
-    if (isLoading) {
-        return (
-            <>
-                <Spinner />
-                <Empty />
-            </>
-        );
-    }
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+          pagination,
+          filters,
+          sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
+          sortField: Array.isArray(sorter) ? undefined : sorter.field,
+        });
+    
+        // `dataSource` is useless since `pageSize` changed
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+          setData([]);
+        }
+    };
 
-    if (error) {
-        return <Error e={error} />;
-    }
+    const openDetailsInfo = useCallback((item) => {
+        setItem(item);
+
+        if (hasDetailsPage) {
+            navigate(`/${detailsLink}/${item.id}`);
+        } else {
+            setShowEditForm(true);
+        }
+    });
 
     return ( 
         <div>
@@ -67,32 +102,71 @@ const Catalog = ({ config }) => {
                 config={config}
                 query={query}
                 setQuery={setQuery}
-                properties={properties}
-                addOneAsync={addOneAsync}
             />
-            <DataPanel 
-                config={config}
-                data={normalizedData}
-                removeOneAsync={removeOneAsync}
-                refetch={refetch}
-                detailsLink={detailsLink}
-                hasDetailsPage={hasDetailsPage}
-                properties={properties}
-                getOneByIdAsync={getOneByIdAsync}
-                editOneAsync={editOneAsync}
-            />
-            <br />
-            <Pagination
-                className="mb-3"
-                showSizeChanger
-                hideOnSinglePage
-                onChange={onCurrentPageChange}
-                onShowSizeChange={onShowSizeChange}
-                current={pageNumber}
-                defaultCurrent={1}
-                total={totalItems}
-            />
-            {isFetching && <Spinner />}
+            <Table
+                rowKey={(record) => record.id}
+                dataSource={data}
+                pagination={tableParams.pagination}
+                loading={loading}
+                onChange={handleTableChange}
+            >
+                {columns.map((c) => (
+                    <Column title={c.title} dataIndex={c.dataIndex} key={c.key} />
+                ))}
+                <ConfigProvider
+                    theme={{
+                        components: {
+                            Button: {
+                                paddingBlock: 1,
+                            },
+                        },
+                    }}
+                >
+                    <Column
+                        key="edit"
+                        width='5%'
+                        render={(_, record) => (
+                            <Button
+                                onClick={() => openDetailsInfo(record)}
+                            >
+                                Править
+                            </Button>
+                        )}
+                    />
+                    <Column
+                        key="delete"
+                        width='5%'
+                        render={(_, record) => (
+                            <Button
+                                color="danger"
+                                variant="outlined"
+                                onClick={() => {
+                                    setItem(record);
+                                    setShowRemoveForm(true);
+                                }}
+                            >
+                                Удалить
+                            </Button>
+                        )}
+                    />
+                </ConfigProvider>
+            </Table>
+            { showEditForm && (
+                <EditForm
+                    item={item}
+                    control={{ showEditForm, setShowEditForm }}
+                    config={config}
+                    refetch={refetch}
+                />
+            )}
+            { showRemoveForm && (
+                <RemoveForm
+                    item={item}
+                    control={{ showRemoveForm, setShowRemoveForm }}
+                    config={config}
+                    refetch={refetch}
+                />
+            )}
         </div>
     );
 };

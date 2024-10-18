@@ -1,14 +1,12 @@
 import {
-    getAllAsync,
-    getAllPagedAsync,
-    getOneByIdAsync,
-    addOneAsync,
-    editOneAsync,
-    removeOneAsync,
+    useGetAllAsync,
+    useGetAllPagedAsync,
+    useGetOneByIdAsync,
+    useAddOneAsync,
+    useEditOneAsync,
+    useRemoveOneAsync,
 } from '../crud/studentStatusCrud.js';
 import String from '../../components/shared/business/String.jsx';
-
-const iconStyle = { marginRight: '5px' };
 
 export default {
     detailsLink: 'studentStatus',
@@ -17,29 +15,19 @@ export default {
     properties: {
         name: { name: 'Статус студента', type: String, show: true, required: true },
     },
-    fields: [
+    crud: {
+        useGetAllAsync,
+        useGetAllPagedAsync,
+        useGetOneByIdAsync,
+        useAddOneAsync,
+        useEditOneAsync,
+        useRemoveOneAsync,
+    },
+    columns: [
         {
-            info: 'Статус студента',
-            property: 'name',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Статус студента',
+            dataIndex: 'name',
+            key: 'name',
         },
     ],
-    crud: {
-        getAllAsync,
-        getAllPagedAsync,
-        getOneByIdAsync,
-        addOneAsync,
-        editOneAsync,
-        removeOneAsync,
-    }
 };

@@ -8,10 +8,10 @@ import {
 } from '../services/studentStatusApi';
 
 export {
-  useGetStudentStatusQuery as getAllAsync,
-  useGetStudentStatusPagedQuery as getAllPagedAsync,
-  useGetStudentStatusByIdQuery as getOneByIdAsync,
-  useAddStudentStatusMutation as addOneAsync,
-  useEditStudentStatusMutation as editOneAsync,
-  useRemoveStudentStatusMutation as removeOneAsync,
+  useGetStudentStatusQuery as useGetAllAsync,
+  useGetStudentStatusPagedQuery as useGetAllPagedAsync,
+  useGetStudentStatusByIdQuery as useGetOneByIdAsync,
+  useAddStudentStatusMutation as useAddOneAsync,
+  useEditStudentStatusMutation as useEditOneAsync,
+  useRemoveStudentStatusMutation as useRemoveOneAsync,
 }
