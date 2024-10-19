@@ -70,12 +70,17 @@ public class IntegrationController : ControllerBase
 
       if (student == null)
       {
+        request.IsAlreadyStudied = false;
         if (!_studentRepository.Get().Result.Any(x =>
               x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email))
         {
           student = Mapper.WebhookToStudent(form, _studentRepository, _typeEducationRepository);
           student = await _studentRepository.Create(student);
         }
+      }
+      else
+      {
+        request.IsAlreadyStudied = true;
       }
 
       request.StudentId = student?.Id;
