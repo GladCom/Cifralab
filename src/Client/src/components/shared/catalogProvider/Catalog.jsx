@@ -88,11 +88,11 @@ const Catalog = ({ config }) => {
 
     const openDetailsInfo = useCallback((item) => {
         setItem(item);
-
         if (hasDetailsPage) {
             navigate(`/${detailsLink}/${item.id}`);
         } else {
             setShowEditForm(true);
+            console.log(showEditForm);
         }
     });
 

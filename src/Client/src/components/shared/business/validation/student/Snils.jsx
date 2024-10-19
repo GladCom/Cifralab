@@ -24,12 +24,22 @@ const validateSnils = async (snils) => {
     }
 };
 
-
 const formatSnils = (input) => {
     const digits = input.replace(/\D/g, ''); 
     const limitedDigits = digits.slice(0, 11); 
-    return limitedDigits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1-$2-$3 $4');
+
+
+    if (limitedDigits.length <= 3) {
+        return limitedDigits;
+    } else if (limitedDigits.length <= 6) {
+        return limitedDigits.replace(/(\d{3})(\d+)/, '$1-$2');
+    } else if (limitedDigits.length <= 9) {
+        return limitedDigits.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+    } else {
+        return limitedDigits.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1-$2-$3 $4');
+    }
 };
+
 
 // eslint-disable-next-line react/prop-types
 const Snils = ({ value, setValue, mode = MODES.EDITABLE_INFO }) => (

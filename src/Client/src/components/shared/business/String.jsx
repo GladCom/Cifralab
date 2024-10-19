@@ -20,35 +20,36 @@ ErrorMessage.displayName = 'ErrorMessage';
 const Form = memo(({ value, setValue, required, format }) => {
 
     //  TODO:   починить валидацию
-    // const [newValue, setNewValue] = useState(value);
+    const [newValue, setNewValue] = useState(value);
 
-    // const handleChange = useCallback((inputValue) => {
-    //     const formattedValue = formatValue(inputValue, format);
-    //     setNewValue(formattedValue);
-    //     setValue(formattedValue);
-    // }, [format, setValue]); // Зависимости для useCallback
+    const handleChange = useCallback((inputValue) => {
+        const formattedValue = formatValue(inputValue, format);
+        setNewValue(formattedValue);
+        setValue(formattedValue);
+    }, [format, setValue]); // Зависимости для useCallback
 
-    // return (
-    //     <Editor>
-    //         <Input
-    //             value={newValue}
-    //             required={required}
-    //             onChange={({ target }) => handleChange(target.value)}
-    //             onPressEnter={({ target }) => handleChange(target.value)}
-    //         />
-    //     </Editor>
-    // );
-
-    useEffect(() => {setValue(value)}, []);
-    
     return (
-        <Input 
-            allowClear
-            defaultValue={value}
-            type="textarea"
-            onChange={({ target }) => setValue(target.value)}
-        />
+        <Editor>
+            <Input
+                value={newValue}
+                allowClear
+                required={required}
+                onChange={({ target }) => handleChange(target.value)}
+                onPressEnter={({ target }) => handleChange(target.value)}
+            />
+        </Editor>
     );
+
+    // useEffect(() => {setValue(value)}, []);
+    
+    // return (
+    //     <Input 
+    //         allowClear
+    //         defaultValue={value}
+    //         type="textarea"
+    //         onChange={({ target }) => setValue(target.value)}
+    //     />
+    // );
 });
 Form.displayName = 'Form';
 

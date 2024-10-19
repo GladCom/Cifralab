@@ -13,7 +13,7 @@ import Email from '../../components/shared/business/validation/student/Email.jsx
 
 export default {
     detailsLink: 'student',
-    hasDetailsPage: true,
+    hasDetailsPage: false,
     serverPaged: true,
     properties: {
         family: { name: 'Фамилия', type: String, show: true, required: true },
