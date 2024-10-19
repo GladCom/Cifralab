@@ -31,8 +31,8 @@ public class StudentController : GenericAPiController<Student>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
   {
-    return StatusCode(StatusCodes.Status200OK,
-      await _studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
   }
 
   /// <summary>
@@ -43,8 +43,20 @@ public class StudentController : GenericAPiController<Student>
   [HttpGet("GetListGroupsOfStudentExists")]
   public async Task<IActionResult> GetListGroupsOfStudentExists(Guid student)
   {
-    return StatusCode(StatusCodes.Status200OK,
-      await _studentRepository.GetListGroupsOfStudentExists(student));
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._studentRepository.GetListGroupsOfStudentExists(student));
+  }
+
+  /// <summary>
+  /// Список с заявками, которые подавал студент.
+  /// </summary>
+  /// <param name="student">Идентификатор студента.</param>
+  /// <returns>Список заявок.</returns>
+  [HttpGet("GetListRequestsOfStudentExists")]
+  public async Task<IActionResult> GetListRequestsOfStudentExists(Guid student)
+  {
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._studentRepository.GetListRequestsOfStudentExists(student));
   }
 
 
@@ -69,8 +81,8 @@ public class StudentController : GenericAPiController<Student>
   [HttpPost("AddStudentToGroup")]
   public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupID)
   {
-    return StatusCode(StatusCodes.Status200OK,
-      await _studentRepository.AddStudentToGroup(studentId, groupID));
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._studentRepository.AddStudentToGroup(studentId, groupID));
   }
 
   /// <summary>
@@ -82,25 +94,25 @@ public class StudentController : GenericAPiController<Student>
   {
     try
     {
-      var form = await _studentRepository.FindById(id);
-      if(form == null)
+      var form = await this._studentRepository.FindById(id);
+      if (form == null)
       {
-        return StatusCode(StatusCodes.Status404NotFound,
+        return this.StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
           {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
           });
       }
 
-      return StatusCode(StatusCodes.Status200OK, form);
+      return this.StatusCode(StatusCodes.Status200OK, form);
     }
-    catch(Exception e)
+    catch (Exception e)
     {
-      _logger.LogError(e, "Error while getting Entity by Id");
-      return StatusCode(StatusCodes.Status500InternalServerError,
+      this._logger.LogError(e, "Error while getting Entity by Id");
+      return this.StatusCode(StatusCodes.Status500InternalServerError,
         new DefaultResponse
         {
-          RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
         });
     }
   }
@@ -118,8 +130,8 @@ public class StudentController : GenericAPiController<Student>
   public StudentController(IGenericRepository<Student> repository, ILogger<Student> logger,
     IStudentRepository studentRepository) : base(repository, logger)
   {
-    _studentRepository = studentRepository;
-    _logger = logger;
+    this._studentRepository = studentRepository;
+    this._logger = logger;
   }
 
   #endregion
