@@ -52,4 +52,12 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// <param name="group">Идентификатор группы.</param>
   /// <returns>Идентификатор студента.</returns>
   Task<Guid> AddStudentToGroup(Guid stud, Guid group);
+
+
+  /// <summary>
+  /// Список программ обучения, на которых обучался студент.
+  /// </summary>
+  /// <param name="studentId">Id студента.</param>
+  /// <returns>Список с программами обучения студента.</returns>
+  Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId);
 }

@@ -266,6 +266,63 @@ public class StudentRepositoryTests
     });
   }
 
+
+  [Test]
+  public async Task GetListEducationProgramOfStudentExists_GetEducationProgramsSuccessfully()
+  {
+    //Arrange
+    const int expected = 3;
+
+    var student = GenerateStudent();
+    this._studentContext.Students.Add(student);
+
+    var educationPrograms = new List<EducationProgram>();
+    for(var i = 0; i < expected; i++)
+    {
+      educationPrograms.Add(GenerateEducationProgram());
+    }
+    this._studentContext.AddRange(educationPrograms);
+
+    var groups = new List<Group>();
+    for(var i = 0; i < expected; i++)
+    {
+      groups.Add(GenerateGroup());
+      groups[i].EducationProgramId = educationPrograms[i].Id;
+    }
+    this._studentContext.AddRange(groups);
+
+    var groupStudent = new List<GroupStudent>();
+    for(var i = 0; i < expected; i++)
+    {
+      groupStudent.Add(new GroupStudent
+      {
+        StudentsId = student.Id,
+        GroupsId = groups[i].Id
+      });
+    }
+    this._studentContext.AddRange(groupStudent);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualEducationPrograms = (await this._studentRepository.GetListEducationProgramsOfStudentExists(student.Id));
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(actualEducationPrograms, Is.Not.Null);
+      var actual = 0;
+      foreach(var educationProgram in educationPrograms)
+      {
+
+        if(actualEducationPrograms.FirstOrDefault(sg => sg.Id == educationProgram.Id)
+           is not null)
+          actual++;
+      }
+      Assert.AreEqual(expected, actual);
+    });
+  }
+
   private static Student GenerateStudent()
   {
     return new Student
@@ -290,6 +347,26 @@ public class StudentRepositoryTests
       EducationProgramId = default,
       StartDate = default,
       EndDate = default
+    };
+  }
+
+
+  private static EducationProgram GenerateEducationProgram()
+  {
+    return new EducationProgram
+    {
+      Id = Guid.NewGuid(),
+      Cost = 0,
+      HoursCount = 0,
+      EducationFormId = default,
+      KindDocumentRiseQualificationId = default,
+      IsModularProgram = false,
+      FinancingTypeId = default,
+      IsCollegeProgram = false,
+      IsArchive = false,
+      IsNetworkProgram = false,
+      IsDOTProgram = false,
+      IsFullDOTProgram = false,
     };
   }
 }

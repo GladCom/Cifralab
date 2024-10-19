@@ -47,6 +47,19 @@ public class StudentController : GenericAPiController<Student>
       await _studentRepository.GetListGroupsOfStudentExists(student));
   }
 
+
+  /// <summary>
+  /// Список с программами обучения, на которых учился студент.
+  /// </summary>
+  /// <param name="student">Идентификатор студента.</param>
+  /// <returns>Список программ обучения.</returns>
+  [HttpGet("GetListEducationProgramsOfStudentExists")]
+  public async Task<IActionResult> GetListEducationProgramsOfStudentExists(Guid student)
+  {
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._studentRepository.GetListEducationProgramsOfStudentExists(student));
+  }
+
   /// <summary>
   /// Добавить студента в группу.
   /// </summary>
