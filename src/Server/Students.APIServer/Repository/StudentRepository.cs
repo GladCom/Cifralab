@@ -46,6 +46,37 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     return await result.ToListAsync().ConfigureAwait(false);
   }
 
+
+  /// <summary>
+  /// Список программ обучения, на которых обучался студент.
+  /// </summary>
+  /// <param name="studentId">Id студента.</param>
+  /// <returns>Список с программами обучения студента.</returns>
+  public async Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId)
+  {
+    var student = await base.FindById(studentId);
+    if(student is null)
+      return null;
+    var educationPrograms = new List<EducationProgram>();
+    student.Groups = new List<Group>();
+
+    await this._ctx.Entry(student).Collection(s => s.GroupStudent).LoadAsync();
+
+    foreach (var groupStudent in student.GroupStudent)
+    {
+      await this._ctx.Entry(groupStudent).Reference(s => s.Group).LoadAsync();
+      student.Groups.Add(groupStudent.Group);
+    }
+
+    foreach (var studentGroup in student.Groups)
+    {
+      await this._ctx.Entry(studentGroup).Reference(s => s.EducationProgram).LoadAsync();
+      educationPrograms.Add(studentGroup.EducationProgram);
+    }
+
+    return educationPrograms;
+  }
+
   /// <summary>
   /// Добавление студента в группу.
   /// </summary>
