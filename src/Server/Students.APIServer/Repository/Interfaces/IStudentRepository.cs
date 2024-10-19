@@ -43,7 +43,7 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// </summary>
   /// <param name="studentId">Идентификатор студента.</param>
   /// <returns>Список групп студента.</returns>
-  Task<IEnumerable<Group?>> GetListGroupsOfStudentExists(Guid studentId);
+  Task<IEnumerable<Group?>?> GetListGroupsOfStudentExists(Guid studentId);
 
   /// <summary>
   /// Добавление студента в группу.
@@ -53,11 +53,17 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// <returns>Идентификатор студента.</returns>
   Task<Guid> AddStudentToGroup(Guid stud, Guid group);
 
-
   /// <summary>
   /// Список программ обучения, на которых обучался студент.
   /// </summary>
   /// <param name="studentId">Id студента.</param>
   /// <returns>Список с программами обучения студента.</returns>
   Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId);
+
+  /// <summary>
+  /// Список заявок студента.
+  /// </summary>
+  /// <param name="studentId">Id студента.</param>
+  /// <returns>Список заявок студента.</returns>
+  Task<IEnumerable<Request?>?> GetListRequestsOfStudentExists(Guid studentId);
 }

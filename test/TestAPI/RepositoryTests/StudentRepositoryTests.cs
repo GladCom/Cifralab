@@ -18,6 +18,7 @@ public class StudentRepositoryTests
     this._studentContext = new InMemoryContext();
     this._studentContext.Students.RemoveRange(this._studentContext.Students.ToList());
     this._studentContext.Groups.RemoveRange(this._studentContext.Groups.ToList());
+    this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
     this._groupStudentRepository = new GroupStudentRepository(this._studentContext);
     this._studentRepository = new StudentRepository(this._studentContext, this._groupStudentRepository);
   }
@@ -323,6 +324,43 @@ public class StudentRepositoryTests
     });
   }
 
+  [Test]
+  public async Task GetListRequestsOfStudentExists_GetRequestsSuccessfully()
+  {
+    //Arrange
+    const int expected = 3;
+
+    var student = GenerateStudent();
+    this._studentContext.Students.Add(student);
+
+    var requests = new List<Request>();
+    for(var i = 0; i < expected; i++)
+    {
+      requests.Add(GenerateRequest(student.Id));
+    }
+    this._studentContext.AddRange(requests);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualRequests = (await this._studentRepository.GetListRequestsOfStudentExists(student.Id));
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(actualRequests, Is.Not.Null);
+      var actual = 0;
+      foreach(var request in requests)
+      {
+
+        if(actualRequests.FirstOrDefault(sg => sg.Id == request.Id)
+            is not null)
+          actual++;
+      }
+      Assert.AreEqual(expected, actual);
+    });
+  }
+
   private static Student GenerateStudent()
   {
     return new Student
@@ -367,6 +405,18 @@ public class StudentRepositoryTests
       IsNetworkProgram = false,
       IsDOTProgram = false,
       IsFullDOTProgram = false,
+    };
+  }
+
+  private static Request GenerateRequest(Guid studentId)
+  {
+    return new Request
+    {
+      Id = Guid.NewGuid(),
+      StudentId = studentId,
+      Email = "null",
+      Phone = "null",
+      Agreement = default
     };
   }
 }
