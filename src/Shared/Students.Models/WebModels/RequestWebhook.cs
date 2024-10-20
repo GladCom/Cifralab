@@ -1,4 +1,4 @@
-﻿namespace Students.Models;
+﻿namespace Students.Models.WebModels;
 
 /// <summary>
 /// Вебхук для обработки формы заявки на обучение, сюда добавить недостающие данные от минцифры типа nullable

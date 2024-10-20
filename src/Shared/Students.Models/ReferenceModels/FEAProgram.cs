@@ -1,17 +1,17 @@
-﻿namespace Students.Models;
+﻿namespace Students.Models.ReferenceModels;
 
 /// <summary>
-/// Форма обучения
+/// ВЭД программа.
 /// </summary>
-public class EducationForm
+public class FEAProgram
 {
   /// <summary>
-  /// Id формы
+  /// Идентификатор ВЭД.
   /// </summary>
   public Guid Id { get; set; }
 
   /// <summary>
-  /// Имя формы обучения
+  /// Имя ВЭД.
   /// </summary>
   public string? Name { get; set; }
 }

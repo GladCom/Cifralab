@@ -41,6 +41,12 @@ internal class StudentConfiguration : IEntityTypeConfiguration<Student>
     builder.Property(x => x.ScopeOfActivityLevelOneId)
       .IsRequired();
 
+    builder.HasIndex(x => x.SNILS).IsUnique();
+
+    builder.HasIndex(x => x.Phone).IsUnique();
+
+    builder.HasIndex(x => x.Email).IsUnique();
+
     builder.HasMany(r => r.Requests)
       .WithOne(s => s.Student)
       .HasForeignKey(s => s.StudentId);

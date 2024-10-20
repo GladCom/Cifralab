@@ -17,7 +17,7 @@ public class PgContext : StudentContext
 
   public PgContext()
   {
-    //Database.EnsureDeleted();
+    //this.Database.EnsureDeleted();
     this.Database.EnsureCreated();
   }
 }

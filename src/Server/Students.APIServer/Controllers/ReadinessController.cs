@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Students.DBCore.Contexts;
 using Students.Models;
+using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 
