@@ -11,14 +11,11 @@ const StatusEntranceExamsSelect = ({ id, mode, value, setValue, required }) => {
     };
 
     return (
-        <Select defaultValue="NotPassed" style={{ width: 120 }} onChange={handleChange}>
-            <Option value="NotPassed">Не сдано</Option>
-            <Option value="TestTask">Тестовое задание</Option>
-            <Option value="Interview">Собеседование</Option>
-            <Option value="Done">Выполнено</Option>
-            <Option value="disabled" disabled>
-                Disabled
-            </Option>
+        <Select defaultValue="0" style={{ width: 120 }} onChange={handleChange}>
+            <Option value="1">Не сдано</Option>
+            <Option value="2">Тестовое задание</Option>
+            <Option value="3">Собеседование</Option>
+            <Option value="4">Выполнено</Option>
         </Select>   
     )
 };
