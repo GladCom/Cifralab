@@ -5,6 +5,9 @@ using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.Enums;
+using Students.Models.ReferenceModels;
+using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 
@@ -74,8 +77,9 @@ public class RequestController : GenericAPiController<Request>
       //StudentId = requestDTO.StudentId,
       EducationProgramId = requestDTO.educationProgramId,
       //DocumentRiseQualificationId = requestDTO.
-      StatusRequestId = _statusRequestRepository.Get().Result?.FirstOrDefault(x => x.Name == "новая заявка")?.Id,
-      StatusEntrancExams = requestDTO.statusEntranceExams,
+      StatusRequestId = _statusRequestRepository.Get().Result?.FirstOrDefault(x => x.Name?.ToLower() == "новая заявка")
+        ?.Id,
+      StatusEntrancExams = (StatusEntrancExams)requestDTO.statusEntranceExams,
       Email = requestDTO.email ?? "",
       Phone = requestDTO.phone,
       Agreement = requestDTO.agreement
@@ -89,6 +93,7 @@ public class RequestController : GenericAPiController<Request>
 
     if (student == null)
     {
+      request.IsAlreadyStudied = false;
       if (!_studentRepository.Get().Result.Any(x =>
             x.FullName == fio || x.BirthDate == date || x.Email == requestDTO.email))
       {
@@ -111,6 +116,10 @@ public class RequestController : GenericAPiController<Request>
 
         student = await _studentRepository.Create(student);
       }
+    }
+    else
+    {
+      request.IsAlreadyStudied = true;
     }
 
     request.StudentId = student?.Id;
@@ -143,7 +152,6 @@ public class RequestController : GenericAPiController<Request>
     }
   }
 
-  //это лишнее, это копия базового метода
   /// <summary>
   /// Создание новой заявки.
   /// </summary>
@@ -153,6 +161,12 @@ public class RequestController : GenericAPiController<Request>
   {
     try
     {
+      if (request.StudentId is not null)
+      {
+        var existingStudentRequests = await _studentRepository.GetListRequestsOfStudentExists(request.StudentId.Value);
+        request.IsAlreadyStudied = existingStudentRequests is not null && existingStudentRequests.Any();
+      }
+
       var form = await _requestRepository.Create(request);
       if (form is null)
       {

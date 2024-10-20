@@ -32,7 +32,7 @@ const EditForm = ({ item, control, config, refetch }) => {
         editItem(formValues);
         setShowEditForm(false);
     };
-
+    
     return (
         <Modal
             title="Правка"

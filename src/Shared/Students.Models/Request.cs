@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using Students.Models.Enums;
+using Students.Models.ReferenceModels;
 
 namespace Students.Models;
 
@@ -55,6 +57,11 @@ public class Request
   /// Регистрационный номер
   /// </summary>
   public string? RegistrationNumber { get; set; }
+
+  /// <summary>
+  /// Уже проходил обучение.
+  /// </summary>
+  public bool? IsAlreadyStudied { get; set; }
 
   #region PotomuchtoMincifraNeOtdaetSNILS
 

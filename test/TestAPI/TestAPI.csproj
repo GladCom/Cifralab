@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="JunitXml.TestLogger" Version="4.0.254" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.27.1" />
     <PackageReference Include="NUnit" Version="3.14.0" />
@@ -19,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Server\Students.APIServer\Students.APIServer.csproj" />
+    <ProjectReference Include="..\..\src\Server\Students.DBCore\Students.DBCore.csproj" />
     <ProjectReference Include="..\..\src\Shared\Students.Models\Students.Models.csproj" />
   </ItemGroup>
 
@@ -27,6 +30,10 @@
     <Using Include="NUnit.Framework" />
     <Using Include="System.Text.RegularExpressions" />
     <Using Include="System.Threading.Tasks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ControllersTests\" />
   </ItemGroup>
 
 </Project>
