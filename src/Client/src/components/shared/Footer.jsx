@@ -1,24 +1,17 @@
 import React from 'react';
+import { Flex, Layout, Typography } from 'antd';
 
-const footerStyle = {
-    height: '10%',
-    minHeight: '50px',
-};
+const { Footer } = Layout;
+const { Text } = Typography;
 
-const Footer = () => {
+const MyFooter = ({ style }) => {
     return (
-        <footer className="
-            row
-            d-flex align-items-center
-            w-100
-            text-center
-            border-top
-            border-primary
-            p-6
-        " style={footerStyle}>
-            <span>Академия Цифра (c) 2024</span>
-        </footer>
+        <Footer style={style} className="border-top border-primary">
+            <Flex align="center" justify="center" style={{ height: '100%'}}>
+                <Text>Академия Цифра © 2024</Text>
+            </Flex>
+        </Footer>
     );
 };
 
-export default Footer;
+export default MyFooter;
