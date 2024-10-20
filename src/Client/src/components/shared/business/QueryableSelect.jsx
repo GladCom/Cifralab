@@ -6,7 +6,7 @@ import Editor from './Editor.jsx';
 import YesNoButtons from './common/YesNoButtons.jsx';
 
 const Form = ({ setId, value, crud, property }) => {
-    const { data, error, isLoading, isFetching, refetch } = crud.getAllAsync();
+    const { data, error, isLoading, isFetching, refetch } = crud.useGetAllAsync();
 
     return (
         <Select
@@ -35,8 +35,8 @@ const Filter = () => {
 };
 
 const Edit = ({ id, setId, setMode, crud, property }) => {
-    const { getAllAsync } = crud;
-    const { data, error, isLoading, isFetching, refetch } = getAllAsync();
+    const { useGetAllAsync } = crud;
+    const { data, error, isLoading, isFetching, refetch } = useGetAllAsync();
     const [newId, setNewId] = useState(id);
 
     const label = data?.filter(i => i.id === id)[0][property];

@@ -8,10 +8,10 @@ import {
   } from '../services/requestsApi.js';
   
   export {
-    useGetPersonRequestsQuery as getAllAsync,
-    useGetPersonRequestsPagedQuery as getAllPagedAsync,
-    useGetPersonRequestByIdQuery as getOneByIdAsync,
-    useAddPersonRequestMutation as addOneAsync,
-    useEditPersonRequestMutation as editOneAsync,
-    useRemovePersonRequestMutation as removeOneAsync,
+    useGetPersonRequestsQuery as useGetAllAsync,
+    useGetPersonRequestsPagedQuery as useGetAllPagedAsync,
+    useGetPersonRequestByIdQuery as useGetOneByIdAsync,
+    useAddPersonRequestMutation as useAddOneAsync,
+    useEditPersonRequestMutation as useEditOneAsync,
+    useRemovePersonRequestMutation as useRemoveOneAsync,
   }
