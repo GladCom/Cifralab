@@ -3,13 +3,13 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Info from './common/Info.jsx';
 import EditableInfo from './common/EditableInfo.jsx';
-import Editor from './Editor.jsx';
+import { Flex, Button, Space, AutoComplete } from 'antd';
 
 const Form = ({ value, setValue }) => {
     const title = value ? 'да' : 'нет';
 
     return (
-        <Editor>
+        <Flex>
             <DropdownButton 
                 id="dropdown-basic-button"
                 title={title}
@@ -26,16 +26,16 @@ const Form = ({ value, setValue }) => {
                     да
                 </Dropdown.Item>
             </DropdownButton>
-        </Editor>
+        </Flex>
     );
 };
 
 const NoValidationForm = ({ id, value, setValue, required }) => {
 
     return (
-        <Editor>
+        <Flex>
             В разработке
-        </Editor>
+        </Flex>
     );
 };
 
@@ -50,7 +50,7 @@ const Edit = ({ value, setValue, setMode }) => {
     const title = value ? 'да' : 'нет';
 
     return (
-        <Editor>
+        <Flex>
             <DropdownButton 
                 id="dropdown-basic-button"
                 title={title}
@@ -69,7 +69,7 @@ const Edit = ({ value, setValue, setMode }) => {
                     да
                 </Dropdown.Item>
             </DropdownButton>
-        </Editor>
+        </Flex>
     );
 };
 
