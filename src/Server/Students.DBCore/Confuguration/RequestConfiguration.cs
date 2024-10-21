@@ -23,6 +23,9 @@ internal class RequestConfiguration : IEntityTypeConfiguration<Request>
     builder.Property(x => x.Agreement)
       .IsRequired();
 
+    builder.Property(x => x.IsAlreadyStudied)
+      .IsRequired(false);
+
     builder.HasOne(s => s.Student)
       .WithMany(r => r.Requests)
       .HasForeignKey(s => s.StudentId);
