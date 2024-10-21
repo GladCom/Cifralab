@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Menu, Flex, Layout } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   SendOutlined,
@@ -10,8 +10,17 @@ import {
   FilePptOutlined,
 } from '@ant-design/icons';
 
-const Navbar = ( { className }) => {
+
+const { Sider } = Layout;
+
+const siderStyle = {
+  textAlign: 'center',
+  backgroundColor: '#fff',
+};
+
+const Navbar = ( { width }) => {
     const navigate = useNavigate();
+
     const items = [
         {
           key: 'sub1',
@@ -110,12 +119,13 @@ const Navbar = ( { className }) => {
       ];
 
     return (
-      <aside className={className}>
-        <Menu 
+      <Sider width={width} style={siderStyle}>
+        <Menu
+            inlineCollapsed={true}
             mode="inline"
             items={items}
         />
-      </aside>
+      </Sider>
     );
 };
 

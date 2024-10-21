@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Students.Models;
+using Students.Models.Enums;
+using Students.Models.ReferenceModels;
 
 namespace Students.DBCore.Contexts;
 

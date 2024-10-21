@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import _ from 'lodash';
-import Button from 'react-bootstrap/Button';
+import { Flex, Button, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import AddOneForm from './forms/AddOneForm.jsx';
 
@@ -9,35 +9,23 @@ const style = {
     minHeight: '50px',
 };
 
-const classes = "row d-flex align-items-center w-100 text-center border-bottom border-primary";
-
 const FilterPanel = ({ query, config, setQuery }) => {
     const { properties, crud } = config;
     const [showAddOneForm, setShowAddOneForm] = useState(false);
 
     return (
         <>
-            <div className={classes} style={style}>
-                {/* {fields.map(({ name, className, style, filter }) => {
-                    const Filter = filter.type;
-                    return filter.enable 
-                        ? <div className={className}>
-                            <Filter
-                                name={name}
-                                query={query}
-                                setQuery={setQuery}
-                                style={style}
-                            />
-                        </div>
-                        : null;
-                })} */}
-                <div className="col-2 ms-auto">
-                    <Button variant="outline-primary" onClick={() => setShowAddOneForm(true)}>
+            <Flex style={style} className="border-bottom border-primary">
+                <Flex justify="center" align="center" style={{ width: '90%' }}>
+                    <span> </span>
+                </Flex>
+                <Flex justify="center" align="center" style={{ width: '10%' }}>
+                    <Button type="primary" onClick={() => setShowAddOneForm(true)}>
                         <PlusOutlined />
                         добавить
                     </Button>
-                </div>
-            </div>
+                </Flex>
+            </Flex>
             <AddOneForm control={{ showAddOneForm, setShowAddOneForm }} properties={properties} crud={crud} />
         </>
     );

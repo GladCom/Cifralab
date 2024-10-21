@@ -1,4 +1,6 @@
-﻿namespace Students.Models;
+﻿using Students.Models.Enums;
+
+namespace Students.Models.ReferenceModels;
 
 /// <summary>
 /// Сфера деятельности
