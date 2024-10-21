@@ -1,5 +1,5 @@
 import React from 'react';
-import QueryableSelect from '../QueryableSelect';
+import QueryableSelect from '../common/QueryableSelect.jsx';
 import config from '../../../../storage/catalogConfigs/typeEducation.js';    
 
 const EducationFormSelect = ({ id, mode, value, setValue, required }) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import QueryableSelect from '../QueryableSelect.jsx';
+import QueryableSelect from '../common/QueryableSelect.jsx';
 import config from '../../../../storage/catalogConfigs/studentStatus.js';    
 
 const StudentStatusSelect = ({ id, mode, value, setValue, required }) => {

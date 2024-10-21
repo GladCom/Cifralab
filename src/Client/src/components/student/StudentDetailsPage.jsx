@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../shared/Layout.jsx';
+import Layout from '../shared/layout/Layout.jsx';
 import { useParams } from 'react-router-dom';
-import Spinner from '../shared/Spinner.jsx';
-import Empty from '../shared/Empty.jsx';
-import Error from '../shared/Error.jsx';
+import Spinner from '../shared/layout/Spinner.jsx';
+import Empty from '../shared/layout/Empty.jsx';
 import String from '../shared/business/String.jsx';
-import QueryableSelect from '../shared/business/QueryableSelect.jsx';
+import QueryableSelect from '../shared/business/common/QueryableSelect.jsx';
 import EducationTypeSelect from '../shared/business/selects/EducationTypeSelect.jsx'
 import YesNoSelect from '../shared/business/YesNoSelect.jsx';
 import Gender from '../shared/business/Gender.jsx';
 import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Snils from '../shared/business/validation/Snils.jsx'
+import Snils from '../shared/business/Snils.jsx'
 import Button from 'react-bootstrap/Button';
 import studentsConfig from '../../storage/catalogConfigs/students.js';
 import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js'
 import formEducationConfig from '../../storage/catalogConfigs/educationForm.js'
-import Email from '../shared/business/validation/Email.jsx';
+import Email from '../shared/business/Email.jsx';
 
 const StudentDetailsPage = () => {
     const { id } = useParams();
@@ -45,10 +44,6 @@ const StudentDetailsPage = () => {
                 <Empty />
             </>
         );
-    }
-
-    if (error) {
-        return <Error e={error} />;
     }
 
     return (

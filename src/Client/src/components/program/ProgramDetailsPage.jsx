@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../shared/Layout.jsx';
+import Layout from '../shared/layout/Layout.jsx';
 import { useParams } from 'react-router-dom';
 import { useGetEducationProgramByIdQuery, useEditEducationProgramMutation } from '../../storage/services/educationProgramApi.js';
-import Spinner from '../shared/Spinner.jsx';
-import Empty from '../shared/Empty.jsx';
-import Error from '../shared/Error.jsx';
-import String from '../shared/business/String.jsx';
-import EducationType from '../shared/business/EducationType.jsx';
-import Gender from '../shared/business/Gender.jsx';
-import Stack from 'react-bootstrap/Stack';
+import Spinner from '../shared/layout/Spinner.jsx';
+import Empty from '../shared/layout/Empty.jsx';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -38,10 +33,6 @@ const ProgramDetailsPage = () => {
                 <Empty />
             </>
         );
-    }
-
-    if (error) {
-        return <Error e={error} />;
     }
 
     return (
