@@ -67,4 +67,5 @@ export default {
             key: 'archive',
         },
     ],
+    dataConverter: (data) => data,
 };

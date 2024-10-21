@@ -30,4 +30,5 @@ export default {
             key: 'name',
         },
     ],
+    dataConverter: (data) => data,
 };

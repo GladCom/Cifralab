@@ -84,4 +84,5 @@ export default {
             key: 'statusRequest',
         },
     ],
+    dataConverter: (data) => data,
 };
