@@ -29,12 +29,12 @@ namespace Students.APIServer.DTO
     public string? KindOrderName { get; set; }
 
     /// <summary>
-    /// Группа.
+    /// Группы.
     /// </summary>
     public IEnumerable<Group>? Groups { get; set; }
 
     /// <summary>
-    /// Студент.
+    /// Имя студента.
     /// </summary>
     public string? StudentName { get; set; }
 
