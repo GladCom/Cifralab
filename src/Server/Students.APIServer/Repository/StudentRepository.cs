@@ -15,7 +15,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   #region Поля и свойства
 
   private readonly StudentContext _ctx;
-  private IGroupStudentRepository _studentInGroupRepository;
+  private readonly IGroupStudentRepository _studentInGroupRepository;
 
   #endregion
 
@@ -29,7 +29,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Список студентов с пагинацией.</returns>
   public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
   {
-    return await PagedPage<Student>.ToPagedPage(_ctx.Students, page, pageSize, (x) => x.Family);
+    return await PagedPage<Student>.ToPagedPage(this._ctx.Students, page, pageSize, (x) => x.Family);
   }
 
   /// <summary>
@@ -37,13 +37,57 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// </summary>
   /// <param name="studentId">Идентификатор студента.</param>
   /// <returns>Список групп студента.</returns>
-  public async Task<IEnumerable<Group?>> GetListGroupsOfStudentExists(Guid studentId)
+  public async Task<IEnumerable<Group?>?> GetListGroupsOfStudentExists(Guid studentId)
   {
     var result = from x in _ctx.Groups
-                 join y in _ctx.GroupStudent.Where(x => x.StudentsId == studentId).Select(s => s) on x.Id equals y.GroupsId
-                 select x;
-
+      join y in _ctx.GroupStudent.Where(x => x.StudentsId == studentId).Select(s => s) on x.Id equals y.GroupsId
+      select x;
     return await result.ToListAsync().ConfigureAwait(false);
+  }
+
+
+  /// <summary>
+  /// Список программ обучения, на которых обучался студент.
+  /// </summary>
+  /// <param name="studentId">Id студента.</param>
+  /// <returns>Список с программами обучения студента.</returns>
+  public async Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId)
+  {
+    var student = await base.FindById(studentId);
+    if(student is null)
+      return null;
+    var educationPrograms = new List<EducationProgram>();
+    student.Groups = new List<Group>();
+
+    await this._ctx.Entry(student).Collection(s => s.GroupStudent).LoadAsync();
+
+    foreach (var groupStudent in student.GroupStudent)
+    {
+      await this._ctx.Entry(groupStudent).Reference(s => s.Group).LoadAsync();
+      student.Groups.Add(groupStudent.Group);
+    }
+
+    foreach (var studentGroup in student.Groups)
+    {
+      await this._ctx.Entry(studentGroup).Reference(s => s.EducationProgram).LoadAsync();
+      educationPrograms.Add(studentGroup.EducationProgram);
+    }
+
+    return educationPrograms;
+  }
+
+  /// <summary>
+  /// Список заявок студента.
+  /// </summary>
+  /// <param name="studentId">Id студента.</param>
+  /// <returns>Список заявок студента.</returns>
+  public async Task<IEnumerable<Request?>?> GetListRequestsOfStudentExists(Guid studentId)
+  {
+    var student = await base.FindById(studentId);
+    if (student is null)
+      return null;
+    await this._ctx.Entry(student).Collection(s => s.Requests!).LoadAsync();
+    return student.Requests!.ToList();
   }
 
   /// <summary>
@@ -54,7 +98,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Идентификатор студента.</returns>
   public async Task<Guid> AddStudentToGroup(Guid stud, Guid group)
   {
-    await _studentInGroupRepository.AddStudentInGroup(stud, group);
+    await this._studentInGroupRepository.AddStudentInGroup(stud, group);
     return stud;
   }
 
@@ -69,7 +113,6 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
       .Include(x => x.Groups)
       .Include(x => x.Requests)
       .FirstOrDefaultAsync(x => x.Id == id);
-
   }
 
   /// <summary>
@@ -79,10 +122,10 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Студент.</returns>
   public async Task<Student?> FindByPhone(string phone)
   {
-    var students = _ctx.Students.AsNoTracking().AsAsyncEnumerable();
-    await foreach(var item in students)
+    var students = this._ctx.Students.AsNoTracking().AsAsyncEnumerable();
+    await foreach (var item in students)
     {
-      if(item.Phone.GetPhoneFromStr().Equals(phone.GetPhoneFromStr()))
+      if (item.Phone.GetPhoneFromStr().Equals(phone.GetPhoneFromStr()))
       {
         return item;
       }
@@ -98,24 +141,24 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Студент.</returns>
   public async Task<Student?> FindByEmail(string email)
   {
-    return await _ctx.Students.AsNoTracking()
+    return await this._ctx.Students.AsNoTracking()
       .FirstOrDefaultAsync(x =>
         x.Email.ToLower().Equals(email.ToLower()));
   }
 
   /// <summary>
-  /// Поиск телефона по номеру телефона и email.
+  /// Поиск студента по номеру телефона и email.
   /// </summary>
   /// <param name="phone">Номер телефона.</param>
   /// <param name="email">Электронная почта.</param>
   /// <returns>Студент.</returns>
   public async Task<Student?> FindByPhoneAndEmail(string phone, string email)
   {
-    var students = _ctx.Students.AsNoTracking().AsAsyncEnumerable();
-    await foreach(var item in students)
+    var students = this._ctx.Students.AsNoTracking().AsAsyncEnumerable();
+    await foreach (var item in students)
     {
-      if(item.Phone.GetPhoneFromStr().Equals(phone.GetPhoneFromStr())
-          && (item.Email.ToLower().Equals(email.ToLower())))
+      if (item.Phone.GetPhoneFromStr().Equals(phone.GetPhoneFromStr())
+          && item.Email.ToLower().Equals(email.ToLower()))
       {
         return item;
       }
@@ -135,8 +178,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <param name="studInGroupRep">Репозиторий групп студентов (это нужно удалить, заменить на репозиторий студентов).</param>
   public StudentRepository(StudentContext context, IGroupStudentRepository studInGroupRep) : base(context)
   {
-    _ctx = context;
-    _studentInGroupRepository = studInGroupRep;
+    this._ctx = context;
+    this._studentInGroupRepository = studInGroupRep;
   }
 
   #endregion

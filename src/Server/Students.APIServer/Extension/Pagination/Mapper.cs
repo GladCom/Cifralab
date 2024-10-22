@@ -1,5 +1,8 @@
 ﻿using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.Enums;
+using Students.Models.ReferenceModels;
+using Students.Models.WebModels;
 
 namespace Students.APIServer.Extension.Pagination;
 
@@ -19,7 +22,7 @@ public static class Mapper
     IGenericRepository<EducationProgram> educationProgramRepository,
     IGenericRepository<StatusRequest> statusRequestRepository)
   {
-    var status = statusRequestRepository.Get().Result.FirstOrDefault(x => x?.Name?.ToLower() == "новая");
+    var status = statusRequestRepository.Get().Result.FirstOrDefault(x => x?.Name?.ToLower() == "новая заявка");
 
     return new Request
     {

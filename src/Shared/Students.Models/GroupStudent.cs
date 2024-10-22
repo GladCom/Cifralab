@@ -1,32 +1,31 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Students.Models
+namespace Students.Models;
+
+/// <summary>
+/// Группа студентов (данный класс должен умереть)
+/// </summary>
+public class GroupStudent
 {
   /// <summary>
-  /// Группа студентов (данный класс должен умереть)
+  /// Идентификатор студента
   /// </summary>
-  public class GroupStudent
-  {
-    /// <summary>
-    /// Идентификатор студента
-    /// </summary>
-    public required Guid StudentsId { get; set; }
+  public required Guid StudentsId { get; set; }
 
-    /// <summary>
-    /// Идентификатор группы
-    /// </summary>
-    public required Guid GroupsId { get; set; }
+  /// <summary>
+  /// Идентификатор группы
+  /// </summary>
+  public required Guid GroupsId { get; set; }
 
-    /// <summary>
-    /// Студент (навигационное свойство)
-    /// </summary>
-    [JsonIgnore]
-    public virtual Student? Student { get; set; }
+  /// <summary>
+  /// Студент (навигационное свойство)
+  /// </summary>
+  [JsonIgnore]
+  public virtual Student? Student { get; set; }
 
-    /// <summary>
-    /// Группа (навигационное свойство)
-    /// </summary>
-    [JsonIgnore]
-    public virtual Group? Group { get; set; }
-  }
+  /// <summary>
+  /// Группа (навигационное свойство)
+  /// </summary>
+  [JsonIgnore]
+  public virtual Group? Group { get; set; }
 }

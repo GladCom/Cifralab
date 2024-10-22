@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using Students.Models.Enums;
+using Students.Models.ReferenceModels;
 
 namespace Students.Models;
 
