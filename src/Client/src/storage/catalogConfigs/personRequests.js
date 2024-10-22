@@ -14,7 +14,7 @@ import EducationTypeSelect from '../../components/shared/business/selects/Educat
 import StatusEntranceExamsSelect from '../../components/shared/business/selects/StatusEntranceExamsSelect.jsx';
 import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
 import YesNoSelect from '../../components/shared/business/CheckBox.jsx';
-import Snils from '../../components/shared/business/validation/student/Snils.jsx';
+import Snils from '../../components/shared/business/validation/Snils.jsx';
 
 export default {
     detailsLink: 'RequestDetailPage',

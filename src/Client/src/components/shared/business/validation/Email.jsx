@@ -1,6 +1,6 @@
 import React from 'react';
 
-import String from '../../String'; 
+import String from '../String'; 
 import * as yup from 'yup';
 
 const MODES = {

@@ -8,8 +8,8 @@ import {
 } from '../crud/studentsCrud.js';
 import String from '../../components/shared/business/String.jsx';
 import Gender from '../../components/shared/business/Gender.jsx';
-import Snils from '../../components/shared/business/validation/student/Snils.jsx';
-import Email from '../../components/shared/business/validation/student/Email.jsx';
+import Snils from '../../components/shared/business/validation/Snils.jsx';
+import Email from '../../components/shared/business/validation/Email.jsx';
 
 export default {
     detailsLink: 'student',
