@@ -10,10 +10,8 @@ import EducationTypeSelect from '../shared/business/selects/EducationTypeSelect.
 import YesNoSelect from '../shared/business/YesNoSelect.jsx';
 import Gender from '../shared/business/Gender.jsx';
 import Stack from 'react-bootstrap/Stack';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Col, Space, Button } from 'antd';
 import Snils from '../shared/business/validation/Snils.jsx'
-import Button from 'react-bootstrap/Button';
 import studentsConfig from '../../storage/catalogConfigs/students.js';
 import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js'
 import formEducationConfig from '../../storage/catalogConfigs/educationForm.js'

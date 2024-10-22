@@ -10,13 +10,8 @@ import EducationFormSelect from '../../components/shared/business/selects/Educat
 import FinancingTypeSelect from '../../components/shared/business/selects/FinancingTypeSelect.jsx'
 import FEAProgramSelect from '../../components/shared/business/selects/FEAProgramSelect.jsx'
 import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/KindDocumentRiseQualificationSelect.jsx'
-import YesNoSelect from '../../components/shared/business/YesNoSelect.jsx';
 import config from '../../storage/catalogConfigs/educationPrograms.js'
-import Stack from 'react-bootstrap/Stack';
-import Row from 'react-bootstrap/Row';
-import QueryableSelect from '../shared/business/QueryableSelect.jsx';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
+import { Row, Col, Space, Button } from 'antd';
 
 const ProgramDetailsPage = () => {
     const { id } = useParams();
@@ -49,7 +44,7 @@ const ProgramDetailsPage = () => {
     if (error) {
         return <Error e={error} />;
     }
-
+    const rowStyle = { alignItems: 'center', marginBottom: '0px' };
     return (
         <Layout title="Данные программы">
         <h2 className="m-3">   
@@ -59,6 +54,7 @@ const ProgramDetailsPage = () => {
                     setValue={(value) => setProgramData({ ...programData, name: value })}
                 /> 
                 </h2>
+                <Space direction="vertical" size={0} style={{ display: 'flex' }}>
                 {Object.entries(properties).map(([key, { name, type, show, required }]) => {
                     const Input = type;
                     const isSelect = [
@@ -68,9 +64,9 @@ const ProgramDetailsPage = () => {
                         KindDocumentRiseQualificationSelect
                     ].includes(type);
                     return (
-                        <Stack direction="horizontal" key={key}>
-                            <div>{name}</div>
-                            <div>
+                        <Row style={rowStyle} key={key}>
+                            <Col span={3}>{name}</Col>
+                            <Col span={8}>
                                 <Input
                                     key={key}
                                     name={key}
@@ -87,10 +83,11 @@ const ProgramDetailsPage = () => {
                                         });
                                     }}
                                 />
-                            </div>
-                        </Stack>
+                            </Col>
+                        </Row>
                     );
                 })}
+                 </Space>
 
         <hr />
         <Row>
