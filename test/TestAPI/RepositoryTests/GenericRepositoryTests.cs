@@ -50,7 +50,6 @@ public class GenericRepositoryTests
     var actual = 0;
     foreach(var student in students)
     {
-
       if(actualStudents.FirstOrDefault(sg => sg.Id == student.Id)
           is not null)
         actual++;
@@ -274,8 +273,8 @@ public class GenericRepositoryTests
       BirthDate = default,
       Sex = default,
       Address = "null",
-      Phone = "null",
-      Email = "null",
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
       IT_Experience = "null",
       ScopeOfActivityLevelOneId = default
     };

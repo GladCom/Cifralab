@@ -291,8 +291,8 @@ public class RequestRepositoryTests
       StatusRequestId = Guid.NewGuid(),
       StudentStatusId = Guid.NewGuid(),
       StatusEntrancExams = default,
-      Email = "null",
-      Phone = "null",
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
       Agreement = default
     };
   }
@@ -318,8 +318,8 @@ public class RequestRepositoryTests
       BirthDate = default,
       Sex = default,
       Address = "null",
-      Phone = "null",
-      Email = "null",
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
       IT_Experience = "null",
       ScopeOfActivityLevelOneId = default
     };

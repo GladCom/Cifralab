@@ -525,7 +525,7 @@ internal static class HasDataEntities
       StatusEntrancExams = StatusEntrancExams.Done,
       RegistrationNumber = "432",
       Email = "III@gmail.com",
-      Phone = "1234567890",
+      Phone = "+7 (123) 456-78-90",
       Agreement = true
     }
   };
@@ -544,7 +544,7 @@ internal static class HasDataEntities
       Sex = SexHuman.Men,
       Nationality = "Россия",
       Address = "Проспект Сишарпа, 42",
-      Phone = "1234567890",
+      Phone = "+7 (123) 453-78-90",
       Email = "III@gmail.com",
       Projects = "Немало",
       IT_Experience = "Есть",
@@ -567,7 +567,7 @@ internal static class HasDataEntities
       Sex = SexHuman.Woman,
       Nationality = "Россия",
       Address = "Проспект PHP, 47",
-      Phone = "0987654321",
+      Phone = "+7 (123) 451-71-90",
       Email = "IAI@gmail.com",
       Projects = "Мало",
       IT_Experience = "Есть",
