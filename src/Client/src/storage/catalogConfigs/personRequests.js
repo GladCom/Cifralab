@@ -1,17 +1,11 @@
 import {
-    getAllAsync,
-    getAllPagedAsync,
-    getOneByIdAsync,
-    addOneAsync,
-    editOneAsync,
-    removeOneAsync,
+    useGetAllAsync,
+    useGetAllPagedAsync,
+    useGetOneByIdAsync,
+    useAddOneAsync,
+    useEditOneAsync,
+    useRemoveOneAsync,
 } from '../crud/personRequestsCrud.js';
-import {
-    UserOutlined,
-    PhoneOutlined,
-    CalendarOutlined,
-    MailOutlined,
-} from '@ant-design/icons';
 
 import String from '../../components/shared/business/String.jsx';
 import RequestStatusSelect from '../../components/shared/business/selects/RequestStatusSelect.jsx';
@@ -20,7 +14,6 @@ import EducationTypeSelect from '../../components/shared/business/selects/Educat
 import StatusEntranceExamsSelect from '../../components/shared/business/selects/StatusEntranceExamsSelect.jsx';
 import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
 import YesNoSelect from '../../components/shared/business/CheckBox.jsx';
-const iconStyle = { marginRight: '5px' };
 
 export default {
     detailsLink: 'requests',
@@ -46,119 +39,49 @@ export default {
         scopeOfActivityLevelTwoId: { name: 'Сфера деятельности уровень 2', type: ScopeOfActivitySelect, show: true, required: true },
         agreement: { name: 'Согласие на обработку перс. даннных', type: YesNoSelect, show: true, required: true }
     },
-    fields: [
+    crud: {
+        useGetAllAsync,
+        useGetAllPagedAsync,
+        useGetOneByIdAsync,
+        useAddOneAsync,
+        useEditOneAsync,
+        useRemoveOneAsync,
+    },
+    columns: [
         {
-            info: 'Ф.И.О. заявителя',
-            property: 'studentFullName',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: UserOutlined,
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Ф.И.О. заявителя',
+            dataIndex: 'studentFullName',
+            key: 'studentFullName',
         },
         {
-            info: 'Дата рождения',
-            property: 'birthDate',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Дата рождения',
+            dataIndex: 'birthDate',
+            key: 'birthDate',
         },
         {
-            info: 'Место проживания',
-            property: 'address',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Место проживания',
+            dataIndex: 'address',
+            key: 'address',
         },
         {
-            info: 'Уровень образования',
-            property: 'typeEducation',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Уровень образования',
+            dataIndex: 'typeEducation',
+            key: 'typeEducation',
         },
         {
-            info: 'Программа обучения',
-            property: 'educationProgram',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Программа обучения',
+            dataIndex: 'educationProgram',
+            key: 'educationProgram',
         },
         {
-            info: 'e-mail',
-            property: 'email',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'E-mail',
+            dataIndex: 'email',
+            key: 'email',
         },
         {
-            info: 'Статус',
-            property: 'statusRequest',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Статус',
+            dataIndex: 'statusRequest',
+            key: 'statusRequest',
         },
     ],
-    crud: {
-        getAllAsync,
-        getAllPagedAsync,
-        getOneByIdAsync,
-        addOneAsync,
-        editOneAsync,
-        removeOneAsync,
-    }
 };

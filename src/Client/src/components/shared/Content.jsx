@@ -1,19 +1,18 @@
 import React from 'react';
-import Navbar from './Navbar';
+import { Layout } from 'antd';
 
+const { Content } = Layout;
 const contentStyle = {
-    minHeight: '80%',
+    backgroundColor: '#fff',
+    overflow: 'auto',
 };
 
-const Content = ({ children }) => {
+const MyContent = ({ children }) => {
     return (
-        <div className='row' style={contentStyle}>
-            <Navbar className="col-2 border-right border-primary"/>
-            <section className='col-10'>
+        <Content style={contentStyle}>
                 {children}
-            </section>
-        </div>
+        </Content>
     );
 };
 
-export default Content;
+export default MyContent;

@@ -28,7 +28,6 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/requests" element={(
             <PrivateRoute>
-              {/*<RequestServicePage />*/}
               <PersonRequestsPage />
             </PrivateRoute>
           )}

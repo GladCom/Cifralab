@@ -16,6 +16,7 @@ const overlayStyle = {
 
 const Error = ({ e }) => {
     const { data, error, status, originalStatus } = e;
+    
   return (
     <div style={overlayStyle}>
         <div className="auto bg-white p-3 rounded">

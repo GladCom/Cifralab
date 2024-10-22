@@ -58,6 +58,11 @@ public class Request
   /// </summary>
   public string? RegistrationNumber { get; set; }
 
+  /// <summary>
+  /// Уже проходил обучение.
+  /// </summary>
+  public bool? IsAlreadyStudied { get; set; }
+
   #region PotomuchtoMincifraNeOtdaetSNILS
 
   /// <summary>

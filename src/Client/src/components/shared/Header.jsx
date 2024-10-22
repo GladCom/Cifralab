@@ -2,17 +2,13 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as userActions } from '../../storage/slices/userSlice.js';
 import Logo from './Logo.jsx';
+import { Flex, Layout, Button, Typography } from 'antd';
 
-const headerStyle = {
-    height: '10%',
-    minHeight: '50px',
-};
+const { Text, Title } = Typography;
 
-const titleStyle = {
-    fontSize: 'max(24px, 2vw)',
-};
+const { Header } = Layout;
 
-const Header = ({ title }) => {
+const MyHeader = ({ title, style }) => {
     const dispatch = useDispatch();
     const { userName } = useSelector((state) => state.user);
 
@@ -21,30 +17,25 @@ const Header = ({ title }) => {
     };
 
     return (
-        <header className="
-            row
-            d-flex align-items-center
-            w-100 
-            border-bottom
-            border-primary
-            p-6
-        " style={headerStyle}>
-            <div className="hstack gap-3">
-                <Logo />
-                <div className="vr m-3" />
-                <div className="me-auto">
-                    <h1 className="display-6 m-0" style={titleStyle}>{title}</h1>
-                </div>
-                <div className="vr m-3" />
-                <div className="d-flex justify-content-center">
-                    <span>Пользователь: {userName}</span>
-                </div>
-                <div className="d-flex justify-content-center">
-                    <button className="btn btn-primary btn-block" onClick={onClickHandler}>Выйти</button>
-                </div>
-            </div>
-        </header>
+        <Header style={style} className="border-bottom border-primary">
+            <Flex style={{ height: '100%'}}>
+                <Flex justify="center" align="center" style={{ width: '15%' }}>
+                    <Logo />
+                </Flex>
+                <Flex justify="left" align="center" style={{ width: '50%' }}>
+                    <Title style={{ margin: '0', fontWeight: 'normal' }}>
+                        {title}
+                    </Title>
+                </Flex>
+                <Flex justify="right" align="center" style={{ width: '25%' }}>
+                    <Text>Пользователь: {userName}</Text>
+                </Flex>
+                <Flex justify="center" align="center" style={{ width: '10%' }}>
+                    <Button type="primary" onClick={onClickHandler}>Выйти</Button>
+                </Flex>
+            </Flex>
+        </Header>
     );
 };
 
-export default Header;
+export default MyHeader;

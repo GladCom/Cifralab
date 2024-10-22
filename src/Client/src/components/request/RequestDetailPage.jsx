@@ -19,14 +19,14 @@ import Email from '../shared/business/validation/Email.jsx';
 
 const RequestDetailsPage = () => {
     const { id } = useParams();
-    const [requestData, setRequestData] = useState({ });
-    const { getOneByIdAsync, editOneAsync } = requestsConfig.crud;
-    const { data, error, isLoading, isFetching, refetch } = getOneByIdAsync(id);
+    const [requestData, setRequestData] = useState({});
+    const { useGetOneByIdAsync, useEditOneAsync } = requestsConfig.crud;
+    const { data, error, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
 
     const [
         editRequest,
         { error: editRequestError, isLoading: isEdittingRequest },
-      ] = editOneAsync();
+      ] = useEditOneAsync();
 
     useEffect(() => {
         if (!isLoading && !isFetching) {
