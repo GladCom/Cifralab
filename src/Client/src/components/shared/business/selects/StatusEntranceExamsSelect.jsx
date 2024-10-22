@@ -6,16 +6,16 @@ const StatusEntranceExamsSelect = ({ id, mode, value, setValue, required }) => {
     const { Option } = Select;
     
     function handleChange(value) {
-      console.log(`selected ${value}`);
+      //console.log(`selected ${value}`);
       setValue(value);
     };
 
     return (
-        <Select defaultValue="0" style={{ width: 120 }} onChange={handleChange}>
-            <Option value="1">Не сдано</Option>
-            <Option value="2">Тестовое задание</Option>
-            <Option value="3">Собеседование</Option>
-            <Option value="4">Выполнено</Option>
+        <Select style={{ width: 120 }} onChange={handleChange}>
+            <Option value={0}>Не сдано</Option>
+            <Option value={1}>Тестовое задание</Option>
+            <Option value={2}>Собеседование</Option>
+            <Option value={3}>Выполнено</Option>
         </Select>   
     )
 };

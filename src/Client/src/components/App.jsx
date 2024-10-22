@@ -18,6 +18,7 @@ import KindDocumentRiseQualificationPage from './catalogPages/KindDocumentRiseQu
 import FinancingTypePage from './catalogPages/FinancingTypePage.jsx';
 import FEAProgramPage from './catalogPages/FEAProgramPage.jsx';
 import PersonRequestsPage from './catalogPages/PersonRequestsPage.jsx';
+import RequestDetailPage from './request/RequestDetailPage.jsx';
 
 const App = () => {
   return (
@@ -29,6 +30,12 @@ const App = () => {
             <PrivateRoute>
               {/*<RequestServicePage />*/}
               <PersonRequestsPage />
+            </PrivateRoute>
+          )}
+        />
+        <Route path="/requests/:id" element={(
+            <PrivateRoute>
+              <RequestDetailPage />
             </PrivateRoute>
           )}
         />

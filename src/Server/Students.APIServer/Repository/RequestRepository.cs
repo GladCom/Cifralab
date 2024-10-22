@@ -177,17 +177,33 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 
     return await PagedPage<RequestsDTO>.ToPagedPage<string>(query, page, pageSize, (x) => x.StudentFullName);
   }
-  #endregion
 
-  #region Конструкторы
 
-  /// <summary>
-  /// Конструктор.
-  /// </summary>
-  /// <param name="context">Контекст базы данных.</param>
-  /// <param name="studRep">Репозиторий студентов.</param>
-  /// <param name="orderRepository">Репозиторий приказов.</param>
-  public RequestRepository(StudentContext context, IStudentRepository studRep, IOrderRepository orderRepository) :
+    /// <summary>
+    /// Поиск сущности по идентификатору.
+    /// </summary>
+    /// <param name="id">Идентификатор сущности.</param>
+    /// <returns>Сущность.</returns>
+    public override async Task<Request?> FindById(Guid id)
+    {
+        return await _ctx.Requests.AsNoTracking()
+      .Include(x => x.Student)
+        .ThenInclude(y => y.TypeEducation)
+      .Include(x => x.EducationProgram)
+      .Include(x => x.Status)
+      .FirstOrDefaultAsync(x => x.Id == id);
+    }
+    #endregion
+
+    #region Конструкторы
+
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    /// <param name="context">Контекст базы данных.</param>
+    /// <param name="studRep">Репозиторий студентов.</param>
+    /// <param name="orderRepository">Репозиторий приказов.</param>
+    public RequestRepository(StudentContext context, IStudentRepository studRep, IOrderRepository orderRepository) :
     base(context)
   {
     _ctx = context;

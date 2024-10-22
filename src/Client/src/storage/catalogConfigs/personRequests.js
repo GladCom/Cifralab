@@ -23,7 +23,7 @@ import YesNoSelect from '../../components/shared/business/CheckBox.jsx';
 const iconStyle = { marginRight: '5px' };
 
 export default {
-    detailsLink: 'RequestDetailPage',
+    detailsLink: 'requests',
     hasDetailsPage: true,
     serverPaged: true,
     properties: {
