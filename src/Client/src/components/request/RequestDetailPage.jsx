@@ -14,6 +14,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import requestsConfig from '../../storage/catalogConfigs/personRequests.js';
 import requestStatusConfig from '../../storage/catalogConfigs/requestStatus.js';
+import PhoneNumber from '../shared/business/validation/PhoneNumber.jsx';
+import Email from '../shared/business/validation/Email.jsx';
 
 const RequestDetailsPage = () => {
     const { id } = useParams();
@@ -169,7 +171,7 @@ const RequestDetailsPage = () => {
             <Stack direction="horizontal">
                 <div>E-mail</div>
                 <div>
-                    <String
+                    <Email
                         value={requestData?.email}
                         mode='editableInfo'
                         setValue={(value) => setRequestData({ ...requestData, email: value })}
