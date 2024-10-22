@@ -67,6 +67,13 @@ const App = () => {
             </PrivateRoute>
           )}
         />
+        
+        <Route path="/educationProgram/:id" element={(
+            <PrivateRoute>
+              <ProgramDetailsPage />
+            </PrivateRoute>
+          )}
+        />
         <Route path="/educationForm" element={(
             <PrivateRoute>
               <EducationFormPage />

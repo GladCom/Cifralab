@@ -9,11 +9,12 @@ import QueryableSelect from '../shared/business/QueryableSelect.jsx';
 import EducationTypeSelect from '../shared/business/selects/EducationTypeSelect.jsx';
 import YesNoSelect from '../shared/business/YesNoSelect.jsx';
 import Gender from '../shared/business/Gender.jsx';
+import Stack from 'react-bootstrap/Stack';
 import { Row, Col, Space, Button } from 'antd';
-import Snils from '../shared/business/validation/Snils.jsx';
+import Snils from '../shared/business/validation/Snils.jsx'
 import studentsConfig from '../../storage/catalogConfigs/students.js';
-import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js';
-import formEducationConfig from '../../storage/catalogConfigs/educationForm.js';
+import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js'
+import formEducationConfig from '../../storage/catalogConfigs/educationForm.js'
 import Email from '../shared/business/validation/Email.jsx';
 
 const StudentDetailsPage = () => {

@@ -30,6 +30,7 @@ export default {
         isNetworkProgram: { name: 'Сетевая форма', type: YesNoSelect, show: true, required: true },
         isDOTProgram: { name: 'Применение ДОТ', type: YesNoSelect, show: true, required: true },
         isFullDOTProgram: { name: 'Применение ДОТ полностью', type: YesNoSelect, show: true, required: true },
+        qualificationName: { name: 'Наименование квалификации', type: String, show: true, required: true },
         isArchive: { name: 'В архиве', type: YesNoSelect, show: true, required: true },
     },
     crud: {

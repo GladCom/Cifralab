@@ -14,6 +14,7 @@ import EducationTypeSelect from '../../components/shared/business/selects/Educat
 import StatusEntranceExamsSelect from '../../components/shared/business/selects/StatusEntranceExamsSelect.jsx';
 import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
 import YesNoSelect from '../../components/shared/business/CheckBox.jsx';
+import Snils from '../../components/shared/business/validation/Snils.jsx';
 
 export default {
     detailsLink: 'RequestDetailPage',
@@ -33,7 +34,7 @@ export default {
         birthDate: { name: 'Дата рождения', show: true, type: String, required: true },
         //age: { name: 'Возраст', show: false, type: String, required: false },
         address: { name: 'Место проживания', show: true, type: String, required: true },
-        phone: { name: 'Телефон', type: String, show: true, required: true },
+        phone: { name: 'Телефон', type: Snils, show: true, required: true },
         email: { name: 'E-mail', type: String, show: true, required: true },
         scopeOfActivityLevelOneId: { name: 'Сфера деятельности уровень 1', type: ScopeOfActivitySelect, show: true, required: true },
         scopeOfActivityLevelTwoId: { name: 'Сфера деятельности уровень 2', type: ScopeOfActivitySelect, show: true, required: true },
