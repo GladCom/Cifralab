@@ -17,7 +17,7 @@ import YesNoSelect from '../../components/shared/business/CheckBox.jsx';
 import Snils from '../../components/shared/business/validation/Snils.jsx';
 
 export default {
-    detailsLink: 'RequestDetailPage',
+    detailsLink: 'requests',
     hasDetailsPage: true,
     serverPaged: true,
     properties: {
