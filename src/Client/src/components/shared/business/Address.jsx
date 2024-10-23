@@ -41,7 +41,7 @@ const AddressForm = ({ value, formParams }) => {
 };
 
 const renderMode = {
-    form: AddressForm,
+    //  form: AddressForm,  TODO:   в этом режиме отдает помимо value еще кучу всего
 };
 
 const Address = ({ mode, value, setValue, formParams }) => {
