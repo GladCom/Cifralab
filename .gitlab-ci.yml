@@ -1,14 +1,59 @@
 stages:
   - compile
+  - test
   - deploy
+
+# Запуск юнит тестов
+frontend-test:
+  stage: test
+  image: node:current-alpine3.19
+  tags: [ common ]
+  script:
+    - cd ./src/Client
+    - npm install jest
+    - npm test
 
 # Проверка компиляции бэкенд
 backend-compile:
   stage: compile
-  image: mcr.microsoft.com/dotnet/sdk:8.0
+  image: mcr.microsoft.com/dotnet/sdk:7.0
   tags: [ common ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
   script:
     - dotnet build ./src
+
+# Проверка сборки frontend
+frontend-build:
+  stage: compile
+  image: node:current-alpine3.19
+  tags: [ common ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
+  script:
+    - cd ./src/Client 
+    - npm ci
+    - CI=false npm run build
+  
+# Запус юнит тестов
+backend-test:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:7.0
+  tags: [ common ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
+  artifacts:
+    when: always
+    paths:
+      - ./**/*.Result.xml
+    reports:
+      junit:
+        - ./**/*.Result.xml
+  script:
+    - dotnet test ./test/TestAPI --test-adapter-path . --logger 'junit;LogFilePath=../Artifacts/{assembly}.Result.xml;MethodFormat=Class;FailureBodyFormat=Verbose'
 
 # Деплой на тестовый стенд
 deploy-on-test:
@@ -19,5 +64,7 @@ deploy-on-test:
       when: on_success
   script:
     - ./build/down.sh
-    - ./build/build.sh
+    - BUILD_OUT=$(./build/build.sh)
     - ./build/run.sh
+    - BUILD_STATUS="${BUILD_OUT:0-1}"
+    - exit $BUILD_STATUS

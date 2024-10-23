@@ -1,5 +1,7 @@
 ﻿using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.ReferenceModels;
+using Students.Models.ReportsModel;
 
 namespace Students.APIServer.Repository.Reports;
 

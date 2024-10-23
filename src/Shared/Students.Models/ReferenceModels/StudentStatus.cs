@@ -1,17 +1,17 @@
-﻿namespace Students.Models;
+﻿namespace Students.Models.ReferenceModels;
 
 /// <summary>
-/// Образование студента
+/// Статус студента
 /// </summary>
-public class TypeEducation
+public class StudentStatus
 {
   /// <summary>
-  /// Id образования
+  /// Id статуса
   /// </summary>
   public Guid Id { get; set; }
 
   /// <summary>
-  /// Имя образования
+  /// Имя статуса
   /// </summary>
   public required string Name { get; set; }
 }

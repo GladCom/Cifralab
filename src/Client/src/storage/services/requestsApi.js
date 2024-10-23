@@ -19,12 +19,13 @@ export const requestsApi = createApi({
       query: (request) => ({
         url: '/NewRequest',
         method: 'POST',
-        body: request
+        body: request,
+        invalidatesTags: ['Requests'],
       }),
     }),
     editPersonRequest: builder.mutation({
       query: ({ id, request }) => ({
-        url: id,
+        url: `/EditRequest/${id}`,
         method: 'PUT',
         body: request,
       }),

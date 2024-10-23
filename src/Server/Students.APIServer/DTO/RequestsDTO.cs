@@ -1,4 +1,4 @@
-﻿using Students.Models;
+﻿using Students.Models.Enums;
 
 namespace Students.APIServer.DTO;
 
@@ -74,7 +74,7 @@ public class NewRequestDTO
   /// <summary>
   /// Статус сзади вступительного экзамена.
   /// </summary>
-  public required StatusEntrancExams statusEntranceExams { get; set; }
+  public required int statusEntranceExams { get; set; }
 }
 
 /// <summary>
@@ -192,4 +192,8 @@ public class RequestsDTO
   /// Согласие на обработку данных.
   /// </summary>
   public bool agreement { get; set; }
+  /// <summary>
+  /// Возраст
+  /// </summary>
+  public int? Age { get; set; }
 }
