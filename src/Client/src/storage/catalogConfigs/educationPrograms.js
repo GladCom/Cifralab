@@ -48,13 +48,13 @@ export default {
         },
         {
             title: 'Вид программы',
-            dataIndex: 'kindDocumentRiseQualificationId',
-            key: 'kindDocumentRiseQualificationId',
+            dataIndex: 'kindDocumentRiseQualification',
+            key: 'kindDocumentRiseQualification',
         },
         {
             title: 'Форма обучения',
-            dataIndex: 'educationFormId',
-            key: 'educationFormId',
+            dataIndex: 'educationForm',
+            key: 'educationForm',
         },
         {
             title: 'Кол-во часов',
@@ -67,5 +67,15 @@ export default {
             key: 'archive',
         },
     ],
-    dataConverter: (data) => data,
+    dataConverter: (data) => {
+        return data?.map(({ kindDocumentRiseQualificationId, educationFormId, ...props }) => {
+            const kindDocumentRiseQualification = (
+                <KindDocumentRiseQualificationSelect id={kindDocumentRiseQualificationId} mode='info' />
+            );
+            const educationForm = (
+                <EducationFormSelect id={educationFormId} mode='info' />
+            );
+            return { ...props, kindDocumentRiseQualification, educationForm };
+        });
+    },
 };

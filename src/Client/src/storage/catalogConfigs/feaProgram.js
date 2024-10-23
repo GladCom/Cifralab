@@ -13,7 +13,7 @@ export default {
     hasDetailsPage: false,
     serverPaged: false,
     properties: {
-        name: { name: 'Вэд программа', type: String, show: true, required: true },
+        name: { name: 'ВЭД программа', type: String, show: true, required: true },
     },
     crud: {
         useGetAllAsync,
