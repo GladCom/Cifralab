@@ -36,4 +36,5 @@ export default {
             key: 'level',
         },
     ],
+    dataConverter: (data) => data,
 };

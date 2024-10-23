@@ -29,7 +29,7 @@ const EditForm = ({ item, control, config, refetch }) => {
     }, [isSuccess]);
 
     const onCreate = (formValues) => {
-        editItem(formValues);
+        editItem({ id, item: formValues });
         setShowEditForm(false);
     };
     
@@ -50,12 +50,6 @@ const EditForm = ({ item, control, config, refetch }) => {
                 form={form}
                 name="form_in_modal"
                 scrollToFirstError
-                initialValues={
-                    Object.entries(properties).reduce((acc, [key]) => {
-                        const value = itemData[key];
-                        return { ...acc, [key]: value };
-                    }, {})
-                }
                 clearOnDestroy
                 onFinish={(values) => {
                     onCreate(values)
@@ -65,28 +59,21 @@ const EditForm = ({ item, control, config, refetch }) => {
             </Form>
             )}
         >
-            {Object.entries(properties).map(([key, { name, type, show, required }]) => {
-                const Input = type;
+            {Object.entries(properties).map(([key, { name, type, formParams }]) => {
+                const Item = type;
 
                 return (
-                    <Form.Item
+                    <Item
                         key={key}
-                        name={key}
-                        label={name}
-                        rules={[{ required, message: 'Please input the title of collection!' }]}
-                    >
-                        <Input
-                            key={key}
-                            id={id}
-                            //value={itemData[key]}
-                            mode='form'
-                            setValue={(value) => {
-                                form.setFieldsValue({
-                                    [key]: value,
-                                });
-                            }}
-                        />
-                    </Form.Item>
+                        value={itemData[key]}
+                        formParams={{ key, name, ...formParams }}
+                        mode='form'
+                        setValue={(value) => {
+                        form.setFieldsValue({
+                            [key]: value,
+                        });
+                        }}
+                    />
                 );
             })}
         </Modal>

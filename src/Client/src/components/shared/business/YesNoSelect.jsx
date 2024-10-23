@@ -3,12 +3,30 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Info from './common/Info.jsx';
 import EditableInfo from './common/EditableInfo.jsx';
-import Editor from './Editor.jsx';
+import { Form, Flex } from 'antd';
 
-const Form = ({ value, setValue }) => {
+const defaultRules = [
+    {
+        required: true,
+        message: 'Выберите вариант',
+    },
+];
+
+const defaultFormParams = {
+    key: 'name',
+    name: 'Да/Нет',
+    rules: defaultRules,
+};
+
+const DefaultForm = ({ value, setValue, formParams }) => {
+    const { key, name, normalize, rules } = formParams;
 
     return (
-        <Editor>
+        <Form.Item
+            key={key}
+            name={key}
+            label={name}
+        >
             <DropdownButton 
                 id="dropdown-basic-button"
                 title={value}
@@ -25,7 +43,7 @@ const Form = ({ value, setValue }) => {
                     да
                 </Dropdown.Item>
             </DropdownButton>
-        </Editor>
+        </Form.Item>
     );
 };
 
@@ -39,7 +57,7 @@ const Filter = () => {
 const Edit = ({ value, setValue, setMode }) => {
 
     return (
-        <Editor>
+        <Flex>
             <DropdownButton 
                 id="dropdown-basic-button"
                 title={value}
@@ -58,14 +76,14 @@ const Edit = ({ value, setValue, setMode }) => {
                     да
                 </Dropdown.Item>
             </DropdownButton>
-        </Editor>
+        </Flex>
     );
 };
 
 const renderMode = {
     info: Info,
     editableInfo: EditableInfo,
-    form: Form,
+    form: DefaultForm,
     filter: Filter,
     edit: Edit,
 };
@@ -76,7 +94,7 @@ const labelConverter = {
     '': 'Выберите  значение',
 };
 
-const YesNoSelect = ({ id, mode, value, setValue, required }) => {
+const YesNoSelect = ({ id, mode, value, setValue, formParams }) => {
     const [compMode, setCompMode] = useState(mode);
     const [initValue, setInitValue] = useState(value);
     const [currentLabel, setCurrentLabel] = useState(labelConverter[value]);
@@ -97,7 +115,7 @@ const YesNoSelect = ({ id, mode, value, setValue, required }) => {
             id={id}
             value={currentLabel}
             changed={changed}
-            required={required}
+            formParams={{ ...defaultFormParams, ...formParams }}
             setMode={setCompMode}
             setValue={(newValue) => {
                 setChanged(newValue !== initValue);

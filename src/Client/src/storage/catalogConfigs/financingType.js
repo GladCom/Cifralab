@@ -30,4 +30,5 @@ export default {
             key: 'sourceName',
         },
     ],
+    dataConverter: (data) => data,
 };

@@ -3,12 +3,33 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Info from './common/Info.jsx';
 import EditableInfo from './common/EditableInfo.jsx';
-import Editor from './Editor.jsx';
+import { Flex, Form } from 'antd';
 
-const Form = ({ value, setValue }) => {
+const defaultRules = [
+    {
+        required: true,
+        message: 'Необходимо выбрать пол',
+    },
+];
+
+const defaultFormParams = {
+    key: 'gender',
+    name: 'Пол',
+    rules: defaultRules,
+};
+
+const DefaultForm = ({ value, setValue, formParams }) => {
+    const { key, name, normalize, rules } = formParams;
 
     return (
-        <>
+        <Form.Item
+            key={key}
+            name={key}
+            label={name}
+            rules={rules ?? []}
+            normalize={normalize}
+            hasFeedback={true}
+        >
             <DropdownButton 
                 id="dropdown-basic-button"
                 title={value}
@@ -25,7 +46,7 @@ const Form = ({ value, setValue }) => {
                     женский
                 </Dropdown.Item>
             </DropdownButton>
-        </>
+        </Form.Item>
     );
 };
 
@@ -39,7 +60,7 @@ const Filter = () => {
 const Edit = ({ value, setValue, setMode }) => {
 
     return (
-        <Editor>
+        <Flex>
             <DropdownButton 
                 id="dropdown-basic-button"
                 title={value}
@@ -58,14 +79,14 @@ const Edit = ({ value, setValue, setMode }) => {
                     женский
                 </Dropdown.Item>
             </DropdownButton>
-        </Editor>
+        </Flex>
     );
 };
 
 const renderMode = {
     info: Info,
     editableInfo: EditableInfo,
-    form: Form,
+    form: DefaultForm,
     filter: Filter,
     edit: Edit,
 };
@@ -76,14 +97,14 @@ const genderLabelConverter = {
     '': 'Выберите пол',
 };
 
-const Gender = ({ id, mode, value, setValue, required }) => {
+const Gender = ({ id, mode, value, setValue, formParams }) => {
     const [compMode, setCompMode] = useState(mode);
     const [initValue, setInitValue] = useState(value);
     const [currentLabel, setCurrentLabel] = useState(genderLabelConverter[value]);
     const [changed, setChanged] = useState(false);
     
     useEffect(() => {
-        setCurrentLabel(genderLabelConverter[value] ?? 'z');
+        setCurrentLabel(genderLabelConverter[value] ?? 'Выберите пол');
     }, [value]);
 
     const Component = renderMode[compMode] ?? renderMode.info;
@@ -93,7 +114,7 @@ const Gender = ({ id, mode, value, setValue, required }) => {
             id={id}
             value={currentLabel}
             changed={changed}
-            required={required}
+            formParams={{ ...defaultFormParams, ...formParams }}
             setMode={setCompMode}
             setValue={(newValue) => {
                 setChanged(newValue !== initValue);

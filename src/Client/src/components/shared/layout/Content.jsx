@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 const { Content } = Layout;
 const contentStyle = {
     backgroundColor: '#fff',
-    overflow: 'auto',
+    //overflow: 'auto',
 };
 
 const MyContent = ({ children }) => {

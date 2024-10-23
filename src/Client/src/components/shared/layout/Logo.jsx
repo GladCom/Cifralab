@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex } from 'antd';
-import logo from '../../assets/images/cyfraLogo.png';
+import logo from '../../../assets/images/cyfraLogo.png';
 
 const logoStyle = {
     height: '80%',

@@ -1,14 +1,8 @@
-import { Select, Form, Button, Space } from 'antd'; 
-import Info from '../common/Info.jsx';
-import EditableInfo from '../common/EditableInfo.jsx';
-import React, { useState, useCallback, useEffect, } from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
+import Info from './Info.jsx';
+import EditableInfo from './EditableInfo.jsx';
+import { Flex, Form, Input, Button, Space } from 'antd';
 
-const options = [
-    { value: 0, label: 'Не сдано' },
-    { value: 1, label: 'Тестовое задание' },
-    { value: 2, label: 'Собеседование' },
-    { value: 3, label: 'Выполнено' },
-];
 const defaultRules = [
     {
         required: true,
@@ -17,13 +11,14 @@ const defaultRules = [
 ];
 
 const defaultFormParams = {
-    labelKey: 'name',
+    key: 'name',
     name: 'Введите значение',
     normalize: (value) => value,
     rules: defaultRules,
 };
 
-const DefaultForm = ({ value, setValue, formParams }) => {
+// Оптимизация компонента Form с помощью React.memo
+const DefaultForm = ({ value, formParams }) => {
     const { key, name, normalize, rules } = formParams;
 
     return (
@@ -31,22 +26,32 @@ const DefaultForm = ({ value, setValue, formParams }) => {
             key={key}
             name={key}
             label={name}
+            initialValue={value}
             rules={rules ?? []}
             normalize={normalize}
             hasFeedback={true}
         >
-            <Select 
-                defaultValue={value ?? 0}
-                options={options}
-                onChange={setValue}
+            <Input
+                key={key}
+                allowClear
+                defaultValue={value}
+                type="textarea"
             />
         </Form.Item>
     );
 };
+DefaultForm.displayName = 'Form';
 
-const Filter = () => <div>В разработке!</div>;
 
-const Edit = ({ value, setValue, setMode, formParams }) => {
+const NoValidationForm = memo(() => <Flex>В разработке</Flex>);
+NoValidationForm.displayName = 'NoValidationForm';
+
+
+const Filter = memo(() => <div>В разработке!</div>);
+Filter.displayName = 'Filter';
+
+
+const Edit = memo(({ value, setValue, setMode, formParams }) => {
     const { key, name, normalize, rules } = formParams;
 
     const onSubmit = (formValues) => {
@@ -58,7 +63,6 @@ const Edit = ({ value, setValue, setMode, formParams }) => {
         <Form
             layout="inline"
             name="editModeForm"
-            initialValues={{ [key]: value }}
             clearOnDestroy
             onFinish={(values) => onSubmit(values)}
         >
@@ -70,10 +74,11 @@ const Edit = ({ value, setValue, setMode, formParams }) => {
                 normalize={normalize}
                 hasFeedback={true}
             >
-                <Select 
-                    defaultValue={value ?? 0}
-                    options={options}
-                    onChange={setValue}
+                <Input
+                    key={key}
+                    allowClear
+                    defaultValue={value}
+                    type="textarea" 
                 />
             </Form.Item>
             <Form.Item>
@@ -88,7 +93,8 @@ const Edit = ({ value, setValue, setMode, formParams }) => {
             </Form.Item>
         </Form>
     );
-};
+});
+Edit.displayName = 'Edit';
 
 const defaultRenderMode = {
     info: Info,
@@ -96,9 +102,10 @@ const defaultRenderMode = {
     form: DefaultForm,
     filter: Filter,
     edit: Edit,
+    noValidationForm: NoValidationForm,
 };
 
-const StatusEntranceExamsSelect = ({ mode, value, setValue, formParams, renderMode }) => {
+const BaseComponent = memo(({ mode, value, setValue, formParams, renderMode }) => {
     const compRenderMode = { ...defaultRenderMode, ...renderMode };
     const [compMode, setCompMode] = useState(mode);
     const [changed, setChanged] = useState(false);
@@ -119,6 +126,7 @@ const StatusEntranceExamsSelect = ({ mode, value, setValue, formParams, renderMo
             formParams={{ ...defaultFormParams, ...formParams }}
         />
     );
-};
+});
+BaseComponent.displayName = 'BaseComponent';
 
-export default StatusEntranceExamsSelect;
+export default BaseComponent;
