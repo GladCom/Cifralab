@@ -52,7 +52,6 @@ Filter.displayName = 'Filter';
 
 const Edit = memo(({ value, setValue, setMode, formParams }) => {
     const { key, name, normalize, rules } = formParams;
-    const [form] = Form.useForm();
 
     const onSubmit = (formValues) => {
         setValue(formValues[key]);
@@ -62,7 +61,6 @@ const Edit = memo(({ value, setValue, setMode, formParams }) => {
     return (
         <Form
             layout="inline"
-            form={form}
             name="editModeForm"
             //initialValues={{ [key]: value }}
             clearOnDestroy

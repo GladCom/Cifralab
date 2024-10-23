@@ -1,29 +1,47 @@
-import { Select, Form, Button, Space } from 'antd'; 
-import Info from '../common/Info.jsx';
-import EditableInfo from '../common/EditableInfo.jsx';
-import React, { useState, useCallback, useEffect, } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { EditOutlined } from '@ant-design/icons';
+import { Form, Checkbox, Button, Space } from 'antd';
+import Stack from 'react-bootstrap/Stack';
 
-const options = [
-    { value: 0, label: 'Не сдано' },
-    { value: 1, label: 'Тестовое задание' },
-    { value: 2, label: 'Собеседование' },
-    { value: 3, label: 'Выполнено' },
-];
 const defaultRules = [
     {
         required: true,
-        message: 'Необходимо заполнить это поле',
+        message: 'Выберите вариант',
     },
 ];
 
 const defaultFormParams = {
-    labelKey: 'name',
-    name: 'Введите значение',
-    normalize: (value) => value,
+    key: 'name',
+    name: 'Да/Нет',
     rules: defaultRules,
 };
 
-const DefaultForm = ({ value, setValue, formParams }) => {
+const Info = ({ value }) => {
+    return (
+        <Checkbox checked={value} disabled={true} />
+    );
+};
+
+const ChangeSymbol = () => (<span className="">* </span>);
+
+const EditableInfo = ({ value, changed, setMode }) => {
+
+    return (
+        <>
+            <Stack direction="horizontal" className="m-3">
+                <div className="me-1">
+                    {changed && (<ChangeSymbol />)}
+                    <Checkbox checked={value} disabled={true} />
+                </div>
+                <div type="button" onClick={() => setMode('edit')}>
+                    <EditOutlined />
+                </div>
+            </Stack>
+        </>
+    );
+};
+
+const DefaultForm = ({ setValue, formParams }) => {
     const { key, name, normalize, rules } = formParams;
 
     return (
@@ -31,20 +49,18 @@ const DefaultForm = ({ value, setValue, formParams }) => {
             key={key}
             name={key}
             label={name}
-            rules={rules ?? []}
-            normalize={normalize}
-            hasFeedback={true}
         >
-            <Select 
-                defaultValue={value ?? 0}
-                options={options}
-                onChange={setValue}
-            />
+            <Checkbox onChange={(e) => setValue(e.target.checked)} />
         </Form.Item>
     );
 };
 
-const Filter = () => <div>В разработке!</div>;
+const Filter = () => {
+    //  TODO:   реализовать функционал
+    return (
+        <div>В разработке!</div>
+    );
+};
 
 const Edit = ({ value, setValue, setMode, formParams }) => {
     const { key, name, normalize, rules } = formParams;
@@ -58,7 +74,7 @@ const Edit = ({ value, setValue, setMode, formParams }) => {
         <Form
             layout="inline"
             name="editModeForm"
-            initialValues={{ [key]: value }}
+            //initialValues={{ [key]: value }}
             clearOnDestroy
             onFinish={(values) => onSubmit(values)}
         >
@@ -67,14 +83,8 @@ const Edit = ({ value, setValue, setMode, formParams }) => {
                 name={key}
                 initialValue={value}
                 rules={rules ?? []}
-                normalize={normalize}
-                hasFeedback={true}
             >
-                <Select 
-                    defaultValue={value ?? 0}
-                    options={options}
-                    onChange={setValue}
-                />
+                <Checkbox checked={value} />
             </Form.Item>
             <Form.Item>
                 <Space>
@@ -98,7 +108,7 @@ const defaultRenderMode = {
     edit: Edit,
 };
 
-const StatusEntranceExamsSelect = ({ mode, value, setValue, formParams, renderMode }) => {
+const CheckBox = ({ mode, value, setValue, formParams, renderMode }) => {
     const compRenderMode = { ...defaultRenderMode, ...renderMode };
     const [compMode, setCompMode] = useState(mode);
     const [changed, setChanged] = useState(false);
@@ -121,4 +131,4 @@ const StatusEntranceExamsSelect = ({ mode, value, setValue, formParams, renderMo
     );
 };
 
-export default StatusEntranceExamsSelect;
+export default CheckBox;
