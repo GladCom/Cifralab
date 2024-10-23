@@ -47,32 +47,24 @@ const ProgramDetailsPage = () => {
         <h2 className="m-3">   
             <String
                     value={programData?.name}
-                    mode='editableInfo'
+                    mode='info'
                     setValue={(value) => setProgramData({ ...programData, name: value })}
                 /> 
                 </h2>
                 <Space direction="vertical" size={0} style={{ display: 'flex' }}>
-                {Object.entries(properties).map(([key, { name, type, show, required }]) => {
-                    const Input = type;
-                    const isSelect = [
-                        EducationFormSelect,
-                        FinancingTypeSelect,
-                        FEAProgramSelect,
-                        KindDocumentRiseQualificationSelect
-                    ].includes(type);
+                {Object.entries(properties).map(([key, { name, type, formParams }]) => {
+                    const Item = type;
+
                     return (
                         <Row style={rowStyle} key={key}>
                             <Col span={3}>{name}</Col>
                             <Col span={8}>
-                                <Input
+                                <Item
                                     key={key}
                                     name={key}
-                                    // Если Input это QueryableSelect, используем 'id' вместо 'value'
-                                    {...(isSelect
-                                        ? { id: programData[key] }  
-                                        : { value: programData[key] }) 
-                                    }
+                                    value={programData[key]}
                                     mode='editableInfo'
+                                    formParams={{ key, name, ...formParams }}
                                     setValue={(value) => {
                                         setProgramData({
                                             ...programData,
