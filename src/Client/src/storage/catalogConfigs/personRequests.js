@@ -30,7 +30,7 @@ export default {
         statusEntranceExams: { name: 'Тестовое задание', type: StatusEntranceExamsSelect, show: true, required: true },
         birthDate: { name: 'Дата рождения', show: true, type: String, required: true },
         address: { name: 'Место проживания', show: true, type: String, required: true },
-        phone: { name: 'Телефон', type: Snils, show: true, required: true },
+        phone: { name: 'Телефон', type: String, show: true, required: true },
         email: { name: 'E-mail', type: String, show: true, required: true },
         scopeOfActivityLevelOneId: { name: 'Сфера деятельности уровень 1', type: ScopeOfActivitySelect, show: true, required: true },
         scopeOfActivityLevelTwoId: { name: 'Сфера деятельности уровень 2', type: ScopeOfActivitySelect, show: true, required: true },

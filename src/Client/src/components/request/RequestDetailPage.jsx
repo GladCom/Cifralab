@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../shared/Layout.jsx';
+import Layout from '../shared/layout/Layout.jsx';
 import { useParams } from 'react-router-dom';
-import Spinner from '../shared/Spinner.jsx';
-import Empty from '../shared/Empty.jsx';
-import Error from '../shared/Error.jsx';
+import Spinner from '../shared/layout/Spinner.jsx';
+import Empty from '../shared/layout/Empty.jsx';
 import String from '../shared/business/String.jsx';
 import StatusEntranceExamsSelect from '../shared/business/selects/StatusEntranceExamsSelect.jsx';
 import RequestStatusSelect from '../shared/business/selects/RequestStatusSelect.jsx'
@@ -14,8 +13,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import requestsConfig from '../../storage/catalogConfigs/personRequests.js';
 import requestStatusConfig from '../../storage/catalogConfigs/requestStatus.js';
-import PhoneNumber from '../shared/business/validation/PhoneNumber.jsx';
-import Email from '../shared/business/validation/Email.jsx';
+import Email from '../shared/business/Email.jsx';
 
 const RequestDetailsPage = () => {
     const { id } = useParams();
@@ -43,10 +41,6 @@ const RequestDetailsPage = () => {
                 <Empty />
             </>
         );
-    }
-
-    if (error) {
-        return <Error e={error} />;
     }
 
     return (

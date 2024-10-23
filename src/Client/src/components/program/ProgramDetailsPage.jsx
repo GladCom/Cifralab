@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../shared/layout/Layout.jsx';
 import { useParams } from 'react-router-dom';
 import { useGetEducationProgramByIdQuery, useEditEducationProgramMutation } from '../../storage/services/educationProgramApi.js';
-import Spinner from '../shared/Spinner.jsx';
-import Empty from '../shared/Empty.jsx';
-import Error from '../shared/Error.jsx';
+import Spinner from '../shared/layout/Spinner.jsx';
+import Empty from '../shared/layout/Empty.jsx';
 import String from '../shared/business/String.jsx';
 import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect.jsx'
 import FinancingTypeSelect from '../../components/shared/business/selects/FinancingTypeSelect.jsx'
@@ -41,10 +40,8 @@ const ProgramDetailsPage = () => {
         );
     }
 
-    if (error) {
-        return <Error e={error} />;
-    }
     const rowStyle = { alignItems: 'center', marginBottom: '0px' };
+
     return (
         <Layout title="Данные программы">
         <h2 className="m-3">   
