@@ -5,6 +5,7 @@ import Stack from 'react-bootstrap/Stack';
 const ChangeSymbol = () => (<span className="">* </span>);
 
 const EditableInfo = ({ value, changed, setMode }) => {
+    console.log(value)
     return (
         <>
             <Stack direction="horizontal" className="m-3">

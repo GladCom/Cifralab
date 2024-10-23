@@ -18,7 +18,7 @@ const defaultFormParams = {
 };
 
 // Оптимизация компонента Form с помощью React.memo
-const DefaultForm = memo(({ value, formParams }) => {
+const DefaultForm = ({ value, formParams }) => {
     const { key, name, normalize, rules } = formParams;
 
     return (
@@ -26,6 +26,7 @@ const DefaultForm = memo(({ value, formParams }) => {
             key={key}
             name={key}
             label={name}
+            initialValue={value}
             rules={rules ?? []}
             normalize={normalize}
             hasFeedback={true}
@@ -38,7 +39,7 @@ const DefaultForm = memo(({ value, formParams }) => {
             />
         </Form.Item>
     );
-});
+};
 DefaultForm.displayName = 'Form';
 
 
@@ -62,7 +63,6 @@ const Edit = memo(({ value, setValue, setMode, formParams }) => {
         <Form
             layout="inline"
             name="editModeForm"
-            //initialValues={{ [key]: value }}
             clearOnDestroy
             onFinish={(values) => onSubmit(values)}
         >

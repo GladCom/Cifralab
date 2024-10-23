@@ -54,12 +54,12 @@ const Filter = () => {
     );
 };
 
-const Edit = ({ id, setId, setMode, crud, formParams}) => {
+const Edit = ({ value, setId, setMode, crud, formParams}) => {
     const { useGetAllAsync } = crud;
     const { key, labelKey, name, normalize, rules } = formParams;
     const { data, isLoading, isFetching, refetch } = useGetAllAsync();
 
-    const label = data?.filter(i => i.id === id)[0][key];
+    //const label = data?.filter(i => i.id === value)[0][key];
 
     const onSubmit = (formValues) => {
         setId(formValues[key]);
@@ -76,14 +76,14 @@ const Edit = ({ id, setId, setMode, crud, formParams}) => {
             <Form.Item
                 key={key}
                 name={key}
-                initialValue={label}
+                initialValue={value}
                 rules={rules ?? []}
                 hasFeedback={true}
             >
                 <Select
                     showSearch
-                    defaultValue={label}
-                    //style={{ minWidth: '250px' }} //  TODO: разобраться почему не растягивается
+                    defaultValue={value}
+                    style={{ minWidth: '250px' }} //  TODO: разобраться почему не растягивается
                     placeholder='Выберите значение'
                     filterOption={(input, option) =>
                         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -117,27 +117,28 @@ const renderMode = {
     edit: Edit,
 };
 
-const QueryableSelect = ({ id, mode, value, setValue, crud, formParams }) => {
+const QueryableSelect = ({ mode, value, setValue, crud, formParams }) => {
     const [compMode, setCompMode] = useState(mode);
     const [changed, setChanged] = useState(false);
-    const [initId, setInitId] = useState(id ?? '');
-    //const [label, setLabel] = useState(value ?? '');
+    const [initId, setInitId] = useState(value ?? '');
 
     useEffect(() => {
-        setInitId(id);
+            setInitId(value);   //  TODO:    тут баг короче: value изначально приходит пустым
     }, []);
 
     const Component = renderMode[compMode];
 
     return (
         <Component
-            id={id}
+            //id={id}
             value={value}
             crud={crud}
             changed={changed}
             setMode={setCompMode}
             formParams={{ ...defaultFormParams, ...formParams }}
             setId={(newId) => {
+                console.log(newId)
+                console.log(initId)
                 const changed = newId !== null && initId !== newId;
                 setChanged(changed);
                 setValue(newId);
