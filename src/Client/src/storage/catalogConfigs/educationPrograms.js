@@ -71,10 +71,10 @@ export default {
     dataConverter: (data) => {
         return data?.map(({ kindDocumentRiseQualificationId, educationFormId, ...props }) => {
             const kindDocumentRiseQualification = (
-                <KindDocumentRiseQualificationSelect id={kindDocumentRiseQualificationId} mode='info' />
+                <KindDocumentRiseQualificationSelect value={kindDocumentRiseQualificationId} mode='info' />
             );
             const educationForm = (
-                <EducationFormSelect id={educationFormId} mode='info' />
+                <EducationFormSelect value={educationFormId} mode='info' />
             );
             return { ...props, kindDocumentRiseQualification, educationForm };
         });

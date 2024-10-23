@@ -57,7 +57,7 @@ export default {
     dataConverter: (data) => {
         return data?.map(({ educationProgramId, ...props }) => {
             const educationProgram = (
-                <EducationProgramSelect id={educationProgramId} mode='info' />
+                <EducationProgramSelect value={educationProgramId} mode='info' />
             );
             return { ...props, educationProgram };
         });
