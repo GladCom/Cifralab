@@ -1,0 +1,19 @@
+services:
+    cifralabs.students.api:
+        restart: unless-stopped
+        depends_on:
+            cifralabs.postgres:
+                condition: service_started
+        
+    cifralabs.students.front:
+        restart: unless-stopped
+
+    cifralabs.postgres:
+        image: postgres:latest
+        environment:
+            POSTGRES_DB: "cifralabs_studentDB"
+            POSTGRES_USER: "cifralabs_studentDB_Service"
+            POSTGRES_PASSWORD: "P@ssw0rd!"
+            PGDATA: /data/postgres
+        restart: unless-stopped
+        container_name: postgres

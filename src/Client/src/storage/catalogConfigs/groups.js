@@ -1,15 +1,14 @@
 import {
-    getAllAsync,
-    getAllPagedAsync,
-    getOneByIdAsync,
-    addOneAsync,
-    editOneAsync,
-    removeOneAsync,
+    useGetAllAsync,
+    useGetAllPagedAsync,
+    useGetOneByIdAsync,
+    useAddOneAsync,
+    useEditOneAsync,
+    useRemoveOneAsync,
 } from '../crud/groupsCrud.js';
+import React from 'react';
 import String from '../../components/shared/business/String.jsx';
 import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx'
-
-const iconStyle = { marginRight: '5px' };
 
 export default {
     detailsLink: 'group',
@@ -21,74 +20,46 @@ export default {
         startDate: { name: 'Дата начала', type: String, show: true, required: true },
         endDate: { name: 'Дата окончания', type: String, show: true, required: true },
     },
-    fields: [
+    crud: {
+        useGetAllAsync,
+        useGetAllPagedAsync,
+        useGetOneByIdAsync,
+        useAddOneAsync,
+        useEditOneAsync,
+        useRemoveOneAsync,
+    },
+    columns: [
         {
-            info: 'Группа',
-            property: 'name',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Группа',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
-            info: 'Программа обучения',
-            property: 'educationProgramId',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Программа обучения',
+            dataIndex: 'educationProgram',
+            key: 'educationProgram',
         },
         {
-            info: 'Дата начала',
-            property: 'startDate',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Дата начала',
+            dataIndex: 'startDate',
+            key: 'startDate',
         },
         {
-            info: 'Дата окончания',
-            property: 'endDate',
-            component: String,
-            className: 'col',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Дата окончания',
+            dataIndex: 'endDate',
+            key: 'endDate',
+        },
+        {
+            title: 'В архив',
+            key: 'nameOfGroup',
         },
     ],
-    crud: {
-        getAllAsync,
-        getAllPagedAsync,
-        getOneByIdAsync,
-        addOneAsync,
-        editOneAsync,
-        removeOneAsync,
-    }
+    dataConverter: (data) => {
+        return data?.map(({ educationProgramId, ...props }) => {
+            const educationProgram = (
+                <EducationProgramSelect value={educationProgramId} mode='info' />
+            );
+            return { ...props, educationProgram };
+        });
+    },
 };

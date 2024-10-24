@@ -192,4 +192,8 @@ public class RequestsDTO
   /// Согласие на обработку данных.
   /// </summary>
   public bool agreement { get; set; }
+  /// <summary>
+  /// Возраст
+  /// </summary>
+  public int? Age { get; set; }
 }

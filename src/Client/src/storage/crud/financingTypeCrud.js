@@ -8,10 +8,10 @@ import {
 } from '../services/financingTypeApi';
 
 export {
-  useGetFinancingTypeQuery as getAllAsync,
-  useGetFinancingTypePagedQuery as getAllPagedAsync,
-  useGetFinancingTypeByIdQuery as getOneByIdAsync,
-  useAddFinancingTypeMutation as addOneAsync,
-  useEditFinancingTypeMutation as editOneAsync,
-  useRemoveFinancingTypeMutation as removeOneAsync,
+  useGetFinancingTypeQuery as useGetAllAsync,
+  useGetFinancingTypePagedQuery as useGetAllPagedAsync,
+  useGetFinancingTypeByIdQuery as useGetOneByIdAsync,
+  useAddFinancingTypeMutation as useAddOneAsync,
+  useEditFinancingTypeMutation as useEditOneAsync,
+  useRemoveFinancingTypeMutation as useRemoveOneAsync,
 }

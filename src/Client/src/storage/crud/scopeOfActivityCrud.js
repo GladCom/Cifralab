@@ -8,10 +8,10 @@ import {
   } from '../services/scopeOfActivityApi';
   
   export {
-    useGetscopeOfActivityQuery as getAllAsync,
-    useGetscopeOfActivityPagedQuery as getAllPagedAsync,
-    useGetscopeOfActivityByIdQuery as getOneByIdAsync,
-    useAddscopeOfActivityMutation as addOneAsync,
-    useEditscopeOfActivityMutation as editOneAsync,
-    useRemovescopeOfActivityMutation as removeOneAsync,
+    useGetscopeOfActivityQuery as useGetAllAsync,
+    useGetscopeOfActivityPagedQuery as useGetAllPagedAsync,
+    useGetscopeOfActivityByIdQuery as useGetOneByIdAsync,
+    useAddscopeOfActivityMutation as useAddOneAsync,
+    useEditscopeOfActivityMutation as useEditOneAsync,
+    useRemovescopeOfActivityMutation as useRemoveOneAsync,
   }

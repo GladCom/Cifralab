@@ -1,6 +1,8 @@
 #!/bin/bash
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
-cd "${DIR}";
+
+SCRIPT_PATH=$(realpath "${0}")
+SCRIPT_DIR=$(dirname "${SCRIPT_PATH}")
+cd $SCRIPT_DIR
 cd ../src;
 
 # Первый аргумент имя тега, значение по умолчанию latest

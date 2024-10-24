@@ -1,23 +1,16 @@
 import {
-    getAllAsync,
-    getAllPagedAsync,
-    getOneByIdAsync,
-    addOneAsync,
-    editOneAsync,
-    removeOneAsync,
+    useGetAllAsync,
+    useGetAllPagedAsync,
+    useGetOneByIdAsync,
+    useAddOneAsync,
+    useEditOneAsync,
+    useRemoveOneAsync,
 } from '../crud/studentsCrud.js';
-import {
-    UserOutlined,
-    PhoneOutlined,
-    CalendarOutlined,
-    MailOutlined,
-} from '@ant-design/icons';
 import String from '../../components/shared/business/String.jsx';
 import Gender from '../../components/shared/business/Gender.jsx';
-import Snils from '../../components/shared/business/validation/student/Snils.jsx';
-import Email from '../../components/shared/business/validation/student/Email.jsx';
-
-const iconStyle = { marginRight: '5px' };
+import Snils from '../../components/shared/business/Snils.jsx';
+import Email from '../../components/shared/business/Email.jsx';
+import Address from '../../components/shared/business/Address.jsx';
 
 export default {
     detailsLink: 'student',
@@ -31,65 +24,56 @@ export default {
         sex: { name: 'Пол', type: Gender, show: true, required: true },
         nationality: { name: 'Гражданство', show: true, type: String, required: true },
         snils: { name: 'Снилс', type: Snils, show: true, required: false },
-        address: { name: 'Адрес проживания', show: true, type: String, required: true },
+        address: { name: 'Адрес проживания', show: true, type: Address, required: true },
         phone: { name: 'Телефон', type: String, show: true, required: true },
         email: { name: 'E-mail', type: Email, show: true, required: true },
         projects: { name: 'Проекты', type: String, show: true, required: false },
         iT_Experience: { name: 'Опыт в IT', type: String, show: true, required: true },
     },
-    fields: [
+    crud: {
+        useGetAllAsync,
+        useGetAllPagedAsync,
+        useGetOneByIdAsync,
+        useAddOneAsync,
+        useEditOneAsync,
+        useRemoveOneAsync,
+    },
+    columns: [
         {
-            info: 'ФИО',
-            property: 'fullName',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: UserOutlined,
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Ф.И.О. обучающегося',
+            dataIndex: 'fullName',
+            key: 'fullName',
         },
         {
-            info: 'Пол',
-            property: 'sex',
-            component: Gender,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Дата рождения',
+            dataIndex: 'birthDate',
+            key: 'birthDate',
         },
         {
-            info: 'Адресс',
-            property: 'address',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {iconStyle},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Место проживания',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
+            title: 'Программа обучения',
+            dataIndex: 'groups[0].educationProgramId',
+            key: 'educationProgram',
+        },
+        {
+            title: 'Группа',
+            dataIndex: 'groups[0].name',
+            key: 'nameOfGroup',
+        },
+        {
+            title: 'Год обучения',
+            dataIndex: 'groups[0].endDate',
+            key: 'yaerOfEducation',
+        },
+        {
+            title: 'Статус заявки',
+            dataIndex: 'requests[0].statusRequestId',
+            key: 'statusReques',
         },
     ],
-    crud: {
-        getAllAsync,
-        getAllPagedAsync,
-        getOneByIdAsync,
-        addOneAsync,
-        editOneAsync,
-        removeOneAsync,
-    }
+    dataConverter: (data) => data,
 };

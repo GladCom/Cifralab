@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
-echo $DIR;
+STEND_NAME=$1
+SCRIPT_PATH=$(realpath "${0}")
+SCRIPT_DIR=$(dirname "${SCRIPT_PATH}")
 
-docker compose --file build/docker-compose.yaml up -d
+docker compose --file ${SCRIPT_DIR}/compose/docker-compose.base.yaml --file ${SCRIPT_DIR}/compose/docker-compose.${STEND_NAME}.yaml --project-name ${STEND_NAME} up -d

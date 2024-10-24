@@ -1,10 +1,10 @@
 import {
-    getAllAsync,
-    getAllPagedAsync,
-    getOneByIdAsync,
-    addOneAsync,
-    editOneAsync,
-    removeOneAsync,
+    useGetAllAsync,
+    useGetAllPagedAsync,
+    useGetOneByIdAsync,
+    useAddOneAsync,
+    useEditOneAsync,
+    useRemoveOneAsync,
 } from '../crud/educationProgramCrud.js';
 import String from '../../components/shared/business/String.jsx';
 import YesNoSelect from '../../components/shared/business/YesNoSelect.jsx';
@@ -30,91 +30,53 @@ export default {
         isNetworkProgram: { name: 'Сетевая форма', type: YesNoSelect, show: true, required: true },
         isDOTProgram: { name: 'Применение ДОТ', type: YesNoSelect, show: true, required: true },
         isFullDOTProgram: { name: 'Применение ДОТ полностью', type: YesNoSelect, show: true, required: true },
+        qualificationName: { name: 'Наименование квалификации', type: String, show: true, required: true },
         isArchive: { name: 'В архиве', type: YesNoSelect, show: true, required: true },
     },
-    fields: [
+    crud: {
+        useGetAllAsync,
+        useGetAllPagedAsync,
+        useGetOneByIdAsync,
+        useAddOneAsync,
+        useEditOneAsync,
+        useRemoveOneAsync,
+    },
+    columns: [
         {
-            info: 'Программа обучения',
-            property: 'name',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Программа обучения',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
-            info: 'Вид программы',
-            property: 'kindDocumentRiseQualificationId',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Вид программы',
+            dataIndex: 'kindDocumentRiseQualification',
+            key: 'kindDocumentRiseQualification',
         },
         {
-            info: 'Форма образования',
-            property: 'educationFormId',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Форма обучения',
+            dataIndex: 'educationForm',
+            key: 'educationForm',
         },
         {
-            info: 'Кол-во часов',
-            property: 'hoursCount',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'Кол-во часов',
+            dataIndex: 'hoursCount',
+            key: 'hoursCount',
         },
         {
-            info: 'В архиве',
-            property: 'isArchive',
-            component: String,
-            className: 'col-2',
-            style: { },
-            icon: {
-                type: () => {},
-                style: {},
-            },
-            filter: {
-                enable: false,
-                type: () => {},
-            },
+            title: 'В архив',
+            dataIndex: 'isArchive',
+            key: 'archive',
         },
     ],
-    crud: {
-        getAllAsync,
-        getAllPagedAsync,
-        getOneByIdAsync,
-        addOneAsync,
-        editOneAsync,
-        removeOneAsync,
-    }
+    dataConverter: (data) => {
+        return data?.map(({ kindDocumentRiseQualificationId, educationFormId, ...props }) => {
+            const kindDocumentRiseQualification = (
+                <KindDocumentRiseQualificationSelect value={kindDocumentRiseQualificationId} mode='info' />
+            );
+            const educationForm = (
+                <EducationFormSelect value={educationFormId} mode='info' />
+            );
+            return { ...props, kindDocumentRiseQualification, educationForm };
+        });
+    },
 };

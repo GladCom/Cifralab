@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { actions as userActions } from '../../storage/slices/userSlice.js';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Form, Input, Flex, Tooltip } from 'antd';
 
 const containerStyle = {
     background: 'linear-gradient(to bottom right, #e968a4, #005aff)',
@@ -11,107 +12,81 @@ const containerStyle = {
 const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [login, setLogin] = useState('');
-    const [pass, setPass] = useState('');
-    const [wrongPass, setWrongass] = useState(false);
+    const [validationState, setValidationState] = useState({});
 
-    const onSubmitHandle = (e) => {   //  TODO: в дальнейшем переделать
-        e.preventDefault();
+    const onSubmit = ({ username, password, remember }) => {
 
-        if (login !== 'user' || pass !== '123') {
-            setWrongass(true);
-            setLogin('');
-            setPass('');
+        if (username !== 'user' || password !== '123') {
+            setValidationState({
+                state: 'error',
+                message: 'Неправильный логин или пароль',
+            });
             return;
         }
 
-        setWrongass(false);
-        const newUserData = { userName: 'user', token: 'sdfsdfsfg4332422v42v' };
+        const newUserData = { userName: 'user', token: 'sdfsdfsfg4332422v42v', remember };
         dispatch(userActions.loginUser(newUserData));
-        sessionStorage.setItem('loggedIn', JSON.stringify({ loggedIn: true }));
-
         navigate('/requests');
     };
 
-    const onInputDataChange = ({ target }) => {
-        const { id, value } = target;
-        const changeState = {
-            login: () => setLogin(value),
-            password: () => setPass(value),
-        };
-        changeState[id]();
-    };
-
-    const showWrongPassMessage = () => {
-        return wrongPass 
-            ? <div 
-                className="text-danger position-absolute bottom-0 end-0 translate-middle-x translate-middle-y">
-                    *Неправильный логин или пароль
-                </div>
-            : null;
-    };
-
     return (
-        <div className="container-fluid vh-100" style={containerStyle}>
-            <div className="row auto justify-content-center align-items-center vh-100">
-                <div className="col-md-5 col-lg-3">
-                    <div className="card">
-                        <div className="card-header text-center">
-                            <h4>Авторизация</h4>
-                        </div>
-                        <div className="card-body">
-                            <form onSubmit={onSubmitHandle}>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="login">Логин</label>
-                                    <input 
-                                        type="text"
-                                        required
-                                        className="form-control" 
-                                        id="login" 
-                                        placeholder="Введите логин"
-                                        onChange={onInputDataChange}
-                                        value={login}
-                                        data-tooltip-id="login-tooltip"
-                                    />
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label htmlFor="password">Пароль</label>
-                                    <input 
-                                        type="password"
-                                        required
-                                        className="form-control"
-                                        id="password"
-                                        placeholder="Введите пароль"
-                                        onChange={onInputDataChange}
-                                        value={pass}
-                                        data-tooltip-id="pass-tooltip"
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary btn-block"
-                                >
-                                    Войти
-                                </button>
-                                <ReactTooltip
-                                    id="login-tooltip"
-                                    place="right"
-                                    variant="info"
-                                    content="Попробуйте: user"
-                                />
-                                <ReactTooltip
-                                    id="pass-tooltip"
-                                    place="right"
-                                    variant="info"
-                                    content="Попробуйте: 123"
-                                />
-                                {showWrongPassMessage()}
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Flex className="container-fluid vh-100" style={containerStyle} align='center' justify='center'>
+            <Flex align='center' justify='center' style={{ backgroundColor: 'white', padding: '2%', borderRadius: '2%'}}>
+                <Form
+                    name="login"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    style={{
+                        maxWidth: 360,
+                    }}
+                    onFinish={onSubmit}
+                >
+                    <Tooltip title="Попробуйте user">
+                        <Form.Item
+                            name="username"
+                            validateStatus={validationState.state}
+                            help={validationState.message}
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Пожалуйста, введите логин',
+                            },
+                            ]}
+                        >
+                            <Input prefix={<UserOutlined />} allowClear placeholder="Логин пользователя" />
+                        </Form.Item>
+                    </Tooltip>
+                    <Tooltip title="Попробуйте 123">
+                        <Form.Item
+                            name="password"
+                            validateStatus={validationState.state}
+                            help={validationState.message}
+                            rules={[
+                            {
+                                required: true,
+                                message: 'Пожалуйства введите пароль',
+                            },
+                            ]}
+                        >
+                            <Input prefix={<LockOutlined />} type="password" allowClear placeholder="Пароль" />
+                        </Form.Item>
+                    </Tooltip>
+                    <Form.Item>
+                        <Flex justify="space-between" align="center">
+                            <Form.Item name="remember" valuePropName="checked" noStyle>
+                                <Checkbox>Запомнить меня</Checkbox>
+                            </Form.Item>
+                        </Flex>
+                    </Form.Item>
+                    <Form.Item>
+                        <Button block type="primary" htmlType="submit">
+                            Войти
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Flex>
+        </Flex>
     );
 };
 

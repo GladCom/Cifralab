@@ -1,4 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Students.Models.Enums;
 using Students.Models.ReferenceModels;
 
@@ -72,10 +76,33 @@ public class Student
   public string? Nationality { get; set; }
 
   //список полей вероятно кочующих в таблицу документы
+
+  /// <summary>
+  /// Валидированный СНИЛС.
+  /// </summary>
+  private string? _sNILS;
+
   /// <summary>
   /// СНИЛС
   /// </summary>
-  public string? SNILS { get; set; }
+  public string? SNILS
+  {
+    get => _sNILS;
+    set
+    {
+      if (value != null)
+      {
+        if (Regex.IsMatch(value, @"^\d{3}-\d{3}-\d{3} \d{2}$"))
+          _sNILS = value;
+        else
+          throw new ValidationException("Not a valid SNILS.");
+      }
+      else
+      {
+        _sNILS = null;
+      }
+    }
+  }
 
   /// <summary>
   /// Адрес, по-хорошему нужен либо справочник, либо формат стандарта ГОСТа Р 6.30-2003
@@ -83,19 +110,50 @@ public class Student
   /// </summary>
   public required string Address { get; set; }
 
+  /// <summary>
+  /// Валидированный телефон.
+  /// </summary>
+  private string _phone;
+
   //список полей для связи, вероятно нужно в отдельную таблицу
   /// <summary>
   /// Телефон
   /// экспорт из заявки
   /// </summary>
-  public required string Phone { get; set; }
+  public required string Phone
+  {
+    get => _phone;
+    set
+    {
+      if(Regex.IsMatch(value, @"^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$"))
+        _phone = value;
+      else
+        throw new ValidationException("Not a valid phone number.");
+    }
+  }
+
+  /// <summary>
+  /// Валидированный электронный адрес.
+  /// </summary>
+  private string _email;
 
   //public string PhonePrepared { get { return Phone.Length > 10 ? Phone.Substring(Phone.Length - 10) : Phone; } }
   /// <summary>
   /// Электронный адрес
   /// экспорт из заявки
   /// </summary>
-  public required string Email { get; set; }
+  public required string Email
+  {
+    get => _email;
+    set
+    {
+      value = value.ToLower();
+      if(Regex.IsMatch(value, @"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
+        _email = address.Address;
+      else
+        throw new ValidationException("Not a valid Email address.");
+    }
+  }
 
   /// <summary>
   /// Проекты
