@@ -1,3 +1,4 @@
+
 services:
     cifralabs.students.api:
         ports:
@@ -22,7 +23,7 @@ services:
         image: cifralabs.students.front:latest
         restart: unless-stopped
 
-    postgres:
+    cifralabs.postgres:
         image: postgres:latest
         environment:
             POSTGRES_DB: "cifralabs_studentDB"

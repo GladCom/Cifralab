@@ -1,0 +1,35 @@
+services:
+    cifralabs.students.api:
+        image: cifralabs.students.api:test1
+        container_name: students.api.test1
+        environment:
+            - 'ASPNETCORE_URLS=http://+'
+            - TZ=Europe/Moscow
+            - DBServer=cifralabs.postgres.test1
+            - DBPort=5432
+            - DBName=cifralabs_studentDB
+            - DBLogin=cifralabs_studentDB_Service
+            - 'DBPassword=P@ssw0rd!'
+            - ASPNETCORE_ENVIRONMENT=Development
+        networks:
+            - test1
+        ports:
+            - '8001:80'
+        
+    cifralabs.students.front:
+        image: cifralabs.students.front:test1
+        container_name: cifralabs.students.front.test1
+        networks:
+            - test1
+        ports:
+            - '7001:3000'
+
+    cifralabs.postgres:
+        container_name: cifralabs.postgres.test1
+        networks:
+            - test1
+        ports:
+            - '9001:5432'
+
+networks:
+    test1:
