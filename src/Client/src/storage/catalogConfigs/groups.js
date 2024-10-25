@@ -6,6 +6,7 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/groupsCrud.js';
+import React from 'react';
 import String from '../../components/shared/business/String.jsx';
 import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx'
 
@@ -35,8 +36,8 @@ export default {
         },
         {
             title: 'Программа обучения',
-            dataIndex: 'educationProgramId',
-            key: 'educationProgramId',
+            dataIndex: 'educationProgram',
+            key: 'educationProgram',
         },
         {
             title: 'Дата начала',
@@ -53,4 +54,12 @@ export default {
             key: 'nameOfGroup',
         },
     ],
+    dataConverter: (data) => {
+        return data?.map(({ educationProgramId, ...props }) => {
+            const educationProgram = (
+                <EducationProgramSelect value={educationProgramId} mode='info' />
+            );
+            return { ...props, educationProgram };
+        });
+    },
 };

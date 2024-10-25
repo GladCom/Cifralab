@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../shared/Layout.jsx';
+import Layout from '../shared/layout/Layout.jsx';
 import FilterPanel from '../shared/filters/FilterPanel.jsx';
 import RequestPanel from './RequestPanel.jsx';
 

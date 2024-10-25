@@ -1,19 +1,32 @@
 import React from 'react';
-import QueryableSelect from '../QueryableSelect.jsx';
+import QueryableSelect from '../common/QueryableSelect.jsx';
 import config from '../../../../storage/catalogConfigs/scopeOfActivity.js';    
 
-const ScopeOfActivitySelect = ({ id, mode, value, setValue, required }) => {
+const defaultRules = [
+    {
+        required: true,
+        message: 'Необходимо заполнить это поле',
+    },
+];
+
+const defaultFormParams = {
+    labelKey: 'nameOfScope',
+    name: 'Сфера деятельности',
+    normalize: (value) => value,
+    rules: defaultRules,
+};
+
+const ScopeOfActivitySelect = ({ id, mode, value, setValue, formParams }) => {
     const { crud } = config;
 
     return (
         <QueryableSelect
             id={id}
             value={value}
-            required={required}
             crud={crud}
             mode={mode}
             setValue={setValue}
-            property={'nameOfScope'}
+            formParams={{ ...defaultFormParams, ...formParams }}
         />
     );
 };

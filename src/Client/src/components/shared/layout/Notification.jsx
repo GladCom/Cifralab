@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { notification } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearNotificationData } from '../../storage/slices/notificationSlice.js';
+import { clearNotificationData } from '../../../storage/slices/notificationSlice.js';
 
 
 const Notification = () => {
