@@ -5,7 +5,9 @@ import Spinner from '../shared/layout/Spinner.jsx';
 import Empty from '../shared/layout/Empty.jsx';
 import String from '../shared/business/String.jsx';
 import StatusEntranceExamsSelect from '../shared/business/selects/StatusEntranceExamsSelect.jsx';
-import RequestStatusSelect from '../shared/business/selects/RequestStatusSelect.jsx'
+import RequestStatusSelect from '../shared/business/selects/RequestStatusSelect.jsx';
+import EducationProgramSelect from '../shared/business/selects/EducationProgramSelect.jsx';
+import EducationTypeSelect from '../shared/business/selects/EducationTypeSelect.jsx';
 import YesNoSelect from '../shared/business/YesNoSelect.jsx';
 import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
@@ -13,6 +15,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import requestsConfig from '../../storage/catalogConfigs/personRequests.js';
 import requestStatusConfig from '../../storage/catalogConfigs/requestStatus.js';
+import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js';
+import educationProgramConfig from '../../storage/catalogConfigs/educationPrograms.js';
 import Email from '../shared/business/Email.jsx';
 
 const RequestDetailsPage = () => {
@@ -80,6 +84,28 @@ const RequestDetailsPage = () => {
                         id={requestData?.statusRequestId}
                         crud={requestStatusConfig.crud}
                         setValue={(value) => setRequestData({ ...requestData, statusRequestId: value })}
+                    />
+                </div>
+            </Stack>
+            <Stack direction="horizontal">
+                <div>Программа:</div>
+                <div>
+                    <EducationProgramSelect
+                        mode='editableInfo'
+                        id={requestData?.educationProgramId}
+                        crud={educationProgramConfig.crud}
+                        setValue={(value) => setRequestData({ ...requestData, educationProgramId: value })}
+                    />
+                </div>
+            </Stack>
+            <Stack direction="horizontal">
+                <div>Уровень образования:</div>
+                <div>
+                    <EducationTypeSelect
+                        mode='editableInfo'
+                        id={requestData?.typeEducationId}
+                        crud={typeEducationConfig.crud}
+                        setValue={(value) => setRequestData({ ...requestData, typeEducationId: value })}
                     />
                 </div>
             </Stack>
