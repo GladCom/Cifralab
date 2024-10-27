@@ -20,12 +20,12 @@ public class StudentHistory
   /// <summary>
   /// Id студента.
   /// </summary>
-  public Guid StudentId { get; set; }
+  public required Guid StudentId { get; set; }
 
   /// <summary>
   /// Фамилия.
   /// </summary>
-  public string Family { get; set; }
+  public required string Family { get; set; }
 
   /// <summary>
   /// Имя.

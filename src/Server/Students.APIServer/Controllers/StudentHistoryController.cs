@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
@@ -6,6 +7,8 @@ using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using Students.Models.ReferenceModels;
+using Students.Models.WebModels;
+using System.Diagnostics;
 
 namespace Students.APIServer.Controllers;
 
@@ -19,7 +22,7 @@ public class StudentHistoryController : GenericAPiController<StudentHistory>
 {
   #region Поля и свойства
 
-  private readonly IStudentHistoryRepository _studentHistoryRepository;
+  private readonly IGenericRepository<StudentHistory> _genericRepository;
   private readonly ILogger _logger;
 
   #endregion
@@ -34,8 +37,42 @@ public class StudentHistoryController : GenericAPiController<StudentHistory>
   [HttpGet("GetListChanges/{studentId}")]
   public async Task<IActionResult> GetListChanges(Guid studentId)
   {
-    var items = await _studentHistoryRepository.GetListChangesByStudentIdAsync(studentId);
-    return StatusCode(StatusCodes.Status200OK, items);
+    try
+    {
+      var items = await _genericRepository.Get(x => x.StudentId == studentId);
+      return items == null ? NotFoundException() : Ok(items);
+    }
+    catch (Exception e)
+    {
+      return Exception(e);
+    }
+  }
+
+  /// <summary>
+  /// Обработка исключения.
+  /// </summary>
+  /// <param name="e">Исключение.</param>
+  /// <returns>Ответ с кодом.</returns>
+  private IActionResult Exception(Exception e)
+  {
+    _logger.LogError(e, "Error while getting Entity by Id");
+    return StatusCode(StatusCodes.Status500InternalServerError,
+      new DefaultResponse
+      {
+        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+      });
+  }
+
+  /// <summary>
+  /// Обработка исключения.
+  /// </summary>
+  /// <returns>Ответ с кодом.</returns>
+  private IActionResult NotFoundException()
+  {
+    return NotFound(new DefaultResponse
+    {
+      RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+    });
   }
 
   #endregion
@@ -45,11 +82,11 @@ public class StudentHistoryController : GenericAPiController<StudentHistory>
   /// <summary>
   /// Конструктор.
   /// </summary>
-  /// <param name="studentHistoryRepository"></param>
+  /// <param name="genericRepository"></param>
   /// <param name="logger"></param>
-  public StudentHistoryController(IStudentHistoryRepository studentHistoryRepository, ILogger<StudentHistory> logger) : base(studentHistoryRepository, logger)
+  public StudentHistoryController(IGenericRepository<StudentHistory> genericRepository, ILogger<StudentHistory> logger) : base(genericRepository, logger)
   {
-    _studentHistoryRepository = studentHistoryRepository;
+    _genericRepository = genericRepository;
     _logger = logger;
   }
 

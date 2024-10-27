@@ -21,17 +21,15 @@ public class StudentHistoryRepository : GenericRepository<StudentHistory>, IStud
 
   #region Методы
 
-  public async Task<IEnumerable<StudentHistory>> GetListChangesByStudentIdAsync(Guid studentId)
-  {
-    return await _ctx.StudentHistories
-            .Where(c => c.StudentId == studentId)
-            .ToListAsync();
-  }
-
   #endregion
 
   #region Конструкторы
 
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="context"></param>
+  /// <param name="studRep"></param>
   public StudentHistoryRepository(StudentContext context, IStudentRepository studRep) :
     base(context)
   {

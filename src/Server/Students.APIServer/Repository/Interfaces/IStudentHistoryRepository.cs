@@ -7,11 +7,5 @@ namespace Students.APIServer.Repository.Interfaces;
 /// </summary>
 public interface IStudentHistoryRepository : IGenericRepository<StudentHistory>
 {
-  /// <summary>
-  /// Получить историю студента.
-  /// </summary>
-  /// <param name="studentId">Id студента.</param>
-  /// <returns>Список изменений студента.</returns>
-  Task<IEnumerable<StudentHistory>> GetListChangesByStudentIdAsync(Guid studentId);
 }
 
