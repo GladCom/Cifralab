@@ -6,8 +6,6 @@ using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
-using Students.Models.WebModels;
-using System.Diagnostics;
 
 namespace TestAPI.ControllersTests;
 
