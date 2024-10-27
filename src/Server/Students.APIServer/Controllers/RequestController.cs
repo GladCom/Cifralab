@@ -263,6 +263,7 @@ public class RequestController : GenericAPiController<Request>
             resultOld.Email = form!.Email ?? "";
             resultOld.Phone = form!.phone ?? "";
             resultOld.Agreement = form!.agreement;
+            resultOld.EducationProgramId = form!.EducationProgramId;
         };
 
         try
