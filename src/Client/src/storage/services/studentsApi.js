@@ -14,7 +14,7 @@ export const studentsApi = createApi({
     }),
     getStudentById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['Students'],
+      providesTags: ['StudentsById'],
     }),
     addStudent: builder.mutation({
       query: (student) => ({
@@ -24,12 +24,12 @@ export const studentsApi = createApi({
       invalidatesTags: ['Students'],
     }),
     editStudent: builder.mutation({
-      query: ({ id, student }) => ({
+      query: ({ id, item }) => ({
         url: id,
         method: 'PUT',
-        body: student,
+        body: item,
       }),
-      invalidatesTags: ['Students'],
+      invalidatesTags: ['Students', 'StudentsById'],
     }),
     removeStudent: builder.mutation({
       query: (id) => ({

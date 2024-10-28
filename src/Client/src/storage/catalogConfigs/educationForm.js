@@ -6,28 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/educationFormCrud.js';
-import String from '../../components/shared/business/String.jsx';
-
-const rules = [
-    {
-        required: true,
-        message: 'Необходимо заполнить это поле',
-    },
-];
-
-const formParams = {
-    key: 'name',
-    name: 'Форма образования',
-    rules,
-};
+import { educationFormModel } from '../models/index.js';
 
 export default {
     detailsLink: 'educationForm',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        name: { name: 'Форма образования', type: String, show: true, formParams },
-    },
+    properties: educationFormModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,

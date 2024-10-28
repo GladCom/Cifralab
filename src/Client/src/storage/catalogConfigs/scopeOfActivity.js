@@ -6,16 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/scopeOfActivityCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import scopeOfActivityModel from '../models/scopeOfActivity.js';
 
 export default {
     detailsLink: 'scopeOfActivity',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        nameOfScope: { name: 'Сфера деятельности', type: String, show: true, required: true },
-        level: { name: 'Уровень', type: String, show: true, required: true }
-    },
+    properties: scopeOfActivityModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,

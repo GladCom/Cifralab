@@ -2,9 +2,12 @@ import React from 'react';
 import { Layout } from 'antd';
 
 const { Content } = Layout;
+
 const contentStyle = {
     backgroundColor: '#fff',
-    //overflow: 'auto',
+    padding: '24px',
+    overflow: 'auto',
+    flex: 1,
 };
 
 const MyContent = ({ children }) => {

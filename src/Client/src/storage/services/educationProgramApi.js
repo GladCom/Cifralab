@@ -13,7 +13,7 @@ export const educationProgramApi = createApi({
     }),
     getEducationProgramById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['EducationProgram'],
+      providesTags: ['EducationProgramById'],
     }),
     addEducationProgram: builder.mutation({
       query: (item) => ({
@@ -28,7 +28,7 @@ export const educationProgramApi = createApi({
         method: 'PUT',
         body: item,
       }),
-      invalidatesTags: ['EducationProgram'],
+      invalidatesTags: ['EducationProgram', 'EducationProgramById'],
     }),
     removeEducationProgram: builder.mutation({
       query: (id) => ({

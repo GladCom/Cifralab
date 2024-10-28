@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-import BaseComponent from './common/BaseComponent'; 
+import BaseComponent from './com/BaseComponent'; 
 
 const String = memo((props) => (
     <BaseComponent
-        { ...props }
+        {...props}
     />
 ));
 String.displayName = 'String';

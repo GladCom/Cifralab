@@ -6,20 +6,15 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/groupsCrud.js';
+import { groupsModel } from '../models/index.js';
 import React from 'react';
-import String from '../../components/shared/business/String.jsx';
 import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx'
 
 export default {
     detailsLink: 'group',
     hasDetailsPage: true,
     serverPaged: false,
-    properties: {
-        name: { name: 'Наименование группы', type: String, show: true, required: true },
-        educationProgramId: { name: 'Программа обучения', type: EducationProgramSelect, show: true, required: true },
-        startDate: { name: 'Дата начала', type: String, show: true, required: true },
-        endDate: { name: 'Дата окончания', type: String, show: true, required: true },
-    },
+    properties: groupsModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,

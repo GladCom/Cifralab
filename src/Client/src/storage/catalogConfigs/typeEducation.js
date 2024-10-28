@@ -6,15 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/typeEducationCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import typeEducationModel from '../models/typeEducation.js';
 
 export default {
     detailsLink: 'typeEducation',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        name: { name: 'Тип образования', type: String, show: true, required: true },
-    },
+    properties: typeEducationModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
