@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Layout from '../shared/layout/Layout.jsx';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Layout, Loading, DetailsPageData } from '../shared/layout/index.js';
 import { useParams } from 'react-router-dom';
 import Spinner from '../shared/layout/Spinner.jsx';
 import Empty from '../shared/layout/Empty.jsx';
@@ -13,7 +13,7 @@ import Stack from 'react-bootstrap/Stack';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import requestsConfig from '../../storage/catalogConfigs/personRequests.js';
+import config from '../../storage/catalogConfigs/personRequests.js';
 import requestStatusConfig from '../../storage/catalogConfigs/requestStatus.js';
 import typeEducationConfig from '../../storage/catalogConfigs/typeEducation.js';
 import educationProgramConfig from '../../storage/catalogConfigs/educationPrograms.js';
@@ -22,13 +22,11 @@ import Email from '../shared/business/Email.jsx';
 const RequestDetailsPage = () => {
     const { id } = useParams();
     const [requestData, setRequestData] = useState({});
-    const { useGetOneByIdAsync, useEditOneAsync } = requestsConfig.crud;
-    const { data, error, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
+    const { properties, crud } = config;
+    const { useGetOneByIdAsync, useEditOneAsync } = crud;
+    const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
-    const [
-        editRequest,
-        { error: editRequestError, isLoading: isEdittingRequest },
-      ] = useEditOneAsync();
+    const [editRequest] = useEditOneAsync();
 
     useEffect(() => {
         if (!isLoading && !isFetching) {
@@ -38,16 +36,13 @@ const RequestDetailsPage = () => {
         }
     }, [isLoading, isFetching]);
 
-    if (isLoading || isFetching) {
-        return (
-            <>
-                <Spinner />
-                <Empty />
-            </>
-        );
-    }
+    const onSave = useCallback(() => {
+        editRequest({ id, item: requestData });
+    });
 
-    return (
+    return isLoading || isFetching
+    ? (<Loading />)
+    : (
         <Layout title="Заявка">
             <h2 className="m-3">{requestData.family} {requestData?.name} {requestData?.patron}</h2>
             <Stack direction="horizontal">
@@ -211,10 +206,7 @@ const RequestDetailsPage = () => {
             <hr />
             <Row>
                 <Col>
-                    <Button onClick={() => {
-                        editRequest({ id, request: requestData });
-                        refetch();
-                    }}>Сохранить</Button>
+                    <Button onClick={onSave}>Сохранить</Button>
                 </Col>
             </Row>
         </Layout>

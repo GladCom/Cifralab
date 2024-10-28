@@ -18,7 +18,7 @@ const siderStyle = {
   backgroundColor: '#fff',
 };
 
-const Navbar = ( { width }) => {
+const Navbar = ({ width }) => {
     const navigate = useNavigate();
 
     const items = [

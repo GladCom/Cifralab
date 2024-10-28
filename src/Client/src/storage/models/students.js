@@ -1,0 +1,97 @@
+import String from '../../components/shared/business/String.jsx';
+import Gender from '../../components/shared/business/Gender.jsx';
+import Snils from '../../components/shared/business/Snils.jsx';
+import Email from '../../components/shared/business/Email.jsx';
+import Address from '../../components/shared/business/Address.jsx';
+import EducationType from '../../components/shared/business/selects/EducationTypeSelect.jsx'
+import YesNoSelect from '../../components/shared/business/YesNoSelect.jsx';
+import BirthDate from '../../components/shared/business/BirthDate.jsx';
+
+const model = {
+    family: { 
+        name: 'Фамилия',
+        type: String,
+    },
+    name: { 
+        name: 'Имя', 
+        type: String, 
+    },
+    patron: { 
+        name: 'Отчество', 
+        type: String, 
+    },
+    birthDate: { 
+        name: 'Дата рождения', 
+        type: BirthDate,
+    },
+    sex: { 
+        name: 'Пол', 
+        type: Gender, 
+    },
+    age: { 
+        name: 'Возраст', 
+        type: String, 
+    },
+    address: { 
+        name: 'Место проживания', 
+        type: Address, 
+    },
+    phone: { 
+        name: 'Телефон', 
+        type: String, 
+    },
+    email: { 
+        name: 'E-mail', 
+        type: Email,  
+    },
+    snils: { 
+        name: 'Снилс', 
+        type: Snils, 
+    },
+    nationality: { 
+        name: 'Гражданство', 
+        type: String,
+    },
+    typeEducationId: { 
+        name: 'Уровень образования', 
+        type: EducationType,
+    },
+    speciality: {
+        name: 'Специальность', 
+        type: String,
+    },
+    scopeOfActivityLevelOne: {
+        name: 'Сфера деятельности ур.1', 
+        type: String,
+    },
+    scopeOfActivityLevelTwo: {
+        name: 'Сфера деятельности ур.2', 
+        type: String,
+    },
+    fullNameDocument: {
+        name: 'Фамилия в дипломе о ВО/СПО', 
+        type: String,
+    },
+    documentSeries: {
+        name: 'Серия документа о ВО/СПО', 
+        type: String,
+    },
+    documentNumber: {
+        name: 'Номер документа о ВО/СПО', 
+        type: String,
+    },
+    disability: {
+        name: 'ОВЗ', 
+        type: YesNoSelect,
+    },
+    // projects: { 
+    //     name: 'Проекты',
+    //     type: String,
+    // },
+    // iT_Experience: {
+    //     name: 'Опыт в IT', 
+    //     type: String, 
+    // },
+};
+
+export default model;

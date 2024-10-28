@@ -16,7 +16,7 @@ const defaultFormParams = {
     rules: defaultRules,
 };
 
-const EducationFormSelect = ({ id, mode, value, setValue, formParams }) => {
+const EducationType = ({ id, mode, value, setValue, formParams }) => {
     const { crud } = config;
 
     return (
@@ -31,4 +31,4 @@ const EducationFormSelect = ({ id, mode, value, setValue, formParams }) => {
     );
 };
 
-export default EducationFormSelect;
+export default EducationType;

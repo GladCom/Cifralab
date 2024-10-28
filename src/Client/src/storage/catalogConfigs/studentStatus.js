@@ -6,15 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/studentStatusCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import { studentStatusModel } from '../models/index.js';
 
 export default {
     detailsLink: 'studentStatus',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        name: { name: 'Статус студента', type: String, show: true, required: true },
-    },
+    properties: studentStatusModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,

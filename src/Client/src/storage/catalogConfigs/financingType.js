@@ -6,15 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/financingTypeCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import financingTypeModel from '../models/financingType.js';
 
 export default {
     detailsLink: 'financingType',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        sourceName: { name: 'Тип финансирования', type: String, show: true, required: true },
-    },
+    properties: financingTypeModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
