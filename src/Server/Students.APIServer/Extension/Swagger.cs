@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+п»їusing Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Students.APIServer.Extension;
@@ -9,16 +9,16 @@ namespace Students.APIServer.Extension;
 public class Swagger
 {
     /// <summary>
-    /// Фильтр свойств модели swagger, исключающий свойства - идентификаторы (ExcludeIdPropertyFilter)
+    /// Р¤РёР»СЊС‚СЂ СЃРІРѕР№СЃС‚РІ РјРѕРґРµР»Рё swagger, РёСЃРєР»СЋС‡Р°СЋС‰РёР№ СЃРІРѕР№СЃС‚РІР° - РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂС‹ (ExcludeIdPropertyFilter)
     /// </summary>
-    /// <typeparam name="T">Тип объекта</typeparam>
+    /// <typeparam name="T">РўРёРї РѕР±СЉРµРєС‚Р°</typeparam>
     public class ExcludeIdPropertyFilter<T> : ISchemaFilter
     {
         /// <summary>
-        /// Применение фильтра
+        /// РџСЂРёРјРµРЅРµРЅРёРµ С„РёР»СЊС‚СЂР°
         /// </summary>
-        /// <param name="model">Схема API</param>
-        /// <param name="context">Контекст схемы</param>
+        /// <param name="model">РЎС…РµРјР° API</param>
+        /// <param name="context">РљРѕРЅС‚РµРєСЃС‚ СЃС…РµРјС‹</param>
         public void Apply(OpenApiSchema model, SchemaFilterContext context)
         {
             var type = context.Type;

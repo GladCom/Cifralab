@@ -1,28 +1,31 @@
-namespace Students.Models
+п»їusing System.Text.Json.Serialization;
+
+namespace Students.Models;
+
+/// <summary>
+/// Р“СЂСѓРїРїР° СЃС‚СѓРґРµРЅС‚РѕРІ (РґР°РЅРЅС‹Р№ РєР»Р°СЃСЃ РґРѕР»Р¶РµРЅ СѓРјРµСЂРµС‚СЊ)
+/// </summary>
+public class GroupStudent
 {
-	/// <summary>
-	/// Группа студентов (данный класс должен умереть)
-	/// </summary>
-	public class GroupStudent
-	{
-		/// <summary>
-		/// Идентификатор студента
-		/// </summary>
-		public Guid StudentsId { get; set; }
-		/// <summary>
-		/// Ижентификатор группы
-		/// </summary>
+  /// <summary>
+  /// РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СѓРґРµРЅС‚Р°
+  /// </summary>
+  public required Guid StudentsId { get; set; }
 
-		public Guid GroupsId { get; set; }
-		/// <summary>
-		/// Студент (навигационное свойство)
-		/// </summary>
+  /// <summary>
+  /// РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹
+  /// </summary>
+  public required Guid GroupsId { get; set; }
 
-		public virtual Student? Student { get; set; }
-        /// <summary>
-        /// Группа (навигационное свойство)
-        /// </summary>
+  /// <summary>
+  /// РЎС‚СѓРґРµРЅС‚ (РЅР°РІРёРіР°С†РёРѕРЅРЅРѕРµ СЃРІРѕР№СЃС‚РІРѕ)
+  /// </summary>
+  [JsonIgnore]
+  public virtual Student? Student { get; set; }
 
-        public virtual Group? Group { get; set; }
-	}
+  /// <summary>
+  /// Р“СЂСѓРїРїР° (РЅР°РІРёРіР°С†РёРѕРЅРЅРѕРµ СЃРІРѕР№СЃС‚РІРѕ)
+  /// </summary>
+  [JsonIgnore]
+  public virtual Group? Group { get; set; }
 }

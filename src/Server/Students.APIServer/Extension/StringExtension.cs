@@ -1,14 +1,14 @@
-namespace Students.APIServer.Extension
+п»їnamespace Students.APIServer.Extension
 {
     /// <summary>
-    /// Странное расширение для строки
+    /// РЎС‚СЂР°РЅРЅРѕРµ СЂР°СЃС€РёСЂРµРЅРёРµ РґР»СЏ СЃС‚СЂРѕРєРё
     /// </summary>
     public static class StringExtension
     {
         /// <summary>
-        /// Крайне странный способ получения номера телефона из строки
+        /// РљСЂР°Р№РЅРµ СЃС‚СЂР°РЅРЅС‹Р№ СЃРїРѕСЃРѕР± РїРѕР»СѓС‡РµРЅРёСЏ РЅРѕРјРµСЂР° С‚РµР»РµС„РѕРЅР° РёР· СЃС‚СЂРѕРєРё
         /// </summary>
-        /// <param name="phone">номер телефона</param>
+        /// <param name="phone">РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°</param>
         /// <returns></returns>
         public static string GetPhoneFromStr(this string phone)
         {

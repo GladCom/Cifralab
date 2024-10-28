@@ -2,35 +2,65 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Students.Models;
 
-namespace Students.DBCore.Confuguration
+namespace Students.DBCore.Confuguration;
+
+internal class EducationProgramConfiguration : IEntityTypeConfiguration<EducationProgram>
 {
-    internal class EducationProgramConfiguration : IEntityTypeConfiguration<EducationProgram>
-    {
-        public void Configure(EntityTypeBuilder<EducationProgram> builder)
-        {
-            builder.HasKey(x => x.Id);
+  public void Configure(EntityTypeBuilder<EducationProgram> builder)
+  {
+    builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .IsRequired()
-                .ValueGeneratedOnAdd();
+    builder.Property(x => x.Id)
+      .IsRequired()
+      .ValueGeneratedOnAdd();
 
-            builder.HasMany(g => g.Groups)
-                .WithOne(ep => ep.EducationProgram)
-                .HasForeignKey(ep => ep.EducationProgramId);
+    builder.Property(x => x.Cost)
+      .IsRequired();
 
-            builder.HasOne(ef => ef.EducationForm)
-                .WithMany()
-                .HasForeignKey(ef => ef.EducationFormId);
+    builder.Property(x => x.HoursCount)
+      .IsRequired();
 
-            builder.HasOne(f => f.FEAProgram)
-                .WithMany()
-                .HasForeignKey(f => f.FEAProgramId);
+    builder.Property(x => x.EducationFormId)
+      .IsRequired();
 
-            builder.HasOne(ft => ft.FinancingType)
-                .WithMany()
-                .HasForeignKey(ft => ft.FinancingTypeId);
+    builder.Property(x => x.KindDocumentRiseQualificationId)
+      .IsRequired();
 
-            builder.Property(x => x.IsArchive);
-        }
-    }
+    builder.Property(x => x.IsModularProgram)
+      .IsRequired();
+
+    builder.Property(x => x.FinancingTypeId)
+      .IsRequired();
+
+    builder.Property(x => x.IsCollegeProgram)
+      .IsRequired();
+
+    builder.Property(x => x.IsArchive)
+      .IsRequired();
+
+    builder.Property(x => x.IsNetworkProgram)
+      .IsRequired();
+
+    builder.Property(x => x.IsDOTProgram)
+      .IsRequired();
+
+    builder.Property(x => x.IsFullDOTProgram)
+      .IsRequired();
+
+    builder.HasMany(g => g.Groups)
+      .WithOne(ep => ep.EducationProgram)
+      .HasForeignKey(ep => ep.EducationProgramId);
+
+    builder.HasOne(ef => ef.EducationForm)
+      .WithMany()
+      .HasForeignKey(ef => ef.EducationFormId);
+
+    builder.HasOne(f => f.FEAProgram)
+      .WithMany()
+      .HasForeignKey(f => f.FEAProgramId);
+
+    builder.HasOne(ft => ft.FinancingType)
+      .WithMany()
+      .HasForeignKey(ft => ft.FinancingTypeId);
+  }
 }

@@ -1,25 +1,25 @@
-using Asp.Versioning;
+п»їusing Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
-namespace Students.APIServer.Controllers
+namespace Students.APIServer.Controllers;
+
+/// <summary>
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РіСЂСѓРїРї СЃС‚СѓРґРµРЅС‚РѕРІ.
+/// </summary>
+[ApiController]
+[Route("[controller]")]
+[ApiVersion("1.0")]
+public class StudentGroupController : GenericAPiController<GroupStudent>
 {
-	/// <summary>
-	/// Контроллер групп студентов, данная шляпа должна умереть
-	/// </summary>
-	[ApiController]
-	[Route("[controller]")]
-	[ApiVersion("1.0")]
-	public class StudentGroupController : GenericAPiController<GroupStudent>
-	{
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		/// <param name="repository"> Репозиторий группы со студентами</param>
-		/// <param name="logger">Логгер</param>
-		public StudentGroupController(IGenericRepository<GroupStudent> repository, ILogger<GroupStudent> logger) : base(repository, logger)
-		{
-		}
-	}
+  /// <summary>
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// </summary>
+  /// <param name="repository"> Р РµРїРѕР·РёС‚РѕСЂРёР№ РіСЂСѓРїРїС‹ СЃРѕ СЃС‚СѓРґРµРЅС‚Р°РјРё.</param>
+  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
+  public StudentGroupController(IGenericRepository<GroupStudent> repository, ILogger<GroupStudent> logger) : base(
+    repository, logger)
+  {
+  }
 }

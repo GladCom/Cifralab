@@ -1,41 +1,53 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Students.Models;
+using Students.Models.WebModels;
 
-namespace Students.APIServer.Controllers
+namespace Students.APIServer.Controllers;
+
+/// <summary>
+/// Контроллер живучести сервиса.
+/// </summary>
+[ApiController]
+[Route("[controller]")]
+public class LivenessController : ControllerBase
 {
-    /// <summary>
-    /// Контроллер живучести сервиса
-    /// </summary>
-    [ApiController]
-    [Route("[controller]")]
-    public class LivenessController : ControllerBase
-    {
-        private readonly ILogger<LivenessController> _logger;
+  #region Поля и свойства
 
-        /// <summary>
-        /// Конструктор
-        /// </summary>
-        /// <param name="logger">Логгер</param>
-        public LivenessController(ILogger<LivenessController> logger)
-        {
-            _logger = logger;
-        }
+  private readonly ILogger<LivenessController> _logger;
 
-        /// <summary>
-        /// Тест живучести сервиса - тестирование приложения без зависимостейй
-        /// </summary>
-        /// <returns>IActionResult</returns>
-        [HttpGet(Name = "Liveness Probe")]
-        public IActionResult Get()
-        {
-            return StatusCode
-            (
-                StatusCodes.Status200OK,
-                new DefaultResponse
-                {
-                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-                });
-        }
-    }
+  #endregion
+
+  #region Методы
+
+  /// <summary>
+  /// Тест живучести сервиса - тестирование приложения без зависимостей.
+  /// </summary>
+  /// <returns>Да.</returns>
+  [HttpGet(Name = "Liveness Probe")]
+  public IActionResult Get()
+  {
+    return StatusCode
+    (
+      StatusCodes.Status200OK,
+      new DefaultResponse
+      {
+        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+      });
+  }
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="logger">Логгер.</param>
+  public LivenessController(ILogger<LivenessController> logger)
+  {
+    _logger = logger;
+  }
+
+  #endregion
 }

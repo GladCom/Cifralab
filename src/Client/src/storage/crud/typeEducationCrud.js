@@ -8,10 +8,10 @@ import {
 } from '../services/typeEducationApi';
 
 export {
-  useGetTypeEducationQuery as getAllAsync,
-  useGetTypeEducationPagedQuery as getAllPagedAsync,
-  useGetTypeEducationByIdQuery as getOneByIdAsync,
-  useAddTypeEducationMutation as addOneAsync,
-  useEditTypeEducationMutation as editOneAsync,
-  useRemoveTypeEducationMutation as removeOneAsync,
+  useGetTypeEducationQuery as useGetAllAsync,
+  useGetTypeEducationPagedQuery as useGetAllPagedAsync,
+  useGetTypeEducationByIdQuery as useGetOneByIdAsync,
+  useAddTypeEducationMutation as useAddOneAsync,
+  useEditTypeEducationMutation as useEditOneAsync,
+  useRemoveTypeEducationMutation as useRemoveOneAsync,
 }

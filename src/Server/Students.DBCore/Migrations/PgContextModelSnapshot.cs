@@ -74,8 +74,7 @@ namespace Students.DBCore.Migrations
                     b.Property<Guid?>("FEAProgramId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("FinancingTypeId")
-                        .IsRequired()
+                    b.Property<Guid>("FinancingTypeId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("HoursCount")
@@ -87,7 +86,16 @@ namespace Students.DBCore.Migrations
                     b.Property<bool>("IsCollegeProgram")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDOTProgram")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsFullDOTProgram")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsModularProgram")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsNetworkProgram")
                         .HasColumnType("boolean");
 
                     b.Property<Guid>("KindDocumentRiseQualificationId")
@@ -148,15 +156,6 @@ namespace Students.DBCore.Migrations
 
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
-
-                    b.Property<bool>("IsDOTProgram")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsFullDOTProgram")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsNetworkProgram")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -323,7 +322,7 @@ namespace Students.DBCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StatusRequest");
+                    b.ToTable("StatusRequests");
                 });
 
             modelBuilder.Entity("Students.Models.Student", b =>
@@ -385,7 +384,7 @@ namespace Students.DBCore.Migrations
                     b.Property<string>("SNILS")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ScopeOfActivityLevelOneId")
+                    b.Property<Guid>("ScopeOfActivityLevelOneId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ScopeOfActivityLevelTwoId")
@@ -571,7 +570,9 @@ namespace Students.DBCore.Migrations
                 {
                     b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLevelOne")
                         .WithMany()
-                        .HasForeignKey("ScopeOfActivityLevelOneId");
+                        .HasForeignKey("ScopeOfActivityLevelOneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Students.Models.ScopeOfActivity", "ScopeOfActivityLevelTwo")
                         .WithMany()

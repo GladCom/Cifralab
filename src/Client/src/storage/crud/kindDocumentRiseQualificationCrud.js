@@ -8,10 +8,10 @@ import {
 } from '../services/kindDocumentRiseQualificationApi';
 
 export {
-  useGetKindDocumentRiseQualificationQuery as getAllAsync,
-  useGetKindDocumentRiseQualificationPagedQuery as getAllPagedAsync,
-  useGetKindDocumentRiseQualificationByIdQuery as getOneByIdAsync,
-  useAddKindDocumentRiseQualificationMutation as addOneAsync,
-  useEditKindDocumentRiseQualificationMutation as editOneAsync,
-  useRemoveKindDocumentRiseQualificationMutation as removeOneAsync,
+  useGetKindDocumentRiseQualificationQuery as useGetAllAsync,
+  useGetKindDocumentRiseQualificationPagedQuery as useGetAllPagedAsync,
+  useGetKindDocumentRiseQualificationByIdQuery as useGetOneByIdAsync,
+  useAddKindDocumentRiseQualificationMutation as useAddOneAsync,
+  useEditKindDocumentRiseQualificationMutation as useEditOneAsync,
+  useRemoveKindDocumentRiseQualificationMutation as useRemoveOneAsync,
 }

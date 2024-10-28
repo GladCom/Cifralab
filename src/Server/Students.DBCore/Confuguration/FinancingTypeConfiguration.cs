@@ -1,18 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Students.Models;
+using Students.Models.ReferenceModels;
 
-namespace Students.DBCore.Confuguration
+namespace Students.DBCore.Confuguration;
+
+internal class FinancingTypeConfiguration : IEntityTypeConfiguration<FinancingType>
 {
-    internal class FinancingTypeConfiguration : IEntityTypeConfiguration<FinancingType>
-    {
-        public void Configure(EntityTypeBuilder<FinancingType> builder)
-        {
-            builder.HasKey(x => x.Id);
+  public void Configure(EntityTypeBuilder<FinancingType> builder)
+  {
+    builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .IsRequired()
-                .ValueGeneratedOnAdd();
-        }
-    }
+    builder.Property(x => x.Id)
+      .IsRequired()
+      .ValueGeneratedOnAdd();
+  }
 }

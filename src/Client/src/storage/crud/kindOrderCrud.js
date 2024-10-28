@@ -8,10 +8,10 @@ import {
 } from '../services/kindOrderApi';
 
 export {
-  useGetKindOrderQuery as getAllAsync,
-  useGetKindOrderPagedQuery as getAllPagedAsync,
-  useGetKindOrderByIdQuery as getOneByIdAsync,
-  useAddKindOrderMutation as addOneAsync,
-  useEditKindOrderMutation as editOneAsync,
-  useRemoveKindOrderMutation as removeOneAsync,
+  useGetKindOrderQuery as useGetAllAsync,
+  useGetKindOrderPagedQuery as useGetAllPagedAsync,
+  useGetKindOrderByIdQuery as useGetOneByIdAsync,
+  useAddKindOrderMutation as useAddOneAsync,
+  useEditKindOrderMutation as useEditOneAsync,
+  useRemoveKindOrderMutation as useRemoveOneAsync,
 }

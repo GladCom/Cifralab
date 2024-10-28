@@ -1,24 +1,46 @@
-using Asp.Versioning;
+п»їusing Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер типов финансирования
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ С‚РёРїРѕРІ С„РёРЅР°РЅСЃРёСЂРѕРІР°РЅРёСЏ.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
 public class FinancingTypeController : GenericAPiController<FinancingType>
 {
-    /// <summary>
-    /// Конструктор
-    /// </summary>
-    /// <param name="repository">Репозиторий типов финансирования</param>
-    /// <param name="logger">Логгер</param>
-    public FinancingTypeController(IGenericRepository<FinancingType> repository, ILogger<FinancingType> logger) : base(repository, logger)
-    {
-    }
+  #region РџРѕР»СЏ Рё СЃРІРѕР№СЃС‚РІР°
+
+  IFinancingTypeRepository _financingTypeRepository;
+  private readonly ILogger<Group> _logger;
+
+  #endregion
+
+  #region РњРµС‚РѕРґС‹
+
+
+
+  #endregion
+
+  #region РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
+
+  /// <summary>
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// </summary>
+  /// <param name="repository">Р РµРїРѕР·РёС‚РѕСЂРёР№ С‚РёРїРѕРІ С„РёРЅР°РЅСЃРёСЂРѕРІР°РЅРёСЏ.</param>
+  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
+  /// <param name="financingTypeRepository">Р РµРїРѕР·РёС‚РѕСЂРёР№ С‚РёРїРѕРІ С„РёРЅР°РЅСЃРёСЂРѕРІР°РЅРёСЏ.</param>
+  public FinancingTypeController(IGenericRepository<FinancingType> repository, 
+    ILogger<FinancingType> logger, IFinancingTypeRepository financingTypeRepository) : base(repository, logger)
+  {
+    _financingTypeRepository = financingTypeRepository;
+  }
+
+  #endregion
 }

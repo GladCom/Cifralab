@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer  from './slices/userSlice.js';
+import notificationReducer  from './slices/notificationSlice.js';
 import { authApi }  from './services/authApi.js';
 import { studentsApi }  from './services/studentsApi.js';
 import { educationFormApi }  from './services/educationFormApi.js';
@@ -12,10 +13,13 @@ import { financingTypeApi }  from './services/financingTypeApi.js';
 import { feaProgramApi }  from './services/feaProgramApi.js';
 import { educationProgramApi }  from './services/educationProgramApi.js';
 import { groupsApi }  from './services/groupsApi.js';
+import { requestsApi }  from './services/requestsApi.js';
+import { scopeOfActivityApi }  from './services/scopeOfActivityApi.js';
 
 export default configureStore({
   reducer: {
     user: userReducer,
+    notification: notificationReducer,
     [authApi.reducerPath]: authApi.reducer,
     [studentsApi.reducerPath]: studentsApi.reducer,
     [educationFormApi.reducerPath]: educationFormApi.reducer,
@@ -28,6 +32,8 @@ export default configureStore({
     [feaProgramApi.reducerPath]: feaProgramApi.reducer,
     [educationProgramApi.reducerPath]: educationProgramApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
+    [requestsApi.reducerPath]: requestsApi.reducer,
+    [scopeOfActivityApi.reducerPath]: scopeOfActivityApi.reducer
   },
   middleware: (
     (getDefaultMiddleware) => getDefaultMiddleware()
@@ -43,5 +49,7 @@ export default configureStore({
     .concat(feaProgramApi.middleware)
     .concat(educationProgramApi.middleware)
     .concat(groupsApi.middleware)
+    .concat(requestsApi.middleware)
+    .concat(scopeOfActivityApi.middleware)
   ),
 });

@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Extension;
 using Students.APIServer.Report;
@@ -9,6 +9,8 @@ using Students.APIServer.Repository.Reports;
 using Students.DBCore.Contexts;
 using Students.Models;
 using ClosedXML.Excel;
+using Students.Models.ReferenceModels;
+using Students.Models.ReportsModel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,11 +36,14 @@ builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
-builder.Services.AddScoped<IReportRepository<PFDOModel>, PFDOReportRepository>();
+builder.Services.AddScoped<IReportRepository<FRDOModel>, FRDOReportRepository>();
 builder.Services.AddScoped<IReportRepository<RosstatModel>, RosstatReportRepository>();
 builder.Services.AddScoped<IReport<XLWorkbook>, GenerateReports>();
+builder.Services.AddScoped<IEducationProgramRepository, EducationProgramRepository>();
 //builder.Services.AddScoped<IReportRepository, CSVReportRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IFEAProgramRepository, FEAProgramRepository>();
+builder.Services.AddScoped<IFinancingTypeRepository, FinancingTypeRepository>();
 builder.Services.AddSwaggerGen(options =>
 {
     var basePath = AppContext.BaseDirectory;
@@ -100,9 +105,9 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 await using var scope = app.Services.CreateAsyncScope();
 await using var db = scope.ServiceProvider.GetService<PgContext>();
-if (db != null)
-{
-    await db.Database.MigrateAsync();
-}
+//if (db != null)
+//{
+//    await db.Database.MigrateAsync();
+//}
 
 app.Run();

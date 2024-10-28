@@ -15,9 +15,9 @@ namespace Students.APIServer.Report.Interfaces
         public Task<T?> GenerateRosstatReport();
 
         /// <summary>
-        /// Генерирование отчета ПФДО.
+        /// Генерирование отчета ФРДО.
         /// </summary>
         /// <returns>Книга.</returns>
-        public Task<T?> GeneratePFDOReport();
+        public Task<T?> GenerateFRDOReport();
     }
 }

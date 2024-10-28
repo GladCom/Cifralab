@@ -1,19 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Students.Models;
+using Students.Models.ReferenceModels;
 
-namespace Students.DBCore.Confuguration
+namespace Students.DBCore.Confuguration;
+
+internal class TypeEducationConfiguration : IEntityTypeConfiguration<TypeEducation>
 {
-    internal class TypeEducationConfiguration : IEntityTypeConfiguration<TypeEducation>
-    {
-        public void Configure(EntityTypeBuilder<TypeEducation> builder)
-        {
-            builder.HasKey(x => x.Id);
+  public void Configure(EntityTypeBuilder<TypeEducation> builder)
+  {
+    builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .IsRequired()
-                .ValueGeneratedOnAdd();
-            builder.Property(x => x.Name);
-        }
-    }
+    builder.Property(x => x.Id)
+      .IsRequired()
+      .ValueGeneratedOnAdd();
+
+    builder.Property(x => x.Name)
+      .IsRequired();
+  }
 }

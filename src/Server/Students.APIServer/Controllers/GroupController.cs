@@ -1,39 +1,54 @@
-using Asp.Versioning;
+п»їusing Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер группы
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РіСЂСѓРїРїС‹.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
 public class GroupController : GenericAPiController<Group>
 {
-	private readonly IGroupRepository _groupRepository;
-	private readonly ILogger<Group> _logger;
-    /// <summary>
-    /// Конструктор
-    /// </summary>
-    /// <param name="groupRepository">Репозиторий групп</param>
-    /// <param name="logger">Логгер</param>
-    public GroupController(IGroupRepository groupRepository, ILogger<Group> logger) : base(groupRepository, logger) {
-		_groupRepository = groupRepository;
-		_logger = logger;
-	}
-	/// <summary>
-	/// Добавление студентов в группу
-	/// </summary>
-	/// <param name="studentList">Список студентов</param>
-	/// <param name="groupID">Идентификатор группы</param>
-	/// <returns></returns>
-	[HttpPost("AddStudentToGroup")]
-	public async Task<IActionResult> AddStudentToGroup(IEnumerable<Student> studentList, Guid groupID)
-	{
-		return StatusCode(StatusCodes.Status200OK,
-			await _groupRepository.AddStudentsInGroup(studentList, groupID));
-	}
+  #region РџРѕР»СЏ Рё СЃРІРѕР№СЃС‚РІР°
+
+  private readonly IGroupRepository _groupRepository;
+  private readonly ILogger<Group> _logger;
+
+  #endregion
+
+  #region РњРµС‚РѕРґС‹
+
+  /// <summary>
+  /// Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‚СѓРґРµРЅС‚РѕРІ РІ РіСЂСѓРїРїСѓ.
+  /// </summary>
+  /// <param name="studentList">РЎРїРёСЃРѕРє СЃС‚СѓРґРµРЅС‚РѕРІ.</param>
+  /// <param name="groupID">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹.</param>
+  /// <returns>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РіСЂСѓРїРїС‹.</returns>
+  [HttpPost("AddStudentToGroup")]
+  public async Task<IActionResult> AddStudentToGroup(IEnumerable<Student> studentList, Guid groupID)
+  {
+    return StatusCode(StatusCodes.Status200OK,
+      await _groupRepository.AddStudentsInGroup(studentList, groupID));
+  }
+
+  #endregion
+
+  #region РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
+
+  /// <summary>
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// </summary>
+  /// <param name="groupRepository">Р РµРїРѕР·РёС‚РѕСЂРёР№ РіСЂСѓРїРї.</param>
+  /// <param name="logger">Р›РѕРіРіРµСЂ.</param>
+  public GroupController(IGroupRepository groupRepository, ILogger<Group> logger) : base(groupRepository, logger)
+  {
+    _groupRepository = groupRepository;
+    _logger = logger;
+  }
+
+  #endregion
 }

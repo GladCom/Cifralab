@@ -1,92 +1,116 @@
-using Microsoft.EntityFrameworkCore;
+п»їusing Microsoft.EntityFrameworkCore;
+using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 
 namespace Students.APIServer.Repository;
 
 /// <summary>
-/// Репозиторий Generic 
+/// Р РµРїРѕР·РёС‚РѕСЂРёР№ Generic.
 /// </summary>
-/// <typeparam name="TEntity">Сущность, с которой работает репозиторий</typeparam>
+/// <typeparam name="TEntity">РЎСѓС‰РЅРѕСЃС‚СЊ, СЃ РєРѕС‚РѕСЂРѕР№ СЂР°Р±РѕС‚Р°РµС‚ СЂРµРїРѕР·РёС‚РѕСЂРёР№.</typeparam>
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-    private readonly StudentContext _context;
-    private readonly DbSet<TEntity> _dbSet;
- 
-    /// <summary>
-    /// Констуктор
-    /// </summary>
-    /// <param name="context">Контект базы данных</param>
-    public GenericRepository(StudentContext context)
+  #region РџРѕР»СЏ Рё СЃРІРѕР№СЃС‚РІР°
+
+  private readonly StudentContext _context;
+  private readonly DbSet<TEntity> _dbSet;
+
+  #endregion
+
+  #region РњРµС‚РѕРґС‹
+
+  /// <summary>
+  /// РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃСѓС‰РЅРѕСЃС‚РµР№ СЃ Р·Р°РіСЂСѓР·РєРѕР№ РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С….
+  /// </summary>
+  /// <returns>РЎРїРёСЃРѕРє СЃСѓС‰РЅРѕСЃС‚РµР№ СЃ Р·Р°РіСЂСѓР·РєРѕР№ РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С….</returns>
+  public async Task<IEnumerable<TEntity>> Get()
+  {
+    return await _dbSet.AsNoTracking().ToListAsync();
+  }
+
+  /// <summary>
+  /// РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃСѓС‰РЅРѕСЃС‚РµР№.
+  /// </summary>
+  /// <param name="predicate">Р¤СѓРЅРєС†РёСЏ, РїРѕ СѓСЃР»РѕРІРёСЋ РєРѕС‚РѕСЂРѕР№ РїСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РѕС‚Р±РѕСЂ РґР°РЅРЅС‹С… РёР· Р‘Р”.</param>
+  /// <returns>РЎРїРёСЃРѕРє СЃСѓС‰РЅРѕСЃС‚РµР№.</returns>
+  public async Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate)
+  {
+    var items = new List<TEntity>();
+    await foreach (var item in _dbSet.AsNoTracking().AsAsyncEnumerable())
     {
-        _context = context;
-        _dbSet = context.Set<TEntity>();
+      if(predicate(item))
+        items.Add(item);
     }
 
-    /// <summary>
-    /// Получение списка сущностей с загрузкой из базы данных
-    /// </summary>
-    /// <returns>Список сущностей с загрузкой из базы данных</returns>
-    public async Task<IEnumerable<TEntity>> Get()
+    return items;
+  }
+
+  /// <summary>
+  /// РџРѕРёСЃРє СЃСѓС‰РЅРѕСЃС‚Рё РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ.
+  /// </summary>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃСѓС‰РЅРѕСЃС‚Рё.</param>
+  /// <returns>РЎСѓС‰РЅРѕСЃС‚СЊ.</returns>
+  public virtual async Task<TEntity?> FindById(Guid id)
+  {
+    return await _dbSet.FindAsync(id);
+  }
+
+  /// <summary>
+  /// РЎРѕР·РґР°РЅРёРµ СЃСѓС‰РЅРѕСЃС‚Рё.
+  /// </summary>
+  /// <param name="item">РЎСѓС‰РЅРѕСЃС‚СЊ.</param>
+  /// <returns>РЎСѓС‰РЅРѕСЃС‚СЊ.</returns>
+  public virtual async Task<TEntity> Create(TEntity item)
+  {
+    _dbSet.Add(item);
+    await _context.SaveChangesAsync();
+    return item;
+  }
+
+  /// <summary>
+  /// РР·РјРµРЅРµРЅРёРµ СЃСѓС‰РЅРѕСЃС‚Рё.
+  /// </summary>
+  /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃСѓС‰РЅРѕСЃС‚Рё.</param>
+  /// <param name="item">РћР±РЅРѕРІР»С‘РЅРЅР°СЏ СЃСѓС‰РЅРѕСЃС‚СЊ.</param>
+  /// <returns>РЎСѓС‰РЅРѕСЃС‚СЊ.</returns>
+  public async Task<TEntity?> Update(Guid id, TEntity item)
+  {
+    var oldItem = await _dbSet.FindAsync(id);
+    if(oldItem == null)
     {
-        return await _dbSet.AsNoTracking().ToListAsync();
+      return null;
     }
 
-    /// <summary>
-    /// Получение списка сущностей
-    /// </summary>
-    /// <param name="predicate">Функция, по условию которой производится отбор данных из БД</param>
-    /// <returns>Списк сущностей</returns>
-    public async Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate)
-    {
-        return await _dbSet.AsNoTracking().Where(predicate).AsQueryable().ToListAsync();
-    }
-    /// <summary>
-    /// Поиск сущности по идентификатору
-    /// </summary>
-    /// <param name="id">Идентификатор сущности</param>
-    /// <returns>Сущность</returns>
-    public virtual async Task<TEntity?> FindById(Guid id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
+    item.GetType().GetProperty("Id")?.SetValue(item, id);
+    _context.Entry(oldItem).CurrentValues.SetValues(item);
+    await _context.SaveChangesAsync();
+    return item;
+  }
 
-    /// <summary>
-    /// Создание сущности
-    /// </summary>
-    /// <param name="item">Сущность</param>
-    /// <returns>Сущность</returns>
-    public virtual async Task<TEntity> Create(TEntity item)
-    {
-        _dbSet.Add(item);
-        await _context.SaveChangesAsync();
-        return item;
-    }
-    /// <summary>
-    /// Изменение сущности
-    /// </summary>
-    /// <param name="Id"></param>
-    /// <param name="item">Сущность</param>
-    /// <returns>Сущность</returns>
-    public async Task<TEntity?> Update(Guid Id, TEntity item)
-    {
-        var oldItem = await _dbSet.FindAsync(Id);
-        if (oldItem == null)
-        {
-            return null;
-        }
-        item.GetType().GetProperty("Id")?.SetValue(item, Id);
-        _context.Entry(oldItem).CurrentValues.SetValues(item);
-        await _context.SaveChangesAsync();
-        return item;
-    }
-    /// <summary>
-    /// Удаление сущности
-    /// </summary>
-    /// <param name="item">Сущность</param>
-    /// <returns>Результат удаления</returns>
-    public async Task Remove(TEntity item)
-    {
-        _dbSet.Remove(item);
-        await _context.SaveChangesAsync();
-    }
+  /// <summary>
+  /// РЈРґР°Р»РµРЅРёРµ СЃСѓС‰РЅРѕСЃС‚Рё.
+  /// </summary>
+  /// <param name="item">РЎСѓС‰РЅРѕСЃС‚СЊ.</param>
+  /// <returns>Р РµР·СѓР»СЊС‚Р°С‚ СѓРґР°Р»РµРЅРёСЏ.</returns>
+  public async Task Remove(TEntity item)
+  {
+    _dbSet.Remove(item);
+    await _context.SaveChangesAsync();
+  }
+
+  #endregion
+
+  #region РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
+
+  /// <summary>
+  /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
+  /// </summary>
+  /// <param name="context">РљРѕРЅС‚РµРєСЃС‚ Р±Р°Р·С‹ РґР°РЅРЅС‹С….</param>
+  public GenericRepository(StudentContext context)
+  {
+    _context = context;
+    _dbSet = context.Set<TEntity>();
+  }
+
+  #endregion
 }
