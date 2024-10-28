@@ -150,7 +150,7 @@ const RequestDetailsPage = () => {
                 </div>
             </Stack>
             <Stack direction="horizontal">
-                <div>День рождения</div>
+                <div>Дата рождения</div>
                 <div>
                     <String
                         value={requestData?.birthDate}
