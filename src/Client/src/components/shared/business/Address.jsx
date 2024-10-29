@@ -1,58 +1,74 @@
-import React, { useState } from 'react';
-import { Form } from 'antd';
-import BaseComponent from './common/BaseComponent';
+import React, { useCallback } from 'react';
+import BaseComponent from './com/BaseComponent.jsx';
 import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 
-const defaultRules = [
-    {
-        required: true,
-        message: 'Необходимо заполнить адрес',
-    },
-];
+const DefaultFormComponent = ({ value, onChange, formParams }) => {
+    const { key } = formParams;
 
-const defaultFormParams = {
-    key: 'address',
-    name: 'Адрес',
-    rules: defaultRules,
-};
-
-const AddressForm = ({ value, formParams }) => {
-    const { key, name, rules } = formParams;
-    const [addressValue, setAddressValue] = useState(value);
+    const formattValue = useCallback((value) => {
+        onChange(value.value);
+    });
 
     return (
-        <Form.Item
+        <AddressSuggestions
+            value={value}
             key={key}
-            name={key}
-            label={name}
-            rules={rules ?? []}
-            hasFeedback={true}
-        >
-            <AddressSuggestions
-                key={key}
-                allowClear
-                token="d9684e8c81525df77c58918948ebad6a9c83ea40"
-                value={addressValue}
-                onChange={setAddressValue}
-            />
-        </Form.Item>
+            allowClear
+            token="d9684e8c81525df77c58918948ebad6a9c83ea40"
+            onChange={formattValue}
+        />
     );
 };
 
-const renderMode = {
-    //  form: AddressForm,  TODO:   в этом режиме отдает помимо value еще кучу всего
+const DefaultEditComponent = ({ value, onChange, formParams }) => {
+    const { key } = formParams;
+    const formattValue = useCallback((value) => {
+        onChange(value.value);
+    });
+
+    return (
+        <AddressSuggestions
+            value={value}
+            key={key}
+            allowClear
+            token="d9684e8c81525df77c58918948ebad6a9c83ea40"
+            onChange={formattValue}
+        />
+    );
 };
 
-const Address = ({ mode, value, setValue, formParams }) => {
+const components = {
+    form: DefaultFormComponent,
+    edit: DefaultEditComponent,
+};
+
+const rules = [
+    {
+        required: true,
+        message: 'Необходимо заполнить место проживания',
+    },
+];
+
+const formParams = {
+    key: 'address',
+    name: 'Место проживания',
+    normalize: (value) => value,
+    rules,
+    hasFeedback: true,
+};
+
+const Address = (props) => {
 
     return (
         <BaseComponent
-            value={value}
-            mode={mode}
-            setValue={setValue}
-            formParams={{ ...defaultFormParams, ...formParams }}
-            renderMode={renderMode}
+            {
+                ...{ 
+                    ...props,
+                    components,
+                    formParams,
+                }
+            }
         />
     );
 };

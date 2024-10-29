@@ -6,15 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/kindOrderCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import { kindOrderModel } from '../models/index.js';
 
 export default {
     detailsLink: 'kindOrder',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        name: { name: 'Тип приказа', type: String, show: true, required: true },
-    },
+    properties: kindOrderModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,

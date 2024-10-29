@@ -89,12 +89,11 @@ const Catalog = ({ config }) => {
             navigate(`/${detailsLink}/${item.id}`);
         } else {
             setShowEditForm(true);
-            console.log(showEditForm);
         }
     });
 
     return ( 
-        <div>
+        <>
             <FilterPanel
                 config={config}
                 query={query}
@@ -164,7 +163,7 @@ const Catalog = ({ config }) => {
                     refetch={refetch}
                 />
             )}
-        </div>
+        </>
     );
 };
 
