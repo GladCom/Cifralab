@@ -4,6 +4,10 @@ import EducationTypeSelect from '../../components/shared/business/selects/Educat
 import StatusEntranceExamsSelect from '../../components/shared/business/selects/StatusEntranceExamsSelect.jsx';
 import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
 import CheckBox from '../../components/shared/business/common/CheckBox.jsx';
+import BirthDate from '../../components/shared/business/BirthDate.jsx';
+import Address from '../../components/shared/business/Address.jsx';
+import Email from '../../components/shared/business/Email.jsx';
+import PhoneNumber from '../../components/shared/business/validation/PhoneNumber.jsx';
 
 const model = {
     family: { name: 'Фамилия', type: String, show: true, required: true },
@@ -15,10 +19,10 @@ const model = {
     speciality: { name: 'Специальность', type: String, show: true, required: true },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
     projects: { name: 'Проекты', type: String, show: true, required: true },
     statusEntranceExams: { name: 'Тестовое задание', type: StatusEntranceExamsSelect, show: true, required: true },
-    birthDate: { name: 'Дата рождения', show: true, type: String, required: true },
-    address: { name: 'Место проживания', show: true, type: String, required: true },
-    phone: { name: 'Телефон', type: String, show: true, required: true },
-    email: { name: 'E-mail', type: String, show: true, required: true },
+    birthDate: { name: 'Дата рождения', show: true, type: BirthDate, required: true },
+    address: { name: 'Место проживания', show: true, type: Address, required: true },
+    phone: { name: 'Телефон', type: PhoneNumber, show: true, required: true },
+    email: { name: 'E-mail', type: Email, show: true, required: true },
     scopeOfActivityLevelOneId: { name: 'Сфера деятельности уровень 1', type: ScopeOfActivitySelect, show: true, required: true },
     scopeOfActivityLevelTwoId: { name: 'Сфера деятельности уровень 2', type: ScopeOfActivitySelect, show: true, required: true },
     agreement: { name: 'Согласие на обработку перс. даннных', type: CheckBox, show: true, required: true }
