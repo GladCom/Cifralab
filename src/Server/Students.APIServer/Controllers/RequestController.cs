@@ -191,84 +191,96 @@ public class RequestController : GenericAPiController<Request>
     public async Task<IActionResult> Put(Guid id, [FromBody] RequestsDTO form)
     {
         var resultOld = await _requestRepository.FindById(id);
-        var student = await _studentRepository.FindByPhoneAndEmail(form?.phone ?? "-----", form?.Email ?? "-----");
 
-        if (resultOld != null)
+        if (resultOld == null)
         {
-            if (student != null && student.Name == form!.name && student.Family == form!.family && student.Patron == form!.patron)
-            {
-                resultOld.StudentId = student!.Id;
+            throw new Exception($"{id} Такой заявки нет");
+        }
 
-                student.Family = form!.family!;
-                student.Name = form?.name;
-                student.Patron = form?.patron;
-                student.BirthDate = (DateOnly)form!.BirthDate!;
-                student.Sex = default;
-                student.Address = form.Address!;
-                student.Phone = form.phone!;
-                student.Email = form.Email!;
-                student.Projects = form.projects;
-                student.IT_Experience = form!.IT_Experience!;
-                student.TypeEducationId = form.TypeEducationId;
+        Student? student = null;
+
+        //Если студент уже привязан, то меняем его реквизиты, но если он совпадет по трем полям с уже сущевующим, то пусть идут в топку
+        if (form?.StudentId != null)
+        {
+            var oldStudent = await _studentRepository.FindById((Guid)form.StudentId);
+            if (oldStudent != null)
+            {
+                var tempNewStudent = _studentRepository.Get(x => x.Phone == form!.phone! &&
+                                                                 x.Email == form!.Email! &&
+                                                                 x.Family == form.family &&
+                                                                 x.Name == form!.name! &&
+                                                                 x.Patron == form!.patron!).Result?.FirstOrDefault();
+
+                if ((tempNewStudent != null) && (oldStudent.Id.Equals(tempNewStudent.Id)))
+                {
+                    throw new Exception("Попытка задублироваь студентов");
+                }
+
+                oldStudent.Family = form!.family!;
+                oldStudent.Name = form?.name;
+                oldStudent.Patron = form?.patron;
+                oldStudent.BirthDate = (DateOnly)form!.BirthDate!;
+                oldStudent.Sex = default;
+                oldStudent.Address = form.Address!;
+                oldStudent.Phone = form.phone!;
+                oldStudent.Email = form.Email!;
+                oldStudent.Projects = form.projects;
+                oldStudent.IT_Experience = form!.IT_Experience!;
+                oldStudent.TypeEducationId = form.TypeEducationId;
                 //Ебать-кололить, нет этого в мокапе, и не нужно было бы, коли выбор был бы из списка, короче этот метод нужно переделывать
-                student.ScopeOfActivityLevelOneId = student.ScopeOfActivityLevelOneId != Guid.Empty ? student.ScopeOfActivityLevelOneId : Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
-                student.Speciality = form.speciality;
+                oldStudent.ScopeOfActivityLevelOneId = oldStudent.ScopeOfActivityLevelOneId != Guid.Empty ? oldStudent.ScopeOfActivityLevelOneId : Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
+                oldStudent.Speciality = form.speciality;
+
+                student = oldStudent;
+                resultOld.StudentId = student.Id;
             }
-            else
+        }
+        else
+        {
+            student = _studentRepository.Get(x => x.Phone == form!.phone! &&
+                                                  x.Email == form!.Email! &&
+                                                  x.Family == form.family &&
+                                                  x.Name == form!.name! &&
+                                                  x.Patron == form!.patron!).Result?.FirstOrDefault();
+
+            if (student == null)
             {
-                if (student == null)
+                student = new Student()
                 {
-                    student = new Student()
-                    {
-                        Family = form!.family,
-                        Name = form?.name,
-                        Patron = form?.patron,
-                        BirthDate = (DateOnly)form!.BirthDate,
-                        Sex = default,
-                        Address = form.Address,
-                        Phone = form.Address,
-                        Email = form.Email,
-                        Projects = form.projects,
-                        IT_Experience = form.IT_Experience,
-                        TypeEducationId = form.TypeEducationId,
-                        //Ебать-кололить
-                        ScopeOfActivityLevelOneId = Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34"),
-                        Speciality = form.speciality
-                    };
+                    Family = form!.family!,
+                    Name = form?.name,
+                    Patron = form?.patron,
+                    BirthDate = (DateOnly)form!.BirthDate!,
+                    Sex = default,
+                    Address = form.Address!,
+                    Phone = form.phone!,
+                    Email = form.Email!,
+                    Projects = form?.projects,
+                    IT_Experience = form?.IT_Experience!,
+                    TypeEducationId = form?.TypeEducationId,
+                    //Ебать-кололить
+                    ScopeOfActivityLevelOneId = Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34"),
+                    Speciality = form?.speciality
+                };
 
-                    var resultStudent = await _studentRepository.Create(student);
-                    resultOld.StudentId = student!.Id;
-                }
-                else
-                {
-                    student.Family = form!.family!;
-                    student.Name = form?.name;
-                    student.Patron = form?.patron;
-                    student.BirthDate = (DateOnly)form!.BirthDate!;
-                    student.Sex = student.Sex;
-                    student.Address = form.Address!;
-                    student.Phone = form.phone!;
-                    student.Email = form.Email!;
-                    student.Projects = form.projects;
-                    student.IT_Experience = form!.IT_Experience!;
-                    student.TypeEducationId = form.TypeEducationId;
-                    //Ебать-кололить, нет этого в мокапе, и не нужно было бы, коли выбор был бы из списка, короче этот метод нужно переделывать
-                    student.ScopeOfActivityLevelOneId = student.ScopeOfActivityLevelOneId != Guid.Empty ? student.ScopeOfActivityLevelOneId : Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
-                    student.Speciality = form.speciality;
-                }
-            }
+                student = await _studentRepository.Create(student);
+                resultOld.StudentId = student.Id;
+            };
+        }
 
-            resultOld.StatusRequestId = form!.StatusRequestId;
-            resultOld.StatusEntrancExams = form!.statusEntrancExams;
-            resultOld.Email = form!.Email ?? "";
-            resultOld.Phone = form!.phone ?? "";
-            resultOld.Agreement = form!.agreement;
-            resultOld.EducationProgramId = form!.EducationProgramId;
-        };
+        resultOld.StatusRequestId = form!.StatusRequestId;
+        resultOld.StatusEntrancExams = form!.statusEntrancExams;
+        resultOld.Email = form!.Email ?? "";
+        resultOld.Phone = form!.phone ?? "";
+        resultOld.Agreement = form!.agreement;
+        resultOld.EducationProgramId = form!.EducationProgramId;
 
         try
         {
-            var resultStudent = await _studentRepository.Update(student!.Id, student!);
+            if (student != null)
+            {
+                var resultStudent = await _studentRepository.Update(student!.Id, student!);
+            }
 
             var result = await _requestRepository.Update(id, resultOld!);
             if (result == null)

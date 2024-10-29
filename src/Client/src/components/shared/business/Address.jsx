@@ -52,7 +52,7 @@ const rules = [
 
 const formParams = {
     key: 'address',
-    name: 'Введите значение',
+    name: 'Место проживания',
     normalize: (value) => value,
     rules,
     hasFeedback: true,
