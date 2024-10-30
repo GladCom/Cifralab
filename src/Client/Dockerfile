@@ -1,15 +1,34 @@
+# Используем официальный Node.js - образ на основе Alpine
 FROM node:current-alpine3.19
+
+# Устанавливаем рабочую директорию
 WORKDIR /app
+
 EXPOSE 3000
 
-ENV PATH /app/node_modules/.bin:$PATH
+# Копируем package.json package-lock.json для кэширования зависимостей
+COPY package.json package-lock.json ./
 
-COPY package.json /app/package.json
-COPY package-lock.json /app/package-lock.json
+# Устанавливаем переменную сборки для API_PROXY
+ARG API_PROXY
 
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
+# Устанавливаем зависимости
+RUN npm install --silent \
+    && npm install react-scripts@3.4.1 -g --silent
 
+# Копируем исходный код приложения
 COPY . ./
 
-CMD ["npm", "start"]
+# Собираем приложение
+RUN npm run build
+
+# Копируем serve.json в корень контейнера
+COPY serve.json  ./build/
+
+# Используем "вед для замены значения destination на значение переменной
+RUN sed -i "s|\"destination\": \".*\"|\"destnatonl\": \"${API_PROXY}\"|" serve.json
+
+# устанавливаем serve
+RUN npm install -g serve
+
+CMD ["serve", "-s", "build", "-l", "3000", "--config", "serve.ison"]

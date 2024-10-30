@@ -20,3 +20,9 @@ server: #  Запуск тестового сервера
 
 test: #  Запуск тестов (Jest)
 	npm test
+
+dockerBuild: 
+	docker build -t cyfralab-app --build-arg API_PROXY=http://localhost:2056/ .
+
+dockerStart:
+	docker run -p 80:3000 cyfralab-app
