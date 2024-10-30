@@ -8,6 +8,7 @@ import config from '../../storage/catalogConfigs/personRequests.js';
 const RequestDetailsPage = () => {
     const { id } = useParams();
     const [requestData, setRequestData] = useState({});
+    const [initialData, setInitialData] = useState({}); 
     const { properties, crud } = config;
     const { useGetOneByIdAsync, useEditOneAsync } = crud;
     const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
@@ -19,12 +20,17 @@ const RequestDetailsPage = () => {
         const newData = { ...data };
         delete newData.id;
         setRequestData(newData);
+        setInitialData(newData);
       }
     }, [isLoading, isFetching]);
 
     const onSave = useCallback(() => {
         editRequest({ id, item: requestData });
-    });
+    },[id,requestData]);
+
+    const onCancel = useCallback(() => {
+        setRequestData(initialData);
+    }, [initialData]);
 
     return isLoading || isFetching
     ? (<Loading />)
@@ -39,7 +45,10 @@ const RequestDetailsPage = () => {
             <hr />
             <Row>
                 <Col>
-                    <Button onClick={onSave}>Сохранить</Button>
+                    <Button onClick={onSave} style={{ marginRight: '10px' }}>Сохранить</Button>
+                </Col>
+                <Col>
+                    <Button onClick={onCancel}>Отмена</Button>
                 </Col>
             </Row>
         </Layout>
