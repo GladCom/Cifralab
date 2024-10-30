@@ -26,12 +26,12 @@ const ProgramDetailsPage = () => {
     
     const onSave = useCallback(() => {
         editProgram({ id, item: programData });
-    });
-
+    }, [id, programData]); 
+    
     const onCancel = useCallback(() => {
         setProgramData(initialData);
-    });
-
+    }, [initialData]);
+    
     return isLoading || isFetching
     ? (<Loading />)
     : (
