@@ -142,7 +142,7 @@ public static class Mapper
       Name = form.name,
       Patron = form.patron,
 
-      BirthDate = DateOnly.FromDateTime(DateTime.Parse(form.birthDate)),
+      BirthDate = form.birthDate,
       IT_Experience = form.iT_Experience,
       Email = form.email,
       Phone = form.phone ?? "",

@@ -76,7 +76,7 @@ public class RequestController : GenericAPiController<Request>
       var request = await Mapper.NewRequestDTOToRequest(form, this._statusRequestRepository);
 
       var fio = $"{form.family} {form.name} {form.patron}";
-      var date = DateOnly.FromDateTime(DateTime.Parse(form.birthDate));
+      var date = form.birthDate;
 
       var student = (await this._studentRepository.Get()).FirstOrDefault(x =>
         x.FullName == fio && x.BirthDate == date && x.Email == form.email);
