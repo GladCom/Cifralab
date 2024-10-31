@@ -7,6 +7,7 @@ import config from '../../storage/catalogConfigs/students.js'
 const StudentDetailsPage = () => {
     const { id } = useParams();
     const [studentData, setStudentData] = useState({});
+    const [initialData, setInitialData] = useState({}); 
     const { properties, crud } = config;
     const { useGetOneByIdAsync, useEditOneAsync } = crud;
     const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
@@ -18,12 +19,18 @@ const StudentDetailsPage = () => {
         const newData = { ...data };
         delete newData.id;
         setStudentData(newData);
+        setInitialData(newData);
       }
     }, [isLoading, isFetching]);
 
     const onSave = useCallback(() => {
         editStudent({ id, item: studentData });
-    });
+    },[id,studentData]);
+
+       
+    const onCancel = useCallback(() => {
+        setStudentData(initialData);
+    }, [initialData]);
 
     return isLoading || isFetching
     ? (<Loading />)
@@ -38,7 +45,10 @@ const StudentDetailsPage = () => {
             <hr />
             <Row>
                 <Col>
-                    <Button onClick={onSave}>Сохранить</Button>
+                    <Button onClick={onSave} style={{ marginRight: '10px' }}>Сохранить</Button>
+                </Col>
+                <Col>
+                    <Button onClick={onCancel}>Отмена</Button>
                 </Col>
             </Row>
         </Layout>

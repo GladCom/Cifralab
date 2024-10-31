@@ -7,6 +7,7 @@ import config from '../../storage/catalogConfigs/educationPrograms.js';
 const ProgramDetailsPage = () => {
     const { id } = useParams();
     const [programData, setProgramData] = useState({});
+    const [initialData, setInitialData] = useState({}); 
     const { properties, crud } = config;
     const { useGetOneByIdAsync, useEditOneAsync } = crud;
     const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
@@ -18,13 +19,19 @@ const ProgramDetailsPage = () => {
             const newData = { ...data };
             delete newData.id;
             setProgramData(newData);
+            setInitialData(newData); 
         }
     }, [isLoading, isFetching]);
 
+    
     const onSave = useCallback(() => {
         editProgram({ id, item: programData });
-    });
-
+    }, [id, programData]); 
+    
+    const onCancel = useCallback(() => {
+        setProgramData(initialData);
+    }, [initialData]);
+    
     return isLoading || isFetching
     ? (<Loading />)
     : (
@@ -38,7 +45,10 @@ const ProgramDetailsPage = () => {
             <hr />
             <Row>
                 <Col>
-                    <Button onClick={onSave}>Сохранить</Button>
+                    <Button onClick={onSave} style={{ marginRight: '10px' }}>Сохранить</Button>
+                </Col>
+                <Col>
+                    <Button onClick={onCancel}>Отмена</Button>
                 </Col>
             </Row>
         </Layout>
