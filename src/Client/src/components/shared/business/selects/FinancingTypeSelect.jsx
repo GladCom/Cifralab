@@ -26,7 +26,7 @@ const FinancingTypeSelect = ({ id, mode, value, setValue, formParams }) => {
             crud={crud}
             mode={mode}
             setValue={setValue}
-            fformParams={{ ...defaultFormParams, ...formParams }}
+            formParams={{ ...defaultFormParams, ...formParams }}
         />
     );
 };

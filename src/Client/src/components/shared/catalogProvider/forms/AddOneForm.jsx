@@ -42,13 +42,14 @@ const AddOneForm = ({ control, properties, crud }) => {
     >
         {Object.entries(properties).map(([key, { name, type, formParams }]) => {
             const Item = type;
-
+            console.log(key);
             return (
                 <Item
                     key={key}
                     formParams={{ key, name, ...formParams }}
                     mode='form'
                     setValue={(value) => {
+        
                       form.setFieldsValue({
                         [key]: value,
                       });
