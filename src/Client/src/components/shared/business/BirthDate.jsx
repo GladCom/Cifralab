@@ -71,7 +71,7 @@ const rules = [
 ];
 
 const formParams = {
-    key: 'birthday',
+    key: 'birthDate',
     name: 'Введите дату рождения',
     normalize: (value) => value,
     rules,

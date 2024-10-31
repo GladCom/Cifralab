@@ -18,7 +18,7 @@ public class NewRequestDTO
   /// <summary>
   /// Дата рождения.
   /// </summary>
-  public required string birthDate { get; set; }
+  public required DateOnly birthDate { get; set; }
   /// <summary>
   /// Идентификатор программы обучения.
   /// </summary>
