@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const kindOrderApi = createApi({
   reducerPath: 'kindOrder',
-  baseQuery: fetchBaseQuery({ baseUrl: '/kindOrder' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/kindOrder` }),
   endpoints: (builder) => ({
     getKindOrder: builder.query({
       query: () => '',

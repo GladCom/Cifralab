@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const educationFormApi = createApi({
   reducerPath: 'educationForm',
-  baseQuery: fetchBaseQuery({ baseUrl: '/educationForm' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/educationForm` }),
   endpoints: (builder) => ({
     getEducationForm: builder.query({
       query: () => '',
