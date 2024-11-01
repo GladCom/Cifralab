@@ -1,34 +1,35 @@
 # Используем официальный Node.js - образ на основе Alpine
-FROM node:current-alpine3.19
+FROM node:18-alpine AS build
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-EXPOSE 3000
-
-# Копируем package.json package-lock.json для кэширования зависимостей
-COPY package.json package-lock.json ./
-
-# Устанавливаем переменную сборки для API_PROXY
-ARG API_PROXY
+# Копируем package.json и package-lock.json для установки зависимостей
+COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install --silent \
-    && npm install react-scripts@3.4.1 -g --silent
+RUN npm install
 
-# Копируем исходный код приложения
-COPY . ./
+# Копируем все файлы приложения в рабочую директорию
+COPY . .
 
-# Собираем приложение
+# Собираем приложение для продакшена
 RUN npm run build
 
-# Копируем serve.json в корень контейнера
-COPY serve.json  ./build/
+# Используем другой образ для запуска статики
+FROM node:18-alpine
 
-# Используем "вед для замены значения destination на значение переменной
-RUN sed -i "s|\"destination\": \".*\"|\"destnatonl\": \"${API_PROXY}\"|" serve.json
+# Устанавливаем рабочую директорию
+WORKDIR /app
 
-# устанавливаем serve
+# Устанавливаем serve
 RUN npm install -g serve
 
-CMD ["serve", "-s", "build", "-l", "3000", "--config", "serve.ison"]
+# Копируем скомпилированное приложение из предыдущего этапа
+COPY --from=build /app/build ./build
+
+# Открываем порт 3000
+EXPOSE 3000
+
+# Запускаем serve для раздачи статики
+CMD ["serve", "-s", "build", "-l", "3000"]
