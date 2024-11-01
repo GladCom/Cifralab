@@ -39,7 +39,7 @@ public class RequestController : GenericAPiController<Request>
     try
     {
       var form = await this._requestRepository.FindById(id);
-      if(form == null)
+      if (form == null)
       {
         return this.StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -52,7 +52,7 @@ public class RequestController : GenericAPiController<Request>
 
       return this.StatusCode(StatusCodes.Status200OK, requestsDTO);
     }
-    catch(Exception e)
+    catch (Exception e)
     {
       this._logger.LogError(e, "Error while getting Entity by Id");
       return this.StatusCode(StatusCodes.Status500InternalServerError,
@@ -66,7 +66,7 @@ public class RequestController : GenericAPiController<Request>
   /// <summary>
   /// Создание новой заявки с фронта.
   /// </summary>
-  /// <param name="formestDTO">DTO заявки с данными о потенциальном студенте.</param>
+  /// <param name="form">DTO заявки с данными о потенциальном студенте.</param>
   /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
   [HttpPost("NewRequest")]
   public async Task<IActionResult> Post([FromBody] NewRequestDTO form)
@@ -78,13 +78,13 @@ public class RequestController : GenericAPiController<Request>
       var fio = $"{form.family} {form.name} {form.patron}";
       var date = form.birthDate;
 
-      var student = (await this._studentRepository.Get()).FirstOrDefault(x =>
+      var student = await this._studentRepository.GetOne(x =>
         x.FullName == fio && x.BirthDate == date && x.Email == form.email);
 
-      if(student == null)
+      if (student == null)
       {
         request.IsAlreadyStudied = false;
-        if(!this._studentRepository.Get().Result.Any(x =>
+        if (!this._studentRepository.Get().Result.Any(x =>
               x.FullName == fio || x.BirthDate == date || x.Email == form.email))
         {
           student = await Mapper.NewRequestDTOToStudent(form);
@@ -99,7 +99,7 @@ public class RequestController : GenericAPiController<Request>
       request.StudentId = student?.Id;
 
       var result = await this._requestRepository.Create(request);
-      if(result is null)
+      if (result is null)
       {
         return this.StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -110,7 +110,7 @@ public class RequestController : GenericAPiController<Request>
 
       return this.StatusCode(StatusCodes.Status200OK, result);
     }
-    catch(Exception e)
+    catch (Exception e)
     {
       this._logger.LogError(e, "Error while getting Entity by Id");
       return this.StatusCode(StatusCodes.Status500InternalServerError,
@@ -135,7 +135,7 @@ public class RequestController : GenericAPiController<Request>
     {
       var resultOld = await this._requestRepository.FindById(id);
 
-      if(resultOld is null)
+      if (resultOld is null)
       {
         throw new Exception($"{id} Такой заявки нет");
       }
@@ -143,20 +143,21 @@ public class RequestController : GenericAPiController<Request>
       Student? student;
 
       //Если студент уже привязан, то меняем его реквизиты, но если он совпадет по трем полям с уже существующим, то пусть идут в топку
-      if(form.StudentId is not null)
+      if (form.StudentId is not null)
       {
         student = await this._studentRepository.FindById(form.StudentId.Value);
-        if(student is not null)
+        if (student is not null)
         {
-          var tempNewStudent = (await this._studentRepository.Get(x => x.Phone == form.phone &&
-                                                                       x.Email == form.Email &&
-                                                                       x.Family == form.family &&
-                                                                       x.Name == form.name! &&
-                                                                       x.Patron == form.patron!)).FirstOrDefault();
+          var tempNewStudent = await this._studentRepository.GetOne(x => x.Phone == form.phone &&
+                                                                         x.Email == form.Email &&
+                                                                         x.Family == form.family &&
+                                                                         x.Name == form.name! &&
+                                                                         x.Patron == form.patron!);
 
-          if(tempNewStudent is not null && student.Id == tempNewStudent.Id)
+          if (tempNewStudent is not null && student.Id != tempNewStudent.Id)
           {
-            throw new Exception("Попытка задублировать студентов");
+            //throw new Exception("Попытка задублировать студентов");
+            student = tempNewStudent;
           }
 
           student.Family = form.family!;
@@ -182,13 +183,13 @@ public class RequestController : GenericAPiController<Request>
       }
       else
       {
-        student = (await this._studentRepository.Get(x => x.Phone == form.phone &&
-                                                   x.Email == form.Email &&
-                                                   x.Family == form.family! &&
-                                                   x.Name == form.name! &&
-                                                   x.Patron == form.patron!)).FirstOrDefault();
+        student = await this._studentRepository.GetOne(x => x.Phone == form.phone &&
+                                                            x.Email == form.Email &&
+                                                            x.Family == form.family! &&
+                                                            x.Name == form.name! &&
+                                                            x.Patron == form.patron!);
 
-        if(student is null)
+        if (student is null)
         {
           student = await Mapper.RequestDTOToStudent(form);
 
@@ -205,7 +206,7 @@ public class RequestController : GenericAPiController<Request>
       resultOld.EducationProgramId = form.EducationProgramId;
 
       var result = await this._requestRepository.Update(id, resultOld);
-      if(result == null)
+      if (result == null)
       {
         return this.StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -216,7 +217,7 @@ public class RequestController : GenericAPiController<Request>
 
       return this.StatusCode(StatusCodes.Status200OK, form);
     }
-    catch(Exception e)
+    catch (Exception e)
     {
       this._logger.LogError(e, "Error while updating Entity");
       return this.StatusCode(StatusCodes.Status500InternalServerError,
@@ -236,15 +237,15 @@ public class RequestController : GenericAPiController<Request>
   {
     try
     {
-      if(request.StudentId is not null)
+      if (request.StudentId is not null)
       {
         var existingStudentRequests =
-          await this._studentRepository.GetListRequestsOfStudentExists(request.StudentId.Value);
-        request.IsAlreadyStudied = existingStudentRequests is not null && existingStudentRequests.Any();
+          await this._requestRepository.Get(r => r.StudentId == request.StudentId);
+        request.IsAlreadyStudied = existingStudentRequests.Any();
       }
 
       var form = await this._requestRepository.Create(request);
-      if(form is null)
+      if (form is null)
       {
         return this.StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -255,7 +256,7 @@ public class RequestController : GenericAPiController<Request>
 
       return this.StatusCode(StatusCodes.Status200OK, form);
     }
-    catch(Exception e)
+    catch (Exception e)
     {
       this._logger.LogError(e, "Error while getting Entity by Id");
       return this.StatusCode(StatusCodes.Status500InternalServerError,
@@ -277,6 +278,18 @@ public class RequestController : GenericAPiController<Request>
   {
     await this._requestRepository.AddOrderToRequest(id, order);
     return this.StatusCode(StatusCodes.Status200OK);
+  }
+
+  /// <summary>
+  /// Список с заявками, которые подавал студент.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список заявок.</returns>
+  [HttpGet("GetListRequestsOfStudentExists")]
+  public async Task<IActionResult> GetListRequestsOfStudentExists(Guid studentId)
+  {
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._requestRepository.Get(r => r.StudentId == studentId));
   }
 
   /*

@@ -36,66 +36,17 @@ public class StudentController : GenericAPiController<Student>
   }
 
   /// <summary>
-  /// Список групп, в которых состоит студент.
+  /// Получить студента с заявками и группами(не работает).
   /// </summary>
-  /// <param name="student">Идентификатор студента.</param>
-  /// <returns>Список групп.</returns>
-  [HttpGet("GetListGroupsOfStudentExists")]
-  public async Task<IActionResult> GetListGroupsOfStudentExists(Guid student)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetListGroupsOfStudentExists(student));
-  }
-
-  /// <summary>
-  /// Список с заявками, которые подавал студент.
-  /// </summary>
-  /// <param name="student">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
-  [HttpGet("GetListRequestsOfStudentExists")]
-  public async Task<IActionResult> GetListRequestsOfStudentExists(Guid student)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetListRequestsOfStudentExists(student));
-  }
-
-
-  /// <summary>
-  /// Список с программами обучения, на которых учился студент.
-  /// </summary>
-  /// <param name="student">Идентификатор студента.</param>
-  /// <returns>Список программ обучения.</returns>
-  [HttpGet("GetListEducationProgramsOfStudentExists")]
-  public async Task<IActionResult> GetListEducationProgramsOfStudentExists(Guid student)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetListEducationProgramsOfStudentExists(student));
-  }
-
-  /// <summary>
-  /// Добавить студента в группу.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <param name="groupID">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
-  [HttpPost("AddStudentToGroup")]
-  public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupID)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.AddStudentToGroup(studentId, groupID));
-  }
-
-  /// <summary>
-  /// Получить студента.
-  /// </summary>
-  /// <param name="id">Идентификатор студент.а</param>
-  /// <returns>Состояние запроса + студент.</returns>
-  public override async Task<IActionResult> Get(Guid id)
+  /// <param name="studentId">Идентификатор студент.а</param>
+  /// <returns>Студент с подгруженными заявками и группами.</returns>
+  [HttpPost("GetStudentWithGroupsAndRequests")]
+  public async Task<IActionResult> GetStudentWithGroupsAndRequests(Guid studentId)
   {
     try
     {
-      var form = await this._studentRepository.FindById(id);
-      if (form == null)
+      var form = await this._studentRepository.GetStudentWithGroupsAndRequests(studentId);
+      if(form == null)
       {
         return this.StatusCode(StatusCodes.Status404NotFound,
           new DefaultResponse
@@ -106,7 +57,7 @@ public class StudentController : GenericAPiController<Student>
 
       return this.StatusCode(StatusCodes.Status200OK, form);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       this._logger.LogError(e, "Error while getting Entity by Id");
       return this.StatusCode(StatusCodes.Status500InternalServerError,

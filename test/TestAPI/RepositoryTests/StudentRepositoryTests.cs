@@ -56,105 +56,42 @@ public class StudentRepositoryTests
   }
 
   [Test]
-  public async Task GetListGroupsOfStudentExists_GetStudentsSuccessfully()
+  public async Task GetStudentWithGroupsAndRequests_FindSuccessfully()
   {
     //Arrange
     var student = GenerateStudent();
-    var group1 = GenerateGroup();
-    var group2 = GenerateGroup();
+    this._studentContext.Add(student);
 
-    this._studentContext.Students.Add(student);
-    this._studentContext.Groups.Add(group1);
-    this._studentContext.Groups.Add(group2);
-    this._studentContext.GroupStudent.Add(new GroupStudent { StudentsId = student.Id, GroupsId = group1.Id });
-    this._studentContext.GroupStudent.Add(new GroupStudent { StudentsId = student.Id, GroupsId = group2.Id });
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var groups = await this._studentRepository.GetListGroupsOfStudentExists(student.Id);
-
-    //Assert
-    Assert.That(groups.ToList(), Has.Count.EqualTo(2));
-  }
-
-  [Test]
-  public async Task AddStudentToGroup_AddSuccessfully()
-  {
-    //Arrange
-    var student = GenerateStudent();
+    var request = GenerateRequest(student.Id);
+    this._studentContext.Add(request);
 
     var group = GenerateGroup();
+    this._studentContext.Add(group);
 
-    this._studentContext.Students.Add(student);
-    this._studentContext.Groups.Add(group);
+    var groupStudent = new GroupStudent
+    {
+      StudentsId = student.Id,
+      GroupsId = group.Id
+    };
+    this._studentContext.Add(groupStudent);
+
     await this._studentContext.SaveChangesAsync();
 
     //Act
-    var result = await this._studentRepository.AddStudentToGroup(student.Id, group.Id);
-
-    //Assert
-    Assert.That(this._studentContext.GroupStudent.FirstOrDefault(sg => sg.GroupsId == group.Id && sg.StudentsId == student.Id),
-      Is.Not.Null);
-  }
-
-  [Test]
-  public async Task AddStudentToGroup_GroupIdNotExists_ThrowException()
-  {
-    //Arrange
-    var student = GenerateStudent();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    var emptyGroupGuid = Guid.Empty;
-
-    // Act
-    var result = async () => await this._studentRepository.AddStudentToGroup(student.Id, emptyGroupGuid);
-
-    //Assert
-    Assert.That(result, Throws.InstanceOf<InvalidOperationException>());
-  }
-
-  [Test]
-  public async Task AddStudentToGroup_StudentIdNotExists_ThrowException()
-  {
-    //Arrange
-    var group = GenerateGroup();
-
-    this._studentContext.Groups.Add(group);
-    await this._studentContext.SaveChangesAsync();
-
-    var emptyStudentGuid = Guid.Empty;
-
-    // Act
-    var result = async () => await this._studentRepository.AddStudentToGroup(emptyStudentGuid, group.Id);
-
-    //Assert
-    Assert.That(result, Throws.InstanceOf<InvalidOperationException>());
-  }
-
-  [Test]
-  public async Task FindById_FindSuccessfully()
-  {
-    //Arrange
-    var student = GenerateStudent();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var result = await this._studentRepository.FindById(student.Id);
+    var result = await this._studentRepository.GetStudentWithGroupsAndRequests(student.Id);
 
     //Assert
     Assert.Multiple(() =>
     {
       Assert.That(result, Is.Not.Null);
       Assert.That(result.Id, Is.EqualTo(student.Id));
+      Assert.That(1, Is.EqualTo(result.Groups!.Count));
+      Assert.That(1, Is.EqualTo(result.Requests!.Count));
     });
   }
 
   [Test]
-  public async Task FindById_IdNotExists_ReturnNull()
+  public async Task GetStudentWithGroupsAndRequests_IdNotExists_ReturnNull()
   {
     //Arrange
     var student = GenerateStudent();
@@ -165,202 +102,11 @@ public class StudentRepositoryTests
     var newStudentGiud = Guid.NewGuid();
 
     //Act
-    var result = await this._studentRepository.FindById(newStudentGiud);
+    var result = await this._studentRepository.GetStudentWithGroupsAndRequests(newStudentGiud);
 
     //Assert
     Assert.That(result, Is.Null);
   }
-
-  [Test]
-  public async Task FindByPhone_FindSuccessfully()
-  {
-    //Arrange
-    var student = GenerateStudent();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var result = await this._studentRepository.FindByPhone(student.Phone);
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(result, Is.Not.Null);
-      Assert.That(result.Id, Is.EqualTo(student.Id));
-    });
-  }
-
-  [Test]
-  public async Task FindByPhone_PhoneNotExists_ReturnNull()
-  {
-    //Arrange
-    var student = GenerateStudent();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    var phone = "89022834692";
-
-    //Act
-    var result = await this._studentRepository.FindByPhone(phone);
-
-    //Assert
-    Assert.That(result, Is.Null);
-  }
-
-  [Test]
-  public async Task FindByEmail_FindSuccessfully()
-  {
-    //Arrange
-    var student = GenerateStudent();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var result = await this._studentRepository.FindByEmail(student.Email);
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(result, Is.Not.Null);
-      Assert.That(result.Id, Is.EqualTo(student.Id));
-    });
-  }
-
-  [Test]
-  public async Task FindByEmail_EmailNotExists_ReturnNull()
-  {
-    //Arrange
-    var student = GenerateStudent();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    var email = "adv@aeqb.wefq";
-
-    //Act
-    var result = await this._studentRepository.FindByEmail(email);
-
-    //Assert
-    Assert.That(result, Is.Null);
-  }
-
-  [Test]
-  public async Task FindByPhoneAndEmail_FindSuccessfully()
-  {
-    //Arrange
-    var student = GenerateStudent();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var result = await this._studentRepository.FindByPhoneAndEmail(student.Phone, student.Email);
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(result, Is.Not.Null);
-      Assert.That(result.Id, Is.EqualTo(student.Id));
-    });
-  }
-
-
-  [Test]
-  public async Task GetListEducationProgramOfStudentExists_GetEducationProgramsSuccessfully()
-  {
-    //Arrange
-    const int expected = 3;
-
-    var student = GenerateStudent();
-    this._studentContext.Students.Add(student);
-
-    var educationPrograms = new List<EducationProgram>();
-    for(var i = 0; i < expected; i++)
-    {
-      educationPrograms.Add(GenerateEducationProgram());
-    }
-    this._studentContext.AddRange(educationPrograms);
-
-    var groups = new List<Group>();
-    for(var i = 0; i < expected; i++)
-    {
-      groups.Add(GenerateGroup());
-      groups[i].EducationProgramId = educationPrograms[i].Id;
-    }
-    this._studentContext.AddRange(groups);
-
-    var groupStudent = new List<GroupStudent>();
-    for(var i = 0; i < expected; i++)
-    {
-      groupStudent.Add(new GroupStudent
-      {
-        StudentsId = student.Id,
-        GroupsId = groups[i].Id
-      });
-    }
-    this._studentContext.AddRange(groupStudent);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var actualEducationPrograms = (await this._studentRepository.GetListEducationProgramsOfStudentExists(student.Id));
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(actualEducationPrograms, Is.Not.Null);
-      var actual = 0;
-      foreach(var educationProgram in educationPrograms)
-      {
-
-        if(actualEducationPrograms.FirstOrDefault(sg => sg.Id == educationProgram.Id)
-           is not null)
-          actual++;
-      }
-      Assert.AreEqual(expected, actual);
-    });
-  }
-
-  [Test]
-  public async Task GetListRequestsOfStudentExists_GetRequestsSuccessfully()
-  {
-    //Arrange
-    const int expected = 3;
-
-    var student = GenerateStudent();
-    this._studentContext.Students.Add(student);
-
-    var requests = new List<Request>();
-    for(var i = 0; i < expected; i++)
-    {
-      requests.Add(GenerateRequest(student.Id));
-    }
-    this._studentContext.AddRange(requests);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var actualRequests = (await this._studentRepository.GetListRequestsOfStudentExists(student.Id));
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(actualRequests, Is.Not.Null);
-      var actual = 0;
-      foreach(var request in requests)
-      {
-
-        if(actualRequests.FirstOrDefault(sg => sg.Id == request.Id)
-            is not null)
-          actual++;
-      }
-      Assert.AreEqual(expected, actual);
-    });
-  }
-
   private static Student GenerateStudent()
   {
     return new Student
@@ -385,26 +131,6 @@ public class StudentRepositoryTests
       EducationProgramId = default,
       StartDate = default,
       EndDate = default
-    };
-  }
-
-
-  private static EducationProgram GenerateEducationProgram()
-  {
-    return new EducationProgram
-    {
-      Id = Guid.NewGuid(),
-      Cost = 0,
-      HoursCount = 0,
-      EducationFormId = default,
-      KindDocumentRiseQualificationId = default,
-      IsModularProgram = false,
-      FinancingTypeId = default,
-      IsCollegeProgram = false,
-      IsArchive = false,
-      IsNetworkProgram = false,
-      IsDOTProgram = false,
-      IsFullDOTProgram = false,
     };
   }
 

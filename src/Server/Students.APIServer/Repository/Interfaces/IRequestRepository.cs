@@ -2,7 +2,6 @@
 using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
-
 namespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
@@ -10,13 +9,6 @@ namespace Students.APIServer.Repository.Interfaces;
 /// </summary>
 public interface IRequestRepository : IGenericRepository<Request>
 {
-  /// <summary>
-  /// Поиск заявок по идентификатору студента.
-  /// </summary>
-  /// <param name="id">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
-  Task<IEnumerable<Request>> FindRequestListByStudentGuidAsync(Guid id);
-
   /// <summary>
   /// Поиск заявок по номеру телефона из заявки.
   /// </summary>

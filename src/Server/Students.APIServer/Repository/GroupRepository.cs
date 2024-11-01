@@ -12,7 +12,7 @@ public class GroupRepository : GenericRepository<Group>, IGroupRepository
   #region Поля и свойства
 
   private readonly StudentContext _ctx;
-  private IGroupStudentRepository _studentInGroupRepository;
+  private readonly IGroupStudentRepository _studentInGroupRepository;
 
   #endregion
 
@@ -21,13 +21,45 @@ public class GroupRepository : GenericRepository<Group>, IGroupRepository
   /// <summary>
   /// Добавление студентов в группу.
   /// </summary>
-  /// <param name="students">Список студентов.</param>
+  /// <param name="studentsList">Список студентов.</param>
   /// <param name="groupId">Идентификатор группы.</param>
   /// <returns>Идентификатор группы.</returns>
-  public async Task<Guid> AddStudentsInGroup(IEnumerable<Student> students, Guid groupId)
+  public async Task<Guid> AddStudentsToGroup(IEnumerable<Student> studentsList, Guid groupId)
   {
-    await _studentInGroupRepository.AddStudentInGroup(students, groupId);
+    foreach(var student in studentsList)
+    {
+      await this._studentInGroupRepository.Create(new GroupStudent { StudentsId = student.Id, GroupsId = groupId });
+    }
     return groupId;
+  }
+
+  /// <summary>
+  /// Добавление студента в группу.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="groupId">Идентификатор группы.</param>
+  /// <returns>Идентификатор студента.</returns>
+  public async Task<Guid> AddStudentToGroup(Guid studentId, Guid groupId)
+  {
+    await this._studentInGroupRepository.Create(new GroupStudent { StudentsId = studentId, GroupsId = groupId });
+    return studentId;
+  }
+
+  /// <summary>
+  /// Список групп, в которых состоит студент.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список групп.</returns>
+  public async Task<IEnumerable<Group?>?> GetListGroupsOfStudentExists(Guid studentId)
+  {
+    var student = await this._ctx.FindAsync<Student>(studentId);
+
+    if(student is null)
+      return null;
+
+    await this._ctx.Entry(student).Collection(s => s.Groups!).LoadAsync();
+
+    return student.Groups;
   }
 
   #endregion
@@ -41,8 +73,8 @@ public class GroupRepository : GenericRepository<Group>, IGroupRepository
   /// <param name="studInGroupRep">Репозиторий групп студентов.</param>
   public GroupRepository(StudentContext context, IGroupStudentRepository studInGroupRep) : base(context)
   {
-    _ctx = context;
-    _studentInGroupRepository = studInGroupRep;
+    this._ctx = context;
+    this._studentInGroupRepository = studInGroupRep;
   }
 
   #endregion
