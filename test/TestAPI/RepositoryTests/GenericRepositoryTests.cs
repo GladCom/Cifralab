@@ -90,6 +90,47 @@ public class GenericRepositoryTests
   }
 
   [Test]
+  public async Task GetOne_Student_GetSuccessfully()
+  {
+    //Arrange
+    const string email = "assdfgg@gmail.com";
+
+    var student = GenerateNewStudent(this._guids[0]);
+    student.Email = email;
+    this._studentContext.AddRange(student);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualStudent = await this._genericRepository.GetOne(s => s.Email == email);
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(actualStudent, Is.Not.Null);
+      Assert.That(actualStudent?.Email, Is.EqualTo(email));
+    });
+  }
+
+  [Test]
+  public async Task GetOne_Student_NotExistException()
+  {
+    //Arrange
+    const string email = "assdfgg@gmail.com";
+
+    var student = GenerateNewStudent(this._guids[0]);
+    this._studentContext.AddRange(student);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualStudent = await this._genericRepository.GetOne(s => s.Email == email);
+
+    //Assert
+    Assert.That(actualStudent, Is.Null);
+  }
+
+  [Test]
   public async Task FindById_Student_GetSuccessfully()
   {
     //Arrange
@@ -154,7 +195,7 @@ public class GenericRepositoryTests
   }
 
   [Test]
-  public async Task Create_NewStudent_IsNullException()
+  public void Create_NewStudent_IsNullException()
   {
     //Act
     var act = async () => await this._genericRepository.Create(null);

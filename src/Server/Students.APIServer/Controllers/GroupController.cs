@@ -25,14 +25,39 @@ public class GroupController : GenericAPiController<Group>
   /// <summary>
   /// Добавление студентов в группу.
   /// </summary>
-  /// <param name="studentList">Список студентов.</param>
-  /// <param name="groupID">Идентификатор группы.</param>
+  /// <param name="studentsList">Список студентов.</param>
+  /// <param name="groupId">Идентификатор группы.</param>
   /// <returns>Идентификатор группы.</returns>
-  [HttpPost("AddStudentToGroup")]
-  public async Task<IActionResult> AddStudentToGroup(IEnumerable<Student> studentList, Guid groupID)
+  [HttpPost("AddStudentsToGroup")]
+  public async Task<IActionResult> AddStudentsToGroup(IEnumerable<Student> studentsList, Guid groupId)
   {
-    return StatusCode(StatusCodes.Status200OK,
-      await _groupRepository.AddStudentsInGroup(studentList, groupID));
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._groupRepository.AddStudentsToGroup(studentsList, groupId));
+  }
+
+  /// <summary>
+  /// Добавить студента в группу.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="groupId">Идентификатор группы.</param>
+  /// <returns>Идентификатор студента.</returns>
+  [HttpPost("AddStudentToGroup")]
+  public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupId)
+  {
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._groupRepository.AddStudentToGroup(studentId, groupId));
+  }
+
+  /// <summary>
+  /// Список групп, в которых состоит студент.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список групп.</returns>
+  [HttpGet("GetListGroupsOfStudentExists")]
+  public async Task<IActionResult> GetListGroupsOfStudentExists(Guid studentId)
+  {
+    return this.StatusCode(StatusCodes.Status200OK,
+      await this._groupRepository.GetListGroupsOfStudentExists(studentId));
   }
 
   #endregion
@@ -46,8 +71,8 @@ public class GroupController : GenericAPiController<Group>
   /// <param name="logger">Логгер.</param>
   public GroupController(IGroupRepository groupRepository, ILogger<Group> logger) : base(groupRepository, logger)
   {
-    _groupRepository = groupRepository;
-    _logger = logger;
+    this._groupRepository = groupRepository;
+    this._logger = logger;
   }
 
   #endregion

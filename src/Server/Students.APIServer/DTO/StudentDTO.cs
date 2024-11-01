@@ -33,7 +33,7 @@ namespace Students.APIServer.DTO
     /// <summary>
     /// ФИО
     /// </summary>
-    public string StudentFullName { get; set; }
+    public string? StudentFullName { get; set; }
 
     /// <summary>
     /// Дата рождения

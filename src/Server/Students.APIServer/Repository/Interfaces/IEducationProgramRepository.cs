@@ -1,11 +1,16 @@
 ﻿using Students.Models;
 
-namespace Students.APIServer.Repository.Interfaces
+namespace Students.APIServer.Repository.Interfaces;
+
+/// <summary>
+/// Интерфейс программы обучения.
+/// </summary>
+public interface IEducationProgramRepository
 {
   /// <summary>
-  /// Интерфейс программы обучения.
+  /// Список программ обучения, на которых обучался студент.
   /// </summary>
-  public interface IEducationProgramRepository
-  {
-  }
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список программам обучения.</returns>
+  Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId);
 }
