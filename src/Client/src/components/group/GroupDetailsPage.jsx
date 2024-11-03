@@ -34,13 +34,14 @@ const GroupDetailsPage = () => {
         setIsSaveInProgress(true); 
         try {
             await editGroup({ id, item: groupData }).unwrap();
+            refetch();
             setInitialData(groupData); 
         } catch (error) {
             console.error("Ошибка сохранения данных:", error);
         } finally {
             setIsSaveInProgress(false); 
         }
-    }, [id, groupData, refetch]);
+    }, [id, groupData]);
 
     const onCancel = useCallback(() => {
         setGroupData(initialData);

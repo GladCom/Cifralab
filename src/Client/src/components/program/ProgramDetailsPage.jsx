@@ -7,6 +7,7 @@ import config from '../../storage/catalogConfigs/educationPrograms.js';
 const ProgramDetailsPage = () => {
     const { id } = useParams();
     const [programData, setProgramData] = useState({});
+    const [isSaveInProgress, setIsSaveInProgress] = useState(false);
     const [initialData, setInitialData] = useState({}); 
     const { properties, crud } = config;
     const { useGetOneByIdAsync, useEditOneAsync } = crud;
@@ -21,12 +22,21 @@ const ProgramDetailsPage = () => {
             setProgramData(newData);
             setInitialData(newData); 
         }
-    }, [isLoading, isFetching]);
+    }, [isLoading, isFetching, data]);
 
     
-    const onSave = useCallback(() => {
-        editProgram({ id, item: programData });
-    }, [id, programData]); 
+    
+    const onSave = useCallback(async () => {
+        setIsSaveInProgress(true); 
+        try {
+            await editProgram({ id, item: programData }).unwrap();
+            setInitialData(programData); 
+        } catch (error) {
+            console.error("Ошибка сохранения данных:", error);
+        } finally {
+            setIsSaveInProgress(false); 
+        }
+    }, [id, programData]);
     
     const onCancel = useCallback(() => {
         setProgramData(initialData);
@@ -48,7 +58,7 @@ const ProgramDetailsPage = () => {
                     <Button onClick={onSave} style={{ marginRight: '10px' }}>Сохранить</Button>
                 </Col>
                 <Col>
-                    <Button onClick={onCancel}>Отмена</Button>
+                    <Button onClick={onCancel}disabled={isSaveInProgress}>Отмена</Button>
                 </Col>
             </Row>
         </Layout>
