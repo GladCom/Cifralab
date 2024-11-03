@@ -64,6 +64,7 @@ deploy-on-demo-stand:
       when: on_success
   script:
     - ./build/down.sh
+    - echo REACT_APP_API_URL=http://${CIFRA_DEMO_IP} > ./src/Client/.env
     - BUILD_OUT=$(./build/build.sh)
     - ./build/run.sh
     - BUILD_STATUS="${BUILD_OUT:0-1}"
@@ -86,6 +87,7 @@ deploy-on-demo-stand:
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "mkdir -p cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}"
   - scp -r $(pwd) "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}:cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}"
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/down.sh ${TEST_STAND}"
+  - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S echo REACT_APP_API_URL=http://${TEST_IP_AND_PORT} > ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/src/Client/.env"
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/build.sh ${TEST_STAND}"
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/run.sh ${TEST_STAND}"
 
@@ -100,6 +102,7 @@ deploy-on-test-stand-1:
     - *before-deploy-on-test-script
   script:
     - TEST_STAND=test1
+    - TEST_IP_AND_PORT=${CIFRA_TEST_IP}:8001
     - *deploy-on-test-script
 
 # Деплой на тестовый стенд 2
@@ -113,4 +116,5 @@ deploy-on-test-stand-2:
     - *before-deploy-on-test-script
   script:
     - TEST_STAND=test2
+    - TEST_IP_AND_PORT=${CIFRA_TEST_IP}:8002
     - *deploy-on-test-script

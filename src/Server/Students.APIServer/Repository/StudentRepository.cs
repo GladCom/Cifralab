@@ -1,4 +1,5 @@
-﻿using Students.APIServer.Extension.Pagination;
+﻿using Microsoft.EntityFrameworkCore;
+using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
@@ -27,7 +28,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Список студентов с пагинацией.</returns>
   public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
   {
-    return await PagedPage<Student>.ToPagedPage(this._ctx.Students, page, pageSize, x => x.Family);
+    return await PagedPage<Student>.ToPagedPage(this._ctx.Students.Include(e=>e.Groups).Include(e=>e.Requests), page, pageSize, x => x.Family);
   }
 
   /// <summary>

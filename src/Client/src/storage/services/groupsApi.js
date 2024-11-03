@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const groupsApi = createApi({
   reducerPath: 'groups',
   keepUnusedDataFor: 30,
-  baseQuery: fetchBaseQuery({ baseUrl: '/group' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/group` }),
   endpoints: (builder) => ({
     getGroups: builder.query({
       query: () => '',
