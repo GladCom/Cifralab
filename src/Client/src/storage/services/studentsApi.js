@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const studentsApi = createApi({
   reducerPath: 'students',
   keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
-  baseQuery: fetchBaseQuery({ baseUrl: '/student' }), //  TODO: уточнить url
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/student` }), //  TODO: уточнить url
   endpoints: (builder) => ({
     getStudents: builder.query({
       query: () => '',
