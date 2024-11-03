@@ -79,7 +79,7 @@ public class RequestController : GenericAPiController<Request>
       var date = form.birthDate;
 
       var student = await this._studentRepository.GetOne(x =>
-        x.FullName == fio && x.BirthDate == date && x.Email == form.email);
+        x.Name == form.name && x.Family == form.family && x.Patron == form.patron && x.BirthDate == date && x.Email == form.email);
 
       if (student == null)
       {
