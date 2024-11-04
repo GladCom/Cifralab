@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import BaseComponent from './com/BaseComponent.jsx';
+import BaseComponent from './baseComponents/BaseComponent.jsx';
 import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 

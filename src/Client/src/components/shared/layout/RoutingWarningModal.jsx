@@ -1,43 +1,36 @@
 import React from 'react';
 import { Modal, Form, Result } from "antd";
 
-
-const RemoveForm = ({ item, control, config, refetch }) => {
-    const { id } = item;
+const RoutingWarningModal = ({ show, blocker }) => {
     const [form] = Form.useForm();
-    const { crud } = config;
-    const { useRemoveOneAsync } = crud;
-    const [removeItem, queryState] = useRemoveOneAsync();
-    const { showRemoveForm, setShowRemoveForm } = control;
 
-
-    const onSubmit = () => {
-        removeItem(id);
-        setShowRemoveForm(false);
+    const onSubmit = (e) => {
+        console.log(e)
+        blocker.proceed();
     };
 
     const onCancel = () => {
-        setShowRemoveForm(false);
+        blocker.reset();
     };
 
     return (
         <Modal
             title="Внимание!"
-            open={showRemoveForm}
-            okText="Всеравно удалить"
-            cancelText="Отмена"
-            onCancel={onCancel}
+            open={show}
+            okText="Всеравно перейти"
+            cancelText="Остаться на странице"
             destroyOnClose
             okButtonProps={{
                 autoFocus: false,
                 danger: true,
                 htmlType: 'submit',
             }}
+            onCancel={onCancel}
             modalRender={(dom) => (
                 <Form
                     layout="horizontal"
                     form={form}
-                    name="form_in_modal"
+                    name="warning_modal"
                     clearOnDestroy
                     onFinish={onSubmit}
                 >
@@ -47,13 +40,13 @@ const RemoveForm = ({ item, control, config, refetch }) => {
         >
             <Result
                 status="warning"
-                title="Вы удаляете запись"
+                title="Вы покидаете текущую страницу"
                 extra={
-                    <p>Вы уверены, что хотите удалить эту запись?</p>
+                    <p>У вас остались не сохраненные изменения</p>
                 }
             />
         </Modal>
     );
 };
 
-export default RemoveForm;
+export default RoutingWarningModal;
