@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseComponent from '../common/BaseComponent';
+import BaseComponent from '../baseComponents/BaseComponent.jsx';
 import * as yup from 'yup';
 
 const defaultRules = [
