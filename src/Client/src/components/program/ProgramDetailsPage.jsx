@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData } from '../shared/layout/index.js';
-import { useParams } from 'react-router-dom';
+import { Layout, Loading, DetailsPageData, RoutingWarningModal } from '../shared/layout/index.js';
+import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Space, Button } from 'antd';
 import config from '../../storage/catalogConfigs/educationPrograms.js';
 
 const ProgramDetailsPage = () => {
     const { id } = useParams();
     const [programData, setProgramData] = useState({});
-    const [initialData, setInitialData] = useState({}); 
+    const [initialData, setInitialData] = useState({});
+    const [isChanged, setIsChanged] = useState(false);
     const { properties, crud } = config;
     const { useGetOneByIdAsync, useEditOneAsync } = crud;
     const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
@@ -23,13 +24,19 @@ const ProgramDetailsPage = () => {
         }
     }, [isLoading, isFetching]);
 
-    
+    let blocker = useBlocker(
+        ({ currentLocation, nextLocation }) =>
+            isChanged &&
+            currentLocation.pathname !== nextLocation.pathname
+    );
+
     const onSave = useCallback(() => {
         editProgram({ id, item: programData });
     }, [id, programData]); 
     
     const onCancel = useCallback(() => {
         setProgramData(initialData);
+        setIsChanged(false);
     }, [initialData]);
     
     return isLoading || isFetching
@@ -41,6 +48,7 @@ const ProgramDetailsPage = () => {
                 items={properties}
                 data={programData}
                 editData={setProgramData}
+                setIsChanged={setIsChanged}
             />
             <hr />
             <Row>
@@ -51,6 +59,10 @@ const ProgramDetailsPage = () => {
                     <Button onClick={onCancel}>Отмена</Button>
                 </Col>
             </Row>
+            <RoutingWarningModal
+                show={blocker.state === "blocked"}
+                blocker={blocker} 
+            />
         </Layout>
     );
 };

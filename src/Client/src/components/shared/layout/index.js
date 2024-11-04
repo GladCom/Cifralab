@@ -8,6 +8,7 @@ import Navbar from './Navbar.jsx';
 import Spinner from './Spinner.jsx';
 import Loading from './Loading.jsx';
 import DetailsPageData from './DetailsPageData.jsx';
+import RoutingWarningModal from './RoutingWarningModal.jsx';
 
 export {
     Header,
@@ -20,4 +21,5 @@ export {
     Spinner,
     Loading,
     DetailsPageData,
+    RoutingWarningModal,
 };

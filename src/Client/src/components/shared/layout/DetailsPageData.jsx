@@ -3,7 +3,7 @@ import { Row, Col, Space } from 'antd';
 
 const rowStyle = { alignItems: 'center' };
 
-const DetailsPageData = ({ items, data, editData }) => {
+const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
     return (
         <Space direction="vertical" size={0} style={{ display: 'flex' }}>
             {Object.entries(items).map(([key, { name, type, formParams }]) => {
@@ -24,6 +24,7 @@ const DetailsPageData = ({ items, data, editData }) => {
                                         ...data,
                                         [key]: value
                                     });
+                                    setIsChanged(true);
                                 }}
                             />
                         </Col>
