@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const feaProgramApi = createApi({
   reducerPath: 'fEAProgram',
-  baseQuery: fetchBaseQuery({ baseUrl: '/fEAProgram' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/fEAProgram` }),
   endpoints: (builder) => ({
     getFEAProgram: builder.query({
       query: () => '',

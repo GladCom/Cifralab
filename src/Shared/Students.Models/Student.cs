@@ -240,7 +240,7 @@ public class Student
   /// Группы
   /// Многие ко многим (мапирование через третью таблицу GroupPerson)
   /// </summary>
-  [JsonIgnore]
+  //[JsonIgnore]
   public virtual ICollection<Group>? Groups { get; set; }
 
   //public string EmailPrepared { get { return Email.ToLower(); } }
@@ -256,6 +256,6 @@ public class Student
   /// <summary>
   /// Заявки на обучение
   /// </summary>
-  [JsonIgnore]
+  //[JsonIgnore]
   public virtual ICollection<Request>? Requests { get; set; }
 }
