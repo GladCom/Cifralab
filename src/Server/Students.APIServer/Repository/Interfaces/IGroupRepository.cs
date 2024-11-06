@@ -8,20 +8,12 @@ namespace Students.APIServer.Repository.Interfaces;
 public interface IGroupRepository : IGenericRepository<Group>
 {
   /// <summary>
-  /// Добавление студентов в группу.
+  /// Добавление студентов по заявкам в группу.
   /// </summary>
-  /// <param name="studentsList">Список студентов.</param>
+  /// <param name="requestsList">Список идентификаторов заявок.</param>
   /// <param name="groupId">Идентификатор группы.</param>
-  /// <returns>Идентификатор группы.</returns>
-  Task<Guid> AddStudentsToGroup(IEnumerable<Student> studentsList, Guid groupId);
-
-  /// <summary>
-  /// Добавление студента в группу.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <param name="groupId">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
-  Task<Guid> AddStudentToGroup(Guid studentId, Guid groupId);
+  /// <returns>Идентификаторы заявок которые не были добавлены.</returns>
+  Task<IEnumerable<Guid>?> AddStudentsToGroupByRequest(IEnumerable<Guid> requestsList, Guid groupId);
 
   /// <summary>
   /// Список групп, в которых состоит студент.

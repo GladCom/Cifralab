@@ -70,9 +70,11 @@ public class StudentRepositoryTests
 
     var groupStudent = new GroupStudent
     {
-      StudentsId = student.Id,
-      GroupsId = group.Id
+      StudentId = student.Id,
+      GroupId = group.Id,
+      RequestId = request.Id
     };
+
     this._studentContext.Add(groupStudent);
 
     await this._studentContext.SaveChangesAsync();
@@ -107,6 +109,7 @@ public class StudentRepositoryTests
     //Assert
     Assert.That(result, Is.Null);
   }
+
   private static Student GenerateStudent()
   {
     return new Student

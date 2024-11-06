@@ -1,7 +1,9 @@
-﻿using Asp.Versioning;
+﻿using System.Diagnostics;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 
@@ -23,29 +25,23 @@ public class GroupController : GenericAPiController<Group>
   #region Методы
 
   /// <summary>
-  /// Добавление студентов в группу.
+  /// Добавление студентов по заявкам в группу.
   /// </summary>
-  /// <param name="studentsList">Список студентов.</param>
+  /// <param name="requestsList">Список идентификаторов заявок.</param>
   /// <param name="groupId">Идентификатор группы.</param>
-  /// <returns>Идентификатор группы.</returns>
-  [HttpPost("AddStudentsToGroup")]
-  public async Task<IActionResult> AddStudentsToGroup(IEnumerable<Student> studentsList, Guid groupId)
+  /// <returns>Идентификаторы заявок которые не были добавлены.</returns>
+  [HttpPost("AddStudentsToGroupByRequest")]
+  public async Task<IActionResult> AddStudentsToGroupByRequest(IEnumerable<Guid> requestsList, Guid groupId)
   {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._groupRepository.AddStudentsToGroup(studentsList, groupId));
-  }
-
-  /// <summary>
-  /// Добавить студента в группу.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <param name="groupId">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
-  [HttpPost("AddStudentToGroup")]
-  public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupId)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._groupRepository.AddStudentToGroup(studentId, groupId));
+    try
+    {
+      var badRequests = await this._groupRepository.AddStudentsToGroupByRequest(requestsList, groupId);
+      return badRequests is null ? this.NotFoundException() : this.Ok(badRequests);
+    }
+    catch(Exception e)
+    {
+      return this.Exception(e);
+    }
   }
 
   /// <summary>
@@ -56,8 +52,42 @@ public class GroupController : GenericAPiController<Group>
   [HttpGet("GetListGroupsOfStudentExists")]
   public async Task<IActionResult> GetListGroupsOfStudentExists(Guid studentId)
   {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._groupRepository.GetListGroupsOfStudentExists(studentId));
+    try
+    {
+      var groups = await this._groupRepository.GetListGroupsOfStudentExists(studentId);
+      return groups is null ? this.NotFoundException() : this.Ok(groups);
+    }
+    catch(Exception e)
+    {
+      return this.Exception(e);
+    }
+  }
+
+  /// <summary>
+  /// Обработка исключения.
+  /// </summary>
+  /// <param name="e">Исключение.</param>
+  /// <returns>Ответ с кодом.</returns>
+  private IActionResult Exception(Exception e)
+  {
+    this._logger.LogError(e, "Error while getting Entity by Id");
+    return this.StatusCode(StatusCodes.Status500InternalServerError,
+      new DefaultResponse
+      {
+        RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
+      });
+  }
+
+  /// <summary>
+  /// Обработка исключения.
+  /// </summary>
+  /// <returns>Ответ с кодом.</returns>
+  private IActionResult NotFoundException()
+  {
+    return this.NotFound(new DefaultResponse
+    {
+      RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
+    });
   }
 
   #endregion

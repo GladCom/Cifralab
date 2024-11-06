@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Students.Models;
 
-namespace Students.DBCore.Confuguration;
+namespace Students.DBCore.Configuration;
 
 internal class RequestConfiguration : IEntityTypeConfiguration<Request>
 {
@@ -23,9 +23,16 @@ internal class RequestConfiguration : IEntityTypeConfiguration<Request>
     builder.Property(x => x.Agreement)
       .IsRequired();
 
+    builder.HasIndex(r => r.DocumentRiseQualificationId)
+      .IsUnique();
+
     builder.HasOne(s => s.Student)
       .WithMany(r => r.Requests)
       .HasForeignKey(s => s.StudentId);
+
+    builder.HasOne(s => s.GroupStudent)
+      .WithOne(r => r.Request)
+      .HasForeignKey<GroupStudent>(s => s.RequestId);
 
     builder.HasOne(ep => ep.EducationProgram)
       .WithMany()

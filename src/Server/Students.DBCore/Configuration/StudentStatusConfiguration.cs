@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Students.Models.ReferenceModels;
 
-namespace Students.DBCore.Confuguration;
+namespace Students.DBCore.Configuration;
 
 internal class StudentStatusConfiguration : IEntityTypeConfiguration<StudentStatus>
 {

@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Students.Models.ReferenceModels;
 
-namespace Students.DBCore.Confuguration;
+namespace Students.DBCore.Configuration;
 
-internal class ScopeOfActivityConfiguration : IEntityTypeConfiguration<ScopeOfActivity>
+internal class TypeEducationConfiguration : IEntityTypeConfiguration<TypeEducation>
 {
-  public void Configure(EntityTypeBuilder<ScopeOfActivity> builder)
+  public void Configure(EntityTypeBuilder<TypeEducation> builder)
   {
     builder.HasKey(x => x.Id);
 
@@ -14,9 +14,7 @@ internal class ScopeOfActivityConfiguration : IEntityTypeConfiguration<ScopeOfAc
       .IsRequired()
       .ValueGeneratedOnAdd();
 
-    builder.Property(x => x.NameOfScope);
-
-    builder.Property(x => x.Level)
+    builder.Property(x => x.Name)
       .IsRequired();
   }
 }
