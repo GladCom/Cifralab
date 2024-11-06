@@ -19,30 +19,27 @@ public class GroupRepository : GenericRepository<Group>, IGroupRepository
   #region Методы
 
   /// <summary>
-  /// Добавление студентов в группу.
+  /// Добавление студентов по заявкам в группу.
   /// </summary>
-  /// <param name="studentsList">Список студентов.</param>
+  /// <param name="requestsList">Список идентификаторов заявок.</param>
   /// <param name="groupId">Идентификатор группы.</param>
-  /// <returns>Идентификатор группы.</returns>
-  public async Task<Guid> AddStudentsToGroup(IEnumerable<Student> studentsList, Guid groupId)
+  /// <returns>Идентификаторы заявок которые не были добавлены.</returns>
+  public async Task<IEnumerable<Guid>?> AddStudentsToGroupByRequest(IEnumerable<Guid> requestsList, Guid groupId)
   {
-    foreach(var student in studentsList)
-    {
-      await this._studentInGroupRepository.Create(new GroupStudent { StudentsId = student.Id, GroupsId = groupId });
-    }
-    return groupId;
-  }
+    var group = await base.FindById(groupId);
+    if(group is null)
+      return null;
 
-  /// <summary>
-  /// Добавление студента в группу.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <param name="groupId">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
-  public async Task<Guid> AddStudentToGroup(Guid studentId, Guid groupId)
-  {
-    await this._studentInGroupRepository.Create(new GroupStudent { StudentsId = studentId, GroupsId = groupId });
-    return studentId;
+    var bagRequestsIds = new List<Guid>();
+    foreach(var requestId in requestsList)
+    {
+      var request = await this._ctx.Requests.FindAsync(requestId);
+
+      if(request?.StudentId is null || request.EducationProgramId != group.EducationProgramId || await this._studentInGroupRepository.Create(request, groupId) is null)
+        bagRequestsIds.Add(requestId);
+    }
+
+    return bagRequestsIds;
   }
 
   /// <summary>

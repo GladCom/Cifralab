@@ -37,6 +37,13 @@ public class EducationProgramTests
     var student = GenerateStudent();
     this._studentContext.Students.Add(student);
 
+    var request = new List<Request>();
+    for(var i = 0; i < expected; i++)
+    {
+      request.Add(GenerateRequest(student.Id));
+    }
+    this._studentContext.AddRange(request);
+
     var educationPrograms = new List<EducationProgram>();
     for(var i = 0; i < expected; i++)
     {
@@ -57,8 +64,9 @@ public class EducationProgramTests
     {
       groupStudent.Add(new GroupStudent
       {
-        StudentsId = student.Id,
-        GroupsId = groups[i].Id
+        StudentId = student.Id,
+        GroupId = groups[i].Id,
+        RequestId = request[i].Id
       });
     }
     this._studentContext.AddRange(groupStudent);
@@ -108,6 +116,18 @@ public class EducationProgramTests
       EducationProgramId = default,
       StartDate = default,
       EndDate = default
+    };
+  }
+
+  private static Request GenerateRequest(Guid studentId)
+  {
+    return new Request
+    {
+      Id = Guid.NewGuid(),
+      StudentId = studentId,
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
+      Agreement = default
     };
   }
 

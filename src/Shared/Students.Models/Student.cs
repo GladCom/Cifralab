@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Students.Models.Enums;
@@ -87,19 +86,19 @@ public class Student
   /// </summary>
   public string? SNILS
   {
-    get => _sNILS;
+    get => this._sNILS;
     set
     {
-      if (value != null)
+      if(value != null)
       {
-        if (Regex.IsMatch(value, @"^\d{3}-\d{3}-\d{3} \d{2}$"))
-          _sNILS = value;
+        if(Regex.IsMatch(value, @"^\d{3}-\d{3}-\d{3} \d{2}$"))
+          this._sNILS = value;
         else
           throw new ValidationException("Not a valid SNILS.");
       }
       else
       {
-        _sNILS = null;
+        this._sNILS = null;
       }
     }
   }
@@ -122,11 +121,11 @@ public class Student
   /// </summary>
   public required string Phone
   {
-    get => _phone;
+    get => this._phone;
     set
     {
       if(Regex.IsMatch(value, @"^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$"))
-        _phone = value;
+        this._phone = value;
       else
         throw new ValidationException("Not a valid phone number.");
     }
@@ -144,12 +143,12 @@ public class Student
   /// </summary>
   public required string Email
   {
-    get => _email;
+    get => this._email;
     set
     {
       value = value.ToLower();
       if(Regex.IsMatch(value, @"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
-        _email = address.Address;
+        this._email = address.Address;
       else
         throw new ValidationException("Not a valid Email address.");
     }
@@ -178,7 +177,7 @@ public class Student
   /// экспорт из заявки, хотя по факту тут тоже некий справочник Высшее образование / Среднее профессиональное образование / Студент ВО / Студент СПО
   /// </summary>
   public Guid? TypeEducationId { get; set; }
-  
+
   /// <summary>
   /// Id сферы деятельности(1 уровень).
   /// </summary>
