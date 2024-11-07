@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 
@@ -17,6 +18,21 @@ public class OrderController : GenericAPiController<Order>
 
   private readonly IOrderRepository _orderRepository;
   private readonly ILogger _logger;
+
+  #endregion
+
+  #region Методы
+
+  /// <summary>
+  /// Список приказов с информацией о студентах.
+  /// </summary>
+  /// <returns>Приказы.</returns>
+  [HttpGet("GetListOrdersWithStudent")]
+  public async Task<IActionResult> GetListOrdersWithStudentAsync()
+  {
+    return StatusCode(StatusCodes.Status200OK,
+       await _orderRepository.GetListOrdersWithStudentAsync());
+  }
 
   #endregion
 
