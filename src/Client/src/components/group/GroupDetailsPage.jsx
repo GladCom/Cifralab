@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData } from '../shared/layout/index.js';
-import { useParams } from 'react-router-dom';
+import { Layout, Loading, DetailsPageData,RoutingWarningModal } from '../shared/layout/index.js';
+import { useParams,useBlocker } from 'react-router-dom';
 import { useGetGroupByIdQuery, useEditGroupMutation } from '../../storage/services/groupsApi.js';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,6 +10,7 @@ import config from '../../storage/catalogConfigs/groups.js';
 const GroupDetailsPage = () => {
     const { id } = useParams();
     const [groupData, setGroupData] = useState({});
+    const [isChanged, setIsChanged] = useState(false)
     const [initialData, setInitialData] = useState({});
     const [isSaveInProgress, setIsSaveInProgress] = useState(false); // состояние для отслеживания процесса сохранения
     const { properties, crud } = config;
@@ -30,12 +31,20 @@ const GroupDetailsPage = () => {
         }
     }, [isLoading, isFetching, data]);
 
+    
+    let blocker = useBlocker(
+        ({ currentLocation, nextLocation }) =>
+            isChanged &&
+            currentLocation.pathname !== nextLocation.pathname
+    );
+
     const onSave = useCallback(async () => {
         setIsSaveInProgress(true); 
         try {
             await editGroup({ id, item: groupData }).unwrap();
             refetch();
             setInitialData(groupData); 
+            setIsChanged(false);
         } catch (error) {
             console.error("Ошибка сохранения данных:", error);
         } finally {
@@ -56,6 +65,7 @@ const GroupDetailsPage = () => {
                 items={properties}
                 data={groupData}
                 editData={setGroupData}
+                setIsChanged={setIsChanged}
             />
             <hr />
             <Row>
@@ -66,6 +76,10 @@ const GroupDetailsPage = () => {
                     <Button onClick={onCancel} disabled={isSaveInProgress}>Отмена</Button>
                 </Col>
             </Row>
+            <RoutingWarningModal
+                show={blocker.state === "blocked"}
+                blocker={blocker} 
+            />
         </Layout>
     );
 };

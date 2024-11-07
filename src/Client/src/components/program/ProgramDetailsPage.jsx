@@ -7,7 +7,6 @@ import config from '../../storage/catalogConfigs/educationPrograms.js';
 const ProgramDetailsPage = () => {
     const { id } = useParams();
     const [programData, setProgramData] = useState({});
-    const [initialData, setInitialData] = useState({});
     const [isChanged, setIsChanged] = useState(false);
     const [isSaveInProgress, setIsSaveInProgress] = useState(false);
     const [initialData, setInitialData] = useState({}); 
@@ -31,10 +30,6 @@ const ProgramDetailsPage = () => {
             isChanged &&
             currentLocation.pathname !== nextLocation.pathname
     );
-
-    const onSave = useCallback(() => {
-        editProgram({ id, item: programData });
-    }, [id, programData]); 
     
     
     const onSave = useCallback(async () => {
@@ -42,6 +37,8 @@ const ProgramDetailsPage = () => {
         try {
             await editProgram({ id, item: programData }).unwrap();
             setInitialData(programData); 
+            setIsChanged(false);
+            console.log(blocker);
         } catch (error) {
             console.error("Ошибка сохранения данных:", error);
         } finally {

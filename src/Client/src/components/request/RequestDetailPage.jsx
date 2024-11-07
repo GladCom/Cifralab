@@ -8,7 +8,6 @@ import config from '../../storage/catalogConfigs/personRequests.js';
 const RequestDetailsPage = () => {
     const { id } = useParams();
     const [requestData, setRequestData] = useState({});
-    const [initialData, setInitialData] = useState({});
     const [isChanged, setIsChanged] = useState(false);
     const [initialData, setInitialData] = useState({}); 
     const [isSaveInProgress, setIsSaveInProgress] = useState(false);
@@ -34,15 +33,13 @@ const RequestDetailsPage = () => {
             currentLocation.pathname !== nextLocation.pathname
     );
 
-    const onSave = useCallback(() => {
-        editRequest({ id, item: requestData });
-    },[id,requestData]);
    
     const onSave = useCallback(async () => {
         setIsSaveInProgress(true); 
         try {
             await editRequest({ id, item: requestData }).unwrap();
             setInitialData(requestData); 
+            setIsChanged(false)
         } catch (error) {
             console.error("Ошибка сохранения данных:", error);
         } finally {

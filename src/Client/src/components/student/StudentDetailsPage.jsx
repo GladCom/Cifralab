@@ -9,7 +9,6 @@ const StudentDetailsPage = () => {
     const [studentData, setStudentData] = useState({});
     const [initialData, setInitialData] = useState({});
     const [isChanged, setIsChanged] = useState(false);
-    const [initialData, setInitialData] = useState({}); 
     const [isSaveInProgress, setIsSaveInProgress] = useState(false);
 
     const { properties, crud } = config;
@@ -33,14 +32,12 @@ const StudentDetailsPage = () => {
             currentLocation.pathname !== nextLocation.pathname
     );
 
-    const onSave = useCallback(() => {
-        editStudent({ id, item: studentData });
-    },[id,studentData]);
     const onSave = useCallback(async () => {
         setIsSaveInProgress(true); 
         try {
             await editStudent({ id, item: studentData }).unwrap();
             setInitialData(studentData); 
+            setIsChanged(false)
         } catch (error) {
             console.error("Ошибка сохранения данных:", error);
         } finally {
