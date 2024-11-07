@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData } from '../shared/layout/index.js';
-import { useParams } from 'react-router-dom';
+import { Layout, Loading, DetailsPageData, RoutingWarningModal } from '../shared/layout/index.js';
+import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Space, Button } from 'antd';
 import config from '../../storage/catalogConfigs/educationPrograms.js';
 
 const ProgramDetailsPage = () => {
     const { id } = useParams();
     const [programData, setProgramData] = useState({});
+    const [initialData, setInitialData] = useState({});
+    const [isChanged, setIsChanged] = useState(false);
     const [isSaveInProgress, setIsSaveInProgress] = useState(false);
     const [initialData, setInitialData] = useState({}); 
     const { properties, crud } = config;
@@ -24,6 +26,15 @@ const ProgramDetailsPage = () => {
         }
     }, [isLoading, isFetching, data]);
 
+    let blocker = useBlocker(
+        ({ currentLocation, nextLocation }) =>
+            isChanged &&
+            currentLocation.pathname !== nextLocation.pathname
+    );
+
+    const onSave = useCallback(() => {
+        editProgram({ id, item: programData });
+    }, [id, programData]); 
     
     
     const onSave = useCallback(async () => {
@@ -40,6 +51,7 @@ const ProgramDetailsPage = () => {
     
     const onCancel = useCallback(() => {
         setProgramData(initialData);
+        setIsChanged(false);
     }, [initialData]);
     
     return isLoading || isFetching
@@ -51,6 +63,7 @@ const ProgramDetailsPage = () => {
                 items={properties}
                 data={programData}
                 editData={setProgramData}
+                setIsChanged={setIsChanged}
             />
             <hr />
             <Row>
@@ -61,6 +74,10 @@ const ProgramDetailsPage = () => {
                     <Button onClick={onCancel}disabled={isSaveInProgress}>Отмена</Button>
                 </Col>
             </Row>
+            <RoutingWarningModal
+                show={blocker.state === "blocked"}
+                blocker={blocker} 
+            />
         </Layout>
     );
 };

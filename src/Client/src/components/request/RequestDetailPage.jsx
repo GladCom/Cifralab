@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData } from '../shared/layout/index.js';
-import { useParams } from 'react-router-dom';
+import { Layout, Loading, DetailsPageData, RoutingWarningModal } from '../shared/layout/index.js';
+import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Space, Button } from 'antd';
 import config from '../../storage/catalogConfigs/personRequests.js';
 
@@ -8,6 +8,8 @@ import config from '../../storage/catalogConfigs/personRequests.js';
 const RequestDetailsPage = () => {
     const { id } = useParams();
     const [requestData, setRequestData] = useState({});
+    const [initialData, setInitialData] = useState({});
+    const [isChanged, setIsChanged] = useState(false);
     const [initialData, setInitialData] = useState({}); 
     const [isSaveInProgress, setIsSaveInProgress] = useState(false);
     
@@ -26,6 +28,15 @@ const RequestDetailsPage = () => {
       }
     }, [isLoading, isFetching,data]);
 
+    let blocker = useBlocker(
+        ({ currentLocation, nextLocation }) =>
+            isChanged &&
+            currentLocation.pathname !== nextLocation.pathname
+    );
+
+    const onSave = useCallback(() => {
+        editRequest({ id, item: requestData });
+    },[id,requestData]);
    
     const onSave = useCallback(async () => {
         setIsSaveInProgress(true); 
@@ -41,6 +52,7 @@ const RequestDetailsPage = () => {
 
     const onCancel = useCallback(() => {
         setRequestData(initialData);
+        setIsChanged(false);
     }, [initialData]);
 
     return isLoading || isFetching
@@ -52,6 +64,7 @@ const RequestDetailsPage = () => {
                 items={properties}
                 data={requestData}
                 editData={setRequestData}
+                setIsChanged={setIsChanged}
             />
             <hr />
             <Row>
@@ -62,6 +75,10 @@ const RequestDetailsPage = () => {
                     <Button onClick={onCancel} disabled={isSaveInProgress}>Отмена</Button>
                 </Col>
             </Row>
+            <RoutingWarningModal
+                show={blocker.state === "blocked"}
+                blocker={blocker} 
+            />
         </Layout>
   );
 };

@@ -33,8 +33,7 @@ public static class Mapper
       Phone = form.Phone,
       EducationProgramId = educationProgramRepository.Get().Result.FirstOrDefault(x => x.Name == form.Education)?.Id,
       StatusRequestId = status?.Id,
-      Status = status,
-      Agreement = Convert.ToBoolean(form.Agreement)
+      Agreement = Convert.ToBoolean(Convert.ToInt32(form.Agreement))
     };
   }
 
@@ -45,9 +44,10 @@ public static class Mapper
   /// <param name="form">Вебхук (данне от минцифры).</param>
   /// <param name="studentRepository">Репозиторий студентов.</param>
   /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
+  /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
   /// <returns>Студент.</returns>
-  public static Student WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository,
-    IGenericRepository<TypeEducation> typeEducationRepository)
+  public async static Task<Student> WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository,
+    IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
   {
     var fio = form.Name!.Split(" ");
     return new Student
@@ -56,14 +56,14 @@ public static class Mapper
       Family = fio!.FirstOrDefault() ?? "",
       Name = fio!.Count() > 1 ? fio[1] : "",
       Patron = fio!.LastOrDefault() == fio!.FirstOrDefault() ? "" : fio!.LastOrDefault(),
-
       BirthDate = DateOnly.Parse(form.Birthday),
       IT_Experience = form.IT_Experience!,
       Email = form.Email!,
       Phone = form.Phone!,
       Sex = SexHuman.Men,
       TypeEducation = typeEducationRepository.Get().Result.FirstOrDefault(x => x.Name == form.EducationLevel),
-      ScopeOfActivityLevelOneId = default,
+      ScopeOfActivityLevelOneId = (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelOneId!)))!.Id,
+      ScopeOfActivityLevelTwoId = (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelTwoId!)))!.Id
       //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
       //Speciality = form.
       //Не хватает поля в вебхуке

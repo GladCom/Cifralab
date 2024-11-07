@@ -9,7 +9,7 @@ public sealed class InMemoryContext : StudentContext
 {
   public InMemoryContext()
   {
-    Database.EnsureCreated();
+    this.Database.EnsureCreated();
 
   }
 
@@ -551,8 +551,9 @@ public sealed class InMemoryContext : StudentContext
     modelBuilder.Entity<GroupStudent>().HasData(
         new GroupStudent
         {
-          StudentsId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
-          GroupsId = new Guid("1D60B8BB-83E7-4410-A53B-7E46ADA4EBD6")
+          StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
+          GroupId = new Guid("1D60B8BB-83E7-4410-A53B-7E46ADA4EBD6"),
+          RequestId = new Guid("7BFC4F24-7F38-4F3F-9B17-1A0C82323DBB")
         }
     );
 

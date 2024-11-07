@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BaseComponent from './com/BaseComponent.jsx';
+import BaseComponent from './baseComponents/BaseComponent.jsx';
 import { AutoComplete } from 'antd';
 
 const mails = [

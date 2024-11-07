@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
@@ -49,6 +50,11 @@ public class IntegrationController : ControllerBase
   /// </summary>
   private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
 
+  /// <summary>
+  /// Репозиторий сферы деятельности.
+  /// </summary>
+  private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
+
   #endregion
 
   #region Методы
@@ -74,7 +80,7 @@ public class IntegrationController : ControllerBase
         if (!_studentRepository.Get().Result.Any(x =>
               x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email))
         {
-          student = Mapper.WebhookToStudent(form, _studentRepository, _typeEducationRepository);
+          student = await Mapper.WebhookToStudent(form, _studentRepository, _typeEducationRepository, _scopeOfActivityRepository);
           student = await _studentRepository.Create(student);
         }
       }
@@ -88,6 +94,15 @@ public class IntegrationController : ControllerBase
 
       var result = await _requestRepository.Create(request);
       return StatusCode(StatusCodes.Status200OK, form);
+    }
+    catch (ValidationException e)
+    {
+      _logger.LogError(e, "Error while creating new Entity");
+      return BadRequest(
+        new DefaultResponse
+        {
+          RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        });
     }
     catch (Exception e)
     {
@@ -113,10 +128,11 @@ public class IntegrationController : ControllerBase
   /// <param name="educationProgramRepository">Репозиторий образовательных программ.</param>
   /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
   /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
+  /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
   public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository,
     IGenericRepository<Student> studentRepository, IGenericRepository<EducationProgram> educationProgramRepository,
     IGenericRepository<StatusRequest> statusRequestRepository,
-    IGenericRepository<TypeEducation> typeEducationRepository)
+    IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
   {
     _logger = logger;
     _requestRepository = requestRepository;
@@ -124,6 +140,7 @@ public class IntegrationController : ControllerBase
     _educationProgramRepository = educationProgramRepository;
     _statusRequestRepository = statusRequestRepository;
     _typeEducationRepository = typeEducationRepository;
+    _scopeOfActivityRepository = scopeOfActivityRepository;
   }
 
   #endregion
