@@ -3,15 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import FilterPanel from './FilterPanel.jsx';
 import RemoveForm from './forms/RemoveForm.jsx';
 import EditForm from './forms/EditForm.jsx';
-import Spinner from '../Spinner.jsx';
-import Empty from '../Empty.jsx';
-import Error from '../Error.jsx';
 import { Button, Table, ConfigProvider } from 'antd';
 
 const { Column } = Table;
 
 const Catalog = ({ config }) => {
-    const { fields, properties, detailsLink, crud, hasDetailsPage, columns, serverPaged } = config;
+    const { fields, properties, detailsLink, crud, hasDetailsPage, columns, serverPaged, dataConverter } = config;
     const { useGetAllPagedAsync, useRemoveOneAsync, useAddOneAsync, useGetOneByIdAsync, useEditOneAsync } = crud;
     const [item, setItem] = useState({});
     const [queryString, setQueryString] = useState('');
@@ -88,7 +85,6 @@ const Catalog = ({ config }) => {
 
     const openDetailsInfo = useCallback((item) => {
         setItem(item);
-
         if (hasDetailsPage) {
             navigate(`/${detailsLink}/${item.id}`);
         } else {
@@ -97,7 +93,7 @@ const Catalog = ({ config }) => {
     });
 
     return ( 
-        <div>
+        <>
             <FilterPanel
                 config={config}
                 query={query}
@@ -105,7 +101,7 @@ const Catalog = ({ config }) => {
             />
             <Table
                 rowKey={(record) => record.id}
-                dataSource={data}
+                dataSource={dataConverter(data)}
                 pagination={tableParams.pagination}
                 loading={loading}
                 onChange={handleTableChange}
@@ -167,7 +163,7 @@ const Catalog = ({ config }) => {
                     refetch={refetch}
                 />
             )}
-        </div>
+        </>
     );
 };
 

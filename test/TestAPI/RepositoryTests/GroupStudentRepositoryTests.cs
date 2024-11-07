@@ -11,19 +11,6 @@ public class GroupStudentRepositoryTests
   private StudentContext _studentContext;
   private GroupStudentRepository _groupStudentRepository;
 
-  private readonly List<Guid> _guidList = new()
-  {
-    new Guid("20185546-cd61-4468-85a2-7c96a97cdb20"),
-    new Guid("e2c25dc3-df83-407f-95df-28fab1f1e270"),
-    new Guid("f98695a8-eb69-4361-b371-175f8850573d"),
-    new Guid("2f8843a7-9169-43aa-92cc-57abc290db5f"),
-    new Guid("cf4ff827-5f94-4b47-990f-805a5612c86f"),
-    new Guid("be3c8544-89a1-4921-99e0-d15d3dbef21c"),
-    new Guid("4fa97c78-2a7f-4cc5-b2d0-5c9049f96817"),
-    new Guid("714c1786-8322-4a92-968d-661b56df9996"),
-    new Guid("d4520960-119b-40e5-9a87-47e3cf8a7432")
-  };
-
   [SetUp]
   public void SetUp()
   {
@@ -41,252 +28,133 @@ public class GroupStudentRepositoryTests
   }
 
   [Test]
-  public async Task AddStudentInGroup_NewStudent_AddSuccessfully()
+  public async Task Create_NewGroupStudent_Success()
   {
     //Arrange
-    var student = GenerateNewStudent(this._guidList[0]);
+    var student = GenerateStudent();
     this._studentContext.Add(student);
 
-    var group = GenerateNewGroup(this._guidList[1]);
+    var request = GenerateRequest(student.Id);
+    this._studentContext.Add(request);
+
+    var group = GenerateGroup();
     this._studentContext.Add(group);
 
     await this._studentContext.SaveChangesAsync();
 
     //Act
-    await this._groupStudentRepository.AddStudentInGroup(student.Id, group.Id);
-
-    //Assert
-    Assert.That(
-      this._studentContext.GroupStudent.FirstOrDefault(sg => sg.GroupsId == group.Id && sg.StudentsId == student.Id),
-      Is.Not.Null);
-  }
-
-  [Test]
-  public async Task AddStudentInGroup_IdOfANonExistentStudent_Exception()
-  {
-    //Arrange
-    var group = GenerateNewGroup(this._guidList[0]);
-    this._studentContext.Add(group);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var act = async () => await this._groupStudentRepository.AddStudentInGroup(Guid.Empty, group.Id);
-
-    //Assert
-    Assert.That(act, Throws.InstanceOf<InvalidOperationException>());
-  }
-
-  [Test]
-  public async Task AddStudentInGroup_IdOfANonExistentGroup_Exception()
-  {
-    //Arrange
-    var student = GenerateNewStudent(this._guidList[0]);
-    this._studentContext.Add(student);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var act = async () => await this._groupStudentRepository.AddStudentInGroup(student.Id, Guid.Empty);
-
-    //Assert
-    Assert.That(act, Throws.InstanceOf<InvalidOperationException>());
-  }
-
-  [Test]
-  public async Task AddStudentsInGroup_NewStudents_AddSuccessfully()
-  {
-    //Arrange
-    const int expected = 3;
-
-    var students = GenerateNewStudents(this._guidList.GetRange(0, expected));
-    this._studentContext.AddRange(students);
-
-    var group = GenerateNewGroup(this._guidList[expected + 1]);
-    this._studentContext.Add(group);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    await this._groupStudentRepository.AddStudentInGroup(students, group.Id);
-
-    //Assert
-    var actual = 0;
-    foreach(var student in students)
-    {
-      if(this._studentContext.GroupStudent.FirstOrDefault(sg => sg.GroupsId == group.Id && sg.StudentsId == student.Id)
-          is not null)
-        actual++;
-    }
-
-    Assert.That(actual, Is.EqualTo(expected));
-  }
-
-  [Test]
-  public async Task AddStudentsInGroup_NewStudentsIsNull_Exception()
-  {
-    //Arrange
-    var group = GenerateNewGroup(this._guidList[0]);
-    this._studentContext.Add(group);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var act = async () => await this._groupStudentRepository.AddStudentInGroup(null, group.Id);
-
-    //Assert
-    Assert.That(act, Throws.InstanceOf<NullReferenceException>());
-  }
-
-  [Test]
-  public async Task AddStudentsInGroup_IdOfANonExistentGroup_Exception()
-  {
-    //Arrange
-    var students = GenerateNewStudents(this._guidList.GetRange(0, 3));
-    this._studentContext.AddRange(students);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var act = async () => await this._groupStudentRepository.AddStudentInGroup(students, Guid.Empty);
-
-    //Assert
-    Assert.That(act, Throws.InstanceOf<InvalidOperationException>());
-  }
-
-  [Test]
-  public async Task GetActualGroupOfStudent_GroupOfStudent_GetSuccessfully()
-  {
-    //Arrange
-    var student = GenerateNewStudent(this._guidList[0]);
-    this._studentContext.Add(student);
-
-    var group = GenerateNewGroup(this._guidList[1]);
-    this._studentContext.Add(group);
-
-    var groupStudent = GenerateNewGroupStudent(student.Id, group.Id);
-    this._studentContext.Add(groupStudent);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var actualGroupStudent = await this._groupStudentRepository.GetActualGroupOfStudent(student);
+    var actualGroupStudent = await this._groupStudentRepository.Create(request, group.Id);
 
     //Assert
     Assert.Multiple(() =>
     {
       Assert.That(actualGroupStudent, Is.Not.Null);
-      Assert.That(actualGroupStudent.GroupsId, Is.EqualTo(groupStudent.GroupsId));
-      Assert.That(actualGroupStudent.StudentsId, Is.EqualTo(groupStudent.StudentsId));
+      Assert.That(actualGroupStudent!.StudentId, Is.EqualTo(student.Id));
+      Assert.That(actualGroupStudent.GroupId, Is.EqualTo(group.Id));
+      Assert.That(actualGroupStudent.RequestId, Is.EqualTo(request.Id));
     });
   }
 
   [Test]
-  public void GetActualGroupOfStudent_StudentIsNull_Exception()
-  {
-    //Act
-    var act = async () => await this._groupStudentRepository.GetActualGroupOfStudent(null);
-
-    //Assert
-    Assert.That(act, Throws.InstanceOf<InvalidOperationException>());
-  }
-
-  [Test]
-  public async Task GetListGroupsOfStudent_GroupsOfStudent_GetSuccessfully()
+  public async Task Create_Request_IsNullException()
   {
     //Arrange
-    const int expected = 3;
+    Request? request = null;
 
-    var student = GenerateNewStudent(this._guidList[expected + 1]);
-    this._studentContext.Add(student);
-
-    var groups = GenerateNewGroups(this._guidList.GetRange(0, expected));
-    this._studentContext.AddRange(groups);
-
-    var groupsStudent = GenerateNewGroupsStudent(groups, student);
-    this._studentContext.AddRange(groupsStudent);
+    var group = GenerateGroup();
+    this._studentContext.Add(group);
 
     await this._studentContext.SaveChangesAsync();
 
     //Act
-    var actualGroupsStudent = (await this._groupStudentRepository.GetListGroupsOfStudent(student)).ToList();
+    var act = async () => await this._groupStudentRepository.Create(request, group.Id);
+
+    //Assert
+    Assert.That(act, Throws.InstanceOf<ArgumentNullException>());
+  }
+
+  [Test]
+  public async Task Create_StudentId_IsNullException()
+  {
+    //Arrange
+    var request = GenerateRequest(null);
+    this._studentContext.Add(request);
+
+    var group = GenerateGroup();
+    this._studentContext.Add(group);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualGroupStudent = await this._groupStudentRepository.Create(request, group.Id);
 
     //Assert
     Assert.Multiple(() =>
     {
-      Assert.That(actualGroupsStudent, Is.Not.Null);
-      Assert.That(actualGroupsStudent.Count, Is.EqualTo(expected));
-      var actual = 0;
-      foreach(var groupStudent in groupsStudent)
-      {
-        if(this._studentContext.GroupStudent.FirstOrDefault(gs =>
-              gs.GroupsId == groupStudent.GroupsId && gs.StudentsId == groupStudent.StudentsId)
-            is not null)
-          actual++;
-      }
-
-      Assert.That(actual, Is.EqualTo(expected));
+      Assert.That(actualGroupStudent, Is.Null);
     });
   }
 
   [Test]
-  public void GetListGroupsOfStudent_StudentIsNull_Exception()
+  public async Task Create_Student_NotExistException()
   {
+    //Arrange
+    var student = GenerateStudent();
+
+    var request = GenerateRequest(student.Id);
+    this._studentContext.Add(request);
+
+    var group = GenerateGroup();
+    this._studentContext.Add(group);
+
+    await this._studentContext.SaveChangesAsync();
+
     //Act
-    var act = async () => await this._groupStudentRepository.GetListGroupsOfStudent(null);
+    var actualGroupStudent = await this._groupStudentRepository.Create(request, group.Id);
 
     //Assert
-    Assert.That(act, Throws.InstanceOf<InvalidOperationException>());
-  }
-
-  private static List<GroupStudent> GenerateNewGroupsStudent(List<Group> groups, Student student)
-  {
-    return groups.Select(t => GenerateNewGroupStudent(student.Id, t.Id)).ToList();
-  }
-
-  private static List<Group> GenerateNewGroups(List<Guid> id)
-  {
-    return id.Select(GenerateNewGroup).ToList();
-  }
-
-  private static List<Student> GenerateNewStudents(List<Guid> id)
-  {
-    return id.Select(GenerateNewStudent).ToList();
-  }
-
-  private static GroupStudent GenerateNewGroupStudent(Guid studentsId, Guid groupsId)
-  {
-    return new GroupStudent
+    Assert.Multiple(() =>
     {
-      StudentsId = studentsId,
-      GroupsId = groupsId
-    };
+      Assert.That(actualGroupStudent, Is.Null);
+    });
   }
 
-  private static Student GenerateNewStudent(Guid id)
+  private static Student GenerateStudent()
   {
     return new Student
     {
-      Id = id,
+      Id = Guid.NewGuid(),
       Family = "null",
       BirthDate = default,
       Sex = default,
       Address = "null",
-      Phone = "null",
-      Email = "null",
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
       IT_Experience = "null",
       ScopeOfActivityLevelOneId = default
     };
   }
 
-  private static Group GenerateNewGroup(Guid id)
+  private static Group GenerateGroup()
   {
     return new Group
     {
-      Id = id,
+      Id = Guid.NewGuid(),
       EducationProgramId = default,
       StartDate = default,
       EndDate = default
+    };
+  }
+
+  private static Request GenerateRequest(Guid? studentId)
+  {
+    return new Request
+    {
+      Id = Guid.NewGuid(),
+      StudentId = studentId,
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
+      Agreement = default
     };
   }
 }

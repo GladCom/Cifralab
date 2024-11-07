@@ -153,29 +153,6 @@ public class RequestRepositoryTests
   }
 
   [Test]
-  public async Task FindRequestListByStudentGuidAsync_FindSuccessfully()
-  {
-    // Arrange
-    var studentId = Guid.NewGuid();
-
-    var request = GenerateRequest();
-    request.StudentId = studentId;
-
-    var request2 = GenerateRequest();
-    request2.StudentId = studentId;
-
-    this._studentContext.Requests.Add(request);
-    this._studentContext.Requests.Add(request2);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    var result = await this._requestRepository.FindRequestListByStudentGuidAsync(studentId);
-
-    // Assert
-    Assert.That(result.Count(), Is.EqualTo(2));
-  }
-
-  [Test]
   public async Task AddOrderToRequest_AddSuccessfully()
   {
     // Arrange
@@ -213,7 +190,7 @@ public class RequestRepositoryTests
   {
     // Arrange
     var requests = new List<Request>();
-    for(var i = 0; i < 5; i++)
+    for (var i = 0; i < 5; i++)
     {
       requests.Add(GenerateRequest());
     }
@@ -228,8 +205,11 @@ public class RequestRepositoryTests
     var result = await this._requestRepository.GetRequestsByPage(page, pageSize);
 
     // Assert
-    Assert.That(result, Is.Not.Null);
-    Assert.That(result.Data, Has.Count.EqualTo(2));
+    Assert.Multiple(() =>
+    {
+      Assert.That(result, Is.Not.Null);
+      Assert.That(result.Data, Has.Count.EqualTo(2));
+    });
   }
 
   [Test]
@@ -260,7 +240,7 @@ public class RequestRepositoryTests
   {
     // Arrange
     var requests = new List<Request>();
-    for(var i = 0; i < 5; i++)
+    for (var i = 0; i < 5; i++)
     {
       requests.Add(GenerateRequest());
     }
@@ -275,8 +255,11 @@ public class RequestRepositoryTests
     var result = await this._requestRepository.GetRequestsDTOByPage(page, pageSize);
 
     // Assert
-    Assert.That(result, Is.Not.Null);
-    Assert.That(result.Data, Has.Count.EqualTo(2));
+    Assert.Multiple(() =>
+    {
+      Assert.That(result, Is.Not.Null);
+      Assert.That(result.Data, Has.Count.EqualTo(2));
+    });
   }
 
   private static Request GenerateRequest()
@@ -291,8 +274,8 @@ public class RequestRepositoryTests
       StatusRequestId = Guid.NewGuid(),
       StudentStatusId = Guid.NewGuid(),
       StatusEntrancExams = default,
-      Email = "null",
-      Phone = "null",
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
       Agreement = default
     };
   }
@@ -318,8 +301,8 @@ public class RequestRepositoryTests
       BirthDate = default,
       Sex = default,
       Address = "null",
-      Phone = "null",
-      Email = "null",
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
       IT_Experience = "null",
       ScopeOfActivityLevelOneId = default
     };

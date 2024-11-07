@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../shared/Layout';
+import Layout from '../shared/layout/Layout.jsx';
 import Catalog from '../shared/catalogProvider/Catalog.jsx';
 import config from '../../storage/catalogConfigs/requestStatus.js'
 

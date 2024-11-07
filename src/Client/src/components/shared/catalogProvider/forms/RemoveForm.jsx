@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { Modal, Form } from "antd";
+import React from 'react';
+import { Modal, Form, Result } from "antd";
 
 
 const RemoveForm = ({ item, control, config, refetch }) => {
@@ -11,33 +11,47 @@ const RemoveForm = ({ item, control, config, refetch }) => {
     const { showRemoveForm, setShowRemoveForm } = control;
 
 
-    const onCreate = () => {
+    const onSubmit = () => {
         removeItem(id);
+        setShowRemoveForm(false);
+    };
+
+    const onCancel = () => {
         setShowRemoveForm(false);
     };
 
     return (
         <Modal
-            title="Внимание! Вы удаляете запись!"
+            title="Внимание!"
             open={showRemoveForm}
-            onCancel={() => setShowRemoveForm(false)}
+            okText="Всеравно удалить"
+            cancelText="Отмена"
+            onCancel={onCancel}
             destroyOnClose
             okButtonProps={{
-                autoFocus: true,
+                autoFocus: false,
+                danger: true,
                 htmlType: 'submit',
             }}
             modalRender={(dom) => (
-            <Form
-                layout="horizontal"
-                form={form}
-                name="form_in_modal"
-                clearOnDestroy
-                onFinish={onCreate}
-            >
-                {dom}
-            </Form>
+                <Form
+                    layout="horizontal"
+                    form={form}
+                    name="form_in_modal"
+                    clearOnDestroy
+                    onFinish={onSubmit}
+                >
+                    {dom}
+                </Form>
             )}
         >
+            <Result
+                status="warning"
+                title="Вы удаляете запись"
+                extra={
+                    <p>Вы уверены, что хотите удалить эту запись?</p>
+                }
+            />
         </Modal>
     );
 };

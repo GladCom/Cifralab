@@ -8,6 +8,7 @@ const AddOneForm = ({ control, properties, crud }) => {
   const [form] = Form.useForm();
 
   const onCreate = (formValues) => {
+    //console.log(formValues)
     addOne(formValues);
     setShowAddOneForm(false);
   };
@@ -21,8 +22,8 @@ const AddOneForm = ({ control, properties, crud }) => {
         cancelText="Отмена"
         destroyOnClose
         okButtonProps={{
-          autoFocus: true,
-          htmlType: 'submit',
+            autoFocus: true,
+            htmlType: 'submit',
         }}
         onCancel={() => setShowAddOneForm(false)}
         modalRender={(dom) => (
@@ -39,27 +40,21 @@ const AddOneForm = ({ control, properties, crud }) => {
         </Form>
         )}
     >
-        {Object.entries(properties).map(([key, { name, type, required, crud }]) => {
-            const Input = type;
-
+        {Object.entries(properties).map(([key, { name, type, formParams }]) => {
+            const Item = type;
+            console.log(key);
             return (
-                <Form.Item
+                <Item
                     key={key}
-                    name={key}
-                    label={name}
-                    rules={[{ required, message: 'Please input the title of collection!' }]}
-                >
-                    <Input
-                        key={key}
-                        crud={crud}
-                        mode='form'
-                        setValue={(value) => {
-                          form.setFieldsValue({
-                            [key]: value,
-                          });
-                        }}
-                    />
-                </Form.Item>
+                    formParams={{ key, name, ...formParams }}
+                    mode='form'
+                    setValue={(value) => {
+        
+                      form.setFieldsValue({
+                        [key]: value,
+                      });
+                    }}
+                />
             );
         })}
     </Modal>

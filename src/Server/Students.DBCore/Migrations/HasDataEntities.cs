@@ -489,13 +489,15 @@ internal static class HasDataEntities
   {
     new GroupStudent
     {
-      StudentsId = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
-      GroupsId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7")
+      StudentId = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
+      GroupId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7"),
+      RequestId = new Guid("4178e3fa-dca8-4e28-a815-46cfacb61fe5")
     },
     new GroupStudent
     {
-      StudentsId = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
-      GroupsId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7")
+      StudentId = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
+      GroupId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7"),
+      RequestId = new Guid("7ecc61ae-2472-484e-8078-3b34f3448b8e")
     }
   };
 
@@ -525,7 +527,22 @@ internal static class HasDataEntities
       StatusEntrancExams = StatusEntrancExams.Done,
       RegistrationNumber = "432",
       Email = "III@gmail.com",
-      Phone = "1234567890",
+      Phone = "+7 (123) 456-78-90",
+      Agreement = true
+    },
+    new Request
+    {
+      Id = new Guid("7ecc61ae-2472-484e-8078-3b34f3448b8e"),
+      StudentId = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
+      EducationProgramId = new Guid("b741f950-19b2-472c-bf66-e84bec7c0bb5"),
+      DocumentRiseQualificationId = new Guid("5dde5f20-a247-45b5-b989-800a858d0b70"),
+      DataNumberDogovor = "2024-09-02, 9877",
+      StatusRequestId = new Guid("d2b3c504-1890-43f4-a351-22eea9b8dc08"),
+      StudentStatusId = new Guid("69b4aaff-b67f-483d-98e3-98d39da93d7a"),
+      StatusEntrancExams = StatusEntrancExams.Done,
+      RegistrationNumber = "432",
+      Email = "IAI@gmail.com",
+      Phone = "+7 (123) 451-71-90",
       Agreement = true
     }
   };
@@ -544,7 +561,7 @@ internal static class HasDataEntities
       Sex = SexHuman.Men,
       Nationality = "Россия",
       Address = "Проспект Сишарпа, 42",
-      Phone = "1234567890",
+      Phone = "+7 (123) 453-78-90",
       Email = "III@gmail.com",
       Projects = "Немало",
       IT_Experience = "Есть",
@@ -567,7 +584,7 @@ internal static class HasDataEntities
       Sex = SexHuman.Woman,
       Nationality = "Россия",
       Address = "Проспект PHP, 47",
-      Phone = "0987654321",
+      Phone = "+7 (123) 451-71-90",
       Email = "IAI@gmail.com",
       Projects = "Мало",
       IT_Experience = "Есть",

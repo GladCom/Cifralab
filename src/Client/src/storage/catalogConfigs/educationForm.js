@@ -6,15 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/educationFormCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import { educationFormModel } from '../models/index.js';
 
 export default {
     detailsLink: 'educationForm',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        name: { name: 'Форма образования', type: String, show: true, required: true },
-    },
+    properties: educationFormModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
@@ -30,4 +28,5 @@ export default {
             key: 'name',
         },
     ],
+    dataConverter: (data) => data,
 };

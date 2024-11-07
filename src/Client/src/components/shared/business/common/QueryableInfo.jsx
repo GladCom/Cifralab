@@ -1,12 +1,13 @@
 import React from 'react';
 import Info from './Info';
 
-const QueryableInfo = ({ id, crud, property }) => {
+const QueryableInfo = ({ value, crud, formParams }) => {
     const { useGetOneByIdAsync } = crud;
-    const { data, error, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
+    const { key } = formParams;
+    const { data, error, isLoading, isFetching, refetch } = useGetOneByIdAsync(value);
 
     return (
-        <Info value={data?.[property]} /> 
+        <Info value={data?.[key]} /> 
     );
 };
 

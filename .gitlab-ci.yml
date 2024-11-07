@@ -3,6 +3,16 @@ stages:
   - test
   - deploy
 
+# Запуск юнит тестов
+frontend-test:
+  stage: test
+  image: node:current-alpine3.19
+  tags: [ common ]
+  script:
+    - cd ./src/Client
+    - npm install jest
+    - npm test
+
 # Проверка компиляции бэкенд
 backend-compile:
   stage: compile
@@ -46,7 +56,7 @@ backend-test:
     - dotnet test ./test/TestAPI --test-adapter-path . --logger 'junit;LogFilePath=../Artifacts/{assembly}.Result.xml;MethodFormat=Class;FailureBodyFormat=Verbose'
 
 # Деплой на тестовый стенд
-deploy-on-test:
+deploy-on-demo-stand:
   stage: deploy
   tags: [ deploy ]
   rules:
@@ -54,7 +64,57 @@ deploy-on-test:
       when: on_success
   script:
     - ./build/down.sh
+    - echo REACT_APP_API_URL=http://${CIFRA_DEMO_IP} > ./src/Client/.env
     - BUILD_OUT=$(./build/build.sh)
     - ./build/run.sh
     - BUILD_STATUS="${BUILD_OUT:0-1}"
     - exit $BUILD_STATUS
+    
+# Подготовить деплой тестовго стенда
+.before-deploy-on-test-script: &before-deploy-on-test-script
+  - eval $(ssh-agent -s)
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config;
+  - echo "${CIFRA_CI_SSH_KEY}" > ~/.ssh/id_ed25519
+  - chmod 600 ~/.ssh/id_ed25519;
+  - echo "${CIFRA_CI_SSH_KEY_PUB}" > ~/.ssh/id_ed25519.pub
+  - chmod 764 ~/.ssh/id_ed25519.pub;
+  - ssh-keyscan -H "${CIFRA_TEST_HOST}" >> ~/.ssh/known_hosts
+    
+# деплой тестовго стенда
+.deploy-on-test-script: &deploy-on-test-script
+  - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "mkdir -p cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}"
+  - scp -r $(pwd) "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}:cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}"
+  - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/down.sh ${TEST_STAND}"
+  - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S echo REACT_APP_API_URL=http://${TEST_IP_AND_PORT} > ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/src/Client/.env"
+  - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/build.sh ${TEST_STAND}"
+  - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/run.sh ${TEST_STAND}"
+
+# Деплой на тестовый стенд 1
+deploy-on-test-stand-1:
+  stage: deploy
+  tags: [ deploy ]
+  rules:
+    - if: $CI_COMMIT_TAG == 'test1'
+      when: on_success
+  before_script:
+    - *before-deploy-on-test-script
+  script:
+    - TEST_STAND=test1
+    - TEST_IP_AND_PORT=${CIFRA_TEST_IP}:8001
+    - *deploy-on-test-script
+
+# Деплой на тестовый стенд 2
+deploy-on-test-stand-2:
+  stage: deploy
+  tags: [ deploy ]
+  rules:
+    - if: $CI_COMMIT_TAG == 'test2'
+      when: on_success
+  before_script:
+    - *before-deploy-on-test-script
+  script:
+    - TEST_STAND=test2
+    - TEST_IP_AND_PORT=${CIFRA_TEST_IP}:8002
+    - *deploy-on-test-script

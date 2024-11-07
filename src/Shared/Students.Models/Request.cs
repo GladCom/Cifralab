@@ -1,4 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Students.Models.Enums;
 using Students.Models.ReferenceModels;
 
@@ -66,15 +69,47 @@ public class Request
   #region PotomuchtoMincifraNeOtdaetSNILS
 
   /// <summary>
+  /// Валидированный E-mail.
+  /// </summary>
+  private string _email;
+
+  /// <summary>
   /// E-mail
   /// </summary>
-  public required string Email { get; set; }
+  public required string Email
+  {
+    get => this._email;
+    set
+    {
+      value = value.ToLower();
+      if(Regex.IsMatch(value, @"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
+        this._email = address.Address;
+      else
+        throw new ValidationException("Not a valid Email address.");
+    }
+  }
 
   //public string EmailPrepeared { get { return Email.ToLower(); } }
+
+  /// <summary>
+  /// Валидированный телефон.
+  /// </summary>
+  private string _phone;
+
   /// <summary>
   /// Телефон
   /// </summary>
-  public required string Phone { get; set; }
+  public required string Phone
+  {
+    get => this._phone;
+    set
+    {
+      if(Regex.IsMatch(value, @"^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$"))
+        this._phone = value;
+      else
+        throw new ValidationException("Not a valid phone number.");
+    }
+  }
 
   #endregion PotomuchtoMincifraNeOtdaetSNILS
 
@@ -83,6 +118,12 @@ public class Request
   /// </summary>
   [JsonIgnore]
   public virtual Student? Student { get; set; }
+
+  /// <summary>
+  /// Группа.
+  /// </summary>
+  [JsonIgnore]
+  public virtual GroupStudent? GroupStudent { get; set; }
 
   /// <summary>
   /// Образовательная программа

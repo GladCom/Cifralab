@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const educationProgramApi = createApi({
   reducerPath: 'educationProgram',
-  baseQuery: fetchBaseQuery({ baseUrl: '/educationProgram' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/educationProgram` }),
   endpoints: (builder) => ({
     getEducationProgram: builder.query({
       query: () => '',
@@ -13,7 +14,7 @@ export const educationProgramApi = createApi({
     }),
     getEducationProgramById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['EducationProgram'],
+      providesTags: ['EducationProgramById'],
     }),
     addEducationProgram: builder.mutation({
       query: (item) => ({
@@ -28,7 +29,7 @@ export const educationProgramApi = createApi({
         method: 'PUT',
         body: item,
       }),
-      invalidatesTags: ['EducationProgram'],
+      invalidatesTags: ['EducationProgram', 'EducationProgramById'],
     }),
     removeEducationProgram: builder.mutation({
       query: (id) => ({

@@ -9,7 +9,7 @@ public sealed class InMemoryContext : StudentContext
 {
   public InMemoryContext()
   {
-    Database.EnsureCreated();
+    this.Database.EnsureCreated();
 
   }
 
@@ -438,7 +438,7 @@ public sealed class InMemoryContext : StudentContext
           //Interview = "Прошел",
           //BirthDate = new DateOnly(1990, 5, 10),
           //CreatedAt = new DateTime(2023, 10, 15, 8, 0, 0),
-          Phone = "+71234567890",
+          Phone = "+7 (123) 456-78-90",
           Email = "fff@mail.ru",
           //EntranceExamination = "Прошел",
           //FullName = "Иванов Иван Иванович",
@@ -467,7 +467,7 @@ public sealed class InMemoryContext : StudentContext
           //Interview = "Прошел",
           //BirthDate = new DateOnly(1995, 1, 22),
           //CreatedAt = new DateTime(2023, 09, 16, 12, 45, 0),
-          Phone = "+71234567890",
+          Phone = "+7 (123) 456-32-90",
           //EntranceExamination = "Прошел",
           //FullName = "Петров Петр Петрович",
           //StudentEducationId = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
@@ -539,7 +539,7 @@ public sealed class InMemoryContext : StudentContext
           DocumentSeries = "1234",
           SNILS = "123-456-789 00",
           Email = "test@mail.ru",
-          Phone = "+71234567890",
+          Phone = "+7 (123) 456-32-90",
           FullNameDocument = "Эх, сейчас бы сиды полные",
           Address = "Иваново",
           IT_Experience = "Какой-то опыт есть",
@@ -551,8 +551,9 @@ public sealed class InMemoryContext : StudentContext
     modelBuilder.Entity<GroupStudent>().HasData(
         new GroupStudent
         {
-          StudentsId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
-          GroupsId = new Guid("1D60B8BB-83E7-4410-A53B-7E46ADA4EBD6")
+          StudentId = new Guid("6CCEA275-77D3-439F-9E20-E86C1B2952F6"),
+          GroupId = new Guid("1D60B8BB-83E7-4410-A53B-7E46ADA4EBD6"),
+          RequestId = new Guid("7BFC4F24-7F38-4F3F-9B17-1A0C82323DBB")
         }
     );
 

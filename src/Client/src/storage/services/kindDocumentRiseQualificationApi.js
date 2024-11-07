@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const kindDocumentRiseQualificationApi = createApi({
   reducerPath: 'kindDocumentRiseQualification',
-  baseQuery: fetchBaseQuery({ baseUrl: '/kindDocumentRiseQualification' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/kindDocumentRiseQualification` }),
   endpoints: (builder) => ({
     getKindDocumentRiseQualification: builder.query({
       query: () => '',

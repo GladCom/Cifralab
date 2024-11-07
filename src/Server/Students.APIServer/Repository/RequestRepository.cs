@@ -30,14 +30,14 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <param name="requestToValidate">Заявка.</param>
   protected async Task<bool> ValidateRequest(Request requestToValidate)
   {
-    if(!_ctx.Requests.Any())
-      return _modelState.IsValid;
-    if(await FindRequestByEmailFromRequestAsync(requestToValidate) is not null)
-      _modelState.AddModelError("Заявка", "Пользователь с этим e-mail адресом уже оставил заявку на этот курс.");
-    if(await FindRequestByPhoneFromRequestAsync(requestToValidate) is not null)
-      _modelState.AddModelError("Заявка", "Пользователь с этим номером телефона уже оставил заявку на этот курс.");
+    if(!this._ctx.Requests.Any())
+      return this._modelState.IsValid;
+    if(await this.FindRequestByEmailFromRequestAsync(requestToValidate) is not null)
+      this._modelState.AddModelError("Заявка", "Пользователь с этим e-mail адресом уже оставил заявку на этот курс.");
+    if(await this.FindRequestByPhoneFromRequestAsync(requestToValidate) is not null)
+      this._modelState.AddModelError("Заявка", "Пользователь с этим номером телефона уже оставил заявку на этот курс.");
 
-    return _modelState.IsValid;
+    return this._modelState.IsValid;
   }
 
   /// <summary>
@@ -49,7 +49,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   {
     //Убираем валидацию на наличие подобной. Создаваться будет всегда, пометкой и удалением займется пользователь
     //if (!await ValidateRequest(item)) return null;
-    var existStudent = await _studentRepository.FindByPhoneAndEmail(item.Phone, item.Email);
+    var existStudent = await this._studentRepository.GetOne(s => s.Phone == item.Phone && s.Email == item.Email);
     //Меняем GUID студента когда нашли его в базе по связке телефон и email
     if(existStudent != null)
       item.StudentId = existStudent.Id;
@@ -67,13 +67,12 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   {
     if(request == null)
       throw new ArgumentNullException(nameof(request));
-    return await Task.FromResult(_ctx.Requests.AsNoTracking()
+    return await Task.FromResult(this._ctx.Requests.AsNoTracking()
       .FirstOrDefaultAsync(x =>
         //x.Email.ToLower().Equals(request.Email.ToLower())
         x.Email.ToLower().Equals(request.Email.ToLower()) &&
         x.EducationProgramId.Equals(request.EducationProgramId))).Result;
   }
-
 
   /// <summary>
   /// Поиск похожих заявок по номеру телефона.
@@ -85,7 +84,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   {
     if(request == null)
       throw new ArgumentNullException(nameof(request));
-    var requests = _ctx.Requests.AsNoTracking().AsAsyncEnumerable();
+    var requests = this._ctx.Requests.AsNoTracking().AsAsyncEnumerable();
     await foreach(var item in requests)
     {
       if(item.Phone.ToLower().Equals(request.Phone.ToLower()) &&
@@ -98,18 +97,6 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     return null;
   }
 
-
-  /// <summary>
-  /// Поиск заявок по идентификатору студента.
-  /// </summary>
-  /// <param name="id">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
-  public async Task<IEnumerable<Request>> FindRequestListByStudentGuidAsync(Guid id)
-  {
-    return await Task.FromResult(
-      _ctx.Requests.AsNoTracking().Where(x => x.StudentId.Equals(id)).ToList().AsEnumerable());
-  }
-
   /// <summary>
   /// Добавление приказа в заявку.
   /// </summary>
@@ -119,13 +106,13 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <exception cref="ArgumentNullException">Не найдена заявки с указанным идентификатором.</exception>
   public async Task<Guid> AddOrderToRequest(Guid id, Order order)
   {
-    var findRequest = await FindById(id);
+    var findRequest = await this.FindById(id);
     //var findRequest = await _ctx.Set<Request>().FindAsync(id);
     if(findRequest == null)
       throw new ArgumentNullException(nameof(findRequest));
 
     order.RequestId = id;
-    var actualOrder = await _orderRepository.Create(order);
+    var actualOrder = await this._orderRepository.Create(order);
 
     return id;
   }
@@ -137,7 +124,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <param name="pageSize">Размер страницы.</param>
   public async Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize)
   {
-    var items = await PagedPage<Request>.ToPagedPage<string>(_ctx.Requests, page, pageSize,
+    var items = await PagedPage<Request>.ToPagedPage<string>(this._ctx.Requests, page, pageSize,
       (x) => x.Student != null ? x.Student!.FullName : "");
 
     return items;
@@ -150,14 +137,14 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <param name="pageSize">Размер страницы.</param>
   public async Task<PagedPage<RequestsDTO>> GetRequestsDTOByPage(int page, int pageSize)
   {
-    var query = from r in _ctx.Requests
-                join s in _ctx.Students on r.StudentId equals s.Id into s_jointable
+    var query = from r in this._ctx.Requests
+                join s in this._ctx.Students on r.StudentId equals s.Id into s_jointable
                 from s1 in s_jointable.DefaultIfEmpty()
-                join e in _ctx.EducationPrograms on r.EducationProgramId equals e.Id into e_jointable
+                join e in this._ctx.EducationPrograms on r.EducationProgramId equals e.Id into e_jointable
                 from e1 in e_jointable.DefaultIfEmpty()
-                join te in _ctx.TypeEducation on s1.TypeEducationId equals te.Id into te_jointable
+                join te in this._ctx.TypeEducation on s1.TypeEducationId equals te.Id into te_jointable
                 from te1 in te_jointable.DefaultIfEmpty()
-                join sr in _ctx.StatusRequests on r.StatusRequestId equals sr.Id into sr_jointable
+                join sr in this._ctx.StatusRequests on r.StatusRequestId equals sr.Id into sr_jointable
                 from sr1 in sr_jointable.DefaultIfEmpty()
                 select new RequestsDTO()
                 {
@@ -177,23 +164,39 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 
     return await PagedPage<RequestsDTO>.ToPagedPage<string>(query, page, pageSize, (x) => x.StudentFullName);
   }
-  #endregion
 
-  #region Конструкторы
 
-  /// <summary>
-  /// Конструктор.
-  /// </summary>
-  /// <param name="context">Контекст базы данных.</param>
-  /// <param name="studRep">Репозиторий студентов.</param>
-  /// <param name="orderRepository">Репозиторий приказов.</param>
-  public RequestRepository(StudentContext context, IStudentRepository studRep, IOrderRepository orderRepository) :
+    /// <summary>
+    /// Поиск сущности по идентификатору.
+    /// </summary>
+    /// <param name="id">Идентификатор сущности.</param>
+    /// <returns>Сущность.</returns>
+    public override async Task<Request?> FindById(Guid id)
+    {
+        return await _ctx.Requests.AsNoTracking()
+      .Include(x => x.Student)
+        .ThenInclude(y => y.TypeEducation)
+      .Include(x => x.EducationProgram)
+      .Include(x => x.Status)
+      .FirstOrDefaultAsync(x => x.Id == id);
+    }
+    #endregion
+
+    #region Конструкторы
+
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    /// <param name="context">Контекст базы данных.</param>
+    /// <param name="studRep">Репозиторий студентов.</param>
+    /// <param name="orderRepository">Репозиторий приказов.</param>
+    public RequestRepository(StudentContext context, IStudentRepository studRep, IOrderRepository orderRepository) :
     base(context)
   {
-    _ctx = context;
-    _studentRepository = studRep;
-    _modelState = new ModelStateDictionary();
-    _orderRepository = orderRepository;
+    this._ctx = context;
+    this._studentRepository = studRep;
+    this._modelState = new ModelStateDictionary();
+    this._orderRepository = orderRepository;
   }
 
   #endregion

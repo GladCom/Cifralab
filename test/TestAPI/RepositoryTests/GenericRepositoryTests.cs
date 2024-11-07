@@ -50,7 +50,6 @@ public class GenericRepositoryTests
     var actual = 0;
     foreach(var student in students)
     {
-
       if(actualStudents.FirstOrDefault(sg => sg.Id == student.Id)
           is not null)
         actual++;
@@ -88,6 +87,47 @@ public class GenericRepositoryTests
     }
 
     Assert.That(actual, Is.EqualTo(expected));
+  }
+
+  [Test]
+  public async Task GetOne_Student_GetSuccessfully()
+  {
+    //Arrange
+    const string email = "assdfgg@gmail.com";
+
+    var student = GenerateNewStudent(this._guids[0]);
+    student.Email = email;
+    this._studentContext.AddRange(student);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualStudent = await this._genericRepository.GetOne(s => s.Email == email);
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(actualStudent, Is.Not.Null);
+      Assert.That(actualStudent?.Email, Is.EqualTo(email));
+    });
+  }
+
+  [Test]
+  public async Task GetOne_Student_NotExistException()
+  {
+    //Arrange
+    const string email = "assdfgg@gmail.com";
+
+    var student = GenerateNewStudent(this._guids[0]);
+    this._studentContext.AddRange(student);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualStudent = await this._genericRepository.GetOne(s => s.Email == email);
+
+    //Assert
+    Assert.That(actualStudent, Is.Null);
   }
 
   [Test]
@@ -155,7 +195,7 @@ public class GenericRepositoryTests
   }
 
   [Test]
-  public async Task Create_NewStudent_IsNullException()
+  public void Create_NewStudent_IsNullException()
   {
     //Act
     var act = async () => await this._genericRepository.Create(null);
@@ -274,8 +314,8 @@ public class GenericRepositoryTests
       BirthDate = default,
       Sex = default,
       Address = "null",
-      Phone = "null",
-      Email = "null",
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
       IT_Experience = "null",
       ScopeOfActivityLevelOneId = default
     };

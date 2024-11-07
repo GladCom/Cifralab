@@ -32,8 +32,4 @@
     <Using Include="System.Threading.Tasks" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ControllersTests\" />
-  </ItemGroup>
-
 </Project>

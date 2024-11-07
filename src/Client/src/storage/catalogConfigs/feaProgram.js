@@ -6,15 +6,13 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/feaProgramCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import  feaProgramModel   from '../models/feaProgram.js';
 
 export default {
     detailsLink: 'feaProgram',
     hasDetailsPage: false,
     serverPaged: false,
-    properties: {
-        name: { name: 'Вэд программа', type: String, show: true, required: true },
-    },
+    properties: feaProgramModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
@@ -30,4 +28,5 @@ export default {
             key: 'name',
         },
     ],
+    dataConverter: (data) => data,
 };

@@ -1,8 +1,10 @@
-﻿using Students.APIServer.Repository.Interfaces;
+﻿using Students.APIServer.DTO;
+using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using Students.Models.Enums;
 using Students.Models.ReferenceModels;
 using Students.Models.WebModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Students.APIServer.Extension.Pagination;
 
@@ -67,6 +69,113 @@ public static class Mapper
       //Не хватает поля в вебхуке
       //.Projects = form.
       //CreatedAt = DateTime.Now,
+    };
+  }
+
+  /// <summary>
+  /// Преобразование Request в DTO.
+  /// </summary>
+  /// <param name="form">Заявка.</param>
+  /// <returns>DTO заявки.</returns>
+  public static async Task<RequestsDTO> RequestToRequestDTO(Request form)
+  {
+    return new RequestsDTO
+    {
+      StudentFullName = form.Student?.FullName ?? "",
+      family = form.Student?.Family,
+      name = form.Student?.Name,
+      patron = form.Student?.Patron,
+      StatusRequest = form.Status?.Name,
+      StatusRequestId = form.StatusRequestId,
+      EducationProgram = form.EducationProgram?.Name,
+      EducationProgramId = form.EducationProgramId,
+      TypeEducation = form.Student?.TypeEducation?.Name,
+      TypeEducationId = form.Student?.TypeEducationId,
+      speciality = form.Student?.Speciality,
+      IT_Experience = form.Student?.IT_Experience,
+      projects = form.Student?.Projects,
+      statusEntrancExams = form.StatusEntrancExams ?? 0,
+      BirthDate = form.Student?.BirthDate,
+      Age = form.Student?.Age,
+      Address = form.Student?.Address,
+      phone = form.Student?.Phone,
+      Email = form.Student?.Email,
+      agreement = form.Agreement
+    };
+  }
+
+  /// <summary>
+  /// Преобразование NewRequestDTO в заявку.
+  /// </summary>
+  /// <param name="form">DTO заявки.</param>
+  /// <param name="_statusRequestRepository">Репозиторий статусов заявок.</param>
+  /// <returns>Заявка.</returns>
+  public static async Task<Request> NewRequestDTOToRequest(NewRequestDTO form, IGenericRepository<StatusRequest> _statusRequestRepository)
+  {
+    return new Request
+    {
+      //Id = requestDTO.Id ?? default,
+      //StudentId = requestDTO.StudentId,
+      EducationProgramId = form.educationProgramId,
+      //DocumentRiseQualificationId = requestDTO.
+      StatusRequestId = (await _statusRequestRepository.Get()).FirstOrDefault(x => x.Name?.ToLower() == "новая заявка")
+        ?.Id,
+      StatusEntrancExams = (StatusEntrancExams)form.statusEntranceExams,
+      Email = form.email,
+      Phone = form.phone,
+      Agreement = form.agreement
+    };
+  }
+
+  /// <summary>
+  /// Преобразование NewRequestDTO в заявку.
+  /// </summary>
+  /// <param name="requestDTO">DTO заявки.</param>
+  /// <param name="_statusRequestRepository">Репозиторий статусов заявок.</param>
+  /// <returns>Студент.</returns>
+  public static async Task<Student> NewRequestDTOToStudent(NewRequestDTO form)
+  {
+    return new Student
+    {
+      Address = form.address,
+      Family = form.family ?? "",
+      Name = form.name,
+      Patron = form.patron,
+
+      BirthDate = form.birthDate,
+      IT_Experience = form.iT_Experience,
+      Email = form.email,
+      Phone = form.phone ?? "",
+      Sex = SexHuman.Men,
+      TypeEducationId = form.typeEducationId,
+      ScopeOfActivityLevelOneId = form.scopeOfActivityLevelOneId,
+      ScopeOfActivityLevelTwoId = form.scopeOfActivityLevelTwoId
+    };
+  }
+
+  /// <summary>
+  /// Преобразование RequestDTO в студента.
+  /// </summary>
+  /// <param name="requestDTO">DTO заявки.</param>
+  /// <returns>Студент.</returns>
+  public static async Task<Student> RequestDTOToStudent(RequestsDTO form)
+  {
+    return new Student
+    {
+      Family = form.family!,
+      Name = form.name,
+      Patron = form.patron,
+      BirthDate = (DateOnly)form!.BirthDate!,
+      Sex = default,
+      Address = form.Address!,
+      Phone = form.phone!,
+      Email = form.Email!,
+      Projects = form.projects,
+      IT_Experience = form.IT_Experience!,
+      TypeEducationId = form.TypeEducationId,
+      //Ебать-кололить
+      ScopeOfActivityLevelOneId = Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34"),
+      Speciality = form.speciality
     };
   }
 }

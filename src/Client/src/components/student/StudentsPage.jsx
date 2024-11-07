@@ -1,4 +1,4 @@
-import Layout from '../shared/Layout.jsx';
+import Layout from '../shared/layout/Layout.jsx';
 import Catalog from '../shared/catalogProvider/Catalog.jsx';
 import config from '../../storage/catalogConfigs/students.js'
 

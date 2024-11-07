@@ -6,19 +6,15 @@ import {
     useEditOneAsync,
     useRemoveOneAsync,
 } from '../crud/groupsCrud.js';
-import String from '../../components/shared/business/String.jsx';
+import { groupsModel } from '../models/index.js';
+import React from 'react';
 import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx'
 
 export default {
     detailsLink: 'group',
     hasDetailsPage: true,
     serverPaged: false,
-    properties: {
-        name: { name: 'Наименование группы', type: String, show: true, required: true },
-        educationProgramId: { name: 'Программа обучения', type: EducationProgramSelect, show: true, required: true },
-        startDate: { name: 'Дата начала', type: String, show: true, required: true },
-        endDate: { name: 'Дата окончания', type: String, show: true, required: true },
-    },
+    properties: groupsModel,
     crud: {
         useGetAllAsync,
         useGetAllPagedAsync,
@@ -35,8 +31,8 @@ export default {
         },
         {
             title: 'Программа обучения',
-            dataIndex: 'educationProgramId',
-            key: 'educationProgramId',
+            dataIndex: 'educationProgram',
+            key: 'educationProgram',
         },
         {
             title: 'Дата начала',
@@ -53,4 +49,12 @@ export default {
             key: 'nameOfGroup',
         },
     ],
+    dataConverter: (data) => {
+        return data?.map(({ educationProgramId, ...props }) => {
+            const educationProgram = (
+                <EducationProgramSelect value={educationProgramId} mode='info' />
+            );
+            return { ...props, educationProgram };
+        });
+    },
 };
