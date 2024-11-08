@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
@@ -16,118 +15,45 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   #region Поля и свойства
 
   private readonly StudentContext _ctx;
-  private IStudentRepository _studentRepository;
-  private ModelStateDictionary _modelState;
-  private IOrderRepository _orderRepository;
+  private readonly IOrderRepository _orderRepository;
 
   #endregion
 
   #region Методы
 
   /// <summary>
-  /// Валидация заявки.
-  /// </summary>
-  /// <param name="requestToValidate">Заявка.</param>
-  protected async Task<bool> ValidateRequest(Request requestToValidate)
-  {
-    if(!this._ctx.Requests.Any())
-      return this._modelState.IsValid;
-    if(await this.FindRequestByEmailFromRequestAsync(requestToValidate) is not null)
-      this._modelState.AddModelError("Заявка", "Пользователь с этим e-mail адресом уже оставил заявку на этот курс.");
-    if(await this.FindRequestByPhoneFromRequestAsync(requestToValidate) is not null)
-      this._modelState.AddModelError("Заявка", "Пользователь с этим номером телефона уже оставил заявку на этот курс.");
-
-    return this._modelState.IsValid;
-  }
-
-  /// <summary>
-  /// Создание заявки.
-  /// </summary>
-  /// <param name="item">Заявка.</param>
-  /// <returns>Заявка</returns>
-  public override async Task<Request> Create(Request item)
-  {
-    //Убираем валидацию на наличие подобной. Создаваться будет всегда, пометкой и удалением займется пользователь
-    //if (!await ValidateRequest(item)) return null;
-    var existStudent = await this._studentRepository.GetOne(s => s.Phone == item.Phone && s.Email == item.Email);
-    //Меняем GUID студента когда нашли его в базе по связке телефон и email
-    if(existStudent != null)
-      item.StudentId = existStudent.Id;
-
-    return await base.Create(item);
-  }
-
-  /// <summary>
-  /// Поиск похожих заявок по email.
-  /// </summary>
-  /// <param name="request">Заявка.</param>
-  /// <returns>Заявка</returns>
-  /// <exception cref="ArgumentNullException">Входящих параметр не должен быть пустым.</exception>
-  public async Task<Request?> FindRequestByEmailFromRequestAsync(Request request)
-  {
-    if(request == null)
-      throw new ArgumentNullException(nameof(request));
-    return await Task.FromResult(this._ctx.Requests.AsNoTracking()
-      .FirstOrDefaultAsync(x =>
-        //x.Email.ToLower().Equals(request.Email.ToLower())
-        x.Email.ToLower().Equals(request.Email.ToLower()) &&
-        x.EducationProgramId.Equals(request.EducationProgramId))).Result;
-  }
-
-  /// <summary>
-  /// Поиск похожих заявок по номеру телефона.
-  /// </summary>
-  /// <param name="request">Заявка.</param>
-  /// <returns>Заявка.</returns>
-  /// <exception cref="ArgumentNullException">Входящих параметр не должен быть пустым.</exception>
-  public async Task<Request?> FindRequestByPhoneFromRequestAsync(Request request)
-  {
-    if(request == null)
-      throw new ArgumentNullException(nameof(request));
-    var requests = this._ctx.Requests.AsNoTracking().AsAsyncEnumerable();
-    await foreach(var item in requests)
-    {
-      if(item.Phone.ToLower().Equals(request.Phone.ToLower()) &&
-          item.EducationProgramId.Equals(request.EducationProgramId))
-      {
-        return item;
-      }
-    }
-
-    return null;
-  }
-
-  /// <summary>
   /// Добавление приказа в заявку.
   /// </summary>
-  /// <param name="id">Идентификатор заявки.</param>
+  /// <param name="requestId">Идентификатор заявки.</param>
   /// <param name="order">Приказ.</param>
   /// <returns>Идентификатор заявки.</returns>
-  /// <exception cref="ArgumentNullException">Не найдена заявки с указанным идентификатором.</exception>
-  public async Task<Guid> AddOrderToRequest(Guid id, Order order)
+  public async Task<Guid?> AddOrderToRequest(Guid requestId, Order order)
   {
-    var findRequest = await this.FindById(id);
-    //var findRequest = await _ctx.Set<Request>().FindAsync(id);
-    if(findRequest == null)
-      throw new ArgumentNullException(nameof(findRequest));
+    var request = await this.FindById(requestId);
+    if(request is null)
+      return null;
 
-    order.RequestId = id;
-    var actualOrder = await this._orderRepository.Create(order);
+    order.RequestId = requestId;
+    await this._orderRepository.Create(order);
 
-    return id;
+    return requestId;
   }
 
   /// <summary>
-  /// Пагинация списка заявок.
+  /// Список заявок, в которые подавал студент.
   /// </summary>
-  /// <param name="page">Номер страницы.</param>
-  /// <param name="pageSize">Размер страницы.</param>
-  public async Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize)
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список заявок.</returns>
+  public async Task<IEnumerable<Request>?> GetListRequestsOfStudentExists(Guid studentId)
   {
-    var items = await PagedPage<Request>.ToPagedPage<string>(this._ctx.Requests, page, pageSize,
-      (x) => x.Student != null ? x.Student!.FullName : "");
+    var student = await this._ctx.FindAsync<Student>(studentId);
 
-    return items;
+    if(student is null)
+      return null;
+
+    await this._ctx.Entry(student).Collection(s => s.Requests!).LoadAsync();
+
+    return student.Requests;
   }
 
   /// <summary>
@@ -165,37 +91,35 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     return await PagedPage<RequestsDTO>.ToPagedPage<string>(query, page, pageSize, (x) => x.StudentFullName);
   }
 
-
-    /// <summary>
-    /// Поиск сущности по идентификатору.
-    /// </summary>
-    /// <param name="id">Идентификатор сущности.</param>
-    /// <returns>Сущность.</returns>
-    public override async Task<Request?> FindById(Guid id)
-    {
-        return await _ctx.Requests.AsNoTracking()
+  /// <summary>
+  /// Поиск сущности по идентификатору.
+  /// </summary>
+  /// <param name="id">Идентификатор сущности.</param>
+  /// <returns>Сущность.</returns>
+  public override async Task<Request?> FindById(Guid id)
+  {
+    return await this._ctx.Requests.AsNoTracking()
       .Include(x => x.Student)
-        .ThenInclude(y => y.TypeEducation)
+      .ThenInclude(y => y.TypeEducation)
       .Include(x => x.EducationProgram)
       .Include(x => x.Status)
       .FirstOrDefaultAsync(x => x.Id == id);
-    }
-    #endregion
+  }
 
-    #region Конструкторы
+  #endregion
 
-    /// <summary>
-    /// Конструктор.
-    /// </summary>
-    /// <param name="context">Контекст базы данных.</param>
-    /// <param name="studRep">Репозиторий студентов.</param>
-    /// <param name="orderRepository">Репозиторий приказов.</param>
-    public RequestRepository(StudentContext context, IStudentRepository studRep, IOrderRepository orderRepository) :
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="context">Контекст базы данных.</param>
+  /// <param name="studRep">Репозиторий студентов.</param>
+  /// <param name="orderRepository">Репозиторий приказов.</param>
+  public RequestRepository(StudentContext context, IStudentRepository studRep, IOrderRepository orderRepository) :
     base(context)
   {
     this._ctx = context;
-    this._studentRepository = studRep;
-    this._modelState = new ModelStateDictionary();
     this._orderRepository = orderRepository;
   }
 

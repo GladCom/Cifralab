@@ -34,7 +34,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// </summary>
   /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
   /// <returns>Список сущностей.</returns>
-  public async Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate)
+  public async Task<IEnumerable<TEntity>> Get(Predicate<TEntity> predicate)
   {
     var items = new List<TEntity>();
     await foreach(var item in this._dbSet.AsNoTracking().AsAsyncEnumerable())
@@ -51,9 +51,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// </summary>
   /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
   /// <returns>Сущность.</returns>
-  public async Task<TEntity?> GetOne(Expression<Func<TEntity, bool>> predicate)
+  public async Task<TEntity?> GetOne(Predicate<TEntity> predicate)
   {
-    return await this._dbSet.FirstOrDefaultAsync(predicate);
+    await foreach(var item in this._dbSet.AsAsyncEnumerable())
+    {
+      if(predicate(item))
+        return item;
+    }
+
+    return null;
   }
 
   /// <summary>

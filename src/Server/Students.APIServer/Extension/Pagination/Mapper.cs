@@ -4,7 +4,6 @@ using Students.Models;
 using Students.Models.Enums;
 using Students.Models.ReferenceModels;
 using Students.Models.WebModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Students.APIServer.Extension.Pagination;
 
@@ -20,23 +19,20 @@ public static class Mapper
   /// <param name="educationProgramRepository">Репозиторий образовательных программ.</param>
   /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
   /// <returns>Заявка.</returns>
-  public static Request WebhookToRequest(RequestWebhook form,
+  public static async Task<Request> WebhookToRequest(RequestWebhook form,
     IGenericRepository<EducationProgram> educationProgramRepository,
     IGenericRepository<StatusRequest> statusRequestRepository)
   {
-    var status = statusRequestRepository.Get().Result.FirstOrDefault(x => x?.Name?.ToLower() == "новая заявка");
-
     return new Request
     {
       Id = Guid.NewGuid(),
       Email = form.Email,
       Phone = form.Phone,
-      EducationProgramId = educationProgramRepository.Get().Result.FirstOrDefault(x => x.Name == form.Education)?.Id,
-      StatusRequestId = status?.Id,
+      EducationProgramId = (await educationProgramRepository.GetOne(x => x.Name == form.Education))?.Id,
+      StatusRequestId = (await statusRequestRepository.GetOne(x => x.Name == "новая заявка"))?.Id,
       Agreement = Convert.ToBoolean(Convert.ToInt32(form.Agreement))
     };
   }
-
 
   /// <summary>
   /// Преобразование вебхука (данных от минцифры) в студента. Подумать над RequestWebhook, возможно сделать 2 его варианта (второй, состоящий из слова test / test  для установки связи между минцифрой и нашим сервисом).
@@ -45,25 +41,31 @@ public static class Mapper
   /// <param name="studentRepository">Репозиторий студентов.</param>
   /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
   /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
-  /// <returns>Студент.</returns>
-  public async static Task<Student> WebhookToStudent(RequestWebhook form, IGenericRepository<Student> studentRepository,
+  public static async Task<Student> WebhookToStudent(RequestWebhook form,
     IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
   {
-    var fio = form.Name!.Split(" ");
+    var fio = form.Name.Split(" ");
     return new Student
     {
-      Address = form.Address!,
-      Family = fio!.FirstOrDefault() ?? "",
-      Name = fio!.Count() > 1 ? fio[1] : "",
-      Patron = fio!.LastOrDefault() == fio!.FirstOrDefault() ? "" : fio!.LastOrDefault(),
+      Address = form.Address,
+      Family = fio.FirstOrDefault() ?? "",
+      Name = fio.Length > 1
+        ? fio[1]
+        : "",
+      Patron = fio.LastOrDefault() == fio.FirstOrDefault()
+        ? ""
+        : fio.LastOrDefault(),
+
       BirthDate = DateOnly.Parse(form.Birthday),
-      IT_Experience = form.IT_Experience!,
-      Email = form.Email!,
-      Phone = form.Phone!,
-      Sex = SexHuman.Men,
-      TypeEducation = typeEducationRepository.Get().Result.FirstOrDefault(x => x.Name == form.EducationLevel),
-      ScopeOfActivityLevelOneId = (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelOneId!)))!.Id,
-      ScopeOfActivityLevelTwoId = (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelTwoId!)))!.Id
+      IT_Experience = form.IT_Experience,
+      Email = form.Email,
+      Phone = form.Phone,
+      TypeEducationId = (await typeEducationRepository.GetOne(x => x.Name == form.EducationLevel))?.Id,
+      ScopeOfActivityLevelOneId =
+        (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelOneId!)))!.Id,
+      ScopeOfActivityLevelTwoId =
+        (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelTwoId!)))!.Id,
+      Sex = default
       //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
       //Speciality = form.
       //Не хватает поля в вебхуке
@@ -107,7 +109,7 @@ public static class Mapper
   /// <summary>
   /// Преобразование NewRequestDTO в заявку.
   /// </summary>
-  /// <param name="form">DTO заявки.</param>
+  /// <param name="form">DTO новой заявки.</param>
   /// <param name="_statusRequestRepository">Репозиторий статусов заявок.</param>
   /// <returns>Заявка.</returns>
   public static async Task<Request> NewRequestDTOToRequest(NewRequestDTO form, IGenericRepository<StatusRequest> _statusRequestRepository)
@@ -118,8 +120,7 @@ public static class Mapper
       //StudentId = requestDTO.StudentId,
       EducationProgramId = form.educationProgramId,
       //DocumentRiseQualificationId = requestDTO.
-      StatusRequestId = (await _statusRequestRepository.Get()).FirstOrDefault(x => x.Name?.ToLower() == "новая заявка")
-        ?.Id,
+      StatusRequestId = (await _statusRequestRepository.GetOne(x => x.Name!.ToLower() == "новая заявка"))?.Id,
       StatusEntrancExams = (StatusEntrancExams)form.statusEntranceExams,
       Email = form.email,
       Phone = form.phone,
@@ -128,10 +129,9 @@ public static class Mapper
   }
 
   /// <summary>
-  /// Преобразование NewRequestDTO в заявку.
+  /// Преобразование NewRequestDTO в студента.
   /// </summary>
-  /// <param name="requestDTO">DTO заявки.</param>
-  /// <param name="_statusRequestRepository">Репозиторий статусов заявок.</param>
+  /// <param name="form">DTO новой заявки.</param>
   /// <returns>Студент.</returns>
   public static async Task<Student> NewRequestDTOToStudent(NewRequestDTO form)
   {
@@ -156,7 +156,7 @@ public static class Mapper
   /// <summary>
   /// Преобразование RequestDTO в студента.
   /// </summary>
-  /// <param name="requestDTO">DTO заявки.</param>
+  /// <param name="form">DTO заявки.</param>
   /// <returns>Студент.</returns>
   public static async Task<Student> RequestDTOToStudent(RequestsDTO form)
   {
@@ -165,7 +165,7 @@ public static class Mapper
       Family = form.family!,
       Name = form.name,
       Patron = form.patron,
-      BirthDate = (DateOnly)form!.BirthDate!,
+      BirthDate = (DateOnly)form.BirthDate!,
       Sex = default,
       Address = form.Address!,
       Phone = form.phone!,

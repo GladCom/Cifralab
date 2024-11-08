@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
-using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 
@@ -31,8 +29,16 @@ public class StudentController : GenericAPiController<Student>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
   {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
+    try
+    {
+      var items = await this._studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize);
+      return this.Ok(items);
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
   }
 
   /// <summary>
@@ -46,25 +52,12 @@ public class StudentController : GenericAPiController<Student>
     try
     {
       var form = await this._studentRepository.GetStudentWithGroupsAndRequests(studentId);
-      if(form == null)
-      {
-        return this.StatusCode(StatusCodes.Status404NotFound,
-          new DefaultResponse
-          {
-            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-          });
-      }
-
-      return this.StatusCode(StatusCodes.Status200OK, form);
+      return form is null ? this.NotFoundException() : this.Ok(form);
     }
     catch(Exception e)
     {
       this._logger.LogError(e, "Error while getting Entity by Id");
-      return this.StatusCode(StatusCodes.Status500InternalServerError,
-        new DefaultResponse
-        {
-          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-        });
+      return this.Exception();
     }
   }
 

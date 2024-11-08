@@ -69,19 +69,19 @@ public class IntegrationController : ControllerBase
   {
     try
     {
-      var request = Mapper.WebhookToRequest(form, _educationProgramRepository, _statusRequestRepository);
+      var request = await Mapper.WebhookToRequest(form, this._educationProgramRepository, this._statusRequestRepository);
 
-      var student = _studentRepository.Get().Result.FirstOrDefault(x =>
+      var student = await this._studentRepository.GetOne(x =>
         x.FullName == form.Name && x.BirthDate.ToString() == form.Birthday && x.Email == form.Email);
 
-      if (student == null)
+      if(student is null)
       {
         request.IsAlreadyStudied = false;
-        if (!_studentRepository.Get().Result.Any(x =>
-              x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email))
+        if(await this._studentRepository.GetOne(x =>
+              x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email) is null)
         {
-          student = await Mapper.WebhookToStudent(form, _studentRepository, _typeEducationRepository, _scopeOfActivityRepository);
-          student = await _studentRepository.Create(student);
+          student = await Mapper.WebhookToStudent(form, this._typeEducationRepository, this._scopeOfActivityRepository);
+          student = await this._studentRepository.Create(student);
         }
       }
       else
@@ -90,27 +90,26 @@ public class IntegrationController : ControllerBase
       }
 
       request.StudentId = student?.Id;
-      request.Student = student;
 
-      var result = await _requestRepository.Create(request);
-      return StatusCode(StatusCodes.Status200OK, form);
+      await this._requestRepository.Create(request);
+      return this.Ok(form);
     }
-    catch (ValidationException e)
+    catch(ValidationException e)
     {
-      _logger.LogError(e, "Error while creating new Entity");
-      return BadRequest(
+      this._logger.LogError(e, "Error while creating new Entity");
+      return this.BadRequest(
         new DefaultResponse
         {
-          RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
         });
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      _logger.LogError(e, "Error while creating new Entity");
-      return StatusCode(StatusCodes.Status500InternalServerError,
+      this._logger.LogError(e, "Error while creating new Entity");
+      return this.StatusCode(StatusCodes.Status500InternalServerError,
         new DefaultResponse
         {
-          RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
         });
     }
   }
@@ -134,13 +133,13 @@ public class IntegrationController : ControllerBase
     IGenericRepository<StatusRequest> statusRequestRepository,
     IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
   {
-    _logger = logger;
-    _requestRepository = requestRepository;
-    _studentRepository = studentRepository;
-    _educationProgramRepository = educationProgramRepository;
-    _statusRequestRepository = statusRequestRepository;
-    _typeEducationRepository = typeEducationRepository;
-    _scopeOfActivityRepository = scopeOfActivityRepository;
+    this._logger = logger;
+    this._requestRepository = requestRepository;
+    this._studentRepository = studentRepository;
+    this._educationProgramRepository = educationProgramRepository;
+    this._statusRequestRepository = statusRequestRepository;
+    this._typeEducationRepository = typeEducationRepository;
+    this._scopeOfActivityRepository = scopeOfActivityRepository;
   }
 
   #endregion
