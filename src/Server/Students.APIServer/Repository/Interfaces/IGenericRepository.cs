@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Students.APIServer.Repository.Interfaces;
+﻿namespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
 /// Интерфейс generic репозитория.
@@ -33,14 +31,14 @@ public interface IGenericRepository<TEntity> where TEntity : class
   /// </summary>
   /// <param name="predicate">Условие.</param>
   /// <returns>Список объектов, с указанным условием.</returns>
-  Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate);
+  Task<IEnumerable<TEntity>> Get(Predicate<TEntity> predicate);
 
   /// <summary>
   /// Получение подходящей сущности.
   /// </summary>
   /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
   /// <returns>Сущность.</returns>
-  Task<TEntity?> GetOne(Expression<Func<TEntity, bool>> predicate);
+  Task<TEntity?> GetOne(Predicate<TEntity> predicate);
 
   /// <summary>
   /// Удаление объекта.

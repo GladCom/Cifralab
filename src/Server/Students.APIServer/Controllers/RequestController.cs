@@ -1,12 +1,10 @@
-﻿using System.Diagnostics;
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using Students.Models.ReferenceModels;
-using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 
@@ -39,27 +37,19 @@ public class RequestController : GenericAPiController<Request>
     try
     {
       var form = await this._requestRepository.FindById(id);
-      if (form == null)
+      if(form is null)
       {
-        return this.StatusCode(StatusCodes.Status404NotFound,
-          new DefaultResponse
-          {
-            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-          });
+        return this.NotFoundException();
       }
 
       var requestsDTO = await Mapper.RequestToRequestDTO(form);
 
-      return this.StatusCode(StatusCodes.Status200OK, requestsDTO);
+      return this.Ok(requestsDTO);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       this._logger.LogError(e, "Error while getting Entity by Id");
-      return this.StatusCode(StatusCodes.Status500InternalServerError,
-        new DefaultResponse
-        {
-          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-        });
+      return this.Exception();
     }
   }
 
@@ -81,11 +71,11 @@ public class RequestController : GenericAPiController<Request>
       var student = await this._studentRepository.GetOne(x =>
         x.Name == form.name && x.Family == form.family && x.Patron == form.patron && x.BirthDate == date && x.Email == form.email);
 
-      if (student == null)
+      if(student is null)
       {
         request.IsAlreadyStudied = false;
-        if (!this._studentRepository.Get().Result.Any(x =>
-              x.FullName == fio || x.BirthDate == date || x.Email == form.email))
+        if(await this._studentRepository.GetOne(x =>
+             x.FullName == fio || x.BirthDate == date || x.Email == form.email) is null)
         {
           student = await Mapper.NewRequestDTOToStudent(form);
           student = await this._studentRepository.Create(student);
@@ -99,25 +89,12 @@ public class RequestController : GenericAPiController<Request>
       request.StudentId = student?.Id;
 
       var result = await this._requestRepository.Create(request);
-      if (result is null)
-      {
-        return this.StatusCode(StatusCodes.Status404NotFound,
-          new DefaultResponse
-          {
-            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-          });
-      }
-
-      return this.StatusCode(StatusCodes.Status200OK, result);
+      return this.Ok(result);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entity by Id");
-      return this.StatusCode(StatusCodes.Status500InternalServerError,
-        new DefaultResponse
-        {
-          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-        });
+      this._logger.LogError(e, "Error while creating Entity");
+      return this.Exception();
     }
   }
 
@@ -135,18 +112,18 @@ public class RequestController : GenericAPiController<Request>
     {
       var resultOld = await this._requestRepository.FindById(id);
 
-      if (resultOld is null)
+      if(resultOld is null)
       {
-        throw new Exception($"{id} Такой заявки нет");
+        return this.NotFoundException();
       }
 
       Student? student;
 
       //Если студент уже привязан, то меняем его реквизиты, но если он совпадет по трем полям с уже существующим, то пусть идут в топку
-      if (form.StudentId is not null)
+      if(form.StudentId is not null)
       {
         student = await this._studentRepository.FindById(form.StudentId.Value);
-        if (student is not null)
+        if(student is not null)
         {
           var tempNewStudent = await this._studentRepository.GetOne(x => x.Phone == form.phone &&
                                                                          x.Email == form.Email &&
@@ -154,7 +131,7 @@ public class RequestController : GenericAPiController<Request>
                                                                          x.Name == form.name! &&
                                                                          x.Patron == form.patron!);
 
-          if (tempNewStudent is not null && student.Id != tempNewStudent.Id)
+          if(tempNewStudent is not null && student.Id != tempNewStudent.Id)
           {
             //throw new Exception("Попытка задублировать студентов");
             student = tempNewStudent;
@@ -189,7 +166,7 @@ public class RequestController : GenericAPiController<Request>
                                                             x.Name == form.name! &&
                                                             x.Patron == form.patron!);
 
-        if (student is null)
+        if(student is null)
         {
           student = await Mapper.RequestDTOToStudent(form);
 
@@ -205,26 +182,14 @@ public class RequestController : GenericAPiController<Request>
       resultOld.Agreement = form.agreement;
       resultOld.EducationProgramId = form.EducationProgramId;
 
-      var result = await this._requestRepository.Update(id, resultOld);
-      if (result == null)
-      {
-        return this.StatusCode(StatusCodes.Status404NotFound,
-          new DefaultResponse
-          {
-            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-          });
-      }
+      await this._requestRepository.Update(id, resultOld);
 
-      return this.StatusCode(StatusCodes.Status200OK, form);
+      return this.Ok(form);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
       this._logger.LogError(e, "Error while updating Entity");
-      return this.StatusCode(StatusCodes.Status500InternalServerError,
-        new DefaultResponse
-        {
-          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-        });
+      return this.Exception();
     }
   }
 
@@ -237,7 +202,7 @@ public class RequestController : GenericAPiController<Request>
   {
     try
     {
-      if (request.StudentId is not null)
+      if(request.StudentId is not null)
       {
         var existingStudentRequests =
           await this._requestRepository.Get(r => r.StudentId == request.StudentId);
@@ -245,39 +210,35 @@ public class RequestController : GenericAPiController<Request>
       }
 
       var form = await this._requestRepository.Create(request);
-      if (form is null)
-      {
-        return this.StatusCode(StatusCodes.Status404NotFound,
-          new DefaultResponse
-          {
-            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-          });
-      }
 
-      return this.StatusCode(StatusCodes.Status200OK, form);
+      return this.Ok(form);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entity by Id");
-      return this.StatusCode(StatusCodes.Status500InternalServerError,
-        new DefaultResponse
-        {
-          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-        });
+      this._logger.LogError(e, "Error while creating Entity");
+      return this.Exception();
     }
   }
 
   /// <summary>
   /// Добавление приказа.
   /// </summary>
-  /// <param name="id">Идентификатор заявки.</param>
+  /// <param name="requestId">Идентификатор заявки.</param>
   /// <param name="order">Приказ.</param>
   /// <returns>Состояние запроса.</returns>
   [HttpPost("AddOrderToRequest")]
-  public async Task<ActionResult> AddOrderToRequest(Guid id, Order order)
+  public async Task<IActionResult> AddOrderToRequest(Guid requestId, [FromBody] Order order)
   {
-    await this._requestRepository.AddOrderToRequest(id, order);
-    return this.StatusCode(StatusCodes.Status200OK);
+    try
+    {
+      var request = await this._requestRepository.AddOrderToRequest(requestId, order);
+      return request is null ? this.NotFoundException() : this.Ok();
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while creating Entity");
+      return this.Exception();
+    }
   }
 
   /// <summary>
@@ -288,22 +249,17 @@ public class RequestController : GenericAPiController<Request>
   [HttpGet("GetListRequestsOfStudentExists")]
   public async Task<IActionResult> GetListRequestsOfStudentExists(Guid studentId)
   {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._requestRepository.Get(r => r.StudentId == studentId));
+    try
+    {
+      var requests = await this._requestRepository.GetListRequestsOfStudentExists(studentId);
+      return requests is null ? this.NotFoundException() : this.Ok(requests);
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
   }
-
-  /*
-  /// <summary>
-  /// Список заявок с разделением по страницам
-  /// </summary>
-  /// <returns>Состояние запроса + список заявок с разделением по страницам </returns>
-  [HttpGet("paged")]
-  public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
-  {
-      var items = await _requestRepository.GetRequestsByPage(pageable.PageNumber, pageable.PageSize);
-      return StatusCode(StatusCodes.Status200OK, items);
-  }
-  */
 
   /// <summary>
   /// Список заявок с разделением по страницам.
@@ -312,8 +268,16 @@ public class RequestController : GenericAPiController<Request>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPagedDTO([FromQuery] Pageable pageable)
   {
-    var items = await this._requestRepository.GetRequestsDTOByPage(pageable.PageNumber, pageable.PageSize);
-    return this.StatusCode(StatusCodes.Status200OK, items);
+    try
+    {
+      var items = await this._requestRepository.GetRequestsDTOByPage(pageable.PageNumber, pageable.PageSize);
+      return this.Ok(items);
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
   }
 
   #endregion

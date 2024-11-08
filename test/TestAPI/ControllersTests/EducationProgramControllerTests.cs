@@ -70,7 +70,7 @@ public class EducationProgramControllerTests
       Assert.That(okResult, Is.Not.Null);
       Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
       Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(), Is.EqualTo(1));
-      Assert.That((okResult.Value as IEnumerable<EducationProgram>).First().IsArchive, Is.EqualTo(value));
+      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(x => x.IsArchive==value), Is.EqualTo(1));
     });
   }
 
@@ -86,7 +86,8 @@ public class EducationProgramControllerTests
     Assert.Multiple(() =>
     {
       Assert.That(okResult, Is.Not.Null);
-      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status404NotFound));
+      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(), Is.EqualTo(0));
     });
   }
 

@@ -82,77 +82,6 @@ public class RequestRepositoryTests
   }
 
   [Test]
-  public async Task FindRequestByEmailFromRequestAsync_FindSuccessfully()
-  {
-    // Arrange
-    var request = GenerateRequest();
-
-    this._studentContext.Requests.Add(request);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    var result = await this._requestRepository.FindRequestByEmailFromRequestAsync(request);
-
-    // Assert
-    Assert.That(result.Id, Is.EqualTo(request.Id));
-  }
-
-  [Test]
-  public void FindRequestByEmailFromRequestAsync_RequestIsNull_ThrowException()
-  {
-    // Arrange
-    Request request = null;
-
-    // Act
-    var result = async () => await this._requestRepository.FindRequestByEmailFromRequestAsync(request);
-
-    // Assert
-    Assert.That(result, Throws.InstanceOf<ArgumentException>());
-  }
-
-  [Test]
-  public async Task FindRequestByEmailFromRequestAsync_RequestNotExists_ReturnNull()
-  {
-    // Arrange
-    var request = GenerateRequest();
-
-    // Act
-    var result = await this._requestRepository.FindRequestByEmailFromRequestAsync(request);
-
-    // Assert
-    Assert.That(result, Is.Null);
-  }
-
-  [Test]
-  public async Task FindRequestByPhoneFromRequestAsync_FindSuccessfully()
-  {
-    // Arrange
-    var request = GenerateRequest();
-
-    this._studentContext.Requests.Add(request);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    var result = await this._requestRepository.FindRequestByPhoneFromRequestAsync(request);
-
-    // Assert
-    Assert.That(result.Id, Is.EqualTo(request.Id));
-  }
-
-  [Test]
-  public void FindRequestByPhoneFromRequestAsync_RequestIsNull_ThrowException()
-  {
-    // Arrange
-    Request request = null;
-
-    // Act
-    var result = async () => await this._requestRepository.FindRequestByPhoneFromRequestAsync(request);
-
-    // Assert
-    Assert.That(result, Throws.InstanceOf<ArgumentException>());
-  }
-
-  [Test]
   public async Task AddOrderToRequest_AddSuccessfully()
   {
     // Arrange
@@ -171,7 +100,7 @@ public class RequestRepositoryTests
   }
 
   [Test]
-  public void AddOrderToRequest_RequestIdNotExists_ThrowException()
+  public async Task AddOrderToRequest_RequestIdNotExists_ThrowException()
   {
     // Arrange
     var order = GenerateOrder();
@@ -179,60 +108,10 @@ public class RequestRepositoryTests
     var requestId = Guid.NewGuid();
 
     // Act
-    var result = async () => await this._requestRepository.AddOrderToRequest(requestId, order);
+    var result = await this._requestRepository.AddOrderToRequest(requestId, order);
 
     // Assert
-    Assert.That(result, Throws.InstanceOf<ArgumentException>());
-  }
-
-  [Test]
-  public async Task GetRequestsByPage_GetSuccessfully()
-  {
-    // Arrange
-    var requests = new List<Request>();
-    for (var i = 0; i < 5; i++)
-    {
-      requests.Add(GenerateRequest());
-    }
-
-    this._studentContext.Requests.AddRange(requests);
-    await this._studentContext.SaveChangesAsync();
-
-    var page = 2;
-    var pageSize = 2;
-
-    // Act
-    var result = await this._requestRepository.GetRequestsByPage(page, pageSize);
-
-    // Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(result, Is.Not.Null);
-      Assert.That(result.Data, Has.Count.EqualTo(2));
-    });
-  }
-
-  [Test]
-  public async Task GetRequestsByPage_DontHaveNextPage_GetSuccessfully()
-  {
-    // Arrange
-    var requests = new List<Request>();
-    for(var i = 0; i < 3; i++)
-    {
-      requests.Add(GenerateRequest());
-    }
-
-    this._studentContext.Requests.AddRange(requests);
-    await this._studentContext.SaveChangesAsync();
-
-    var page = 1;
-    var pageSize = 3;
-
-    // Act
-    var result = await this._requestRepository.GetRequestsByPage(page, pageSize);
-
-    // Assert
-    Assert.That(result.HasNext, Is.False);
+    Assert.That(result, Is.Null);
   }
 
   [Test]

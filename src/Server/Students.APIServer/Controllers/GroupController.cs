@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
-using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 
@@ -40,7 +38,8 @@ public class GroupController : GenericAPiController<Group>
     }
     catch(Exception e)
     {
-      return this.Exception(e);
+      this._logger.LogError(e, "Error while creating Entity");
+      return this.Exception();
     }
   }
 
@@ -59,35 +58,9 @@ public class GroupController : GenericAPiController<Group>
     }
     catch(Exception e)
     {
-      return this.Exception(e);
+      this._logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
     }
-  }
-
-  /// <summary>
-  /// Обработка исключения.
-  /// </summary>
-  /// <param name="e">Исключение.</param>
-  /// <returns>Ответ с кодом.</returns>
-  private IActionResult Exception(Exception e)
-  {
-    this._logger.LogError(e, "Error while getting Entity by Id");
-    return this.StatusCode(StatusCodes.Status500InternalServerError,
-      new DefaultResponse
-      {
-        RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-      });
-  }
-
-  /// <summary>
-  /// Обработка исключения.
-  /// </summary>
-  /// <returns>Ответ с кодом.</returns>
-  private IActionResult NotFoundException()
-  {
-    return this.NotFound(new DefaultResponse
-    {
-      RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-    });
   }
 
   #endregion
