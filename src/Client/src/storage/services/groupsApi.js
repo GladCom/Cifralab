@@ -18,17 +18,17 @@ export const groupsApi = createApi({
       invalidatesTags: ['Groups'],
     }),
     addGroup: builder.mutation({
-      query: (student) => ({
+      query: (item) => ({
         method: 'POST',
-        body: student,
+        body: item,
       }),
       invalidatesTags: ['Groups'],
     }),
     editGroup: builder.mutation({
-      query: ({ id, student }) => ({
+      query: ({ id, item }) => ({
         url: id,
         method: 'PUT',
-        body: student,
+        body: item,
       }),
       invalidatesTags: ['Groups'],
     }),

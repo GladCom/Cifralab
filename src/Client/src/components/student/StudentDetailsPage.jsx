@@ -9,6 +9,8 @@ const StudentDetailsPage = () => {
     const [studentData, setStudentData] = useState({});
     const [initialData, setInitialData] = useState({});
     const [isChanged, setIsChanged] = useState(false);
+    const [isSaveInProgress, setIsSaveInProgress] = useState(false);
+
     const { properties, crud } = config;
     const { useGetOneByIdAsync, useEditOneAsync } = crud;
     const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
@@ -22,7 +24,7 @@ const StudentDetailsPage = () => {
         setStudentData(newData);
         setInitialData(newData);
       }
-    }, [isLoading, isFetching]);
+    }, [isLoading, isFetching,data]);
 
     let blocker = useBlocker(
         ({ currentLocation, nextLocation }) =>
@@ -30,9 +32,18 @@ const StudentDetailsPage = () => {
             currentLocation.pathname !== nextLocation.pathname
     );
 
-    const onSave = useCallback(() => {
-        editStudent({ id, item: studentData });
-    },[id,studentData]);
+    const onSave = useCallback(async () => {
+        setIsSaveInProgress(true); 
+        try {
+            await editStudent({ id, item: studentData }).unwrap();
+            setInitialData(studentData); 
+            setIsChanged(false)
+        } catch (error) {
+            console.error("Ошибка сохранения данных:", error);
+        } finally {
+            setIsSaveInProgress(false); 
+        }
+    }, [id, studentData]);
 
        
     const onCancel = useCallback(() => {
@@ -57,7 +68,7 @@ const StudentDetailsPage = () => {
                     <Button onClick={onSave} style={{ marginRight: '10px' }}>Сохранить</Button>
                 </Col>
                 <Col>
-                    <Button onClick={onCancel}>Отмена</Button>
+                    <Button onClick={onCancel} disabled={isSaveInProgress}>Отмена</Button>
                 </Col>
             </Row>
             <RoutingWarningModal
