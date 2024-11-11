@@ -63,32 +63,16 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <param name="pageSize">Размер страницы.</param>
   public async Task<PagedPage<RequestsDTO>> GetRequestsDTOByPage(int page, int pageSize)
   {
-    var query = from r in this._ctx.Requests
-                join s in this._ctx.Students on r.StudentId equals s.Id into s_jointable
-                from s1 in s_jointable.DefaultIfEmpty()
-                join e in this._ctx.EducationPrograms on r.EducationProgramId equals e.Id into e_jointable
-                from e1 in e_jointable.DefaultIfEmpty()
-                join te in this._ctx.TypeEducation on s1.TypeEducationId equals te.Id into te_jointable
-                from te1 in te_jointable.DefaultIfEmpty()
-                join sr in this._ctx.StatusRequests on r.StatusRequestId equals sr.Id into sr_jointable
-                from sr1 in sr_jointable.DefaultIfEmpty()
-                select new RequestsDTO()
-                {
-                  Id = r.Id,
-                  StudentId = r.Id,
-                  StudentFullName = s1 != null ? s1.FullName : "",
-                  BirthDate = s1 != null ? s1.BirthDate : null,
-                  Address = s1 != null ? s1!.Address : null,
-                  TypeEducation = te1 != null ? te1!.Name : null,
-                  TypeEducationId = te1 != null ? te1!.Id : null,
-                  Email = s1 != null ? s1!.Email : null,
-                  EducationProgramId = r.EducationProgramId,
-                  EducationProgram = e1 != null ? e1.Name : null,
-                  StatusRequestId = r.StatusRequestId,
-                  StatusRequest = sr1 != null ? sr1.Name : null
-                };
+    var query = this._ctx.Requests.AsNoTracking()
+      .Include(s => s.Student)
+        .ThenInclude(te => te.TypeEducation)
+      .Include(ep => ep.EducationProgram)
+      .Include(st => st.Status)
+      .Include(o => o.Orders)
+        .ThenInclude(ko => ko.KindOrder)
+       .Select(x => Mapper.RequestToRequestDTO(x).Result);
 
-    return await PagedPage<RequestsDTO>.ToPagedPage<string>(query, page, pageSize, (x) => x.StudentFullName);
+    return await PagedPage<RequestsDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentFullName);
   }
 
   /// <summary>

@@ -141,7 +141,7 @@ public class RequestController : GenericAPiController<Request>
           student.Name = form.name;
           student.Patron = form.patron;
           student.BirthDate = (DateOnly)form.BirthDate!;
-          student.Sex = default;
+          student.Sex = student.Sex;
           student.Address = form.Address!;
           student.Phone = form.phone ?? "";
           student.Email = form.Email ?? "";
@@ -149,10 +149,12 @@ public class RequestController : GenericAPiController<Request>
           student.IT_Experience = form.IT_Experience!;
           student.TypeEducationId = form.TypeEducationId;
           //Ебать-кололить, нет этого в мокапе, и не нужно было бы, коли выбор был бы из списка, короче этот метод нужно переделывать
-          student.ScopeOfActivityLevelOneId = student.ScopeOfActivityLevelOneId != Guid.Empty
-            ? student.ScopeOfActivityLevelOneId
+          student.ScopeOfActivityLevelOneId = form.ScopeOfActivityLevelOneId != null && (Guid)form.ScopeOfActivityLevelOneId! != Guid.Empty
+            ? (Guid)form.ScopeOfActivityLevelOneId
             : Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
+          student.ScopeOfActivityLevelTwoId = form.ScopeOfActivityLevelTwoId;
           student.Speciality = form.speciality;
+
 
           resultOld.StudentId = student.Id;
           await this._studentRepository.Update(student.Id, student);
@@ -183,6 +185,8 @@ public class RequestController : GenericAPiController<Request>
       resultOld.EducationProgramId = form.EducationProgramId;
 
       await this._requestRepository.Update(id, resultOld);
+
+      //var result = await this.Get(id);
 
       return this.Ok(form);
     }

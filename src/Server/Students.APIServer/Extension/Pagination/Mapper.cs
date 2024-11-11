@@ -83,6 +83,8 @@ public static class Mapper
   {
     return new RequestsDTO
     {
+      Id = form.Id,
+      StudentId = form.Student?.Id,
       StudentFullName = form.Student?.FullName ?? "",
       family = form.Student?.Family,
       name = form.Student?.Name,
@@ -102,7 +104,39 @@ public static class Mapper
       Address = form.Student?.Address,
       phone = form.Student?.Phone,
       Email = form.Student?.Email,
-      agreement = form.Agreement
+      ScopeOfActivityLevelOneId = form.Student?.ScopeOfActivityLevelOneId,
+      ScopeOfActivityLevelTwoId = form.Student?.ScopeOfActivityLevelTwoId,
+      agreement = form.Agreement,
+      trained = form.Orders != null && form.Orders!.Any(x => x.KindOrder!.Name!.ToLower() == "О зачислении")
+    };
+  }
+
+  /// <summary>
+  /// Преобразование Student в DTO.
+  /// </summary>
+  /// <param name="student">Студент.</param>
+  /// <returns>DTO студента.</returns>
+  public static async Task<StudentDTO> StudentToStudentDTO(Student student)
+  {
+    var groupStudent = student.GroupStudent?.FirstOrDefault();
+    return new StudentDTO
+    {
+      Id = student.Id,
+      StudentFamily = student.Family,
+      StudentName = student.Name,
+      StudentPatron = student.Patron,
+      StudentFullName = student.FullName,
+      BirthDate = student.BirthDate,
+      Address = student.Address,
+      RequestId = groupStudent?.Request?.Id,
+      StatusRequestId = groupStudent?.Request?.StatusRequestId,
+      StatusRequestName = groupStudent?.Request?.Status?.Name,
+      EducationProgramId = groupStudent?.Group?.EducationProgramId,
+      ProgramName = groupStudent?.Group?.EducationProgram?.Name,
+      GroupId = groupStudent?.Group?.Id,
+      GroupName = groupStudent?.Group?.Name,
+      GroupStartDate = groupStudent?.Group?.StartDate,
+      GroupEndDate = groupStudent?.Group?.EndDate
     };
   }
 
@@ -121,7 +155,7 @@ public static class Mapper
       EducationProgramId = form.educationProgramId,
       //DocumentRiseQualificationId = requestDTO.
       StatusRequestId = (await _statusRequestRepository.GetOne(x => x.Name!.ToLower() == "новая заявка"))?.Id,
-      StatusEntrancExams = (StatusEntrancExams)form.statusEntranceExams,
+      StatusEntrancExams = (StatusEntrancExams)form.statusEntrancExams,
       Email = form.email,
       Phone = form.phone,
       Agreement = form.agreement

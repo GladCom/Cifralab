@@ -1,9 +1,10 @@
 import String from '../../components/shared/business/String.jsx';
 import YesNoSelect from '../../components/shared/business/YesNoSelect.jsx';
-import FEAProgramSelect from '../../components/shared/business/selects/FEAProgramSelect.jsx'
-import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect.jsx'
-import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/KindDocumentRiseQualificationSelect.jsx'
-import FinancingTypeSelect from '../../components/shared/business/selects/FinancingTypeSelect.jsx'
+import FEAProgramSelect from '../../components/shared/business/selects/FEAProgramSelect.jsx';
+import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect.jsx';
+import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/KindDocumentRiseQualificationSelect.jsx';
+import FinancingTypeSelect from '../../components/shared/business/selects/FinancingTypeSelect.jsx';
+import HoursCount from '../../components/shared/business/validation/HoursCount.jsx';
 
 const model = {
     name: { name: 'Программа обучения', type: String, show: true, required: true },

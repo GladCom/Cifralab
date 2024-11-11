@@ -98,7 +98,7 @@ const defaultRenderMode = {
     edit: Edit,
 };
 
-const StatusEntranceExamsSelect = ({ mode, value, setValue, formParams, renderMode }) => {
+const StatusEntrancExamsSelect = ({ mode, value, setValue, formParams, renderMode }) => {
     const compRenderMode = { ...defaultRenderMode, ...renderMode };
     const [compMode, setCompMode] = useState(mode);
     const [changed, setChanged] = useState(false);
@@ -121,4 +121,4 @@ const StatusEntranceExamsSelect = ({ mode, value, setValue, formParams, renderMo
     );
 };
 
-export default StatusEntranceExamsSelect;
+export default StatusEntrancExamsSelect;

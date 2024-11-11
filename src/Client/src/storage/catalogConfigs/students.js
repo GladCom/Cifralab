@@ -7,6 +7,7 @@ import {
     useRemoveOneAsync,
 } from '../crud/studentsCrud.js';
 import { studentsModel } from '../models/index.js';
+import BirthDate from '../../components/shared/business/BirthDate.jsx';
 
 export default {
     detailsLink: 'student',
@@ -24,12 +25,12 @@ export default {
     columns: [
         {
             title: 'Ф.И.О. обучающегося',
-            dataIndex: 'fullName',
+            dataIndex: 'studentFullName',
             key: 'fullName',
         },
         {
             title: 'Дата рождения',
-            dataIndex: 'birthDate',
+            dataIndex: 'birthDate1',
             key: 'birthDate',
         },
         {
@@ -39,24 +40,31 @@ export default {
         },
         {
             title: 'Программа обучения',
-            dataIndex: 'groups[0].educationProgramId',
-            key: 'educationProgram',
+            dataIndex: 'programName',
+            key: 'programName',
         },
         {
             title: 'Группа',
-            dataIndex: 'groups[0].name',
-            key: 'nameOfGroup',
+            dataIndex: 'groupName',
+            key: 'groupName',
         },
         {
             title: 'Год обучения',
-            dataIndex: 'groups[0].endDate',
-            key: 'yaerOfEducation',
+            dataIndex: 'groupEndDate',
+            key: 'groupEndDate',
         },
         {
             title: 'Статус заявки',
-            dataIndex: 'requests[0].statusRequestId',
-            key: 'statusReques',
+            dataIndex: 'statusRequestName',
+            key: 'statusRequestName',
         },
     ],
-    dataConverter: (data) => data,
+    dataConverter: (data) => {
+        return data?.map(({ birthDate, ...props }) => {
+            const birthDate1 = (
+                <BirthDate value={birthDate} mode='info' />
+            );
+            return { ...props, birthDate1 };
+        });
+    },
 };

@@ -1,4 +1,5 @@
-﻿using Students.APIServer.Extension.Pagination;
+﻿using Students.APIServer.DTO;
+using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
 namespace Students.APIServer.Repository.Interfaces;
@@ -14,7 +15,7 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// <param name="page">Номер страницы.</param>
   /// <param name="pageSize">Размер страницы.</param>
   /// <returns>Список студентов с пагинацией.</returns>
-  Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize);
+  Task<PagedPage<StudentDTO>> GetStudentsByPage(int page, int pageSize);
 
   /// <summary>
   /// Поиск студента (с подгрузкой данных о группах и заявках) по идентификатору.

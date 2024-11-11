@@ -42,4 +42,4 @@ const HoursCount = ({ value, setValue, mode = MODES.EDITABLE_INFO }) => (
     />
 );
 
-export default HoursInput;
+export default HoursCount;

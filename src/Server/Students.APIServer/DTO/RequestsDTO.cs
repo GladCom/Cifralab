@@ -74,7 +74,11 @@ public class NewRequestDTO
   /// <summary>
   /// Статус сзади вступительного экзамена.
   /// </summary>
-  public required int statusEntranceExams { get; set; }
+  public required int statusEntrancExams { get; set; }
+  /// <summary>
+  /// Обучающийся
+  /// </summary>
+  public bool? trained { get; set; } = false;
 }
 
 /// <summary>
@@ -158,7 +162,6 @@ public class RequestsDTO
   /// Идентификатор статуса студента.
   /// </summary>
   public Guid? StatusRequestId { get; set; }
-
   /// <summary>
   /// Опыт в ИТ.
   /// </summary>
@@ -183,7 +186,7 @@ public class RequestsDTO
   /// <summary>
   /// Ид сферы деятельности 1 уровень.
   /// </summary>
-  public Guid ScopeOfActivityLevelOneId { get; set; }
+  public Guid? ScopeOfActivityLevelOneId { get; set; }
   /// <summary>
   /// Ид сферы деятельности 2 уровень.
   /// </summary>
@@ -196,4 +199,8 @@ public class RequestsDTO
   /// Возраст
   /// </summary>
   public int? Age { get; set; }
+  /// <summary>
+  /// Обучающийся
+  /// </summary>
+  public bool? trained { get; set; } = false;
 }
