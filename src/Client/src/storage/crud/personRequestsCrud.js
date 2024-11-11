@@ -9,7 +9,29 @@ import {
     useRemovePersonRequestMutation,
 } from '../services/requestsApi.js';
 
+const useGetAllAsync = () => {
+    const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetPersonRequestsQuery();
   
+  
+    return { data, isError, isSuccess, error, isLoading, isFetching, refetch };
+};  
+
+const useGetAllPagedAsync = ({ pageNumber, pageSize, filterDataReq: queryString }) => {
+    const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetPersonRequestsPagedQuery({ pageNumber, pageSize, filterDataReq: queryString });
+  
+  
+    return { data, isError, isSuccess, error, isLoading, isFetching, refetch };
+};
+  
+const useRemoveOneAsync = () => {
+    const [removeItem, removingResult] = useRemovePersonRequestMutation();
+    const { data, error, isUninitialized, isLoading, isSuccess, isError, reset } = removingResult;
+  
+  
+  
+    return [removeItem, removingResult];
+};
+
 const useEditOneAsync = () => {
     const [editItem, editingResult] = useEditPersonRequestMutation();
     const { data, error, isUninitialized, isLoading, isSuccess, isError, reset } = editingResult;

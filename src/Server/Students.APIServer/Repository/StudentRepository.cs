@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
+using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
@@ -26,9 +28,18 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <param name="page">Номер страницы.</param>
   /// <param name="pageSize">Размер страницы.</param>
   /// <returns>Список студентов с пагинацией.</returns>
-  public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
+  public async Task<PagedPage<StudentDTO>> GetStudentsByPage(int page, int pageSize)
   {
-    return await PagedPage<Student>.ToPagedPage(this._ctx.Students.Include(e=>e.Groups).Include(e=>e.Requests), page, pageSize, x => x.Family);
+    var query = this._ctx.Students
+      .Include(gs => gs.GroupStudent!)
+        .ThenInclude(r => r.Request!)
+          .ThenInclude(st => st.Status)
+      .Include(gs1 => gs1.GroupStudent!)
+        .ThenInclude(g => g.Group!)
+          .ThenInclude(e => e.EducationProgram)
+      .Include(te => te.TypeEducation!).Select(x => Mapper.StudentToStudentDTO(x).Result);
+
+    return await PagedPage<StudentDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentFamily);
   }
 
   /// <summary>

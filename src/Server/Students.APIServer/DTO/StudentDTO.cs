@@ -10,7 +10,7 @@ namespace Students.APIServer.DTO
     /// <summary>
     /// Id студента
     /// </summary>
-    public Guid StudentId { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// Фамилия

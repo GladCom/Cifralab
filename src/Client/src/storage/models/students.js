@@ -6,6 +6,8 @@ import Address from '../../components/shared/business/Address.jsx';
 import EducationType from '../../components/shared/business/selects/EducationTypeSelect.jsx'
 import YesNoSelect from '../../components/shared/business/YesNoSelect.jsx';
 import BirthDate from '../../components/shared/business/BirthDate.jsx';
+import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
+import PhoneNumber from '../../components/shared/business/validation/PhoneNumber.jsx';
 
 const model = {
     family: { 
@@ -38,7 +40,7 @@ const model = {
     },
     phone: { 
         name: 'Телефон', 
-        type: String, 
+        type: PhoneNumber, 
     },
     email: { 
         name: 'E-mail', 
@@ -60,13 +62,13 @@ const model = {
         name: 'Специальность', 
         type: String,
     },
-    scopeOfActivityLevelOne: {
+    scopeOfActivityLevelOneId: {
         name: 'Сфера деятельности ур.1', 
-        type: String,
+        type: ScopeOfActivitySelect,
     },
-    scopeOfActivityLevelTwo: {
+    scopeOfActivityLevelTwoId: {
         name: 'Сфера деятельности ур.2', 
-        type: String,
+        type: ScopeOfActivitySelect,
     },
     fullNameDocument: {
         name: 'Фамилия в дипломе о ВО/СПО', 

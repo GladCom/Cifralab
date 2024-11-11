@@ -70,7 +70,7 @@ const rules = [
 ];
 
 const formParams = {
-    key: 'date',
+    key: 'birthDate',
     name: 'Введите дату',
     normalize: (value) => value,
     rules,
