@@ -208,91 +208,106 @@ public sealed class InMemoryContext : StudentContext
         {
           Id = new Guid("38BD0222-68EC-4C0C-8F47-6E0FC6C9535D"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители предприятий и организаций"
+          NameOfScope = "Руководители предприятий и организаций",
+          ScopeOfActivityParentId = new Guid("6C3776FC-F3AC-4F4A-92D5-1E94A5596F6A")
         },
         new ScopeOfActivity
         {
           Id = new Guid("14A416A5-6C4B-42EC-B256-93F7238F56E3"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители дошкольных образовательных организаций"
+          NameOfScope = "Руководители дошкольных образовательных организаций",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("ECF6A4DA-0136-4897-8559-4DF47BAF2E79"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители общеобразовательных организаций"
+          NameOfScope = "Руководители общеобразовательных организаций",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("E9D4ADE5-B78D-4CAC-B8CC-80EE1989C8FF"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители профессиональных образовательных организаций"
+          NameOfScope = "Руководители профессиональных образовательных организаций",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("508E21B1-99BE-48A6-BA6C-9F4F800EDC40"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители образовательных организаций ВО"
+          NameOfScope = "Руководители образовательных организаций ВО",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("C56BFF2C-CF4A-4133-8EB9-D06043AF561F"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители организаций ДПО"
+          NameOfScope = "Руководители организаций ДПО",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("CA4DC6F3-34D4-41EA-A9B4-D890C31754DC"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители организаций дополнительного образования"
+          NameOfScope = "Руководители организаций дополнительного образования",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("6C1AC0BF-366B-4F03-9829-646BB8C24911"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Педагогические работники дошкольных образовательных организаций"
+          NameOfScope = "Педагогические работники дошкольных образовательных организаций",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("C8F559AF-1F93-4B1F-B1BC-156E3FD86AD4"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Педагогические работники общеобразовательных организаций"
+          NameOfScope = "Педагогические работники общеобразовательных организаций",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("AFC40C5A-CA03-4F23-91A8-DD055C86DB2D"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Педагогические работники профессиональных образовательных организаций"
+          NameOfScope = "Педагогические работники профессиональных образовательных организаций",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("8F003E01-7866-42C3-8367-41780CEEA239"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Педагогические работники образовательных организаций ВО"
+          NameOfScope = "Педагогические работники образовательных организаций ВО",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("91E7725A-ACAE-4156-B4D0-383483C5CC39"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Педагогические работники организаций ДПО"
+          NameOfScope = "Педагогические работники организаций ДПО",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("29D5F4D3-2D42-4980-8369-986C594A4D6B"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Педагогические работники организаций дополнительного образования"
+          NameOfScope = "Педагогические работники организаций дополнительного образования",
+          ScopeOfActivityParentId = new Guid("3DF1FEB6-1268-4EEF-B55B-F822EDF6C84F")
         },
         new ScopeOfActivity
         {
           Id = new Guid("76342C39-145B-4153-9BD3-94BBCA00357E"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Руководители гос.служащие"
+          NameOfScope = "Руководители гос.служащие",
+          ScopeOfActivityParentId = new Guid("41C02A83-14DD-41EC-9EEB-6718FEBD53D5")
         },
         new ScopeOfActivity
         {
           Id = new Guid("791B9C31-4A87-4CF7-9F0B-9F0C14DFE3E1"),
           Level = ScopeOfActivityLevel.Level2,
-          NameOfScope = "Безработные"
+          NameOfScope = "Безработные",
+          ScopeOfActivityParentId = new Guid("33934742-89F3-45E9-B094-A64816B352C3")
         }
     );
     modelBuilder.Entity<TypeEducation>().HasData(
