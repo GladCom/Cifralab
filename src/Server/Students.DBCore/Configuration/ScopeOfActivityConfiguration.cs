@@ -18,5 +18,9 @@ internal class ScopeOfActivityConfiguration : IEntityTypeConfiguration<ScopeOfAc
 
     builder.Property(x => x.Level)
       .IsRequired();
+
+    builder.HasOne(s => s.ScopeOfActivityParent)
+        .WithMany()
+        .HasForeignKey(s => s.ScopeOfActivityParentId);
   }
 }
