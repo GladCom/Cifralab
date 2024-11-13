@@ -7,20 +7,18 @@ const AddOneForm = ({ control, properties, crud }) => {
   const [ addOne, { error, isLoading } ] = useAddOneAsync();
   const [form] = Form.useForm();
 
-  const onCreate = (formValues) => {
-    //console.log(formValues)
+  const onSubmit = (formValues) => {
     addOne(formValues);
     setShowAddOneForm(false);
+    form.resetFields();
   };
 
   return (
     <Modal
         title="Добавление новой записи"
         open={showAddOneForm}
-        //confirmLoading={() => true}
         okText="Добавить"
         cancelText="Отмена"
-        destroyOnClose
         okButtonProps={{
             autoFocus: true,
             htmlType: 'submit',
@@ -32,20 +30,19 @@ const AddOneForm = ({ control, properties, crud }) => {
             form={form}
             name="form_in_modal"
             scrollToFirstError
-            initialValues={Object.entries(properties).reduce((acc, [key]) => ({ ...acc, [key]: '' }), {}) }
-            clearOnDestroy
-            onFinish={(values) => onCreate(values)}
+            onFinish={(values) => onSubmit(values)}
         >
             {dom}
         </Form>
         )}
     >
-        {Object.entries(properties).map(([key, { name, type, formParams }]) => {
+        {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
             const Item = type;
-            console.log(key);
+
             return (
                 <Item
                     key={key}
+                    params={params}
                     formParams={{ key, name, ...formParams }}
                     mode='form'
                     setValue={(value) => {

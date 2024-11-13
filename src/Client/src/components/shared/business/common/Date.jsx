@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import _ from 'lodash';
 import BaseComponent from '../baseComponents/BaseComponent.jsx';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
@@ -13,7 +14,7 @@ const DefaultEditableInfoComponent = ({ value }) => (
     <Text>{dayjs(value).format('DD.MM.YYYY')}</Text>
 );
 
-const DefaultFormComponent = ({ value, onChange, formParams }) => {
+const DefaultFormComponent = ({ defaultValue, onChange, formParams }) => {
     const { key } = formParams;
 
     const formattValue = useCallback((value) => {
@@ -24,7 +25,7 @@ const DefaultFormComponent = ({ value, onChange, formParams }) => {
     return (
         <DatePicker
             key={key}
-            defaultValue={dayjs(value)}
+            defaultValue={dayjs(defaultValue)}
             format={{
                 format: 'DD.MM.YYYY',
                 type: 'mask',
@@ -69,22 +70,22 @@ const rules = [
     },
 ];
 
-const formParams = {
-    key: 'birthDate',
+const defaultFormParams = {
+    key: 'date',
     name: 'Введите дату',
     normalize: (value) => value,
     rules,
     hasFeedback: true,
 };
 
-const Date = (props) => {
+const Date = ({ formParams, ...props }) => {
     return (
         <BaseComponent
             {
-                ...{ 
+                ...{
                     ...props,
                     components,
-                    formParams,
+                    formParams: _.merge({}, defaultFormParams, formParams),
                 }
             }
         />

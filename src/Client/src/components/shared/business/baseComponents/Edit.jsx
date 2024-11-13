@@ -6,7 +6,6 @@ const Edit = ({ Component, props }) => {
     const { key, name, rules, normalize, hasFeedback } = formParams;
 
     const onSubmit = (formValue) => {
-        console.log(formValue)
         setValue(formValue[key]);
         setMode('editableInfo');
     };

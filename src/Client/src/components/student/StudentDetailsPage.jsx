@@ -32,18 +32,10 @@ const StudentDetailsPage = () => {
             currentLocation.pathname !== nextLocation.pathname
     );
 
-    const onSave = useCallback(async () => {
-        setIsSaveInProgress(true); 
-        try {
-            await editStudent({ id, item: studentData }).unwrap();
-            setInitialData(studentData); 
-            setIsChanged(false)
-        } catch (error) {
-            console.error("Ошибка сохранения данных:", error);
-        } finally {
-            setIsSaveInProgress(false); 
-        }
-    }, [id, studentData]);
+    const onSave = useCallback(() => {
+        editStudent({ id, item: studentData });
+        setIsChanged(false);
+    },[id,studentData]);
 
        
     const onCancel = useCallback(() => {

@@ -1,13 +1,14 @@
-import String from '../../components/shared/business/String.jsx';
+import String from '../../components/shared/business/common/String.jsx';
 import Gender from '../../components/shared/business/Gender.jsx';
 import Snils from '../../components/shared/business/Snils.jsx';
 import Email from '../../components/shared/business/Email.jsx';
+import Age from '../../components/shared/business/Age.jsx';
 import Address from '../../components/shared/business/Address.jsx';
 import EducationType from '../../components/shared/business/selects/EducationTypeSelect.jsx'
-import YesNoSelect from '../../components/shared/business/YesNoSelect.jsx';
+import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx'
+import YesNo from '../../components/shared/business/YesNo.jsx';
 import BirthDate from '../../components/shared/business/BirthDate.jsx';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
-import PhoneNumber from '../../components/shared/business/validation/PhoneNumber.jsx';
+import PhoneNumber from '../../components/shared/business/PhoneNumber.jsx';
 
 const model = {
     family: { 
@@ -32,14 +33,26 @@ const model = {
     },
     age: { 
         name: 'Возраст', 
-        type: String, 
+        type: Age,
+        formParams: {
+            rules: [
+                {
+                    required: false,
+                },
+            ],
+        },
+        params: {
+            show: {
+                form: false,
+            }
+        },
     },
     address: { 
         name: 'Место проживания', 
         type: Address, 
     },
     phone: { 
-        name: 'Телефон', 
+        name: 'Номер телефона', 
         type: PhoneNumber, 
     },
     email: { 
@@ -84,7 +97,7 @@ const model = {
     },
     disability: {
         name: 'ОВЗ', 
-        type: YesNoSelect,
+        type: YesNo,
     },
     // projects: { 
     //     name: 'Проекты',

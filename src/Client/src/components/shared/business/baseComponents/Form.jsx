@@ -2,10 +2,12 @@ import React from 'react';
 import { Form } from 'antd';
 
 const DefaultForm = ({ Component, props }) => {
-    const { value, formParams } = props;
+    const { value, formParams, params } = props;
     const { key, name, normalize, hasFeedback, rules } = formParams;
-
-    return (
+    const { show } = params;
+    const { form } = show;
+console.log(rules)
+    return form && (
         <Form.Item
             key={key}
             name={key}

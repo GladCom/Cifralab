@@ -1,7 +1,8 @@
-import { Select, Form, Button, Space } from 'antd'; 
-import Info from '../common/Info.jsx';
-import EditableInfo from '../common/EditableInfo.jsx';
-import React, { useState, useCallback, useEffect, } from 'react';
+import { Select, Typography } from 'antd';
+import BaseComponent from '../baseComponents/BaseComponent.jsx';
+import React from 'react';
+
+const { Text } = Typography;
 
 const options = [
     { value: 0, label: 'Не сдано' },
@@ -9,116 +10,62 @@ const options = [
     { value: 2, label: 'Собеседование' },
     { value: 3, label: 'Выполнено' },
 ];
-const defaultRules = [
+
+const keyValueMap = {
+    0: 'Не сдано',
+    1: 'Тестовое задание',
+    2: 'Собеседование',
+    3: 'Выполнено',
+};
+
+const rules = [
     {
         required: true,
         message: 'Необходимо заполнить это поле',
     },
 ];
 
-const defaultFormParams = {
-    labelKey: 'name',
-    name: 'Введите значение',
-    normalize: (value) => value,
-    rules: defaultRules,
+const formParams = {
+    labelKey: 'statusEntrancExams',
+    name: 'Выберите значение',
+    rules,
 };
 
-const DefaultForm = ({ value, setValue, formParams }) => {
-    const { key, name, normalize, rules } = formParams;
+const DefaultInfoComponent = ({ value }) => (
+    <Text>{keyValueMap[value]}</Text>
+);
+
+const DefaultSelectComponent = ({ value, onChange, formParams }) => {
+    const { key } = formParams;
 
     return (
-        <Form.Item
+        <Select
             key={key}
-            name={key}
-            label={name}
-            rules={rules ?? []}
-            normalize={normalize}
-            hasFeedback={true}
-        >
-            <Select 
-                defaultValue={value ?? 0}
-                options={options}
-                onChange={setValue}
-            />
-        </Form.Item>
-    );
-};
-
-const Filter = () => <div>В разработке!</div>;
-
-const Edit = ({ value, setValue, setMode, formParams }) => {
-    const { key, name, normalize, rules } = formParams;
-
-    const onSubmit = (formValues) => {
-        setValue(formValues[key]);
-        setMode('editableInfo');
-    };
-
-    return (
-        <Form
-            layout="inline"
-            name="editModeForm"
-            initialValues={{ [key]: value }}
-            clearOnDestroy
-            onFinish={(values) => onSubmit(values)}
-        >
-            <Form.Item
-                key={key}
-                name={key}
-                initialValue={value}
-                rules={rules ?? []}
-                normalize={normalize}
-                hasFeedback={true}
-            >
-                <Select 
-                    defaultValue={value ?? 0}
-                    options={options}
-                    onChange={setValue}
-                />
-            </Form.Item>
-            <Form.Item>
-                <Space>
-                <Button type="primary" htmlType="submit">
-                    Сохранить
-                </Button>
-                <Button htmlType="button" onClick={() => setMode('editableInfo')}>
-                    Отмена
-                </Button>
-                </Space>
-            </Form.Item>
-        </Form>
-    );
-};
-
-const defaultRenderMode = {
-    info: Info,
-    editableInfo: EditableInfo,
-    form: DefaultForm,
-    filter: Filter,
-    edit: Edit,
-};
-
-const StatusEntrancExamsSelect = ({ mode, value, setValue, formParams, renderMode }) => {
-    const compRenderMode = { ...defaultRenderMode, ...renderMode };
-    const [compMode, setCompMode] = useState(mode);
-    const [changed, setChanged] = useState(false);
-
-    const handleSetValue = useCallback((newValue) => {
-        setChanged(newValue !== value);
-        setValue(newValue);
-    }, [value, setValue]);
-
-    const Component = compRenderMode[compMode] || renderMode.info;
-
-    return (
-        <Component
-            value={value}
-            changed={changed}
-            setMode={setCompMode}
-            setValue={handleSetValue}
-            formParams={{ ...defaultFormParams, ...formParams }}
+            defaultValue={value}
+            style={{ minWidth: '200px' }}
+            options={options}
+            onChange={onChange}
         />
     );
 };
+
+const components = {
+    info: DefaultInfoComponent,
+    editableInfo: DefaultInfoComponent,
+    form: DefaultSelectComponent,
+    edit: DefaultSelectComponent,
+};
+
+const StatusEntrancExamsSelect = (props) => (
+    <BaseComponent
+        {
+            ...{
+                components,
+                formParams,
+                ...props,
+            }
+        }
+    />
+);
 
 export default StatusEntrancExamsSelect;

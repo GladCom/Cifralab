@@ -1,5 +1,0 @@
-{
-    "redirects": [
-        { "source": "/*", "destination": "http://localhost:2056/" }
-    ]
-}

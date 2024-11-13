@@ -59,13 +59,14 @@ const EditForm = ({ item, control, config, refetch }) => {
             </Form>
             )}
         >
-            {Object.entries(properties).map(([key, { name, type, formParams }]) => {
+            {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
                 const Item = type;
 
                 return (
                     <Item
                         key={key}
                         value={itemData[key]}
+                        params={params}
                         formParams={{ key, name, ...formParams }}
                         mode='form'
                         setValue={(value) => {

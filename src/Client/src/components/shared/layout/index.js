@@ -9,6 +9,7 @@ import Spinner from './Spinner.jsx';
 import Loading from './Loading.jsx';
 import DetailsPageData from './DetailsPageData.jsx';
 import RoutingWarningModal from './RoutingWarningModal.jsx';
+import EntityTable from './EntityTable.jsx';
 
 export {
     Header,
@@ -22,4 +23,5 @@ export {
     Loading,
     DetailsPageData,
     RoutingWarningModal,
+    EntityTable,
 };

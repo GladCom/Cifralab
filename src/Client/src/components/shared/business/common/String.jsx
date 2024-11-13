@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import BaseComponent from './baseComponents/BaseComponent'; 
+import BaseComponent from '../baseComponents/BaseComponent'; 
 
 const String = memo((props) => (
     <BaseComponent

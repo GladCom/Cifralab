@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/String.jsx';
+import String from '../../components/shared/business/common/String.jsx';
 import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx';
 import EducationTypeSelect from '../../components/shared/business/selects/EducationTypeSelect.jsx';
 import StatusEntrancExamsSelect from '../../components/shared/business/selects/StatusEntrancExamsSelect.jsx';
@@ -7,28 +7,73 @@ import CheckBox from '../../components/shared/business/common/CheckBox.jsx';
 import BirthDate from '../../components/shared/business/BirthDate.jsx';
 import Address from '../../components/shared/business/Address.jsx';
 import Email from '../../components/shared/business/Email.jsx';
-import PhoneNumber from '../../components/shared/business/validation/PhoneNumber.jsx';
-//import RequestStatusSelect from '../../components/shared/business/selects/RequestStatusSelect.jsx';
+import PhoneNumber from '../../components/shared/business/PhoneNumber.jsx';
 
 const model = {
-    family: { name: 'Фамилия', type: String, show: true, required: true },
-    name: { name: 'Имя', type: String, show: true, required: true },
-    patron: { name: 'Отчество', type: String, show: true, required: true },
-    //statusRequestId: { name: 'Статус', type: RequestStatusSelect, show: true, required: true},
-    educationProgramId : { name: 'Программа', type: EducationProgramSelect, show: true, required: true },
-    typeEducationId : { name: 'Уровень образования', type: EducationTypeSelect, show: true, required: true },
-    iT_Experience: { name: 'Опыт в IT', type: String, show: true, required: true },
-    speciality: { name: 'Специальность', type: String, show: true, required: true },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-    projects: { name: 'Проекты', type: String, show: true, required: true },
-    statusEntrancExams: { name: 'Тестовое задание', type: StatusEntrancExamsSelect, show: true, required: true },
-    birthDate: { name: 'Дата рождения', show: true, type: BirthDate, required: true },
-    address: { name: 'Место проживания', show: true, type: Address, required: true },
-    phone: { name: 'Телефон', type: PhoneNumber, show: true, required: true },
-    email: { name: 'E-mail', type: Email, show: true, required: true },
-    scopeOfActivityLevelOneId: { name: 'Сфера деятельности уровень 1', type: ScopeOfActivitySelect, show: true, required: true },
-    scopeOfActivityLevelTwoId: { name: 'Сфера деятельности уровень 2', type: ScopeOfActivitySelect, show: true, required: true },
-    agreement: { name: 'Согласие на обработку перс. даннных', type: CheckBox, show: true, required: true },
-    trained: { name: 'Обучающийся', type: CheckBox, show: true, required: true },
+    family: { 
+        name: 'Фамилия', 
+        type: String,
+    },
+    name: { 
+        name: 'Имя', 
+        type: String,
+    },
+    patron: { 
+        name: 'Отчество', 
+        type: String,  
+    },
+    educationProgramId : { 
+        name: 'Программа', 
+        type: EducationProgramSelect,  
+    },
+    typeEducationId : { 
+        name: 'Уровень образования', 
+        type: EducationTypeSelect, 
+    },
+    iT_Experience: { 
+        name: 'Опыт в IT', 
+        type: String,
+    },
+    speciality: { 
+        name: 'Специальность', 
+        type: String,  
+    },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+    projects: { 
+        name: 'Проекты', 
+        type: String, 
+    },
+    statusEntrancExams: { 
+        name: 'Тестовое задание', 
+        type: StatusEntrancExamsSelect,
+    },
+    birthDate: { 
+        name: 'Дата рождения', 
+        type: BirthDate, 
+    },
+    address: { 
+        name: 'Место проживания',  
+        type: Address, 
+    },
+    phone: { 
+        name: 'Телефон', 
+        type: PhoneNumber, 
+    },
+    email: { 
+        name: 'E-mail', 
+        type: Email,  
+    },
+    scopeOfActivityLevelOneId: { 
+        name: 'Сфера деятельности уровень 1', 
+        type: ScopeOfActivitySelect, 
+    },
+    scopeOfActivityLevelTwoId: { 
+        name: 'Сфера деятельности уровень 2', 
+        type: ScopeOfActivitySelect,  
+    },
+    agreement: { 
+        name: 'Согласие на обработку перс. даннных', 
+        type: CheckBox, 
+    },
 };
 
 export default model;
