@@ -1,12 +1,11 @@
 import React from 'react';
-import Layout from '../shared/layout/Layout.jsx';
-import Catalog from '../shared/catalogProvider/Catalog.jsx';
+import { Layout, EntityTable } from '../shared/layout/index.js';
 import config from '../../storage/catalogConfigs/groups.js'
 
 const GroupsPage = () => {
     return (
         <Layout title="Группы">
-            <Catalog config={config} />
+            <EntityTable config={config} />
         </Layout>
     );
 };

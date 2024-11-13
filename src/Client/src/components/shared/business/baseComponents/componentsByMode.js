@@ -10,7 +10,7 @@ const DefaultEditableInfoComponent = ({ value }) => (
     <Text>{value}</Text>
 );
 
-const DefaultEditComponent = ({ value, onChange, defaultValue, formParams }) => {
+const DefaultEditComponent = ({ value, onChange, defaultValue, formParams, placeholder }) => {
     const { key } = formParams;
 
     return (
@@ -20,12 +20,13 @@ const DefaultEditComponent = ({ value, onChange, defaultValue, formParams }) => 
             value={value}
             onChange={onChange}
             defaultValue={defaultValue}
+            placeholder={placeholder}
             type="textarea"
         />
     );
 };
 
-const DefaultFormComponent = ({ value, onChange, formParams }) => {
+const DefaultFormComponent = ({ value, onChange, formParams, placeholder }) => {
     const { key } = formParams;
 
     return (
@@ -35,6 +36,7 @@ const DefaultFormComponent = ({ value, onChange, formParams }) => {
             value={value}
             onChange={onChange}
             defaultValue=''
+            placeholder={placeholder}
             type="textarea"
         />
     );

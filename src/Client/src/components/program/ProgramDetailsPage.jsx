@@ -30,21 +30,11 @@ const ProgramDetailsPage = () => {
             isChanged &&
             currentLocation.pathname !== nextLocation.pathname
     );
-    
-    
-    const onSave = useCallback(async () => {
-        setIsSaveInProgress(true); 
-        try {
-            await editProgram({ id, item: programData }).unwrap();
-            setInitialData(programData); 
-            setIsChanged(false);
-            console.log(blocker);
-        } catch (error) {
-            console.error("Ошибка сохранения данных:", error);
-        } finally {
-            setIsSaveInProgress(false); 
-        }
-    }, [id, programData]);
+
+    const onSave = useCallback(() => {
+        editProgram({ id, item: programData });
+        setIsChanged(false);
+    }, [id, programData]); 
     
     const onCancel = useCallback(() => {
         setProgramData(initialData);

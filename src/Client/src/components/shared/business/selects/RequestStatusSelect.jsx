@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import QueryableSelect from '../common/QueryableSelect.jsx';
 import config from '../../../../storage/catalogConfigs/requestStatus.js';    
 
@@ -16,17 +17,23 @@ const defaultFormParams = {
     rules: defaultRules,
 };
 
-const RequestStatusSelect = ({ id, mode, value, setValue, formParams }) => {
+const RequestStatusSelect = ({ value, formParams, ...props }) => {
     const { crud } = config;
+    const { useGetOneByIdAsync, useGetAllAsync } = crud;
+    const { data: dataById } = useGetOneByIdAsync(value);
+    const { data: allData } = useGetAllAsync();
 
     return (
         <QueryableSelect
-            id={id}
-            value={value}
-            crud={crud}
-            mode={mode}
-            setValue={setValue}
-            formParams={{ ...defaultFormParams, ...formParams }}
+            {
+                ...{
+                    ...props,
+                    dataById: dataById || {},
+                    allData: allData || [],
+                    crud: config.crud,
+                    formParams: _.merge({}, defaultFormParams, formParams),
+                }
+            }
         />
     );
 };

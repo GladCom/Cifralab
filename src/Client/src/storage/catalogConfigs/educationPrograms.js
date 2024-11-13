@@ -1,3 +1,5 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Checkbox } from 'antd';
 import {
     useGetAllAsync,
     useGetAllPagedAsync,
@@ -9,6 +11,37 @@ import {
 import { educationProgramsModel } from '../models/index.js';
 import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect.jsx'
 import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/KindDocumentRiseQualificationSelect.jsx'
+
+//  TODO    лучше перенести эту реализацию в компонент в новый режим
+const IsArchive = ({ record }) => {
+    const { id, isArchive } = record;
+    const [editProgram, { isSuccess, isError }] = useEditOneAsync();
+    const [status, setStatus] = useState('');
+    const checkboxRef = useRef(null);
+
+    useEffect(() => {
+        if (isError) {
+            setStatus('error');
+        }
+    }, [isSuccess, isError]);
+
+    const onChange = ({ target }) => {
+        const editetProgram = { ...record };
+        delete editetProgram.id;
+        delete editetProgram.educationForm;
+        delete editetProgram.kindDocumentRiseQualification;
+        editProgram({ id, item: { ...editetProgram, isArchive: target.checked }});
+        checkboxRef.current.blur();
+    };
+
+    return (
+        <Checkbox
+            ref={checkboxRef}
+            defaultChecked={isArchive}
+            onChange={onChange}
+        />
+    );
+};
 
 export default {
     detailsLink: 'educationProgram',
@@ -36,8 +69,14 @@ export default {
         },
         {
             title: 'Форма обучения',
-            dataIndex: 'educationForm',
-            key: 'educationForm',
+            dataIndex: 'educationFormId',
+            key: 'educationFormId',
+            render: (_, record) => {
+console.log(record)
+                return (
+                    <EducationFormSelect  mode='info' />
+                );
+            },
         },
         {
             title: 'Кол-во часов',
@@ -48,6 +87,7 @@ export default {
             title: 'В архив',
             dataIndex: 'isArchive',
             key: 'archive',
+            render: (_, record) => (<IsArchive record={record} />),
         },
     ],
     dataConverter: (data) => {
@@ -55,10 +95,10 @@ export default {
             const kindDocumentRiseQualification = (
                 <KindDocumentRiseQualificationSelect value={kindDocumentRiseQualificationId} mode='info' />
             );
-            const educationForm = (
-                <EducationFormSelect value={educationFormId} mode='info' />
-            );
-            return { ...props, kindDocumentRiseQualification, educationForm };
+            // const educationForm = (
+            //     <EducationFormSelect value={educationFormId} mode='info' />
+            // );
+            return { ...props, kindDocumentRiseQualification, };
         });
     },
 };

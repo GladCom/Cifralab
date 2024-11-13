@@ -16,7 +16,6 @@ const Navbar = ({ width }) => {
     return (
       <Sider width={width} style={siderStyle}>
         <Menu
-            inlineCollapsed={true}
             mode="inline"
             items={menuItems}
             defaultSelectedKeys={[selectedKey]}

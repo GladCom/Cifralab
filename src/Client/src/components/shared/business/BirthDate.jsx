@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import Date from './common/Date.jsx'
 
 const rules = [
@@ -8,7 +9,7 @@ const rules = [
     },
 ];
 
-const formParams = {
+const defaultFormParams = {
     key: 'birthDate',
     name: 'Введите дату рождения',
     normalize: (value) => value,
@@ -16,13 +17,14 @@ const formParams = {
     hasFeedback: true,
 };
 
-const BirthDate = (props) => {
+const BirthDate = ({ formParams, ...props }) => {
     return (
         <Date
             {
-                ...{ 
+                ...{
+                    defaultValue: '1990-03-05',
                     ...props,
-                    formParams,
+                    formParams: _.merge({}, defaultFormParams, formParams),
                 }
             }
         />

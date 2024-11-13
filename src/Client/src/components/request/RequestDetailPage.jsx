@@ -19,13 +19,13 @@ const RequestDetailsPage = () => {
     const [editRequest] = useEditOneAsync();
 
     useEffect(() => {
-      if (!isLoading && !isFetching) {
-        const newData = { ...data };
-        delete newData.id;
-        setRequestData(newData);
-        setInitialData(newData);
-      }
-    }, [isLoading, isFetching,data]);
+        if (!isLoading && !isFetching) {
+            const newData = { ...data };
+            delete newData.id;
+            setRequestData(newData);
+            setInitialData(newData);
+        }
+    }, [isLoading, isFetching]);
 
     let blocker = useBlocker(
         ({ currentLocation, nextLocation }) =>
@@ -33,19 +33,10 @@ const RequestDetailsPage = () => {
             currentLocation.pathname !== nextLocation.pathname
     );
 
-   
-    const onSave = useCallback(async () => {
-        setIsSaveInProgress(true); 
-        try {
-            await editRequest({ id, item: requestData }).unwrap();
-            setInitialData(requestData); 
-            setIsChanged(false)
-        } catch (error) {
-            console.error("Ошибка сохранения данных:", error);
-        } finally {
-            setIsSaveInProgress(false); 
-        }
-    }, [id, requestData]);
+    const onSave = useCallback(() => {
+        editRequest({ id, item: requestData });
+        setIsChanged(false);
+    },[id,requestData]);
 
     const onCancel = useCallback(() => {
         setRequestData(initialData);

@@ -6,7 +6,7 @@ const rowStyle = { alignItems: 'center' };
 const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
     return (
         <Space direction="vertical" size={0} style={{ display: 'flex' }}>
-            {Object.entries(items).map(([key, { name, type, formParams }]) => {
+            {Object.entries(items).map(([key, { name, type, formParams, params }]) => {
                 const Item = type;
 
                 return (
@@ -18,6 +18,7 @@ const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
                                 name={key}
                                 value={data[key]}
                                 mode='editableInfo'
+                                params={params}
                                 formParams={{ key, name, ...formParams }}
                                 setValue={(value) => {
                                     editData({

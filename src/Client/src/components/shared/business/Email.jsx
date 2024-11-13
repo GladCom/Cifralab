@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import BaseComponent from './baseComponents/BaseComponent.jsx';
 import { AutoComplete } from 'antd';
 
@@ -84,19 +85,20 @@ const rules = [
     },
 ];
 
-const formParams = {
+const defaultFormParams = {
     key: 'email',
     name: 'E-mail',
     rules,
 };
 
-const Email = (props) => (
+const Email = ({ formParams, ...props }) => (
     <BaseComponent
         {
-            ...{ 
-                ...props,
+            ...{
                 components,
-                formParams,
+                placeholder: 'введите e-mail',
+                ...props,
+                formParams: _.merge({}, defaultFormParams, formParams),
             }
         }
     />

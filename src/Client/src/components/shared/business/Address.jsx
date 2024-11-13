@@ -25,6 +25,7 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
     const { key } = formParams;
     const formattValue = useCallback((value) => {
         onChange(value.value);
+        console.log(value)
     });
 
     return (
@@ -65,7 +66,7 @@ const Address = (props) => {
             {
                 ...{ 
                     ...props,
-                    components,
+                    //components,
                     formParams,
                 }
             }

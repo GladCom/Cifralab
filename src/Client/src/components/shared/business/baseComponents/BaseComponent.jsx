@@ -3,8 +3,9 @@ import renderByMode from './renderByMode.js';
 import defaultComponentsByMode from './componentsByMode.js';
 import _ from 'lodash';
 import defaultFormParams from './formParams.js';
+import defaultParams from './params.js';
 
-const BaseComponent = ({ formParams, ...props }) => {
+const BaseComponent = ({ formParams, params, ...props }) => {
     const { components, mode, value, setValue } = props;
     const [currentMode, setCurrentMode] = useState(mode);
     const [changed, setChanged] = useState(false);
@@ -25,8 +26,8 @@ const BaseComponent = ({ formParams, ...props }) => {
                 setValue: handleSetValue,
                 setMode: setCurrentMode,
                 changed,
-                //formParams: _.merge({ ...defaultFormParams}, { ...formParams}),   //  TODO    какое то криво слияние
-                formParams: { ...defaultFormParams,  ...formParams}
+                params: _.merge({}, defaultParams, params),
+                formParams: _.merge({}, defaultFormParams, formParams),
             }}
         />
     );

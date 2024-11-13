@@ -1,5 +1,5 @@
-import Layout from '../shared/layout/Layout.jsx';
-import Catalog from '../shared/catalogProvider/Catalog.jsx';
+import React from 'react';
+import { Layout, EntityTable } from '../shared/layout/index.js';
 import config from '../../storage/catalogConfigs/students.js'
 
 
@@ -7,7 +7,7 @@ const StudentsPage = () => {
 
     return (
         <Layout title="Студенты">
-            <Catalog config={config} />
+            <EntityTable config={config} />
         </Layout>
     );
 };

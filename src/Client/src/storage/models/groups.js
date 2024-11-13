@@ -1,11 +1,24 @@
-import String from '../../components/shared/business/String.jsx';
+import String from '../../components/shared/business/common/String.jsx';
+import Date from '../../components/shared/business/common/Date.jsx';
 import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx'
 
 const model = {
-    name: { name: 'Наименование группы', type: String, show: true, required: true },
-    educationProgramId: { name: 'Программа обучения', type: EducationProgramSelect, show: true, required: true },
-    startDate: { name: 'Дата начала', type: String, show: true, required: true },
-    endDate: { name: 'Дата окончания', type: String, show: true, required: true },
+    name: { 
+        name: 'Наименование группы',
+        type: String,
+    },
+    educationProgramId: { 
+        name: 'Программа обучения', 
+        type: EducationProgramSelect,
+    },
+    startDate: { 
+        name: 'Дата начала', 
+        type: Date, 
+    },
+    endDate: { 
+        name: 'Дата окончания', 
+        type: Date,
+    },
 };
 
 export default model;
