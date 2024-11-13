@@ -1,6 +1,5 @@
-﻿using System.Reflection.Emit;
-using Microsoft.EntityFrameworkCore;
-using Students.DBCore.Confuguration;
+﻿using Microsoft.EntityFrameworkCore;
+using Students.DBCore.Configuration;
 using Students.DBCore.Migrations;
 using Students.Models;
 using Students.Models.ReferenceModels;
@@ -43,6 +42,7 @@ public abstract class StudentContext : DbContext
   private static void MakeModelsConfiguration(ModelBuilder modelBuilder)
   {
     modelBuilder.ApplyConfiguration(new GroupConfiguration());
+    modelBuilder.ApplyConfiguration(new GroupStudentConfiguration());
     modelBuilder.ApplyConfiguration(new StudentConfiguration());
     modelBuilder.ApplyConfiguration(new EducationProgramConfiguration());
     modelBuilder.ApplyConfiguration(new DocumentRiseQualificationConfiguration());
@@ -62,24 +62,14 @@ public abstract class StudentContext : DbContext
       .HasMany(c => c.Groups)
       .WithMany(s => s.Students)
       .UsingEntity<GroupStudent>(
-
         j => j
           .HasOne(pt => pt.Group)
           .WithMany(t => t.GroupStudent)
-          .HasForeignKey(pt => pt.GroupsId),
+          .HasForeignKey(pt => pt.GroupId),
         j => j
           .HasOne(pt => pt.Student)
           .WithMany(p => p.GroupStudent)
-          .HasForeignKey(pt => pt.StudentsId),
-        j =>
-        {
-          j.HasKey(t => new { t.StudentsId, t.GroupsId });
-          j.ToTable("GroupStudent");
-          j.Property(x => x.GroupsId)
-            .IsRequired();
-          j.Property(x => x.StudentsId)
-            .IsRequired();
-        });
+          .HasForeignKey(pt => pt.StudentId));
   }
 
   private static void FillReferenceEntities(ModelBuilder modelBuilder)

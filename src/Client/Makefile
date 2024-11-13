@@ -20,3 +20,9 @@ server: #  Запуск тестового сервера
 
 test: #  Запуск тестов (Jest)
 	npm test
+
+dockerBuild: 
+	docker build -t cyfralab-app .
+
+dockerStart:
+	docker run -p 4000:3000 cyfralab-app

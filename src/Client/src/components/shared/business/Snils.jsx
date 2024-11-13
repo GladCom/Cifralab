@@ -1,7 +1,19 @@
 import React from 'react';
-import BaseComponent from './common/BaseComponent'; 
+import BaseComponent from './baseComponents/BaseComponent.jsx'; 
+import { templateParser, templateFormatter, parseDigit } from 'input-format'
 
-const defaultRules = [
+//  TODO:   разобраться с форматтером
+const TEMPLATE = 'xxx-xxx-xxx xx';
+const parse = templateParser(TEMPLATE, parseDigit);
+const  format  =  templateFormatter(TEMPLATE);
+
+const formatSnils = (input) => {
+    const digits = input.replace(/\D/g, ''); 
+    const limitedDigits = digits.slice(0, 11);
+    return limitedDigits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1-$2-$3 $4');
+};
+
+const rules = [
     {
         required: true,
         message: 'Необходимо заполнить СНИЛС',
@@ -12,32 +24,22 @@ const defaultRules = [
     },
 ];
 
-const defaultFormParams = {
+const formParams = {
     key: 'snils',
     name: 'СНИЛС',
     normalize: (value) => formatSnils(value),
-    rules: defaultRules,
+    rules: rules,
 };
 
-const formatSnils = (input) => {
-    const digits = input.replace(/\D/g, ''); 
-    const limitedDigits = digits.slice(0, 11);
-    return limitedDigits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1-$2-$3 $4');
-
-    
-};
-
-const Snils = ({ mode, value, setValue, formParams }) => {
-    //const { rules } = formParams;   //  TODO:   подумать как корректно передавать required из конфигов
-
-    return (
-        <BaseComponent
-            value={value}
-            mode={mode}
-            setValue={setValue}
-            formParams={{ ...defaultFormParams, ...formParams }}
-        />
-    );
-};
+const Snils = (props) => (
+    <BaseComponent
+        {
+            ...{ 
+                ...props,
+                formParams,
+            }
+        }
+    />
+);
 
 export default Snils;

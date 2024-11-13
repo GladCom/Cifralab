@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const studentsApi = createApi({
   reducerPath: 'students',
   keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
-  baseQuery: fetchBaseQuery({ baseUrl: '/student' }), //  TODO: уточнить url
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/student` }), //  TODO: уточнить url
   endpoints: (builder) => ({
     getStudents: builder.query({
       query: () => '',
@@ -14,7 +15,7 @@ export const studentsApi = createApi({
     }),
     getStudentById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['Students'],
+      providesTags: ['StudentsById'],
     }),
     addStudent: builder.mutation({
       query: (student) => ({
@@ -24,12 +25,12 @@ export const studentsApi = createApi({
       invalidatesTags: ['Students'],
     }),
     editStudent: builder.mutation({
-      query: ({ id, student }) => ({
+      query: ({ id, item }) => ({
         url: id,
         method: 'PUT',
-        body: student,
+        body: item,
       }),
-      invalidatesTags: ['Students'],
+      invalidatesTags: ['Students', 'StudentsById'],
     }),
     removeStudent: builder.mutation({
       query: (id) => ({

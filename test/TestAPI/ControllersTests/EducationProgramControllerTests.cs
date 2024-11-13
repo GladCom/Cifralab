@@ -28,11 +28,15 @@ public class EducationProgramControllerTests
     this._studentContext = new InMemoryContext();
     this._genericRepository = new GenericRepository<EducationProgram>(this._studentContext);
     this._educationProgramRepository = new EducationProgramRepository(this._studentContext);
-    this._educationProgramController = new EducationProgramController(_genericRepository, _educationProgramRepository, new TestLogger<EducationProgram>());
-    this._educationProgramController.ControllerContext = new ControllerContext();
-    this._educationProgramController.ControllerContext.HttpContext = new DefaultHttpContext();
+    this._educationProgramController = new EducationProgramController(this._genericRepository, this._educationProgramRepository, new TestLogger<EducationProgram>())
+    {
+      ControllerContext = new ControllerContext
+      {
+        HttpContext = new DefaultHttpContext()
+      }
+    };
     this._studentContext.EducationPrograms.RemoveRange(this._studentContext.Set<EducationProgram>());
-    this._studentContext.SaveChangesAsync();
+    this._studentContext.SaveChanges();
   }
 
   [TearDown]
@@ -41,96 +45,59 @@ public class EducationProgramControllerTests
     this._studentContext.Dispose();
   }
 
-  [Test]
-  public async Task Get_EducationProgramsArchive_Ok()
+  [TestCase(false)]
+  [TestCase(true)]
+  public async Task Get_EducationProgramsArchive_Ok(bool value)
   {
     //Arrange
     var educationProgram = GenerateNewEducationProgram(this._guids[0]);
     educationProgram.IsArchive = true;
     this._studentContext.EducationPrograms.Add(educationProgram);
+
     var educationProgram2 = GenerateNewEducationProgram(this._guids[1]);
     educationProgram2.IsArchive = false;
     this._studentContext.EducationPrograms.Add(educationProgram2);
+
     await this._studentContext.SaveChangesAsync();
 
     //Act
-    var result = await this._educationProgramController.Get(true);
+    var result = await this._educationProgramController.Get(value);
     var okResult = result as ObjectResult;
 
     // assert
     Assert.Multiple(() =>
     {
-      Assert.IsNotNull(okResult);
-      Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
-      Assert.AreEqual((okResult.Value as IEnumerable<EducationProgram>).Count(), 1);
-      Assert.AreEqual((okResult.Value as IEnumerable<EducationProgram>).First().IsArchive, true);
+      Assert.That(okResult, Is.Not.Null);
+      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(), Is.EqualTo(1));
+      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(x => x.IsArchive==value), Is.EqualTo(1));
     });
   }
 
-  [Test]
-  public async Task Get_EducationProgramsNotArchive_Ok()
+  [TestCase(false)]
+  [TestCase(true)]
+  public async Task Get_EducationProgramsArchiveNotFound_Ok(bool value)
+  {
+    //Act
+    var result = await this._educationProgramController.Get(value);
+    var okResult = result as ObjectResult;
+
+    // assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(okResult, Is.Not.Null);
+      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(), Is.EqualTo(0));
+    });
+  }
+
+  [TestCase(false)]
+  [TestCase(true)]
+  public async Task MoveToArchiveOrBack_EducationProgramSetIsArchive_Ok(bool value)
   {
     //Arrange
     var educationProgram = GenerateNewEducationProgram(this._guids[0]);
-    educationProgram.IsArchive = true;
-    this._studentContext.EducationPrograms.Add(educationProgram);
-    var educationProgram2 = GenerateNewEducationProgram(this._guids[1]);
-    educationProgram2.IsArchive = false;
-    this._studentContext.EducationPrograms.Add(educationProgram2);
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var result = await this._educationProgramController.Get(false);
-    var okResult = result as ObjectResult;
-
-    // assert
-    Assert.Multiple(() =>
-    {
-      Assert.IsNotNull(okResult);
-      Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
-      Assert.AreEqual((okResult.Value as IEnumerable<EducationProgram>).Count(), 1);
-      Assert.AreEqual((okResult.Value as IEnumerable<EducationProgram>).First().IsArchive, false);
-    });
-  }
-
-  [Test]
-  public async Task Get_EducationProgramsArchiveNotFound_Ok()
-  {
-    //Act
-    var result = await this._educationProgramController.Get(true);
-    var okResult = result as ObjectResult;
-
-    // assert
-    Assert.Multiple(() =>
-    {
-      Assert.IsNotNull(okResult);
-      Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
-      Assert.AreEqual((okResult.Value as IEnumerable<EducationProgram>).Count(), 0);
-    });
-  }
-
-  [Test]
-  public async Task Get_EducationProgramsNotArchiveNotFound_Ok()
-  {
-    //Act
-    var result = await this._educationProgramController.Get(false);
-    var okResult = result as ObjectResult;
-
-    // assert
-    Assert.Multiple(() =>
-    {
-      Assert.IsNotNull(okResult);
-      Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
-      Assert.AreEqual((okResult.Value as IEnumerable<EducationProgram>).Count(), 0);
-    });
-  }
-
-  [Test]
-  public async Task MoveToArchiveOrBack_EducationProgramSetIsArchive_Ok()
-  {
-    //Arrange
-    var educationProgram = GenerateNewEducationProgram(this._guids[0]);
-    educationProgram.IsArchive = false;
+    educationProgram.IsArchive = value;
     this._studentContext.EducationPrograms.Add(educationProgram);
     await this._studentContext.SaveChangesAsync();
 
@@ -142,34 +109,10 @@ public class EducationProgramControllerTests
     // assert
     Assert.Multiple(() =>
     {
-      Assert.IsNotNull(okResult);
-      Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
-      Assert.IsNotNull(foundEducationProgram);
-      Assert.AreEqual(foundEducationProgram.IsArchive, true);
-    });
-  }
-
-  [Test]
-  public async Task MoveToArchiveOrBack_EducationProgramSetIsNotArchive_Ok()
-  {
-    //Arrange
-    var educationProgram = GenerateNewEducationProgram(this._guids[0]);
-    educationProgram.IsArchive = true;
-    this._studentContext.EducationPrograms.Add(educationProgram);
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var result = await this._educationProgramController.MoveToArchiveOrBack(this._guids[0]);
-    var okResult = result as ObjectResult;
-    var foundEducationProgram = this._studentContext.EducationPrograms.FirstOrDefault();
-
-    // assert
-    Assert.Multiple(() =>
-    {
-      Assert.IsNotNull(okResult);
-      Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
-      Assert.IsNotNull(foundEducationProgram);
-      Assert.AreEqual(foundEducationProgram.IsArchive, false);
+      Assert.That(okResult, Is.Not.Null);
+      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+      Assert.That(foundEducationProgram, Is.Not.Null);
+      Assert.That(foundEducationProgram.IsArchive, Is.EqualTo(!value));
     });
   }
 
@@ -183,8 +126,8 @@ public class EducationProgramControllerTests
     // assert
     Assert.Multiple(() =>
     {
-      Assert.IsNotNull(okResult);
-      Assert.AreEqual(StatusCodes.Status404NotFound, okResult.StatusCode);
+      Assert.That(okResult, Is.Not.Null);
+      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status404NotFound));
     });
   }
 

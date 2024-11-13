@@ -2,7 +2,6 @@
 using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
-
 namespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
@@ -11,41 +10,19 @@ namespace Students.APIServer.Repository.Interfaces;
 public interface IRequestRepository : IGenericRepository<Request>
 {
   /// <summary>
-  /// Поиск заявок по идентификатору студента.
-  /// </summary>
-  /// <param name="id">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
-  Task<IEnumerable<Request>> FindRequestListByStudentGuidAsync(Guid id);
-
-  /// <summary>
-  /// Поиск заявок по номеру телефона из заявки.
-  /// </summary>
-  /// <param name="request">Заявка.</param>
-  /// <returns>Заявка.</returns>
-  Task<Request?> FindRequestByPhoneFromRequestAsync(Request request);
-
-  /// <summary>
-  /// Поиск заявок по mail из заявки.
-  /// </summary>
-  /// <param name="request">Электронная почта.</param>
-  /// <returns>Заявка.</returns>
-  Task<Request?> FindRequestByEmailFromRequestAsync(Request request);
-
-  /// <summary>
   /// Добавление приказа в заявку.
   /// </summary>
-  /// <param name="id">Идентификатор заявки.</param>
+  /// <param name="requestId">Идентификатор заявки.</param>
   /// <param name="order">Приказ.</param>
   /// <returns>Идентификатор заявки.</returns>
-  Task<Guid> AddOrderToRequest(Guid id, Order order);
+  Task<Guid?> AddOrderToRequest(Guid requestId, Order order);
 
   /// <summary>
-  /// Пагинация заявок.
+  /// Список заявок, в которые подавал студент.
   /// </summary>
-  /// <param name="page">Номер страницы.</param>
-  /// <param name="pageSize">Размер страницы.</param>
-  /// <returns>Пагинированные DTO заявок.</returns>
-  Task<PagedPage<Request>> GetRequestsByPage(int page, int pageSize);
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список заявок.</returns>
+  Task<IEnumerable<Request>?> GetListRequestsOfStudentExists(Guid studentId);
 
   /// <summary>
   /// Пагинация заявок.

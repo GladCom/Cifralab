@@ -78,12 +78,12 @@ public class Request
   /// </summary>
   public required string Email
   {
-    get => _email;
+    get => this._email;
     set
     {
       value = value.ToLower();
-      if (Regex.IsMatch(value,@"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
-        _email = address.Address;
+      if(Regex.IsMatch(value, @"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
+        this._email = address.Address;
       else
         throw new ValidationException("Not a valid Email address.");
     }
@@ -101,11 +101,11 @@ public class Request
   /// </summary>
   public required string Phone
   {
-    get => _phone;
+    get => this._phone;
     set
     {
       if(Regex.IsMatch(value, @"^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$"))
-        _phone = value;
+        this._phone = value;
       else
         throw new ValidationException("Not a valid phone number.");
     }
@@ -118,6 +118,12 @@ public class Request
   /// </summary>
   [JsonIgnore]
   public virtual Student? Student { get; set; }
+
+  /// <summary>
+  /// Группа.
+  /// </summary>
+  [JsonIgnore]
+  public virtual GroupStudent? GroupStudent { get; set; }
 
   /// <summary>
   /// Образовательная программа

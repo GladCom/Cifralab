@@ -1,24 +1,6 @@
 import React, { useState } from 'react';
-import String from './String';
-import { Form, Button, Space, AutoComplete } from 'antd';
-
-const defaultRules = [
-    {
-        required: true,
-        message: 'Необходимо заполнить email',
-    },
-    {
-        type: 'email',
-        message: 'Некорректно заполнен email',
-    },
-];
-
-const defaultFormParams = {
-    key: 'email',
-    name: 'E-mail',
-    normalize: (value) => formatEmail(value),
-    rules: defaultRules,
-};
+import BaseComponent from './baseComponents/BaseComponent.jsx';
+import { AutoComplete } from 'antd';
 
 const mails = [
     'mail.ru',
@@ -29,8 +11,8 @@ const mails = [
     'list.ru',
 ];
 
-const EmailForm = ({ value, formParams }) => {
-    const { key, name, normalize, rules } = formParams;
+const DefaultFormComponent = ({ value, onChange, formParams }) => {
+    const { key } = formParams;
     const [options, setOptions] = useState([]);
 
     const handleChange = (inputValue) => {
@@ -46,27 +28,19 @@ const EmailForm = ({ value, formParams }) => {
     };
 
     return (
-        <Form.Item
+        <AutoComplete
             key={key}
-            name={key}
-            label={name}
-            rules={rules ?? []}
-            normalize={normalize}
-            hasFeedback={true}
-        >
-            <AutoComplete
-                key={key}
-                onSearch={handleChange}
-                allowClear
-                defaultValue={value}
-                options={options}
-            />
-        </Form.Item>
+            onSearch={handleChange}
+            allowClear
+            onChange={onChange}
+            defaultValue={value}
+            options={options}
+        />
     );
 };
 
-const EmailEdit = ({ value, setValue, setMode, formParams }) => {
-    const { key, name, normalize, rules } = formParams;
+const DefaultEditComponent = ({ value, onChange, formParams }) => {
+    const { key } = formParams;
     const [options, setOptions] = useState([]);
 
     const handleChange = (inputValue) => {
@@ -81,62 +55,50 @@ const EmailEdit = ({ value, setValue, setMode, formParams }) => {
         });
     };
 
-    const onSubmit = (formValues) => {
-        setValue(formValues[key]);
-        setMode('editableInfo');
-    };
-
     return (
-        <Form
-            layout="inline"
-            name="emailEditModeForm"
-            clearOnDestroy
-            onFinish={(values) => onSubmit(values)}
-        >
-            <Form.Item
-                key={key}
-                name={key}
-                initialValue={value}
-                rules={rules ?? []}
-                normalize={normalize}
-                hasFeedback={true}
-            >
-                <AutoComplete
-                    key={key}
-                    onSearch={handleChange}
-                    allowClear
-                    defaultValue={value}
-                    options={options}
-                />
-            </Form.Item>
-            <Form.Item>
-                <Space>
-                <Button type="primary" htmlType="submit">
-                    Сохранить
-                </Button>
-                <Button htmlType="button" onClick={() => setMode('editableInfo')}>
-                    Отмена
-                </Button>
-                </Space>
-            </Form.Item>
-        </Form>
+        <AutoComplete
+            key={key}
+            onSearch={handleChange}
+            allowClear
+            onChange={onChange}
+            defaultValue={value}
+            options={options}
+            style={{ minWidth: '250px' }}
+        />
     );
 };
 
-const formatEmail = (value) => value;
-
-const renderMode = {
-    form: EmailForm,
-    //edit: EmailEdit,  //  TODO:   есть проблемы с отображением автокомплита, надо разобраться
+const components = {
+    form: DefaultFormComponent,
+    edit: DefaultEditComponent,
 };
 
-const Email = ({ mode, value, setValue, formParams }) => (
-    <String
-        value={value}
-        mode={mode}
-        setValue={setValue}
-        formParams={{ ...defaultFormParams, ...formParams }}
-        renderMode={renderMode}
+const rules = [
+    {
+        required: true,
+        message: 'Необходимо заполнить email',
+    },
+    {
+        type: 'email',
+        message: 'Некорректно заполнен email',
+    },
+];
+
+const formParams = {
+    key: 'email',
+    name: 'E-mail',
+    rules,
+};
+
+const Email = (props) => (
+    <BaseComponent
+        {
+            ...{ 
+                ...props,
+                components,
+                formParams,
+            }
+        }
     />
 );
 

@@ -59,4 +59,14 @@ public class RequestWebhook
   /// Идентификатор формы
   /// </summary>
   public required string formid { get; set; }
+
+  /// <summary>
+  /// Id сферы деятельности(1 уровень).
+  /// </summary>
+  public string? ScopeOfActivityLevelOneId { get; set; }
+
+  /// <summary>
+  /// Id сферы деятельности(2 уровень).
+  /// </summary>
+  public string? ScopeOfActivityLevelTwoId { get; set; }
 }

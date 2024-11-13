@@ -23,16 +23,44 @@ public class GroupController : GenericAPiController<Group>
   #region Методы
 
   /// <summary>
-  /// Добавление студентов в группу.
+  /// Добавление студентов по заявкам в группу.
   /// </summary>
-  /// <param name="studentList">Список студентов.</param>
-  /// <param name="groupID">Идентификатор группы.</param>
-  /// <returns>Идентификатор группы.</returns>
-  [HttpPost("AddStudentToGroup")]
-  public async Task<IActionResult> AddStudentToGroup(IEnumerable<Student> studentList, Guid groupID)
+  /// <param name="requestsList">Список идентификаторов заявок.</param>
+  /// <param name="groupId">Идентификатор группы.</param>
+  /// <returns>Идентификаторы заявок которые не были добавлены.</returns>
+  [HttpPost("AddStudentsToGroupByRequest")]
+  public async Task<IActionResult> AddStudentsToGroupByRequest(IEnumerable<Guid> requestsList, Guid groupId)
   {
-    return StatusCode(StatusCodes.Status200OK,
-      await _groupRepository.AddStudentsInGroup(studentList, groupID));
+    try
+    {
+      var badRequests = await this._groupRepository.AddStudentsToGroupByRequest(requestsList, groupId);
+      return badRequests is null ? this.NotFoundException() : this.Ok(badRequests);
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while creating Entity");
+      return this.Exception();
+    }
+  }
+
+  /// <summary>
+  /// Список групп, в которых состоит студент.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список групп.</returns>
+  [HttpGet("GetListGroupsOfStudentExists")]
+  public async Task<IActionResult> GetListGroupsOfStudentExists(Guid studentId)
+  {
+    try
+    {
+      var groups = await this._groupRepository.GetListGroupsOfStudentExists(studentId);
+      return groups is null ? this.NotFoundException() : this.Ok(groups);
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
   }
 
   #endregion
@@ -46,8 +74,8 @@ public class GroupController : GenericAPiController<Group>
   /// <param name="logger">Логгер.</param>
   public GroupController(IGroupRepository groupRepository, ILogger<Group> logger) : base(groupRepository, logger)
   {
-    _groupRepository = groupRepository;
-    _logger = logger;
+    this._groupRepository = groupRepository;
+    this._logger = logger;
   }
 
   #endregion

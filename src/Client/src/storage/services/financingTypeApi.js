@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './apiUrl.js';
 
 export const financingTypeApi = createApi({
   reducerPath: 'financingType',
-  baseQuery: fetchBaseQuery({ baseUrl: '/financingType' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/financingType` }),
   endpoints: (builder) => ({
     getFinancingType: builder.query({
       query: () => '',

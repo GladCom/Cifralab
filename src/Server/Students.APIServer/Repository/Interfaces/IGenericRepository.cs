@@ -31,7 +31,14 @@ public interface IGenericRepository<TEntity> where TEntity : class
   /// </summary>
   /// <param name="predicate">Условие.</param>
   /// <returns>Список объектов, с указанным условием.</returns>
-  Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate);
+  Task<IEnumerable<TEntity>> Get(Predicate<TEntity> predicate);
+
+  /// <summary>
+  /// Получение подходящей сущности.
+  /// </summary>
+  /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
+  /// <returns>Сущность.</returns>
+  Task<TEntity?> GetOne(Predicate<TEntity> predicate);
 
   /// <summary>
   /// Удаление объекта.

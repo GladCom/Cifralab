@@ -1,10 +1,7 @@
 ﻿using Asp.Versioning;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
-using Students.Models.WebModels;
-using System.Diagnostics;
 
 namespace Students.APIServer.Controllers;
 
@@ -17,12 +14,15 @@ namespace Students.APIServer.Controllers;
 public class EducationProgramController : GenericAPiController<EducationProgram>
 {
   #region Поля и свойства
+
   private readonly ILogger<EducationProgram> _logger;
   private readonly IEducationProgramRepository _educationProgramRepository;
   private readonly IGenericRepository<EducationProgram> _genericRepository;
+
   #endregion
 
   #region Методы
+
   /// <summary>
   /// Получить список программ обучения по условию.
   /// </summary>
@@ -33,13 +33,14 @@ public class EducationProgramController : GenericAPiController<EducationProgram>
   {
     try
     {
-      var educationPrograms = await _genericRepository.Get(
+      var educationPrograms = await this._genericRepository.Get(
         educationProgram => educationProgram.IsArchive == archive);
-      return educationPrograms == null ? NotFoundException() : Ok(educationPrograms);
+      return this.Ok(educationPrograms);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      return Exception(e);
+      this._logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
     }
   }
 
@@ -53,51 +54,46 @@ public class EducationProgramController : GenericAPiController<EducationProgram>
   {
     try
     {
-      var educationProgram = await _genericRepository.FindById(id);
-      if (educationProgram == null)
+      var educationProgram = await this._genericRepository.FindById(id);
+      if(educationProgram is null)
       {
-        return NotFoundException();
+        return this.NotFoundException();
       }
-      educationProgram!.IsArchive = !educationProgram.IsArchive;
-      await _genericRepository.Update(id, educationProgram);
-      return Ok(educationProgram);
+      educationProgram.IsArchive = !educationProgram.IsArchive;
+      await this._genericRepository.Update(id, educationProgram);
+      return this.Ok(educationProgram);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      return Exception(e);
+      this._logger.LogError(e, "Error while updating Entity");
+      return this.Exception();
     }
-  }
-
-
-  /// <summary>
-  /// Обработка исключения.
-  /// </summary>
-  /// <param name="e">Исключение.</param>
-  /// <returns>Ответ с кодом.</returns>
-  private IActionResult Exception(Exception e)
-  {
-    _logger.LogError(e, "Error while getting Entity by Id");
-    return StatusCode(StatusCodes.Status500InternalServerError,
-      new DefaultResponse
-      {
-        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-      });
   }
 
   /// <summary>
-  /// Обработка исключения.
+  /// Список с программами обучения, на которых учился студент.
   /// </summary>
-  /// <returns>Ответ с кодом.</returns>
-  private IActionResult NotFoundException()
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <returns>Список программ обучения.</returns>
+  [HttpGet("GetListEducationProgramsOfStudentExists")]
+  public async Task<IActionResult> GetListEducationProgramsOfStudentExists(Guid studentId)
   {
-    return NotFound(new DefaultResponse
+    try
     {
-      RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-    });
+      var educationPrograms = await this._educationProgramRepository.GetListEducationProgramsOfStudentExists(studentId);
+      return educationPrograms is null ? this.NotFoundException() : this.Ok(educationPrograms);
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
   }
+
   #endregion
 
   #region Конструкторы
+
   /// <summary>
   /// 
   /// </summary>
@@ -107,9 +103,10 @@ public class EducationProgramController : GenericAPiController<EducationProgram>
   public EducationProgramController(IGenericRepository<EducationProgram> repository, IEducationProgramRepository educationProgramRepository, ILogger<EducationProgram> logger) :
     base(repository, logger)
   {
-    _logger = logger;
-    _educationProgramRepository = educationProgramRepository;
-    _genericRepository = repository;
+    this._logger = logger;
+    this._educationProgramRepository = educationProgramRepository;
+    this._genericRepository = repository;
   }
+
   #endregion
 }
