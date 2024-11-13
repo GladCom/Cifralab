@@ -23,6 +23,7 @@ public abstract class StudentContext : DbContext
   public DbSet<StudentStatus> StudentStatuses { get; set; }
 
   //public DbSet<StudentDocument> StudentDocuments { get; set; }
+  public DbSet<StudentHistory> StudentHistories { get; set; }
   public DbSet<GroupStudent> GroupStudent { get; set; }
   public DbSet<TypeEducation> TypeEducation { get; set; }
   public DbSet<Order> Orders { get; set; }
@@ -55,6 +56,7 @@ public abstract class StudentContext : DbContext
     modelBuilder.ApplyConfiguration(new RequestConfiguration());
     modelBuilder.ApplyConfiguration(new ScopeOfActivityConfiguration());
     modelBuilder.ApplyConfiguration(new StatusRequestConfiguration());
+    modelBuilder.ApplyConfiguration(new StudentHistoryConfiguration());
     modelBuilder
       .Entity<Student>()
       .HasMany(c => c.Groups)
