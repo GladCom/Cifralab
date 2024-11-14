@@ -11,7 +11,7 @@ public abstract class StudentContext : DbContext
   public DbSet<EducationForm> EducationForms { get; set; }
 
   public DbSet<EducationProgram> EducationPrograms { get; set; }
-
+  public DbSet<KindEducationProgram> KindEducationPrograms { get; set; }
   //public DbSet<EducationType> EducationTypes { get; set; }
   public DbSet<FEAProgram> FEAPrograms { get; set; }
   public DbSet<FinancingType> FinancingTypes { get; set; }
@@ -57,6 +57,7 @@ public abstract class StudentContext : DbContext
     modelBuilder.ApplyConfiguration(new ScopeOfActivityConfiguration());
     modelBuilder.ApplyConfiguration(new StatusRequestConfiguration());
     modelBuilder.ApplyConfiguration(new StudentHistoryConfiguration());
+    modelBuilder.ApplyConfiguration(new KindEducationProgramConfiguration());
     modelBuilder
       .Entity<Student>()
       .HasMany(c => c.Groups)
@@ -79,6 +80,7 @@ public abstract class StudentContext : DbContext
     modelBuilder.Entity<EducationForm>().HasData(HasDataEntities.EducationFormEntities);
     modelBuilder.Entity<KindDocumentRiseQualification>().HasData(HasDataEntities.KindDocumentRiseQualificationEntities);
     modelBuilder.Entity<KindOrder>().HasData(HasDataEntities.KindOrderEntities);
+    modelBuilder.Entity<KindEducationProgram>().HasData(HasDataEntities.KindEducationProgramEntities);
     modelBuilder.Entity<ScopeOfActivity>().HasData(HasDataEntities.ScopeOfActivityEntities);
     modelBuilder.Entity<StatusRequest>().HasData(HasDataEntities.StatusRequestEntities);
     modelBuilder.Entity<StudentStatus>().HasData(HasDataEntities.StudentStatusEntities);

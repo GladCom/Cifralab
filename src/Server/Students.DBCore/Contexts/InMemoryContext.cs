@@ -444,6 +444,18 @@ public sealed class InMemoryContext : StudentContext
           //KindDocumentRiseQualification = KindDocumentRiseQualifications!.AsNoTracking().FirstOrDefault(x => x.Id!.Equals(new Guid("45146B2D-274F-4541-BF85-50D441503944")))!
         }
     );
+    modelBuilder.Entity<KindEducationProgram>().HasData(
+        new KindEducationProgram
+        {
+          Id = new Guid("e68bb887-c678-4343-8232-c58e4b6c9531"),
+          Name = "Программа повышения квалификации"
+        },
+        new KindEducationProgram
+        {
+          Id = new Guid("08c4eac7-1431-47e9-b0a5-6d3dfb9b7029"),
+          Name = "Программа профессиональной переподготовки"
+        }
+    );
     modelBuilder.Entity<Request>().HasData(
         new Request
         {
