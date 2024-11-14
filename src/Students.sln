@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAPI", "..\test\TestAPI\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTO", "DTO", "{6045E3A3-2967-4396-8332-4A1316BF58B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Students.DB.Converter", "Students.DB.Converter\Students.DB.Converter.csproj", "{439FD2B2-4A3B-4D34-B342-3CC748C4A562}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2A02AA54-FFBD-4A5C-A5D3-6EAFC795EA5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A02AA54-FFBD-4A5C-A5D3-6EAFC795EA5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A02AA54-FFBD-4A5C-A5D3-6EAFC795EA5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439FD2B2-4A3B-4D34-B342-3CC748C4A562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439FD2B2-4A3B-4D34-B342-3CC748C4A562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439FD2B2-4A3B-4D34-B342-3CC748C4A562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439FD2B2-4A3B-4D34-B342-3CC748C4A562}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
