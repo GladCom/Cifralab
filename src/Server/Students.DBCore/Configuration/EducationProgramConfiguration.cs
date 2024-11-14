@@ -47,20 +47,16 @@ internal class EducationProgramConfiguration : IEntityTypeConfiguration<Educatio
     builder.Property(x => x.IsFullDOTProgram)
       .IsRequired();
 
-    builder.HasMany(g => g.Groups)
-      .WithOne(ep => ep.EducationProgram)
-      .HasForeignKey(ep => ep.EducationProgramId);
-
-    builder.HasOne(ef => ef.EducationForm)
+    builder.HasOne(ep => ep.EducationForm)
       .WithMany()
-      .HasForeignKey(ef => ef.EducationFormId);
+      .HasForeignKey(ep => ep.EducationFormId);
 
-    builder.HasOne(f => f.FEAProgram)
+    builder.HasOne(ep => ep.FEAProgram)
       .WithMany()
-      .HasForeignKey(f => f.FEAProgramId);
+      .HasForeignKey(ep => ep.FEAProgramId);
 
-    builder.HasOne(ft => ft.FinancingType)
+    builder.HasOne(ep => ep.FinancingType)
       .WithMany()
-      .HasForeignKey(ft => ft.FinancingTypeId);
+      .HasForeignKey(ep => ep.FinancingTypeId);
   }
 }

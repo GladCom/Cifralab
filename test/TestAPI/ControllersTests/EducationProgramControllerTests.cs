@@ -11,7 +11,6 @@ namespace TestAPI.ControllersTests;
 public class EducationProgramControllerTests
 {
   private StudentContext _studentContext;
-  private GenericRepository<EducationProgram> _genericRepository;
   private EducationProgramRepository _educationProgramRepository;
   private EducationProgramController _educationProgramController;
 
@@ -26,9 +25,8 @@ public class EducationProgramControllerTests
   public void SetUp()
   {
     this._studentContext = new InMemoryContext();
-    this._genericRepository = new GenericRepository<EducationProgram>(this._studentContext);
     this._educationProgramRepository = new EducationProgramRepository(this._studentContext);
-    this._educationProgramController = new EducationProgramController(this._genericRepository, this._educationProgramRepository, new TestLogger<EducationProgram>())
+    this._educationProgramController = new EducationProgramController(this._educationProgramRepository, new TestLogger<EducationProgram>())
     {
       ControllerContext = new ControllerContext
       {
@@ -43,52 +41,6 @@ public class EducationProgramControllerTests
   public void TearDown()
   {
     this._studentContext.Dispose();
-  }
-
-  [TestCase(false)]
-  [TestCase(true)]
-  public async Task Get_EducationProgramsArchive_Ok(bool value)
-  {
-    //Arrange
-    var educationProgram = GenerateNewEducationProgram(this._guids[0]);
-    educationProgram.IsArchive = true;
-    this._studentContext.EducationPrograms.Add(educationProgram);
-
-    var educationProgram2 = GenerateNewEducationProgram(this._guids[1]);
-    educationProgram2.IsArchive = false;
-    this._studentContext.EducationPrograms.Add(educationProgram2);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var result = await this._educationProgramController.Get(value);
-    var okResult = result as ObjectResult;
-
-    // assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(okResult, Is.Not.Null);
-      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
-      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(), Is.EqualTo(1));
-      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(x => x.IsArchive==value), Is.EqualTo(1));
-    });
-  }
-
-  [TestCase(false)]
-  [TestCase(true)]
-  public async Task Get_EducationProgramsArchiveNotFound_Ok(bool value)
-  {
-    //Act
-    var result = await this._educationProgramController.Get(value);
-    var okResult = result as ObjectResult;
-
-    // assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(okResult, Is.Not.Null);
-      Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
-      Assert.That((okResult.Value as IEnumerable<EducationProgram>).Count(), Is.EqualTo(0));
-    });
   }
 
   [TestCase(false)]

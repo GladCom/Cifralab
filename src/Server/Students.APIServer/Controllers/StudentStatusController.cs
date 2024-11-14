@@ -19,8 +19,8 @@ public class StudentStatusController : GenericAPiController<StudentStatus>
   /// </summary>
   /// <param name="repository">Репозиторий студентов.</param>
   /// <param name="logger">Логгер.</param>
-  public StudentStatusController(IGenericRepository<StudentStatus> repository, ILogger<StudentStatus> logger) : base(
-    repository, logger)
+  public StudentStatusController(IGenericRepository<StudentStatus> repository,
+    ILogger<StudentStatus> logger) : base(repository, logger)
   {
   }
 }

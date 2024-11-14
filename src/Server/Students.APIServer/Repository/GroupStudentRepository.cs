@@ -11,11 +11,11 @@ public class GroupStudentRepository : GenericRepository<GroupStudent>, IGroupStu
 {
   #region Поля и свойства
 
-  private readonly StudentContext _ctx;
+
 
   #endregion
 
-  #region Методы
+  #region IGroupStudentRepository
 
   /// <summary>
   /// Добавление студента по заявке в группу.
@@ -25,16 +25,19 @@ public class GroupStudentRepository : GenericRepository<GroupStudent>, IGroupStu
   /// <returns>Группа студентов.</returns>
   public async Task<GroupStudent?> Create(Request request, Guid groupId)
   {
-    await this._ctx.Entry(request).Reference(r => r.Student).LoadAsync();
-    if(request.Student is null)
-      return null;
-
-    return await base.Create(new GroupStudent
+    try
     {
-      StudentId = request.Student.Id,
-      GroupId = groupId,
-      RequestId = request.Id
-    });
+      return await this.Create(new GroupStudent
+      {
+        StudentId = request.Student!.Id,
+        GroupId = groupId,
+        RequestId = request.Id
+      });
+    }
+    catch
+    {
+      return null;
+    }
   }
 
   #endregion
@@ -47,7 +50,6 @@ public class GroupStudentRepository : GenericRepository<GroupStudent>, IGroupStu
   /// <param name="context">Контекст базы данных.</param>
   public GroupStudentRepository(StudentContext context) : base(context)
   {
-    this._ctx = context;
   }
 
   #endregion

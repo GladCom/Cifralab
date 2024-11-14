@@ -23,12 +23,12 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
     builder.Property(x => x.RequestId)
       .IsRequired();
 
-    builder.HasOne(r => r.Request)
-      .WithMany(o => o.Orders)
-      .HasForeignKey(r => r.RequestId);
+    builder.HasOne(o => o.Request)
+      .WithMany(r => r.Orders)
+      .HasForeignKey(o => o.RequestId);
 
-    builder.HasOne(k => k.KindOrder)
+    builder.HasOne(o => o.KindOrder)
       .WithMany()
-      .HasForeignKey(k => k.KindOrderId);
+      .HasForeignKey(o => o.KindOrderId);
   }
 }

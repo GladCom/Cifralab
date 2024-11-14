@@ -23,9 +23,9 @@ internal class DocumentRiseQualificationConfiguration : IEntityTypeConfiguration
     builder.Property(x => x.Number)
       .IsRequired();
 
-    builder.HasOne(k => k.KindDocumentRiseQualification)
+    builder.HasOne(drq => drq.KindDocumentRiseQualification)
       .WithMany()
-      .HasForeignKey(k => k.KindDocumentRiseQualificationId);
+      .HasForeignKey(drq => drq.KindDocumentRiseQualificationId);
 
     builder.Property(x => x.Date);
     builder.Property(x => x.Number);

@@ -4,7 +4,6 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
-using Students.Models;
 using Students.Models.ReferenceModels;
 using Students.Models.WebModels;
 
@@ -33,12 +32,12 @@ public class IntegrationController : ControllerBase
   /// <summary>
   /// Репозиторий студентов.
   /// </summary>
-  private readonly IGenericRepository<Student> _studentRepository;
+  private readonly IStudentRepository _studentRepository;
 
   /// <summary>
   /// Репозиторий образовательных программ.
   /// </summary>
-  private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
+  private readonly IEducationProgramRepository _educationProgramRepository;
 
   /// <summary>
   /// Репозиторий статусов заявок.
@@ -84,10 +83,6 @@ public class IntegrationController : ControllerBase
           student = await this._studentRepository.Create(student);
         }
       }
-      else
-      {
-        request.IsAlreadyStudied = true;
-      }
 
       request.StudentId = student?.Id;
 
@@ -129,7 +124,7 @@ public class IntegrationController : ControllerBase
   /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
   /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
   public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository,
-    IGenericRepository<Student> studentRepository, IGenericRepository<EducationProgram> educationProgramRepository,
+    IStudentRepository studentRepository, IEducationProgramRepository educationProgramRepository,
     IGenericRepository<StatusRequest> statusRequestRepository,
     IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
   {

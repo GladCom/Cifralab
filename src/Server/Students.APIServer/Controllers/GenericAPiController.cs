@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
+using Students.Models.Filters;
 using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
@@ -14,7 +15,11 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
   #region Поля и свойства
 
   private readonly IGenericRepository<TEntity> _rep;
-  private readonly ILogger<TEntity> _logger;
+
+  /// <summary>
+  /// Логгер.
+  /// </summary>
+  protected ILogger<TEntity> Logger { get; }
 
   #endregion
 
@@ -33,7 +38,28 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entities");
+      this.Logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
+  }
+
+  /// <summary>
+  /// Фильтрация.
+  /// </summary>
+  /// <returns>Список объектов.</returns>
+  [HttpGet("Filter")]
+  public async Task<IActionResult> ListFiltered([FromQuery] string filterWithoutType)
+  {
+    try
+    {
+      var filter = FiltersSerializer.FilterToTypedFilter<TEntity>(filterWithoutType);
+      if(filter is null)
+        return this.BadRequest();
+      return this.Ok(await this._rep.GetFiltered(filter));
+    }
+    catch(Exception e)
+    {
+      this.Logger.LogError(e, "Error while getting Entities");
       return this.Exception();
     }
   }
@@ -53,7 +79,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entity by Id");
+      this.Logger.LogError(e, "Error while getting Entity by Id");
       return this.Exception();
     }
   }
@@ -73,7 +99,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while creating new Entity");
+      this.Logger.LogError(e, "Error while creating new Entity");
       return this.Exception();
     }
   }
@@ -94,7 +120,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while updating Entity");
+      this.Logger.LogError(e, "Error while updating Entity");
       return this.Exception();
     }
   }
@@ -120,7 +146,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while deleting Entity");
+      this.Logger.LogError(e, "Error while deleting Entity");
       return this.Exception();
     }
   }
@@ -128,7 +154,6 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
   /// <summary>
   /// Обработка исключения.
   /// </summary>
-  /// <param name="e">Исключение.</param>
   /// <returns>Ответ с кодом.</returns>
   protected IActionResult Exception()
   {
@@ -165,7 +190,7 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
   protected GenericAPiController(IGenericRepository<TEntity> repository, ILogger<TEntity> logger)
   {
     this._rep = repository;
-    this._logger = logger;
+    this.Logger = logger;
   }
 
   #endregion

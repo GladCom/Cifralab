@@ -1,5 +1,4 @@
-﻿using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
@@ -15,12 +14,9 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
 {
   #region Поля и свойства
 
-  private readonly StudentContext _ctx;
-  private readonly IGroupStudentRepository _studentInGroupRepository;
-
   #endregion
 
-  #region Методы
+  #region IStudentRepository
 
   /// <summary>
   /// Список студентов с пагинацией.
@@ -30,7 +26,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Список студентов с пагинацией.</returns>
   public async Task<PagedPage<StudentDTO>> GetStudentsByPage(int page, int pageSize)
   {
-    var query = this._ctx.Students
+    var query = this.DbSet
       .Include(gs => gs.GroupStudent!)
         .ThenInclude(r => r.Request!)
           .ThenInclude(st => st.Status)
@@ -49,14 +45,9 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Студент.</returns>
   public async Task<Student?> GetStudentWithGroupsAndRequests(Guid studentId)
   {
-    var student = await base.FindById(studentId);
-    if(student is null)
-      return null;
-
-    await this._ctx.Entry(student).Collection(s => s.Groups!).LoadAsync();
-    await this._ctx.Entry(student).Collection(s => s.Requests!).LoadAsync();
-
-    return student;
+    return await this.GetOne(x => x.Id == studentId, this.DbSet
+      .Include(x => x.Groups)
+      .Include(x => x.Requests));
   }
 
   #endregion
@@ -68,10 +59,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// </summary>
   /// <param name="context">Контекст базы данных.</param>
   /// <param name="groupStudentRepository">Репозиторий групп студентов.</param>
-  public StudentRepository(StudentContext context, IGroupStudentRepository groupStudentRepository) : base(context)
+  public StudentRepository(StudentContext context) : base(context)
   {
-    this._ctx = context;
-    this._studentInGroupRepository = groupStudentRepository;
   }
 
   #endregion

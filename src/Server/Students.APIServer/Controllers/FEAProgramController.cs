@@ -16,11 +16,6 @@ public class FEAProgramController : GenericAPiController<FEAProgram>
   #region Поля и свойства
 
   /// <summary>
-  /// Логгер.
-  /// </summary>
-  private readonly ILogger<FEAProgram> _logger;
-
-  /// <summary>
   /// Репозиторий ВЭД программ.
   /// </summary>
   private readonly IFEAProgramRepository _feaProgramRepository;
@@ -29,8 +24,6 @@ public class FEAProgramController : GenericAPiController<FEAProgram>
 
   #region Методы
 
-
-
   #endregion
 
   #region Конструкторы
@@ -38,14 +31,12 @@ public class FEAProgramController : GenericAPiController<FEAProgram>
   /// <summary>
   /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий ВЭД программ.</param>
   /// <param name="logger">Логгер.</param>
   /// <param name="feaProgramRepository">Репозиторий ВЭД программ.</param>
-  public FEAProgramController(IGenericRepository<FEAProgram> repository, ILogger<FEAProgram> logger, IFEAProgramRepository feaProgramRepository) : base(repository,
-    logger)
+  public FEAProgramController(IFEAProgramRepository feaProgramRepository,
+    ILogger<FEAProgram> logger) : base(feaProgramRepository, logger)
   {
-    _feaProgramRepository = feaProgramRepository;
-    _logger = logger;
+    this._feaProgramRepository = feaProgramRepository;
   }
 
   #endregion

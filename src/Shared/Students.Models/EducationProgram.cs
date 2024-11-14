@@ -59,7 +59,7 @@ public class EducationProgram
   public required bool IsCollegeProgram { get; set; }
 
   /// <summary>
-  /// Признак программы в архиве.
+  /// Архивная программа.
   /// </summary>
   public required bool IsArchive { get; set; }
 
@@ -107,4 +107,10 @@ public class EducationProgram
   /// </summary>
   [JsonIgnore]
   public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+
+  /// <summary>
+  /// Заявки.
+  /// </summary>
+  [JsonIgnore]
+  public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }

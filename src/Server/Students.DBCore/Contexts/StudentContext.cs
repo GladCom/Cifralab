@@ -58,19 +58,6 @@ public abstract class StudentContext : DbContext
     modelBuilder.ApplyConfiguration(new StatusRequestConfiguration());
     modelBuilder.ApplyConfiguration(new StudentHistoryConfiguration());
     modelBuilder.ApplyConfiguration(new KindEducationProgramConfiguration());
-    modelBuilder
-      .Entity<Student>()
-      .HasMany(c => c.Groups)
-      .WithMany(s => s.Students)
-      .UsingEntity<GroupStudent>(
-        j => j
-          .HasOne(pt => pt.Group)
-          .WithMany(t => t.GroupStudent)
-          .HasForeignKey(pt => pt.GroupId),
-        j => j
-          .HasOne(pt => pt.Student)
-          .WithMany(p => p.GroupStudent)
-          .HasForeignKey(pt => pt.StudentId));
   }
 
   private static void FillReferenceEntities(ModelBuilder modelBuilder)

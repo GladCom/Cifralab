@@ -1,6 +1,8 @@
 ﻿using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
+using Students.Models.Filters.Filters;
+using Students.Models.ReferenceModels;
 
 namespace TestAPI.RepositoryTests;
 
@@ -9,8 +11,6 @@ public class RequestRepositoryTests
 {
   private StudentContext _studentContext;
   private RequestRepository _requestRepository;
-  private StudentRepository _studentRepository;
-  private GroupStudentRepository _groupStudentRepository;
   private OrderRepository _orderRepository;
 
   [SetUp]
@@ -20,10 +20,8 @@ public class RequestRepositoryTests
     this._studentContext.Students.RemoveRange(this._studentContext.Students.ToList());
     this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
     this._studentContext.Orders.RemoveRange(this._studentContext.Orders.ToList());
-    this._groupStudentRepository = new GroupStudentRepository(this._studentContext);
-    this._studentRepository = new StudentRepository(this._studentContext, this._groupStudentRepository);
     this._orderRepository = new OrderRepository(this._studentContext);
-    this._requestRepository = new RequestRepository(this._studentContext, this._studentRepository, this._orderRepository);
+    this._requestRepository = new RequestRepository(this._studentContext, this._orderRepository);
   }
 
   [TearDown]
@@ -119,7 +117,7 @@ public class RequestRepositoryTests
   {
     // Arrange
     var requests = new List<Request>();
-    for (var i = 0; i < 5; i++)
+    for(var i = 0; i < 5; i++)
     {
       requests.Add(GenerateRequest());
     }
@@ -139,6 +137,81 @@ public class RequestRepositoryTests
       Assert.That(result, Is.Not.Null);
       Assert.That(result.Data, Has.Count.EqualTo(2));
     });
+  }
+
+  [Test]
+  public async Task GetFiltered_ReturnRequest_byStatusAndProgram()
+  {
+    // Arrange
+    var request = GenerateRequestWithProgramAndStatus();
+
+    var requestFilter = new RequestFilter { EducationProgramId = request.EducationProgram?.Id, StatusRequestId = request.Status?.Id };
+
+    this._studentContext.Requests.Add(request);
+    await this._studentContext.SaveChangesAsync();
+
+    // Act
+    var result = await this._requestRepository.GetFiltered(requestFilter);
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(result.Count, Is.EqualTo(1));
+      Assert.IsTrue(result.All(x => requestFilter.GetFilterPredicate()(x)));
+    });
+  }
+
+  [Test]
+  public async Task GetFiltered_ReturnRequest_byProgramEducation()
+  {
+    // Arrange
+    var request = GenerateRequestWithProgramAndStatus();
+    var requestFilter = new RequestFilter { EducationProgramId = request.EducationProgram?.Id };
+    this._studentContext.Requests.Add(request);
+    await this._studentContext.SaveChangesAsync();
+
+    // Act
+    var result = await this._requestRepository.GetFiltered(requestFilter);
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(result.Count, Is.EqualTo(1));
+      Assert.That(result.All(x => requestFilter.GetFilterPredicate()(x)));
+    });
+  }
+
+  [Test]
+  public async Task GetFiltered_ReturnRequest_byStatus()
+  {
+    // Arrange
+    var request = GenerateRequestWithProgramAndStatus();
+    var requestFilter = new RequestFilter { StatusRequestId = request.Status?.Id };
+    this._studentContext.Requests.Add(request);
+    await this._studentContext.SaveChangesAsync();
+
+    // Act
+    var result = await this._requestRepository.GetFiltered(requestFilter);
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(result.Count, Is.EqualTo(1));
+      Assert.IsTrue(result.All(x => requestFilter.GetFilterPredicate()(x)));
+    });
+  }
+
+  [Test]
+  public async Task GetFiltered_ReturnRequest_withEmptyRequestFilter()
+  {
+    // Arrange
+    var requestFilter = new RequestFilter();
+
+    // Act
+    var result = await this._requestRepository.GetFiltered(requestFilter);
+
+    //Assert
+    Assert.That(result.Count, Is.Not.EqualTo(0));
   }
 
   private static Request GenerateRequest()
@@ -184,6 +257,56 @@ public class RequestRepositoryTests
       Email = "test@gmail.com",
       IT_Experience = "null",
       ScopeOfActivityLevelOneId = default
+    };
+  }
+
+  private static Request GenerateRequestWithProgramAndStatus()
+  {
+    var status = GenerateStatusRequest();
+    var program = GenerateEducationProgram();
+
+    return new Request()
+    {
+      Id = Guid.NewGuid(),
+      StudentId = Guid.NewGuid(),
+      EducationProgram = program,
+      DocumentRiseQualificationId = Guid.NewGuid(),
+      DataNumberDogovor = default,
+      Status = status,
+      StudentStatusId = Guid.NewGuid(),
+      StatusEntrancExams = default,
+      Phone = "+7 (123) 456-78-90",
+      Email = "test@gmail.com",
+      Agreement = default
+    };
+  }
+
+  private static EducationProgram GenerateEducationProgram()
+  {
+    return new EducationProgram
+    {
+      Id = Guid.NewGuid(),
+      Name = "AnnihilatorTests",
+      EducationFormId = Guid.NewGuid(),
+      FinancingTypeId = Guid.NewGuid(),
+      KindDocumentRiseQualificationId = Guid.NewGuid(),
+      Cost = 2,
+      IsArchive = false,
+      HoursCount = 0,
+      IsCollegeProgram = true,
+      IsDOTProgram = true,
+      IsFullDOTProgram = true,
+      IsModularProgram = true,
+      IsNetworkProgram = true,
+    };
+  }
+
+  private static StatusRequest GenerateStatusRequest()
+  {
+    return new StatusRequest()
+    {
+      Id = Guid.NewGuid(),
+      Name = "AEZAKMI"
     };
   }
 }

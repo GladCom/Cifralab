@@ -18,7 +18,6 @@ public class RequestController : GenericAPiController<Request>
 {
   #region Поля и свойства
 
-  private readonly ILogger<Request> _logger;
   private readonly IRequestRepository _requestRepository;
   private readonly IStudentRepository _studentRepository;
   private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
@@ -26,32 +25,6 @@ public class RequestController : GenericAPiController<Request>
   #endregion
 
   #region Методы
-
-  /// <summary>
-  /// Получение заявки по идентификатору.
-  /// </summary>
-  /// <param name="id">Идентификатор заявки.</param>
-  /// <returns>Заявка.</returns>
-  public override async Task<IActionResult> Get(Guid id)
-  {
-    try
-    {
-      var form = await this._requestRepository.FindById(id);
-      if(form is null)
-      {
-        return this.NotFoundException();
-      }
-
-      var requestsDTO = await Mapper.RequestToRequestDTO(form);
-
-      return this.Ok(requestsDTO);
-    }
-    catch(Exception e)
-    {
-      this._logger.LogError(e, "Error while getting Entity by Id");
-      return this.Exception();
-    }
-  }
 
   /// <summary>
   /// Создание новой заявки с фронта.
@@ -81,10 +54,6 @@ public class RequestController : GenericAPiController<Request>
           student = await this._studentRepository.Create(student);
         }
       }
-      else
-      {
-        request.IsAlreadyStudied = true;
-      }
 
       request.StudentId = student?.Id;
 
@@ -93,7 +62,7 @@ public class RequestController : GenericAPiController<Request>
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while creating Entity");
+      this.Logger.LogError(e, "Error while creating Entity");
       return this.Exception();
     }
   }
@@ -155,7 +124,6 @@ public class RequestController : GenericAPiController<Request>
           student.ScopeOfActivityLevelTwoId = form.ScopeOfActivityLevelTwoId;
           student.Speciality = form.speciality;
 
-
           resultOld.StudentId = student.Id;
           await this._studentRepository.Update(student.Id, student);
         }
@@ -192,34 +160,7 @@ public class RequestController : GenericAPiController<Request>
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while updating Entity");
-      return this.Exception();
-    }
-  }
-
-  /// <summary>
-  /// Создание новой заявки.
-  /// </summary>
-  /// <param name="request">Заявка.</param>
-  /// <returns>Состояние запроса + Заявка.</returns>
-  public override async Task<IActionResult> Post(Request request)
-  {
-    try
-    {
-      if(request.StudentId is not null)
-      {
-        var existingStudentRequests =
-          await this._requestRepository.Get(r => r.StudentId == request.StudentId);
-        request.IsAlreadyStudied = existingStudentRequests.Any();
-      }
-
-      var form = await this._requestRepository.Create(request);
-
-      return this.Ok(form);
-    }
-    catch(Exception e)
-    {
-      this._logger.LogError(e, "Error while creating Entity");
+      this.Logger.LogError(e, "Error while updating Entity");
       return this.Exception();
     }
   }
@@ -240,27 +181,7 @@ public class RequestController : GenericAPiController<Request>
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while creating Entity");
-      return this.Exception();
-    }
-  }
-
-  /// <summary>
-  /// Список с заявками, которые подавал студент.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
-  [HttpGet("GetListRequestsOfStudentExists")]
-  public async Task<IActionResult> GetListRequestsOfStudentExists(Guid studentId)
-  {
-    try
-    {
-      var requests = await this._requestRepository.GetListRequestsOfStudentExists(studentId);
-      return requests is null ? this.NotFoundException() : this.Ok(requests);
-    }
-    catch(Exception e)
-    {
-      this._logger.LogError(e, "Error while getting Entities");
+      this.Logger.LogError(e, "Error while creating Entity");
       return this.Exception();
     }
   }
@@ -279,10 +200,41 @@ public class RequestController : GenericAPiController<Request>
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entities");
+      this.Logger.LogError(e, "Error while getting Entities");
       return this.Exception();
     }
   }
+
+  /// <summary>
+  /// Получение DTO заявки по идентификатору.
+  /// </summary>
+  /// <param name="id">Идентификатор заявки.</param>
+  /// <returns>DTO заявки.</returns>
+  [HttpGet("GetDTO/{id}")]
+  public async Task<IActionResult> GetRequestDTO(Guid id)
+  {
+    try
+    {
+      var form = await this._requestRepository.GetRequestForDTO(id);
+      if(form is null)
+      {
+        return this.NotFoundException();
+      }
+
+      var requestsDTO = await Mapper.RequestToRequestDTO(form);
+
+      return this.Ok(requestsDTO);
+    }
+    catch(Exception e)
+    {
+      this.Logger.LogError(e, "Error while getting Entity by Id");
+      return this.Exception();
+    }
+  }
+
+  #endregion
+
+  #region Базовый класс
 
   #endregion
 
@@ -291,19 +243,16 @@ public class RequestController : GenericAPiController<Request>
   /// <summary>
   /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий заявок.</param>
   /// <param name="logger">Логгер.</param>
-  /// <param name="requestRepository">Репозиторий заявок (как будто лучше использовать этот параметр вместо двух???).</param>
+  /// <param name="requestRepository">Репозиторий заявок.</param>
   /// <param name="statusRequestRepository">Репозиторий состояний заявок.</param>
-  /// <param name="studentRepository">Репозиторий студентов).</param>
-  public RequestController(IGenericRepository<Request> repository, ILogger<Request> logger,
-    IRequestRepository requestRepository, IGenericRepository<StatusRequest> statusRequestRepository,
-    IStudentRepository studentRepository) : base(repository, logger)
+  /// <param name="studentRepository">Репозиторий студентов.</param>
+  public RequestController(IRequestRepository requestRepository, IGenericRepository<StatusRequest> statusRequestRepository,
+    IStudentRepository studentRepository, ILogger<Request> logger) : base(requestRepository, logger)
   {
     this._requestRepository = requestRepository;
     this._statusRequestRepository = statusRequestRepository;
     this._studentRepository = studentRepository;
-    this._logger = logger;
   }
 
   #endregion

@@ -1,8 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
-using Students.Models;
 using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Controllers;
@@ -17,14 +15,11 @@ public class FinancingTypeController : GenericAPiController<FinancingType>
 {
   #region Поля и свойства
 
-  IFinancingTypeRepository _financingTypeRepository;
-  private readonly ILogger<Group> _logger;
+  private readonly IFinancingTypeRepository _financingTypeRepository;
 
   #endregion
 
   #region Методы
-
-
 
   #endregion
 
@@ -33,13 +28,12 @@ public class FinancingTypeController : GenericAPiController<FinancingType>
   /// <summary>
   /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий типов финансирования.</param>
   /// <param name="logger">Логгер.</param>
   /// <param name="financingTypeRepository">Репозиторий типов финансирования.</param>
-  public FinancingTypeController(IGenericRepository<FinancingType> repository, 
-    ILogger<FinancingType> logger, IFinancingTypeRepository financingTypeRepository) : base(repository, logger)
+  public FinancingTypeController(IFinancingTypeRepository financingTypeRepository,
+    ILogger<FinancingType> logger) : base(financingTypeRepository, logger)
   {
-    _financingTypeRepository = financingTypeRepository;
+    this._financingTypeRepository = financingTypeRepository;
   }
 
   #endregion

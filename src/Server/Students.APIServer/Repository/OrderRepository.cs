@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Students.APIServer.DTO;
+using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
@@ -13,36 +14,26 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 {
   #region Поля и свойства
 
-  private readonly StudentContext _context;
+
 
   #endregion
 
-  #region Методы
+  #region IOrderRepository
 
   /// <summary>
-  /// Список приказов с информацией о студентах.
+  /// Пагинация приказов.
   /// </summary>
   /// <returns>Приказы.</returns>
-  public async Task<IEnumerable<OrderDTO>> GetListOrdersWithStudentAsync()
+  public async Task<PagedPage<OrderDTO>> GetOrderDTOByPage(int page, int pageSize)
   {
-    var orders = await _context.Orders
+    var query = this.DbSet
       .Include(k => k.KindOrder)
       .Include(r => r.Request)
-      .ThenInclude(s => s != null ? s.Student : null)
-      .ThenInclude(g => g != null ? g.Groups : null)
-      .Select(order => new OrderDTO()
-      {
-        Id = order.Id,
-        Date = order.Date,
-        Number = order.Number,
-        StudentName = order.Request != null && order.Request.Student != null ? order.Request.Student.FullName : null,
-        KindOrderName = order.KindOrder != null ? order.KindOrder.Name : null,
-        Groups = order.Request != null && order.Request.Student != null && order.Request.Student.Groups != null ? 
-          order.Request.Student.Groups : null
-      })
-      .ToListAsync();
+      .ThenInclude(s => s!.Student)
+      .ThenInclude(g => g!.Groups)
+      .Select(order => Mapper.OrderToOrderDTO(order).Result);
 
-    return orders;
+    return await PagedPage<OrderDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentName);
   }
 
   #endregion
@@ -55,7 +46,6 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
   /// <param name="context">Контекст.</param>
   public OrderRepository(StudentContext context) : base(context)
   {
-    _context = context;
   }
 
   #endregion

@@ -26,32 +26,24 @@ internal class RequestConfiguration : IEntityTypeConfiguration<Request>
     builder.HasIndex(r => r.DocumentRiseQualificationId)
       .IsUnique();
 
-    builder.HasOne(s => s.Student)
-      .WithMany(r => r.Requests)
-      .HasForeignKey(s => s.StudentId);
+    builder.HasOne(r => r.Student)
+      .WithMany(s => s.Requests)
+      .HasForeignKey(r=> r.StudentId);
 
-    builder.HasOne(s => s.GroupStudent)
-      .WithOne(r => r.Request)
-      .HasForeignKey<GroupStudent>(s => s.RequestId);
+    builder.HasOne(r => r.EducationProgram)
+      .WithMany(ep=>ep.Requests)
+      .HasForeignKey(r => r.EducationProgramId);
 
-    builder.HasOne(ep => ep.EducationProgram)
+    builder.HasOne(r => r.DocumentRiseQualification)
       .WithMany()
-      .HasForeignKey(ep => ep.EducationProgramId);
+      .HasForeignKey(r => r.DocumentRiseQualificationId);
 
-    builder.HasOne(d => d.DocumentRiseQualification)
+    builder.HasOne(r => r.Status)
       .WithMany()
-      .HasForeignKey(d => d.DocumentRiseQualificationId);
+      .HasForeignKey(r => r.StatusRequestId);
 
-    builder.HasMany(o => o.Orders)
-      .WithOne(r => r.Request)
-      .HasForeignKey(r => r.RequestId);
-
-    builder.HasOne(ep => ep.Status)
+    builder.HasOne(r=> r.StudentStatus)
       .WithMany()
-      .HasForeignKey(ep => ep.StatusRequestId);
-
-    builder.HasOne(ep => ep.StudentStatus)
-      .WithMany()
-      .HasForeignKey(ep => ep.StudentStatusId);
+      .HasForeignKey(r => r.StudentStatusId);
   }
 }

@@ -47,12 +47,20 @@ internal class StudentConfiguration : IEntityTypeConfiguration<Student>
 
     builder.HasIndex(x => x.Email).IsUnique();
 
-    builder.HasMany(r => r.Requests)
-      .WithOne(s => s.Student)
-      .HasForeignKey(s => s.StudentId);
-
-    builder.HasOne(te => te.TypeEducation)
+    builder.HasOne(s => s.TypeEducation)
       .WithMany()
-      .HasForeignKey(te => te.TypeEducationId);
+      .HasForeignKey(s => s.TypeEducationId);
+
+    builder.HasMany(c => c.Groups)
+      .WithMany(s => s.Students)
+      .UsingEntity<GroupStudent>(
+        j => j
+          .HasOne(pt => pt.Group)
+          .WithMany(t => t.GroupStudent)
+          .HasForeignKey(pt => pt.GroupId),
+        j => j
+          .HasOne(pt => pt.Student)
+          .WithMany(p => p.GroupStudent)
+          .HasForeignKey(pt => pt.StudentId));
   }
 }

@@ -20,8 +20,8 @@ internal class StudentHistoryConfiguration : IEntityTypeConfiguration<StudentHis
     builder.Property(x => x.Family)
       .IsRequired();
 
-    builder.HasOne(x => x.Student) 
-      .WithMany() 
+    builder.HasOne(x => x.Student)
+      .WithMany()
       .HasForeignKey(x => x.StudentId);
   }
 }

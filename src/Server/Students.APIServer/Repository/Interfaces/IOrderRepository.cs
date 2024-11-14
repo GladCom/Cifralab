@@ -1,4 +1,5 @@
 ﻿using Students.APIServer.DTO;
+using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
 namespace Students.APIServer.Repository.Interfaces;
@@ -12,5 +13,5 @@ public interface IOrderRepository : IGenericRepository<Order>
   /// Получить приказы.
   /// </summary>
   /// <returns>Приказы.</returns>
-  public Task<IEnumerable<OrderDTO>> GetListOrdersWithStudentAsync();
+  public Task<PagedPage<OrderDTO>> GetOrderDTOByPage(int page, int pageSize);
 }

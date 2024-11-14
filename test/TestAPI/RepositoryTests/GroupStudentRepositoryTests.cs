@@ -56,7 +56,7 @@ public class GroupStudentRepositoryTests
   }
 
   [Test]
-  public async Task Create_Request_IsNullException()
+  public async Task Create_Request_IsNull()
   {
     //Arrange
     Request? request = null;
@@ -67,10 +67,10 @@ public class GroupStudentRepositoryTests
     await this._studentContext.SaveChangesAsync();
 
     //Act
-    var act = async () => await this._groupStudentRepository.Create(request, group.Id);
+    var actualGroupStudent = await this._groupStudentRepository.Create(request, group.Id);
 
     //Assert
-    Assert.That(act, Throws.InstanceOf<ArgumentNullException>());
+    Assert.That(actualGroupStudent, Is.Null);
   }
 
   [Test]
