@@ -1,7 +1,7 @@
-﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
+using Students.Models.Filters.Filters;
 
 namespace Students.APIServer.Repository;
 
@@ -13,12 +13,19 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 {
   #region Поля и свойства
 
+  /// <summary>
+  /// Контекст репозитория.
+  /// </summary>
   private readonly StudentContext _context;
-  private readonly DbSet<TEntity> _dbSet;
+
+  /// <summary>
+  /// DbSet репозитория.
+  /// </summary>
+  protected DbSet<TEntity> DbSet { get; }
 
   #endregion
 
-  #region Методы
+  #region IGenericRepository
 
   /// <summary>
   /// Получение списка сущностей с загрузкой из базы данных.
@@ -26,18 +33,19 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <returns>Список сущностей с загрузкой из базы данных.</returns>
   public async Task<IEnumerable<TEntity>> Get()
   {
-    return await this._dbSet.AsNoTracking().ToListAsync();
+    return await this.DbSet.AsNoTracking().ToListAsync();
   }
 
   /// <summary>
   /// Получение списка сущностей.
   /// </summary>
+  /// <param name="dbSet">Модифицированный набор сущностей.</param>
   /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
   /// <returns>Список сущностей.</returns>
-  public async Task<IEnumerable<TEntity>> Get(Predicate<TEntity> predicate)
+  public async Task<IEnumerable<TEntity>> Get(Predicate<TEntity> predicate, IQueryable<TEntity>? dbSet = null)
   {
     var items = new List<TEntity>();
-    await foreach(var item in this._dbSet.AsNoTracking().AsAsyncEnumerable())
+    await foreach(var item in (dbSet ?? this.DbSet).AsNoTracking().AsAsyncEnumerable())
     {
       if(predicate(item))
         items.Add(item);
@@ -49,11 +57,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <summary>
   /// Получение подходящей сущности.
   /// </summary>
+  /// <param name="dbSet">Модифицированный набор сущностей.</param>
   /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
   /// <returns>Сущность.</returns>
-  public async Task<TEntity?> GetOne(Predicate<TEntity> predicate)
+  public async Task<TEntity?> GetOne(Predicate<TEntity> predicate, IQueryable<TEntity>? dbSet = null)
   {
-    await foreach(var item in this._dbSet.AsAsyncEnumerable())
+    await foreach(var item in (dbSet ?? this.DbSet).AsAsyncEnumerable())
     {
       if(predicate(item))
         return item;
@@ -62,14 +71,25 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     return null;
   }
 
+  //Метод для перегрузки и явного указания подгружаемых полей.
+  /// <summary>
+  /// Получение списка сущностей.
+  /// </summary>
+  /// <param name="filter">Фильтр по которому происходит отбор.</param>
+  /// <returns>Список сущностей.</returns>
+  public virtual async Task<IEnumerable<TEntity>> GetFiltered(Filter<TEntity> filter)
+  {
+    return await this.Get(filter.GetFilterPredicate());
+  }
+
   /// <summary>
   /// Поиск сущности по идентификатору.
   /// </summary>
   /// <param name="id">Идентификатор сущности.</param>
   /// <returns>Сущность.</returns>
-  public virtual async Task<TEntity?> FindById(Guid id)
+  public async Task<TEntity?> FindById(Guid id)
   {
-    return await this._dbSet.FindAsync(id);
+    return await this.DbSet.FindAsync(id);
   }
 
   /// <summary>
@@ -79,7 +99,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <returns>Сущность.</returns>
   public virtual async Task<TEntity> Create(TEntity item)
   {
-    this._dbSet.Add(item);
+    this.DbSet.Add(item);
     await this._context.SaveChangesAsync();
     return item;
   }
@@ -92,7 +112,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <returns>Сущность.</returns>
   public async Task<TEntity?> Update(Guid id, TEntity item)
   {
-    var oldItem = await this._dbSet.FindAsync(id);
+    var oldItem = await this.DbSet.FindAsync(id);
     if(oldItem == null)
     {
       return null;
@@ -111,7 +131,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <returns>Результат удаления.</returns>
   public async Task Remove(TEntity item)
   {
-    this._dbSet.Remove(item);
+    this.DbSet.Remove(item);
     await this._context.SaveChangesAsync();
   }
 
@@ -126,7 +146,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   public GenericRepository(StudentContext context)
   {
     this._context = context;
-    this._dbSet = context.Set<TEntity>();
+    this.DbSet = context.Set<TEntity>();
   }
 
   #endregion

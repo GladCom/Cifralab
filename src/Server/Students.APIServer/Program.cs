@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
+using ClosedXML.Excel;
 using Students.APIServer.Extension;
 using Students.APIServer.Report;
 using Students.APIServer.Report.Interfaces;
@@ -8,7 +8,6 @@ using Students.APIServer.Repository.Interfaces;
 using Students.APIServer.Repository.Reports;
 using Students.DBCore.Contexts;
 using Students.Models;
-using ClosedXML.Excel;
 using Students.Models.ReferenceModels;
 using Students.Models.ReportsModel;
 

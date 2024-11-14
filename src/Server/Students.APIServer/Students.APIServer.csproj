@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Students.Models\Students.Models.csproj" />
+    <ProjectReference Include="..\..\Students.Models.Filters\Students.Models.Filters.csproj" />
     <ProjectReference Include="..\Students.DBCore\Students.DBCore.csproj" />
   </ItemGroup>
 

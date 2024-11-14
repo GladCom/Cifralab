@@ -11,14 +11,10 @@ public class FEAProgramRepository : GenericRepository<FEAProgram>, IFEAProgramRe
 {
   #region Поля и свойства
 
-  /// <summary>
-  /// Контекст БД.
-  /// </summary>
-  private readonly StudentContext _ctx;
 
   #endregion
 
-  #region Методы
+  #region IFEAProgramRepository
 
 
 
@@ -32,7 +28,6 @@ public class FEAProgramRepository : GenericRepository<FEAProgram>, IFEAProgramRe
   /// <param name="context">Контекст базы данных.</param>
   public FEAProgramRepository(StudentContext context) : base(context)
   {
-    _ctx = context;
   }
 
   #endregion

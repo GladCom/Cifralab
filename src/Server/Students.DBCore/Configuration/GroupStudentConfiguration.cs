@@ -23,5 +23,9 @@ internal class GroupStudentConfiguration : IEntityTypeConfiguration<GroupStudent
 
     builder.Property(x => x.StudentId)
       .IsRequired();
+
+    builder.HasOne(gs => gs.Request)
+      .WithOne(r => r.GroupStudent)
+      .HasForeignKey<GroupStudent>(gs => gs.RequestId);
   }
 }

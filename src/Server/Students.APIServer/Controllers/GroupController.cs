@@ -16,7 +16,6 @@ public class GroupController : GenericAPiController<Group>
   #region Поля и свойства
 
   private readonly IGroupRepository _groupRepository;
-  private readonly ILogger<Group> _logger;
 
   #endregion
 
@@ -29,7 +28,7 @@ public class GroupController : GenericAPiController<Group>
   /// <param name="groupId">Идентификатор группы.</param>
   /// <returns>Идентификаторы заявок которые не были добавлены.</returns>
   [HttpPost("AddStudentsToGroupByRequest")]
-  public async Task<IActionResult> AddStudentsToGroupByRequest(IEnumerable<Guid> requestsList, Guid groupId)
+  public async Task<IActionResult> AddStudentsToGroupByRequest(List<Guid> requestsList, Guid groupId)
   {
     try
     {
@@ -38,30 +37,35 @@ public class GroupController : GenericAPiController<Group>
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while creating Entity");
+      this.Logger.LogError(e, "Error while creating Entity");
       return this.Exception();
     }
   }
 
   /// <summary>
-  /// Список групп, в которых состоит студент.
+  /// Удаление студентов из группы.
   /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список групп.</returns>
-  [HttpGet("GetListGroupsOfStudentExists")]
-  public async Task<IActionResult> GetListGroupsOfStudentExists(Guid studentId)
+  /// <param name="studentList">Список идентификаторов студентов.</param>
+  /// <param name="groupId">Идентификатор группы.</param>
+  /// <returns>Идентификатор группы.</returns>
+  [HttpPost("RemoveStudentsFromGroup")]
+  public async Task<IActionResult> RemoveStudentsFromGroupByRequest(List<Guid> studentList, Guid groupId)
   {
     try
     {
-      var groups = await this._groupRepository.GetListGroupsOfStudentExists(studentId);
-      return groups is null ? this.NotFoundException() : this.Ok(groups);
+      var form = await this._groupRepository.RemoveStudentsFromGroup(studentList, groupId);
+      return form is null ? this.NotFoundException() : this.Ok(form);
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entities");
+      this.Logger.LogError(e, "Error while deleting Entities");
       return this.Exception();
     }
   }
+
+  #endregion
+
+  #region Базовый класс
 
   #endregion
 
@@ -72,10 +76,10 @@ public class GroupController : GenericAPiController<Group>
   /// </summary>
   /// <param name="groupRepository">Репозиторий групп.</param>
   /// <param name="logger">Логгер.</param>
-  public GroupController(IGroupRepository groupRepository, ILogger<Group> logger) : base(groupRepository, logger)
+  public GroupController(IGroupRepository groupRepository,
+    ILogger<Group> logger) : base(groupRepository, logger)
   {
     this._groupRepository = groupRepository;
-    this._logger = logger;
   }
 
   #endregion

@@ -18,8 +18,8 @@ public class StatusRequestController : GenericAPiController<StatusRequest>
   /// </summary>
   /// <param name="repository">Репозиторий стусов заявок.</param>
   /// <param name="logger">Логгер.</param>
-  public StatusRequestController(IGenericRepository<StatusRequest> repository, ILogger<StatusRequest> logger) : base(
-    repository, logger)
+  public StatusRequestController(IGenericRepository<StatusRequest> repository,
+    ILogger<StatusRequest> logger) : base(repository, logger)
   {
   }
 }

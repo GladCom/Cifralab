@@ -1,4 +1,5 @@
-﻿using Students.APIServer.DTO;
+﻿using System.Text.Json;
+using Students.APIServer.DTO;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using Students.Models.Enums;
@@ -137,6 +138,24 @@ public static class Mapper
       GroupName = groupStudent?.Group?.Name,
       GroupStartDate = groupStudent?.Group?.StartDate,
       GroupEndDate = groupStudent?.Group?.EndDate
+    };
+  }
+
+  /// <summary>
+  /// Преобразование Order в DTO.
+  /// </summary>
+  /// <param name="order">Приказ.</param>
+  /// <returns>DTO приказа.</returns>
+  public static async Task<OrderDTO> OrderToOrderDTO(Order order)
+  {
+    return new OrderDTO
+    {
+      Id = order.Id,
+      Date = order.Date,
+      Number = order.Number,
+      StudentName = order.Request?.Student?.FullName,
+      KindOrderName = order.KindOrder?.Name,
+      Groups = order.Request?.Student?.Groups
     };
   }
 

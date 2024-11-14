@@ -1,5 +1,5 @@
-﻿using Students.Models.Enums;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Students.Models.Enums;
 
 namespace Students.Models.ReferenceModels;
 

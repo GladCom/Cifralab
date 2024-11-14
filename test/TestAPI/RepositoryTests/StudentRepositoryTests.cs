@@ -10,7 +10,6 @@ public class StudentRepositoryTests
 {
   private StudentContext _studentContext;
   private StudentRepository _studentRepository;
-  private GroupStudentRepository _groupStudentRepository;
 
   [SetUp]
   public void SetUp()
@@ -19,8 +18,7 @@ public class StudentRepositoryTests
     this._studentContext.Students.RemoveRange(this._studentContext.Students.ToList());
     this._studentContext.Groups.RemoveRange(this._studentContext.Groups.ToList());
     this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
-    this._groupStudentRepository = new GroupStudentRepository(this._studentContext);
-    this._studentRepository = new StudentRepository(this._studentContext, this._groupStudentRepository);
+    this._studentRepository = new StudentRepository(this._studentContext);
   }
 
   [TearDown]

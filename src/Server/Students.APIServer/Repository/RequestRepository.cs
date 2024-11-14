@@ -14,12 +14,11 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 {
   #region Поля и свойства
 
-  private readonly StudentContext _ctx;
   private readonly IOrderRepository _orderRepository;
 
   #endregion
 
-  #region Методы
+  #region IRequestRepository
 
   /// <summary>
   /// Добавление приказа в заявку.
@@ -40,30 +39,13 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   }
 
   /// <summary>
-  /// Список заявок, в которые подавал студент.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
-  public async Task<IEnumerable<Request>?> GetListRequestsOfStudentExists(Guid studentId)
-  {
-    var student = await this._ctx.FindAsync<Student>(studentId);
-
-    if(student is null)
-      return null;
-
-    await this._ctx.Entry(student).Collection(s => s.Requests!).LoadAsync();
-
-    return student.Requests;
-  }
-
-  /// <summary>
   /// Пагинация заявок.
   /// </summary>
   /// <param name="page">Номер страницы.</param>
   /// <param name="pageSize">Размер страницы.</param>
   public async Task<PagedPage<RequestsDTO>> GetRequestsDTOByPage(int page, int pageSize)
   {
-    var query = this._ctx.Requests.AsNoTracking()
+    var query = this.DbSet.AsNoTracking()
       .Include(s => s.Student)
         .ThenInclude(te => te.TypeEducation)
       .Include(ep => ep.EducationProgram)
@@ -80,14 +62,35 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// </summary>
   /// <param name="id">Идентификатор сущности.</param>
   /// <returns>Сущность.</returns>
-  public override async Task<Request?> FindById(Guid id)
+  public async Task<Request?> GetRequestForDTO(Guid id)
   {
-    return await this._ctx.Requests.AsNoTracking()
+    return await this.GetOne(x => x.Id == id
+      , this.DbSet.AsNoTracking()
       .Include(x => x.Student)
       .ThenInclude(y => y.TypeEducation)
       .Include(x => x.EducationProgram)
-      .Include(x => x.Status)
-      .FirstOrDefaultAsync(x => x.Id == id);
+      .Include(x => x.Status));
+  }
+
+  #endregion
+
+  #region Базовый класс
+
+  /// <summary>
+  /// Модифицированное создание заявки.
+  /// </summary>
+  /// <param name="request">Заявка.</param>
+  /// <returns>Заявка.</returns>
+  public override async Task<Request> Create(Request request)
+  {
+    if(request.StudentId is null)
+      return await base.Create(request);
+
+    var existingStudentRequests =
+      await this.Get(r => r.StudentId == request.StudentId);
+    request.IsAlreadyStudied = existingStudentRequests.Any();
+
+    return await base.Create(request);
   }
 
   #endregion
@@ -98,12 +101,10 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// Конструктор.
   /// </summary>
   /// <param name="context">Контекст базы данных.</param>
-  /// <param name="studRep">Репозиторий студентов.</param>
   /// <param name="orderRepository">Репозиторий приказов.</param>
-  public RequestRepository(StudentContext context, IStudentRepository studRep, IOrderRepository orderRepository) :
+  public RequestRepository(StudentContext context, IOrderRepository orderRepository) :
     base(context)
   {
-    this._ctx = context;
     this._orderRepository = orderRepository;
   }
 

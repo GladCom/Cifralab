@@ -17,7 +17,6 @@ public class StudentController : GenericAPiController<Student>
   #region Поля и свойства
 
   private readonly IStudentRepository _studentRepository;
-  private readonly ILogger<Student> _logger;
 
   #endregion
 
@@ -36,7 +35,7 @@ public class StudentController : GenericAPiController<Student>
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entities");
+      this.Logger.LogError(e, "Error while getting Entities");
       return this.Exception();
     }
   }
@@ -56,7 +55,7 @@ public class StudentController : GenericAPiController<Student>
     }
     catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entity by Id");
+      this.Logger.LogError(e, "Error while getting Entity by Id");
       return this.Exception();
     }
   }
@@ -68,14 +67,12 @@ public class StudentController : GenericAPiController<Student>
   /// <summary>
   /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий студентов.</param>
   /// <param name="logger">Логгер.</param>
   /// <param name="studentRepository">Репозиторий студентов.</param>
-  public StudentController(IGenericRepository<Student> repository, ILogger<Student> logger,
-    IStudentRepository studentRepository) : base(repository, logger)
+  public StudentController(IStudentRepository studentRepository,
+    ILogger<Student> logger) : base(studentRepository, logger)
   {
     this._studentRepository = studentRepository;
-    this._logger = logger;
   }
 
   #endregion

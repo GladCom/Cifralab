@@ -1,6 +1,8 @@
-﻿using Students.APIServer.Repository.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using Students.Models.Filters.Filters;
 
 namespace Students.APIServer.Repository;
 
@@ -11,31 +13,22 @@ public class EducationProgramRepository : GenericRepository<EducationProgram>, I
 {
   #region Поля и свойства
 
-  private readonly StudentContext _ctx;
+  #endregion
+
+  #region IEducationProgramRepository
 
   #endregion
 
-  #region Методы
+  #region Базовый класс
 
   /// <summary>
-  /// Список программ обучения, на которых обучался студент.
+  /// Получение списка сущностей.
   /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список программам обучения.</returns>
-  public async Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId)
+  /// <param name="filter">Фильтр по которому происходит отбор.</param>
+  /// <returns>Список сущностей.</returns>
+  public override Task<IEnumerable<EducationProgram>> GetFiltered(Filter<EducationProgram> filter)
   {
-    var student = await this._ctx.Students.FindAsync(studentId);
-    if(student is null)
-      return null;
-
-    await this._ctx.Entry(student).Collection(s => s.Groups!).LoadAsync();
-
-    foreach(var studentGroup in student.Groups!)
-    {
-      await this._ctx.Entry(studentGroup).Reference(s => s.EducationProgram).LoadAsync();
-    }
-
-    return student.Groups.Select(g => g.EducationProgram);
+    return this.Get(filter.GetFilterPredicate(), this.DbSet.Include(x => x.Requests));
   }
 
   #endregion
@@ -48,7 +41,6 @@ public class EducationProgramRepository : GenericRepository<EducationProgram>, I
   /// <param name="context">Контекст.</param>
   public EducationProgramRepository(StudentContext context) : base(context)
   {
-    this._ctx = context;
   }
 
   #endregion

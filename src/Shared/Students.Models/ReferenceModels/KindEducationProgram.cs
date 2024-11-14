@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Students.Models.ReferenceModels;
+﻿namespace Students.Models.ReferenceModels;
 
 /// <summary>
 /// Вид программы обучения.

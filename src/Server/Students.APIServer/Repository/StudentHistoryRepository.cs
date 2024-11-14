@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Students.APIServer.Repository.Interfaces;
+﻿using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
-using Students.Models;
 using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Repository;
@@ -14,12 +11,11 @@ public class StudentHistoryRepository : GenericRepository<StudentHistory>, IStud
 {
   #region Поля и свойства
 
-  private readonly StudentContext _ctx;
   private IStudentRepository _studentRepository;
 
   #endregion
 
-  #region Методы
+  #region IStudentHistoryRepository
 
   #endregion
 
@@ -33,8 +29,7 @@ public class StudentHistoryRepository : GenericRepository<StudentHistory>, IStud
   public StudentHistoryRepository(StudentContext context, IStudentRepository studRep) :
     base(context)
   {
-    _ctx = context;
-    _studentRepository = studRep;
+    this._studentRepository = studRep;
   }
 
   #endregion

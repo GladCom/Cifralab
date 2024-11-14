@@ -18,7 +18,7 @@ public class GroupRepositoryTests
     this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
     this._studentContext.Groups.RemoveRange(this._studentContext.Set<Group>());
     this._studentContext.GroupStudent.RemoveRange(this._studentContext.Set<GroupStudent>());
-    this._groupRepository = new GroupRepository(this._studentContext, new GroupStudentRepository(this._studentContext));
+    this._groupRepository = new GroupRepository(this._studentContext, new RequestRepository(this._studentContext, new OrderRepository(_studentContext)), new GroupStudentRepository(this._studentContext));
   }
 
   [TearDown]
@@ -45,7 +45,7 @@ public class GroupRepositoryTests
     await this._studentContext.SaveChangesAsync();
 
     //Act
-    var badRequests = await this._groupRepository.AddStudentsToGroupByRequest(requests.Select(r => r.Id), group.Id);
+    var badRequests = await this._groupRepository.AddStudentsToGroupByRequest(requests.Select(r => r.Id).ToList(), group.Id);
 
     //Assert
     var actual = 0;
@@ -94,7 +94,7 @@ public class GroupRepositoryTests
     await this._studentContext.SaveChangesAsync();
 
     //Act
-    var actual = await this._groupRepository.AddStudentsToGroupByRequest(requests.Select(r => r.Id), Guid.Empty);
+    var actual = await this._groupRepository.AddStudentsToGroupByRequest(requests.Select(r => r.Id).ToList(), Guid.Empty);
 
     //Assert
     Assert.That(actual, Is.Null);
@@ -150,47 +150,6 @@ public class GroupRepositoryTests
     {
       Assert.That(badRequests!.Count(), Is.EqualTo(1));
       Assert.That(this._studentContext.GroupStudent.Count(), Is.EqualTo(0));
-    });
-  }
-
-  [Test]
-  public async Task GetListGroupsOfStudent_GroupsOfStudent_GetSuccessfully()
-  {
-    //Arrange
-    const int expected = 3;
-
-    var student = GenerateNewStudent();
-    this._studentContext.Add(student);
-
-    var requests = GenerateNewRequests(student.Id, expected);
-    this._studentContext.AddRange(requests);
-
-    var groups = GenerateNewGroups(expected);
-    this._studentContext.AddRange(groups);
-
-    var groupsStudent = GenerateNewGroupsStudent(groups, requests);
-    this._studentContext.AddRange(groupsStudent);
-
-    await this._studentContext.SaveChangesAsync();
-
-    //Act
-    var actualGroupsStudent = (await this._groupRepository.GetListGroupsOfStudentExists(student.Id))?.ToList();
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(actualGroupsStudent, Is.Not.Null);
-      Assert.That(actualGroupsStudent!.Count, Is.EqualTo(expected));
-      var actual = 0;
-      foreach(var groupStudent in groupsStudent)
-      {
-        if(this._studentContext.GroupStudent.FirstOrDefault(gs =>
-             gs.GroupId == groupStudent.GroupId && gs.StudentId == groupStudent.StudentId)
-           is not null)
-          actual++;
-      }
-
-      Assert.That(actual, Is.EqualTo(expected));
     });
   }
 
