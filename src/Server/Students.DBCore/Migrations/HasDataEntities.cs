@@ -25,6 +25,7 @@ internal static class HasDataEntities
     new(_documentRiseQualificationEntities);
 
   public static List<EducationProgram> EducationProgramEntities => new(_educationProgramEntities);
+  public static List<KindEducationProgram> KindEducationProgramEntities => new(_kindEducationProgramEntities);
   public static List<Group> GroupEntities => new(_groupEntities);
   public static List<GroupStudent> GroupStudentEntities => new(_groupStudentEntities);
   public static List<Order> OrderEntities => new(_orderEntities);
@@ -485,6 +486,20 @@ internal static class HasDataEntities
       IsNetworkProgram = false,
       IsDOTProgram = false,
       IsFullDOTProgram = false
+    }
+  };
+
+  private static readonly List<KindEducationProgram> _kindEducationProgramEntities = new()
+  {
+    new KindEducationProgram
+    {
+      Id = new Guid("a359d390-c3d8-45ed-a775-9e3fde156d78"),
+      Name = "Программа повышения квалификации"
+    },
+    new KindEducationProgram
+    {
+      Id = new Guid("b3e7b025-6f6e-47b1-87b9-580a6bcafa67"),
+      Name = "Программа профессиональной переподготовки"
     }
   };
 
