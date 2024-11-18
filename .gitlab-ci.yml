@@ -23,7 +23,7 @@ frontend-test:
   script:
     - npm install jest
     - npm install --save-dev jest-junit
-    - npm run test:ci
+    - npm run test -- --testResultsProcessor=\"jest-junit\" --watchAll=false --ci --coverage
 
 # Проверка компиляции бэкенд
 backend-compile:
