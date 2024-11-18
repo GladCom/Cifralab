@@ -21,7 +21,6 @@ frontend-test:
       junit:
         - junit.xml
   script:
-    - cd ./src/Client
     - npm install jest
     - npm install --save-dev jest-junit
     - npm run test:ci
