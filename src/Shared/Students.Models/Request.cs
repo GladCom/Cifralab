@@ -125,9 +125,33 @@ public class Request
   public virtual Student? Student { get; set; }
 
   /// <summary>
-  /// Группа.
+  ///  Дата создания заявки
+  /// </summary>
+  public DateTime DateOfCreate { get; set; }
+
+  /// <summary>
+  /// возраст студента на момент создания заявки
   /// </summary>
   [JsonIgnore]
+  public int? StudentAgeWhenSendRequest
+  {
+      get
+      {
+          var age = DateOfCreate.Year - Student?.BirthDate.Year;
+          // Корректировка возраста, если день рождения в этом году ещё не наступил
+          if (DateOfCreate.DayOfYear < Student?.BirthDate.DayOfYear)
+          {
+              age--;
+          }
+
+          return age;
+      }
+  }
+
+    /// <summary>
+    /// Группа.
+    /// </summary>
+    [JsonIgnore]
   public virtual GroupStudent? GroupStudent { get; set; }
 
   /// <summary>
