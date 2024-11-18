@@ -8,23 +8,23 @@ using Students.Models.ReferenceModels;
 namespace TestAPI.ControllersTests;
 
 [TestFixture]
-public class KindOrderControllerTests
+public class FEAProgramControllerTests
 {
   private StudentContext _studentContext;
-  private KindOrderController _kindOrderController;
+  private FEAProgramController _feaProgramController;
   [SetUp]
   public void SetUp()
   {
     this._studentContext = new InMemoryContext();
-    this._kindOrderController = new KindOrderController(
-      new GenericRepository<KindOrder>(this._studentContext), new TestLogger<KindOrder>())
+    this._feaProgramController = new FEAProgramController(
+      new FEAProgramRepository(this._studentContext), new TestLogger<FEAProgram>())
     {
       ControllerContext = new ControllerContext
       {
         HttpContext = new DefaultHttpContext()
       }
     };
-    this._studentContext.KindOrders.RemoveRange(this._studentContext.Set<KindOrder>());
+    this._studentContext.FEAPrograms.RemoveRange(this._studentContext.Set<FEAProgram>());
     this._studentContext.SaveChanges();
   }
 

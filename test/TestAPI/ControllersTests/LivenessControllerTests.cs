@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Controllers;
 
 namespace TestAPI.ControllersTests;
@@ -12,11 +12,12 @@ public class LivenessControllerTests
   [SetUp]
   public void SetUp()
   {
-    this._controller = new LivenessController(new TestLogger<LivenessController>());
-
-    this._controller.ControllerContext = new ControllerContext
+    this._controller = new LivenessController(new TestLogger<LivenessController>())
     {
-      HttpContext = new DefaultHttpContext()
+      ControllerContext = new ControllerContext
+      {
+        HttpContext = new DefaultHttpContext()
+      }
     };
   }
 
