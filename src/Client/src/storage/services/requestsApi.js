@@ -13,8 +13,10 @@ export const requestsApi = createApi({
       providesTags: ['Request'],
     }),
     getPersonRequestById: builder.query({
-      query: (id) => id,
-      providesTags: ['RequestById'],
+      query: (id) => ({
+        url: `/GetDTO/${id}`,
+        providesTags: ['RequestById'],
+      }),
     }),
     addPersonRequest: builder.mutation({
       query: (request) => ({
