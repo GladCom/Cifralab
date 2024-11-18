@@ -8,10 +8,22 @@ frontend-test:
   stage: test
   image: node:current-alpine3.19
   tags: [ common ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
+      when: on_success
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    when: always
+    paths:
+      - coverage/
+    when: always
+    reports:
+      junit:
+        - junit.xml
   script:
-    - cd ./src/Client
     - npm install jest
-    - npm test
+    - npm install --save-dev jest-junit
+    - npm run test:ci
 
 # Проверка компиляции бэкенд
 backend-compile:
