@@ -41,6 +41,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "test:ci": "npm run test -- --testResultsProcessor=\"jest-junit\" --watchAll=false --ci --coverage",
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject"
