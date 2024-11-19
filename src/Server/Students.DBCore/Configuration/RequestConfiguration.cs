@@ -28,10 +28,14 @@ internal class RequestConfiguration : IEntityTypeConfiguration<Request>
 
     builder.HasOne(r => r.Student)
       .WithMany(s => s.Requests)
-      .HasForeignKey(r=> r.StudentId);
+      .HasForeignKey(r => r.StudentId);
+
+    builder.HasOne(r => r.PhantomStudent)
+      .WithOne()
+      .HasForeignKey<Request>(r => r.PhantomStudentId);
 
     builder.HasOne(r => r.EducationProgram)
-      .WithMany(ep=>ep.Requests)
+      .WithMany(ep => ep.Requests)
       .HasForeignKey(r => r.EducationProgramId);
 
     builder.HasOne(r => r.DocumentRiseQualification)
@@ -42,7 +46,7 @@ internal class RequestConfiguration : IEntityTypeConfiguration<Request>
       .WithMany()
       .HasForeignKey(r => r.StatusRequestId);
 
-    builder.HasOne(r=> r.StudentStatus)
+    builder.HasOne(r => r.StudentStatus)
       .WithMany()
       .HasForeignKey(r => r.StudentStatusId);
   }

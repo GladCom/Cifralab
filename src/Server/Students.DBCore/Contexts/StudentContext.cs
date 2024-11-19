@@ -19,6 +19,7 @@ public abstract class StudentContext : DbContext
   public DbSet<Request> Requests { get; set; }
   public DbSet<ScopeOfActivity> ScopesOfActivity { get; set; }
   public DbSet<Student> Students { get; set; }
+  public DbSet<PhantomStudent> PhantomStudents { get; set; }
 
   public DbSet<StudentStatus> StudentStatuses { get; set; }
 
@@ -58,6 +59,7 @@ public abstract class StudentContext : DbContext
     modelBuilder.ApplyConfiguration(new StatusRequestConfiguration());
     modelBuilder.ApplyConfiguration(new StudentHistoryConfiguration());
     modelBuilder.ApplyConfiguration(new KindEducationProgramConfiguration());
+    modelBuilder.ApplyConfiguration(new PhantomStudentConfiguration());
   }
 
   private static void FillReferenceEntities(ModelBuilder modelBuilder)

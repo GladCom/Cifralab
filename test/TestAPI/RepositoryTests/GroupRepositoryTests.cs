@@ -1,6 +1,7 @@
 ﻿using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
+using Students.Models.ReferenceModels;
 using Group = Students.Models.Group;
 
 namespace TestAPI.RepositoryTests;
@@ -18,7 +19,13 @@ public class GroupRepositoryTests
     this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
     this._studentContext.Groups.RemoveRange(this._studentContext.Set<Group>());
     this._studentContext.GroupStudent.RemoveRange(this._studentContext.Set<GroupStudent>());
-    this._groupRepository = new GroupRepository(this._studentContext, new RequestRepository(this._studentContext, new OrderRepository(_studentContext)), new GroupStudentRepository(this._studentContext));
+    this._groupRepository = new GroupRepository(this._studentContext,
+      new RequestRepository(this._studentContext,
+        new OrderRepository(this._studentContext),
+        new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext)),
+        new GenericRepository<StatusRequest>(this._studentContext),
+        new GenericRepository<PhantomStudent>(this._studentContext)),
+      new GroupStudentRepository(this._studentContext));
   }
 
   [TearDown]

@@ -11,45 +11,11 @@ internal class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
   public void Configure(EntityTypeBuilder<Student> builder)
   {
-    builder.HasKey(x => x.Id);
-
-    builder.Property(x => x.Id)
-      .IsRequired()
-      .ValueGeneratedOnAdd();
-
-    builder.Property(x => x.Family)
-      .IsRequired();
-
-    builder.Property(x => x.BirthDate)
-      .IsRequired();
-
-    builder.Property(x => x.Sex)
-      .IsRequired();
-
-    builder.Property(x => x.Address)
-      .IsRequired();
-
-    builder.Property(x => x.Phone)
-      .IsRequired();
-
-    builder.Property(x => x.Email)
-      .IsRequired();
-
-    builder.Property(x => x.IT_Experience)
-      .IsRequired();
-
-    builder.Property(x => x.ScopeOfActivityLevelOneId)
-      .IsRequired();
-
     builder.HasIndex(x => x.SNILS).IsUnique();
 
     builder.HasIndex(x => x.Phone).IsUnique();
 
     builder.HasIndex(x => x.Email).IsUnique();
-
-    builder.HasOne(s => s.TypeEducation)
-      .WithMany()
-      .HasForeignKey(s => s.TypeEducationId);
 
     builder.HasMany(c => c.Groups)
       .WithMany(s => s.Students)

@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
-using Students.Models.ReferenceModels;
+using Students.Models;
 
 namespace Students.APIServer.Controllers;
 
