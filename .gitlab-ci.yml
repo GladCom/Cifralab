@@ -16,6 +16,7 @@ frontend-test:
     when: always
     paths:
       - coverage/
+    when: always
     reports:
       junit:
         - junit.xml
