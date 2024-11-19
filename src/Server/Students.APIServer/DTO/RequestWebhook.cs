@@ -1,4 +1,4 @@
-﻿namespace Students.Models.WebModels;
+﻿namespace Students.APIServer.DTO;
 
 /// <summary>
 /// Вебхук для обработки формы заявки на обучение, сюда добавить недостающие данные от минцифры типа nullable
@@ -63,10 +63,10 @@ public class RequestWebhook
   /// <summary>
   /// Id сферы деятельности(1 уровень).
   /// </summary>
-  public string? ScopeOfActivityLevelOneId { get; set; }
+  public required string ScopeOfActivityLevelOneName { get; set; }
 
   /// <summary>
   /// Id сферы деятельности(2 уровень).
   /// </summary>
-  public string? ScopeOfActivityLevelTwoId { get; set; }
+  public string? ScopeOfActivityLevelTwoName { get; set; }
 }

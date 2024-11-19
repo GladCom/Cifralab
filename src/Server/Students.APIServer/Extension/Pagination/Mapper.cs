@@ -3,7 +3,6 @@ using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using Students.Models.Enums;
 using Students.Models.ReferenceModels;
-using Students.Models.WebModels;
 
 namespace Students.APIServer.Extension.Pagination;
 
@@ -62,9 +61,9 @@ public static class Mapper
       Phone = form.Phone,
       TypeEducationId = (await typeEducationRepository.GetOne(x => x.Name == form.EducationLevel))?.Id,
       ScopeOfActivityLevelOneId =
-        (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelOneId!)))!.Id,
-      ScopeOfActivityLevelTwoId =
-        (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelTwoId!)))!.Id,
+        (await scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelOneName))!.Id,
+      ScopeOfActivityLevelTwoId = form.ScopeOfActivityLevelTwoName is null ? null :
+        (await scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelTwoName))!.Id,
       Sex = default
       //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
       //Speciality = form.
