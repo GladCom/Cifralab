@@ -4,6 +4,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
+using Students.Models;
 using Students.Models.ReferenceModels;
 using Students.Models.WebModels;
 
@@ -50,9 +51,14 @@ public class IntegrationController : ControllerBase
   private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
 
   /// <summary>
-  /// Репозиторий сферы деятельности.
+  /// Репозиторий сфер деятельности.
   /// </summary>
   private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
+
+  /// <summary>
+  /// Репозиторий неподтверждённых студентов.
+  /// </summary>
+  private readonly IGenericRepository<PhantomStudent> _fantomStudentRepository;
 
   #endregion
 
@@ -79,12 +85,15 @@ public class IntegrationController : ControllerBase
         if(await this._studentRepository.GetOne(x =>
               x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email) is null)
         {
-          student = await Mapper.WebhookToStudent(form, this._typeEducationRepository, this._scopeOfActivityRepository);
-          student = await this._studentRepository.Create(student);
+          var fantomStudent = await Mapper.WebhookToStudent(form, this._typeEducationRepository, this._scopeOfActivityRepository);
+          fantomStudent = await this._fantomStudentRepository.Create(fantomStudent);
+          request.PhantomStudentId = fantomStudent.Id;
         }
       }
-
-      request.StudentId = student?.Id;
+      else
+      {
+        request.StudentId = student.Id;
+      }
 
       await this._requestRepository.Create(request);
       return this.Ok(form);
@@ -116,17 +125,18 @@ public class IntegrationController : ControllerBase
   /// <summary>
   /// Конструктор.
   /// </summary>
+  /// <param name="fantomStudentRepository">Репозиторий неподтверждённых студентов.</param>
   /// <param name="logger">Логгер контроллера.</param>
   /// <param name="requestRepository">Репозиторий заявок.</param>
   /// <param name="studentRepository">Репозиторий студентов.</param>
   /// <param name="educationProgramRepository">Репозиторий образовательных программ.</param>
   /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
   /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
-  /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
-  public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository,
-    IStudentRepository studentRepository, IEducationProgramRepository educationProgramRepository,
-    IGenericRepository<StatusRequest> statusRequestRepository,
-    IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
+  /// <param name="scopeOfActivityRepository">Репозиторий сфер деятельности.</param>
+  public IntegrationController(IRequestRepository requestRepository, IStudentRepository studentRepository,
+    IEducationProgramRepository educationProgramRepository, IGenericRepository<StatusRequest> statusRequestRepository,
+    IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository,
+    IGenericRepository<PhantomStudent> fantomStudentRepository, ILogger<IntegrationController> logger)
   {
     this._logger = logger;
     this._requestRepository = requestRepository;
@@ -135,6 +145,7 @@ public class IntegrationController : ControllerBase
     this._statusRequestRepository = statusRequestRepository;
     this._typeEducationRepository = typeEducationRepository;
     this._scopeOfActivityRepository = scopeOfActivityRepository;
+    this._fantomStudentRepository = fantomStudentRepository;
   }
 
   #endregion

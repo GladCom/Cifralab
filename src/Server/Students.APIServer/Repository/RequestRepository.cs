@@ -4,6 +4,7 @@ using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Repository;
 
@@ -15,10 +16,136 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   #region Поля и свойства
 
   private readonly IOrderRepository _orderRepository;
+  private readonly IStudentRepository _studentRepository;
+  private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
+  private readonly IGenericRepository<PhantomStudent> _phantomStudentRepository;
 
   #endregion
 
   #region IRequestRepository
+
+  /// <summary>
+  /// Создание новой заявки с фронта.
+  /// </summary>
+  /// <param name="form">DTO заявки с данными о потенциальном студенте.</param>
+  /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
+  public async Task<Request> Create(NewRequestDTO form)
+  {
+    var request = await Mapper.NewRequestDTOToRequest(form, this._statusRequestRepository);
+
+    var fio = $"{form.family} {form.name} {form.patron}";
+    var date = form.birthDate;
+
+    var student = await this._studentRepository.GetOne(x =>
+      x.Name == form.name && x.Family == form.family && x.Patron == form.patron && x.BirthDate == date && x.Email == form.email);
+
+    if(student is null)
+    {
+      request.IsAlreadyStudied = false;
+      if(await this._studentRepository.GetOne(x =>
+           x.FullName == fio || x.BirthDate == date || x.Email == form.email) is null)
+      {
+        var fantomStudent = await Mapper.NewRequestDTOToStudent(form);
+        fantomStudent = await this._phantomStudentRepository.Create(fantomStudent);
+        request.PhantomStudentId = fantomStudent.Id;
+      }
+    }
+    else
+    {
+      request.StudentId = student.Id;
+    }
+
+    request = await base.Create(request);
+
+    return request;
+  }
+
+  /// <summary>
+  /// Обновить заявку и её студента.
+  /// Пизда, а не мокап, студента выбирать нужно из списка блять
+  /// </summary>
+  /// <param name="requestId">Id заявки.</param>
+  /// <param name="form">DTO заявки.</param>
+  /// <returns>DTO заявки.</returns>
+  public async Task<RequestDTO?> Update(Guid requestId, RequestDTO form)
+  {
+    var resultOld = await this.FindById(requestId);
+
+    if(resultOld is null)
+    {
+      return null;
+    }
+
+    Student? student;
+
+    //Если студент уже привязан, то меняем его реквизиты, но если он совпадет по трем полям с уже существующим, то пусть идут в топку
+    if(form.StudentId is not null)
+    {
+      student = await this._studentRepository.FindById(form.StudentId.Value);
+      if(student is not null)
+      {
+        var tempNewStudent = await this._studentRepository.GetOne(x => x.Phone == form.phone &&
+                                                                       x.Email == form.Email &&
+                                                                       x.Family == form.family &&
+                                                                       x.Name == form.name! &&
+                                                                       x.Patron == form.patron!);
+
+        if(tempNewStudent is not null && student.Id != tempNewStudent.Id)
+        {
+          //throw new Exception("Попытка задублировать студентов");
+          student = tempNewStudent;
+        }
+
+        student.Family = form.family!;
+        student.Name = form.name;
+        student.Patron = form.patron;
+        student.BirthDate = (DateOnly)form.BirthDate!;
+        student.Sex = student.Sex;
+        student.Address = form.Address!;
+        student.Phone = form.phone ?? "";
+        student.Email = form.Email ?? "";
+        student.Projects = form.projects;
+        student.IT_Experience = form.IT_Experience!;
+        student.TypeEducationId = form.TypeEducationId;
+        //Ебать-кололить, нет этого в мокапе, и не нужно было бы, коли выбор был бы из списка, короче этот метод нужно переделывать
+        student.ScopeOfActivityLevelOneId = form.ScopeOfActivityLevelOneId != null && (Guid)form.ScopeOfActivityLevelOneId! != Guid.Empty
+          ? (Guid)form.ScopeOfActivityLevelOneId
+          : Guid.Parse("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
+        student.ScopeOfActivityLevelTwoId = form.ScopeOfActivityLevelTwoId;
+        student.Speciality = form.speciality;
+
+        resultOld.StudentId = student.Id;
+        await this._studentRepository.Update(student.Id, student);
+      }
+    }
+    else
+    {
+      student = await this._studentRepository.GetOne(x => x.Phone == form.phone &&
+                                                          x.Email == form.Email &&
+                                                          x.Family == form.family! &&
+                                                          x.Name == form.name! &&
+                                                          x.Patron == form.patron!);
+
+      if(student is null)
+      {
+        student = await Mapper.RequestDTOToStudent(form);
+
+        student = await this._studentRepository.Create(student);
+        resultOld.StudentId = student.Id;
+      }
+    }
+
+    resultOld.StatusRequestId = form.StatusRequestId;
+    resultOld.StatusEntrancExams = form.statusEntrancExams;
+    resultOld.Email = form.Email ?? "";
+    resultOld.Phone = form.phone ?? "";
+    resultOld.Agreement = form.agreement;
+    resultOld.EducationProgramId = form.EducationProgramId;
+
+    await this.Update(requestId, resultOld);
+
+    return await this.GetRequestDTO(resultOld.Id);
+  }
 
   /// <summary>
   /// Добавление приказа в заявку.
@@ -43,18 +170,20 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// </summary>
   /// <param name="page">Номер страницы.</param>
   /// <param name="pageSize">Размер страницы.</param>
-  public async Task<PagedPage<RequestsDTO>> GetRequestsDTOByPage(int page, int pageSize)
+  public async Task<PagedPage<RequestDTO>> GetRequestsDTOByPage(int page, int pageSize)
   {
     var query = this.DbSet.AsNoTracking()
-      .Include(s => s.Student)
-        .ThenInclude(te => te.TypeEducation)
-      .Include(ep => ep.EducationProgram)
-      .Include(st => st.Status)
-      .Include(o => o.Orders)
-        .ThenInclude(ko => ko.KindOrder)
-       .Select(x => Mapper.RequestToRequestDTO(x).Result);
+      .Include(r => r.Student)
+        .ThenInclude(s => s!.TypeEducation)
+      .Include(r => r.PhantomStudent)
+        .ThenInclude(s => s!.TypeEducation)
+      .Include(r => r.EducationProgram)
+      .Include(r => r.Status)
+      .Include(r => r.Orders)!
+        .ThenInclude(o => o.KindOrder)
+       .Select(r => Mapper.RequestToRequestDTO(r).Result);
 
-    return await PagedPage<RequestsDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentFullName);
+    return await PagedPage<RequestDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentFullName);
   }
 
   /// <summary>
@@ -62,14 +191,19 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// </summary>
   /// <param name="id">Идентификатор сущности.</param>
   /// <returns>Сущность.</returns>
-  public async Task<Request?> GetRequestForDTO(Guid id)
+  public async Task<RequestDTO?> GetRequestDTO(Guid id)
   {
-    return await this.GetOne(x => x.Id == id
-      , this.DbSet.AsNoTracking()
-      .Include(x => x.Student)
-      .ThenInclude(y => y.TypeEducation)
-      .Include(x => x.EducationProgram)
-      .Include(x => x.Status));
+    var request = await this.GetOne(r => r.Id == id, this.DbSet.AsNoTracking()
+        .Include(r => r.Student)
+          .ThenInclude(s => s!.TypeEducation)
+        .Include(r => r.PhantomStudent)
+          .ThenInclude(s => s!.TypeEducation)
+        .Include(r => r.EducationProgram)
+        .Include(r => r.Status)
+        .Include(r => r.Orders)!
+          .ThenInclude(o => o.KindOrder));
+
+    return request is null ? null : await Mapper.RequestToRequestDTO(request);
   }
 
   #endregion
@@ -94,6 +228,25 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     return await base.Create(request);
   }
 
+  /// <summary>
+  /// Изменение сущности.
+  /// </summary>
+  /// <param name="requestId">Идентификатор сущности.</param>
+  /// <param name="request">Обновлённая сущность.</param>
+  /// <returns>Сущность.</returns>
+  public override async Task<Request?> Update(Guid requestId, Request request)
+  {
+    if(request.StudentId is null || request.PhantomStudentId is null)
+      return await base.Update(requestId, request);
+
+    var phantomStudent = await this._phantomStudentRepository.FindById(request.PhantomStudentId.Value);
+    if(phantomStudent is not null)
+      await this._phantomStudentRepository.Remove(phantomStudent);
+    request.PhantomStudentId = null;
+
+    return await base.Update(requestId, request);
+  }
+
   #endregion
 
   #region Конструкторы
@@ -102,11 +255,18 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// Конструктор.
   /// </summary>
   /// <param name="context">Контекст базы данных.</param>
+  /// <param name="phantomStudentRepository">Репозиторий неподтверждённых студентов.</param>
+  /// <param name="statusRequestRepository">Репозиторий состояний заявок.</param>
+  /// <param name="studentRepository">Репозиторий студентов.</param>
   /// <param name="orderRepository">Репозиторий приказов.</param>
-  public RequestRepository(StudentContext context, IOrderRepository orderRepository) :
-    base(context)
+  public RequestRepository(StudentContext context, IOrderRepository orderRepository,
+    IStudentRepository studentRepository, IGenericRepository<StatusRequest> statusRequestRepository,
+    IGenericRepository<PhantomStudent> phantomStudentRepository) : base(context)
   {
     this._orderRepository = orderRepository;
+    this._studentRepository = studentRepository;
+    this._statusRequestRepository = statusRequestRepository;
+    this._phantomStudentRepository = phantomStudentRepository;
   }
 
   #endregion

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Controllers;
 using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
+using Students.Models;
 using Students.Models.ReferenceModels;
 
 namespace TestAPI.ControllersTests;
@@ -16,15 +17,16 @@ public class StudentHistoryTests
   public void SetUp()
   {
     this._studentContext = new InMemoryContext();
-    this._studentHistoryController = new StudentHistoryController(
-      new StudentHistoryRepository(this._studentContext, new StudentRepository(this._studentContext)), new TestLogger<StudentHistory>())
-    {
-      ControllerContext = new ControllerContext
+        this._studentHistoryController = new StudentHistoryController(
+          new StudentHistoryRepository(this._studentContext), new TestLogger<StudentHistory>());/*
+          new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext)),                                                  
       {
-        HttpContext = new DefaultHttpContext()
-      }
-    };
-    this._studentContext.StudentHistories.RemoveRange(this._studentContext.Set<StudentHistory>());
+        ControllerContext = new ControllerContext
+        {
+          HttpContext = new DefaultHttpContext()
+        }
+      };*/
+        this._studentContext.StudentHistories.RemoveRange(this._studentContext.Set<StudentHistory>());
     this._studentContext.SaveChanges();
   }
 

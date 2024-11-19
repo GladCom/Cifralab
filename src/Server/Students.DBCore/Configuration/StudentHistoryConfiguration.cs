@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Students.Models.ReferenceModels;
+using Students.Models;
 
 namespace Students.DBCore.Configuration;
 

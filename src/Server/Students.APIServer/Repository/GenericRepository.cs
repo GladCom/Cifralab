@@ -110,7 +110,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <param name="id">Идентификатор сущности.</param>
   /// <param name="item">Обновлённая сущность.</param>
   /// <returns>Сущность.</returns>
-  public async Task<TEntity?> Update(Guid id, TEntity item)
+  public virtual async Task<TEntity?> Update(Guid id, TEntity item)
   {
     var oldItem = await this.DbSet.FindAsync(id);
     if(oldItem == null)
