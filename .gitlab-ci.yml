@@ -12,11 +12,11 @@ frontend-test:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
       when: on_success
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
-  #artifacts:
-    #when: always
-    #paths:
-    #  - coverage/
-    #when: always
+  artifacts:
+    when: always
+    paths:
+      - coverage/
+    when: always
     reports:
       junit:
         - junit.xml
