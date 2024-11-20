@@ -17,6 +17,22 @@ public class EducationProgramRepository : GenericRepository<EducationProgram>, I
 
   #region IEducationProgramRepository
 
+  /// <summary>
+  /// Поменять статус признака Архив.
+  /// </summary>
+  /// <param name="educationProgramId">Идентификатор.</param>
+  /// <returns>Программа обучения.</returns>
+  public async Task<EducationProgram?> MoveToArchiveOrBack(Guid educationProgramId)
+  {
+    var educationProgram = await this.FindById(educationProgramId);
+    if(educationProgram is null)
+    {
+      return null;
+    }
+    educationProgram.IsArchive = !educationProgram.IsArchive;
+    return await this.Update(educationProgramId, educationProgram);
+  }
+
   #endregion
 
   #region Базовый класс

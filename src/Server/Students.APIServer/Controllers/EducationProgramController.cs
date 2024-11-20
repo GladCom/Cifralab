@@ -31,14 +31,8 @@ public class EducationProgramController : GenericAPiController<EducationProgram>
   {
     try
     {
-      var educationProgram = await this._educationProgramRepository.FindById(id);
-      if(educationProgram is null)
-      {
-        return this.NotFoundException();
-      }
-      educationProgram.IsArchive = !educationProgram.IsArchive;
-      await this._educationProgramRepository.Update(id, educationProgram);
-      return this.Ok(educationProgram);
+      var educationProgram = await this._educationProgramRepository.MoveToArchiveOrBack(id);
+      return educationProgram is null ? this.NotFoundException() : this.Ok(educationProgram);
     }
     catch(Exception e)
     {

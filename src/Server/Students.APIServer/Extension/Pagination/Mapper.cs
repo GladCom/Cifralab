@@ -3,7 +3,6 @@ using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using Students.Models.Enums;
 using Students.Models.ReferenceModels;
-using Students.Models.WebModels;
 
 namespace Students.APIServer.Extension.Pagination;
 
@@ -41,11 +40,11 @@ public static class Mapper
   /// <param name="studentRepository">Репозиторий студентов.</param>
   /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
   /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
-  public static async Task<Student> WebhookToStudent(RequestWebhook form,
+  public static async Task<PhantomStudent> WebhookToStudent(RequestWebhook form,
     IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
   {
     var fio = form.Name.Split(" ");
-    return new Student
+    return new PhantomStudent
     {
       Address = form.Address,
       Family = fio.FirstOrDefault() ?? "",
@@ -62,9 +61,9 @@ public static class Mapper
       Phone = form.Phone,
       TypeEducationId = (await typeEducationRepository.GetOne(x => x.Name == form.EducationLevel))?.Id,
       ScopeOfActivityLevelOneId =
-        (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelOneId!)))!.Id,
-      ScopeOfActivityLevelTwoId =
-        (await scopeOfActivityRepository.GetOne(x => x.Id == Guid.Parse(form.ScopeOfActivityLevelTwoId!)))!.Id,
+        (await scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelOneName))!.Id,
+      ScopeOfActivityLevelTwoId = form.ScopeOfActivityLevelTwoName is null ? null :
+        (await scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelTwoName))!.Id,
       Sex = default
       //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
       //Speciality = form.
@@ -77,37 +76,39 @@ public static class Mapper
   /// <summary>
   /// Преобразование Request в DTO.
   /// </summary>
-  /// <param name="form">Заявка.</param>
+  /// <param name="request">Заявка.</param>
   /// <returns>DTO заявки.</returns>
-  public static async Task<RequestsDTO> RequestToRequestDTO(Request form)
+  public static async Task<RequestDTO> RequestToRequestDTO(Request request)
   {
-    return new RequestsDTO
+    if(request.PhantomStudent is not null)
+      request.Student = request.PhantomStudent as Student;
+    return new RequestDTO
     {
-      Id = form.Id,
-      StudentId = form.Student?.Id,
-      StudentFullName = form.Student?.FullName ?? "",
-      family = form.Student?.Family,
-      name = form.Student?.Name,
-      patron = form.Student?.Patron,
-      StatusRequest = form.Status?.Name,
-      StatusRequestId = form.StatusRequestId,
-      EducationProgram = form.EducationProgram?.Name,
-      EducationProgramId = form.EducationProgramId,
-      TypeEducation = form.Student?.TypeEducation?.Name,
-      TypeEducationId = form.Student?.TypeEducationId,
-      speciality = form.Student?.Speciality,
-      IT_Experience = form.Student?.IT_Experience,
-      projects = form.Student?.Projects,
-      statusEntrancExams = form.StatusEntrancExams ?? 0,
-      BirthDate = form.Student?.BirthDate,
-      Age = form.Student?.Age,
-      Address = form.Student?.Address,
-      phone = form.Student?.Phone,
-      Email = form.Student?.Email,
-      ScopeOfActivityLevelOneId = form.Student?.ScopeOfActivityLevelOneId,
-      ScopeOfActivityLevelTwoId = form.Student?.ScopeOfActivityLevelTwoId,
-      agreement = form.Agreement,
-      trained = form.Orders != null && form.Orders!.Any(x => x.KindOrder!.Name!.ToLower() == "О зачислении")
+      Id = request.Id,
+      StudentId = request.Student?.Id,
+      StudentFullName = request.Student?.FullName ?? "",
+      family = request.Student?.Family,
+      name = request.Student?.Name,
+      patron = request.Student?.Patron,
+      StatusRequest = request.Status?.Name,
+      StatusRequestId = request.StatusRequestId,
+      EducationProgram = request.EducationProgram?.Name,
+      EducationProgramId = request.EducationProgramId,
+      TypeEducation = request.Student?.TypeEducation?.Name,
+      TypeEducationId = request.Student?.TypeEducationId,
+      speciality = request.Student?.Speciality,
+      IT_Experience = request.Student?.IT_Experience,
+      projects = request.Student?.Projects,
+      statusEntrancExams = request.StatusEntrancExams ?? 0,
+      BirthDate = request.Student?.BirthDate,
+      Age = request.Student?.Age,
+      Address = request.Student?.Address,
+      phone = request.Student?.Phone,
+      Email = request.Student?.Email,
+      ScopeOfActivityLevelOneId = request.Student?.ScopeOfActivityLevelOneId,
+      ScopeOfActivityLevelTwoId = request.Student?.ScopeOfActivityLevelTwoId,
+      agreement = request.Agreement,
+      trained = request.Orders is not null && request.Orders!.Any(x => x.KindOrder!.Name!.ToLower() == "О зачислении")
     };
   }
 
@@ -185,19 +186,19 @@ public static class Mapper
   /// </summary>
   /// <param name="form">DTO новой заявки.</param>
   /// <returns>Студент.</returns>
-  public static async Task<Student> NewRequestDTOToStudent(NewRequestDTO form)
+  public static async Task<PhantomStudent> NewRequestDTOToStudent(NewRequestDTO form)
   {
-    return new Student
+    return new PhantomStudent
     {
       Address = form.address,
-      Family = form.family ?? "",
+      Family = form.family,
       Name = form.name,
       Patron = form.patron,
 
       BirthDate = form.birthDate,
       IT_Experience = form.iT_Experience,
       Email = form.email,
-      Phone = form.phone ?? "",
+      Phone = form.phone,
       Sex = SexHuman.Men,
       TypeEducationId = form.typeEducationId,
       ScopeOfActivityLevelOneId = form.scopeOfActivityLevelOneId,
@@ -210,7 +211,7 @@ public static class Mapper
   /// </summary>
   /// <param name="form">DTO заявки.</param>
   /// <returns>Студент.</returns>
-  public static async Task<Student> RequestDTOToStudent(RequestsDTO form)
+  public static async Task<Student> RequestDTOToStudent(RequestDTO form)
   {
     return new Student
     {

@@ -18,7 +18,7 @@ public class StudentRepositoryTests
     this._studentContext.Students.RemoveRange(this._studentContext.Students.ToList());
     this._studentContext.Groups.RemoveRange(this._studentContext.Groups.ToList());
     this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
-    this._studentRepository = new StudentRepository(this._studentContext);
+    this._studentRepository = new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext));
   }
 
   [TearDown]

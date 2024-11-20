@@ -30,11 +30,11 @@ public class RequestControllerTests
   {
     this._studentContext = new InMemoryContext();
     var genericStatusRequestRepository = new GenericRepository<StatusRequest>(this._studentContext);
-    var studentRepository = new StudentRepository(this._studentContext);
+    var studentRepository = new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext));
     var orderRepository = new OrderRepository(this._studentContext);
-    var requestRepository = new RequestRepository(this._studentContext, orderRepository);
-    this._requestController = new RequestController(requestRepository, genericStatusRequestRepository,
-      studentRepository, new TestLogger<Request>())
+    var fantomStudentRepository = new GenericRepository<PhantomStudent>(this._studentContext);
+    var requestRepository = new RequestRepository(this._studentContext, orderRepository, studentRepository, genericStatusRequestRepository, fantomStudentRepository);
+    this._requestController = new RequestController(requestRepository, new TestLogger<Request>())
     {
       ControllerContext = new ControllerContext
       {
@@ -43,6 +43,7 @@ public class RequestControllerTests
     };
     this._studentContext.Requests.RemoveRange(this._studentContext.Set<Request>());
     this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
+    this._studentContext.PhantomStudents.RemoveRange(this._studentContext.Set<PhantomStudent>());
     this._studentContext.Orders.RemoveRange(this._studentContext.Set<Order>());
     this._studentContext.SaveChangesAsync();
   }
@@ -70,8 +71,8 @@ public class RequestControllerTests
     {
       Assert.That(okResult, Is.Not.Null);
       Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
-      Assert.That(okResult?.Value, Is.TypeOf<RequestsDTO>());
-      Assert.That((okResult?.Value as RequestsDTO)?.Id, Is.EqualTo(this._guids[0]));
+      Assert.That(okResult?.Value, Is.TypeOf<RequestDTO>());
+      Assert.That((okResult?.Value as RequestDTO)?.Id, Is.EqualTo(this._guids[0]));
     });
   }
 
@@ -95,7 +96,7 @@ public class RequestControllerTests
   public async Task Post_RequestForNotExistStudent_Ok()
   {
     //Arrange
-    const string name = "Иван";
+    const string name = "Андриан";
     const string patron = "Иванович";
     const string family = "Иванов";
     const string email = "email@mail.ru";
@@ -115,12 +116,17 @@ public class RequestControllerTests
       .Any(e => e.Phone == phone && e.BirthDate == date
                                  && e.Name == name && e.Patron == patron && e.Family == family);
 
+    var foundPhantomStudentAfterPost = this._studentContext.PhantomStudents
+      .Any(e => e.Phone == phone && e.BirthDate == date
+                                    && e.Name == name && e.Patron == patron && e.Family == family);
+
     Assert.Multiple(() =>
     {
       Assert.That(okResult, Is.Not.Null);
       Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
       Assert.That(okResult?.Value, Is.TypeOf<Request>());
-      Assert.That(foundStudentAfterPost, Is.True);
+      Assert.That(foundStudentAfterPost, Is.False);
+      Assert.That(foundPhantomStudentAfterPost, Is.True);
     });
   }
 
@@ -231,6 +237,7 @@ public class RequestControllerTests
 
     //обновленные данные по заявке
     var requestDto = GenerateRequestsDto("Иван", "иванович", "Иванов", "mail@mail.ru", "+7 (111) 222-22-22");
+        requestDto.ScopeOfActivityLevelOneId = new Guid("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
 
     //Act
     var result = await this._requestController.Put(requestId.Value, requestDto);
@@ -238,14 +245,14 @@ public class RequestControllerTests
     // Assert
     var okResult = result as ObjectResult;
 
-    var resultGet = await this._requestController.Get(requestId.Value);
-    var getValue = ((ObjectResult)resultGet).Value as RequestsDTO;
+    var resultGet = await this._requestController.GetRequestDTO(requestId.Value);
+    var getValue = ((ObjectResult)resultGet).Value as RequestDTO;
     var newStudentId = getValue?.StudentId;
     Assert.Multiple(() =>
     {
       Assert.That(okResult, Is.Not.Null);
       Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
-      Assert.That(okResult?.Value, Is.TypeOf<RequestsDTO>());
+      Assert.That(okResult?.Value, Is.TypeOf<RequestDTO>());
       Assert.That(newStudentId, Is.Not.EqualTo(oldStudentId));
     });
   }
@@ -288,14 +295,14 @@ public class RequestControllerTests
     var okResult = result as ObjectResult;
 
     var resultGet = await this._requestController.Get(requestId.Value);
-    var getValue = ((ObjectResult)resultGet)?.Value as RequestsDTO;
+    var getValue = ((ObjectResult)resultGet)?.Value as RequestDTO;
     var newStudentId = getValue?.StudentId;
 
     Assert.Multiple(() =>
     {
       Assert.That(okResult, Is.Not.Null);
       Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
-      Assert.That(okResult?.Value, Is.TypeOf<RequestsDTO>());
+      Assert.That(okResult?.Value, Is.TypeOf<RequestDTO>());
       Assert.That(newStudentId, Is.Null);
     });
   }
@@ -437,7 +444,7 @@ public class RequestControllerTests
     {
       Assert.That(okResult, Is.Not.Null);
       Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
-      Assert.That(okResult?.Value, Is.TypeOf<RequestsDTO>());
+      Assert.That(okResult?.Value, Is.TypeOf<RequestDTO>());
       Assert.That(foundStudentAfterPut, Is.Not.Null);
       Assert.That(foundStudentAfterPut?.Email, Is.Not.EqualTo(oldStudentEmail));
       Assert.That(foundStudentAfterPut?.Email, Is.EqualTo(email));
@@ -524,7 +531,7 @@ public class RequestControllerTests
 
     // Assert
     var okResult = result as ObjectResult;
-    var listRequest = okResult?.Value as PagedPage<RequestsDTO>;
+    var listRequest = okResult?.Value as PagedPage<RequestDTO>;
 
     Assert.Multiple(() =>
     {
@@ -551,7 +558,7 @@ public class RequestControllerTests
 
     // Assert
     var okResult = result as ObjectResult;
-    var listRequest = okResult?.Value as PagedPage<RequestsDTO>;
+    var listRequest = okResult?.Value as PagedPage<RequestDTO>;
 
     Assert.Multiple(() =>
     {
@@ -618,11 +625,11 @@ public class RequestControllerTests
     };
   }
 
-  private static RequestsDTO GenerateRequestsDto(string name = "Иван", string patron = "иванович",
+  private static RequestDTO GenerateRequestsDto(string name = "Иван", string patron = "иванович",
     string family = "Иванов", string email = "mail@mail.ru", string phone = "+7 (111) 222-22-22",
     Guid? studentId = null)
   {
-    return new RequestsDTO()
+    return new RequestDTO()
     {
       family = family,
       name = name,

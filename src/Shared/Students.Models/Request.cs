@@ -24,6 +24,12 @@ public class Request
   public Guid? StudentId { get; set; }
 
   /// <summary>
+  /// Id временного студента.
+  /// экспорт из заявки
+  /// </summary>
+  public Guid? PhantomStudentId { get; set; }
+
+  /// <summary>
   ///  Id образовательной программы 
   /// </summary>
   public Guid? EducationProgramId { get; set; }
@@ -135,23 +141,29 @@ public class Request
   [JsonIgnore]
   public int? StudentAgeWhenSendRequest
   {
-      get
+    get
+    {
+      var age = DateOfCreate.Year - Student?.BirthDate.Year;
+      // Корректировка возраста, если день рождения в этом году ещё не наступил
+      if (DateOfCreate.DayOfYear < Student?.BirthDate.DayOfYear)
       {
-          var age = DateOfCreate.Year - Student?.BirthDate.Year;
-          // Корректировка возраста, если день рождения в этом году ещё не наступил
-          if (DateOfCreate.DayOfYear < Student?.BirthDate.DayOfYear)
-          {
-              age--;
-          }
-
-          return age;
+        age--;
       }
+
+      return age;
+    }
   }
 
-    /// <summary>
-    /// Группа.
-    /// </summary>
-    [JsonIgnore]
+  /// <summary>
+  /// Временный студент.
+  /// </summary>
+  [JsonIgnore]
+  public virtual PhantomStudent? PhantomStudent { get; set; }
+
+  /// <summary>
+  /// Группа.
+  /// </summary>
+  [JsonIgnore]
   public virtual GroupStudent? GroupStudent { get; set; }
 
   /// <summary>

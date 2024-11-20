@@ -3,28 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Controllers;
 using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
-using Students.Models.ReferenceModels;
+using Students.Models;
 
 namespace TestAPI.ControllersTests;
 
 [TestFixture]
-public class KindOrderControllerTests
+public class DocumentRiseQualificationControllerTests
 {
   private StudentContext _studentContext;
-  private KindOrderController _kindOrderController;
+  private DocumentRiseQualifacationController _documentRiseQualificationController;
   [SetUp]
   public void SetUp()
   {
     this._studentContext = new InMemoryContext();
-    this._kindOrderController = new KindOrderController(
-      new GenericRepository<KindOrder>(this._studentContext), new TestLogger<KindOrder>())
+    this._documentRiseQualificationController = new DocumentRiseQualifacationController(
+      new GenericRepository<DocumentRiseQualification>(this._studentContext), new TestLogger<DocumentRiseQualification>())
     {
       ControllerContext = new ControllerContext
       {
         HttpContext = new DefaultHttpContext()
       }
     };
-    this._studentContext.KindOrders.RemoveRange(this._studentContext.Set<KindOrder>());
+    this._studentContext.DocumentRiseQualifications.RemoveRange(this._studentContext.Set<DocumentRiseQualification>());
     this._studentContext.SaveChanges();
   }
 

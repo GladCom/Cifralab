@@ -9,6 +9,23 @@ namespace Students.APIServer.Repository.Interfaces;
 /// </summary>
 public interface IRequestRepository : IGenericRepository<Request>
 {
+
+  /// <summary>
+  /// Создание новой заявки с фронта.
+  /// </summary>
+  /// <param name="form">DTO заявки с данными о потенциальном студенте.</param>
+  /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
+  Task<Request> Create(NewRequestDTO form);
+
+  /// <summary>
+  /// Обновить заявку и её студента.
+  /// Пизда, а не мокап, студента выбирать нужно из списка блять
+  /// </summary>
+  /// <param name="requestId">Id заявки.</param>
+  /// <param name="form">DTO заявки.</param>
+  /// <returns>DTO заявки.</returns>
+  Task<RequestDTO?> Update(Guid requestId, RequestDTO form);
+
   /// <summary>
   /// Добавление приказа в заявку.
   /// </summary>
@@ -23,12 +40,12 @@ public interface IRequestRepository : IGenericRepository<Request>
   /// <param name="page">Номер страницы.</param>
   /// <param name="pageSize">Размер страницы.</param>
   /// <returns>Пагинированные DTO заявок.</returns>
-  Task<PagedPage<RequestsDTO>> GetRequestsDTOByPage(int page, int pageSize);
+  Task<PagedPage<RequestDTO>> GetRequestsDTOByPage(int page, int pageSize);
 
   /// <summary>
   /// Поиск заявки с подгрузкой связанных сущностей.
   /// </summary>
   /// <param name="id">Идентификатор заявки.</param>
   /// <returns>Заявка с подгруженными сущностями.</returns>
-  Task<Request?> GetRequestForDTO(Guid id);
+  Task<RequestDTO?> GetRequestDTO(Guid id);
 }

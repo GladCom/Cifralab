@@ -1,6 +1,4 @@
-﻿using Students.Models.ReferenceModels;
-
-namespace Students.Models.Filters.Filters;
+﻿namespace Students.Models.Filters.Filters;
 
 public class StudentHistoryFilter : Filter<StudentHistory>
 {

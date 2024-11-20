@@ -13,7 +13,6 @@ namespace TestAPI.ControllersTests;
 public class GenericAPiControllerTests
 {
   private StudentContext _studentContext;
-  private GenericRepository<EducationProgram> _genericRepository;
   private TestGenericAPiController _testController;
 
   private readonly List<Guid> _guids = new()
@@ -26,10 +25,13 @@ public class GenericAPiControllerTests
   public void SetUp()
   {
     this._studentContext = new InMemoryContext();
-    this._genericRepository = new GenericRepository<EducationProgram>(this._studentContext);
-    this._testController = new TestGenericAPiController(_genericRepository, new TestLogger<EducationProgram>());
-    this._testController.ControllerContext = new ControllerContext();
-    this._testController.ControllerContext.HttpContext = new DefaultHttpContext();
+    this._testController = new TestGenericAPiController(new GenericRepository<EducationProgram>(this._studentContext), new TestLogger<EducationProgram>())
+    {
+      ControllerContext = new ControllerContext
+      {
+        HttpContext = new DefaultHttpContext()
+      }
+    };
     this._studentContext.EducationPrograms.RemoveRange(this._studentContext.Set<EducationProgram>());
     this._studentContext.SaveChangesAsync();
   }
@@ -49,9 +51,10 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.ListAll();
-    var okResult = result as ObjectResult;
 
     // assert
+    var okResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(okResult, Is.Not.Null);
@@ -68,10 +71,11 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.ListAll();
+
+    // Assert
     var okResult = result as ObjectResult;
     var list = okResult?.Value as IEnumerable<EducationProgram>;
 
-    // Assert
     Assert.Multiple(() =>
     {
       Assert.That(okResult?.Value, Is.Not.Null);
@@ -84,10 +88,11 @@ public class GenericAPiControllerTests
   {
     //Act
     var result = await this._testController.ListAll();
+
+    // Assert
     var okResult = result as ObjectResult;
     var list = okResult?.Value as IEnumerable<EducationProgram>;
 
-    // Assert
     Assert.Multiple(() =>
     {
       Assert.That(okResult?.Value, Is.Not.Null);
@@ -105,10 +110,11 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.Get(this._guids[0]);
+
+    // Assert
     var okResult = result as ObjectResult;
     var value = okResult?.Value as EducationProgram;
 
-    // Assert
     Assert.Multiple(() =>
     {
       Assert.That(okResult?.Value, Is.Not.Null);
@@ -122,9 +128,10 @@ public class GenericAPiControllerTests
   {
     //Act
     var result = await this._testController.Get(Guid.Empty);
-    var errorResult = result as ObjectResult;
 
     // Assert
+    var errorResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(errorResult?.Value, Is.Not.Null);
@@ -137,9 +144,10 @@ public class GenericAPiControllerTests
   {
     //Act
     var result = await this._testController.Get(this._guids[0]);
-    var errorResult = result as ObjectResult;
 
     // Assert
+    var errorResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(errorResult?.Value, Is.Not.Null);
@@ -155,12 +163,13 @@ public class GenericAPiControllerTests
 
     //Act
     var resultPost = await this._testController.Post(educationProgram);
+
+    // Assert
     var okResultPost = resultPost as ObjectResult;
     var resultGet = await this._testController.Get(this._guids[0]);
     var okResultGet = resultGet as ObjectResult;
     var foundEducationProgram = okResultGet?.Value as EducationProgram;
 
-    // Assert
     Assert.Multiple(() =>
     {
       Assert.That(okResultPost?.Value, Is.Not.Null);
@@ -175,15 +184,16 @@ public class GenericAPiControllerTests
   public async Task Post_ExistId_InternalServerError()
   {
     //Arrange
-    var educationProgram1 = GenerateNewEducationProgram(_guids[0]);
+    var educationProgram1 = GenerateNewEducationProgram(this._guids[0]);
     await this._testController.Post(educationProgram1);
     var educationProgram2 = GenerateNewEducationProgram(this._guids[0]);
 
     //Act
     var result = await this._testController.Post(educationProgram2);
-    var errorResult = result as ObjectResult;
 
     // Assert
+    var errorResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(errorResult?.Value, Is.Not.Null);
@@ -202,9 +212,10 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.Put(this._guids[0], educationProgramEdited);
-    var okResult = result as ObjectResult;
 
     // Assert
+    var okResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(okResult?.Value, Is.Not.Null);
@@ -225,9 +236,10 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.Put(this._guids[0], educationProgramOther);
-    var okResult = result as ObjectResult;
 
     // Assert
+    var okResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(okResult?.Value, Is.Not.Null);
@@ -246,9 +258,10 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.Put(this._guids[0], educationProgram);
-    var errorResult = result as ObjectResult;
 
     // Assert
+    var errorResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(errorResult?.Value, Is.Not.Null);
@@ -264,9 +277,10 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.Put(this._guids[0], educationProgram);
-    var errorResult = result as ObjectResult;
 
     // Assert
+    var errorResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(errorResult?.Value, Is.Not.Null);
@@ -283,11 +297,12 @@ public class GenericAPiControllerTests
 
     //Act
     var result = await this._testController.Delete(this._guids[0]);
+
+    // Assert
     var okResult = result as ObjectResult;
     var foundResult = await this._testController.Get(this._guids[0]);
     var okFoundResult = foundResult as ObjectResult;
 
-    // Assert
     Assert.Multiple(() =>
     {
       Assert.That(okResult?.Value, Is.Not.Null);
@@ -301,16 +316,16 @@ public class GenericAPiControllerTests
   {
     //Act
     var result = await this._testController.Delete(this._guids[0]);
-    var errorResult = result as ObjectResult;
 
     // Assert
+    var errorResult = result as ObjectResult;
+
     Assert.Multiple(() =>
     {
       Assert.That(errorResult?.Value, Is.Not.Null);
       Assert.That(errorResult?.StatusCode, Is.EqualTo(StatusCodes.Status404NotFound));
     });
   }
-
 
   private static EducationProgram GenerateNewEducationProgram(Guid id)
   {
@@ -349,8 +364,8 @@ public class GenericAPiControllerTests
     public TestGenericAPiController(IGenericRepository<EducationProgram> repository, ILogger<EducationProgram> logger) :
       base(repository, logger)
     {
-      _logger = logger;
-      _genericRepository = repository;
+      this._logger = logger;
+      this._genericRepository = repository;
     }
     #endregion
   }

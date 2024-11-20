@@ -84,7 +84,7 @@ public class NewRequestDTO
 /// <summary>
 /// DTO заявок на страницу заявок.
 /// </summary>
-public class RequestsDTO
+public class RequestDTO
 {
   /// <summary>
   /// ФИО.

@@ -21,7 +21,11 @@ public class RequestRepositoryTests
     this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
     this._studentContext.Orders.RemoveRange(this._studentContext.Orders.ToList());
     this._orderRepository = new OrderRepository(this._studentContext);
-    this._requestRepository = new RequestRepository(this._studentContext, this._orderRepository);
+    this._requestRepository = new RequestRepository(this._studentContext,
+      new OrderRepository(this._studentContext),
+      new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext)),
+      new GenericRepository<StatusRequest>(this._studentContext),
+      new GenericRepository<PhantomStudent>(this._studentContext));
   }
 
   [TearDown]

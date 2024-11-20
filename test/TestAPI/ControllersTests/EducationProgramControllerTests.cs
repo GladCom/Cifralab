@@ -11,7 +11,6 @@ namespace TestAPI.ControllersTests;
 public class EducationProgramControllerTests
 {
   private StudentContext _studentContext;
-  private EducationProgramRepository _educationProgramRepository;
   private EducationProgramController _educationProgramController;
 
   private readonly List<Guid> _guids = new()
@@ -25,8 +24,7 @@ public class EducationProgramControllerTests
   public void SetUp()
   {
     this._studentContext = new InMemoryContext();
-    this._educationProgramRepository = new EducationProgramRepository(this._studentContext);
-    this._educationProgramController = new EducationProgramController(this._educationProgramRepository, new TestLogger<EducationProgram>())
+    this._educationProgramController = new EducationProgramController(new EducationProgramRepository(this._studentContext), new TestLogger<EducationProgram>())
     {
       ControllerContext = new ControllerContext
       {
