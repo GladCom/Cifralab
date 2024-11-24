@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Controllers;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
-using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 
 namespace TestAPI.ControllersTests;
 
@@ -25,17 +25,15 @@ public class OrderControllerTests
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    var orderRepository = new OrderRepository(this._studentContext);
-    this._orderController = new OrderController(orderRepository, new TestLogger<Order>())
+    this._studentContext = TestsDepends.GetContext();
+    this._orderController = new OrderController(
+      TestsDepends.GetOrderRepository(this._studentContext), new TestLogger<Order>())
     {
       ControllerContext = new ControllerContext
       {
         HttpContext = new DefaultHttpContext()
       }
     };
-    this._studentContext.Orders.RemoveRange(this._studentContext.Set<Order>());
-    this._studentContext.SaveChangesAsync();
   }
 
   [TearDown]

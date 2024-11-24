@@ -4,11 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Controllers;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
-using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
 using Students.Models.Enums;
-using Students.Models.ReferenceModels;
+using TestAPI.Utilities;
 
 namespace TestAPI.ControllersTests;
 
@@ -28,24 +27,15 @@ public class RequestControllerTests
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    var genericStatusRequestRepository = new GenericRepository<StatusRequest>(this._studentContext);
-    var studentRepository = new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext));
-    var orderRepository = new OrderRepository(this._studentContext);
-    var fantomStudentRepository = new GenericRepository<PhantomStudent>(this._studentContext);
-    var requestRepository = new RequestRepository(this._studentContext, orderRepository, studentRepository, genericStatusRequestRepository, fantomStudentRepository);
-    this._requestController = new RequestController(requestRepository, new TestLogger<Request>())
+    this._studentContext = TestsDepends.GetContext();
+    this._requestController = new RequestController(
+      TestsDepends.GetRequestRepository(this._studentContext), new TestLogger<Request>())
     {
       ControllerContext = new ControllerContext
       {
         HttpContext = new DefaultHttpContext()
       }
     };
-    this._studentContext.Requests.RemoveRange(this._studentContext.Set<Request>());
-    this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
-    this._studentContext.PhantomStudents.RemoveRange(this._studentContext.Set<PhantomStudent>());
-    this._studentContext.Orders.RemoveRange(this._studentContext.Set<Order>());
-    this._studentContext.SaveChangesAsync();
   }
 
   [TearDown]
@@ -237,7 +227,7 @@ public class RequestControllerTests
 
     //обновленные данные по заявке
     var requestDto = GenerateRequestsDto("Иван", "иванович", "Иванов", "mail@mail.ru", "+7 (111) 222-22-22");
-        requestDto.ScopeOfActivityLevelOneId = new Guid("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
+    requestDto.ScopeOfActivityLevelOneId = new Guid("a5e1e718-4747-47f4-b7c3-08e56bb7ea34");
 
     //Act
     var result = await this._requestController.Put(requestId.Value, requestDto);

@@ -4,7 +4,6 @@ using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
-using Students.Models.ReferenceModels;
 
 namespace Students.APIServer.Repository;
 
@@ -17,12 +16,45 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 
   private readonly IOrderRepository _orderRepository;
   private readonly IStudentRepository _studentRepository;
-  private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
   private readonly IGenericRepository<PhantomStudent> _phantomStudentRepository;
+  private readonly Mapper _mapper;
 
   #endregion
 
   #region IRequestRepository
+
+  /// <summary>
+  /// Создание новой заявки с тильды.
+  /// </summary>
+  /// <param name="form">DTO с тильды с данными о потенциальном студенте.</param>
+  /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
+  public async Task<RequestWebhook> Create(RequestWebhook form)
+  {
+    var request = await this._mapper.WebhookToRequest(form);
+
+    var student = await this._studentRepository.GetOne(x =>
+      x.FullName == form.Name && x.BirthDate.ToString() == form.Birthday && x.Email == form.Email);
+
+    if(student is null)
+    {
+      request.IsAlreadyStudied = false;
+      if(await this._studentRepository.GetOne(x =>
+           x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email) is null)
+      {
+        var fantomStudent = await this._mapper.WebhookToStudent(form);
+        fantomStudent = await this._phantomStudentRepository.Create(fantomStudent);
+        request.PhantomStudentId = fantomStudent.Id;
+      }
+    }
+    else
+    {
+      request.StudentId = student.Id;
+    }
+
+    await this.Create(request);
+
+    return form;
+  }
 
   /// <summary>
   /// Создание новой заявки с фронта.
@@ -31,7 +63,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
   public async Task<Request> Create(NewRequestDTO form)
   {
-    var request = await Mapper.NewRequestDTOToRequest(form, this._statusRequestRepository);
+    var request = await this._mapper.NewRequestDTOToRequest(form);
 
     var fio = $"{form.family} {form.name} {form.patron}";
     var date = form.birthDate;
@@ -55,7 +87,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
       request.StudentId = student.Id;
     }
 
-    request = await base.Create(request);
+    request = await this.Create(request);
 
     return request;
   }
@@ -256,17 +288,17 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// </summary>
   /// <param name="context">Контекст базы данных.</param>
   /// <param name="phantomStudentRepository">Репозиторий неподтверждённых студентов.</param>
-  /// <param name="statusRequestRepository">Репозиторий состояний заявок.</param>
   /// <param name="studentRepository">Репозиторий студентов.</param>
   /// <param name="orderRepository">Репозиторий приказов.</param>
+  /// <param name="mapper">Маппер.</param>
   public RequestRepository(StudentContext context, IOrderRepository orderRepository,
-    IStudentRepository studentRepository, IGenericRepository<StatusRequest> statusRequestRepository,
-    IGenericRepository<PhantomStudent> phantomStudentRepository) : base(context)
+    IStudentRepository studentRepository,
+    IGenericRepository<PhantomStudent> phantomStudentRepository, Mapper mapper) : base(context)
   {
     this._orderRepository = orderRepository;
     this._studentRepository = studentRepository;
-    this._statusRequestRepository = statusRequestRepository;
     this._phantomStudentRepository = phantomStudentRepository;
+    this._mapper = mapper;
   }
 
   #endregion

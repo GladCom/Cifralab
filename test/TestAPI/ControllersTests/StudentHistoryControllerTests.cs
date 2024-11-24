@@ -8,17 +8,17 @@ using TestAPI.Utilities;
 namespace TestAPI.ControllersTests;
 
 [TestFixture]
-public class DocumentRiseQualificationControllerTests
+public class StudentHistoryControllerTests
 {
   private StudentContext _studentContext;
-  private DocumentRiseQualifacationController _documentRiseQualificationController;
+  private StudentHistoryController _studentHistoryController;
 
   [SetUp]
   public void SetUp()
   {
     this._studentContext = TestsDepends.GetContext();
-    this._documentRiseQualificationController = new DocumentRiseQualifacationController(
-      TestsDepends.GetGenericRepository<DocumentRiseQualification>(this._studentContext), new TestLogger<DocumentRiseQualification>())
+    this._studentHistoryController = new StudentHistoryController(
+      TestsDepends.GetStudentHistoryRepository(this._studentContext), new TestLogger<StudentHistory>())
     {
       ControllerContext = new ControllerContext
       {

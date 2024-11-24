@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using ClosedXML.Excel;
 using Students.APIServer.Extension;
+using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Report;
 using Students.APIServer.Report.Interfaces;
 using Students.APIServer.Repository;
@@ -30,6 +31,7 @@ builder.Services.AddDbContext<StudentContext, PgContext>();
 //builder.Services.AddScoped<InMemoryContext>();
 //builder.Services.AddScoped<StudentContext>();
 builder.Services.AddScoped<PgContext>();
+builder.Services.AddScoped<Mapper>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
@@ -79,7 +81,6 @@ builder.Services.AddCors(options =>
     .AllowAnyHeader()
     .AllowCredentials());
 });
- 
 
 builder.Services.AddApiVersioning();
 builder.Services.AddControllers().AddJsonOptions(x =>
@@ -92,11 +93,11 @@ app.UseCors(builder => builder
   .AllowAnyMethod()
   .AllowAnyHeader());
 
- if (app.Environment.IsDevelopment())
- {
-   app.UseSwagger();
-   app.UseSwaggerUI();
- }
+if(app.Environment.IsDevelopment())
+{
+  app.UseSwagger();
+  app.UseSwaggerUI();
+}
 
 app.UseCors("CorsPolicy");
 app.UseAuthorization();

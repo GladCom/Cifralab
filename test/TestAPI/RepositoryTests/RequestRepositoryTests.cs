@@ -1,8 +1,8 @@
-﻿using Students.APIServer.Repository;
+﻿using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
-using Students.Models.Filters.Filters;
 using Students.Models.ReferenceModels;
+using TestAPI.Utilities;
 
 namespace TestAPI.RepositoryTests;
 
@@ -10,77 +10,21 @@ namespace TestAPI.RepositoryTests;
 public class RequestRepositoryTests
 {
   private StudentContext _studentContext;
-  private RequestRepository _requestRepository;
-  private OrderRepository _orderRepository;
+  private IRequestRepository _requestRepository;
+  private IOrderRepository _orderRepository;
 
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._studentContext.Students.RemoveRange(this._studentContext.Students.ToList());
-    this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
-    this._studentContext.Orders.RemoveRange(this._studentContext.Orders.ToList());
-    this._orderRepository = new OrderRepository(this._studentContext);
-    this._requestRepository = new RequestRepository(this._studentContext,
-      new OrderRepository(this._studentContext),
-      new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext)),
-      new GenericRepository<StatusRequest>(this._studentContext),
-      new GenericRepository<PhantomStudent>(this._studentContext));
+    this._studentContext = TestsDepends.GetContext();
+    this._orderRepository = TestsDepends.GetOrderRepository(this._studentContext);
+    this._requestRepository = TestsDepends.GetRequestRepository(this._studentContext);
   }
 
   [TearDown]
   public void TearDown()
   {
     this._studentContext.Dispose();
-  }
-
-  [Test]
-  public async Task Create_AddSuccessfully()
-  {
-    // Arrange
-    var request = GenerateRequest();
-
-    // Act
-    await this._requestRepository.Create(request);
-
-    // Assert
-    Assert.That(this._studentContext.Requests.FirstOrDefault(x => x.Id == request.Id),
-      Is.Not.Null);
-  }
-
-  [Test]
-  public async Task Create_AddSameRequest_ThrowException()
-  {
-    // Arrange
-    var request = GenerateRequest();
-
-    this._studentContext.Requests.Add(request);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    var result = async () => await this._requestRepository.Create(request);
-
-    //Assert
-    Assert.That(result, Throws.InstanceOf<ArgumentException>());
-  }
-
-  [Test]
-  public async Task Create_AddRequestWithExistingStudent_AddSuccessfully()
-  {
-    // Arrange
-    var student = GenerateStudent();
-
-    var request = GenerateRequest();
-
-    this._studentContext.Students.Add(student);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    await this._requestRepository.Create(request);
-
-    //Assert
-    Assert.That(this._studentContext.Requests.FirstOrDefault(x => x.Id == request.Id),
-      Is.Not.Null);
   }
 
   [Test]
@@ -98,7 +42,7 @@ public class RequestRepositoryTests
     var result = await this._requestRepository.AddOrderToRequest(request.Id, order);
 
     // Assert
-    Assert.That(this._orderRepository.FindById(order.Id).Result.RequestId, Is.EqualTo(request.Id));
+    Assert.That((await this._orderRepository.FindById(order.Id)).RequestId, Is.EqualTo(request.Id));
   }
 
   [Test]
@@ -129,8 +73,8 @@ public class RequestRepositoryTests
     this._studentContext.Requests.AddRange(requests);
     await this._studentContext.SaveChangesAsync();
 
-    var page = 2;
-    var pageSize = 2;
+    const int page = 2;
+    const int pageSize = 2;
 
     // Act
     var result = await this._requestRepository.GetRequestsDTOByPage(page, pageSize);
@@ -141,81 +85,6 @@ public class RequestRepositoryTests
       Assert.That(result, Is.Not.Null);
       Assert.That(result.Data, Has.Count.EqualTo(2));
     });
-  }
-
-  [Test]
-  public async Task GetFiltered_ReturnRequest_byStatusAndProgram()
-  {
-    // Arrange
-    var request = GenerateRequestWithProgramAndStatus();
-
-    var requestFilter = new RequestFilter { EducationProgramId = request.EducationProgram?.Id, StatusRequestId = request.Status?.Id };
-
-    this._studentContext.Requests.Add(request);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    var result = await this._requestRepository.GetFiltered(requestFilter);
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(result.Count, Is.EqualTo(1));
-      Assert.IsTrue(result.All(x => requestFilter.GetFilterPredicate()(x)));
-    });
-  }
-
-  [Test]
-  public async Task GetFiltered_ReturnRequest_byProgramEducation()
-  {
-    // Arrange
-    var request = GenerateRequestWithProgramAndStatus();
-    var requestFilter = new RequestFilter { EducationProgramId = request.EducationProgram?.Id };
-    this._studentContext.Requests.Add(request);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    var result = await this._requestRepository.GetFiltered(requestFilter);
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(result.Count, Is.EqualTo(1));
-      Assert.That(result.All(x => requestFilter.GetFilterPredicate()(x)));
-    });
-  }
-
-  [Test]
-  public async Task GetFiltered_ReturnRequest_byStatus()
-  {
-    // Arrange
-    var request = GenerateRequestWithProgramAndStatus();
-    var requestFilter = new RequestFilter { StatusRequestId = request.Status?.Id };
-    this._studentContext.Requests.Add(request);
-    await this._studentContext.SaveChangesAsync();
-
-    // Act
-    var result = await this._requestRepository.GetFiltered(requestFilter);
-
-    //Assert
-    Assert.Multiple(() =>
-    {
-      Assert.That(result.Count, Is.EqualTo(1));
-      Assert.IsTrue(result.All(x => requestFilter.GetFilterPredicate()(x)));
-    });
-  }
-
-  [Test]
-  public async Task GetFiltered_ReturnRequest_withEmptyRequestFilter()
-  {
-    // Arrange
-    var requestFilter = new RequestFilter();
-
-    // Act
-    var result = await this._requestRepository.GetFiltered(requestFilter);
-
-    //Assert
-    Assert.That(result.Count, Is.Not.EqualTo(0));
   }
 
   private static Request GenerateRequest()

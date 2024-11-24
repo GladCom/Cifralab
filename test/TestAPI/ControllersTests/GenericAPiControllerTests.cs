@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Students.APIServer.Controllers;
-using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 
 namespace TestAPI.ControllersTests;
 
@@ -24,16 +24,15 @@ public class GenericAPiControllerTests
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._testController = new TestGenericAPiController(new GenericRepository<EducationProgram>(this._studentContext), new TestLogger<EducationProgram>())
+    this._studentContext = TestsDepends.GetContext();
+    this._testController = new TestGenericAPiController(
+      TestsDepends.GetEducationProgramRepository(this._studentContext), new TestLogger<EducationProgram>())
     {
       ControllerContext = new ControllerContext
       {
         HttpContext = new DefaultHttpContext()
       }
     };
-    this._studentContext.EducationPrograms.RemoveRange(this._studentContext.Set<EducationProgram>());
-    this._studentContext.SaveChangesAsync();
   }
 
   [TearDown]

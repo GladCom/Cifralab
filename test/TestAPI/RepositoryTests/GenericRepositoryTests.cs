@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 
 namespace TestAPI.RepositoryTests;
 
@@ -9,7 +10,7 @@ namespace TestAPI.RepositoryTests;
 public class GenericRepositoryTests
 {
   private StudentContext _studentContext;
-  private GenericRepository<Student> _genericRepository;
+  private IGenericRepository<Student> _genericRepository;
   private readonly List<Guid> _guids = new()
   {
     Guid.Parse("aa634441-8637-417c-8c00-895753b37cbe"),
@@ -20,10 +21,8 @@ public class GenericRepositoryTests
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._genericRepository = new GenericRepository<Student>(this._studentContext);
-    this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
-    this._studentContext.SaveChanges();
+    this._studentContext = TestsDepends.GetContext();
+    this._genericRepository = TestsDepends.GetGenericRepository<Student>(this._studentContext);
   }
 
   [TearDown]
@@ -201,7 +200,7 @@ public class GenericRepositoryTests
     var act = async () => await this._genericRepository.Create(null);
 
     //Assert
-    Assert.That(act, Throws.InstanceOf<ArgumentException>());
+    Assert.That(act, Throws.InstanceOf<NullReferenceException>());
   }
 
   [Test]

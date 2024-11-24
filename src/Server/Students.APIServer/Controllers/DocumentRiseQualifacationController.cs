@@ -9,7 +9,7 @@ namespace Students.APIServer.Controllers;
 /// Контроллер Документы повышения квалификации.
 /// </summary>
 [ApiController]
-[Route("controller")]
+[Route("[controller]")]
 [ApiVersion("1.0")]
 public class DocumentRiseQualifacationController : GenericAPiController<DocumentRiseQualification>
 {

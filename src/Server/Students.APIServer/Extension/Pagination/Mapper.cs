@@ -9,26 +9,33 @@ namespace Students.APIServer.Extension.Pagination;
 /// <summary>
 /// Класс содержит методы для преобразования данных.
 /// </summary>
-public static class Mapper
+public class Mapper
 {
+  #region Поля и свойства
+
+  private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
+  private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
+  private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
+  private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
+
+  #endregion
+
+  #region Методы
+
   /// <summary>
   /// Преобразование вебхука в заявку на обучение.
   /// </summary>
   /// <param name="form">Данные, полученные из минцифры.</param>
-  /// <param name="educationProgramRepository">Репозиторий образовательных программ.</param>
-  /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
   /// <returns>Заявка.</returns>
-  public static async Task<Request> WebhookToRequest(RequestWebhook form,
-    IGenericRepository<EducationProgram> educationProgramRepository,
-    IGenericRepository<StatusRequest> statusRequestRepository)
+  public async Task<Request> WebhookToRequest(RequestWebhook form)
   {
     return new Request
     {
       Id = Guid.NewGuid(),
       Email = form.Email,
       Phone = form.Phone,
-      EducationProgramId = (await educationProgramRepository.GetOne(x => x.Name == form.Education))?.Id,
-      StatusRequestId = (await statusRequestRepository.GetOne(x => x.Name == "новая заявка"))?.Id,
+      EducationProgramId = (await this._educationProgramRepository.GetOne(x => x.Name == form.Education))?.Id,
+      StatusRequestId = (await this._statusRequestRepository.GetOne(x => x.Name == "новая заявка"))?.Id,
       Agreement = Convert.ToBoolean(Convert.ToInt32(form.Agreement))
     };
   }
@@ -37,11 +44,7 @@ public static class Mapper
   /// Преобразование вебхука (данных от минцифры) в студента. Подумать над RequestWebhook, возможно сделать 2 его варианта (второй, состоящий из слова test / test  для установки связи между минцифрой и нашим сервисом).
   /// </summary>
   /// <param name="form">Вебхук (данне от минцифры).</param>
-  /// <param name="studentRepository">Репозиторий студентов.</param>
-  /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
-  /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
-  public static async Task<PhantomStudent> WebhookToStudent(RequestWebhook form,
-    IGenericRepository<TypeEducation> typeEducationRepository, IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
+  public async Task<PhantomStudent> WebhookToStudent(RequestWebhook form)
   {
     var fio = form.Name.Split(" ");
     return new PhantomStudent
@@ -59,11 +62,11 @@ public static class Mapper
       IT_Experience = form.IT_Experience,
       Email = form.Email,
       Phone = form.Phone,
-      TypeEducationId = (await typeEducationRepository.GetOne(x => x.Name == form.EducationLevel))?.Id,
+      TypeEducationId = (await this._typeEducationRepository.GetOne(x => x.Name == form.EducationLevel))?.Id,
       ScopeOfActivityLevelOneId =
-        (await scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelOneName))!.Id,
+        (await this._scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelOneName))!.Id,
       ScopeOfActivityLevelTwoId = form.ScopeOfActivityLevelTwoName is null ? null :
-        (await scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelTwoName))!.Id,
+        (await this._scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelTwoName))!.Id,
       Sex = default
       //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
       //Speciality = form.
@@ -163,9 +166,8 @@ public static class Mapper
   /// Преобразование NewRequestDTO в заявку.
   /// </summary>
   /// <param name="form">DTO новой заявки.</param>
-  /// <param name="_statusRequestRepository">Репозиторий статусов заявок.</param>
   /// <returns>Заявка.</returns>
-  public static async Task<Request> NewRequestDTOToRequest(NewRequestDTO form, IGenericRepository<StatusRequest> _statusRequestRepository)
+  public async Task<Request> NewRequestDTOToRequest(NewRequestDTO form)
   {
     return new Request
     {
@@ -173,7 +175,7 @@ public static class Mapper
       //StudentId = requestDTO.StudentId,
       EducationProgramId = form.educationProgramId,
       //DocumentRiseQualificationId = requestDTO.
-      StatusRequestId = (await _statusRequestRepository.GetOne(x => x.Name!.ToLower() == "новая заявка"))?.Id,
+      StatusRequestId = (await this._statusRequestRepository.GetOne(x => x.Name!.ToLower() == "новая заявка"))?.Id,
       StatusEntrancExams = (StatusEntrancExams)form.statusEntrancExams,
       Email = form.email,
       Phone = form.phone,
@@ -231,4 +233,27 @@ public static class Mapper
       Speciality = form.speciality
     };
   }
+
+  #endregion
+
+  #region Конструктор
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="educationProgramRepository">Репозиторий образовательных программ.</param>
+  /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
+  /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
+  /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
+  public Mapper(IGenericRepository<EducationProgram> educationProgramRepository,
+    IGenericRepository<StatusRequest> statusRequestRepository, IGenericRepository<TypeEducation> typeEducationRepository,
+    IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
+  {
+    this._educationProgramRepository = educationProgramRepository;
+    this._statusRequestRepository = statusRequestRepository;
+    this._typeEducationRepository = typeEducationRepository;
+    this._scopeOfActivityRepository = scopeOfActivityRepository;
+  }
+
+  #endregion
 }

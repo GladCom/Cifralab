@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Controllers;
-using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
 using Students.Models.Enums;
-using Students.Models.ReferenceModels;
+using TestAPI.Utilities;
 using Group = Students.Models.Group;
 
 namespace TestAPI.ControllersTests;
@@ -26,25 +25,15 @@ public class GroupControllerTests
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    var genericStatusRequestRepository = new GenericRepository<StatusRequest>(this._studentContext);
-    var studentRepository = new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext));
-    var orderRepository = new OrderRepository(this._studentContext);
-    var fantomStudentRepository = new GenericRepository<PhantomStudent>(this._studentContext);
-    var requestRepository = new RequestRepository(this._studentContext, orderRepository, studentRepository, genericStatusRequestRepository, fantomStudentRepository);
-    var groupRepository = new GroupRepository(this._studentContext, requestRepository, new GroupStudentRepository(this._studentContext));
-    this._groupController = new GroupController(groupRepository, new TestLogger<Group>())
+    this._studentContext = TestsDepends.GetContext();
+    this._groupController = new GroupController(
+      TestsDepends.GetGroupRepository(this._studentContext), new TestLogger<Group>())
     {
       ControllerContext = new ControllerContext
       {
         HttpContext = new DefaultHttpContext()
       }
     };
-    this._studentContext.GroupStudent.RemoveRange(this._studentContext.Set<GroupStudent>());
-    this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
-    this._studentContext.Groups.RemoveRange(this._studentContext.Set<Group>());
-    this._studentContext.Requests.RemoveRange(this._studentContext.Set<Request>());
-    this._studentContext.SaveChanges();
   }
 
   [TearDown]

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Controllers;
-using Students.APIServer.Repository;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 
 namespace TestAPI.ControllersTests;
 
@@ -23,16 +23,15 @@ public class EducationProgramControllerTests
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._educationProgramController = new EducationProgramController(new EducationProgramRepository(this._studentContext), new TestLogger<EducationProgram>())
+    this._studentContext = TestsDepends.GetContext();
+    this._educationProgramController = new EducationProgramController(
+      TestsDepends.GetEducationProgramRepository(this._studentContext), new TestLogger<EducationProgram>())
     {
       ControllerContext = new ControllerContext
       {
         HttpContext = new DefaultHttpContext()
       }
     };
-    this._studentContext.EducationPrograms.RemoveRange(this._studentContext.Set<EducationProgram>());
-    this._studentContext.SaveChanges();
   }
 
   [TearDown]
