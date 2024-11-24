@@ -1,25 +1,22 @@
-﻿using Students.APIServer.Repository;
+﻿using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 using Group = Students.Models.Group;
 
 namespace TestAPI.RepositoryTests;
 
 [TestFixture]
-public class EducationProgramTests
+public class EducationProgramRepositoryTests
 {
   private StudentContext _studentContext;
-  private EducationProgramRepository _educationProgramRepository;
+  private IEducationProgramRepository _educationProgramRepository;
 
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._studentContext.Students.RemoveRange(this._studentContext.Students.ToList());
-    this._studentContext.Groups.RemoveRange(this._studentContext.Groups.ToList());
-    this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
-    this._studentContext.EducationPrograms.RemoveRange(this._studentContext.EducationPrograms.ToList());
-    this._educationProgramRepository = new EducationProgramRepository(this._studentContext);
+    this._studentContext = TestsDepends.GetContext();
+    this._educationProgramRepository = TestsDepends.GetEducationProgramRepository(this._studentContext);
   }
 
   [TearDown]

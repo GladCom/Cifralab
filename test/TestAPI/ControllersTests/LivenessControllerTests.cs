@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Controllers;
+using TestAPI.Utilities;
 
 namespace TestAPI.ControllersTests;
 
@@ -19,11 +20,6 @@ public class LivenessControllerTests
         HttpContext = new DefaultHttpContext()
       }
     };
-  }
-
-  [TearDown]
-  public void TearDown()
-  {
   }
 
   [Test]

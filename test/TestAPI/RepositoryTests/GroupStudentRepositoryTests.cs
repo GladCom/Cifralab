@@ -1,6 +1,7 @@
-﻿using Students.APIServer.Repository;
+﻿using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 using Group = Students.Models.Group;
 
 namespace TestAPI.RepositoryTests;
@@ -9,16 +10,13 @@ namespace TestAPI.RepositoryTests;
 public class GroupStudentRepositoryTests
 {
   private StudentContext _studentContext;
-  private GroupStudentRepository _groupStudentRepository;
+  private IGroupStudentRepository _groupStudentRepository;
 
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
-    this._studentContext.Groups.RemoveRange(this._studentContext.Set<Group>());
-    this._studentContext.GroupStudent.RemoveRange(this._studentContext.Set<GroupStudent>());
-    this._groupStudentRepository = new GroupStudentRepository(this._studentContext);
+    this._studentContext = TestsDepends.GetContext();
+    this._groupStudentRepository = TestsDepends.GetGroupStudentRepository(this._studentContext);
   }
 
   [TearDown]

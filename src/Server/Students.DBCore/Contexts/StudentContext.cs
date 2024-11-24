@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Students.DBCore.Configuration;
-using Students.DBCore.Migrations;
 using Students.Models;
 using Students.Models.ReferenceModels;
 
@@ -36,8 +35,6 @@ public abstract class StudentContext : DbContext
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     MakeModelsConfiguration(modelBuilder);
-    FillReferenceEntities(modelBuilder);
-    FillRealEntities(modelBuilder);
   }
 
   private static void MakeModelsConfiguration(ModelBuilder modelBuilder)
@@ -60,30 +57,5 @@ public abstract class StudentContext : DbContext
     modelBuilder.ApplyConfiguration(new StudentHistoryConfiguration());
     modelBuilder.ApplyConfiguration(new KindEducationProgramConfiguration());
     modelBuilder.ApplyConfiguration(new PhantomStudentConfiguration());
-  }
-
-  private static void FillReferenceEntities(ModelBuilder modelBuilder)
-  {
-    modelBuilder.Entity<FEAProgram>().HasData(HasDataEntities.FEAProgramEntities);
-    modelBuilder.Entity<FinancingType>().HasData(HasDataEntities.FinancingTypeEntities);
-    modelBuilder.Entity<EducationForm>().HasData(HasDataEntities.EducationFormEntities);
-    modelBuilder.Entity<KindDocumentRiseQualification>().HasData(HasDataEntities.KindDocumentRiseQualificationEntities);
-    modelBuilder.Entity<KindOrder>().HasData(HasDataEntities.KindOrderEntities);
-    modelBuilder.Entity<KindEducationProgram>().HasData(HasDataEntities.KindEducationProgramEntities);
-    modelBuilder.Entity<ScopeOfActivity>().HasData(HasDataEntities.ScopeOfActivityEntities);
-    modelBuilder.Entity<StatusRequest>().HasData(HasDataEntities.StatusRequestEntities);
-    modelBuilder.Entity<StudentStatus>().HasData(HasDataEntities.StudentStatusEntities);
-    modelBuilder.Entity<TypeEducation>().HasData(HasDataEntities.TypeEducationEntities);
-  }
-
-  private static void FillRealEntities(ModelBuilder modelBuilder)
-  {
-    modelBuilder.Entity<DocumentRiseQualification>().HasData(HasDataEntities.DocumentRiseQualificationEntities);
-    modelBuilder.Entity<EducationProgram>().HasData(HasDataEntities.EducationProgramEntities);
-    modelBuilder.Entity<Group>().HasData(HasDataEntities.GroupEntities);
-    modelBuilder.Entity<GroupStudent>().HasData(HasDataEntities.GroupStudentEntities);
-    modelBuilder.Entity<Order>().HasData(HasDataEntities.OrderEntities);
-    modelBuilder.Entity<Request>().HasData(HasDataEntities.RequestEntities);
-    modelBuilder.Entity<Student>().HasData(HasDataEntities.StudentEntities);
   }
 }

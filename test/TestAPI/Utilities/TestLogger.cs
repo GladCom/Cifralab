@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace TestAPI;
+namespace TestAPI.Utilities;
 
 /// <summary>
 ///  Тестовый логгер, заменяет реальный и ничего не пишет.

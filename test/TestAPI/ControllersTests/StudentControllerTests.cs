@@ -9,6 +9,7 @@ using Students.APIServer.Repository.Interfaces;
 using Students.Models;
 using Students.Models.Enums;
 using Students.Models.WebModels;
+using TestAPI.Utilities;
 
 namespace TestAPI.ControllersTests;
 

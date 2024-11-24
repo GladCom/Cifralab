@@ -1,6 +1,7 @@
-﻿using Students.APIServer.Repository;
+﻿using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 using Group = Students.Models.Group;
 
 namespace TestAPI.RepositoryTests;
@@ -9,16 +10,13 @@ namespace TestAPI.RepositoryTests;
 public class StudentRepositoryTests
 {
   private StudentContext _studentContext;
-  private StudentRepository _studentRepository;
+  private IStudentRepository _studentRepository;
 
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._studentContext.Students.RemoveRange(this._studentContext.Students.ToList());
-    this._studentContext.Groups.RemoveRange(this._studentContext.Groups.ToList());
-    this._studentContext.Requests.RemoveRange(this._studentContext.Requests.ToList());
-    this._studentRepository = new StudentRepository(this._studentContext, new StudentHistoryRepository(this._studentContext));
+    this._studentContext = TestsDepends.GetContext();
+    this._studentRepository = TestsDepends.GetStudentRepository(this._studentContext);
   }
 
   [TearDown]
@@ -85,8 +83,8 @@ public class StudentRepositoryTests
     {
       Assert.That(result, Is.Not.Null);
       Assert.That(result.Id, Is.EqualTo(student.Id));
-      Assert.That(1, Is.EqualTo(result.Groups!.Count));
-      Assert.That(1, Is.EqualTo(result.Requests!.Count));
+      Assert.That(result.Groups!.Count, Is.EqualTo(1));
+      Assert.That(result.Requests!.Count, Is.EqualTo(1));
     });
   }
 

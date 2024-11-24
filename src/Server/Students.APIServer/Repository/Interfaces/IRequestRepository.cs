@@ -9,6 +9,12 @@ namespace Students.APIServer.Repository.Interfaces;
 /// </summary>
 public interface IRequestRepository : IGenericRepository<Request>
 {
+  /// <summary>
+  /// Создание новой заявки с тильды.
+  /// </summary>
+  /// <param name="form">DTO с тильды с данными о потенциальном студенте.</param>
+  /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
+  Task<RequestWebhook> Create(RequestWebhook form);
 
   /// <summary>
   /// Создание новой заявки с фронта.
