@@ -211,6 +211,11 @@ public class StudentWithRequest
   public string? DocumentRiseQualificationType { get; set; }
 
   /// <summary>
+  /// Вид программы обучения.
+  /// </summary>
+  public string? KindEducationProgram { get; set; }
+
+  /// <summary>
   /// Документ повышения квалификации. Дата выдачи удостоверения.
   /// </summary>
   public string? DocumentRiseQualificationDate { get; set; }
@@ -224,4 +229,9 @@ public class StudentWithRequest
   /// Основные данные.
   /// </summary>
   public string MainInfo => $"{this.Family} {this.Name} {this.Patron} {this.Phone}";
+
+  /// <summary>
+  /// Наименование квалификации, профессии, специальности
+  /// </summary>
+  public string? QualificationName { get; set; }
 }

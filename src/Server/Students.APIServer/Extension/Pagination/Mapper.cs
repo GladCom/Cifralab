@@ -50,12 +50,12 @@ public class Mapper
     return new PhantomStudent
     {
       Address = form.Address,
-      Family = fio.FirstOrDefault() ?? "",
+      Family = fio.FirstOrDefault() ?? string.Empty,
       Name = fio.Length > 1
         ? fio[1]
-        : "",
+        : string.Empty,
       Patron = fio.LastOrDefault() == fio.FirstOrDefault()
-        ? ""
+        ? string.Empty
         : fio.LastOrDefault(),
 
       BirthDate = DateOnly.Parse(form.Birthday),
@@ -89,7 +89,7 @@ public class Mapper
     {
       Id = request.Id,
       StudentId = request.Student?.Id,
-      StudentFullName = request.Student?.FullName ?? "",
+      StudentFullName = request.Student?.FullName ?? string.Empty,
       family = request.Student?.Family,
       name = request.Student?.Name,
       patron = request.Student?.Patron,
@@ -111,7 +111,8 @@ public class Mapper
       ScopeOfActivityLevelOneId = request.Student?.ScopeOfActivityLevelOneId,
       ScopeOfActivityLevelTwoId = request.Student?.ScopeOfActivityLevelTwoId,
       agreement = request.Agreement,
-      trained = request.Orders is not null && request.Orders!.Any(x => x.KindOrder!.Name!.ToLower() == "О зачислении")
+      trained = request.Orders is not null && request.Orders!.Any(x => x.KindOrder!.Name!.ToLower() == "О зачислении"),
+      DateOfCreate = request.DateOfCreate
     };
   }
 

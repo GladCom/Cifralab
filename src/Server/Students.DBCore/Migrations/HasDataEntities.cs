@@ -479,13 +479,15 @@ internal static class HasDataEntities
       HoursCount = 250,
       EducationFormId = Guid.Parse("0241c1ac-bb5b-4ca1-bb46-89ba1e0c4287"),
       KindDocumentRiseQualificationId = Guid.Parse("aa7a8325-4b0d-4dd2-bedc-2c4a065ab332"),
+      KindEducationProgramId = Guid.Parse("a359d390-c3d8-45ed-a775-9e3fde156d78"),
       IsModularProgram = false,
       FinancingTypeId = Guid.Parse("0457cc26-6b4f-472b-bdbf-a9be3599e931"),
       IsCollegeProgram = false,
       IsArchive = false,
       IsNetworkProgram = false,
       IsDOTProgram = false,
-      IsFullDOTProgram = false
+      IsFullDOTProgram = false,
+      QualificationName = string.Empty
     }
   };
 
@@ -558,7 +560,8 @@ internal static class HasDataEntities
       RegistrationNumber = "432",
       Email = "III@gmail.com",
       Phone = "+7 (123) 456-78-90",
-      Agreement = true
+      Agreement = true,
+      DateOfCreate = DateTime.Now
     },
     new Request
     {
@@ -573,7 +576,8 @@ internal static class HasDataEntities
       RegistrationNumber = "432",
       Email = "IAI@gmail.com",
       Phone = "+7 (123) 451-71-90",
-      Agreement = true
+      Agreement = true,
+      DateOfCreate = DateTime.Now
     }
   };
 

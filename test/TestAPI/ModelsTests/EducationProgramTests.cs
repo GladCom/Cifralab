@@ -21,17 +21,25 @@ public class EducationProgramTests
         Id = Guid.NewGuid(),
         Name = "Тест"
       },
+      KindEducationProgram = new KindEducationProgram()
+      {
+          Id = Guid.NewGuid(),
+          Name = "Тест"
+      },
       Cost = 0,
       HoursCount = 0,
       EducationFormId = default,
       KindDocumentRiseQualificationId = default,
+      KindEducationProgramId = default,
       IsModularProgram = false,
       FinancingTypeId = default,
       IsCollegeProgram = false,
       IsArchive = false,
       IsNetworkProgram = false,
       IsDOTProgram = false,
-      IsFullDOTProgram = false
+      IsFullDOTProgram = false,
+      Name = string.Empty,
+      QualificationName = string.Empty
     };
 
     Assert.IsNotNull(educationProgram);

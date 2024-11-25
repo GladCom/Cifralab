@@ -39,6 +39,11 @@ public class EducationProgram
   public required Guid KindDocumentRiseQualificationId { get; set; }
 
   /// <summary>
+  /// Вид программы
+  /// </summary>
+  public required Guid KindEducationProgramId { get; set; }
+
+  /// <summary>
   /// Модульная программа.
   /// </summary>
   public required bool IsModularProgram { get; set; }
@@ -79,6 +84,11 @@ public class EducationProgram
   public required bool IsFullDOTProgram { get; set; }
 
   /// <summary>
+  /// Наименование квалификации, профессии, специальности
+  /// </summary>
+  public required string QualificationName { get; set; }
+
+  /// <summary>
   /// Форма обучения.
   /// </summary>
   [JsonIgnore]
@@ -89,6 +99,12 @@ public class EducationProgram
   /// </summary>
   [JsonIgnore]
   public virtual KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
+
+  /// <summary>
+  /// Вид программы повышения квалификации
+  /// </summary>
+  [JsonIgnore]
+  public virtual KindEducationProgram? KindEducationProgram { get; set; }
 
   /// <summary>
   /// ВЭД программы.

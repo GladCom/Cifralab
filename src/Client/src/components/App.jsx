@@ -14,6 +14,7 @@ import TypeEducationPage from './catalogPages/TypeEducationPage.jsx';
 import StudentStatusPage from './catalogPages/StudentStatusPage.jsx';
 import KindOrderPage from './catalogPages/KindOrderPage.jsx';
 import KindDocumentRiseQualificationPage from './catalogPages/KindDocumentRiseQualificationPage.jsx';
+import KindEducationProgramPage from './catalogPages/KindEducationProgramPage.jsx';
 import FinancingTypePage from './catalogPages/FinancingTypePage.jsx';
 import FEAProgramPage from './catalogPages/FEAProgramPage.jsx';
 import PersonRequestsPage from './request/PersonRequestsPage.jsx';
@@ -126,6 +127,12 @@ const App = () => {
             <Route path="/fEAProgram" element={(
                 <PrivateRoute>
                   <FEAProgramPage />
+                </PrivateRoute>
+              )}
+            />
+            <Route path="/kindEducationProgram" element={(
+                <PrivateRoute>
+                  <KindEducationProgramPage />
                 </PrivateRoute>
               )}
             />

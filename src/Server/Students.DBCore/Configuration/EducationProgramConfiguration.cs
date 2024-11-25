@@ -26,6 +26,9 @@ internal class EducationProgramConfiguration : IEntityTypeConfiguration<Educatio
     builder.Property(x => x.KindDocumentRiseQualificationId)
       .IsRequired();
 
+    builder.Property(x => x.KindEducationProgramId)
+      .IsRequired();
+
     builder.Property(x => x.IsModularProgram)
       .IsRequired();
 
@@ -47,9 +50,16 @@ internal class EducationProgramConfiguration : IEntityTypeConfiguration<Educatio
     builder.Property(x => x.IsFullDOTProgram)
       .IsRequired();
 
+    builder.Property(x => x.QualificationName)
+      .IsRequired();
+
     builder.HasOne(ep => ep.EducationForm)
       .WithMany()
       .HasForeignKey(ep => ep.EducationFormId);
+
+    builder.HasOne(ep => ep.KindEducationProgram)
+      .WithMany()
+      .HasForeignKey(ep => ep.KindEducationProgramId);
 
     builder.HasOne(ep => ep.FEAProgram)
       .WithMany()

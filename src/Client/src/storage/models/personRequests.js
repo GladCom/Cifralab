@@ -8,6 +8,7 @@ import BirthDate from '../../components/shared/business/BirthDate.jsx';
 import Address from '../../components/shared/business/Address.jsx';
 import Email from '../../components/shared/business/Email.jsx';
 import PhoneNumber from '../../components/shared/business/PhoneNumber.jsx';
+import DateTimeView from '../../components/shared/business/DateTimeView.jsx';
 
 const model = {
     family: { 
@@ -21,6 +22,22 @@ const model = {
     patron: { 
         name: 'Отчество', 
         type: String,  
+    },
+    dateOfCreate: {
+        name: 'Дата и время заявки', 
+        type: DateTimeView, 
+        formParams: {
+            rules: [
+                {
+                    required: false,
+                },
+            ],
+        },
+        params: {
+            show: {
+                form: true,
+            }
+        },
     },
     educationProgramId : { 
         name: 'Программа', 

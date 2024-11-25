@@ -5,6 +5,7 @@ import HoursCount from '../../components/shared/business/HoursCount.jsx';
 import FEAProgramSelect from '../../components/shared/business/selects/FEAProgramSelect.jsx'
 import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect.jsx'
 import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/KindDocumentRiseQualificationSelect.jsx'
+import KindEducationProgramSelect from '../../components/shared/business/selects/KindEducationProgramSelect.jsx'
 import FinancingTypeSelect from '../../components/shared/business/selects/FinancingTypeSelect.jsx'
 
 const model = {
@@ -12,7 +13,8 @@ const model = {
     cost: { name: 'Стоимость', type: Cost, show: true, required: true },
     hoursCount: { name: 'Кол-во часов', type: HoursCount, show: true, required: true },
     educationFormId: { name: 'Форма образования', type: EducationFormSelect, show: true, required: true },
-    kindDocumentRiseQualificationId: { name: 'Вид программы', type: KindDocumentRiseQualificationSelect, show: true, required: true },
+    kindEducationProgramId: { name: 'Вид программы', type: KindEducationProgramSelect, show: true, required: true },
+    kindDocumentRiseQualificationId: { name: 'Вид документа', type: KindDocumentRiseQualificationSelect, show: true, required: true },
     isModularProgram: { name: 'Модульная программа', type: YesNo, show: true, required: true },
     feaProgramId: { name: 'ВЭД программы', type: FEAProgramSelect, show: true, required: true },
     financingTypeId: { name: 'Источник финансирования', type: FinancingTypeSelect, show: true, required: true },

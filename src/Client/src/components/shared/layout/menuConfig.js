@@ -111,6 +111,11 @@ const useMenuConfig = () => {
                 label: 'ВЭД программы',
                 onClick: () => {navigate('/fEAProgram')},
                 },
+                {
+                key: '/kindEducationProgram',
+                label: 'Виды программ',
+                onClick: () => {navigate('/kindEducationProgram')},
+                },
             ],
         },
         { type: 'divider' },

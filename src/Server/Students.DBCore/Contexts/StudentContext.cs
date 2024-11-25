@@ -49,6 +49,7 @@ public abstract class StudentContext : DbContext
     modelBuilder.ApplyConfiguration(new FEAProgramConfiguration());
     modelBuilder.ApplyConfiguration(new FinancingTypeConfiguration());
     modelBuilder.ApplyConfiguration(new KindDocumentRiseQualificationConfiguration());
+    modelBuilder.ApplyConfiguration(new KindEducationProgramConfiguration());
     modelBuilder.ApplyConfiguration(new KindOrderConfiguration());
     modelBuilder.ApplyConfiguration(new OrderConfiguration());
     modelBuilder.ApplyConfiguration(new RequestConfiguration());

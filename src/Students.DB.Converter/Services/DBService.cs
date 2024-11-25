@@ -318,6 +318,44 @@ public class DbService : IDisposable
   }
 
   /// <summary>
+  /// Сохранить вид документа повышения квалификации, если его нет в БД.
+  /// </summary>
+  /// <param name="nameKindDocumentRiseQualification">Вид документа повышения квалификации.</param>
+  /// <returns>Идентификатор вида документа повышения квалификации.</returns>
+  private Guid? SaveKindEducationProgramToDb(string? nameKindEducationProgram)
+  {
+    if(nameKindEducationProgram is null)
+    {
+      return null;
+    }
+    nameKindEducationProgram = nameKindEducationProgram.Trim().ToLower();
+    if(nameKindEducationProgram is "" or "-")
+    {
+      return null;
+    }
+
+    var kindEducationProgram = this._pgContext.KindEducationPrograms
+      .FirstOrDefault(e => e.Name.ToLower().Trim() == nameKindEducationProgram);
+
+    if(kindEducationProgram is not null)
+    {
+      this._logger.Trace($"Найден вид документа повышения квалификации по наименованию '{nameKindEducationProgram}': id={kindEducationProgram.Id}.");
+      return kindEducationProgram.Id;
+    }
+    else
+    {
+      kindEducationProgram = new KindEducationProgram
+      {
+        Id = Guid.NewGuid(),
+        Name = nameKindEducationProgram
+      };
+      this._pgContext.KindEducationPrograms.Add(kindEducationProgram);
+      this._logger.Trace($"Создан вид документа повышения квалификации '{nameKindEducationProgram}': id='{kindEducationProgram.Id}'.");
+      return kindEducationProgram.Id;
+    }
+  }
+
+  /// <summary>
   /// Сохранить сферу деятельности, если ее нет в БД.
   /// </summary>
   /// <param name="item">Сфера деятельности.</param>
@@ -328,9 +366,9 @@ public class DbService : IDisposable
   {
     switch(level)
     {
-      case ScopeOfActivityLevel.Level1 when(item.ScopeOfActivityLevelOne is null || item.ScopeOfActivityLevelOne.Trim() == string.Empty):
+      case ScopeOfActivityLevel.Level1 when item.ScopeOfActivityLevelOne is null || item.ScopeOfActivityLevelOne.Trim() == string.Empty:
         throw new Exception("Не указана сфера деятельности 1 ур.");
-      case ScopeOfActivityLevel.Level2 when(item.ScopeOfActivityLevelTwo is null || item.ScopeOfActivityLevelTwo.Trim() == string.Empty):
+      case ScopeOfActivityLevel.Level2 when item.ScopeOfActivityLevelTwo is null || item.ScopeOfActivityLevelTwo.Trim() == string.Empty:
         return null;
     }
 
@@ -397,6 +435,7 @@ public class DbService : IDisposable
   private Guid? SaveEducationProgramToDb(StudentWithRequest item,
     Guid educationFormId,
     Guid? kindDocumentRiseQualificationId,
+    Guid? kindEducationProgramId,
     Guid? feaProgramId,
     Guid financingTypeId)
   {
@@ -407,14 +446,9 @@ public class DbService : IDisposable
     }
     if(!double.TryParse(item.Cost, out var cost))
     {
-      if(item.Cost is null || item.Cost.Trim() == string.Empty || item.Cost.Trim() == "-")
-      {
-        cost = 0;
-      }
-      else
-      {
-        throw new Exception($"Ошибка преобразования значения стоимости программы обучения '{item.Cost}' в числовой тип.");
-      }
+      cost = item.Cost is null || item.Cost.Trim() == string.Empty || item.Cost.Trim() == "-"
+        ? 0
+        : throw new Exception($"Ошибка преобразования значения стоимости программы обучения '{item.Cost}' в числовой тип.");
     }
     if(!int.TryParse(item.HoursCount, out var hoursCount))
     {
@@ -443,6 +477,7 @@ public class DbService : IDisposable
         HoursCount = hoursCount,
         EducationFormId = educationFormId,
         KindDocumentRiseQualificationId = kindDocumentRiseQualificationId.Value,
+        KindEducationProgramId = kindEducationProgramId.Value,
         IsModularProgram = StringToBool(item.IsModularProgram),
         FEAProgramId = feaProgramId,
         FinancingTypeId = financingTypeId,
@@ -450,7 +485,8 @@ public class DbService : IDisposable
         IsArchive = false,
         IsNetworkProgram = StringToBool(item.IsNetworkProgram),
         IsDOTProgram = StringToBool(item.IsDotProgram),
-        IsFullDOTProgram = StringToBool(item.IsFullDotProgram)
+        IsFullDOTProgram = StringToBool(item.IsFullDotProgram),
+        QualificationName = item.QualificationName ?? string.Empty
       };
       this._pgContext.EducationPrograms.Add(educationProgram);
       this._logger.Trace($"Создана программа обучения '{nameEducationProgram}': id={educationProgram.Id}.");
@@ -773,6 +809,7 @@ public class DbService : IDisposable
     }
     else
     {
+      DateTime.TryParse(item.DateCreateRequest, out var dateCreateRequest);
       request = new Request
       {
         Id = Guid.NewGuid(),
@@ -787,7 +824,8 @@ public class DbService : IDisposable
         StatusEntrancExams = statusEntranceExams,
         RegistrationNumber = item.DocumentRiseQualificationRegistrationNumber,
         IsAlreadyStudied = isAlreadyStudied,
-        Agreement = true
+        Agreement = true,
+        DateOfCreate = dateCreateRequest
       };
       this._pgContext.Requests.Add(request);
       this._logger.Trace($"Создана заявка по студенту с id '{studentId}', программе обучения '{educationProgramId}', " +
@@ -901,8 +939,9 @@ public class DbService : IDisposable
         var feaProgramId = this.SaveFeaProgramToDb(item.FeaProgram ?? string.Empty);
         var financingTypeId = this.SaveFinancingTypeToDb(item.FinancingType ?? string.Empty);
 
+        var kindEducationProgramId = this.SaveKindEducationProgramToDb(item.KindEducationProgram);
         educationProgramId = this.SaveEducationProgramToDb(item, educationFormId,
-          kindDocumentRiseQualificationId, feaProgramId, financingTypeId);
+          kindDocumentRiseQualificationId, kindEducationProgramId, feaProgramId, financingTypeId);
       }
 
       var statusRequestId = this.SaveRequestStatusToDb(item.RequestStatus ?? string.Empty);
