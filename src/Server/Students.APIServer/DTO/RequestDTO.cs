@@ -203,4 +203,9 @@ public class RequestDTO
   /// Обучающийся
   /// </summary>
   public bool? trained { get; set; } = false;
+
+  /// <summary>
+  /// Дата создания заявки
+  /// </summary>
+  public DateTime DateOfCreate { get; set; }
 }

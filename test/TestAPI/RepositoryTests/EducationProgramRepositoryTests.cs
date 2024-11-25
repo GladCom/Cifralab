@@ -73,6 +73,7 @@ public class EducationProgramRepositoryTests
       HoursCount = 0,
       EducationFormId = default,
       KindDocumentRiseQualificationId = default,
+      KindEducationProgramId = default,
       IsModularProgram = false,
       FinancingTypeId = default,
       IsCollegeProgram = false,
@@ -80,6 +81,7 @@ public class EducationProgramRepositoryTests
       IsNetworkProgram = false,
       IsDOTProgram = false,
       IsFullDOTProgram = false,
+      QualificationName = string.Empty
     };
   }
 }

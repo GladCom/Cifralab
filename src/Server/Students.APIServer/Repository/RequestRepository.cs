@@ -134,8 +134,8 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
         student.BirthDate = (DateOnly)form.BirthDate!;
         student.Sex = student.Sex;
         student.Address = form.Address!;
-        student.Phone = form.phone ?? "";
-        student.Email = form.Email ?? "";
+        student.Phone = form.phone ?? string.Empty;
+        student.Email = form.Email ?? string.Empty;
         student.Projects = form.projects;
         student.IT_Experience = form.IT_Experience!;
         student.TypeEducationId = form.TypeEducationId;
@@ -169,8 +169,8 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 
     resultOld.StatusRequestId = form.StatusRequestId;
     resultOld.StatusEntrancExams = form.statusEntrancExams;
-    resultOld.Email = form.Email ?? "";
-    resultOld.Phone = form.phone ?? "";
+    resultOld.Email = form.Email ?? string.Empty;
+    resultOld.Phone = form.phone ?? string.Empty;
     resultOld.Agreement = form.agreement;
     resultOld.EducationProgramId = form.EducationProgramId;
 

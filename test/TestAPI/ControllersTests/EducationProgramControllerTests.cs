@@ -94,10 +94,12 @@ public class EducationProgramControllerTests
       Cost = default,
       FinancingTypeId = default,
       KindDocumentRiseQualificationId = default,
+      KindEducationProgramId = default,
       IsArchive = false,
       IsNetworkProgram = false,
       IsDOTProgram = false,
       IsFullDOTProgram = false,
+      QualificationName = string.Empty
     };
   }
 }

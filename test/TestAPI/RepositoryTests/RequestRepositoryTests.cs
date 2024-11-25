@@ -163,6 +163,7 @@ public class RequestRepositoryTests
       EducationFormId = Guid.NewGuid(),
       FinancingTypeId = Guid.NewGuid(),
       KindDocumentRiseQualificationId = Guid.NewGuid(),
+      KindEducationProgramId = Guid.NewGuid(),
       Cost = 2,
       IsArchive = false,
       HoursCount = 0,
@@ -171,6 +172,7 @@ public class RequestRepositoryTests
       IsFullDOTProgram = true,
       IsModularProgram = true,
       IsNetworkProgram = true,
+      QualificationName = string.Empty
     };
   }
 
