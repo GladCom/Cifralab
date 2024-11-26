@@ -15,12 +15,12 @@ const DefaultInfoComponent = ({ value }) => {
 
 const DefaultEditFormComponent = ({ value, onChange, formParams }) => {
     const { key } = formParams;
-    
+
     return (
         <Checkbox
             key={key}
             defaultChecked={value}
-            onChange={onChange}
+            onChange={({ target }) => {onChange(target.checked);}}
         />
     );
 };
