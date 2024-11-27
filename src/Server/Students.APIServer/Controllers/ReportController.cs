@@ -1,11 +1,14 @@
-﻿using ClosedXML.Excel;
+﻿using System.Diagnostics;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
-using Students.APIServer.Report.Interfaces;
+using Students.Models.Filters.Filters;
+using Students.Models.WebModels;
+using Students.Reports.Core.Interfaces;
 
 namespace Students.APIServer.Controllers;
 
 /// <summary>
-/// Контроллер отчетов.
+///   Контроллер отчетов.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,49 +17,96 @@ public class ReportController : ControllerBase
   #region Поля и свойства
 
   private readonly ILogger<ReportController> _logger;
-  private readonly IReport<XLWorkbook> _report;
+  private readonly IFRDOReportGenerator _frdoReportGenerator;
+  private readonly IRosstatReportGenerator _rosstatReportGenerator;
+  private readonly ISummaryReportGenerator _summaryReportGenerator;
 
   #endregion
 
   #region Методы
 
   /// <summary>
-  /// Получить отчет для Росстата.
+  ///   Получить отчет для Росстата.
   /// </summary>
   /// <returns>Отчет.</returns>
   [HttpPost("GetRostatReport")]
-  public async Task<FileResult> GetRosstatReport()
+  public async Task<IActionResult> GetRosstatReport([FromBody] GroupFilter filter)
   {
-    var workbook = await _report.GenerateRosstatReport() ?? throw new ArgumentNullException("Нет данных.");
-    return CreateFileReport(workbook, "Росстат");
+    try
+    {
+      var workbook = await this._rosstatReportGenerator.ReportForExcelAsync(filter);
+      return workbook is null
+       ? this.NotFound("Нет данных.")
+       : this.CreateFileReport(workbook, "Росстат");
+    }
+    catch(Exception e)
+    {
+      return this.Exception(e);
+    }
   }
 
   /// <summary>
-  /// Получить отчет ФРДО.
+  ///   Получить отчет ФРДО.
   /// </summary>
   /// <returns>Отчет.</returns>
   [HttpPost("GetPFDOReport")]
-  public async Task<FileResult> GetPFDOReport()
+  public async Task<IActionResult> GetPFDOReport([FromBody] GroupFilter filter)
   {
-    var workbook = await _report.GenerateFRDOReport()
-                   ?? throw new ArgumentNullException("Нет данных.");
-    return CreateFileReport(workbook, "ФРДО");
+    try
+    {
+      var workbook = await this._frdoReportGenerator.ReportForExcelAsync(filter);
+      return workbook is null
+        ? this.NotFound("Нет данных.")
+        : this.CreateFileReport(workbook, "ФРДО");
+    }
+    catch(Exception e)
+    {
+      return this.Exception(e);
+    }
   }
 
   /// <summary>
-  /// Создание файла.
+  ///   Получить сводный отчет.
+  /// </summary>
+  /// <returns>Отчет.</returns>
+  [HttpPost("GetSummaryReport")]
+  public async Task<IActionResult> GetSummaryReport([FromBody] GroupFilter filter)
+  {
+    try
+    {
+      var workbook = await this._summaryReportGenerator.ReportForExcelAsync(filter);
+      return workbook is null
+       ? this.NotFound("Нет данных.")
+       : this.CreateFileReport(workbook, "по обучающимся");
+    }
+    catch(Exception e)
+    {
+      return this.Exception(e);
+    }
+  }
+
+  /// <summary>
+  ///   Создание файла.
   /// </summary>
   /// <param name="workbook">Книга.</param>
   /// <param name="nameReport">Название отчета.</param>
   /// <returns>Файл.</returns>
   private FileContentResult CreateFileReport(XLWorkbook workbook, string nameReport)
   {
-    FileContentResult result;
     using var stream = new MemoryStream();
     workbook.SaveAs(stream);
-    result = File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Отчет {nameReport} {DateTime.Now}.xlsx");
-    stream.Close();
+    var result = this.File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      $"Отчет {nameReport} {DateTime.Now}.xlsx");
     return result;
+  }
+
+  private IActionResult Exception(Exception e)
+  {
+    this._logger.LogError(e, "Error generating the report.");
+    return this.StatusCode(StatusCodes.Status500InternalServerError, new DefaultResponse
+    {
+      RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
+    });
   }
 
   #endregion
@@ -64,14 +114,22 @@ public class ReportController : ControllerBase
   #region Конструкторы
 
   /// <summary>
-  /// Конструктор.
+  ///   Конструктор.
   /// </summary>
-  /// <param name="report">Отчет.</param>
+  /// <param name="fRDOReportGenerator">Генератор очета ФРДО.</param>
+  /// <param name="summaryReportGenerator">Гереатор сводного отчета.</param>
+  /// <param name="rosstatReportGenerator">Генератор отчета для Росстата.</param>
   /// <param name="logger">Логгер.</param>
-  public ReportController(IReport<XLWorkbook> report, ILogger<ReportController> logger)
+  public ReportController(
+    IFRDOReportGenerator fRDOReportGenerator,
+    ISummaryReportGenerator summaryReportGenerator,
+    IRosstatReportGenerator rosstatReportGenerator,
+    ILogger<ReportController> logger)
   {
-    _report = report;
-    _logger = logger;
+    this._frdoReportGenerator = fRDOReportGenerator;
+    this._summaryReportGenerator = summaryReportGenerator;
+    this._rosstatReportGenerator = rosstatReportGenerator;
+    this._logger = logger;
   }
 
   #endregion

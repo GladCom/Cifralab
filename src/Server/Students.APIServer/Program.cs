@@ -1,16 +1,14 @@
 ﻿using System.Text.Json.Serialization;
-using ClosedXML.Excel;
 using Students.APIServer.Extension;
 using Students.APIServer.Extension.Pagination;
-using Students.APIServer.Report;
-using Students.APIServer.Report.Interfaces;
 using Students.APIServer.Repository;
 using Students.APIServer.Repository.Interfaces;
-using Students.APIServer.Repository.Reports;
 using Students.DBCore.Contexts;
 using Students.Models;
 using Students.Models.ReferenceModels;
-using Students.Models.ReportsModel;
+using Students.Reports.Core.Generators;
+using Students.Reports.Core.Interfaces;
+using Students.Reports.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,11 +35,14 @@ builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupStudentRepository, GroupStudentRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
-builder.Services.AddScoped<IReportRepository<FRDOModel>, FRDOReportRepository>();
-builder.Services.AddScoped<IReportRepository<RosstatModel>, RosstatReportRepository>();
-builder.Services.AddScoped<IReport<XLWorkbook>, GenerateReports>();
+builder.Services.AddScoped<ISummaryReportGenerator, SummaryReportGenerator>();
+builder.Services.AddScoped<IFRDOReportGenerator, FRDOReportGenerator>();
+builder.Services.AddScoped<IRosstatReportGenerator, RosstatReportGenerator>();
+builder.Services.AddScoped<FRDOReportRepository>();
+builder.Services.AddScoped<RosstatReportRepository>();
+builder.Services.AddScoped<FinishingStudiesReportRepository>();
+builder.Services.AddScoped<CurrentlyStudyingReportRepository>();
 builder.Services.AddScoped<IEducationProgramRepository, EducationProgramRepository>();
-//builder.Services.AddScoped<IReportRepository, CSVReportRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IFEAProgramRepository, FEAProgramRepository>();
 builder.Services.AddScoped<IFinancingTypeRepository, FinancingTypeRepository>();

@@ -8,6 +8,8 @@ import {
 } from '../crud/scopeOfActivityCrud.js';
 import scopeOfActivityModel from '../models/scopeOfActivity.js';
 
+const iconStyle = { marginRight: '5px' };
+
 export default {
     detailsLink: 'scopeOfActivity',
     hasDetailsPage: false,
