@@ -7,18 +7,18 @@ import dayjs from 'dayjs';
 const { Text } = Typography;
 
 const DefaultInfoComponent = ({ value }) => (
-    <Text>{dayjs(value).format('DD.MM.YYYY hh:mm:ss')}</Text>
+    <Text>{dayjs(value).format('DD.MM.YYYY HH:mm:ss')}</Text>
 );
 
 const DefaultEditableInfoComponent = ({ value }) => (
-    <Text>{dayjs(value).format('DD.MM.YYYY hh:mm:ss')}</Text>
+    <Text>{dayjs(value).format('DD.MM.YYYY HH:mm:ss')}</Text>
 );
 
 const DefaultFormComponent = ({ defaultValue, onChange, formParams }) => {
     const { key } = formParams;
 
     const formattValue = useCallback((value) => {
-        const formattedDateString = dayjs(value).format('YYYY-MM-DD hh:mm:ss');
+        const formattedDateString = dayjs(value).format('YYYY-MM-DD HH:mm:ss');
         onChange(formattedDateString);
     });
 
@@ -26,8 +26,9 @@ const DefaultFormComponent = ({ defaultValue, onChange, formParams }) => {
         <DatePicker
             key={key}
             defaultValue={dayjs(defaultValue)}
+            showTime
             format={{
-                format: 'DD.MM.YYYY hh:mm:ss',
+                format: 'DD.MM.YYYY HH:mm:ss',
                 type: 'mask',
               }}
             onChange={formattValue}
@@ -39,7 +40,7 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
     const { key } = formParams;
 
     const formattValue = useCallback((value) => {
-        const formattedDateString = dayjs(value).format('YYYY-MM-DD hh:mm:ss');
+        const formattedDateString = dayjs(value).format('YYYY-MM-DD HH:mm:ss');
         onChange(formattedDateString);
     });
 
@@ -47,8 +48,9 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
         <DatePicker
             key={key}
             defaultValue={dayjs(value)}
+            showTime
             format={{
-                format: 'DD.MM.YYYY hh:mm:ss',
+                format: 'DD.MM.YYYY HH:mm:ss',
                 type: 'mask',
               }}
             onChange={formattValue}

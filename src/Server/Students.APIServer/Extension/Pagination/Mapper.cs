@@ -44,7 +44,7 @@ public class Mapper
   /// Преобразование вебхука (данных от минцифры) в студента. Подумать над RequestWebhook, возможно сделать 2 его варианта (второй, состоящий из слова test / test  для установки связи между минцифрой и нашим сервисом).
   /// </summary>
   /// <param name="form">Вебхук (данне от минцифры).</param>
-  public async Task<PhantomStudent> WebhookToStudent(RequestWebhook form)
+  public async Task<PhantomStudent> WebhookToPhantomStudent(RequestWebhook form)
   {
     var fio = form.Name.Split(" ");
     return new PhantomStudent
@@ -67,24 +67,25 @@ public class Mapper
         (await this._scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelOneName))!.Id,
       ScopeOfActivityLevelTwoId = form.ScopeOfActivityLevelTwoName is null ? null :
         (await this._scopeOfActivityRepository.GetOne(x => x.NameOfScope == form.ScopeOfActivityLevelTwoName))!.Id,
-      Sex = default
+      Sex = default,
       //Добавить в вебхук список, недостающих параметров, тут вставлять при наличии заполнения данных
-      //Speciality = form.
+      Speciality = form.Speciality,
       //Не хватает поля в вебхуке
-      //.Projects = form.
+      Projects = form.Projects
       //CreatedAt = DateTime.Now,
     };
   }
 
-  /// <summary>
-  /// Преобразование Request в DTO.
-  /// </summary>
-  /// <param name="request">Заявка.</param>
-  /// <returns>DTO заявки.</returns>
-  public static async Task<RequestDTO> RequestToRequestDTO(Request request)
+    /// <summary>
+    /// Преобразование Request в DTO.
+    /// </summary>
+    /// <param name="request">Заявка.</param>
+    /// <returns>DTO заявки.</returns>
+  public static async Task<RequestDTO> RequestToRequestDTO(Request request, IStudentRepository studentRepository)
   {
-    if(request.PhantomStudent is not null)
-      request.Student = request.PhantomStudent as Student;
+    if (request.PhantomStudent is not null)
+      request.Student = request.PhantomStudent.ToStudent;
+
     return new RequestDTO
     {
       Id = request.Id,
@@ -111,7 +112,10 @@ public class Mapper
       ScopeOfActivityLevelOneId = request.Student?.ScopeOfActivityLevelOneId,
       ScopeOfActivityLevelTwoId = request.Student?.ScopeOfActivityLevelTwoId,
       agreement = request.Agreement,
-      trained = request.Orders is not null && request.Orders!.Any(x => x.KindOrder!.Name!.ToLower() == "О зачислении"),
+      trained = studentRepository.GetOne(x => x.Id == request.Student?.Id).Result?
+                                    .Requests?.Any(y => y.Id != request.Id && y.Orders != null && 
+                                                        y.Orders!.Any(e => e.KindOrder!.Name!.ToLower() == "О зачислении" && 
+                                                                           e.Date.Year == DateTime.Now.Year )),
       DateOfCreate = request.DateOfCreate
     };
   }
@@ -189,7 +193,7 @@ public class Mapper
   /// </summary>
   /// <param name="form">DTO новой заявки.</param>
   /// <returns>Студент.</returns>
-  public static async Task<PhantomStudent> NewRequestDTOToStudent(NewRequestDTO form)
+  public static async Task<PhantomStudent> NewRequestDTOToPhantomStudent(NewRequestDTO form)
   {
     return new PhantomStudent
     {
@@ -200,12 +204,14 @@ public class Mapper
 
       BirthDate = form.birthDate,
       IT_Experience = form.iT_Experience,
+      Projects = form.projects,
+      Speciality = form.speciality,
       Email = form.email,
       Phone = form.phone,
       Sex = SexHuman.Men,
       TypeEducationId = form.typeEducationId,
       ScopeOfActivityLevelOneId = form.scopeOfActivityLevelOneId,
-      ScopeOfActivityLevelTwoId = form.scopeOfActivityLevelTwoId
+      ScopeOfActivityLevelTwoId = form.scopeOfActivityLevelTwoId,
     };
   }
 

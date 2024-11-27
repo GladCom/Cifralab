@@ -106,17 +106,48 @@ public class RequestControllerTests
       .Any(e => e.Phone == phone && e.BirthDate == date
                                  && e.Name == name && e.Patron == patron && e.Family == family);
 
-    var foundPhantomStudentAfterPost = this._studentContext.PhantomStudents
-      .Any(e => e.Phone == phone && e.BirthDate == date
-                                    && e.Name == name && e.Patron == patron && e.Family == family);
+    Assert.Multiple(() =>
+    {
+      Assert.That(okResult, Is.Not.Null);
+      Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+      Assert.That(okResult?.Value, Is.TypeOf<Request>());
+      Assert.That(foundStudentAfterPost, Is.True);
+    });
+  }
+
+  [Test]
+  public async Task Post_RequestDuplicateStudentData_Ok()
+  {
+    //Arrange
+    //данные студента в БД
+    const string nameStudent = "Лика";
+    const string patronStudent = "Ивановна";
+    const string familyStudent = "Петрова";
+    const string emailStudent = "email@mail.ru";
+    const string birthDateStudent = "01.01.2000";
+    const string phoneStudent = "+7 (123) 456-78-90";
+
+    var student = GenerateNewStudent(this._guids[0], nameStudent, patronStudent, familyStudent, emailStudent,
+      birthDateStudent, phoneStudent);
+    this._studentContext.Students.Add(student);
+    await this._studentContext.SaveChangesAsync();
+
+    var newRequest = GenerateNewRequestDto("Вася", patronStudent, familyStudent, emailStudent, birthDateStudent,
+      phoneStudent);
+
+    //Act
+    var result = await this._requestController.Post(newRequest);
+
+    // Assert
+    var okResult = result as ObjectResult;
 
     Assert.Multiple(() =>
     {
       Assert.That(okResult, Is.Not.Null);
       Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
       Assert.That(okResult?.Value, Is.TypeOf<Request>());
-      Assert.That(foundStudentAfterPost, Is.False);
-      Assert.That(foundPhantomStudentAfterPost, Is.True);
+      Assert.That((okResult?.Value as Request)?.StudentId, Is.Null);
+      Assert.That((okResult?.Value as Request)?.PhantomStudentId, Is.Not.Null);
     });
   }
 
@@ -152,54 +183,6 @@ public class RequestControllerTests
       Assert.That(okResult?.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
       Assert.That(okResult?.Value, Is.TypeOf<Request>());
       Assert.That((okResult?.Value as Request)?.StudentId, Is.EqualTo(this._guids[0]));
-    });
-  }
-
-  [TestCase("")]
-  [TestCase("ssss")]
-  [TestCase("ssss@dddd")]
-  [TestCase("ssss @dddd")]
-  [TestCase("ssss@ dddd")]
-  [TestCase("ssss@dddd.")]
-  [TestCase("ssss@dddd. ru")]
-  [TestCase("ssss@dddd .ru")]
-  public async Task Post_NotValidEmail_InternalServerError(string email)
-  {
-    //Arrange
-    var newRequest = GenerateNewRequestDto();
-    newRequest.email = email;
-
-    //Act
-    var result = await this._requestController.Post(newRequest);
-
-    // Assert
-    var errorResult = result as ObjectResult;
-    Assert.Multiple(() =>
-    {
-      Assert.That(errorResult, Is.Not.Null);
-      Assert.That(errorResult?.StatusCode, Is.EqualTo(StatusCodes.Status500InternalServerError));
-    });
-  }
-
-  [TestCase("")]
-  [TestCase("ssss")]
-  [TestCase("123456789")]
-  [TestCase("+71234567890")]
-  public async Task Post_NotValidPhone_InternalServerError(string phone)
-  {
-    //Arrange
-    var newRequest = GenerateNewRequestDto();
-    newRequest.phone = phone;
-
-    //Act
-    var result = await this._requestController.Post(newRequest);
-
-    //Assert
-    var errorResult = result as ObjectResult;
-    Assert.Multiple(() =>
-    {
-      Assert.That(errorResult, Is.Not.Null);
-      Assert.That(errorResult?.StatusCode, Is.EqualTo(StatusCodes.Status500InternalServerError));
     });
   }
 

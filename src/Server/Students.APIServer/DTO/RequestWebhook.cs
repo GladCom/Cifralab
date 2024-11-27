@@ -8,65 +8,79 @@ public class RequestWebhook
   /// <summary>
   /// ФИО
   /// </summary>
-  public required string Name { get; set; }
+  public string? Name { get; set; }
 
   /// <summary>
   /// Дата рождения
   /// </summary>
-  public required string Birthday { get; set; }
+  public string? Birthday { get; set; }
 
   /// <summary>
   /// Уровень образования
   /// </summary>
-  public required string EducationLevel { get; set; }
+  public string? EducationLevel { get; set; }
 
   /// <summary>
   /// Направление образования
   /// </summary>
-  public required string Education { get; set; }
+  public string? Education { get; set; }
 
   /// <summary>
   /// Опыт работы в IT
   /// </summary>
-  public required string IT_Experience { get; set; }
+  public string? IT_Experience { get; set; }
 
   /// <summary>
-  /// Адрес
+  /// Проекты
   /// </summary>
-  public required string Address { get; set; }
+  public string? Projects { get; set; }
+  /// <summary>
+  /// Проекты
+  /// </summary>
+  public string? Speciality { get; set; }
+
+    /// <summary>
+    /// Адрес
+    /// </summary>
+    public string? Address { get; set; }
 
   /// <summary>
   /// Мобильный телефон
   /// </summary>
-  public required string Phone { get; set; }
+  public string? Phone { get; set; }
 
   /// <summary>
   /// Email
   /// </summary>
-  public required string Email { get; set; }
+  public string? Email { get; set; }
 
   /// <summary>
   /// Согласие на обработку персональных данных
   /// </summary>
-  public required string Agreement { get; set; }
+  public string? Agreement { get; set; }
 
   /// <summary>
   /// Идентификатор транзакции
   /// </summary>
-  public required string tranid { get; set; }
+  public string? tranid { get; set; }
 
   /// <summary>
   /// Идентификатор формы
   /// </summary>
-  public required string formid { get; set; }
+  public string? formid { get; set; }
 
   /// <summary>
   /// Id сферы деятельности(1 уровень).
   /// </summary>
-  public required string ScopeOfActivityLevelOneName { get; set; }
+  public string? ScopeOfActivityLevelOneName { get; set; }
 
   /// <summary>
   /// Id сферы деятельности(2 уровень).
   /// </summary>
   public string? ScopeOfActivityLevelTwoName { get; set; }
+
+  /// <summary>
+  /// Id сферы деятельности(2 уровень).
+  /// </summary>
+  public string? Test { get; set; }
 }

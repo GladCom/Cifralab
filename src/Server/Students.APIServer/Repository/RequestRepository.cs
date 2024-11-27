@@ -41,7 +41,13 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
       if(await this._studentRepository.GetOne(x =>
            x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email) is null)
       {
-        var fantomStudent = await this._mapper.WebhookToStudent(form);
+        var newStudent = (await _mapper.WebhookToPhantomStudent(form)).ToStudent;
+        newStudent = await this._studentRepository.Create(newStudent);
+        request.StudentId = newStudent.Id;
+      }
+      else
+      {
+        var fantomStudent = await _mapper.WebhookToPhantomStudent(form);
         fantomStudent = await this._phantomStudentRepository.Create(fantomStudent);
         request.PhantomStudentId = fantomStudent.Id;
       }
@@ -75,9 +81,15 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     {
       request.IsAlreadyStudied = false;
       if(await this._studentRepository.GetOne(x =>
-           x.FullName == fio || x.BirthDate == date || x.Email == form.email) is null)
+            x.FullName == fio || x.BirthDate == date || x.Email == form.email) is null)
       {
-        var fantomStudent = await Mapper.NewRequestDTOToStudent(form);
+        var newStudent = (await Mapper.NewRequestDTOToPhantomStudent(form)).ToStudent;
+        newStudent = await this._studentRepository.Create(newStudent);
+        request.StudentId = newStudent.Id;
+      }
+      else
+      {
+        var fantomStudent = await Mapper.NewRequestDTOToPhantomStudent(form);
         fantomStudent = await this._phantomStudentRepository.Create(fantomStudent);
         request.PhantomStudentId = fantomStudent.Id;
       }
@@ -111,7 +123,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     Student? student;
 
     //Если студент уже привязан, то меняем его реквизиты, но если он совпадет по трем полям с уже существующим, то пусть идут в топку
-    if(form.StudentId is not null)
+    if(form.StudentId is not null && form.StudentId != Guid.Empty)
     {
       student = await this._studentRepository.FindById(form.StudentId.Value);
       if(student is not null)
@@ -213,7 +225,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
       .Include(r => r.Status)
       .Include(r => r.Orders)!
         .ThenInclude(o => o.KindOrder)
-       .Select(r => Mapper.RequestToRequestDTO(r).Result);
+       .Select(r => Mapper.RequestToRequestDTO(r, _studentRepository).Result);
 
     return await PagedPage<RequestDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentFullName);
   }
@@ -235,7 +247,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
         .Include(r => r.Orders)!
           .ThenInclude(o => o.KindOrder));
 
-    return request is null ? null : await Mapper.RequestToRequestDTO(request);
+    return request is null ? null : await Mapper.RequestToRequestDTO(request, _studentRepository);
   }
 
   #endregion
@@ -253,7 +265,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
       return await base.Create(request);
 
     var existingStudentRequests =
-      await this.Get(r => r.StudentId == request.StudentId);
+      await this.Get(r => r.StudentId == request.StudentId && r.Orders.Any());
     request.IsAlreadyStudied = existingStudentRequests.Any();
     request.DateOfCreate = DateTime.Now;
 

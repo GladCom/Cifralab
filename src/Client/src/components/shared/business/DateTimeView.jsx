@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import Date from './common/DateTime.jsx'
+import DateTime from './common/DateTime.jsx'
 
 const rules = [
     {
@@ -19,12 +19,11 @@ const defaultFormParams = {
 
 const DateTimeView = ({ formParams, ...props }) => {
     return (
-        <Date
+        <DateTime
             {
                 ...{
-                    defaultValue: '1990-03-05',
+                    defaultValue: '1990-03-05 00:00:00',
                     ...props,
-                    mode: 'info',
                     formParams: _.merge({}, defaultFormParams, formParams),
                 }
             }

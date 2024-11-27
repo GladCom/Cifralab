@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import BaseComponent from './baseComponents/BaseComponent.jsx';
 
 const formatPhoneNumber = (input) => {
@@ -22,23 +23,22 @@ const rules = [
     },
 ];
 
-const formParams = {
+const defaultFormParams = {
     key: 'phone',
     name: 'Номер телефона',
     normalize: (value) => formatPhoneNumber(value),
     rules,
 };
 
-const PhoneNumber = (props) => (
-  <BaseComponent
+const PhoneNumber = ({ formParams, ...props }) => (
+    <BaseComponent
         {
             ...{
-                formParams,
-                placeholder: 'введите номер телефона',
                 ...props,
+                formParams: _.merge({}, defaultFormParams, formParams),
             }
         }
-  />
+    />
 );
 
 export default PhoneNumber;

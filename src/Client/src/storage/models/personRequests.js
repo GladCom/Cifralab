@@ -85,7 +85,8 @@ const model = {
     },
     scopeOfActivityLevelTwoId: { 
         name: 'Сфера деятельности уровень 2', 
-        type: ScopeOfActivitySelect,  
+        type: ScopeOfActivitySelect,
+        required: false,
     },
     agreement: { 
         name: 'Согласие на обработку перс. даннных', 
