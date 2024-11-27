@@ -265,7 +265,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
       return await base.Create(request);
 
     var existingStudentRequests =
-      await this.Get(r => r.StudentId == request.StudentId && r.Orders.Any());
+      await this.Get(r => r.StudentId == request.StudentId && r.Orders!.Any(), this.DbSet.Include(r => r.Orders));
     request.IsAlreadyStudied = existingStudentRequests.Any();
     request.DateOfCreate = DateTime.Now;
 
