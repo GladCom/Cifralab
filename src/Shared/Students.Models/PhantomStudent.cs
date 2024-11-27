@@ -6,6 +6,11 @@ using Students.Models.Enums;
 using Students.Models.ReferenceModels;
 
 namespace Students.Models;
+
+//Удачи тому, кто эту **й*ю решит переделать.
+/// <summary>
+/// Временный студент.
+/// </summary>
 public class PhantomStudent
 {
   /// <summary>
@@ -123,6 +128,15 @@ public class PhantomStudent
   public required string IT_Experience { get; set; }
 
   /// <summary>
+  /// Проекты
+  /// </summary>
+  public string? Projects { get; set; }
+  /// <summary>
+  /// Специальность.
+  /// </summary>
+  public string? Speciality { get; set; }
+
+  /// <summary>
   /// Ид Уровень образования
   /// экспорт из заявки, хотя по факту тут тоже некий справочник Высшее образование / Среднее профессиональное образование / Студент ВО / Студент СПО
   /// </summary>
@@ -158,4 +172,23 @@ public class PhantomStudent
   /// </summary>
   [JsonIgnore]
   public virtual ScopeOfActivity? ScopeOfActivityLevelTwo { get; set; }
+
+  public Student ToStudent => new Student()
+  {
+    Address = this.Address,
+    Family = this.Family,
+    Name = this.Name,
+    Patron = this.Patron,
+
+    BirthDate = this.BirthDate,
+    IT_Experience = this.IT_Experience,
+    Projects = this.Projects,
+    Speciality = this.Speciality,
+    Email = this.Email,
+    Phone = this.Phone,
+    Sex = this.Sex,
+    TypeEducationId = this.TypeEducationId,
+    ScopeOfActivityLevelOneId = this.ScopeOfActivityLevelOneId,
+    ScopeOfActivityLevelTwoId = this.ScopeOfActivityLevelTwoId
+  };
 }

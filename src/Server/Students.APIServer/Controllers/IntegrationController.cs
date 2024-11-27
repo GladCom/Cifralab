@@ -42,6 +42,9 @@ public class IntegrationController : ControllerBase
   {
     try
     {
+      if(form.Test == "test")
+        return this.Ok(form);
+
       await this._requestRepository.Create(form);
       return this.Ok(form);
     }

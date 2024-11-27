@@ -13,8 +13,6 @@ internal class PhantomStudentConfiguration : IEntityTypeConfiguration<PhantomStu
       .IsRequired()
       .ValueGeneratedOnAdd();
 
-    builder.UseTpcMappingStrategy();
-
     builder.Property(x => x.Family)
       .IsRequired();
 
@@ -35,6 +33,9 @@ internal class PhantomStudentConfiguration : IEntityTypeConfiguration<PhantomStu
 
     builder.Property(x => x.IT_Experience)
       .IsRequired();
+
+    builder.Property(x => x.Projects);
+    builder.Property(x => x.Speciality);
 
     builder.Property(x => x.ScopeOfActivityLevelOneId)
       .IsRequired();
