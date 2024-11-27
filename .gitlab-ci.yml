@@ -86,6 +86,7 @@ deploy-on-prod-stand:
     - curl -s -X POST $URL -d chat_id=$channeltelegram -d text="$MESSAGE"
     - exit $BUILD_STATUS
  
+ 
     
 # Подготовить деплой тестовго стенда
 .before-deploy-on-test-script: &before-deploy-on-test-script
