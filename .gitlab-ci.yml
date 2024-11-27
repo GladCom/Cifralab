@@ -68,12 +68,12 @@ backend-test:
   script:
     - dotnet test ./test/TestAPI --test-adapter-path . --logger 'junit;LogFilePath=../Artifacts/{assembly}.Result.xml;MethodFormat=Class;FailureBodyFormat=Verbose'
 
-# Деплой на тестовый стенд
+# Деплой на продуктовый стенд
 deploy-on-prod-stand:
   stage: deploy
   tags: [ deploy ]
   rules:
-    - if: ( $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main' ) || ( "prod" =~ $CI_COMMIT_TAG && $CI_PIPELINE_SOURCE == 'push' &&  $CI_COMMIT_REF_NAME == 'develop' )
+    - if: ( $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main' ) || ( "prod" =~ $CI_COMMIT_TAG )
       when: on_success
   script:
     - ./build/down.sh prod
