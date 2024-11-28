@@ -112,10 +112,13 @@ public class Mapper
       ScopeOfActivityLevelOneId = request.Student?.ScopeOfActivityLevelOneId,
       ScopeOfActivityLevelTwoId = request.Student?.ScopeOfActivityLevelTwoId,
       agreement = request.Agreement,
+      trained = false,
+      /*
       trained = studentRepository.GetOne(x => x.Id == request.Student?.Id).Result?
                                     .Requests?.Any(y => y.Id != request.Id && y.Orders != null && 
                                                         y.Orders!.Any(e => e.KindOrder!.Name!.ToLower() == "О зачислении" && 
                                                                            e.Date.Year == DateTime.Now.Year )),
+      */
       DateOfCreate = request.DateOfCreate
     };
   }
