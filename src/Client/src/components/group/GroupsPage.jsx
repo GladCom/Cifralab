@@ -4,8 +4,8 @@ import config from '../../storage/catalogConfigs/groups.js'
 
 const GroupsPage = () => {
     return (
-        <Layout title="Группы">
-            <EntityTable config={config} />
+        <Layout>
+            <EntityTable config={config} title="Группы" />
         </Layout>
     );
 };

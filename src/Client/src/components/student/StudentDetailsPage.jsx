@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData, RoutingWarningModal } from '../shared/layout/index.js';
+import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index.js';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Space, Button } from 'antd';
 import config from '../../storage/catalogConfigs/students.js'
@@ -43,11 +43,14 @@ const StudentDetailsPage = () => {
         setIsChanged(false);
     }, [initialData]);
 
+    const title = `Обучающиеся - ${studentData.family} ${studentData?.name} ${studentData?.patron}`;
+    
     return isLoading || isFetching
     ? (<Loading />)
     : (
-        <Layout title="Персональные данные студента">
-            <h2>{studentData.family} {studentData?.name} {studentData?.patron}</h2>
+        <Layout>
+            <DetailsPageHeader title={title} />
+            <h2 style={{ padding: '3vh' }}>{`${studentData.family} ${studentData?.name} ${studentData?.patron}`}</h2>
             <DetailsPageData
                 items={properties}
                 data={studentData}

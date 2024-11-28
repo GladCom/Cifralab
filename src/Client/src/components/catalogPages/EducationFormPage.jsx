@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/educationForm.js'
 
 const EducationFormPage = () => {
     return (
-        <Layout title="Формы образования">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Формы образования" />
         </Layout>
     );
 };

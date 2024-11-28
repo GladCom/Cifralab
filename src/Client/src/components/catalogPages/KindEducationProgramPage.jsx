@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/kindEducationProgram.js'
 
 const KindEducationProgramPage = () => {
     return (
-        <Layout title="Вид программы">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Вид программы" />
         </Layout>
     );
 };

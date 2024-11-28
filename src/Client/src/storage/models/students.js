@@ -82,6 +82,13 @@ const model = {
     scopeOfActivityLevelTwoId: {
         name: 'Сфера деятельности ур.2', 
         type: ScopeOfActivitySelect,
+        formParams: {
+            rules: [
+                {
+                    required: false,
+                },
+            ],
+        },
     },
     fullNameDocument: {
         name: 'Фамилия в дипломе о ВО/СПО', 

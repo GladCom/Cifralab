@@ -1,5 +1,4 @@
 import React from 'react';
-import { Flex } from 'antd';
 import logo from '../../../assets/images/cyfraLogo.png';
 
 const logoStyle = {
@@ -7,11 +6,7 @@ const logoStyle = {
 };
 
 const Logo = () => {
-    return (
-        <Flex style={logoStyle} >
-            <img src={logo} alt="Логотип Академии цифра" />
-        </Flex>
-    );
+    return (<img src={logo} style={logoStyle} alt="Логотип Академии цифра" />);
 };
 
 export default Logo;

@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/kindOrder.js'
 
 const KindOrderPage = () => {
     return (
-        <Layout title="Вид приказа">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Вид приказа" />
         </Layout>
     );
 };

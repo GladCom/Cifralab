@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/kindDocumentRiseQualification.j
 
 const KindDocumentRiseQualificationPage = () => {
     return (
-        <Layout title="Вид документа повышения квалификации">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Вид документа повышения квалификации" />
         </Layout>
     );
 };

@@ -12,6 +12,7 @@ import EducationFormPage from './catalogPages/EducationFormPage.jsx';
 import RequestStatusPage from './catalogPages/RequestStatusPage.jsx';
 import TypeEducationPage from './catalogPages/TypeEducationPage.jsx';
 import StudentStatusPage from './catalogPages/StudentStatusPage.jsx';
+import ScopeOfActivityPage from './catalogPages/ScopeOfActivityPage.jsx';
 import KindOrderPage from './catalogPages/KindOrderPage.jsx';
 import KindDocumentRiseQualificationPage from './catalogPages/KindDocumentRiseQualificationPage.jsx';
 import KindEducationProgramPage from './catalogPages/KindEducationProgramPage.jsx';
@@ -19,6 +20,9 @@ import FinancingTypePage from './catalogPages/FinancingTypePage.jsx';
 import FEAProgramPage from './catalogPages/FEAProgramPage.jsx';
 import PersonRequestsPage from './request/PersonRequestsPage.jsx';
 import RequestDetailPage from './request/RequestDetailPage.jsx';
+import OrdersDetailsPage from './order/OrdersDetailsPage.jsx';
+import OrdersPage from './order/OrdersPage.jsx';
+import ReportsPage from './report/ReportsPage.jsx';
 import { NotificationProvider } from '../notifications/NotificationContext.js';
 
 const App = () => {
@@ -75,10 +79,27 @@ const App = () => {
                 </PrivateRoute>
               )}
             />
-            
             <Route path="/educationProgram/:id" element={(
                 <PrivateRoute>
                   <ProgramDetailsPage />
+                </PrivateRoute>
+              )}
+            />
+            <Route path="/order/" element={(
+                <PrivateRoute>
+                  <OrdersPage />
+                </PrivateRoute>
+              )}
+            />
+            <Route path="/order/:id" element={(
+                <PrivateRoute>
+                  <OrdersDetailsPage />
+                </PrivateRoute>
+              )}
+            />
+            <Route path="/report/" element={(
+                <PrivateRoute>
+                  <ReportsPage />
                 </PrivateRoute>
               )}
             />
@@ -133,6 +154,12 @@ const App = () => {
             <Route path="/kindEducationProgram" element={(
                 <PrivateRoute>
                   <KindEducationProgramPage />
+                </PrivateRoute>
+              )}
+            />
+            <Route path="/scopeOfActivity" element={(
+                <PrivateRoute>
+                  <ScopeOfActivityPage />
                 </PrivateRoute>
               )}
             />

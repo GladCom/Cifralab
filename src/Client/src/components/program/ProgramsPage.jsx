@@ -4,8 +4,8 @@ import config from '../../storage/catalogConfigs/educationPrograms.js'
 
 const ProgramsPage = () => {
     return (
-        <Layout title="Программы">
-            <EntityTable config={config} />
+        <Layout>
+            <EntityTable config={config} title="Программы" />
         </Layout>
     );
 };

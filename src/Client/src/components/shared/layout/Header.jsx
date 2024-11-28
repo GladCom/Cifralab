@@ -23,7 +23,7 @@ const MyHeader = ({ title, style }) => {
                     <Logo />
                 </Flex>
                 <Flex justify="left" align="center" style={{ width: '50%' }}>
-                    <Title style={{ margin: '0', fontWeight: 'normal' }}>
+                    <Title style={{ margin: '0', fontWeight: 'normal', fontSize: '1.5rem' }}>
                         {title}
                     </Title>
                 </Flex>

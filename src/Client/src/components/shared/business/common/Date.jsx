@@ -14,7 +14,12 @@ const DefaultEditableInfoComponent = ({ value }) => (
     <Text>{dayjs(value).format('DD.MM.YYYY')}</Text>
 );
 
-const DefaultFormComponent = ({ defaultValue, onChange, formParams }) => {
+const format = {
+    format: 'DD.MM.YYYY',
+    type: 'mask',
+}
+
+const DefaultFormComponent = ({ defaultValue, onChange, formParams, placeholder }) => {
     const { key } = formParams;
 
     const formattValue = useCallback((value) => {
@@ -25,11 +30,9 @@ const DefaultFormComponent = ({ defaultValue, onChange, formParams }) => {
     return (
         <DatePicker
             key={key}
-            defaultValue={dayjs(defaultValue)}
-            format={{
-                format: 'DD.MM.YYYY',
-                type: 'mask',
-              }}
+            placeholder={placeholder}
+            defaultPickerValue={dayjs(defaultValue)}
+            format={format}
             onChange={formattValue}
         />
     );
@@ -47,10 +50,7 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
         <DatePicker
             key={key}
             defaultValue={dayjs(value)}
-            format={{
-                format: 'DD.MM.YYYY',
-                type: 'mask',
-              }}
+            format={format}
             onChange={formattValue}
         />
     );

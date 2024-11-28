@@ -4,10 +4,11 @@ import FilterPanel from './FilterPanel.jsx';
 import RemoveForm from './forms/RemoveForm.jsx';
 import EditForm from './forms/EditForm.jsx';
 import { Button, Table, ConfigProvider } from 'antd';
+import TablePageHeader from '../layout/TablePageHeader.jsx';
 
 const { Column } = Table;
 
-const Catalog = ({ config }) => {
+const Catalog = ({ config, title }) => {
     const { fields, properties, detailsLink, crud, hasDetailsPage, columns, serverPaged, dataConverter } = config;
     const { useGetAllPagedAsync, useRemoveOneAsync, useAddOneAsync, useGetOneByIdAsync, useEditOneAsync } = crud;
     const [item, setItem] = useState({});
@@ -94,6 +95,7 @@ const Catalog = ({ config }) => {
 
     return ( 
         <>
+            <TablePageHeader config={config} title={title} />
             <FilterPanel
                 config={config}
                 query={query}

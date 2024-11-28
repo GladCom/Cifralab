@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/studentStatus.js'
 
 const StudentStatusPage = () => {
     return (
-        <Layout title="Статус студента">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Статус студента" />
         </Layout>
     );
 };
