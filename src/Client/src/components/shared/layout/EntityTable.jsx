@@ -1,11 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterPanel from '../catalogProvider/FilterPanel.jsx';
-import { Button, Table, ConfigProvider } from 'antd';
+import { Table } from 'antd';
+import { TablePageHeader } from '../layout/index.js';
 
-const { Column } = Table;
-
-const EntityTable = ({ config }) => {
+const EntityTable = ({ config, title }) => {
     const { fields, properties, detailsLink, crud, columns, serverPaged, dataConverter } = config;
     const { useGetAllPagedAsync, useRemoveOneAsync, useAddOneAsync, useGetOneByIdAsync, useEditOneAsync } = crud;
     const [queryString, setQueryString] = useState('');
@@ -31,7 +30,7 @@ const EntityTable = ({ config }) => {
         pageSize: tableParams.pagination.pageSize, 
         filterDataReq: queryString 
     });
-console.log(data)
+
     useEffect(() => {
         if (!isLoading && !isFetching) {
             const normalizedData = serverPaged ? dataFromServer?.data : dataFromServer;
@@ -84,6 +83,7 @@ console.log(data)
 
     return ( 
         <>
+            <TablePageHeader config={config} title={title} />
             <FilterPanel
                 config={config}
                 query={query}

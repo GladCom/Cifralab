@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData, RoutingWarningModal } from '../shared/layout/index.js';
+import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index.js';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Space, Button } from 'antd';
 import config from '../../storage/catalogConfigs/personRequests.js';
@@ -43,11 +43,14 @@ const RequestDetailsPage = () => {
         setIsChanged(false);
     }, [initialData]);
 
+    const title = `Заявки - ${requestData.family} ${requestData?.name} ${requestData?.patron}`;
+
     return isLoading || isFetching
     ? (<Loading />)
     : (
-        <Layout title={`Заявки - ${requestData.family} ${requestData?.name} ${requestData?.patron}`}>
-            <h2>{requestData.family} {requestData?.name} {requestData?.patron}</h2>
+        <Layout>
+            <DetailsPageHeader title={title} />
+            <h2 style={{ padding: '3vh' }}>{requestData.family} {requestData?.name} {requestData?.patron}</h2>
             <DetailsPageData
                 items={properties}
                 data={requestData}

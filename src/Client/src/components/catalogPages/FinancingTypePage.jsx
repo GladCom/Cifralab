@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/financingType.js'
 
 const FinancingTypePage = () => {
     return (
-        <Layout title="Типы финансирования">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Типы финансирования" />
         </Layout>
     );
 };

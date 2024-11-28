@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/requestStatus.js'
 
 const RequestStatusPage = () => {
     return (
-        <Layout title="Статусы заявки">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Статусы заявки" />
         </Layout>
     );
 };

@@ -2,16 +2,20 @@ import React from 'react';
 import { Modal, Form } from "antd";
 
 const AddOneForm = ({ control, properties, crud }) => {
-  const { useAddOneAsync } = crud;
-  const { showAddOneForm, setShowAddOneForm } = control;
-  const [ addOne, { error, isLoading } ] = useAddOneAsync();
-  const [form] = Form.useForm();
+    const { useAddOneAsync } = crud;
+    const { showAddOneForm, setShowAddOneForm } = control;
+    const [ addOne, { error, isLoading } ] = useAddOneAsync();
+    const [form] = Form.useForm();
 
-  const onSubmit = (formValues) => {
-    addOne(formValues);
-    setShowAddOneForm(false);
-    form.resetFields();
-  };
+    const onSubmit = (formValues) => {
+        addOne(formValues);
+        setShowAddOneForm(false);
+        form.resetFields();
+    };
+
+    const onCancel = () => {
+        setShowAddOneForm(false);
+    };
 
   return (
     <Modal
@@ -23,7 +27,7 @@ const AddOneForm = ({ control, properties, crud }) => {
             autoFocus: true,
             htmlType: 'submit',
         }}
-        onCancel={() => setShowAddOneForm(false)}
+        onCancel={onCancel}
         modalRender={(dom) => (
         <Form
             layout="horizontal"

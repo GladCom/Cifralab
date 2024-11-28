@@ -5,7 +5,6 @@ const { Content } = Layout;
 
 const contentStyle = {
     backgroundColor: '#fff',
-    padding: '24px',
     overflow: 'auto',
     flex: 1,
 };

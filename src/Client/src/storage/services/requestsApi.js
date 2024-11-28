@@ -3,6 +3,7 @@ import apiUrl from './apiUrl.js';
 
 export const requestsApi = createApi({
   reducerPath: 'personrequests',
+  keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/Request` }), //  TODO: уточнить url
   endpoints: (builder) => ({
     getPersonRequests: builder.query({
@@ -10,7 +11,7 @@ export const requestsApi = createApi({
     }),
     getPersonRequestsPaged: builder.query({
       query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
-      providesTags: ['Request'],
+      providesTags: ['Requests'],
     }),
     getPersonRequestById: builder.query({
       query: (id) => ({

@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/typeEducation.js'
 
 const TypeEducationPage = () => {
     return (
-        <Layout title="Тип образования">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="Тип образования" />
         </Layout>
     );
 };

@@ -19,8 +19,9 @@ const footerStyle = {
     backgroundColor: '#fff',
 }
 
+const title = 'Сервис обработки заявок';
 
-const MyLayout = ({ title, children }) => {
+const MyLayout = ({ children }) => {
     return (
         <Layout style={layoutStyle}>
             <Header title={title} style={headerStyle}/>
@@ -29,7 +30,7 @@ const MyLayout = ({ title, children }) => {
                 <Content>{children}</Content>
             </Layout>
             <Footer style={footerStyle} />
-      </Layout>
+        </Layout>
     );
 };
 

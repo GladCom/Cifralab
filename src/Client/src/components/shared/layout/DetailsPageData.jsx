@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col, Space } from 'antd';
 
-const rowStyle = { alignItems: 'center' };
+const rowStyle = { 
+    alignItems: 'center',
+ };
 
 const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
     return (
-        <Space direction="vertical" size={0} style={{ display: 'flex' }}>
+        <Space direction="vertical" size={0} style={{ display: 'flex', paddingLeft: '3vh' }}>
             {Object.entries(items).map(([key, { name, type, formParams, params }]) => {
                 const Item = type;
 

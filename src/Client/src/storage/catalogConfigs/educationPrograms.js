@@ -10,7 +10,7 @@ import {
 } from '../crud/educationProgramCrud.js';
 import { educationProgramsModel } from '../models/index.js';
 import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect.jsx'
-import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/KindDocumentRiseQualificationSelect.jsx'
+import KindEducationProgramSelect from '../../components/shared/business/selects/KindEducationProgramSelect.jsx'
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
 const IsArchive = ({ record }) => {
@@ -64,19 +64,15 @@ export default {
         },
         {
             title: 'Вид программы',
-            dataIndex: 'kindDocumentRiseQualification',
-            key: 'kindDocumentRiseQualification',
+            dataIndex: 'kindEducationProgramId',
+            key: 'kindEducationProgramId',
+            render: (_, record) => (<KindEducationProgramSelect value={record.kindEducationProgramId} mode='info' />),
         },
         {
             title: 'Форма обучения',
             dataIndex: 'educationFormId',
             key: 'educationFormId',
-            render: (_, record) => {
-console.log(record)
-                return (
-                    <EducationFormSelect  mode='info' />
-                );
-            },
+            render: (_, record) => (<EducationFormSelect  value={record.educationFormId} mode='info' />),
         },
         {
             title: 'Кол-во часов',
@@ -90,15 +86,5 @@ console.log(record)
             render: (_, record) => (<IsArchive record={record} />),
         },
     ],
-    dataConverter: (data) => {
-        return data?.map(({ kindDocumentRiseQualificationId, educationFormId, ...props }) => {
-            const kindDocumentRiseQualification = (
-                <KindDocumentRiseQualificationSelect value={kindDocumentRiseQualificationId} mode='info' />
-            );
-            // const educationForm = (
-            //     <EducationFormSelect value={educationFormId} mode='info' />
-            // );
-            return { ...props, kindDocumentRiseQualification, };
-        });
-    },
+    dataConverter: (data) => data,
 };

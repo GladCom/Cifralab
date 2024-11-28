@@ -10,6 +10,8 @@ import Loading from './Loading.jsx';
 import DetailsPageData from './DetailsPageData.jsx';
 import RoutingWarningModal from './RoutingWarningModal.jsx';
 import EntityTable from './EntityTable.jsx';
+import DetailsPageHeader from './DetailsPageHeader.jsx';
+import TablePageHeader from './TablePageHeader.jsx';
 
 export {
     Header,
@@ -24,4 +26,6 @@ export {
     DetailsPageData,
     RoutingWarningModal,
     EntityTable,
+    DetailsPageHeader,
+    TablePageHeader,
 };

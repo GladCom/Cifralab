@@ -5,8 +5,8 @@ import config from '../../storage/catalogConfigs/feaProgram.js'
 
 const FEAProgramPage = () => {
     return (
-        <Layout title="ВЭД программы">
-            <Catalog config={config} />
+        <Layout>
+            <Catalog config={config} title="ВЭД программы" />
         </Layout>
     );
 };

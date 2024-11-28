@@ -4,8 +4,8 @@ import config from '../../storage/catalogConfigs/personRequests.js'
 
 const PersonRequestsPage = () => {
     return (
-        <Layout title="Заявки">
-            <EntityTable config={config} />
+        <Layout>
+            <EntityTable config={config} title="Заявки" />
         </Layout>
     );
 };
