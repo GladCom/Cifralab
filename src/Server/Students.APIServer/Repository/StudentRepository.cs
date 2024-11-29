@@ -52,6 +52,22 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
       .Include(x => x.Requests));
   }
 
+  /// <summary>
+  /// Студент проходил обучение в этом году.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="requestId">Идентификатор заявки, для которой производиться проверка.</param>
+  public async Task<bool> IsAlreadyStudied(Guid studentId, Guid requestId)
+  {
+    return await this.GetOne(s => s.Id == studentId && s.Requests!.Any(y => y.Id != requestId &&
+                                           y.Orders!.Any(e => e.KindOrder!.Name!.ToLower() == "о зачислении" &&
+                                                              e.Date.Year == DateTime.Now.Year)),
+      this.DbSet
+        .Include(s => s.Requests)!
+          .ThenInclude(r => r.Orders)!
+          .ThenInclude(o => o.KindOrder)) is not null;
+  }
+
   #endregion
 
   #region Базовый класс

@@ -50,11 +50,6 @@ public class RequestFilter : Filter<Request>
   public string? RegistrationNumber { get; set; }
 
   /// <summary>
-  /// Уже проходил обучение.
-  /// </summary>
-  public bool? IsAlreadyStudied { get; set; }
-
-  /// <summary>
   /// E-mail
   /// </summary>
   public string? Email { get; set; }
@@ -85,7 +80,6 @@ public class RequestFilter : Filter<Request>
         (!this.StudentStatusId.HasValue || x.StudentStatusId == this.StudentStatusId) &&
         (!this.StatusEntrancExams.HasValue || x.StatusEntrancExams == this.StatusEntrancExams) &&
         (string.IsNullOrEmpty(this.RegistrationNumber) || x.RegistrationNumber == this.RegistrationNumber) &&
-        (!this.IsAlreadyStudied.HasValue || x.IsAlreadyStudied == this.IsAlreadyStudied) &&
         (string.IsNullOrEmpty(this.Email) || x.Email == this.Email) &&
         (string.IsNullOrEmpty(this.Phone) || x.Phone == this.Phone) &&
         (!this.Agreement.HasValue || x.Agreement == this.Agreement);

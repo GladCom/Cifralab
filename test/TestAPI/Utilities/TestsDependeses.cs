@@ -23,7 +23,7 @@ internal static class TestsDepends
   public static Mapper GetMapper(StudentContext context)
   {
     return new Mapper(GetGenericRepository<EducationProgram>(context), GetGenericRepository<StatusRequest>(context),
-      GetGenericRepository<TypeEducation>(context), GetGenericRepository<ScopeOfActivity>(context));
+      GetGenericRepository<TypeEducation>(context), GetGenericRepository<ScopeOfActivity>(context), GetStudentRepository(context));
   }
 
   public static IRequestRepository GetRequestRepository(StudentContext context)

@@ -37,17 +37,16 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 
     if(student is null)
     {
-      request.IsAlreadyStudied = false;
       if(await this._studentRepository.GetOne(x =>
            x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email) is null)
       {
-        var newStudent = (await _mapper.WebhookToPhantomStudent(form)).ToStudent;
+        var newStudent = (await this._mapper.WebhookToPhantomStudent(form)).ToStudent;
         newStudent = await this._studentRepository.Create(newStudent);
         request.StudentId = newStudent.Id;
       }
       else
       {
-        var fantomStudent = await _mapper.WebhookToPhantomStudent(form);
+        var fantomStudent = await this._mapper.WebhookToPhantomStudent(form);
         fantomStudent = await this._phantomStudentRepository.Create(fantomStudent);
         request.PhantomStudentId = fantomStudent.Id;
       }
@@ -79,7 +78,6 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 
     if(student is null)
     {
-      request.IsAlreadyStudied = false;
       if(await this._studentRepository.GetOne(x =>
             x.FullName == fio || x.BirthDate == date || x.Email == form.email) is null)
       {
@@ -104,9 +102,9 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     return request;
   }
 
+  // Пизда, а не мокап, студента выбирать нужно из списка блять
   /// <summary>
   /// Обновить заявку и её студента.
-  /// Пизда, а не мокап, студента выбирать нужно из списка блять
   /// </summary>
   /// <param name="requestId">Id заявки.</param>
   /// <param name="form">DTO заявки.</param>
@@ -219,13 +217,15 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     var query = this.DbSet.AsNoTracking()
       .Include(r => r.Student)
         .ThenInclude(s => s!.TypeEducation)
+      .Include(r => r.Student)
       .Include(r => r.PhantomStudent)
         .ThenInclude(s => s!.TypeEducation)
       .Include(r => r.EducationProgram)
       .Include(r => r.Status)
       .Include(r => r.Orders)!
         .ThenInclude(o => o.KindOrder)
-       .Select(r => Mapper.RequestToRequestDTO(r, _studentRepository).Result);
+
+       .Select(r => this._mapper.RequestToRequestDTO(r).Result);
 
     return await PagedPage<RequestDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentFullName);
   }
@@ -238,16 +238,16 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   public async Task<RequestDTO?> GetRequestDTO(Guid id)
   {
     var request = await this.GetOne(r => r.Id == id, this.DbSet.AsNoTracking()
-        .Include(r => r.Student)
-          .ThenInclude(s => s!.TypeEducation)
-        .Include(r => r.PhantomStudent)
-          .ThenInclude(s => s!.TypeEducation)
-        .Include(r => r.EducationProgram)
-        .Include(r => r.Status)
-        .Include(r => r.Orders)!
-          .ThenInclude(o => o.KindOrder));
+      .Include(r => r.Student)
+        .ThenInclude(s => s!.TypeEducation)
+      .Include(r => r.PhantomStudent)
+        .ThenInclude(s => s!.TypeEducation)
+      .Include(r => r.EducationProgram)
+      .Include(r => r.Status)
+      .Include(r => r.Orders)!
+        .ThenInclude(o => o.KindOrder));
 
-    return request is null ? null : await Mapper.RequestToRequestDTO(request, _studentRepository);
+    return request is null ? null : await this._mapper.RequestToRequestDTO(request);
   }
 
   #endregion
@@ -261,12 +261,6 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <returns>Заявка.</returns>
   public override async Task<Request> Create(Request request)
   {
-    if(request.StudentId is null)
-      return await base.Create(request);
-
-    var existingStudentRequests =
-      await this.Get(r => r.StudentId == request.StudentId && r.Orders!.Any(), this.DbSet.Include(r => r.Orders));
-    request.IsAlreadyStudied = existingStudentRequests.Any();
     request.DateOfCreate = DateTime.Now;
 
     return await base.Create(request);
