@@ -22,8 +22,9 @@ public class StudentController : GenericAPiController<Student>
 
   #region Методы
 
+  //(кажется это можно вынести в абстрактный класс)
   /// <summary>
-  /// Список студентов с разделением по страницам (кажется это можно вынести в абстрактный класс).
+  /// Список студентов с разделением по страницам.
   /// </summary>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
@@ -41,7 +42,7 @@ public class StudentController : GenericAPiController<Student>
   }
 
   /// <summary>
-  /// Получить студента с заявками и группами(не работает).
+  /// Получить студента с заявками и группами.
   /// </summary>
   /// <param name="studentId">Идентификатор студент.а</param>
   /// <returns>Студент с подгруженными заявками и группами.</returns>

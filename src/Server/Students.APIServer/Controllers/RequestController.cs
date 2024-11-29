@@ -45,7 +45,6 @@ public class RequestController : GenericAPiController<Request>
 
   /// <summary>
   /// Обновить заявку и её студента.
-  /// Пизда, а не мокап, студента выбирать нужно из списка блять
   /// </summary>
   /// <param name="id">Id заявки.</param>
   /// <param name="form">DTO заявки.</param>

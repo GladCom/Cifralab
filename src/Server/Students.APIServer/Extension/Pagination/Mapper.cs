@@ -17,6 +17,7 @@ public class Mapper
   private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
   private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
   private readonly IGenericRepository<ScopeOfActivity> _scopeOfActivityRepository;
+  private readonly IStudentRepository _studentRepository;
 
   #endregion
 
@@ -76,14 +77,14 @@ public class Mapper
     };
   }
 
-    /// <summary>
-    /// Преобразование Request в DTO.
-    /// </summary>
-    /// <param name="request">Заявка.</param>
-    /// <returns>DTO заявки.</returns>
-  public static async Task<RequestDTO> RequestToRequestDTO(Request request, IStudentRepository studentRepository)
+  /// <summary>
+  /// Преобразование Request в DTO.
+  /// </summary>
+  /// <param name="request">Заявка.</param>
+  /// <returns>DTO заявки.</returns>
+  public async Task<RequestDTO> RequestToRequestDTO(Request request)
   {
-    if (request.PhantomStudent is not null)
+    if(request.PhantomStudent is not null)
       request.Student = request.PhantomStudent.ToStudent;
 
     return new RequestDTO
@@ -112,13 +113,7 @@ public class Mapper
       ScopeOfActivityLevelOneId = request.Student?.ScopeOfActivityLevelOneId,
       ScopeOfActivityLevelTwoId = request.Student?.ScopeOfActivityLevelTwoId,
       agreement = request.Agreement,
-      trained = false,
-      /*
-      trained = studentRepository.GetOne(x => x.Id == request.Student?.Id).Result?
-                                    .Requests?.Any(y => y.Id != request.Id && y.Orders != null && 
-                                                        y.Orders!.Any(e => e.KindOrder!.Name!.ToLower() == "О зачислении" && 
-                                                                           e.Date.Year == DateTime.Now.Year )),
-      */
+      trained = request.Student is not null && await this._studentRepository.IsAlreadyStudied(request.Student.Id, request.Id),
       DateOfCreate = request.DateOfCreate
     };
   }
@@ -255,14 +250,16 @@ public class Mapper
   /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
   /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
   /// <param name="scopeOfActivityRepository">Репозиторий сферы деятельности.</param>
+  /// <param name="studentRepository">Репозиторий студентов.</param>
   public Mapper(IGenericRepository<EducationProgram> educationProgramRepository,
     IGenericRepository<StatusRequest> statusRequestRepository, IGenericRepository<TypeEducation> typeEducationRepository,
-    IGenericRepository<ScopeOfActivity> scopeOfActivityRepository)
+    IGenericRepository<ScopeOfActivity> scopeOfActivityRepository, IStudentRepository studentRepository)
   {
     this._educationProgramRepository = educationProgramRepository;
     this._statusRequestRepository = statusRequestRepository;
     this._typeEducationRepository = typeEducationRepository;
     this._scopeOfActivityRepository = scopeOfActivityRepository;
+    this._studentRepository = studentRepository;
   }
 
   #endregion

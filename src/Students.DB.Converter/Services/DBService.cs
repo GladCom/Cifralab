@@ -823,7 +823,6 @@ public class DbService : IDisposable
         StudentStatusId = statusStudentId,
         StatusEntrancExams = statusEntranceExams,
         RegistrationNumber = item.DocumentRiseQualificationRegistrationNumber,
-        IsAlreadyStudied = isAlreadyStudied,
         Agreement = true,
         DateOfCreate = dateCreateRequest
       };

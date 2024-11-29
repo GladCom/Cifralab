@@ -23,4 +23,11 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// <param name="studentId">Идентификатор студента.</param>
   /// <returns>Студент.</returns>
   Task<Student?> GetStudentWithGroupsAndRequests(Guid studentId);
+
+  /// <summary>
+  /// Студент проходил обучение в этом году.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="requestId">Идентификатор заявки, для которой производиться проверка.</param>
+  Task<bool> IsAlreadyStudied(Guid studentId, Guid requestId);
 }
