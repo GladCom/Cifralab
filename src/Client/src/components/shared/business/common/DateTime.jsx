@@ -18,7 +18,7 @@ const DefaultFormComponent = ({ defaultValue, onChange, formParams }) => {
     const { key } = formParams;
 
     const formattValue = useCallback((value) => {
-        const formattedDateString = dayjs(value).format('YYYY-MM-DD HH:mm:ss');
+        const formattedDateString = dayjs(value).format('YYYY-MM-DDTHH:mm:ss');
         onChange(formattedDateString);
     });
 
@@ -40,7 +40,7 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
     const { key } = formParams;
 
     const formattValue = useCallback((value) => {
-        const formattedDateString = dayjs(value).format('YYYY-MM-DD HH:mm:ss');
+        const formattedDateString = dayjs(value).format('YYYY-MM-DDTHH:mm:ss');
         onChange(formattedDateString);
     });
 

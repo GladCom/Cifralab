@@ -183,6 +183,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     resultOld.Phone = form.phone ?? string.Empty;
     resultOld.Agreement = form.agreement;
     resultOld.EducationProgramId = form.EducationProgramId;
+    resultOld.DateOfCreate = form.DateOfCreate;
 
     await this.Update(requestId, resultOld);
 
@@ -261,8 +262,10 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <returns>Заявка.</returns>
   public override async Task<Request> Create(Request request)
   {
-    request.DateOfCreate = DateTime.Now;
-
+    if (request.DateOfCreate == DateTime.MinValue)
+    {
+      request.DateOfCreate = DateTime.Now;
+    }
     return await base.Create(request);
   }
 
@@ -274,7 +277,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
   /// <returns>Сущность.</returns>
   public override async Task<Request?> Update(Guid requestId, Request request)
   {
-    if(request.StudentId is null || request.PhantomStudentId is null)
+    if (request.StudentId is null || request.PhantomStudentId is null)
       return await base.Update(requestId, request);
 
     var phantomStudent = await this._phantomStudentRepository.FindById(request.PhantomStudentId.Value);

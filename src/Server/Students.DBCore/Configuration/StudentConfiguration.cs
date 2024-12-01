@@ -35,8 +35,7 @@ internal class StudentConfiguration : IEntityTypeConfiguration<Student>
     builder.Property(x => x.Email)
       .IsRequired();
 
-    builder.Property(x => x.IT_Experience)
-      .IsRequired();
+    builder.Property(x => x.IT_Experience);
 
     builder.Property(x => x.ScopeOfActivityLevelOneId)
       .IsRequired();

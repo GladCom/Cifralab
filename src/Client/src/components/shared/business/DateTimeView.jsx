@@ -22,7 +22,7 @@ const DateTimeView = ({ formParams, ...props }) => {
         <DateTime
             {
                 ...{
-                    defaultValue: '1990-03-05 00:00:00',
+                    defaultValue: '1990-03-05T00:00:00',
                     ...props,
                     formParams: _.merge({}, defaultFormParams, formParams),
                 }

@@ -54,8 +54,8 @@ const useEditOneAsync = () => {
 };
 
 export {
-    useGetPersonRequestsQuery as useGetAllAsync,
-    useGetPersonRequestsPagedQuery as useGetAllPagedAsync,
+    useGetAllAsync as useGetAllAsync,
+    useGetAllPagedAsync,
     useGetPersonRequestByIdQuery as useGetOneByIdAsync,
     useAddPersonRequestMutation as useAddOneAsync,
     useEditOneAsync,

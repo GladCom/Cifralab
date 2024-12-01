@@ -4,14 +4,12 @@ import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Space, Button } from 'antd';
 import config from '../../storage/catalogConfigs/personRequests.js';
 
-
 const RequestDetailsPage = () => {
     const { id } = useParams();
     const [requestData, setRequestData] = useState({});
     const [isChanged, setIsChanged] = useState(false);
-    const [initialData, setInitialData] = useState({}); 
     const [isSaveInProgress, setIsSaveInProgress] = useState(false);
-    
+    const [initialData, setInitialData] = useState({}); 
     const { properties, crud } = config;
     const { useGetOneByIdAsync, useEditOneAsync } = crud;
     const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
@@ -25,7 +23,7 @@ const RequestDetailsPage = () => {
             setRequestData(newData);
             setInitialData(newData);
         }
-    }, [isLoading, isFetching]);
+    }, [isLoading, isFetching, data]);
 
     let blocker = useBlocker(
         ({ currentLocation, nextLocation }) =>
@@ -36,7 +34,7 @@ const RequestDetailsPage = () => {
     const onSave = useCallback(() => {
         editRequest({ id, item: requestData });
         setIsChanged(false);
-    },[id,requestData]);
+    }, [id, requestData]);
 
     const onCancel = useCallback(() => {
         setRequestData(initialData);
