@@ -26,18 +26,6 @@ const model = {
     dateOfCreate: {
         name: 'Дата и время заявки', 
         type: DateTimeView, 
-        formParams: {
-            rules: [
-                {
-                    required: false,
-                },
-            ],
-        },
-        params: {
-            show: {
-                form: true,
-            }
-        },
     },
     educationProgramId : { 
         name: 'Программа', 

@@ -124,7 +124,7 @@ public class Student
   /// Опыт в ИТ
   /// экспорт из заявки
   /// </summary>
-  public required string IT_Experience { get; set; }
+  public string? IT_Experience { get; set; }
 
   /// <summary>
   /// Ид Уровень образования
