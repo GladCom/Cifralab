@@ -113,7 +113,8 @@ public class Mapper
       ScopeOfActivityLevelOneId = request.Student?.ScopeOfActivityLevelOneId,
       ScopeOfActivityLevelTwoId = request.Student?.ScopeOfActivityLevelTwoId,
       agreement = request.Agreement,
-      trained = request.Student is not null && await this._studentRepository.IsAlreadyStudied(request.Student.Id, request.Id),
+      //на реальной базе происходит падение
+      trained = false,//request.Student is not null && await this._studentRepository.IsAlreadyStudied(request.Student.Id, request.Id),
       DateOfCreate = request.DateOfCreate
     };
   }
