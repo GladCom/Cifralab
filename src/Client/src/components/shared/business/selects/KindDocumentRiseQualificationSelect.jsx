@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import QueryableSelect from '../common/QueryableSelect.jsx';
-import config from '../../../../storage/catalogConfigs/kindDocumentRiseQualification.js';
+import config from '../../../../storage/catalog-configs/kindDocumentRiseQualification.js';
 
 const defaultRules = [
   {
