@@ -1,6 +1,6 @@
-import String from '../../components/shared/business/common/String.jsx';
-import Date from '../../components/shared/business/common/Date.jsx';
-import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx';
+import String from '../../components/shared/business/common/String';
+import Date from '../../components/shared/business/common/Date';
+import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect';
 
 const model = {
   name: {

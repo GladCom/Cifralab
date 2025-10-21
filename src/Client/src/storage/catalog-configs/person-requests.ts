@@ -8,10 +8,10 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/personRequestsCrud.js';
-import { useGetRequestStatusQuery } from '../services/requestStatusApi.js';
-import { personRequestsModel } from '../models/index.js';
-import BirthDate from '../../components/shared/business/BirthDate.jsx';
+} from '../crud/personRequestsCrud';
+import { useGetRequestStatusQuery } from '../services/requestStatusApi';
+import { personRequestsModel } from '../models/index';
+import BirthDate from '../../components/shared/business/BirthDate';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import QueryableSelect from '../common/QueryableSelect.jsx';
-import config from '../../../../storage/catalog-configs/educationForm.js';
+import QueryableSelect from '../common/QueryableSelect';
+import config from '../../../../storage/catalog-configs/educationForm';
 
 const defaultRules = [
   {

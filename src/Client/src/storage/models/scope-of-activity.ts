@@ -1,5 +1,5 @@
-import String from '../../components/shared/business/common/String.jsx';
-import ScopeOfActivityLevel from '../../components/shared/business/ScopeOfActivityLevel.jsx';
+import String from '../../components/shared/business/common/String';
+import ScopeOfActivityLevel from '../../components/shared/business/ScopeOfActivityLevel';
 
 const model = {
   nameOfScope: {

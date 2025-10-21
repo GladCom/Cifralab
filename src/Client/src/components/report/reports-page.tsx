@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from '../shared/layout/index.js';
+import { Layout } from '../shared/layout/index';
 
 const ReportsPage = () => {
   return <Layout title="Отчеты">{'Тут будут отчеты!'}</Layout>;

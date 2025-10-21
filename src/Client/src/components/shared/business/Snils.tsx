@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseComponent from './baseComponents/BaseComponent.jsx';
+import BaseComponent from './baseComponents/BaseComponent';
 import { templateParser, templateFormatter, parseDigit } from 'input-format';
 
 //  TODO:   разобраться с форматтером

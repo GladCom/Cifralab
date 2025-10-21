@@ -1,6 +1,6 @@
 import React from 'react';
-import { Layout, EntityTable } from '../shared/layout/index.js';
-import config from '../../storage/catalog-configs/personRequests.js';
+import { Layout, EntityTable } from '../shared/layout/index';
+import config from '../../storage/catalog-configs/personRequests';
 
 const PersonRequestsPage = () => {
   return (

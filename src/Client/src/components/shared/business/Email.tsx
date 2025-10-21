@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import BaseComponent from './baseComponents/BaseComponent.jsx';
+import BaseComponent from './baseComponents/BaseComponent';
 import { AutoComplete } from 'antd';
 
 const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru'];

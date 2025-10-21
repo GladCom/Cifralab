@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/String.jsx';
+import String from '../../components/shared/business/common/String';
 
 const rules = [
   {

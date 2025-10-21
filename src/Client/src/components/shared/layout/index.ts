@@ -1,17 +1,17 @@
-import Header from './Header.jsx';
-import Content from './Content.jsx';
-import Empty from './Empty.jsx';
-import Footer from './Footer.jsx';
-import Layout from './Layout.jsx';
-import Logo from './Logo.jsx';
-import Navbar from './Navbar.jsx';
-import Spinner from './Spinner.jsx';
-import Loading from './Loading.jsx';
-import DetailsPageData from './DetailsPageData.jsx';
-import RoutingWarningModal from './RoutingWarningModal.jsx';
-import EntityTable from './EntityTable.jsx';
-import DetailsPageHeader from './DetailsPageHeader.jsx';
-import TablePageHeader from './TablePageHeader.jsx';
+import Header from './Header';
+import Content from './Content';
+import Empty from './Empty';
+import Footer from './Footer';
+import Layout from './Layout';
+import Logo from './Logo';
+import Navbar from './Navbar';
+import Spinner from './Spinner';
+import Loading from './Loading';
+import DetailsPageData from './DetailsPageData';
+import RoutingWarningModal from './RoutingWarningModal';
+import EntityTable from './EntityTable';
+import DetailsPageHeader from './DetailsPageHeader';
+import TablePageHeader from './TablePageHeader';
 
 export {
   Header,

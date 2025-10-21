@@ -7,10 +7,10 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/educationProgramCrud.js';
-import { educationProgramsModel } from '../models/index.js';
-import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect.jsx';
-import KindEducationProgramSelect from '../../components/shared/business/selects/KindEducationProgramSelect.jsx';
+} from '../crud/educationProgramCrud';
+import { educationProgramsModel } from '../models/index';
+import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect';
+import KindEducationProgramSelect from '../../components/shared/business/selects/KindEducationProgramSelect';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
 const IsArchive = ({ record }) => {

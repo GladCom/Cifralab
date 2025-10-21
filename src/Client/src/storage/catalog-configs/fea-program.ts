@@ -5,8 +5,8 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/feaProgramCrud.js';
-import feaProgramModel from '../models/feaProgram.js';
+} from '../crud/feaProgramCrud';
+import feaProgramModel from '../models/feaProgram';
 
 export default {
   detailsLink: 'feaProgram',

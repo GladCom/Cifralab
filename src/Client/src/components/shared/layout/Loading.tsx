@@ -1,5 +1,5 @@
-import Spinner from './Spinner.jsx';
-import Empty from './Empty.jsx';
+import Spinner from './Spinner';
+import Empty from './Empty';
 
 const Loading = () => {
   return (

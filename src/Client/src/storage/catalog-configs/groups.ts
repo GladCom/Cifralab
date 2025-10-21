@@ -5,10 +5,10 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/groupsCrud.js';
-import { groupsModel } from '../models/index.js';
+} from '../crud/groupsCrud';
+import { groupsModel } from '../models/index';
 import React from 'react';
-import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx';
+import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect';
 
 export default {
   detailsLink: 'group',

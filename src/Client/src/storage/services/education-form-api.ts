@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import apiUrl from './apiUrl.js';
+import apiUrl from './apiUrl';
 
 export const educationFormApi = createApi({
   reducerPath: 'educationForm',

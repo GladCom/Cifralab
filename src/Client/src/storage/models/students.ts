@@ -1,14 +1,14 @@
-import String from '../../components/shared/business/common/String.jsx';
-import Gender from '../../components/shared/business/Gender.jsx';
-import Snils from '../../components/shared/business/Snils.jsx';
-import Email from '../../components/shared/business/Email.jsx';
-import Age from '../../components/shared/business/Age.jsx';
-import Address from '../../components/shared/business/Address.jsx';
-import EducationType from '../../components/shared/business/selects/EducationTypeSelect.jsx';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
-import YesNo from '../../components/shared/business/YesNo.jsx';
-import BirthDate from '../../components/shared/business/BirthDate.jsx';
-import PhoneNumber from '../../components/shared/business/PhoneNumber.jsx';
+import String from '../../components/shared/business/common/String';
+import Gender from '../../components/shared/business/Gender';
+import Snils from '../../components/shared/business/Snils';
+import Email from '../../components/shared/business/Email';
+import Age from '../../components/shared/business/Age';
+import Address from '../../components/shared/business/Address';
+import EducationType from '../../components/shared/business/selects/EducationTypeSelect';
+import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect';
+import YesNo from '../../components/shared/business/YesNo';
+import BirthDate from '../../components/shared/business/BirthDate';
+import PhoneNumber from '../../components/shared/business/PhoneNumber';
 
 const model = {
   family: {

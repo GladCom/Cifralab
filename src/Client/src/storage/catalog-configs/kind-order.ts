@@ -5,8 +5,8 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/kindOrderCrud.js';
-import { kindOrderModel } from '../models/index.js';
+} from '../crud/kindOrderCrud';
+import { kindOrderModel } from '../models/index';
 
 export default {
   detailsLink: 'kindOrder',

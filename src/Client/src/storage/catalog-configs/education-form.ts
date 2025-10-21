@@ -5,8 +5,8 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/educationFormCrud.js';
-import { educationFormModel } from '../models/index.js';
+} from '../crud/educationFormCrud';
+import { educationFormModel } from '../models/index';
 
 export default {
   detailsLink: 'educationForm',

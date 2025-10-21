@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useNotifications from '../../notifications/useNotifications.js';
+import useNotifications from '../../notifications/useNotifications';
 import {
   useGetEducationProgramQuery,
   useGetEducationProgramPagedQuery,

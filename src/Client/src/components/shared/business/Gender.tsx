@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select, Typography } from 'antd';
 import _ from 'lodash';
-import BaseComponent from './baseComponents/BaseComponent.jsx';
+import BaseComponent from './baseComponents/BaseComponent';
 
 const { Text } = Typography;
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import Layout from '../shared/layout/Layout.jsx';
-import Catalog from '../shared/catalogProvider/Catalog.jsx';
-import config from '../../storage/catalog-configs/kindEducationProgram.js';
+import Layout from '../shared/layout/Layout';
+import Catalog from '../shared/catalogProvider/Catalog';
+import config from '../../storage/catalog-configs/kindEducationProgram';
 
 const KindEducationProgramPage = () => {
   return (

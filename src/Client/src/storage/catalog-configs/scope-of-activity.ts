@@ -6,9 +6,9 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/scopeOfActivityCrud.js';
-import scopeOfActivityModel from '../models/scopeOfActivity.js';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
+} from '../crud/scopeOfActivityCrud';
+import scopeOfActivityModel from '../models/scopeOfActivity';
+import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect';
 
 const iconStyle = { marginRight: '5px' };
 

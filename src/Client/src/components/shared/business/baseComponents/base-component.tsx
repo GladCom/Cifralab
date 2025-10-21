@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import renderByMode from './renderByMode.js';
-import defaultComponentsByMode from './componentsByMode.js';
+import renderByMode from './renderByMode';
+import defaultComponentsByMode from './componentsByMode';
 import _ from 'lodash';
-import defaultFormParams from './formParams.js';
-import defaultParams from './params.js';
+import defaultFormParams from './formParams';
+import defaultParams from './params';
 
 const BaseComponent = ({ formParams, params, ...props }) => {
   const { components, mode, value, setValue } = props;

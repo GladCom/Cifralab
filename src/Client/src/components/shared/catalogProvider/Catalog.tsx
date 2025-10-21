@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FilterPanel from './FilterPanel.jsx';
-import RemoveForm from './forms/RemoveForm.jsx';
-import EditForm from './forms/EditForm.jsx';
+import FilterPanel from './FilterPanel';
+import RemoveForm from './forms/RemoveForm';
+import EditForm from './forms/EditForm';
 import { Button, Table, ConfigProvider } from 'antd';
-import TablePageHeader from '../layout/TablePageHeader.jsx';
+import TablePageHeader from '../layout/TablePageHeader';
 
 const { Column } = Table;
 

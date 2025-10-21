@@ -1,17 +1,17 @@
-import educationFormModel from './educationForm.js';
-import educationProgramsModel from './educationPrograms.js';
-import feaProgramModel from './feaProgram.js';
-import financingTypeModel from './financingType.js';
-import groupsModel from './groups.js';
-import kindDocumentRiseQualificationModel from './kindDocumentRiseQualification.js';
-import kindEducationProgramModel from './kindEducationProgram.js';
-import kindOrderModel from './kindOrder.js';
-import personRequestsModel from './personRequests.js';
-import requestStatusModel from './requestStatus.js';
-import scopeOfActivityModel from './scopeOfActivity.js';
-import studentsModel from './students.js';
-import studentStatusModel from './studentStatus.js';
-import typeEducationModel from './typeEducation.js';
+import educationFormModel from './educationForm';
+import educationProgramsModel from './educationPrograms';
+import feaProgramModel from './feaProgram';
+import financingTypeModel from './financingType';
+import groupsModel from './groups';
+import kindDocumentRiseQualificationModel from './kindDocumentRiseQualification';
+import kindEducationProgramModel from './kindEducationProgram';
+import kindOrderModel from './kindOrder';
+import personRequestsModel from './personRequests';
+import requestStatusModel from './requestStatus';
+import scopeOfActivityModel from './scopeOfActivity';
+import studentsModel from './students';
+import studentStatusModel from './studentStatus';
+import typeEducationModel from './typeEducation';
 
 export {
   educationFormModel,

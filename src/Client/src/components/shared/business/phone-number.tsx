@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import BaseComponent from './baseComponents/BaseComponent.jsx';
+import BaseComponent from './baseComponents/BaseComponent';
 
 const formatPhoneNumber = (input) => {
   if (!input) return input;

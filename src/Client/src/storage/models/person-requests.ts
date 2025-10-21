@@ -1,14 +1,14 @@
-import String from '../../components/shared/business/common/String.jsx';
-import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect.jsx';
-import EducationTypeSelect from '../../components/shared/business/selects/EducationTypeSelect.jsx';
-import StatusEntrancExamsSelect from '../../components/shared/business/selects/StatusEntrancExamsSelect.jsx';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect.jsx';
-import CheckBox from '../../components/shared/business/common/CheckBox.jsx';
-import BirthDate from '../../components/shared/business/BirthDate.jsx';
-import Address from '../../components/shared/business/Address.jsx';
-import Email from '../../components/shared/business/Email.jsx';
-import PhoneNumber from '../../components/shared/business/PhoneNumber.jsx';
-import DateTimeView from '../../components/shared/business/DateTimeView.jsx';
+import String from '../../components/shared/business/common/String';
+import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect';
+import EducationTypeSelect from '../../components/shared/business/selects/EducationTypeSelect';
+import StatusEntrancExamsSelect from '../../components/shared/business/selects/StatusEntrancExamsSelect';
+import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect';
+import CheckBox from '../../components/shared/business/common/CheckBox';
+import BirthDate from '../../components/shared/business/BirthDate';
+import Address from '../../components/shared/business/Address';
+import Email from '../../components/shared/business/Email';
+import PhoneNumber from '../../components/shared/business/PhoneNumber';
+import DateTimeView from '../../components/shared/business/DateTimeView';
 
 const model = {
   family: {

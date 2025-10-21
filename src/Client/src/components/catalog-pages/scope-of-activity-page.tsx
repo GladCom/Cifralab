@@ -1,7 +1,7 @@
 import React from 'react';
-import { Layout } from '../shared/layout/index.js';
-import Catalog from '../shared/catalogProvider/Catalog.jsx';
-import config from '../../storage/catalog-configs/scopeOfActivity.js';
+import { Layout } from '../shared/layout/index';
+import Catalog from '../shared/catalogProvider/Catalog';
+import config from '../../storage/catalog-configs/scopeOfActivity';
 
 const ScopeOfActivityPage = () => {
   return (

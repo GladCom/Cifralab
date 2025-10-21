@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Menu, Flex, Layout } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
-import useMenuConfig from './menuConfig.js';
+import useMenuConfig from './menuConfig';
 
 const { Sider } = Layout;
 

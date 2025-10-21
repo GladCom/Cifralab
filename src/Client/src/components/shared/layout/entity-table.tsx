@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FilterPanel from '../catalogProvider/FilterPanel.jsx';
+import FilterPanel from '../catalogProvider/FilterPanel';
 import { Table } from 'antd';
-import { TablePageHeader } from '../layout/index.js';
+import { TablePageHeader } from '../layout/index';
 
 const EntityTable = ({ config, title }) => {
   const { fields, properties, detailsLink, crud, columns, serverPaged, dataConverter } = config;

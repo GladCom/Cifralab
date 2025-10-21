@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import DateTime from './common/DateTime.jsx';
+import DateTime from './common/DateTime';
 
 const rules = [
   {
