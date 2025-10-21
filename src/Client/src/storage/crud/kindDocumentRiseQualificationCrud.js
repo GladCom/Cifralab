@@ -1,4 +1,4 @@
-import { 
+import {
   useGetKindDocumentRiseQualificationQuery,
   useGetKindDocumentRiseQualificationPagedQuery,
   useGetKindDocumentRiseQualificationByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddKindDocumentRiseQualificationMutation as useAddOneAsync,
   useEditKindDocumentRiseQualificationMutation as useEditOneAsync,
   useRemoveKindDocumentRiseQualificationMutation as useRemoveOneAsync,
-}
+};

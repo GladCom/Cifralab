@@ -9,7 +9,7 @@ export const scopeOfActivityApi = createApi({
       query: () => '',
     }),
     getscopeOfActivityPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['ScopeOfActivity'],
     }),
     getscopeOfActivityById: builder.query({

@@ -1,4 +1,4 @@
-import { 
+import {
   useGetGroupsQuery,
   useGetGroupsPagedQuery,
   useGetGroupByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddGroupMutation as useAddOneAsync,
   useEditGroupMutation as useEditOneAsync,
   useRemoveGroupMutation as useRemoveOneAsync,
-}
+};

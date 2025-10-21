@@ -15,7 +15,6 @@ const overlayStyle = {
 };
 
 const Spinner = () => {
-
   return (
     <div style={overlayStyle}>
       <TailSpin height="80" width="80" color="#00BFFF" ariaLabel="loading" />

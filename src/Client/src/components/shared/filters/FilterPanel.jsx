@@ -1,14 +1,14 @@
 import React from 'react';
 
 const FilterPanel = ({ children }) => {
+  const style = {
+    height: '10vh',
+    minHeight: '50px',
+  };
 
-    const style = {
-        height: '10vh',
-        minHeight: '50px',
-    };
-
-    return (
-        <div className="
+  return (
+    <div
+      className="
             row 
             d-flex
             align-items-center 
@@ -16,11 +16,11 @@ const FilterPanel = ({ children }) => {
             text-center
             border-bottom
             border-primary"
-            style={style}
-        >
-            {children}
-        </div>
-    );
+      style={style}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default FilterPanel;

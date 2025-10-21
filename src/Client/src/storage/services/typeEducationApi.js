@@ -9,7 +9,7 @@ export const typeEducationApi = createApi({
       query: () => '',
     }),
     getTypeEducationPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['TypeEducation'],
     }),
     getTypeEducationById: builder.query({

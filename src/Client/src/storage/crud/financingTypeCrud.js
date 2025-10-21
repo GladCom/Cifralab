@@ -1,4 +1,4 @@
-import { 
+import {
   useGetFinancingTypeQuery,
   useGetFinancingTypePagedQuery,
   useGetFinancingTypeByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddFinancingTypeMutation as useAddOneAsync,
   useEditFinancingTypeMutation as useEditOneAsync,
   useRemoveFinancingTypeMutation as useRemoveOneAsync,
-}
+};

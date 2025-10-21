@@ -9,7 +9,7 @@ export const educationFormApi = createApi({
       query: () => '',
     }),
     getEducationFormPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['EducationForm'],
     }),
     getEducationFormById: builder.query({

@@ -6,12 +6,12 @@ import Filter from './Filter.jsx';
 import Modal from './Modal.jsx';
 
 const renderByMode = {
-    info: Info,
-    editableInfo: EditableInfo,
-    form: Form,
-    filter: Filter,
-    edit: Edit,
-    modal: Modal,
+  info: Info,
+  editableInfo: EditableInfo,
+  form: Form,
+  filter: Filter,
+  edit: Edit,
+  modal: Modal,
 };
 
 export default renderByMode;

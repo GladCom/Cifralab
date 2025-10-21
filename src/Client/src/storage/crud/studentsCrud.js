@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   useGetStudentsQuery,
   useGetStudentsPagedQuery,
   useGetStudentByIdQuery,
@@ -11,13 +11,15 @@ import {
 const useGetAllAsync = () => {
   const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetStudentsQuery();
 
-
   return { data, isError, isSuccess, error, isLoading, isFetching, refetch };
 };
 
 const useGetAllPagedAsync = ({ pageNumber, pageSize, filterDataReq: queryString }) => {
-  const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetStudentsPagedQuery({ pageNumber, pageSize, filterDataReq: queryString });
-
+  const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetStudentsPagedQuery({
+    pageNumber,
+    pageSize,
+    filterDataReq: queryString,
+  });
 
   return { data, isError, isSuccess, error, isLoading, isFetching, refetch };
 };
@@ -25,8 +27,6 @@ const useGetAllPagedAsync = ({ pageNumber, pageSize, filterDataReq: queryString 
 const useRemoveOneAsync = () => {
   const [removeItem, removingResult] = useRemoveStudentMutation();
   const { data, error, isUninitialized, isLoading, isSuccess, isError, reset } = removingResult;
-
-
 
   return [removeItem, removingResult];
 };
@@ -38,4 +38,4 @@ export {
   useAddStudentMutation as useAddOneAsync,
   useEditStudentMutation as useEditOneAsync,
   useRemoveOneAsync,
-}
+};

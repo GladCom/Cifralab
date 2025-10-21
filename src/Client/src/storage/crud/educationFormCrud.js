@@ -1,10 +1,10 @@
-import { 
-    useGetEducationFormQuery,
-    useGetEducationFormPagedQuery,
-    useGetEducationFormByIdQuery,
-    useAddEducationFormMutation,
-    useEditEducationFormMutation,
-    useRemoveEducationFormMutation,
+import {
+  useGetEducationFormQuery,
+  useGetEducationFormPagedQuery,
+  useGetEducationFormByIdQuery,
+  useAddEducationFormMutation,
+  useEditEducationFormMutation,
+  useRemoveEducationFormMutation,
 } from '../services/educationFormApi';
 
 export {
@@ -14,4 +14,4 @@ export {
   useAddEducationFormMutation as useAddOneAsync,
   useEditEducationFormMutation as useEditOneAsync,
   useRemoveEducationFormMutation as useRemoveOneAsync,
-}
+};

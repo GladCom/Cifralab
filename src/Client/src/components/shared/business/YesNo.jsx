@@ -5,65 +5,53 @@ import BaseComponent from './baseComponents/BaseComponent.jsx';
 
 const { Text } = Typography;
 const keyValueMap = {
-    false: 'нет',
-    true: 'да',
+  false: 'нет',
+  true: 'да',
 };
 
 const DefaultInfoComponent = ({ value }) => {
-    
-    return (
-        <Text>{keyValueMap[value]}</Text>
-    );
+  return <Text>{keyValueMap[value]}</Text>;
 };
 
 const DefaultEditFormComponent = ({ value, onChange, formParams }) => {
-    const { key } = formParams;
+  const { key } = formParams;
 
-    //  Эффект нужен чтобы проинициализировать начальным значением
-    useEffect(() => {
-        onChange(value || false);
-    }, []);
+  //  Эффект нужен чтобы проинициализировать начальным значением
+  useEffect(() => {
+    onChange(value || false);
+  }, []);
 
-    return (
-        <Switch
-            key={key}
-            defaultValue={value || false}
-            onChange={onChange}
-            defaultChecked={value || false}
-        />
-    );
+  return <Switch key={key} defaultValue={value || false} onChange={onChange} defaultChecked={value || false} />;
 };
 
 const components = {
-    info: DefaultInfoComponent,
-    editableInfo: DefaultInfoComponent,
-    form: DefaultEditFormComponent,
-    edit: DefaultEditFormComponent,
+  info: DefaultInfoComponent,
+  editableInfo: DefaultInfoComponent,
+  form: DefaultEditFormComponent,
+  edit: DefaultEditFormComponent,
 };
 
 const rules = [
-    {
-        required: true,
-        message: 'Выберьте значение',
-    },
+  {
+    required: true,
+    message: 'Выберьте значение',
+  },
 ];
 
 const defaultFormParams = {
-    key: 'ошибка!',
-    name: 'ошибка!',
-    rules: rules,
+  key: 'ошибка!',
+  name: 'ошибка!',
+  rules: rules,
 };
 
 const YesNo = ({ formParams, ...props }) => (
-    <BaseComponent
-        {
-            ...{
-                components,
-                ...props,
-                formParams: _.merge({}, defaultFormParams, formParams),
-            }
-        }
-    />
+  <BaseComponent
+    {...{
+      components,
+      ...props,
+      formParams: _.merge({}, defaultFormParams, formParams),
+    }}
+  />
 );
 
 export default YesNo;

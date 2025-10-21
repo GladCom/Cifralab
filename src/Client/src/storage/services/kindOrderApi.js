@@ -9,7 +9,7 @@ export const kindOrderApi = createApi({
       query: () => '',
     }),
     getKindOrderPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['KindOrder'],
     }),
     getKindOrderById: builder.query({

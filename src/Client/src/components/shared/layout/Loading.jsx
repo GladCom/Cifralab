@@ -1,13 +1,13 @@
-import Spinner from './Spinner.jsx'
-import Empty from './Empty.jsx'
+import Spinner from './Spinner.jsx';
+import Empty from './Empty.jsx';
 
 const Loading = () => {
-    return (
-        <>
-            <Spinner />
-            <Empty />
-        </>
-    );
+  return (
+    <>
+      <Spinner />
+      <Empty />
+    </>
+  );
 };
 
 export default Loading;

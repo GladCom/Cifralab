@@ -1,4 +1,4 @@
-import { 
+import {
   useGetTypeEducationQuery,
   useGetTypeEducationPagedQuery,
   useGetTypeEducationByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddTypeEducationMutation as useAddOneAsync,
   useEditTypeEducationMutation as useEditOneAsync,
   useRemoveTypeEducationMutation as useRemoveOneAsync,
-}
+};

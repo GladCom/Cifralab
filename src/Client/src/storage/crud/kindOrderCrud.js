@@ -1,4 +1,4 @@
-import { 
+import {
   useGetKindOrderQuery,
   useGetKindOrderPagedQuery,
   useGetKindOrderByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddKindOrderMutation as useAddOneAsync,
   useEditKindOrderMutation as useEditOneAsync,
   useRemoveKindOrderMutation as useRemoveOneAsync,
-}
+};

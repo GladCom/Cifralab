@@ -1,4 +1,4 @@
-import { 
+import {
   useGetFEAProgramQuery,
   useGetFEAProgramPagedQuery,
   useGetFEAProgramByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddFEAProgramMutation as useAddOneAsync,
   useEditFEAProgramMutation as useEditOneAsync,
   useRemoveFEAProgramMutation as useRemoveOneAsync,
-}
+};

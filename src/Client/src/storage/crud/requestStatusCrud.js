@@ -1,4 +1,4 @@
-import { 
+import {
   useGetRequestStatusQuery,
   useGetRequestStatusPagedQuery,
   useGetRequestStatusByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddRequestStatusMutation as useAddOneAsync,
   useEditRequestStatusMutation as useEditOneAsync,
   useRemoveRequestStatusMutation as useRemoveOneAsync,
-}
+};

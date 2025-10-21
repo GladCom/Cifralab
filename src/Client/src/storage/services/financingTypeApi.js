@@ -9,7 +9,7 @@ export const financingTypeApi = createApi({
       query: () => '',
     }),
     getFinancingTypePaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['FinancingType'],
     }),
     getFinancingTypeById: builder.query({

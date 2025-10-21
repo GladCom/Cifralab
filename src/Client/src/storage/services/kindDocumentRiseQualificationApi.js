@@ -9,7 +9,7 @@ export const kindDocumentRiseQualificationApi = createApi({
       query: () => '',
     }),
     getKindDocumentRiseQualificationPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['KindDocumentRiseQualification'],
     }),
     getKindDocumentRiseQualificationById: builder.query({

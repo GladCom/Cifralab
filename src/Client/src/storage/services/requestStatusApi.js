@@ -9,7 +9,7 @@ export const requestStatusApi = createApi({
       query: () => '',
     }),
     getRequestStatusPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['RequestStatus'],
     }),
     getRequestStatusById: builder.query({

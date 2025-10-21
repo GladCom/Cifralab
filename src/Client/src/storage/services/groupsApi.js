@@ -10,7 +10,7 @@ export const groupsApi = createApi({
       query: () => '',
     }),
     getGroupsPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['Groups'],
     }),
     getGroupById: builder.query({

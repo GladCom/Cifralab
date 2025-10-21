@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import PrivateRoute from './authorization/PrivateRoute.jsx'
+import PrivateRoute from './authorization/PrivateRoute.jsx';
 import LoginPage from './authorization/LoginPage.jsx';
 import StudentsPage from './student/StudentsPage.jsx';
 import StudentDetailsPage from './student/StudentDetailsPage.jsx';
@@ -28,144 +28,188 @@ import { NotificationProvider } from '../notifications/NotificationContext.js';
 const App = () => {
   return (
     <NotificationProvider>
-        <Routes>
-            <Route path="*" element={<LoginPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/requests" element={(
-                <PrivateRoute>
-                  <PersonRequestsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/requests/:id" element={(
-                <PrivateRoute>
-                  <RequestDetailPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/students" element={(
-                <PrivateRoute>
-                  <StudentsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/student/:id" element={(
-                <PrivateRoute>
-                  <StudentDetailsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/group" element={(
-                <PrivateRoute>
-                  <GroupsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/group/:id" element={(
-                <PrivateRoute>
-                  <GroupDetailsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/program" element={(
-                <PrivateRoute>
-                  <ProgramsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/program/:id" element={(
-                <PrivateRoute>
-                  <ProgramDetailsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/educationProgram/:id" element={(
-                <PrivateRoute>
-                  <ProgramDetailsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/order/" element={(
-                <PrivateRoute>
-                  <OrdersPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/order/:id" element={(
-                <PrivateRoute>
-                  <OrdersDetailsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/report/" element={(
-                <PrivateRoute>
-                  <ReportsPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/educationForm" element={(
-                <PrivateRoute>
-                  <EducationFormPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/statusRequest" element={(
-                <PrivateRoute>
-                  <RequestStatusPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/typeEducation" element={(
-                <PrivateRoute>
-                  <TypeEducationPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/studentStatus" element={(
-                <PrivateRoute>
-                  <StudentStatusPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/kindOrder" element={(
-                <PrivateRoute>
-                  <KindOrderPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/kindDocumentRiseQualification" element={(
-                <PrivateRoute>
-                  <KindDocumentRiseQualificationPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/financingType" element={(
-                <PrivateRoute>
-                  <FinancingTypePage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/fEAProgram" element={(
-                <PrivateRoute>
-                  <FEAProgramPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/kindEducationProgram" element={(
-                <PrivateRoute>
-                  <KindEducationProgramPage />
-                </PrivateRoute>
-              )}
-            />
-            <Route path="/scopeOfActivity" element={(
-                <PrivateRoute>
-                  <ScopeOfActivityPage />
-                </PrivateRoute>
-              )}
-            />
-          </Routes>
+      <Routes>
+        <Route path="*" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/requests"
+          element={
+            <PrivateRoute>
+              <PersonRequestsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/requests/:id"
+          element={
+            <PrivateRoute>
+              <RequestDetailPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/students"
+          element={
+            <PrivateRoute>
+              <StudentsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/student/:id"
+          element={
+            <PrivateRoute>
+              <StudentDetailsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/group"
+          element={
+            <PrivateRoute>
+              <GroupsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/group/:id"
+          element={
+            <PrivateRoute>
+              <GroupDetailsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/program"
+          element={
+            <PrivateRoute>
+              <ProgramsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/program/:id"
+          element={
+            <PrivateRoute>
+              <ProgramDetailsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/educationProgram/:id"
+          element={
+            <PrivateRoute>
+              <ProgramDetailsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/order/"
+          element={
+            <PrivateRoute>
+              <OrdersPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <PrivateRoute>
+              <OrdersDetailsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/report/"
+          element={
+            <PrivateRoute>
+              <ReportsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/educationForm"
+          element={
+            <PrivateRoute>
+              <EducationFormPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/statusRequest"
+          element={
+            <PrivateRoute>
+              <RequestStatusPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/typeEducation"
+          element={
+            <PrivateRoute>
+              <TypeEducationPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/studentStatus"
+          element={
+            <PrivateRoute>
+              <StudentStatusPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/kindOrder"
+          element={
+            <PrivateRoute>
+              <KindOrderPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/kindDocumentRiseQualification"
+          element={
+            <PrivateRoute>
+              <KindDocumentRiseQualificationPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/financingType"
+          element={
+            <PrivateRoute>
+              <FinancingTypePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/fEAProgram"
+          element={
+            <PrivateRoute>
+              <FEAProgramPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/kindEducationProgram"
+          element={
+            <PrivateRoute>
+              <KindEducationProgramPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/scopeOfActivity"
+          element={
+            <PrivateRoute>
+              <ScopeOfActivityPage />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </NotificationProvider>
   );
-}
+};
 
 export default App;

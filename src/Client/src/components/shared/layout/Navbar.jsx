@@ -11,18 +11,13 @@ const siderStyle = {
 };
 
 const Navbar = ({ width }) => {
-    const { selectedKey, openedKey, menuItems } = useMenuConfig();
+  const { selectedKey, openedKey, menuItems } = useMenuConfig();
 
-    return (
-      <Sider width={width} style={siderStyle}>
-        <Menu
-            mode="inline"
-            items={menuItems}
-            defaultSelectedKeys={[selectedKey]}
-            defaultOpenKeys={[openedKey]}
-        />
-      </Sider>
-    );
+  return (
+    <Sider width={width} style={siderStyle}>
+      <Menu mode="inline" items={menuItems} defaultSelectedKeys={[selectedKey]} defaultOpenKeys={[openedKey]} />
+    </Sider>
+  );
 };
 
 export default Navbar;

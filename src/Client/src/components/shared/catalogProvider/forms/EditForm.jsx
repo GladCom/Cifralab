@@ -1,84 +1,78 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Modal, Form } from "antd";
-
+import { Modal, Form } from 'antd';
 
 const EditForm = ({ item, control, config, refetch }) => {
-    const { id } = item;
-    const [form] = Form.useForm();
-    const [itemData, setItemData] = useState(item);
-    const { showEditForm, setShowEditForm } = control;
-    const { properties, crud } = config;
-    const { useGetOneByIdAsync, useEditOneAsync } = crud;
-    const { data, error, isLoading, isSuccess, isError, isFetching } = useGetOneByIdAsync(id);
+  const { id } = item;
+  const [form] = Form.useForm();
+  const [itemData, setItemData] = useState(item);
+  const { showEditForm, setShowEditForm } = control;
+  const { properties, crud } = config;
+  const { useGetOneByIdAsync, useEditOneAsync } = crud;
+  const { data, error, isLoading, isSuccess, isError, isFetching } = useGetOneByIdAsync(id);
 
-    const [
-        editItem,
-        { error: editItemError, isLoading: isEdittingItem },
-      ] = useEditOneAsync();
+  const [editItem, { error: editItemError, isLoading: isEdittingItem }] = useEditOneAsync();
 
-    useEffect(() => {
-        if (!isLoading && !isFetching) {
-            const newData = { ...data };
-            delete newData.id;
-            setItemData(newData);
-        }
-    }, [isLoading, isFetching]);
+  useEffect(() => {
+    if (!isLoading && !isFetching) {
+      const newData = { ...data };
+      delete newData.id;
+      setItemData(newData);
+    }
+  }, [isLoading, isFetching]);
 
-    useEffect(() => {
-      
-    }, [isSuccess]);
+  useEffect(() => {}, [isSuccess]);
 
-    const onCreate = (formValues) => {
-        editItem({ id, item: formValues });
-        setShowEditForm(false);
-    };
-    
-    return (
-        <Modal
-            title="Правка"
-            open={showEditForm}
-            confirmLoading={isLoading || isFetching}
-            onCancel={() => setShowEditForm(false)}
-            destroyOnClose
-            okButtonProps={{
-                autoFocus: true,
-                htmlType: 'submit',
-            }}
-            modalRender={(dom) => (
-            <Form
-                layout="horizontal"
-                form={form}
-                name="form_in_modal"
-                scrollToFirstError
-                clearOnDestroy
-                onFinish={(values) => {
-                    onCreate(values)
-                }}
-            >
-                {dom}
-            </Form>
-            )}
+  const onCreate = (formValues) => {
+    editItem({ id, item: formValues });
+    setShowEditForm(false);
+  };
+
+  return (
+    <Modal
+      title="Правка"
+      open={showEditForm}
+      confirmLoading={isLoading || isFetching}
+      onCancel={() => setShowEditForm(false)}
+      destroyOnClose
+      okButtonProps={{
+        autoFocus: true,
+        htmlType: 'submit',
+      }}
+      modalRender={(dom) => (
+        <Form
+          layout="horizontal"
+          form={form}
+          name="form_in_modal"
+          scrollToFirstError
+          clearOnDestroy
+          onFinish={(values) => {
+            onCreate(values);
+          }}
         >
-            {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
-                const Item = type;
+          {dom}
+        </Form>
+      )}
+    >
+      {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
+        const Item = type;
 
-                return (
-                    <Item
-                        key={key}
-                        value={itemData[key]}
-                        params={params}
-                        formParams={{ key, name, ...formParams }}
-                        mode='form'
-                        setValue={(value) => {
-                        form.setFieldsValue({
-                            [key]: value,
-                        });
-                        }}
-                    />
-                );
-            })}
-        </Modal>
-    );
+        return (
+          <Item
+            key={key}
+            value={itemData[key]}
+            params={params}
+            formParams={{ key, name, ...formParams }}
+            mode="form"
+            setValue={(value) => {
+              form.setFieldsValue({
+                [key]: value,
+              });
+            }}
+          />
+        );
+      })}
+    </Modal>
+  );
 };
 
 export default EditForm;

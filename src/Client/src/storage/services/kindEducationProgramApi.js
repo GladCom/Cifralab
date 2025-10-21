@@ -9,7 +9,7 @@ export const kindEducationProgramApi = createApi({
       query: () => '',
     }),
     getKindEducationProgramPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['KindEducationProgram'],
     }),
     getKindEducationProgramById: builder.query({

@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   SendOutlined,
-  TeamOutlined, 
+  TeamOutlined,
   ReadOutlined,
   FileDoneOutlined,
   ContactsOutlined,
@@ -9,130 +9,162 @@ import {
 } from '@ant-design/icons';
 
 const openedKey = {
-    '/program': 'catalogs',
-    '/group' : 'catalogs',
-    '333' : 'catalogs',
-    '/educationForm' : 'settings',
-    '/statusRequest' : 'settings',
-    '/typeEducation' : 'settings',
-    '/studentStatus': 'settings',
-    '/kindOrder' : 'settings',
-    '/kindDocumentRiseQualification' : 'settings',
-    '/financingType' : 'settings',
-    '/fEAProgram': 'settings',
-    '/scopeOfActivity': 'settings',
-    '/kindEducationProgram': 'settings',
+  '/program': 'catalogs',
+  '/group': 'catalogs',
+  333: 'catalogs',
+  '/educationForm': 'settings',
+  '/statusRequest': 'settings',
+  '/typeEducation': 'settings',
+  '/studentStatus': 'settings',
+  '/kindOrder': 'settings',
+  '/kindDocumentRiseQualification': 'settings',
+  '/financingType': 'settings',
+  '/fEAProgram': 'settings',
+  '/scopeOfActivity': 'settings',
+  '/kindEducationProgram': 'settings',
 };
 
 const useMenuConfig = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const menuItems = [
+  const menuItems = [
+    {
+      key: '/requests',
+      label: 'Заявки',
+      onClick: () => {
+        navigate('/requests');
+      },
+    },
+    { type: 'divider' },
+    {
+      key: '/students',
+      label: 'Обучающиеся',
+      onClick: () => {
+        navigate('/students');
+      },
+    },
+    { type: 'divider' },
+    {
+      key: 'catalogs',
+      label: 'Справочники',
+      children: [
         {
-            key: '/requests',
-            label: 'Заявки',
-            onClick: () => {navigate('/requests')},
+          key: '/program',
+          label: 'Программы',
+          onClick: () => {
+            navigate('/program');
+          },
         },
-        { type: 'divider' },
         {
-            key: '/students',
-            label: 'Обучающиеся',
-            onClick: () => {navigate('/students')},
+          key: '/group',
+          label: 'Группы',
+          onClick: () => {
+            navigate('/group');
+          },
         },
-        { type: 'divider' },
         {
-            key: 'catalogs',
-            label: 'Справочники',
-            children: [
-                {
-                    key: '/program',
-                    label: 'Программы',
-                    onClick: () => {navigate('/program')},
-                },
-                {
-                    key: '/group',
-                    label: 'Группы',
-                    onClick: () => {navigate('/group')},
-                },
-                {
-                    key: '/order',
-                    label: 'Приказы',
-                    onClick: () => {navigate('/order')},
-                },
-            ],
+          key: '/order',
+          label: 'Приказы',
+          onClick: () => {
+            navigate('/order');
+          },
         },
-        { type: 'divider' },
+      ],
+    },
+    { type: 'divider' },
+    {
+      key: '/report',
+      label: 'Отчеты',
+      onClick: () => {
+        navigate('/report');
+      },
+    },
+    { type: 'divider' },
+    {
+      key: 'settings',
+      label: 'Настройка системы',
+      children: [
         {
-            key: '/report',
-            label: 'Отчеты',
-            onClick: () => {navigate('/report')},
+          key: '/educationForm',
+          label: 'Форма образования',
+          onClick: () => {
+            navigate('/educationForm');
+          },
         },
-        { type: 'divider' },
         {
-            key: 'settings',
-            label: 'Настройка системы',
-            children: [
-                {
-                    key: '/educationForm',
-                    label: 'Форма образования',
-                    onClick: () => {navigate('/educationForm')},
-                },
-                {
-                    key: '/statusRequest',
-                    label: 'Статусы заявки',
-                    onClick: () => {navigate('/statusRequest')},
-                },
-                {
-                    key: '/typeEducation',
-                    label: 'Типы образования',
-                    onClick: () => {navigate('/typeEducation')},
-                },
-                {
-                    key: '/studentStatus',
-                    label: 'Статусы студента',
-                    onClick: () => {navigate('/studentStatus')},
-                },
-                {
-                    key: '/kindOrder',
-                    label: 'Типы приказов',
-                    onClick: () => {navigate('/kindOrder')},
-                },
-                {
-                    key: '/kindDocumentRiseQualification',
-                    label: 'Виды документа повышения квалификации',
-                    onClick: () => {navigate('/kindDocumentRiseQualification')},
-                },
-                {
-                    key: '/financingType',
-                    label: 'Типы финансирования',
-                    onClick: () => {navigate('/financingType')},
-                },
-                {
-                    key: '/fEAProgram',
-                    label: 'ВЭД программы',
-                    onClick: () => {navigate('/fEAProgram')},
-                },
-                {
-                    key: '/scopeOfActivity',
-                    label: 'Сферы деятельности',
-                    onClick: () => {navigate('/scopeOfActivity')},
-                },
-                {
-                key: '/kindEducationProgram',
-                label: 'Виды программ',
-                onClick: () => {navigate('/kindEducationProgram')},
-                },
-            ],
+          key: '/statusRequest',
+          label: 'Статусы заявки',
+          onClick: () => {
+            navigate('/statusRequest');
+          },
         },
-        { type: 'divider' },
-    ];
+        {
+          key: '/typeEducation',
+          label: 'Типы образования',
+          onClick: () => {
+            navigate('/typeEducation');
+          },
+        },
+        {
+          key: '/studentStatus',
+          label: 'Статусы студента',
+          onClick: () => {
+            navigate('/studentStatus');
+          },
+        },
+        {
+          key: '/kindOrder',
+          label: 'Типы приказов',
+          onClick: () => {
+            navigate('/kindOrder');
+          },
+        },
+        {
+          key: '/kindDocumentRiseQualification',
+          label: 'Виды документа повышения квалификации',
+          onClick: () => {
+            navigate('/kindDocumentRiseQualification');
+          },
+        },
+        {
+          key: '/financingType',
+          label: 'Типы финансирования',
+          onClick: () => {
+            navigate('/financingType');
+          },
+        },
+        {
+          key: '/fEAProgram',
+          label: 'ВЭД программы',
+          onClick: () => {
+            navigate('/fEAProgram');
+          },
+        },
+        {
+          key: '/scopeOfActivity',
+          label: 'Сферы деятельности',
+          onClick: () => {
+            navigate('/scopeOfActivity');
+          },
+        },
+        {
+          key: '/kindEducationProgram',
+          label: 'Виды программ',
+          onClick: () => {
+            navigate('/kindEducationProgram');
+          },
+        },
+      ],
+    },
+    { type: 'divider' },
+  ];
 
-    return { 
-        selectedKey: location.pathname,
-        openedKey: openedKey[location.pathname] ?? '',
-        menuItems,
-    };
+  return {
+    selectedKey: location.pathname,
+    openedKey: openedKey[location.pathname] ?? '',
+    menuItems,
+  };
 };
 
 export default useMenuConfig;

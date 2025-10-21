@@ -9,7 +9,7 @@ export const feaProgramApi = createApi({
       query: () => '',
     }),
     getFEAProgramPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['FEAProgram'],
     }),
     getFEAProgramById: builder.query({

@@ -1,4 +1,4 @@
-import { 
+import {
   useGetStudentStatusQuery,
   useGetStudentStatusPagedQuery,
   useGetStudentStatusByIdQuery,
@@ -14,4 +14,4 @@ export {
   useAddStudentStatusMutation as useAddOneAsync,
   useEditStudentStatusMutation as useEditOneAsync,
   useRemoveStudentStatusMutation as useRemoveOneAsync,
-}
+};

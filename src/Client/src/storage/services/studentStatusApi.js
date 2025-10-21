@@ -9,7 +9,7 @@ export const studentStatusApi = createApi({
       query: () => '',
     }),
     getStudentStatusPaged: builder.query({
-      query: () => '',  //  TODO: Переделать
+      query: () => '', //  TODO: Переделать
       providesTags: ['StudentStatus'],
     }),
     getStudentStatusById: builder.query({

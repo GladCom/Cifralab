@@ -1,20 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer  from './slices/userSlice.js';
-import { authApi }  from './services/authApi.js';
-import { studentsApi }  from './services/studentsApi.js';
-import { educationFormApi }  from './services/educationFormApi.js';
-import { requestStatusApi }  from './services/requestStatusApi.js';
-import { typeEducationApi }  from './services/typeEducationApi.js';
-import { studentStatusApi }  from './services/studentStatusApi.js';
-import { kindOrderApi }  from './services/kindOrderApi.js';
-import { kindDocumentRiseQualificationApi }  from './services/kindDocumentRiseQualificationApi.js';
+import userReducer from './slices/userSlice.js';
+import { authApi } from './services/authApi.js';
+import { studentsApi } from './services/studentsApi.js';
+import { educationFormApi } from './services/educationFormApi.js';
+import { requestStatusApi } from './services/requestStatusApi.js';
+import { typeEducationApi } from './services/typeEducationApi.js';
+import { studentStatusApi } from './services/studentStatusApi.js';
+import { kindOrderApi } from './services/kindOrderApi.js';
+import { kindDocumentRiseQualificationApi } from './services/kindDocumentRiseQualificationApi.js';
 import { kindEducationProgramApi } from './services/kindEducationProgramApi.js';
-import { financingTypeApi }  from './services/financingTypeApi.js';
-import { feaProgramApi }  from './services/feaProgramApi.js';
-import { educationProgramApi }  from './services/educationProgramApi.js';
-import { groupsApi }  from './services/groupsApi.js';
-import { requestsApi }  from './services/requestsApi.js';
-import { scopeOfActivityApi }  from './services/scopeOfActivityApi.js';
+import { financingTypeApi } from './services/financingTypeApi.js';
+import { feaProgramApi } from './services/feaProgramApi.js';
+import { educationProgramApi } from './services/educationProgramApi.js';
+import { groupsApi } from './services/groupsApi.js';
+import { requestsApi } from './services/requestsApi.js';
+import { scopeOfActivityApi } from './services/scopeOfActivityApi.js';
 
 export default configureStore({
   reducer: {
@@ -33,24 +33,23 @@ export default configureStore({
     [educationProgramApi.reducerPath]: educationProgramApi.reducer,
     [groupsApi.reducerPath]: groupsApi.reducer,
     [requestsApi.reducerPath]: requestsApi.reducer,
-    [scopeOfActivityApi.reducerPath]: scopeOfActivityApi.reducer
+    [scopeOfActivityApi.reducerPath]: scopeOfActivityApi.reducer,
   },
-  middleware: (
-    (getDefaultMiddleware) => getDefaultMiddleware()
-    .concat(authApi.middleware)
-    .concat(studentsApi.middleware)
-    .concat(educationFormApi.middleware)
-    .concat(requestStatusApi.middleware)
-    .concat(typeEducationApi.middleware)
-    .concat(studentStatusApi.middleware)
-    .concat(kindOrderApi.middleware)
-    .concat(kindDocumentRiseQualificationApi.middleware)
-    .concat(kindEducationProgramApi.middleware)
-    .concat(financingTypeApi.middleware)
-    .concat(feaProgramApi.middleware)
-    .concat(educationProgramApi.middleware)
-    .concat(groupsApi.middleware)
-    .concat(requestsApi.middleware)
-    .concat(scopeOfActivityApi.middleware)
-  ),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(authApi.middleware)
+      .concat(studentsApi.middleware)
+      .concat(educationFormApi.middleware)
+      .concat(requestStatusApi.middleware)
+      .concat(typeEducationApi.middleware)
+      .concat(studentStatusApi.middleware)
+      .concat(kindOrderApi.middleware)
+      .concat(kindDocumentRiseQualificationApi.middleware)
+      .concat(kindEducationProgramApi.middleware)
+      .concat(financingTypeApi.middleware)
+      .concat(feaProgramApi.middleware)
+      .concat(educationProgramApi.middleware)
+      .concat(groupsApi.middleware)
+      .concat(requestsApi.middleware)
+      .concat(scopeOfActivityApi.middleware),
 });
