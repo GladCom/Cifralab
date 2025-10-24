@@ -1,14 +1,14 @@
 import String from '../../components/shared/business/common/String';
-import Gender from '../../components/shared/business/Gender';
-import Snils from '../../components/shared/business/Snils';
-import Email from '../../components/shared/business/Email';
-import Age from '../../components/shared/business/Age';
-import Address from '../../components/shared/business/Address';
-import EducationType from '../../components/shared/business/selects/EducationTypeSelect';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect';
-import YesNo from '../../components/shared/business/YesNo';
-import BirthDate from '../../components/shared/business/BirthDate';
-import PhoneNumber from '../../components/shared/business/PhoneNumber';
+import Gender from '../../components/shared/business/gender';
+import Snils from '../../components/shared/business/snils';
+import Email from '../../components/shared/business/email';
+import Age from '../../components/shared/business/age';
+import Address from '../../components/shared/business/address';
+import EducationType from '../../components/shared/business/selects/education-type-select';
+import ScopeOfActivitySelect from '../../components/shared/business/selects/scope-of-activity-select';
+import YesNo from '../../components/shared/business/yes-no';
+import BirthDate from '../../components/shared/business/birth-date';
+import PhoneNumber from '../../components/shared/business/phone-number';
 
 const model = {
   family: {

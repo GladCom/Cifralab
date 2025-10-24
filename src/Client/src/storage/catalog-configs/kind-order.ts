@@ -5,7 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/kindOrderCrud';
+} from '../crud/kind-education-program-crud';
 import { kindOrderModel } from '../models/index';
 
 export default {

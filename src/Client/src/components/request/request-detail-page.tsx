@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Space, Button } from 'antd';
-import config from '../../storage/catalog-configs/personRequests';
+import config from '../../storage/catalog-configs/person-requests';
 
 const RequestDetailsPage = () => {
   const { id } = useParams();

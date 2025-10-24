@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Select } from 'antd';
-import { CheckCircleFilled } from '@ant-design/icons';
+import { useState, useEffect, useRef } from 'react';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,
@@ -8,10 +6,9 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/personRequestsCrud';
-import { useGetRequestStatusQuery } from '../services/requestStatusApi';
+} from '../crud/person-requests-crud';
+import { useGetRequestStatusQuery } from '../services/request-status-api';
 import { personRequestsModel } from '../models/index';
-import BirthDate from '../../components/shared/business/BirthDate';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {

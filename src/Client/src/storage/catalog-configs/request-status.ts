@@ -5,7 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/requestStatusCrud';
+} from '../crud/request-status-crud';
 import { requestStatusModel } from '../models/index';
 
 export default {

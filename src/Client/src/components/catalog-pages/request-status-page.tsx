@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../shared/layout/Layout';
-import Catalog from '../shared/catalogProvider/Catalog';
-import config from '../../storage/catalog-configs/requestStatus';
+import config from '../../storage/catalog-configs/request-status';
+import Catalog from '../shared/catalog-provider/catalog';
 
 const RequestStatusPage = () => {
   return (

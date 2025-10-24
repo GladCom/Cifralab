@@ -5,8 +5,8 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/financingTypeCrud';
-import financingTypeModel from '../models/financingType';
+} from '../crud/financing-type-crud';
+import financingTypeModel from '../models/financing-type';
 
 export default {
   detailsLink: 'financingType',

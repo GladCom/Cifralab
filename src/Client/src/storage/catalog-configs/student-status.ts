@@ -5,7 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/studentStatusCrud';
+} from '../crud/student-status-crud';
 import { studentStatusModel } from '../models/index';
 
 export default {

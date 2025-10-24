@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import _ from 'lodash';
-import BaseComponent from '../baseComponents/BaseComponent';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
+import BaseComponent from '../base-components/base-component';
 
 const { Text } = Typography;
 

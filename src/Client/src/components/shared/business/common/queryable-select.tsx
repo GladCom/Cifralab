@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import BaseComponent from '../baseComponents/BaseComponent';
+import BaseComponent from '../base-components/base-component';
 import { Typography, Select } from 'antd';
 
 const { Text } = Typography;

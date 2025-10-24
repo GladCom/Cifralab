@@ -1,6 +1,6 @@
 import { Select, Typography } from 'antd';
-import BaseComponent from '../baseComponents/BaseComponent';
 import React from 'react';
+import BaseComponent from '../base-components/base-component';
 
 const { Text } = Typography;
 

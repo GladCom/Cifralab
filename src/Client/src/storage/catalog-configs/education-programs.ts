@@ -7,10 +7,8 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/educationProgramCrud';
+} from '../crud/education-form-crud';
 import { educationProgramsModel } from '../models/index';
-import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect';
-import KindEducationProgramSelect from '../../components/shared/business/selects/KindEducationProgramSelect';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
 const IsArchive = ({ record }) => {

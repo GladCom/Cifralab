@@ -5,8 +5,8 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/kindDocumentRiseQualificationCrud';
-import kindDocumentRiseQualificationModel from '../models/kindDocumentRiseQualification';
+} from '../crud/kind-document-rise-qualification-crud';
+import kindDocumentRiseQualificationModel from '../models/kind-document-rise-qualification';
 
 export default {
   detailsLink: 'kindDocumentRiseQualification',

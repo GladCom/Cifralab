@@ -1,7 +1,6 @@
-import React from 'react';
-import Layout from '../shared/layout/Layout';
-import Catalog from '../shared/catalogProvider/Catalog';
-import config from '../../storage/catalog-configs/educationForm';
+import Catalog from '../shared/catalog-provider/catalog';
+import config from '../../storage/catalog-configs/education-form';
+import { Layout } from '../shared/layout';
 
 const EducationFormPage = () => {
   return (

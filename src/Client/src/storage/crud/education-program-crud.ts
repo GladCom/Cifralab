@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import useNotifications from '../../notifications/useNotifications';
+import { useEffect } from 'react';
+import useNotifications from '../../notifications/use-notifications';
 import {
   useGetEducationProgramQuery,
   useGetEducationProgramPagedQuery,
@@ -7,7 +7,7 @@ import {
   useAddEducationProgramMutation,
   useEditEducationProgramMutation,
   useRemoveEducationProgramMutation,
-} from '../services/educationProgramApi';
+} from '../services/education-program-api';
 
 const useEditOneAsync = () => {
   const [editItem, editingResult] = useEditEducationProgramMutation();

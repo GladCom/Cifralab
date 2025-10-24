@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../shared/layout/Layout';
-import Catalog from '../shared/catalogProvider/Catalog';
-import config from '../../storage/catalog-configs/kindOrder';
+import config from '../../storage/catalog-configs/kind-order';
+import Catalog from '../shared/catalog-provider/catalog';
 
 const KindOrderPage = () => {
   return (

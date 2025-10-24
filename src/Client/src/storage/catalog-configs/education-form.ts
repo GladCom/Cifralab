@@ -5,7 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/educationFormCrud';
+} from '../crud/education-form-crud';
 import { educationFormModel } from '../models/index';
 
 export default {

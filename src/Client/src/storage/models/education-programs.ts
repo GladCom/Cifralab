@@ -1,12 +1,12 @@
 import String from '../../components/shared/business/common/String';
-import YesNo from '../../components/shared/business/YesNo';
-import Cost from '../../components/shared/business/Cost';
-import HoursCount from '../../components/shared/business/HoursCount';
-import FEAProgramSelect from '../../components/shared/business/selects/FEAProgramSelect';
-import EducationFormSelect from '../../components/shared/business/selects/EducationFormSelect';
-import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/KindDocumentRiseQualificationSelect';
-import KindEducationProgramSelect from '../../components/shared/business/selects/KindEducationProgramSelect';
-import FinancingTypeSelect from '../../components/shared/business/selects/FinancingTypeSelect';
+import YesNo from '../../components/shared/business/yes-no';
+import Cost from '../../components/shared/business/cost';
+import HoursCount from '../../components/shared/business/hours-count';
+import FEAProgramSelect from '../../components/shared/business/selects/f-eaprogram-select';
+import EducationFormSelect from '../../components/shared/business/selects/education-form-select';
+import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/kind-document-rise-qualification-select';
+import KindEducationProgramSelect from '../../components/shared/business/selects/kind-education-program-select';
+import FinancingTypeSelect from '../../components/shared/business/selects/financing-type-select';
 
 const model = {
   name: { name: 'Программа обучения', type: String, show: true, required: true },

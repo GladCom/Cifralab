@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../shared/layout/Layout';
-import Catalog from '../shared/catalogProvider/Catalog';
-import config from '../../storage/catalog-configs/kindDocumentRiseQualification';
+import config from '../../storage/catalog-configs/kind-document-rise-qualification';
+import Catalog from '../shared/catalog-provider/catalog';
 
 const KindDocumentRiseQualificationPage = () => {
   return (

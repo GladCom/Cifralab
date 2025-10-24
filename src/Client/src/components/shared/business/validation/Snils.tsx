@@ -1,5 +1,4 @@
 import React from 'react';
-import String from '../String';
 import * as yup from 'yup';
 
 const MODES = {
@@ -34,7 +33,6 @@ const formatSnils = (input) => {
   }
 };
 
-// eslint-disable-next-line react/prop-types
 const Snils = ({ value, setValue, mode = MODES.EDITABLE_INFO }) => (
   <String value={value} mode={mode} setValue={setValue} validate={validateSnils} format={formatSnils} required={true} />
 );

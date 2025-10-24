@@ -5,8 +5,8 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/typeEducationCrud';
-import typeEducationModel from '../models/typeEducation';
+} from '../crud/type-education-crud';
+import typeEducationModel from '../models/type-education';
 
 export default {
   detailsLink: 'typeEducation',

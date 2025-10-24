@@ -5,7 +5,7 @@ import {
   useAddGroupMutation,
   useEditGroupMutation,
   useRemoveGroupMutation,
-} from '../services/groupsApi';
+} from '../services/groups-api';
 
 export {
   useGetGroupsQuery as useGetAllAsync,

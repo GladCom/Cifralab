@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import {
   useGetStudentsQuery,
   useGetStudentsPagedQuery,
@@ -6,7 +5,7 @@ import {
   useAddStudentMutation,
   useEditStudentMutation,
   useRemoveStudentMutation,
-} from '../services/studentsApi';
+} from '../services/students-api';
 
 const useGetAllAsync = () => {
   const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetStudentsQuery();

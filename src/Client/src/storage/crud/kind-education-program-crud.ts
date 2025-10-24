@@ -5,7 +5,7 @@ import {
   useAddKindEducationProgramMutation,
   useEditKindEducationProgramMutation,
   useRemoveKindEducationProgramMutation,
-} from '../services/kindEducationProgramApi';
+} from '../services/kind-education-program-api';
 
 export {
   useGetKindEducationProgramQuery as useGetAllAsync,

@@ -1,6 +1,6 @@
 import React from 'react';
-import BaseComponent from './baseComponents/BaseComponent';
 import { templateParser, templateFormatter, parseDigit } from 'input-format';
+import BaseComponent from './base-components/base-component';
 
 //  TODO:   разобраться с форматтером
 const TEMPLATE = 'xxx-xxx-xxx xx';

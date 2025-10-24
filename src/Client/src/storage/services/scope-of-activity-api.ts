@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import apiUrl from './apiUrl';
+import apiUrl from './api-url';
 
 export const scopeOfActivityApi = createApi({
   reducerPath: 'scopeOfActivity',

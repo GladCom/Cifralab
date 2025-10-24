@@ -1,7 +1,6 @@
-import React from 'react';
-import Layout from '../shared/layout/Layout';
-import Catalog from '../shared/catalogProvider/Catalog';
-import config from '../../storage/catalog-configs/feaProgram';
+import Catalog from '../shared/catalog-provider/catalog';
+import config from '../../storage/catalog-configs/fea-program';
+import { Layout } from '../shared/layout';
 
 const FEAProgramPage = () => {
   return (

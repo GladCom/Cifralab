@@ -1,20 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './slices/userSlice';
-import { authApi } from './services/authApi';
-import { studentsApi } from './services/studentsApi';
-import { educationFormApi } from './services/educationFormApi';
-import { requestStatusApi } from './services/requestStatusApi';
-import { typeEducationApi } from './services/typeEducationApi';
-import { studentStatusApi } from './services/studentStatusApi';
-import { kindOrderApi } from './services/kindOrderApi';
-import { kindDocumentRiseQualificationApi } from './services/kindDocumentRiseQualificationApi';
-import { kindEducationProgramApi } from './services/kindEducationProgramApi';
-import { financingTypeApi } from './services/financingTypeApi';
-import { feaProgramApi } from './services/feaProgramApi';
-import { educationProgramApi } from './services/educationProgramApi';
-import { groupsApi } from './services/groupsApi';
-import { requestsApi } from './services/requestsApi';
-import { scopeOfActivityApi } from './services/scopeOfActivityApi';
+import userReducer from './slices/user-slice';
+import { authApi } from './services/auth-api';
+import { studentsApi } from './services/students-api';
+import { educationFormApi } from './services/education-form-api';
+import { requestStatusApi } from './services/request-status-api';
+import { typeEducationApi } from './services/type-education-api';
+import { studentStatusApi } from './services/student-status-api';
+import { kindOrderApi } from './services/kind-order-api';
+import { kindDocumentRiseQualificationApi } from './services/kind-document-rise-qualification-api';
+import { kindEducationProgramApi } from './services/kind-education-program-api';
+import { financingTypeApi } from './services/financing-type-api';
+import { feaProgramApi } from './services/fea-program-api';
+import { educationProgramApi } from './services/education-program-api';
+import { groupsApi } from './services/groups-api';
+import { requestsApi } from './services/requests-api';
+import { scopeOfActivityApi } from './services/scope-of-activity-api';
 
 export default configureStore({
   reducer: {

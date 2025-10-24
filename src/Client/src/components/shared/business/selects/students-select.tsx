@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import QueryableSelect from '../common/QueryableSelect';
+import QueryableSelect from '../common/queryable-select';
 import config from '../../../../storage/catalog-configs/students';
 
 const defaultRules = [

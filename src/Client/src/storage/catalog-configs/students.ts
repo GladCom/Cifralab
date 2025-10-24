@@ -5,9 +5,9 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/studentsCrud';
+} from '../crud/students-crud';
 import { studentsModel } from '../models/index';
-import BirthDate from '../../components/shared/business/BirthDate';
+import BirthDate from '../../components/shared/business/birth-date';
 
 export default {
   detailsLink: 'student',

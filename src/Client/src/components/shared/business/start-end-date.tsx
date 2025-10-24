@@ -1,7 +1,4 @@
-import React from 'react';
-
-import BaseComponent from './baseComponents/BaseComponent';
-import { AutoComplete } from 'antd';
+import BaseComponent from './base-components/base-component';
 
 const components = {
   form: DefaultFormComponent,

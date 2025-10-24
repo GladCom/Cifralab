@@ -1,14 +1,14 @@
 import String from '../../components/shared/business/common/String';
-import EducationProgramSelect from '../../components/shared/business/selects/EducationProgramSelect';
-import EducationTypeSelect from '../../components/shared/business/selects/EducationTypeSelect';
-import StatusEntrancExamsSelect from '../../components/shared/business/selects/StatusEntrancExamsSelect';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/ScopeOfActivitySelect';
-import CheckBox from '../../components/shared/business/common/CheckBox';
-import BirthDate from '../../components/shared/business/BirthDate';
-import Address from '../../components/shared/business/Address';
-import Email from '../../components/shared/business/Email';
-import PhoneNumber from '../../components/shared/business/PhoneNumber';
-import DateTimeView from '../../components/shared/business/DateTimeView';
+import EducationProgramSelect from '../../components/shared/business/selects/education-form-select';
+import EducationTypeSelect from '../../components/shared/business/selects/education-type-select';
+import StatusEntrancExamsSelect from '../../components/shared/business/selects/status-entranc-exams-select';
+import ScopeOfActivitySelect from '../../components/shared/business/selects/scope-of-activity-select';
+import CheckBox from '../../components/shared/business/common/check-box';
+import BirthDate from '../../components/shared/business/birth-date';
+import Address from '../../components/shared/business/address';
+import Email from '../../components/shared/business/email';
+import PhoneNumber from '../../components/shared/business/phone-number';
+import DateTimeView from '../../components/shared/business/date-time-view';
 
 const model = {
   family: {

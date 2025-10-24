@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { InputNumber } from 'antd';
-import BaseComponent from './baseComponents/BaseComponent';
+import BaseComponent from './base-components/base-component';
 
 const DefaultComponent = ({ value, onChange, formParams }) => {
   const { key } = formParams;

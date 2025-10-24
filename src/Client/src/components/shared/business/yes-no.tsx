@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { Switch, Typography } from 'antd';
-import BaseComponent from './baseComponents/BaseComponent';
+import BaseComponent from './base-components/base-component';
 
 const { Text } = Typography;
 const keyValueMap = {
