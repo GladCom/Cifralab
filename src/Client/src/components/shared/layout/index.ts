@@ -1,17 +1,17 @@
-import Header from './Header';
-import Content from './Content';
-import Empty from './Empty';
-import Footer from './Footer';
-import Layout from './Layout';
-import Logo from './Logo';
-import Navbar from './Navbar';
-import Spinner from './Spinner';
-import Loading from './Loading';
-import DetailsPageData from './DetailsPageData';
-import RoutingWarningModal from './RoutingWarningModal';
-import EntityTable from './EntityTable';
-import DetailsPageHeader from './DetailsPageHeader';
-import TablePageHeader from './TablePageHeader';
+import Header from './header';
+import Content from './content';
+import Empty from './empty';
+import Footer from './footer';
+import Layout from './layout';
+import Logo from './logo';
+import Navbar from './navbar';
+import Spinner from './spinner';
+import Loading from './loading';
+import DetailsPageData from './details-page-data';
+import RoutingWarningModal from './routing-warning-modal';
+import EntityTable from './entity-table';
+import DetailsPageHeader from './details-page-header';
+import TablePageHeader from './table-page-header';
 
 export {
   Header,

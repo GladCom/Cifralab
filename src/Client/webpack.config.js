@@ -3,6 +3,10 @@ import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import { config } from 'dotenv';
+import webpack from 'webpack';
+
+config();
 
 // Получаем __dirname в ES модулях
 const __filename = fileURLToPath(import.meta.url);
@@ -125,6 +129,10 @@ export default (env, argv) => {
       new HtmlWebpackPlugin({
         template: './index.html',
         favicon: './src/assets/favicon.ico',
+      }),
+      new webpack.DefinePlugin({
+        'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL),
+        'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
       }),
     ],
     devServer: {

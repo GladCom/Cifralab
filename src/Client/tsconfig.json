@@ -45,7 +45,6 @@
     "src/**/*.tsx",
     "src/**/*.js",
     "src/**/*.jsx",
-    "vite.config.ts", // Если используете Vite
     "next-env.d.ts",
     ".next/types/**/*.ts"
   ],

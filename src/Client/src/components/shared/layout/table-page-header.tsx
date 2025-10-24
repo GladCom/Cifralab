@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Flex, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import AddOneForm from '../catalogProvider/forms/AddOneForm';
+import AddOneForm from '../catalog-provider/forms/add-one-form';
 
 const style = {
   height: '7vh',

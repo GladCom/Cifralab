@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions as userActions } from '../../../storage/slices/userSlice';
-import Logo from './Logo';
+import { actions as userActions } from '../../../storage/slices/user-slice';
+import Logo from './logo';
 import { Flex, Layout, Button, Typography } from 'antd';
 
 const { Text, Title } = Typography;

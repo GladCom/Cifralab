@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../shared/layout/Layout';
+import { Layout } from '../shared/layout';
 import Catalog from '../shared/catalog-provider/catalog';
 import config from '../../storage/catalog-configs/financing-type';
 

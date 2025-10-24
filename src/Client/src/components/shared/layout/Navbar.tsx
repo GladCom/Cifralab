@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Layout } from 'antd';
-import useMenuConfig from './menuConfig';
+import useMenuConfig from './menu-config';
 
 const { Sider } = Layout;
 

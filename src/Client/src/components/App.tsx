@@ -1,29 +1,30 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import PrivateRoute from './authorization/PrivateRoute';
-import LoginPage from './authorization/LoginPage';
-import StudentsPage from './student/StudentsPage';
-import StudentDetailsPage from './student/StudentDetailsPage';
-import GroupsPage from './group/GroupsPage';
-import GroupDetailsPage from './group/GroupDetailsPage';
-import ProgramsPage from './program/ProgramsPage';
-import ProgramDetailsPage from './program/ProgramDetailsPage';
-import EducationFormPage from './catalogPages/EducationFormPage';
-import RequestStatusPage from './catalogPages/RequestStatusPage';
-import TypeEducationPage from './catalogPages/TypeEducationPage';
-import StudentStatusPage from './catalogPages/StudentStatusPage';
-import ScopeOfActivityPage from './catalogPages/ScopeOfActivityPage';
-import KindOrderPage from './catalogPages/KindOrderPage';
-import KindDocumentRiseQualificationPage from './catalogPages/KindDocumentRiseQualificationPage';
-import KindEducationProgramPage from './catalogPages/KindEducationProgramPage';
-import FinancingTypePage from './catalogPages/FinancingTypePage';
-import FEAProgramPage from './catalogPages/FEAProgramPage';
-import PersonRequestsPage from './request/PersonRequestsPage';
-import RequestDetailPage from './request/RequestDetailPage';
-import OrdersDetailsPage from './order/OrdersDetailsPage';
-import OrdersPage from './order/OrdersPage';
-import ReportsPage from './report/ReportsPage';
-import { NotificationProvider } from '../notifications/NotificationContext';
+import PrivateRoute from './authorization/private-route';
+import LoginPage from './authorization/login-page';
+import StudentsPage from './student/students-page';
+import StudentDetailsPage from './student/student-details-page';
+import GroupsPage from './group/groups-page';
+import GroupDetailsPage from './group/group-details-page';
+import ProgramsPage from './program/programs-page';
+import ProgramDetailsPage from './program/program-details-page';
+
+import PersonRequestsPage from './request/person-requests-page';
+import RequestDetailPage from './request/request-detail-page';
+import OrdersDetailsPage from './order/orders-details-page';
+import OrdersPage from './order/orders-page';
+import ReportsPage from './report/reports-page';
+import { NotificationProvider } from '../notifications/notification-context';
+import EducationFormPage from './catalog-pages/education-form-page';
+import RequestStatusPage from './catalog-pages/request-status-page';
+import TypeEducationPage from './catalog-pages/type-education-page';
+import StudentStatusPage from './catalog-pages/student-status-page';
+import KindOrderPage from './catalog-pages/kind-order-page';
+import KindDocumentRiseQualificationPage from './catalog-pages/kind-document-rise-qualification-page';
+import FinancingTypePage from './catalog-pages/financing-type-page';
+import FEAProgramPage from './catalog-pages/fea-program-page';
+import KindEducationProgramPage from './catalog-pages/kind-education-program-page';
+import ScopeOfActivityPage from './catalog-pages/scope-of-activity-page';
 
 const App = () => {
   return (

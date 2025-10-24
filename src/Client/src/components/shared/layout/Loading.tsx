@@ -1,5 +1,5 @@
-import Spinner from './Spinner';
-import Empty from './Empty';
+import Spinner from './spinner';
+import Empty from './empty';
 
 const Loading = () => {
   return (

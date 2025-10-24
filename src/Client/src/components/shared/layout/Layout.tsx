@@ -1,9 +1,8 @@
-import React from 'react';
-import Footer from './Footer';
-import Header from './Header';
-import Navbar from './Navbar';
-import Content from './Content';
-import { Layout } from 'antd';
+import Footer from './footer';
+import Header from './header';
+import Navbar from './navbar';
+import Content from './content';
+import { Layout as AntLayout } from 'antd';
 
 const headerStyle = {
   textAlign: 'center',
@@ -21,17 +20,17 @@ const footerStyle = {
 
 const title = 'Сервис обработки заявок';
 
-const MyLayout = ({ children }) => {
+const Layout = ({ children }) => {
   return (
-    <Layout style={layoutStyle}>
+    <AntLayout style={layoutStyle}>
       <Header title={title} style={headerStyle} />
-      <Layout hasSider>
+      <AntLayout hasSider>
         <Navbar width="15%" />
         <Content>{children}</Content>
-      </Layout>
+      </AntLayout>
       <Footer style={footerStyle} />
-    </Layout>
+    </AntLayout>
   );
 };
 
-export default MyLayout;
+export default Layout;

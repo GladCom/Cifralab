@@ -1,17 +1,13 @@
-import Info from './Info';
-import EditableInfo from './EditableInfo';
-import Edit from './Edit';
-import Form from './Form';
-import Filter from './Filter';
-import Modal from './Modal';
+import Info from './info';
+import EditableInfo from './editable-info';
+import Edit from './edit';
+import Form from './form';
 
 const renderByMode = {
   info: Info,
   editableInfo: EditableInfo,
   form: Form,
-  filter: Filter,
   edit: Edit,
-  modal: Modal,
 };
 
 export default renderByMode;
