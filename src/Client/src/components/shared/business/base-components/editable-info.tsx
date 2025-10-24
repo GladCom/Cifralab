@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Typography, Button, Space } from 'antd';
+import { Typography, Button, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 const { Text } = Typography;
 

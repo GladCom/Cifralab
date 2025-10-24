@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Form } from 'antd';
 
 const EditForm = ({ item, control, config, refetch }) => {

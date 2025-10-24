@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import BaseComponent from '../base-components/base-component';
 import { Typography, Select } from 'antd';

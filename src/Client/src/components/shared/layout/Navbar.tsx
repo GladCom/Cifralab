@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Menu, Flex, Layout } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Menu, Layout } from 'antd';
 import useMenuConfig from './menuConfig';
 
 const { Sider } = Layout;

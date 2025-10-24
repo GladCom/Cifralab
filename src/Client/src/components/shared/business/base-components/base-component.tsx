@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import renderByMode from './render-by-mode';
 import defaultComponentsByMode from './components-by-mode';
 import _ from 'lodash';

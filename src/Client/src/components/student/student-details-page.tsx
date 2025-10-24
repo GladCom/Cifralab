@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
-import { Row, Col, Space, Button } from 'antd';
+import { Row, Col, Button } from 'antd';
 import config from '../../storage/catalog-configs/students';
 
 const StudentDetailsPage = () => {

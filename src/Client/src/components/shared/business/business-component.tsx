@@ -1,4 +1,4 @@
-import React, { Children, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import Stack from 'react-bootstrap/Stack';
 
 const BusinessComponent = ({ children }) => {

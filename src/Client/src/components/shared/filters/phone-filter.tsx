@@ -1,6 +1,5 @@
 import React from 'react';
 import PhoneInput from 'react-phone-input-2';
-import { SearchOutlined } from '@ant-design/icons';
 import 'react-phone-input-2/lib/style.css';
 
 const PhoneFilter = ({ placeholder, onChange }) => {

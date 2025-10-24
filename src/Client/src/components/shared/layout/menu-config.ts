@@ -1,12 +1,4 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  SendOutlined,
-  TeamOutlined,
-  ReadOutlined,
-  FileDoneOutlined,
-  ContactsOutlined,
-  FilePptOutlined,
-} from '@ant-design/icons';
 
 const openedKey = {
   '/program': 'catalogs',
