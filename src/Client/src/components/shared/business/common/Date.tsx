@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import _ from 'lodash';
-import BaseControl from '../base-components/base-component';
+import BaseControl from '../base-controls/base-control';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
 

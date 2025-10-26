@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import { AutoComplete } from 'antd';
-import BaseControl from './base-components/base-component';
+import BaseControl from './base-controls/base-control';
 
 const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru'];
 

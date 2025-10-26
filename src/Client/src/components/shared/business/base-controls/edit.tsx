@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, Button, Space } from 'antd';
 
 const Edit = ({ Component, props }) => {

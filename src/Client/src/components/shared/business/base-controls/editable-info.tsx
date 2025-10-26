@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography, Button, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 const { Text } = Typography;

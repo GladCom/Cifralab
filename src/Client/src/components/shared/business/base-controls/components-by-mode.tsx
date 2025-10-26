@@ -1,4 +1,3 @@
-import React from 'react';
 import { Input, Typography } from 'antd';
 const { Text } = Typography;
 
