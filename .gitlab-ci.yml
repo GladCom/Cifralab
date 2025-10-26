@@ -47,7 +47,7 @@ frontend-build:
       when: on_success
   script:
     - cd ./src/Client 
-    - npm ci
+    - npm install --legacy-peer-deps
     - CI=false npm run build
   
 # Запус юнит тестов
