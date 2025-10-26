@@ -1,4 +1,4 @@
-import BaseControl from './base-controls/base-control';
+import { BaseControl } from './base-controls/base-control';
 
 const components = {
   form: DefaultFormComponent,

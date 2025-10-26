@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import Date from './common/Date';
+import Date from './common/date';
 
 const rules = [
   {

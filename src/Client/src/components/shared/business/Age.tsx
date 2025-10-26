@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import BaseControl from './base-controls/base-control';
+import { BaseControl } from './base-controls/base-control';
 
 const { Text } = Typography;
 

@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/String';
+import String from '../../components/shared/business/common/string';
 import Gender from '../../components/shared/business/gender';
 import Snils from '../../components/shared/business/snils';
 import Email from '../../components/shared/business/email';

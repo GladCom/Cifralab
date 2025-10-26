@@ -16,3 +16,27 @@ export interface IBaseControl {
   formParams: FormParams;
   setValue: () => {};
 }
+
+export interface IInfoControl {
+  value: string;
+}
+
+export interface IEditableInfoControl {
+  value: string;
+}
+
+export interface IEditControl {
+  value: string;
+  defaultValue: string;
+  placeholder: string;
+  formParams: FormParams;
+  onChange: () => {};
+}
+
+export interface IFormControl {
+  value: string;
+  defaultValue: string;
+  placeholder: string;
+  formParams: FormParams;
+  onChange: () => {};
+}

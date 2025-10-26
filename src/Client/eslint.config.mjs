@@ -24,6 +24,7 @@ export default [
         ...globals.browser,
         ...globals.es2021,
         ...globals.node,
+        React: 'readonly',
       },
       parser: typescriptParser,
       parserOptions: {

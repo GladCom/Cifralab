@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/String';
+import String from '../../components/shared/business/common/string';
 import ScopeOfActivityLevel from '../../components/shared/business/scope-of-activity-level';
 
 const model = {

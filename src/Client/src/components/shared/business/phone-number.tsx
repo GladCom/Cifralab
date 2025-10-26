@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import BaseControl from './base-controls/base-control';
+import { BaseControl } from './base-controls/base-control';
 
 const formatPhoneNumber = (input) => {
   if (!input) return input;

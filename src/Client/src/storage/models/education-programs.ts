@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/String';
+import String from '../../components/shared/business/common/string';
 import YesNo from '../../components/shared/business/yes-no';
 import Cost from '../../components/shared/business/cost';
 import HoursCount from '../../components/shared/business/hours-count';

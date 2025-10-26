@@ -5,7 +5,7 @@ import _ from 'lodash';
 import defaultFormParams from './form-params';
 import defaultParams from './params';
 
-const BaseControl = ({ formParams, params, ...props }) => {
+export const BaseControl = ({ formParams, params, ...props }) => {
   const { components, mode, value, setValue } = props;
   const [currentMode, setCurrentMode] = useState(mode);
   const [changed, setChanged] = useState(false);
@@ -35,5 +35,3 @@ const BaseControl = ({ formParams, params, ...props }) => {
     />
   );
 };
-
-export default BaseControl;

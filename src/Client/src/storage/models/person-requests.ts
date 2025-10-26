@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/String';
+import String from '../../components/shared/business/common/string';
 import EducationProgramSelect from '../../components/shared/business/selects/education-form-select';
 import EducationTypeSelect from '../../components/shared/business/selects/education-type-select';
 import StatusEntrancExamsSelect from '../../components/shared/business/selects/status-entranc-exams-select';

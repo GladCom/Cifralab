@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import _ from 'lodash';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
-import BaseControl from '../base-controls/base-control';
+import { BaseControl } from '../base-controls/base-control';
 
 const { Text } = Typography;
 
