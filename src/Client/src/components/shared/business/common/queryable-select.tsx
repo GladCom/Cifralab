@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import BaseComponent from '../base-components/base-component';
+import BaseControl from '../base-components/base-component';
 import { Typography, Select } from 'antd';
 
 const { Text } = Typography;
@@ -53,7 +53,7 @@ const defaultFormParams = {
 };
 
 const QueryableSelect = ({ formParams, ...props }) => (
-  <BaseComponent
+  <BaseControl
     {...{
       components,
       placeholder: 'Выберите значение',

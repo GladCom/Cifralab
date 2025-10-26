@@ -1,4 +1,4 @@
-import BaseComponent from './base-components/base-component';
+import BaseControl from './base-components/base-component';
 
 const components = {
   form: DefaultFormComponent,
@@ -23,7 +23,7 @@ const formParams = {
 };
 
 const StartEndDate = (props) => (
-  <BaseComponent
+  <BaseControl
     {...{
       ...props,
       components,

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom';
-import App from './components/App';
+import App from './components/app';
 import reportWebVitals from './report-web-vitals';
 import store from './storage/index';
 import 'bootstrap/dist/css/bootstrap.min.css';

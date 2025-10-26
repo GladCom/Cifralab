@@ -1,11 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import renderByMode from './render-by-mode';
 import defaultComponentsByMode from './components-by-mode';
 import _ from 'lodash';
 import defaultFormParams from './form-params';
 import defaultParams from './params';
 
-const BaseComponent = ({ formParams, params, ...props }) => {
+const BaseControl = ({ formParams, params, ...props }) => {
   const { components, mode, value, setValue } = props;
   const [currentMode, setCurrentMode] = useState(mode);
   const [changed, setChanged] = useState(false);
@@ -36,4 +36,4 @@ const BaseComponent = ({ formParams, params, ...props }) => {
   );
 };
 
-export default BaseComponent;
+export default BaseControl;

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
-import BaseComponent from './base-components/base-component';
+import BaseControl from './base-components/base-component';
 
 const DefaultFormComponent = ({ value, onChange, formParams }) => {
   const { key } = formParams;
@@ -61,7 +61,7 @@ const formParams = {
 
 const Address = (props) => {
   return (
-    <BaseComponent
+    <BaseControl
       {...{
         ...props,
         //components,

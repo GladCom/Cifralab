@@ -1,6 +1,6 @@
 import React from 'react';
 import { templateParser, templateFormatter, parseDigit } from 'input-format';
-import BaseComponent from './base-components/base-component';
+import BaseControl from './base-components/base-component';
 
 //  TODO:   разобраться с форматтером
 const TEMPLATE = 'xxx-xxx-xxx xx';
@@ -32,7 +32,7 @@ const formParams = {
 };
 
 const Snils = (props) => (
-  <BaseComponent
+  <BaseControl
     {...{
       ...props,
       formParams,

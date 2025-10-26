@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { Switch, Typography } from 'antd';
-import BaseComponent from './base-components/base-component';
+import BaseControl from './base-components/base-component';
 
 const { Text } = Typography;
 const keyValueMap = {
@@ -45,7 +45,7 @@ const defaultFormParams = {
 };
 
 const YesNo = ({ formParams, ...props }) => (
-  <BaseComponent
+  <BaseControl
     {...{
       components,
       ...props,

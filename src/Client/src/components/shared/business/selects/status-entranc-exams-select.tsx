@@ -1,6 +1,6 @@
 import { Select, Typography } from 'antd';
 import React from 'react';
-import BaseComponent from '../base-components/base-component';
+import BaseControl from '../base-components/base-component';
 
 const { Text } = Typography;
 
@@ -47,7 +47,7 @@ const components = {
 };
 
 const StatusEntrancExamsSelect = (props) => (
-  <BaseComponent
+  <BaseControl
     {...{
       components,
       formParams,

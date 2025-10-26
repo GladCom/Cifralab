@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select, Typography } from 'antd';
 import _ from 'lodash';
-import BaseComponent from './base-components/base-component';
+import BaseControl from './base-components/base-component';
 
 const { Text } = Typography;
 
@@ -55,7 +55,7 @@ const defaultFormParams = {
 };
 
 const Gender = ({ formParams, ...props }) => (
-  <BaseComponent
+  <BaseControl
     {...{
       components,
       placeholder: 'Выберите пол',

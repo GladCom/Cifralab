@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import BaseComponent from './base-components/base-component';
+import BaseControl from './base-components/base-component';
 
 const formatPhoneNumber = (input) => {
   if (!input) return input;
@@ -31,7 +31,7 @@ const defaultFormParams = {
 };
 
 const PhoneNumber = ({ formParams, ...props }) => (
-  <BaseComponent
+  <BaseControl
     {...{
       ...props,
       formParams: _.merge({}, defaultFormParams, formParams),

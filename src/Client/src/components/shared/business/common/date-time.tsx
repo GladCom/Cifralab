@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import _ from 'lodash';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
-import BaseComponent from '../base-components/base-component';
+import BaseControl from '../base-components/base-component';
 
 const { Text } = Typography;
 
@@ -78,7 +78,7 @@ const defaultFormParams = {
 
 const DateTime = ({ formParams, ...props }) => {
   return (
-    <BaseComponent
+    <BaseControl
       {...{
         ...props,
         components,

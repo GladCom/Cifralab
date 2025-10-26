@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import BaseComponent from './base-components/base-component';
+import BaseControl from './base-components/base-component';
 
 const { Text } = Typography;
 
@@ -26,7 +26,7 @@ const formParams = {
 };
 
 const Age = (props) => (
-  <BaseComponent
+  <BaseControl
     {...{
       ...props,
       mode: 'info',

@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Checkbox } from 'antd';
-import BaseComponent from '../base-components/base-component';
+import BaseControl from '../base-components/base-component';
 
 const DefaultInfoComponent = ({ value }) => {
   return <Checkbox checked={value} disabled={true} />;
@@ -42,7 +42,7 @@ const defaultFormParams = {
 };
 
 const CheckBox = ({ formParams, ...props }) => (
-  <BaseComponent
+  <BaseControl
     {...{
       components,
       ...props,

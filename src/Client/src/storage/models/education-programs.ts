@@ -1,6 +1,6 @@
 import String from '../../components/shared/business/common/String';
 import YesNo from '../../components/shared/business/yes-no';
-import Cost from '../../components/shared/business/Cost';
+import Cost from '../../components/shared/business/cost';
 import HoursCount from '../../components/shared/business/hours-count';
 import FEAProgramSelect from '../../components/shared/business/selects/fea-program-select';
 import EducationFormSelect from '../../components/shared/business/selects/education-form-select';
