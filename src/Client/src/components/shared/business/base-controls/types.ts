@@ -1,4 +1,4 @@
-type Mode = 'info' | 'editableInfo' | 'edit' | 'form';
+export type ControlMode = 'info' | 'editableInfo' | 'edit' | 'form';
 
 type ShowParams = {
   info: boolean;
@@ -31,7 +31,7 @@ type FormParams = {
 };
 
 export interface IBaseControl {
-  mode: Mode;
+  mode: ControlMode;
   value: boolean | number | string;
   changed: boolean;
   settings: Settings;

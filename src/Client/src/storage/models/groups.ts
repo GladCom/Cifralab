@@ -1,5 +1,5 @@
 import String from '../../components/shared/business/common/string';
-import Date from '../../components/shared/business/common/_date';
+import Date from '../../components/shared/business/common/date';
 import EducationProgramSelect from '../../components/shared/business/selects/education-program-select';
 
 const model = {
