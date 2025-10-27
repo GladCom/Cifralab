@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 // import 'react-dadata/dist/react-dadata.css';
 import { BaseControl } from '../base-controls/base-control';
 import { Input } from 'antd';
+import { ControlByMode } from '../base-controls/types';
 
 const DefaultFormComponent = ({ value, onChange, formParams }) => {
   const { key } = formParams;
@@ -30,19 +31,19 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
   });
 
   return (
-    <AddressSuggestions
+    <Input
       value={value}
       key={key}
       allowClear
-      token="d9684e8c81525df77c58918948ebad6a9c83ea40"
+      //token="d9684e8c81525df77c58918948ebad6a9c83ea40"
       onChange={formattValue}
     />
   );
 };
 
-const components = {
-  form: DefaultFormComponent,
-  edit: DefaultEditComponent,
+const components: ControlByMode = {
+  formItem: DefaultFormComponent,
+  editor: DefaultEditComponent,
 };
 
 const rules = [
@@ -65,7 +66,7 @@ const Address = (props) => {
     <BaseControl
       {...{
         ...props,
-        //components,
+        components,
         formParams,
       }}
     />

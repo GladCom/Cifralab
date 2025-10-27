@@ -1,12 +1,13 @@
 import { Form, Button, Space } from 'antd';
+import { MultimodeControl } from './types';
 
-const Edit = ({ Component, props }) => {
-  const { value, formParams, setValue, setMode } = props;
-  const { key, name, rules, normalize, hasFeedback } = formParams;
+const Editor: React.FC<MultimodeControl> = ({ Control, ...props }) => {
+  const { value, formParams, setValue, setDisplayMode } = props;
+  const { key, rules, normalize, hasFeedback } = formParams;
 
   const onSubmit = (formValue) => {
     setValue(formValue[key]);
-    setMode('editableInfo');
+    setDisplayMode('editableView');
   };
 
   return (
@@ -20,7 +21,7 @@ const Edit = ({ Component, props }) => {
         normalize={normalize}
         hasFeedback={hasFeedback}
       >
-        <Component
+        <Control
           {...{
             ...props,
             defaultValue: value,
@@ -32,7 +33,7 @@ const Edit = ({ Component, props }) => {
           <Button type="primary" htmlType="submit">
             Сохранить
           </Button>
-          <Button htmlType="button" onClick={() => setMode('editableInfo')}>
+          <Button htmlType="button" onClick={() => setDisplayMode('editableView')}>
             Отмена
           </Button>
         </Space>
@@ -41,4 +42,4 @@ const Edit = ({ Component, props }) => {
   );
 };
 
-export default Edit;
+export default Editor;

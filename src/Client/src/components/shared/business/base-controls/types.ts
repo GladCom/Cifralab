@@ -1,26 +1,18 @@
-export type ControlMode = 'info' | 'editableInfo' | 'edit' | 'form';
+import { ComponentType } from 'react';
 
-type ShowParams = {
-  info: boolean;
-  editableInfo: boolean;
-  form: boolean;
-  edit: boolean;
+export type DisplayMode = 'view' | 'editableView' | 'editor' | 'formItem';
+
+interface IShowParams {
+  view: boolean;
+  editableView: boolean;
+  formItem: boolean;
+  editor: boolean;
   modal: boolean;
-};
+}
 
-type ControlsByMode = {
-  info: IBaseControl;
-  editableInfo: IBaseControl;
-  form: IBaseControl;
-  filter?: IBaseControl;
-  edit: IBaseControl;
-  modal?: IBaseControl;
-};
-
-type Settings = {
-  show: ShowParams;
-  controlsByMode: ControlsByMode;
-};
+interface IDefaultParams {
+  show: IShowParams;
+}
 
 type FormParams = {
   key: string;
@@ -30,21 +22,25 @@ type FormParams = {
   hasFeedback: boolean;
 };
 
-export interface IBaseControl {
-  mode: ControlMode;
-  value: boolean | number | string;
+export type valueType = boolean | number | string;
+
+export type MultimodeControl = {
+  Control: ComponentType<any>;
+  defaultControlMap: IControlByMode;
+  value: valueType;
+  defaultValue: valueType;
+  placeholder: string;
+  displayMode: DisplayMode;
   changed: boolean;
-  settings: Settings;
+  params: IDefaultParams;
   formParams: FormParams;
-  setValue: () => {};
-  setMode: () => {};
-  onChange: () => {};
+  setValue: (value: valueType) => void;
+  onChange: () => void;
+  setDisplayMode: (mode: DisplayMode) => void;
+};
+export interface IControlByMode {
+  view?: ComponentType<MultimodeControl>;
+  editableView?: ComponentType<MultimodeControl>;
+  formItem?: ComponentType<MultimodeControl>;
+  editor?: ComponentType<MultimodeControl>;
 }
-
-export interface IInfoControl extends IBaseControl {}
-
-export interface IEditableInfoControl extends IBaseControl {}
-
-export interface IEditControl extends IBaseControl {}
-
-export interface IFormControl extends IBaseControl {}

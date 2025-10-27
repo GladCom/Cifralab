@@ -1,11 +1,18 @@
 import { Input, Typography } from 'antd';
+import { IControlByMode, MultimodeControl } from './types';
 const { Text } = Typography;
 
-const DefaultInfoComponent = ({ value }) => <Text>{value}</Text>;
+const DefaultViewControl: React.FC<MultimodeControl> = ({ value }) => <Text>{value}</Text>;
 
-const DefaultEditableInfoComponent = ({ value }) => <Text>{value}</Text>;
+const DefaultEditableViewControl: React.FC<MultimodeControl> = ({ value }) => <Text>{value}</Text>;
 
-const DefaultEditComponent = ({ value, onChange, defaultValue, formParams, placeholder }) => {
+const DefaultEditorControl: React.FC<MultimodeControl> = ({
+  value,
+  onChange,
+  defaultValue,
+  formParams,
+  placeholder,
+}) => {
   const { key } = formParams;
 
   return (
@@ -21,7 +28,7 @@ const DefaultEditComponent = ({ value, onChange, defaultValue, formParams, place
   );
 };
 
-const DefaultFormComponent = ({ value, onChange, formParams, placeholder }) => {
+const DefaultFormItemControl: React.FC<MultimodeControl> = ({ value, onChange, formParams, placeholder }) => {
   const { key } = formParams;
 
   return (
@@ -37,19 +44,11 @@ const DefaultFormComponent = ({ value, onChange, formParams, placeholder }) => {
   );
 };
 
-//  TODO:   доработать компонент
-const DefaultFilterComponent = () => <Text>В разработке</Text>;
-
-//  TODO:   доработать компонент
-const DefaultModalComponent = () => <Text>В разработке</Text>;
-
-const defaultComponentsByMode = {
-  info: DefaultInfoComponent,
-  editableInfo: DefaultEditableInfoComponent,
-  form: DefaultFormComponent,
-  filter: DefaultFilterComponent,
-  edit: DefaultEditComponent,
-  modal: DefaultModalComponent,
+const defaultControlByMode: IControlByMode = {
+  view: DefaultViewControl,
+  editableView: DefaultEditableViewControl,
+  formItem: DefaultFormItemControl,
+  editor: DefaultEditorControl,
 };
 
-export default defaultComponentsByMode;
+export default defaultControlByMode;
