@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
-import { AddressSuggestions } from 'react-dadata';
-import 'react-dadata/dist/react-dadata.css';
+import { useCallback } from 'react';
+// import { AddressSuggestions } from 'react-dadata';
+// import 'react-dadata/dist/react-dadata.css';
 import { BaseControl } from '../base-controls/base-control';
+import { Input } from 'antd';
 
 const DefaultFormComponent = ({ value, onChange, formParams }) => {
   const { key } = formParams;
@@ -11,11 +12,11 @@ const DefaultFormComponent = ({ value, onChange, formParams }) => {
   });
 
   return (
-    <AddressSuggestions
+    <Input
       value={value}
       key={key}
       allowClear
-      token="d9684e8c81525df77c58918948ebad6a9c83ea40"
+      // token="d9684e8c81525df77c58918948ebad6a9c83ea40"
       onChange={formattValue}
     />
   );

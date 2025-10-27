@@ -1,4 +1,3 @@
-import React from 'react';
 import _ from 'lodash';
 import { Checkbox } from 'antd';
 import { BaseControl } from '../base-controls/base-control';

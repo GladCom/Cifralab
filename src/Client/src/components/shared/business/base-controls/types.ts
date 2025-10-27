@@ -1,5 +1,27 @@
 type Mode = 'info' | 'editableInfo' | 'edit' | 'form';
 
+type ShowParams = {
+  info: boolean;
+  editableInfo: boolean;
+  form: boolean;
+  edit: boolean;
+  modal: boolean;
+};
+
+type ControlsByMode = {
+  info: IBaseControl;
+  editableInfo: IBaseControl;
+  form: IBaseControl;
+  filter?: IBaseControl;
+  edit: IBaseControl;
+  modal?: IBaseControl;
+};
+
+type Settings = {
+  show: ShowParams;
+  controlsByMode: ControlsByMode;
+};
+
 type FormParams = {
   key: string;
   name: string;
@@ -10,33 +32,19 @@ type FormParams = {
 
 export interface IBaseControl {
   mode: Mode;
-  value: unknown;
-  controls: unknown;
-  params: unknown;
+  value: boolean | number | string;
+  changed: boolean;
+  settings: Settings;
   formParams: FormParams;
   setValue: () => {};
-}
-
-export interface IInfoControl {
-  value: string;
-}
-
-export interface IEditableInfoControl {
-  value: string;
-}
-
-export interface IEditControl {
-  value: string;
-  defaultValue: string;
-  placeholder: string;
-  formParams: FormParams;
+  setMode: () => {};
   onChange: () => {};
 }
 
-export interface IFormControl {
-  value: string;
-  defaultValue: string;
-  placeholder: string;
-  formParams: FormParams;
-  onChange: () => {};
-}
+export interface IInfoControl extends IBaseControl {}
+
+export interface IEditableInfoControl extends IBaseControl {}
+
+export interface IEditControl extends IBaseControl {}
+
+export interface IFormControl extends IBaseControl {}

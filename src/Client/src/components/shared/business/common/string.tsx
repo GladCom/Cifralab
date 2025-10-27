@@ -1,4 +1,3 @@
-
 import { memo } from 'react';
 import { BaseControl } from '../base-controls/base-control';
 
