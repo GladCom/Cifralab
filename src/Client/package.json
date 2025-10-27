@@ -14,7 +14,6 @@
     "moment": "^2.30.1",
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.10",
-    "react-dadata": "^2.27.4",
     "react-dom": "^19.2.0",
     "react-loader-spinner": "^7.0.3",
     "react-phone-input-2": "^2.15.1",
