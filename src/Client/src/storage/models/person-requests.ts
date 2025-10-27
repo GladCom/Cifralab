@@ -5,8 +5,8 @@ import StatusEntrancExamsSelect from '../../components/shared/business/selects/s
 import ScopeOfActivitySelect from '../../components/shared/business/selects/scope-of-activity-select';
 import CheckBox from '../../components/shared/business/common/check-box';
 import BirthDate from '../../components/shared/business/birth-date';
-import Address from '../../components/shared/business/address';
-import Email from '../../components/shared/business/email';
+import Address from '../../components/shared/business/common/address';
+import Email from '../../components/shared/business/common/email';
 import PhoneNumber from '../../components/shared/business/phone-number';
 import DateTimeView from '../../components/shared/business/date-time-view';
 
