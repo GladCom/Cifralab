@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "orta.vscode-jest",
+    "clinyong.vscode-css-modules"
+  ]
+}
