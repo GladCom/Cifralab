@@ -7,8 +7,8 @@ WORKDIR /app
 # Копируем package.json и package-lock.json для установки зависимостей
 COPY package*.json ./
 
-# Устанавливаем зависимости
-RUN npm install
+# Устанавливаем зависимости с флагом для разрешения конфликтов peer dependencies
+RUN npm install --legacy-peer-deps
 
 # Копируем все файлы приложения в рабочую директорию
 COPY . .

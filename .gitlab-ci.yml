@@ -24,7 +24,7 @@ frontend-test:
     - cd ./src/Client
     - npm install jest
     - npm install --save-dev jest-junit
-    - npm run test:ci
+    - npm run test
 
 # Проверка компиляции бэкенд
 backend-compile:
