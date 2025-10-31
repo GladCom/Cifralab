@@ -1,11 +1,11 @@
 import { Typography, Button, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
-import { MultimodeControl } from './types';
+import { MultimodeBaseControlWrapper } from './types';
 const { Text } = Typography;
 
 const ChangeSymbol = () => <Text>* </Text>;
 
-const EditableViewWrapper: React.FC<MultimodeControl> = ({ Control, ...props }) => {
+export const EditableViewWrapper: React.FC<MultimodeBaseControlWrapper> = ({ Control, ...props }) => {
   const { changed, setMode } = props;
 
   return (
@@ -16,5 +16,3 @@ const EditableViewWrapper: React.FC<MultimodeControl> = ({ Control, ...props }) 
     </Space>
   );
 };
-
-export default EditableViewWrapper;

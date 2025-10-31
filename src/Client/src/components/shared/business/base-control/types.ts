@@ -1,62 +1,48 @@
 import { ComponentType } from 'react';
 
-export type DisplayMode = 'view' | 'editableView' | 'editor' | 'formItem';
+export type DisplayMode = 'viewMode' | 'editableViewMode' | 'editorMode' | 'formItemMode';
 
-interface IShowParams {
+type DisplayOptions = {
   view: boolean;
   editableView: boolean;
   formItem: boolean;
   editor: boolean;
-  modal: boolean;
-}
+};
 
-interface IDefaultParams {
-  show: IShowParams;
-}
+export type BaseControlParams = {
+  displayOptions: DisplayOptions;
+};
 
-type FormParams = {
+export type FormParams = {
   key: string;
   name: string;
-  normalize: () => {};
+  normalize: () => any;
   rules: unknown;
   hasFeedback: boolean;
 };
 
-export type valueType = boolean | number | string;
+export type BaseControlValue = boolean | number | string;
 
-export type MultimodeControl = {
+export type MultimodeBaseControlWrapper = {
   Control: ComponentType<any>;
-  defaultControlMap: IControlByMode;
-  value: valueType;
-  defaultValue: valueType;
+  controlsMap: ControlsByModeMap;
+  value: BaseControlValue;
+  defaultValue: BaseControlValue;
   placeholder: string;
   displayMode: DisplayMode;
   changed: boolean;
-  params: IDefaultParams;
+  params: BaseControlParams;
   formParams: FormParams;
-  setValue: (value: valueType) => void;
+  setValue: (value: BaseControlValue) => void;
   onChange: () => void;
   setDisplayMode: (mode: DisplayMode) => void;
 };
-export interface IControlByMode {
-  view?: ComponentType<MultimodeControl>;
-  editableView?: ComponentType<MultimodeControl>;
-  formItem?: ComponentType<MultimodeControl>;
-  editor?: ComponentType<MultimodeControl>;
-}
 
-export interface ViewControl {
-  value: valueType;
-}
+export type ControlsByModeMap = {
+  viewMode?: ComponentType<ViewControlProps>;
+  editableViewMode?: ComponentType<EditableViewControlProps>;
+  formItemMode?: ComponentType<FormItemControlProps>;
+  editorMode?: ComponentType<EditorControlProps>;
+};
 
-export interface EditableViewControl {
-  value: valueType;
-}
-
-export interface EditorControl {
-  value: valueType;
-}
-
-export interface FormItemControl {
-  value: valueType;
-}
+export type ControlWrapperByModeMap = Record<DisplayMode, MultimodeBaseControlWrapper>;

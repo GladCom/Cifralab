@@ -1,7 +1,5 @@
-import { MultimodeControl } from './types';
+import { MultimodeBaseControlWrapper } from './types';
 
-const View: React.FC<MultimodeControl> = ({ Control, value }) => {
+export const ViewWrapper: React.FC<MultimodeBaseControlWrapper> = ({ Control, value }) => {
   return <Control value={value} />;
 };
-
-export default View;

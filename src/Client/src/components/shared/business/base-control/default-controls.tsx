@@ -1,12 +1,36 @@
 import { Input, Typography } from 'antd';
-import { IControlByMode, MultimodeControl } from './types';
+import { BaseControlValue, ControlsByModeMap, FormParams } from './types';
+
 const { Text } = Typography;
 
-const DefaultViewControl: React.FC<MultimodeControl> = ({ value }) => <Text>{value}</Text>;
+export type ViewControlProps = {
+  value: BaseControlValue;
+};
 
-const DefaultEditableViewControl: React.FC<MultimodeControl> = ({ value }) => <Text>{value}</Text>;
+export const DefaultViewControl: React.FC<ViewControlProps> = ({ value }) => <Text>{value}</Text>;
 
-const DefaultEditorControl: React.FC<MultimodeControl> = ({
+export type EditableViewControlProps = {
+  value: BaseControlValue;
+};
+
+export const DefaultEditableViewControl: React.FC<EditableViewControlProps> = ({ value }) => <Text>{value}</Text>;
+
+export type EditorControlProps = {
+  value: BaseControlValue;
+  defaultValue: BaseControlValue;
+  placeholder: string;
+  formParams: FormParams;
+  onChange: () => void;
+};
+
+export type FormItemControlProps = {
+  value: BaseControlValue;
+  placeholder: string;
+  formParams: FormParams;
+  onChange: () => void;
+};
+
+export const DefaultEditorControl: React.FC<EditorControlProps> = ({
   value,
   onChange,
   defaultValue,
@@ -28,7 +52,12 @@ const DefaultEditorControl: React.FC<MultimodeControl> = ({
   );
 };
 
-const DefaultFormItemControl: React.FC<MultimodeControl> = ({ value, onChange, formParams, placeholder }) => {
+export const DefaultFormItemControl: React.FC<FormItemControlProps> = ({
+  value,
+  onChange,
+  formParams,
+  placeholder,
+}) => {
   const { key } = formParams;
 
   return (
@@ -44,11 +73,9 @@ const DefaultFormItemControl: React.FC<MultimodeControl> = ({ value, onChange, f
   );
 };
 
-const defaultControlByMode: IControlByMode = {
-  view: DefaultViewControl,
-  editableView: DefaultEditableViewControl,
-  formItem: DefaultFormItemControl,
-  editor: DefaultEditorControl,
+export const defaultControlsByModeMap: ControlsByModeMap = {
+  viewMode: DefaultViewControl,
+  editableViewMode: DefaultEditableViewControl,
+  formItemMode: DefaultFormItemControl,
+  editorMode: DefaultEditorControl,
 };
-
-export default defaultControlByMode;
