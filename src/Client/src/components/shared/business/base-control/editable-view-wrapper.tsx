@@ -5,7 +5,7 @@ const { Text } = Typography;
 
 const ChangeSymbol = () => <Text>* </Text>;
 
-const EditableView: React.FC<MultimodeControl> = ({ Control, ...props }) => {
+const EditableViewWrapper: React.FC<MultimodeControl> = ({ Control, ...props }) => {
   const { changed, setMode } = props;
 
   return (
@@ -17,4 +17,4 @@ const EditableView: React.FC<MultimodeControl> = ({ Control, ...props }) => {
   );
 };
 
-export default EditableView;
+export default EditableViewWrapper;

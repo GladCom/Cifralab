@@ -1,7 +1,7 @@
 import { Form, Button, Space } from 'antd';
 import { MultimodeControl } from './types';
 
-const Editor: React.FC<MultimodeControl> = ({ Control, ...props }) => {
+const EditorWrapper: React.FC<MultimodeControl> = ({ Control, ...props }) => {
   const { value, formParams, setValue, setDisplayMode } = props;
   const { key, rules, normalize, hasFeedback } = formParams;
 
@@ -42,4 +42,4 @@ const Editor: React.FC<MultimodeControl> = ({ Control, ...props }) => {
   );
 };
 
-export default Editor;
+export default EditorWrapper;

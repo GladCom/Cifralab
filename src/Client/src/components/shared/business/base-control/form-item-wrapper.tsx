@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import { MultimodeControl } from './types';
 
-const FormItem: React.FC<MultimodeControl> = ({ Control, ...props }) => {
+const FormItemWrapper: React.FC<MultimodeControl> = ({ Control, ...props }) => {
   const { value, formParams, params } = props;
   const { key, name, normalize, hasFeedback, rules } = formParams;
   const { show } = params;
@@ -24,4 +24,4 @@ const FormItem: React.FC<MultimodeControl> = ({ Control, ...props }) => {
   );
 };
 
-export default FormItem;
+export default FormItemWrapper;

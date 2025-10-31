@@ -44,3 +44,19 @@ export interface IControlByMode {
   formItem?: ComponentType<MultimodeControl>;
   editor?: ComponentType<MultimodeControl>;
 }
+
+export interface ViewControl {
+  value: valueType;
+}
+
+export interface EditableViewControl {
+  value: valueType;
+}
+
+export interface EditorControl {
+  value: valueType;
+}
+
+export interface FormItemControl {
+  value: valueType;
+}

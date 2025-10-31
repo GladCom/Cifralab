@@ -9,12 +9,11 @@ import FormItem from './form-item';
 import { DisplayMode, IControlByMode, MultimodeControl, valueType } from './types';
 
 const defaultParams = {
-  show: {
-    info: true,
-    editableInfo: true,
-    form: true,
-    edit: true,
-    modal: true,
+  displayOptions: {
+    view: true,
+    editableView: true,
+    formItem: true,
+    editor: true,
   },
 };
 
