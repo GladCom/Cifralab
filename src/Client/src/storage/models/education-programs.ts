@@ -21,7 +21,12 @@ const model = {
   isDOTProgram: { name: 'Применение ДОТ', type: YesNo, show: true, required: true },
   isFullDOTProgram: { name: 'Применение ДОТ полностью', type: YesNo, show: true, required: true },
   isCollegeProgram: { name: 'Обязательно наличие ВО', type: YesNo, show: true, required: true },
-  qualificationName: { name: 'Наименование квалификации, профессии, специальности', type: String, show: true, required: true },
+  qualificationName: {
+    name: 'Наименование квалификации, профессии, специальности',
+    type: String,
+    show: true,
+    required: true,
+  },
   kindDocumentRiseQualificationId: {
     name: 'Вид документа',
     type: KindDocumentRiseQualificationSelect,

@@ -9,7 +9,7 @@ const DefaultFormComponent = ({ value, onChange, formParams }) => {
 
   const formattValue = useCallback((value) => {
     onChange(value.value);
-  });
+  }, []);
 
   return (
     <Input
@@ -30,7 +30,7 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
   });
 
   return (
-    <AddressSuggestions
+    <Input
       value={value}
       key={key}
       allowClear
@@ -65,7 +65,7 @@ const Address = (props) => {
     <BaseControl
       {...{
         ...props,
-        //components,
+        components,
         formParams,
       }}
     />

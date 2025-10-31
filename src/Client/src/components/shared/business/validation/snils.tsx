@@ -1,5 +1,5 @@
-import React from 'react';
 import * as yup from 'yup';
+import String from '../common/string';
 
 const MODES = {
   EDITABLE_INFO: 'editableInfo',
