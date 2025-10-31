@@ -16,7 +16,7 @@ const DefaultFormComponent = ({ defaultValue, onChange, formParams }) => {
   const formattValue = useCallback((value) => {
     const formattedDateString = dayjs(value).format('YYYY-MM-DDTHH:mm:ss');
     onChange(formattedDateString);
-  });
+  }, []);
 
   return (
     <DatePicker

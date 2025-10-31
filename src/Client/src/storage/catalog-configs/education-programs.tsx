@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Checkbox } from 'antd';
 import {
   useGetAllAsync,
@@ -7,11 +7,13 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/education-form-crud';
+} from '../crud/education-program-crud';
 import { educationProgramsModel } from '../models/index';
+import KindEducationProgramSelect from '../../components/shared/business/selects/kind-education-program-select';
+import EducationFormSelect from '../../components/shared/business/selects/education-form-select';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
-const IsArchive = ({ record }) => {
+const InArchive = ({ record }) => {
   const { id, isArchive } = record;
   const [editProgram, { isSuccess, isError }] = useEditOneAsync();
   const [status, setStatus] = useState('');
@@ -75,7 +77,7 @@ export default {
       title: 'В архив',
       dataIndex: 'isArchive',
       key: 'archive',
-      render: (_, record) => <IsArchive record={record} />,
+      render: (_, record) => <InArchive record={record} />,
     },
   ],
   dataConverter: (data) => data,

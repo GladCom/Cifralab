@@ -7,7 +7,6 @@ import {
   useRemoveOneAsync,
 } from '../crud/groups-crud';
 import { groupsModel } from '../models/index';
-import React from 'react';
 import EducationProgramSelect from '../../components/shared/business/selects/education-program-select';
 
 export default {

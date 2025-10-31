@@ -9,6 +9,9 @@ import {
 } from '../crud/person-requests-crud';
 import { useGetRequestStatusQuery } from '../services/request-status-api';
 import { personRequestsModel } from '../models/index';
+import { Select } from 'antd';
+import { CheckCircleFilled } from '@ant-design/icons';
+import BirthDate from '../../components/shared/business/birth-date';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {

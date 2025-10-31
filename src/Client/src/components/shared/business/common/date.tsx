@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import _ from 'lodash';
 import { BaseControl } from '../base-controls/base-control';
 import { DatePicker, Typography } from 'antd';
@@ -40,7 +40,7 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
   const formattValue = useCallback((value) => {
     const formattedDateString = dayjs(value).format('YYYY-MM-DD');
     onChange(formattedDateString);
-  });
+  }, []);
 
   return <DatePicker key={key} defaultValue={dayjs(value)} format={format} onChange={formattValue} />;
 };
