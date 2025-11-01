@@ -1,7 +1,9 @@
 import { Input, Typography } from 'antd';
-import { BaseControlValue, ControlsByModeMap, FormParams } from './types';
+import { BaseControlValue, ControlByModeMap as ControlByModeMap, DisplayMode, FormParams } from './types';
 
 const { Text } = Typography;
+
+export type MultiControlProps = ViewControlProps | EditableViewControlProps | EditorControlProps | FormItemControlProps;
 
 export type ViewControlProps = {
   value: BaseControlValue;
@@ -18,13 +20,6 @@ export const DefaultEditableViewControl: React.FC<EditableViewControlProps> = ({
 export type EditorControlProps = {
   value: BaseControlValue;
   defaultValue: BaseControlValue;
-  placeholder: string;
-  formParams: FormParams;
-  onChange: () => void;
-};
-
-export type FormItemControlProps = {
-  value: BaseControlValue;
   placeholder: string;
   formParams: FormParams;
   onChange: () => void;
@@ -52,6 +47,13 @@ export const DefaultEditorControl: React.FC<EditorControlProps> = ({
   );
 };
 
+export type FormItemControlProps = {
+  value: BaseControlValue;
+  placeholder: string;
+  formParams: FormParams;
+  onChange: () => void;
+};
+
 export const DefaultFormItemControl: React.FC<FormItemControlProps> = ({
   value,
   onChange,
@@ -73,9 +75,9 @@ export const DefaultFormItemControl: React.FC<FormItemControlProps> = ({
   );
 };
 
-export const defaultControlsByModeMap: ControlsByModeMap = {
-  viewMode: DefaultViewControl,
-  editableViewMode: DefaultEditableViewControl,
-  formItemMode: DefaultFormItemControl,
-  editorMode: DefaultEditorControl,
+export const defaultControlByModeMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: DefaultEditorControl,
+  [DisplayMode.FORM_ITEM]: DefaultFormItemControl,
 };
