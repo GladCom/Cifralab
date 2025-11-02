@@ -22,8 +22,8 @@ export type MultimodeBaseControlWrapperProps = {
   defaultValue: BaseControlValue;
   placeholder: string;
   displayMode: DisplayMode;
-  changed: boolean;
-  params: BaseControlParams;
+  isChanged: boolean;
+  controlParams: BaseControlParams;
   formParams: FormParams;
   setValue: (value: BaseControlValue) => void;
   onChange: () => void;
@@ -35,7 +35,7 @@ export const ViewWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Contro
 };
 
 export const EditableViewWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Control, ...props }) => {
-  const { changed, setDisplayMode } = props;
+  const { isChanged: changed, setDisplayMode } = props;
 
   return (
     <Space>
@@ -93,7 +93,7 @@ export const EditorWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Cont
 };
 
 export const FormItemWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Control, ...props }) => {
-  const { value, formParams, params } = props;
+  const { value, formParams, controlParams: params } = props;
   const { key, name, normalize, hasFeedback, rules } = formParams;
   const { displayOptions } = params;
   const { formItemMode } = displayOptions;

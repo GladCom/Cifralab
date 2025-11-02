@@ -1,9 +1,8 @@
-import { useState, useCallback, ComponentType } from 'react';
+import { useState, useCallback } from 'react';
 import { defaultControlByModeMap, DefaultViewControl } from './default-controls';
 import _ from 'lodash';
-import { ViewWrapper } from './view-wrapper';
-import { BaseControlParams, BaseControlValue, ControlByModeMap, DisplayMode } from './types';
-import { defaultControlWrapperByModeMap, MultimodeBaseControlWrapperProps } from './default-control-wrappers';
+import { BaseControlParams, BaseControlValue, DisplayMode } from './types';
+import { defaultControlWrapperByModeMap, MultimodeBaseControlWrapperProps, ViewWrapper } from './default-control-wrappers';
 
 const defaultRules = [
   {
@@ -20,7 +19,7 @@ const defaultFormParams = {
   hasFeedback: true,
 };
 
-const defaultParams: BaseControlParams = {
+const defaultControlParams: BaseControlParams = {
   displayOptions: {
     [DisplayMode.VIEW]: true,
     [DisplayMode.EDITABLE_VIEW]: true,
@@ -29,31 +28,31 @@ const defaultParams: BaseControlParams = {
   },
 };
 
-export const MultimodeControl: React.FC<MultimodeBaseControlWrapperProps> = ({ formParams, params, ...props }) => {
+export const MultimodeControl: React.FC<MultimodeBaseControlWrapperProps> = ({ formParams, controlParams: params, ...props }) => {
   const { controlMap, controlWrapperMap, displayMode, value, setValue } = props;
-  const [currentMode, setCurrentMode] = useState<DisplayMode>(displayMode);
-  const [changed, setChanged] = useState(false);
+  const [currentDisplayMode, setCurrentDisplayMode] = useState<DisplayMode>(displayMode);
+  const [isChanged, setIsChanged] = useState(false);
 
   const handleSetValue = useCallback(
     (newValue: BaseControlValue) => {
-      setChanged(newValue !== value);
+      setIsChanged(newValue !== value);
       setValue(newValue);
     },
     [value, setValue],
   );
 
-  const ControlByMode = { ...defaultControlByModeMap, ...controlMap }[currentMode] ?? DefaultViewControl;
+  const ControlByMode = { ...defaultControlByModeMap, ...controlMap }[currentDisplayMode] ?? DefaultViewControl;
   const BaseControlWrapperByMode =
-    { ...defaultControlWrapperByModeMap, ...controlWrapperMap }[currentMode] ?? ViewWrapper;
+    { ...defaultControlWrapperByModeMap, ...controlWrapperMap }[currentDisplayMode] ?? ViewWrapper;
 
   return (
     <BaseControlWrapperByMode
       {...props}
       Control={ControlByMode}
       setValue={handleSetValue}
-      setDisplayMode={setCurrentMode}
-      changed={changed}
-      params={_.merge({}, defaultParams, params)}
+      setDisplayMode={setCurrentDisplayMode}
+      isChanged={isChanged}
+      controlParams={_.merge({}, defaultControlParams, params)}
       formParams={_.merge({}, defaultFormParams, formParams)}
     />
   );
