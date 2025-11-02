@@ -1,8 +1,5 @@
 import { ComponentType } from 'react';
-import {
-  EditableViewControlProps,
-  ViewControlProps,
-} from './default-controls';
+import { EditableViewControlProps, ViewControlProps } from './default-controls';
 import { FormItemProps } from 'antd';
 import { MultimodeControlProps } from './multi-mode-control';
 

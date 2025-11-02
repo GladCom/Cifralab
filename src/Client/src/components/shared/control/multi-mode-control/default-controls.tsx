@@ -1,10 +1,10 @@
 import { Input, Typography } from 'antd';
-import { MultimodeControlValue, ControlByModeMap as ControlByModeMap, DisplayMode, EditableControlProps } from './types';
+import { MultimodeControlValue, ControlByModeMap, DisplayMode, EditableControlProps } from './types';
 import { ChangeEvent, useCallback } from 'react';
 
 const { Text } = Typography;
 
-export type MultiControlProps = ViewControlProps | EditableViewControlProps | EditableControlProps ;
+export type MultiControlProps = ViewControlProps | EditableViewControlProps | EditableControlProps;
 
 export type ViewControlProps = {
   value: MultimodeControlValue;
@@ -27,9 +27,12 @@ export const DefaultEditorControl: React.FC<EditableControlProps> = ({
 }) => {
   const { key } = formParams;
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.checked);
-  }, [onChange]);
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChange(event.target.checked);
+    },
+    [onChange],
+  );
 
   return (
     <Input
@@ -52,9 +55,12 @@ export const DefaultFormItemControl: React.FC<EditableControlProps> = ({
 }) => {
   const { key } = formParams;
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.checked);
-  }, [onChange]);
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChange(event.target.checked);
+    },
+    [onChange],
+  );
 
   return (
     <Input

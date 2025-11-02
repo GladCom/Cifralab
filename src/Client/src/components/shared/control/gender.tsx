@@ -55,10 +55,5 @@ const formParams: FormParams = {
 };
 
 export const Gender: React.FC<MultimodeControlProps> = (props) => (
-  <MultimodeControl
-    {...props}
-    placeholder={'Выберите пол'}
-    controlMap={controlMap}
-    formParams={formParams}
-  />
+  <MultimodeControl {...props} placeholder={'Выберите пол'} controlMap={controlMap} formParams={formParams} />
 );

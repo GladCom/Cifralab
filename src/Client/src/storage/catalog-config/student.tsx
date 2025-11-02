@@ -1,3 +1,4 @@
+import BirthDate from '../../components/shared/control/birth-date';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,
@@ -6,8 +7,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/students-crud';
-import { studentsModel } from '../models/index';
-import BirthDate from '../../components/shared/business/birth-date';
+import { studentsModel } from '../model/index';
 
 export default {
   detailsLink: 'student',

@@ -10,9 +10,4 @@ const formParams: FormParams = {
   ],
 };
 
-export const Age: React.FC<MultimodeControlProps> = (props) => (
-  <MultimodeControl
-    {...props}
-    formParams={formParams}
-  />
-);
+export const Age: React.FC<MultimodeControlProps> = (props) => <MultimodeControl {...props} formParams={formParams} />;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Checkbox } from 'antd';
 import {
   useGetAllAsync,
@@ -8,7 +8,9 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/education-form-crud';
-import { educationProgramsModel } from '../models/index';
+import { educationProgramsModel } from '../model/index';
+import KindEducationProgramSelect from '../../components/shared/control/selects/kind-education-program-select';
+import EducationFormSelect from '../../components/shared/control/selects/education-form-select';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
 const IsArchive = ({ record }) => {

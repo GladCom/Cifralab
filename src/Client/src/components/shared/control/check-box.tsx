@@ -1,6 +1,12 @@
 import { Checkbox, CheckboxChangeEvent } from 'antd';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams, MultimodeControlValue } from './multi-mode-control/types';
+import {
+  ControlByModeMap,
+  DisplayMode,
+  EditableControlProps,
+  FormParams,
+  MultimodeControlValue,
+} from './multi-mode-control/types';
 import { ViewControlProps } from './multi-mode-control/default-controls';
 import { Rule } from 'antd/es/form';
 import { useCallback } from 'react';
@@ -10,7 +16,7 @@ const getSafeBoolean = (value: MultimodeControlValue): boolean => {
 
   console.warn(`Checkbox received non-boolean value:`, {
     value,
-    type: typeof value
+    type: typeof value,
   });
 
   return false;
@@ -23,17 +29,14 @@ const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
 const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
 
-  const handleChange = useCallback((event: CheckboxChangeEvent) => {
-    onChange(event.target.checked);
-  }, [onChange]);
-
-  return (
-    <Checkbox
-      key={key}
-      defaultChecked={getSafeBoolean(value)}
-      onChange={handleChange}
-    />
+  const handleChange = useCallback(
+    (event: CheckboxChangeEvent) => {
+      onChange(event.target.checked);
+    },
+    [onChange],
   );
+
+  return <Checkbox key={key} defaultChecked={getSafeBoolean(value)} onChange={handleChange} />;
 };
 
 const controlMap: ControlByModeMap = {
@@ -57,9 +60,5 @@ const formParams: FormParams = {
 };
 
 export const CheckBox: React.FC<MultimodeControlProps> = (props) => (
-  <MultimodeControl
-    {...props}
-    controlMap={controlMap}
-    formParams={formParams}
-  />
+  <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />
 );

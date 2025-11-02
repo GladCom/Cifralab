@@ -89,12 +89,5 @@ const formParams: FormParams = {
 };
 
 export const Email: React.FC<MultimodeControlProps> = (props) => {
-  return (
-    <MultimodeControl
-      {...props}
-      placeholder={'введите e-mail'}
-      controlMap={controlMap}
-      formParams={formParams}
-    />
-  );
-}
+  return <MultimodeControl {...props} placeholder={'введите e-mail'} controlMap={controlMap} formParams={formParams} />;
+};

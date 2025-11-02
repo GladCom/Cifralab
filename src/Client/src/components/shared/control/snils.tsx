@@ -21,7 +21,7 @@ const rules = [
 const formParams = {
   key: 'snils',
   name: 'СНИЛС',
-    normalize: (value: MultimodeControlValue) => {
+  normalize: (value: MultimodeControlValue) => {
     if (typeof value === 'string') {
       return formatSnils(value);
     }
@@ -31,11 +31,6 @@ const formParams = {
   rules: rules,
 };
 
-const Snils: React.FC<MultimodeControlProps> = (props) => (
-  <MultimodeControl
-    {...props}
-    formParams={formParams}
-  />
-);
+const Snils: React.FC<MultimodeControlProps> = (props) => <MultimodeControl {...props} formParams={formParams} />;
 
 export default Snils;

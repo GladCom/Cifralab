@@ -1,10 +1,6 @@
 import { Typography, Form, Button, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
-import {
-  MultimodeControlValue,
-  ControlWrapperByModeMap,
-  DisplayMode,
-} from './types';
+import { MultimodeControlValue, ControlWrapperByModeMap, DisplayMode } from './types';
 import { MultimodeControlProps } from './multi-mode-control';
 
 const { Text } = Typography;
@@ -35,16 +31,16 @@ export const EditorWrapper: React.FC<MultimodeControlProps> = ({ Control, ...pro
   const { value, formParams, setValue, setDisplayMode } = props;
   const { key, rules, normalize, hasFeedback } = formParams;
 
-const onSubmit = (formValue: { [key: string]: MultimodeControlValue }) => {
-  const newValue = formValue[key];
-  if (newValue !== undefined) {
-    setValue(newValue);
-    setDisplayMode(DisplayMode.EDITABLE_VIEW);
-  } else {
-    console.error(`Field "${key}" not found in form values. Available fields: ${Object.keys(formValue).join(', ')}`);
-    // TODO: показать уведомление пользователю
-  }
-};
+  const onSubmit = (formValue: { [key: string]: MultimodeControlValue }) => {
+    const newValue = formValue[key];
+    if (newValue !== undefined) {
+      setValue(newValue);
+      setDisplayMode(DisplayMode.EDITABLE_VIEW);
+    } else {
+      console.error(`Field "${key}" not found in form values. Available fields: ${Object.keys(formValue).join(', ')}`);
+      // TODO: показать уведомление пользователю
+    }
+  };
 
   return (
     <Form layout="inline" name="editModeForm" clearOnDestroy onFinish={(values) => onSubmit(values)}>

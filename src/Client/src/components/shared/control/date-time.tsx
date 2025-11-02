@@ -15,10 +15,13 @@ const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
 const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ defaultValue, onChange, formParams }) => {
   const { key } = formParams;
 
-  const formattValue = useCallback((date: dayjs.Dayjs) => {
-    const formattedDateString = dayjs(date).format('YYYY-MM-DDTHH:mm:ss');
-    onChange(formattedDateString);
-  },[onChange]);
+  const formattValue = useCallback(
+    (date: dayjs.Dayjs) => {
+      const formattedDateString = dayjs(date).format('YYYY-MM-DDTHH:mm:ss');
+      onChange(formattedDateString);
+    },
+    [onChange],
+  );
 
   return (
     <DatePicker
@@ -57,11 +60,5 @@ const formParams: FormParams = {
 };
 
 export const DateTime: React.FC<MultimodeControlProps> = (props) => {
-  return (
-    <MultimodeControl
-      {...props}
-      controlMap={controlMap}
-      formParams={formParams}
-    />
-  );
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
 };

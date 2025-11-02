@@ -1,7 +1,14 @@
 import { useState, useCallback, ComponentType } from 'react';
 import { defaultControlByModeMap, DefaultViewControl } from './default-controls';
 import _ from 'lodash';
-import { BaseControlParams, MultimodeControlValue, DisplayMode, ControlByModeMap, ControlWrapperByModeMap, FormParams } from './types';
+import {
+  BaseControlParams,
+  MultimodeControlValue,
+  DisplayMode,
+  ControlByModeMap,
+  ControlWrapperByModeMap,
+  FormParams,
+} from './types';
 import { defaultControlWrapperByModeMap, ViewWrapper } from './default-control-wrappers';
 import { Rule } from 'antd/es/form';
 
