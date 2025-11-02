@@ -1,6 +1,8 @@
 import { Select, Typography } from 'antd';
-import _ from 'lodash';
-import { BaseControl } from '../base-controls/base-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
+import { Rule } from 'antd/es/form';
+import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { ViewControlProps } from '../multi-mode-control/default-controls';
 
 const { Text } = Typography;
 
@@ -9,15 +11,15 @@ const options = [
   { value: 1, label: 'женский' },
 ];
 
-const keyValueMap = {
+const keyValueMap: Record<string, string> = {
   0: 'муж.',
   1: 'жен.',
   '': 'Выберите пол',
 };
 
-const DefaultInfoComponent = ({ value }) => <Text>{keyValueMap[value]}</Text>;
+const ViewControl: React.FC<ViewControlProps> = ({ value }) => <Text>{keyValueMap[String(value ?? '')]}</Text>;
 
-const DefaulGenderComponent = ({ value, onChange, formParams, placeholder }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams, placeholder }) => {
   const { key } = formParams;
 
   return (
@@ -26,42 +28,37 @@ const DefaulGenderComponent = ({ value, onChange, formParams, placeholder }) => 
       defaultValue={value}
       variant="filled"
       placeholder={placeholder}
-      //style={{ minWidth: '200px' }}
       options={options}
       onChange={onChange}
     />
   );
 };
 
-const components = {
-  info: DefaultInfoComponent,
-  editableInfo: DefaultInfoComponent,
-  form: DefaulGenderComponent,
-  edit: DefaulGenderComponent,
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: ViewControl,
+  [DisplayMode.EDITABLE_VIEW]: ViewControl, // Хммм, почему TS не заругался?
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
 };
 
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо выбрать пол',
   },
 ];
 
-const defaultFormParams = {
+const formParams: FormParams = {
   key: 'gender',
   name: 'Пол',
   rules: rules,
 };
 
-const Gender = ({ formParams, ...props }) => (
-  <BaseControl
-    {...{
-      components,
-      placeholder: 'Выберите пол',
-      ...props,
-      formParams: _.merge({}, defaultFormParams, formParams),
-    }}
+export const Gender: React.FC<MultimodeControlProps> = (props) => (
+  <MultimodeControl
+    {...props}
+    placeholder={'Выберите пол'}
+    controlMap={controlMap}
+    formParams={formParams}
   />
 );
-
-export default Gender;

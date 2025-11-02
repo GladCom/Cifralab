@@ -1,10 +1,10 @@
-import String from '../../components/shared/business/common/string';
+import StringControl from '../../components/shared/business/common/string-control';
 import ScopeOfActivityLevel from '../../components/shared/business/scope-of-activity-level';
 
 const model = {
   nameOfScope: {
     name: 'Сфера деятельности',
-    type: String,
+    type: StringControl,
   },
   level: {
     name: 'Уровень',

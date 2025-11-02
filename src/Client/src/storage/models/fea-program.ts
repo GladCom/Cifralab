@@ -1,6 +1,6 @@
-import String from '../../components/shared/business/common/string';
+import StringControl from '../../components/shared/business/common/string-control';
 const model = {
-  name: { name: 'ВЭД программа', type: String, show: true, required: true },
+  name: { name: 'ВЭД программа', type: StringControl, show: true, required: true },
 };
 
 export default model;

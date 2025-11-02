@@ -1,76 +1,34 @@
-import { useCallback } from 'react';
-// import { AddressSuggestions } from 'react-dadata';
-// import 'react-dadata/dist/react-dadata.css';
-import { BaseControl } from '../base-controls/base-control';
-import { Input } from 'antd';
-import { ControlByMode } from '../base-controls/types';
+import { ControlByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
+import { DefaultEditableViewControl, DefaultEditorControl, DefaultFormItemControl, DefaultViewControl } from '../multi-mode-control/default-controls';
+import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { Rule } from 'antd/es/form';
 
-const DefaultFormComponent = ({ value, onChange, formParams }) => {
-  const { key } = formParams;
-
-  const formattValue = useCallback((value) => {
-    onChange(value.value);
-  });
-
-  return (
-    <Input
-      value={value}
-      key={key}
-      allowClear
-      // token="d9684e8c81525df77c58918948ebad6a9c83ea40"
-      onChange={formattValue}
-    />
-  );
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: DefaultEditorControl,
+  [DisplayMode.FORM_ITEM]: DefaultFormItemControl,
 };
 
-const DefaultEditComponent = ({ value, onChange, formParams }) => {
-  const { key } = formParams;
-  const formattValue = useCallback((value) => {
-    onChange(value.value);
-    console.log(value);
-  });
-
-  return (
-    <Input
-      value={value}
-      key={key}
-      allowClear
-      //token="d9684e8c81525df77c58918948ebad6a9c83ea40"
-      onChange={formattValue}
-    />
-  );
-};
-
-const components: ControlByMode = {
-  formItem: DefaultFormComponent,
-  editor: DefaultEditComponent,
-};
-
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо заполнить место проживания',
   },
 ];
 
-const formParams = {
+const formParams: FormParams = {
   key: 'address',
   name: 'Место проживания',
-  normalize: (value) => value,
   rules,
   hasFeedback: true,
 };
 
-const Address = (props) => {
+export const Address: React.FC<MultimodeControlProps> = (props) => {
   return (
-    <BaseControl
-      {...{
-        ...props,
-        components,
-        formParams,
-      }}
+    <MultimodeControl
+      {...props}
+      formParams={formParams}
     />
   );
 };
-
-export default Address;

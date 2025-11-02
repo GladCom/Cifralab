@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/string';
+import StringControl from '../../components/shared/business/common/string-control';
 import YesNo from '../../components/shared/business/yes-no';
 import Cost from '../../components/shared/business/cost';
 import HoursCount from '../../components/shared/business/hours-count';
@@ -9,7 +9,7 @@ import KindEducationProgramSelect from '../../components/shared/business/selects
 import FinancingTypeSelect from '../../components/shared/business/selects/financing-type-select';
 
 const model = {
-  name: { name: 'Программа обучения', type: String, show: true, required: true },
+  name: { name: 'Программа обучения', type: StringControl, show: true, required: true },
   cost: { name: 'Стоимость', type: Cost, show: true, required: true },
   hoursCount: { name: 'Кол-во часов', type: HoursCount, show: true, required: true },
   educationFormId: { name: 'Форма образования', type: EducationFormSelect, show: true, required: true },
@@ -27,7 +27,7 @@ const model = {
   isNetworkProgram: { name: 'Сетевая форма', type: YesNo, show: true, required: true },
   isDOTProgram: { name: 'Применение ДОТ', type: YesNo, show: true, required: true },
   isFullDOTProgram: { name: 'Применение ДОТ полностью', type: YesNo, show: true, required: true },
-  qualificationName: { name: 'Наименование квалификации', type: String, show: true, required: true },
+  qualificationName: { name: 'Наименование квалификации', type: StringControl, show: true, required: true },
   isArchive: { name: 'В архиве', type: YesNo, show: true, required: true },
 };
 

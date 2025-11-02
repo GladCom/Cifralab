@@ -1,31 +1,24 @@
 import { Input, Typography } from 'antd';
-import { BaseControlValue, ControlByModeMap as ControlByModeMap, DisplayMode, FormParams } from './types';
+import { MultimodeControlValue, ControlByModeMap as ControlByModeMap, DisplayMode, EditableControlProps } from './types';
+import { ChangeEvent, useCallback } from 'react';
 
 const { Text } = Typography;
 
-export type MultiControlProps = ViewControlProps | EditableViewControlProps | EditorControlProps | FormItemControlProps;
+export type MultiControlProps = ViewControlProps | EditableViewControlProps | EditableControlProps ;
 
 export type ViewControlProps = {
-  value: BaseControlValue;
+  value: MultimodeControlValue;
 };
 
 export const DefaultViewControl: React.FC<ViewControlProps> = ({ value }) => <Text>{value}</Text>;
 
 export type EditableViewControlProps = {
-  value: BaseControlValue;
+  value: MultimodeControlValue;
 };
 
 export const DefaultEditableViewControl: React.FC<EditableViewControlProps> = ({ value }) => <Text>{value}</Text>;
 
-export type EditorControlProps = {
-  value: BaseControlValue;
-  defaultValue: BaseControlValue;
-  placeholder: string;
-  formParams: FormParams;
-  onChange: () => void;
-};
-
-export const DefaultEditorControl: React.FC<EditorControlProps> = ({
+export const DefaultEditorControl: React.FC<EditableControlProps> = ({
   value,
   onChange,
   defaultValue,
@@ -34,27 +27,24 @@ export const DefaultEditorControl: React.FC<EditorControlProps> = ({
 }) => {
   const { key } = formParams;
 
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.checked);
+  }, [onChange]);
+
   return (
     <Input
       key={key}
       allowClear
-      value={value}
-      onChange={onChange}
-      defaultValue={defaultValue}
+      value={String(value ?? 'Неверный тип данных')}
+      onChange={handleChange}
+      defaultValue={String(defaultValue ?? 'Неверный тип данных')}
       placeholder={placeholder}
       type="textarea"
     />
   );
 };
 
-export type FormItemControlProps = {
-  value: BaseControlValue;
-  placeholder: string;
-  formParams: FormParams;
-  onChange: () => void;
-};
-
-export const DefaultFormItemControl: React.FC<FormItemControlProps> = ({
+export const DefaultFormItemControl: React.FC<EditableControlProps> = ({
   value,
   onChange,
   formParams,
@@ -62,12 +52,16 @@ export const DefaultFormItemControl: React.FC<FormItemControlProps> = ({
 }) => {
   const { key } = formParams;
 
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.checked);
+  }, [onChange]);
+
   return (
     <Input
       key={key}
       allowClear
-      value={value}
-      onChange={onChange}
+      value={String(value ?? 'Неверный тип данных')}
+      onChange={handleChange}
       defaultValue=""
       placeholder={placeholder}
       type="textarea"

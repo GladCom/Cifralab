@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import _ from 'lodash';
+import { useState } from 'react';
 import { AutoComplete } from 'antd';
-import { BaseControl } from '../base-controls/base-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
+import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { Rule } from 'antd/es/form';
+import { DefaultEditableViewControl, DefaultViewControl } from '../multi-mode-control/default-controls';
 
 const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru'];
 
-const DefaultFormComponent = ({ value, onChange, formParams }) => {
+const FormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
 
-  const handleChange = (inputValue) => {
+  const handleChange = (inputValue: string) => {
     setOptions(() => {
       if (!inputValue || inputValue.includes('@')) {
         return [];
@@ -33,11 +35,11 @@ const DefaultFormComponent = ({ value, onChange, formParams }) => {
   );
 };
 
-const DefaultEditComponent = ({ value, onChange, formParams }) => {
+const EditorControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
 
-  const handleChange = (inputValue) => {
+  const handleChange = (inputValue: string) => {
     setOptions(() => {
       if (!inputValue || inputValue.includes('@')) {
         return [];
@@ -62,12 +64,14 @@ const DefaultEditComponent = ({ value, onChange, formParams }) => {
   );
 };
 
-const components = {
-  form: DefaultFormComponent,
-  edit: DefaultEditComponent,
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: EditorControl,
+  [DisplayMode.FORM_ITEM]: FormItemControl,
 };
 
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо заполнить email',
@@ -78,21 +82,19 @@ const rules = [
   },
 ];
 
-const defaultFormParams = {
+const formParams: FormParams = {
   key: 'email',
   name: 'E-mail',
   rules,
 };
 
-const Email = ({ formParams, ...props }) => (
-  <BaseControl
-    {...{
-      components,
-      placeholder: 'введите e-mail',
-      ...props,
-      formParams: _.merge({}, defaultFormParams, formParams),
-    }}
-  />
-);
-
-export default Email;
+export const Email: React.FC<MultimodeControlProps> = (props) => {
+  return (
+    <MultimodeControl
+      {...props}
+      placeholder={'введите e-mail'}
+      controlMap={controlMap}
+      formParams={formParams}
+    />
+  );
+}

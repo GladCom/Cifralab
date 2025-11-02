@@ -1,40 +1,20 @@
 import { Typography, Form, Button, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import {
-  BaseControlParams,
-  BaseControlValue,
-  ControlByModeMap,
+  MultimodeControlValue,
   ControlWrapperByModeMap,
   DisplayMode,
-  FormParams,
 } from './types';
-import { ComponentType } from 'react';
+import { MultimodeControlProps } from './multi-mode-control';
 
 const { Text } = Typography;
 const ChangeSymbol = () => <Text>* </Text>;
 
-export type MultimodeBaseControlWrapperProps = {
-  //  TODO: если поставить вместо any - MultiControlProps, то возникает ошибка, подумать над этим.
-  Control: ComponentType<any>;
-  controlMap: ControlByModeMap;
-  controlWrapperMap: ControlWrapperByModeMap;
-  value: BaseControlValue;
-  defaultValue: BaseControlValue;
-  placeholder: string;
-  displayMode: DisplayMode;
-  isChanged: boolean;
-  controlParams: BaseControlParams;
-  formParams: FormParams;
-  setValue: (value: BaseControlValue) => void;
-  onChange: () => void;
-  setDisplayMode: (mode: DisplayMode) => void;
-};
-
-export const ViewWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Control, value }) => {
+export const ViewWrapper: React.FC<MultimodeControlProps> = ({ Control, value }) => {
   return <Control value={value} />;
 };
 
-export const EditableViewWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Control, ...props }) => {
+export const EditableViewWrapper: React.FC<MultimodeControlProps> = ({ Control, ...props }) => {
   const { isChanged: changed, setDisplayMode } = props;
 
   return (
@@ -51,14 +31,20 @@ export const EditableViewWrapper: React.FC<MultimodeBaseControlWrapperProps> = (
   );
 };
 
-export const EditorWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Control, ...props }) => {
+export const EditorWrapper: React.FC<MultimodeControlProps> = ({ Control, ...props }) => {
   const { value, formParams, setValue, setDisplayMode } = props;
   const { key, rules, normalize, hasFeedback } = formParams;
 
-  const onSubmit = (formValue) => {
-    setValue(formValue[key]);
+const onSubmit = (formValue: { [key: string]: MultimodeControlValue }) => {
+  const newValue = formValue[key];
+  if (newValue !== undefined) {
+    setValue(newValue);
     setDisplayMode(DisplayMode.EDITABLE_VIEW);
-  };
+  } else {
+    console.error(`Field "${key}" not found in form values. Available fields: ${Object.keys(formValue).join(', ')}`);
+    // TODO: показать уведомление пользователю
+  }
+};
 
   return (
     <Form layout="inline" name="editModeForm" clearOnDestroy onFinish={(values) => onSubmit(values)}>
@@ -92,7 +78,7 @@ export const EditorWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Cont
   );
 };
 
-export const FormItemWrapper: React.FC<MultimodeBaseControlWrapperProps> = ({ Control, ...props }) => {
+export const FormItemWrapper: React.FC<MultimodeControlProps> = ({ Control, ...props }) => {
   const { value, formParams, controlParams: params } = props;
   const { key, name, normalize, hasFeedback, rules } = formParams;
   const { displayOptions } = params;

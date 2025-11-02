@@ -1,20 +1,22 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, ComponentType } from 'react';
 import { defaultControlByModeMap, DefaultViewControl } from './default-controls';
 import _ from 'lodash';
-import { BaseControlParams, BaseControlValue, DisplayMode } from './types';
-import { defaultControlWrapperByModeMap, MultimodeBaseControlWrapperProps, ViewWrapper } from './default-control-wrappers';
+import { BaseControlParams, MultimodeControlValue, DisplayMode, ControlByModeMap, ControlWrapperByModeMap, FormParams } from './types';
+import { defaultControlWrapperByModeMap, ViewWrapper } from './default-control-wrappers';
+import { Rule } from 'antd/es/form';
 
-const defaultRules = [
+const defaultRules: Rule[] = [
   {
     required: true,
     message: 'Необходимо заполнить это поле',
   },
 ];
 
-const defaultFormParams = {
+const defaultFormParams: FormParams = {
   key: 'name',
   name: 'Введите значение',
-  normalize: (value: any) => value,
+  // TODO: если будет все ок, то удалить
+  // normalize: (value: any) => value,
   rules: defaultRules,
   hasFeedback: true,
 };
@@ -28,13 +30,30 @@ const defaultControlParams: BaseControlParams = {
   },
 };
 
-export const MultimodeControl: React.FC<MultimodeBaseControlWrapperProps> = ({ formParams, controlParams: params, ...props }) => {
+export type MultimodeControlProps = {
+  //  TODO: если поставить вместо any - MultiControlProps, то возникает ошибка, подумать над этим.
+  Control: ComponentType<any>;
+  controlMap: ControlByModeMap;
+  controlWrapperMap: ControlWrapperByModeMap;
+  value: MultimodeControlValue;
+  defaultValue: MultimodeControlValue;
+  placeholder: string;
+  displayMode: DisplayMode;
+  isChanged: boolean;
+  controlParams: BaseControlParams;
+  formParams: FormParams;
+  setValue: (value: MultimodeControlValue) => void;
+  onChange: () => void;
+  setDisplayMode: (mode: DisplayMode) => void;
+};
+
+export const MultimodeControl: React.FC<MultimodeControlProps> = ({ formParams, controlParams: params, ...props }) => {
   const { controlMap, controlWrapperMap, displayMode, value, setValue } = props;
   const [currentDisplayMode, setCurrentDisplayMode] = useState<DisplayMode>(displayMode);
   const [isChanged, setIsChanged] = useState(false);
 
   const handleSetValue = useCallback(
-    (newValue: BaseControlValue) => {
+    (newValue: MultimodeControlValue) => {
       setIsChanged(newValue !== value);
       setValue(newValue);
     },

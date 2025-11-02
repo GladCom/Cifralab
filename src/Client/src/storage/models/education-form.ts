@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/string';
+import StringControl from '../../components/shared/business/common/string-control';
 
 const rules = [
   {
@@ -14,7 +14,7 @@ const formParams = {
 };
 
 const model = {
-  name: { name: 'Форма образования', type: String, show: true, formParams },
+  name: { name: 'Форма образования', type: StringControl, show: true, formParams },
 };
 
 export default model;

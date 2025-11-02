@@ -1,82 +1,67 @@
 import React, { useCallback } from 'react';
-import _ from 'lodash';
-import { BaseControl } from '../base-controls/base-control';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
+import { ViewControlProps } from '../multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
+import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { Rule } from 'antd/es/form';
 
 const { Text } = Typography;
 
-const DefaultInfoComponent = ({ value }) => <Text>{dayjs(value).format('DD.MM.YYYY')}</Text>;
-
-const DefaultEditableInfoComponent = ({ value }) => <Text>{dayjs(value).format('DD.MM.YYYY')}</Text>;
-
-const format = {
-  format: 'DD.MM.YYYY',
-  type: 'mask',
+const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
+  return <Text>{dayjs(String(value ?? 'Неверный тип данных')).format('DD.MM.YYYY')}</Text>;
 };
 
-const DefaultFormComponent = ({ defaultValue, onChange, formParams, placeholder }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ defaultValue, onChange, formParams, placeholder }) => {
   const { key } = formParams;
 
-  const formattValue = useCallback((value) => {
-    const formattedDateString = dayjs(value).format('YYYY-MM-DD');
+  const formattValue = useCallback((date: dayjs.Dayjs) => {
+    const formattedDateString = dayjs(date).format('YYYY-MM-DD');
     onChange(formattedDateString);
-  });
+  },[onChange]);
 
   return (
     <DatePicker
       key={key}
       placeholder={placeholder}
-      defaultPickerValue={dayjs(defaultValue)}
-      format={format}
+      defaultValue={dayjs(String(defaultValue ?? 'Неверный тип данных'))}
+      format={{
+        format: 'DD.MM.YYYY',
+        type: 'mask',
+      }}
       onChange={formattValue}
     />
   );
 };
 
-const DefaultEditComponent = ({ value, onChange, formParams }) => {
-  const { key } = formParams;
-
-  const formattValue = useCallback((value) => {
-    const formattedDateString = dayjs(value).format('YYYY-MM-DD');
-    onChange(formattedDateString);
-  });
-
-  return <DatePicker key={key} defaultValue={dayjs(value)} format={format} onChange={formattValue} />;
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: ViewControl,
+  [DisplayMode.EDITABLE_VIEW]: ViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
 };
 
-const components = {
-  info: DefaultInfoComponent,
-  editableInfo: DefaultEditableInfoComponent,
-  form: DefaultFormComponent,
-  edit: DefaultEditComponent,
-};
-
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо заполнить дату',
   },
 ];
 
-const defaultFormParams = {
+const formParams: FormParams = {
   key: 'date',
   name: 'Введите дату',
-  normalize: (value) => value,
+  //normalize: (value) => value,
   rules,
   hasFeedback: true,
 };
 
-const Date = ({ formParams, ...props }) => {
+export const Date: React.FC<MultimodeControlProps> = (props) => {
   return (
-    <BaseControl
-      {...{
-        ...props,
-        components,
-        formParams: _.merge({}, defaultFormParams, formParams),
-      }}
+    <MultimodeControl
+      {...props}
+      controlMap={controlMap}
+      formParams={formParams}
     />
   );
 };
-
-export default Date;

@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/string';
+import StringControl from '../../components/shared/business/common/string-control';
 import EducationProgramSelect from '../../components/shared/business/selects/education-form-select';
 import EducationTypeSelect from '../../components/shared/business/selects/education-type-select';
 import StatusEntrancExamsSelect from '../../components/shared/business/selects/status-entranc-exams-select';
@@ -13,15 +13,15 @@ import DateTimeView from '../../components/shared/business/date-time-view';
 const model = {
   family: {
     name: 'Фамилия',
-    type: String,
+    type: StringControl,
   },
   name: {
     name: 'Имя',
-    type: String,
+    type: StringControl,
   },
   patron: {
     name: 'Отчество',
-    type: String,
+    type: StringControl,
   },
   dateOfCreate: {
     name: 'Дата и время заявки',
@@ -37,15 +37,15 @@ const model = {
   },
   iT_Experience: {
     name: 'Опыт в IT',
-    type: String,
+    type: StringControl,
   },
   speciality: {
     name: 'Специальность',
-    type: String,
+    type: StringControl,
   },
   projects: {
     name: 'Проекты',
-    type: String,
+    type: StringControl,
   },
   statusEntrancExams: {
     name: 'Тестовое задание',

@@ -1,4 +1,4 @@
-import String from '../../components/shared/business/common/string';
+import StringControl from '../../components/shared/business/common/string-control';
 import Gender from '../../components/shared/business/common/gender';
 import Snils from '../../components/shared/business/common/snils';
 import Email from '../../components/shared/business/common/email';
@@ -13,15 +13,15 @@ import PhoneNumber from '../../components/shared/business/phone-number';
 const model = {
   family: {
     name: 'Фамилия',
-    type: String,
+    type: StringControl,
   },
   name: {
     name: 'Имя',
-    type: String,
+    type: StringControl,
   },
   patron: {
     name: 'Отчество',
-    type: String,
+    type: StringControl,
   },
   birthDate: {
     name: 'Дата рождения',
@@ -65,7 +65,7 @@ const model = {
   },
   nationality: {
     name: 'Гражданство',
-    type: String,
+    type: StringControl,
   },
   typeEducationId: {
     name: 'Уровень образования',
@@ -73,7 +73,7 @@ const model = {
   },
   speciality: {
     name: 'Специальность',
-    type: String,
+    type: StringControl,
   },
   scopeOfActivityLevelOneId: {
     name: 'Сфера деятельности ур.1',
@@ -92,15 +92,15 @@ const model = {
   },
   fullNameDocument: {
     name: 'Фамилия в дипломе о ВО/СПО',
-    type: String,
+    type: StringControl,
   },
   documentSeries: {
     name: 'Серия документа о ВО/СПО',
-    type: String,
+    type: StringControl,
   },
   documentNumber: {
     name: 'Номер документа о ВО/СПО',
-    type: String,
+    type: StringControl,
   },
   disability: {
     name: 'ОВЗ',

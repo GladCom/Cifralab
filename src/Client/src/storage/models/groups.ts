@@ -1,11 +1,11 @@
-import String from '../../components/shared/business/common/string';
+import StringControl from '../../components/shared/business/common/string-control';
 import Date from '../../components/shared/business/common/date';
 import EducationProgramSelect from '../../components/shared/business/selects/education-program-select';
 
 const model = {
   name: {
     name: 'Наименование группы',
-    type: String,
+    type: StringControl,
   },
   educationProgramId: {
     name: 'Программа обучения',
