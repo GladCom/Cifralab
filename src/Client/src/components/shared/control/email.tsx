@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { AutoComplete } from 'antd';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
-import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
-import { DefaultEditableViewControl, DefaultViewControl } from '../multi-mode-control/default-controls';
+import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
 
 const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru'];
 

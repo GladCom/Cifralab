@@ -18,14 +18,6 @@ export type BaseControlParams = {
 };
 
 export type FormParams = FormItemProps & { key: string };
-// TODO: временно загасим свои типы, если будет ок с FormItemProps, то удалить.
-// export type FormParams = {
-//   key: string;
-//   name: string;
-//   normalize: (value: MultimodeControlValue) => MultimodeControlValue;
-//   rules: unknown;
-//   hasFeedback?: boolean;
-// };
 
 export type MultimodeControlValue = boolean | number | string | null | undefined;
 
@@ -43,6 +35,6 @@ export type EditableControlProps = {
   defaultValue: MultimodeControlValue;
   placeholder: string;
   formParams: FormParams;
-  //  А точно ли тут надо передавать значение а не событие?
+  //  TODO: a точно ли тут надо передавать значение а не событие?
   onChange: (value: MultimodeControlValue) => void;
 };

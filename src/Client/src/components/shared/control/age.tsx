@@ -1,5 +1,5 @@
-import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
-import { FormParams } from '../multi-mode-control/types';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import { FormParams } from './multi-mode-control/types';
 
 const formParams: FormParams = {
   key: 'age',

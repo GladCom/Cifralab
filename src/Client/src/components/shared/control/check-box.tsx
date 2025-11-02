@@ -1,7 +1,7 @@
 import { Checkbox, CheckboxChangeEvent } from 'antd';
-import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams, MultimodeControlValue } from '../multi-mode-control/types';
-import { ViewControlProps } from '../multi-mode-control/default-controls';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams, MultimodeControlValue } from './multi-mode-control/types';
+import { ViewControlProps } from './multi-mode-control/default-controls';
 import { Rule } from 'antd/es/form';
 import { useCallback } from 'react';
 

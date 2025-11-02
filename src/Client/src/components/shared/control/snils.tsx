@@ -1,11 +1,5 @@
-// import { templateParser, templateFormatter, parseDigit } from 'input-format';
-import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
-import { MultimodeControlValue } from '../multi-mode-control/types';
-
-//  TODO:   разобраться с форматтером
-// const TEMPLATE = 'xxx-xxx-xxx xx';
-// const parse = templateParser(TEMPLATE, parseDigit);
-// const format = templateFormatter(TEMPLATE);
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import { MultimodeControlValue } from './multi-mode-control/types';
 
 const formatSnils = (input: string) => {
   const digits = input.replace(/\D/g, '');

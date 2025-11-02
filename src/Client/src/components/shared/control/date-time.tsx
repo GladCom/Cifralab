@@ -1,32 +1,32 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
-import { ViewControlProps } from '../multi-mode-control/default-controls';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
-import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
+import { ViewControlProps } from './multi-mode-control/default-controls';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 
 const { Text } = Typography;
 
 const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
-  return <Text>{dayjs(String(value ?? 'Неверный тип данных')).format('DD.MM.YYYY')}</Text>;
+  return <Text>{dayjs(String(value ?? 'Неверный тип данных')).format('DD.MM.YYYY HH:mm:ss')}</Text>;
 };
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ defaultValue, onChange, formParams, placeholder }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ defaultValue, onChange, formParams }) => {
   const { key } = formParams;
 
   const formattValue = useCallback((date: dayjs.Dayjs) => {
-    const formattedDateString = dayjs(date).format('YYYY-MM-DD');
+    const formattedDateString = dayjs(date).format('YYYY-MM-DDTHH:mm:ss');
     onChange(formattedDateString);
   },[onChange]);
 
   return (
     <DatePicker
       key={key}
-      placeholder={placeholder}
       defaultValue={dayjs(String(defaultValue ?? 'Неверный тип данных'))}
+      showTime
       format={{
-        format: 'DD.MM.YYYY',
+        format: 'DD.MM.YYYY HH:mm:ss',
         type: 'mask',
       }}
       onChange={formattValue}
@@ -56,7 +56,7 @@ const formParams: FormParams = {
   hasFeedback: true,
 };
 
-export const Date: React.FC<MultimodeControlProps> = (props) => {
+export const DateTime: React.FC<MultimodeControlProps> = (props) => {
   return (
     <MultimodeControl
       {...props}
