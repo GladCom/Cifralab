@@ -1,14 +1,18 @@
 import { Typography, Select } from 'antd';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { Rule } from 'antd/es/form';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import { ViewControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 
-const DefaultInfoComponent = ({ dataById, formParams }) => {
+const ViewControl: React.FC<ViewControlProps> = ({ dataById, formParams }) => {
   const { labelKey } = formParams;
 
   return <Text>{dataById?.[labelKey]}</Text>;
 };
 
-const DefaultEditFormComponent = ({ onChange, placeholder, formParams, dataById, allData }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ onChange, placeholder, formParams, dataById, allData }) => {
   const { key, labelKey } = formParams;
 
   return (
@@ -28,36 +32,27 @@ const DefaultEditFormComponent = ({ onChange, placeholder, formParams, dataById,
   );
 };
 
-const components = {
-  info: DefaultInfoComponent,
-  editableInfo: DefaultInfoComponent,
-  form: DefaultEditFormComponent,
-  edit: DefaultEditFormComponent,
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: ViewControl,
+  [DisplayMode.EDITABLE_VIEW]: ViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
 };
 
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо выбрать значение',
   },
 ];
 
-const defaultFormParams = {
+const formParams: FormParams = {
   key: 'defaultKey!',
   labelKey: 'name',
   name: 'Какой-то список',
   rules,
 };
 
-const QueryableSelect = ({ formParams, ...props }) => (
-  <BaseControl
-    {...{
-      components,
-      placeholder: 'Выберите значение',
-      ...props,
-      formParams: _.merge({}, defaultFormParams, formParams),
-    }}
-  />
-);
-
-export default QueryableSelect;
+export const QueryableSelect: React.FC<MultimodeControlProps> = (props) => {
+  return <MultimodeControl {...props} placeholder={'Выберите значение'} controlMap={controlMap} formParams={formParams} />;
+};

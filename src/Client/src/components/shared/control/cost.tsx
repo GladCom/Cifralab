@@ -1,10 +1,14 @@
-import React from 'react';
-import _ from 'lodash';
 import { InputNumber } from 'antd';
-import { BaseControl } from './base-controls/base-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
+import { Rule } from 'antd/es/form';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 
-const DefaultComponent = ({ value, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
+
+  // Преобразуем значение в число, обрабатывая null/undefined
+  const numericValue = value != null ? Number(value) : undefined;
 
   return (
     <InputNumber
@@ -12,39 +16,33 @@ const DefaultComponent = ({ value, onChange, formParams }) => {
       min={1}
       max={1000000}
       prefix="₽"
-      defaultValue={value}
+      defaultValue={numericValue}
       onChange={onChange}
       style={{ minWidth: '150px' }}
     />
   );
 };
 
-const components = {
-  form: DefaultComponent,
-  edit: DefaultComponent,
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
 };
 
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Выберите значение',
   },
 ];
 
-const defaultFormParams = {
-  key: 'cost!',
+const formParams: FormParams = {
+  key: 'cost!', //  Почему тут восклицательный знак?
   name: 'Стоимость',
   rules: rules,
 };
 
-const Cost = ({ formParams, ...props }) => (
-  <BaseControl
-    {...{
-      components,
-      ...props,
-      formParams: _.merge({}, defaultFormParams, formParams),
-    }}
-  />
-);
-
-export default Cost;
+export const Cost: React.FC<MultimodeControlProps> = (props) => {
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+};

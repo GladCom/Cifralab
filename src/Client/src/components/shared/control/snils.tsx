@@ -1,5 +1,6 @@
+import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import { MultimodeControlValue } from './multi-mode-control/types';
+import { FormParams, MultimodeControlValue } from './multi-mode-control/types';
 
 const formatSnils = (input: string) => {
   const digits = input.replace(/\D/g, '');
@@ -7,7 +8,7 @@ const formatSnils = (input: string) => {
   return limitedDigits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1-$2-$3 $4');
 };
 
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо заполнить СНИЛС',
@@ -18,7 +19,7 @@ const rules = [
   },
 ];
 
-const formParams = {
+const formParams: FormParams = {
   key: 'snils',
   name: 'СНИЛС',
   normalize: (value: MultimodeControlValue) => {
@@ -31,6 +32,4 @@ const formParams = {
   rules: rules,
 };
 
-const Snils: React.FC<MultimodeControlProps> = (props) => <MultimodeControl {...props} formParams={formParams} />;
-
-export default Snils;
+export const Snils: React.FC<MultimodeControlProps> = (props) => <MultimodeControl {...props} formParams={formParams} />;

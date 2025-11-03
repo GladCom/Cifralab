@@ -1,49 +1,46 @@
-import React from 'react';
-import _ from 'lodash';
 import { InputNumber } from 'antd';
-import { BaseControl } from './base-controls/base-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { Rule } from 'antd/es/form';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
 
-const DefaultComponent = ({ value, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
+  // Преобразуем значение в число
+  const numericValue = value != null ? Number(value) : 1;
 
   return (
     <InputNumber
       key={key}
       min={1}
       max={2}
-      defaultValue={value || 1}
+      defaultValue={numericValue}
       onChange={onChange}
       style={{ minWidth: '100px' }}
     />
   );
 };
 
-const components = {
-  form: DefaultComponent,
-  edit: DefaultComponent,
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
 };
 
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо указать уровень',
   },
 ];
 
-const defaultFormParams = {
+const formParams: FormParams = {
   key: 'level',
   name: 'Уровень сферы деятельности',
   rules: rules,
 };
 
-const ScopeOfActivityLevel = ({ formParams, ...props }) => (
-  <BaseControl
-    {...{
-      components,
-      ...props,
-      formParams: _.merge({}, defaultFormParams, formParams),
-    }}
-  />
-);
-
-export default ScopeOfActivityLevel;
+export const ScopeOfActivityLevel: React.FC<MultimodeControlProps> = (props) => {
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+};

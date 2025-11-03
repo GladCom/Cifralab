@@ -1,0 +1,54 @@
+import { useEffect } from 'react';
+import { Switch, Typography } from 'antd';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { Rule } from 'antd/es/form';
+import { ViewControlProps } from './multi-mode-control/default-controls';
+
+const { Text } = Typography;
+const keyValueMap: Record<string, string> = {
+  'false': 'нет',
+  'true': 'да',
+  'null': 'не указано',
+  'undefined': 'не указано',
+};
+
+const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
+  const stringValue = String(value ?? 'null');
+  return <Text>{keyValueMap[stringValue] || 'не указано'}</Text>;
+};
+
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
+  const { key } = formParams;
+
+  //  Эффект нужен чтобы проинициализировать начальным значением
+  useEffect(() => {
+    onChange(value || false);
+  }, []);
+
+  return <Switch key={key} defaultValue={Boolean(value)} onChange={onChange} defaultChecked={Boolean(value)} />;
+};
+
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: ViewControl,
+  [DisplayMode.EDITABLE_VIEW]: ViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
+};
+
+const rules: Rule[] = [
+  {
+    required: true,
+    message: 'Выберите значение',
+  },
+];
+
+const formParams: FormParams = {
+  key: 'ошибка!',
+  name: 'ошибка!',
+  rules: rules,
+};
+
+export const YesNoControl: React.FC<MultimodeControlProps> = (props) => {
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+};

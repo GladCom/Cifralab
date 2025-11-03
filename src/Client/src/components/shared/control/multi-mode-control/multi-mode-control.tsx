@@ -22,8 +22,6 @@ const defaultRules: Rule[] = [
 const defaultFormParams: FormParams = {
   key: 'name',
   name: 'Введите значение',
-  // TODO: если будет все ок, то удалить
-  // normalize: (value: any) => value,
   rules: defaultRules,
   hasFeedback: true,
 };

@@ -1,42 +1,39 @@
-import React from 'react';
-import _ from 'lodash';
 import { InputNumber } from 'antd';
-import { BaseControl } from './base-controls/base-control';
+import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { Rule } from 'antd/es/form';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 
-const DefaultComponent = ({ value, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
+  // Преобразуем значение в число, обрабатывая null/undefined
+  const numericValue = value != null ? Number(value) : undefined;
 
   return (
-    <InputNumber key={key} min={1} max={10000} defaultValue={value} onChange={onChange} style={{ minWidth: '100px' }} />
+    <InputNumber key={key} min={1} max={10000} defaultValue={numericValue} onChange={onChange} style={{ minWidth: '100px' }} />
   );
 };
 
-const components = {
-  form: DefaultComponent,
-  edit: DefaultComponent,
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
 };
 
-const rules = [
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо указать кол-во часов',
   },
 ];
 
-const defaultFormParams = {
+const formParams: FormParams = {
   key: 'hoursCount',
   name: 'Кол-во часов',
   rules: rules,
 };
 
-const HoursCount = ({ formParams, ...props }) => (
-  <BaseControl
-    {...{
-      components,
-      ...props,
-      formParams: _.merge({}, defaultFormParams, formParams),
-    }}
-  />
-);
-
-export default HoursCount;
+export const HoursCount: React.FC<MultimodeControlProps> = (props) => {
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+};

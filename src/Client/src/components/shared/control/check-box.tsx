@@ -14,7 +14,7 @@ import { useCallback } from 'react';
 const getSafeBoolean = (value: MultimodeControlValue): boolean => {
   if (typeof value === 'boolean') return value;
 
-  console.warn(`Checkbox received non-boolean value:`, {
+  console.warn('Checkbox received non-boolean value:', {
     value,
     type: typeof value,
   });

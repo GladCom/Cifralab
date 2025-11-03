@@ -1,19 +1,6 @@
-import { ControlByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
-import {
-  DefaultEditableViewControl,
-  DefaultEditorControl,
-  DefaultFormItemControl,
-  DefaultViewControl,
-} from '../multi-mode-control/default-controls';
-import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { FormParams } from './multi-mode-control/types';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
-
-const controlMap: ControlByModeMap = {
-  [DisplayMode.VIEW]: DefaultViewControl,
-  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
-  [DisplayMode.EDITOR]: DefaultEditorControl,
-  [DisplayMode.FORM_ITEM]: DefaultFormItemControl,
-};
 
 const rules: Rule[] = [
   {
