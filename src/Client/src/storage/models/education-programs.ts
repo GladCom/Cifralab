@@ -7,6 +7,7 @@ import EducationFormSelect from '../../components/shared/business/selects/educat
 import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/kind-document-rise-qualification-select';
 import KindEducationProgramSelect from '../../components/shared/business/selects/kind-education-program-select';
 import FinancingTypeSelect from '../../components/shared/business/selects/financing-type-select';
+import ArchiveCheckBox from '../../components/shared/business/common/archive-check-box';
 
 const model = {
   name: { name: 'Наименование', type: String, show: true, required: true },
@@ -33,7 +34,7 @@ const model = {
     show: true,
     required: true,
   },
-  isArchive: { name: 'В архиве', type: YesNo, show: true, required: true },
+  isArchive: { name: 'В архиве', type: ArchiveCheckBox, show: true, required: true },
 };
 
 export default model;
