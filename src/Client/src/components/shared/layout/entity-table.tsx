@@ -83,7 +83,7 @@ const EntityTable = ({ config, title }) => {
 
   return (
     <>
-      <TablePageHeader config={config} title={title} />
+      <TablePageHeader config={config} title={title} query={query} setQuery={setQuery} />
       <FilterPanel config={config} query={query} setQuery={setQuery} />
       <Table
         rowKey={(record) => record.id}
