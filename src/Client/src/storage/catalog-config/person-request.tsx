@@ -6,11 +6,12 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/person-requests-crud';
+} from '../crud/person-request-crud';
 import { useGetRequestStatusQuery } from '../service/request-status-api';
 import { personRequestsModel } from '../model/index';
 import { Select } from 'antd';
 import { BirthDate } from '../../components/shared/control/birth-date';
+import { CheckCircleFilled } from '@ant-design/icons';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {

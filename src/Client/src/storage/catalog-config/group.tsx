@@ -6,7 +6,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/groups-crud';
+} from '../crud/group-crud';
 import { groupsModel } from '../model/index';
 
 export default {

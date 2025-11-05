@@ -1,4 +1,3 @@
-
 import { BirthDate } from '../../components/shared/control/birth-date';
 import {
   useGetAllAsync,
@@ -7,7 +6,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/students-crud';
+} from '../crud/student-crud';
 import { studentsModel } from '../model/index';
 
 export default {

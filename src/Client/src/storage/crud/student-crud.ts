@@ -5,7 +5,7 @@ import {
   useAddStudentMutation,
   useEditStudentMutation,
   useRemoveStudentMutation,
-} from '../service/students-api';
+} from '../service/student-api';
 
 const useGetAllAsync = () => {
   const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetStudentsQuery();

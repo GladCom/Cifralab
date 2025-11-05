@@ -10,7 +10,6 @@ import { Snils } from '../../components/shared/control/snils';
 import { StringControl } from '../../components/shared/control/string-control';
 import { YesNoControl } from '../../components/shared/control/yes-no-control';
 
-
 const model = {
   family: {
     name: 'Фамилия',

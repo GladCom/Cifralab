@@ -1,5 +1,5 @@
 import { Layout, EntityTable } from '../shared/layout/index';
-import config from '../../storage/catalog-config/person-reques';
+import config from '../../storage/catalog-config/person-request';
 
 const PersonRequestsPage = () => {
   return (

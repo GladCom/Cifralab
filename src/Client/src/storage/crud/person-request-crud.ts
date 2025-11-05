@@ -7,7 +7,7 @@ import {
   useAddPersonRequestMutation,
   useEditPersonRequestMutation,
   useRemovePersonRequestMutation,
-} from '../service/requests-api';
+} from '../service/request-api';
 
 const useGetAllAsync = () => {
   const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetPersonRequestsQuery();

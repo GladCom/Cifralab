@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './slice/user-slice';
 import { authApi } from './service/auth-api';
-import { studentsApi } from './service/students-api';
+import { studentsApi } from './service/student-api';
 import { educationFormApi } from './service/education-form-api';
 import { requestStatusApi } from './service/request-status-api';
 import { typeEducationApi } from './service/type-education-api';
@@ -13,7 +13,7 @@ import { financingTypeApi } from './service/financing-type-api';
 import { feaProgramApi } from './service/fea-program-api';
 import { educationProgramApi } from './service/education-program-api';
 import { groupsApi } from './service/groups-api';
-import { requestsApi } from './service/requests-api';
+import { requestsApi } from './service/request-api';
 import { scopeOfActivityApi } from './service/scope-of-activity-api';
 
 export default configureStore({

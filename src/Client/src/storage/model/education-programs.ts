@@ -8,7 +8,6 @@ import { KindEducationProgramSelect } from '../../components/shared/control/sele
 import { StringControl } from '../../components/shared/control/string-control';
 import { YesNoControl } from '../../components/shared/control/yes-no-control';
 
-
 const model = {
   name: { name: 'Программа обучения', type: StringControl, show: true, required: true },
   cost: { name: 'Стоимость', type: Cost, show: true, required: true },
