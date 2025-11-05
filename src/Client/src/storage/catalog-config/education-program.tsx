@@ -61,7 +61,9 @@ export default {
       title: 'Вид программы',
       dataIndex: 'kindEducationProgramId',
       key: 'kindEducationProgramId',
-      render: (_, record) => <KindEducationProgramSelect value={record.kindEducationProgramId} displayMode={DisplayMode.VIEW} />,
+      render: (_, record) => (
+        <KindEducationProgramSelect value={record.kindEducationProgramId} displayMode={DisplayMode.VIEW} />
+      ),
     },
     {
       title: 'Форма обучения',
