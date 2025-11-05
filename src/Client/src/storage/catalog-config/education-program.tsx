@@ -11,6 +11,7 @@ import {
 import { educationProgramsModel } from '../model/index';
 import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
 import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
+import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
 const IsArchive = ({ record }) => {
@@ -60,13 +61,13 @@ export default {
       title: 'Вид программы',
       dataIndex: 'kindEducationProgramId',
       key: 'kindEducationProgramId',
-      render: (_, record) => <KindEducationProgramSelect value={record.kindEducationProgramId} mode="info" />,
+      render: (_, record) => <KindEducationProgramSelect value={record.kindEducationProgramId} displayMode={DisplayMode.VIEW} />,
     },
     {
       title: 'Форма обучения',
       dataIndex: 'educationFormId',
       key: 'educationFormId',
-      render: (_, record) => <EducationFormSelect value={record.educationFormId} mode="info" />,
+      render: (_, record) => <EducationFormSelect value={record.educationFormId} displayMode={DisplayMode.VIEW} />,
     },
     {
       title: 'Кол-во часов',

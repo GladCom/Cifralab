@@ -12,6 +12,7 @@ import { personRequestsModel } from '../model/index';
 import { Select } from 'antd';
 import { BirthDate } from '../../components/shared/control/birth-date';
 import { CheckCircleFilled } from '@ant-design/icons';
+import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {
@@ -77,7 +78,7 @@ export default {
       title: 'Дата рождения',
       dataIndex: 'birthDate',
       key: 'birthDate',
-      render: (_, record) => <BirthDate value={record.birthDate} mode="info" />,
+      render: (_, record) => <BirthDate value={record.birthDate} displayMode={DisplayMode.VIEW} />,
     },
     {
       title: 'Место проживания',

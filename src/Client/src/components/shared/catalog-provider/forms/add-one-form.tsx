@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Form } from 'antd';
+import { DisplayMode } from '../../control/multi-mode-control/types';
 
 const AddOneForm = ({ control, properties, crud }) => {
   const { useAddOneAsync } = crud;
@@ -48,7 +49,7 @@ const AddOneForm = ({ control, properties, crud }) => {
             key={key}
             params={params}
             formParams={{ key, name, ...formParams }}
-            mode="form"
+            displayMode={DisplayMode.FORM_ITEM}
             setValue={(value) => {
               form.setFieldsValue({
                 [key]: value,

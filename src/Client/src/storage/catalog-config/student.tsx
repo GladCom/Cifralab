@@ -1,4 +1,5 @@
 import { BirthDate } from '../../components/shared/control/birth-date';
+import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,
@@ -61,7 +62,7 @@ export default {
   ],
   dataConverter: (data) => {
     return data?.map(({ birthDate, ...props }) => {
-      const birthDate1 = <BirthDate value={birthDate} mode="info" />;
+      const birthDate1 = <BirthDate value={birthDate} displayMode={DisplayMode.VIEW} />;
       return { ...props, birthDate1 };
     });
   },

@@ -1,3 +1,4 @@
+import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
 import {
   useGetAllAsync,
@@ -41,7 +42,7 @@ export default {
   ],
   dataConverter: (data) => {
     return data?.map(({ scopeOfActivityParentId, ...props }) => {
-      const parent = <ScopeOfActivitySelect value={scopeOfActivityParentId} mode="info" />;
+      const parent = <ScopeOfActivitySelect value={scopeOfActivityParentId} displayMode={DisplayMode.VIEW} />;
       return { ...props, scopeOfActivityParentId: parent };
     });
   },

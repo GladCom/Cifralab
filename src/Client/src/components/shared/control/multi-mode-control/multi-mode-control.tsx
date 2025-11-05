@@ -37,19 +37,19 @@ const defaultControlParams: BaseControlParams = {
 
 export type MultimodeControlProps = {
   //  TODO: если поставить вместо any - MultiControlProps, то возникает ошибка, подумать над этим.
-  Control: ComponentType<any>;
-  controlMap: ControlByModeMap;
-  controlWrapperMap: ControlWrapperByModeMap;
-  value: MultimodeControlValue;
-  defaultValue: MultimodeControlValue;
-  placeholder: string;
-  displayMode: DisplayMode;
-  isChanged: boolean;
-  controlParams: BaseControlParams;
-  formParams: FormParams;
-  setValue: (value: MultimodeControlValue) => void;
-  onChange: () => void;
-  setDisplayMode: (mode: DisplayMode) => void;
+  Control?: ComponentType<any>;
+  controlMap?: ControlByModeMap;
+  controlWrapperMap?: ControlWrapperByModeMap;
+  value?: MultimodeControlValue;
+  defaultValue?: MultimodeControlValue;
+  placeholder?: string;
+  displayMode?: DisplayMode;
+  isChanged?: boolean;
+  controlParams?: BaseControlParams;
+  formParams?: FormParams;
+  setValue?: (value: MultimodeControlValue) => void;
+  onChange?: () => void;
+  setDisplayMode?: (mode: DisplayMode) => void;
   //  TODO: разобраться что это за типы.
   // dataById?: object,
   // allData?: any,

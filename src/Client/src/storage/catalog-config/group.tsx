@@ -1,3 +1,4 @@
+import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 import { EducationProgramSelect } from '../../components/shared/control/selects/education-program-select';
 import {
   useGetAllAsync,
@@ -50,7 +51,7 @@ export default {
   ],
   dataConverter: (data) => {
     return data?.map(({ educationProgramId, ...props }) => {
-      const educationProgram = <EducationProgramSelect value={educationProgramId} mode="info" />;
+      const educationProgram = <EducationProgramSelect value={educationProgramId} displayMode={DisplayMode.VIEW} />;
       return { ...props, educationProgram };
     });
   },

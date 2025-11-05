@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form } from 'antd';
+import { DisplayMode } from '../../control/multi-mode-control/types';
 
 const EditForm = ({ item, control, config, refetch }) => {
   const { id } = item;
@@ -62,7 +63,7 @@ const EditForm = ({ item, control, config, refetch }) => {
             value={itemData[key]}
             params={params}
             formParams={{ key, name, ...formParams }}
-            mode="form"
+            displayMode={DisplayMode.FORM_ITEM}
             setValue={(value) => {
               form.setFieldsValue({
                 [key]: value,
