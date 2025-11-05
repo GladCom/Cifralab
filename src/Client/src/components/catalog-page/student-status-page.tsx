@@ -1,6 +1,5 @@
-import React from 'react';
 import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-configs/student-status';
+import config from '../../storage/catalog-config/student-status';
 import Catalog from '../shared/catalog-provider/catalog';
 
 const StudentStatusPage = () => {

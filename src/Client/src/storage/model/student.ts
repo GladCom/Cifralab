@@ -1,14 +1,15 @@
-import StringControl from '../../components/shared/business/common/string-control';
-import Gender from '../../components/shared/business/common/gender';
-import Snils from '../../components/shared/business/common/snils';
-import Email from '../../components/shared/business/common/email';
-import Age from '../../components/shared/business/common/age';
-import Address from '../../components/shared/business/common/address';
-import EducationType from '../../components/shared/business/selects/education-type-select';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/scope-of-activity-select';
-import YesNo from '../../components/shared/business/yes-no';
-import BirthDate from '../../components/shared/business/birth-date';
-import PhoneNumber from '../../components/shared/business/phone-number';
+import { Address } from '../../components/shared/control/address';
+import { Age } from '../../components/shared/control/age';
+import { BirthDate } from '../../components/shared/control/birth-date';
+import { Email } from '../../components/shared/control/email';
+import { Gender } from '../../components/shared/control/gender';
+import { PhoneNumber } from '../../components/shared/control/phone-number';
+import { EducationTypeSelect } from '../../components/shared/control/selects/education-type-select';
+import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
+import { Snils } from '../../components/shared/control/snils';
+import { StringControl } from '../../components/shared/control/string-control';
+import { YesNoControl } from '../../components/shared/control/yes-no-control';
+
 
 const model = {
   family: {
@@ -69,7 +70,7 @@ const model = {
   },
   typeEducationId: {
     name: 'Уровень образования',
-    type: EducationType,
+    type: EducationTypeSelect,
   },
   speciality: {
     name: 'Специальность',
@@ -104,7 +105,7 @@ const model = {
   },
   disability: {
     name: 'ОВЗ',
-    type: YesNo,
+    type: YesNoControl,
   },
   // projects: {
   //     name: 'Проекты',

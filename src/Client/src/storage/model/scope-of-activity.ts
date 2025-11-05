@@ -1,5 +1,5 @@
-import StringControl from '../../components/shared/business/common/string-control';
-import ScopeOfActivityLevel from '../../components/shared/business/scope-of-activity-level';
+import { ScopeOfActivityLevel } from '../../components/shared/control/scope-of-activity-level';
+import { StringControl } from '../../components/shared/control/string-control';
 
 const model = {
   nameOfScope: {

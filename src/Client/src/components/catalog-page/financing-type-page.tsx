@@ -1,7 +1,6 @@
-import React from 'react';
 import { Layout } from '../shared/layout';
 import Catalog from '../shared/catalog-provider/catalog';
-import config from '../../storage/catalog-configs/financing-type';
+import config from '../../storage/catalog-config/financing-type';
 
 const FinancingTypePage = () => {
   return (

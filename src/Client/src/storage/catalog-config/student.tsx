@@ -1,4 +1,5 @@
-import BirthDate from '../../components/shared/control/birth-date';
+
+import { BirthDate } from '../../components/shared/control/birth-date';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,

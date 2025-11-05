@@ -1,3 +1,4 @@
+import { EducationProgramSelect } from '../../components/shared/control/selects/education-program-select';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,
@@ -6,9 +7,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/groups-crud';
-import { groupsModel } from '../models/index';
-import React from 'react';
-import EducationProgramSelect from '../../components/shared/business/selects/education-program-select';
+import { groupsModel } from '../model/index';
 
 export default {
   detailsLink: 'group',

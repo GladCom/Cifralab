@@ -1,5 +1,8 @@
 import { Select, Typography } from 'antd';
-import { BaseControl } from '../base-controls/base-control';
+import { ViewControlProps } from '../multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
+import { Rule } from 'antd/es/form';
+import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 
 const { Text } = Typography;
 
@@ -17,42 +20,35 @@ const keyValueMap = {
   3: 'Выполнено',
 };
 
-const rules = [
+const ViewControl: React.FC<ViewControlProps> = ({ value }) => <Text>{keyValueMap[value]}</Text>;
+
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
+  const { key } = formParams;
+
+  return <Select key={key} defaultValue={value} style={{ minWidth: '200px' }} options={options} onChange={onChange} />;
+};
+
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: ViewControl,
+  [DisplayMode.EDITABLE_VIEW]: ViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
+};
+
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо заполнить это поле',
   },
 ];
 
-const formParams = {
+const formParams: FormParams = {
+  key: 'defaultKey!',
   labelKey: 'statusEntrancExams',
   name: 'Выберите значение',
   rules,
 };
 
-const DefaultInfoComponent = ({ value }) => <Text>{keyValueMap[value]}</Text>;
-
-const DefaultSelectComponent = ({ value, onChange, formParams }) => {
-  const { key } = formParams;
-
-  return <Select key={key} defaultValue={value} style={{ minWidth: '200px' }} options={options} onChange={onChange} />;
+export const StatusEntrancExamsSelect: React.FC<MultimodeControlProps> = (props) => {
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
 };
-
-const components = {
-  info: DefaultInfoComponent,
-  editableInfo: DefaultInfoComponent,
-  form: DefaultSelectComponent,
-  edit: DefaultSelectComponent,
-};
-
-const StatusEntrancExamsSelect = (props) => (
-  <BaseControl
-    {...{
-      components,
-      formParams,
-      ...props,
-    }}
-  />
-);
-
-export default StatusEntrancExamsSelect;

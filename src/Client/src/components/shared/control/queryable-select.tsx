@@ -6,13 +6,22 @@ import { ViewControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 
-const ViewControl: React.FC<ViewControlProps> = ({ dataById, formParams }) => {
-  const { labelKey } = formParams;
+// const ViewControl: React.FC<ViewControlProps> = ({ dataById, formParams }) => {
+//   const { labelKey } = formParams;
 
-  return <Text>{dataById?.[labelKey]}</Text>;
+//   return <Text>{dataById?.[labelKey]}</Text>;
+// };
+const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
+  return <Text>{value}</Text>;
 };
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ onChange, placeholder, formParams, dataById, allData }) => {
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({
+  onChange,
+  placeholder,
+  formParams,
+  dataById,
+  allData,
+}) => {
   const { key, labelKey } = formParams;
 
   return (
@@ -54,5 +63,17 @@ const formParams: FormParams = {
 };
 
 export const QueryableSelect: React.FC<MultimodeControlProps> = (props) => {
-  return <MultimodeControl {...props} placeholder={'Выберите значение'} controlMap={controlMap} formParams={formParams} />;
+  const { dataById } = props;
+  const { labelKey } = formParams;
+  const value = dataById?.[labelKey];
+
+  return (
+    <MultimodeControl
+      {...props}
+      value={value}
+      placeholder={'Выберите значение'}
+      controlMap={controlMap}
+      formParams={formParams}
+    />
+  );
 };

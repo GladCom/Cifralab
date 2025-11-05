@@ -7,10 +7,10 @@ import { ViewControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 const keyValueMap: Record<string, string> = {
-  'false': 'нет',
-  'true': 'да',
-  'null': 'не указано',
-  'undefined': 'не указано',
+  false: 'нет',
+  true: 'да',
+  null: 'не указано',
+  undefined: 'не указано',
 };
 
 const ViewControl: React.FC<ViewControlProps> = ({ value }) => {

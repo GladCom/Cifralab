@@ -50,6 +50,10 @@ export type MultimodeControlProps = {
   setValue: (value: MultimodeControlValue) => void;
   onChange: () => void;
   setDisplayMode: (mode: DisplayMode) => void;
+  //  TODO: разобраться что это за типы.
+  // dataById?: object,
+  // allData?: any,
+  // crud?: any
 };
 
 export const MultimodeControl: React.FC<MultimodeControlProps> = ({ formParams, controlParams: params, ...props }) => {

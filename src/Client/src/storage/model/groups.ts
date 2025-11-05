@@ -1,6 +1,6 @@
-import StringControl from '../../components/shared/business/common/string-control';
-import Date from '../../components/shared/business/common/date';
-import EducationProgramSelect from '../../components/shared/business/selects/education-program-select';
+import { DateControl } from '../../components/shared/control/date-control';
+import { EducationProgramSelect } from '../../components/shared/control/selects/education-program-select';
+import { StringControl } from '../../components/shared/control/string-control';
 
 const model = {
   name: {
@@ -13,11 +13,11 @@ const model = {
   },
   startDate: {
     name: 'Дата начала',
-    type: Date,
+    type: DateControl,
   },
   endDate: {
     name: 'Дата окончания',
-    type: Date,
+    type: DateControl,
   },
 };
 

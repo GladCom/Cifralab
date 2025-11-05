@@ -1,5 +1,5 @@
 import { Rule } from 'antd/es/form';
-import config from '../../../../storage/catalog-config/kind-education-program';
+import config from '../../../../storage/catalog-config/student';
 import { DefaultEditableViewControl, DefaultViewControl } from '../multi-mode-control/default-controls';
 import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
 import { EditorFormItemSelectControl } from './common/editor-form-item-select-control';
@@ -27,11 +27,11 @@ const rules: Rule[] = [
 
 const formParams: FormParams = {
   key: 'defaultKey!',
-  labelKey: 'name',
-  name: 'Вид программы',
+  labelKey: 'fullName',
+  name: 'Обучающийся',
   rules,
 };
 
-export const KindEducationProgramSelect: React.FC<MultimodeControlProps> = (props) => {
+export const StudentSelect: React.FC<MultimodeControlProps> = (props) => {
   return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
 };

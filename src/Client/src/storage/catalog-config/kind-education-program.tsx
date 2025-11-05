@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/kind-education-program-crud';
-import kindEducationProgramModel from '../models/kind-education-program';
+import kindEducationProgramModel from '../model/kind-education-program';
 
 export default {
   detailsLink: 'kindEducationProgram',

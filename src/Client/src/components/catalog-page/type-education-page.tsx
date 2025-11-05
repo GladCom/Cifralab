@@ -1,6 +1,5 @@
-import React from 'react';
 import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-configs/type-education';
+import config from '../../storage/catalog-config/type-education';
 import Catalog from '../shared/catalog-provider/catalog';
 
 const TypeEducationPage = () => {

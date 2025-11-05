@@ -61,14 +61,14 @@ const formParams: FormParams = {
 };
 
 export const DateTimeControl: React.FC<MultimodeControlProps> = (props) => {
-      const { formParams: externalFormParams, ...restProps } = props;
+  const { formParams: externalFormParams, ...restProps } = props;
 
-    // Такой финт нужен для переопределения formParams при переиспользовании компонента.
-    const finalFormParams = _.merge(
-      {},
-      formParams, // база
-      externalFormParams // переопределения
-    );
+  // Такой финт нужен для переопределения formParams при переиспользовании компонента.
+  const finalFormParams = _.merge(
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
 
-    return <MultimodeControl {...restProps} controlMap={controlMap} formParams={finalFormParams} />;
+  return <MultimodeControl {...restProps} controlMap={controlMap} formParams={finalFormParams} />;
 };

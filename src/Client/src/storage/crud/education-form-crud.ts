@@ -5,7 +5,7 @@ import {
   useAddEducationFormMutation,
   useEditEducationFormMutation,
   useRemoveEducationFormMutation,
-} from '../services/education-form-api';
+} from '../service/education-form-api';
 
 export {
   useGetEducationFormQuery as useGetAllAsync,

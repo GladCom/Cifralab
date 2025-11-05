@@ -32,4 +32,6 @@ const formParams: FormParams = {
   rules: rules,
 };
 
-export const Snils: React.FC<MultimodeControlProps> = (props) => <MultimodeControl {...props} formParams={formParams} />;
+export const Snils: React.FC<MultimodeControlProps> = (props) => (
+  <MultimodeControl {...props} formParams={formParams} />
+);

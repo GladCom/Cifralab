@@ -10,7 +10,14 @@ const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, on
   const numericValue = value != null ? Number(value) : undefined;
 
   return (
-    <InputNumber key={key} min={1} max={10000} defaultValue={numericValue} onChange={onChange} style={{ minWidth: '100px' }} />
+    <InputNumber
+      key={key}
+      min={1}
+      max={10000}
+      defaultValue={numericValue}
+      onChange={onChange}
+      style={{ minWidth: '100px' }}
+    />
   );
 };
 

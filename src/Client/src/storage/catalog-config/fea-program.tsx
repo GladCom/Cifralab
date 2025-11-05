@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/fea-program-crud';
-import feaProgramModel from '../models/fea-program';
+import feaProgramModel from '../model/fea-program';
 
 export default {
   detailsLink: 'feaProgram',

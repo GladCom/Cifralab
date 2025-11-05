@@ -1,12 +1,13 @@
-import StringControl from '../../components/shared/business/common/string-control';
-import YesNo from '../../components/shared/business/yes-no';
-import Cost from '../../components/shared/business/cost';
-import HoursCount from '../../components/shared/business/hours-count';
-import FEAProgramSelect from '../../components/shared/business/selects/fea-program-select';
-import EducationFormSelect from '../../components/shared/business/selects/education-form-select';
-import KindDocumentRiseQualificationSelect from '../../components/shared/business/selects/kind-document-rise-qualification-select';
-import KindEducationProgramSelect from '../../components/shared/business/selects/kind-education-program-select';
-import FinancingTypeSelect from '../../components/shared/business/selects/financing-type-select';
+import { Cost } from '../../components/shared/control/cost';
+import { HoursCount } from '../../components/shared/control/hours-count';
+import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
+import { FEAProgramSelect } from '../../components/shared/control/selects/fea-program-select';
+import { FinancingTypeSelect } from '../../components/shared/control/selects/financing-type-select';
+import { KindDocumentRiseQualificationSelect } from '../../components/shared/control/selects/kind-document-rise-qualification-select';
+import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
+import { StringControl } from '../../components/shared/control/string-control';
+import { YesNoControl } from '../../components/shared/control/yes-no-control';
+
 
 const model = {
   name: { name: 'Программа обучения', type: StringControl, show: true, required: true },
@@ -20,15 +21,15 @@ const model = {
     show: true,
     required: true,
   },
-  isModularProgram: { name: 'Модульная программа', type: YesNo, show: true, required: true },
+  isModularProgram: { name: 'Модульная программа', type: YesNoControl, show: true, required: true },
   feaProgramId: { name: 'ВЭД программы', type: FEAProgramSelect, show: true, required: true },
   financingTypeId: { name: 'Источник финансирования', type: FinancingTypeSelect, show: true, required: true },
-  isCollegeProgram: { name: 'Обязательно наличие ВО', type: YesNo, show: true, required: true },
-  isNetworkProgram: { name: 'Сетевая форма', type: YesNo, show: true, required: true },
-  isDOTProgram: { name: 'Применение ДОТ', type: YesNo, show: true, required: true },
-  isFullDOTProgram: { name: 'Применение ДОТ полностью', type: YesNo, show: true, required: true },
+  isCollegeProgram: { name: 'Обязательно наличие ВО', type: YesNoControl, show: true, required: true },
+  isNetworkProgram: { name: 'Сетевая форма', type: YesNoControl, show: true, required: true },
+  isDOTProgram: { name: 'Применение ДОТ', type: YesNoControl, show: true, required: true },
+  isFullDOTProgram: { name: 'Применение ДОТ полностью', type: YesNoControl, show: true, required: true },
   qualificationName: { name: 'Наименование квалификации', type: StringControl, show: true, required: true },
-  isArchive: { name: 'В архиве', type: YesNo, show: true, required: true },
+  isArchive: { name: 'В архиве', type: YesNoControl, show: true, required: true },
 };
 
 export default model;

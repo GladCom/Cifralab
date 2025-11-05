@@ -1,5 +1,5 @@
 import Catalog from '../shared/catalog-provider/catalog';
-import config from '../../storage/catalog-configs/education-form';
+import config from '../../storage/catalog-config/education-form';
 import { Layout } from '../shared/layout';
 
 const EducationFormPage = () => {

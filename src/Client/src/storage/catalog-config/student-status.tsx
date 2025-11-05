@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/student-status-crud';
-import { studentStatusModel } from '../models/index';
+import { studentStatusModel } from '../model/index';
 
 export default {
   detailsLink: 'studentStatus',

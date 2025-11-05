@@ -1,39 +1,37 @@
-import React from 'react';
-import _ from 'lodash';
-import QueryableSelect from '../common/queryable-select';
-import config from '../../../../storage/catalog-configs/fea-program';
+import { Rule } from 'antd/es/form';
+import config from '../../../../storage/catalog-config/fea-program';
+import { DefaultEditableViewControl, DefaultViewControl } from '../multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
+import { EditorFormItemSelectControl } from './common/editor-form-item-select-control';
+import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 
-const defaultRules = [
+const CommonEditorFormItemControl: React.FC<EditableControlProps> = (props) => {
+  const { crud } = config;
+
+  return <EditorFormItemSelectControl {...props} crud={crud} />;
+};
+
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
+};
+
+const rules: Rule[] = [
   {
     required: true,
     message: 'Необходимо заполнить это поле',
   },
 ];
 
-const defaultFormParams = {
+const formParams: FormParams = {
+  key: 'defaultKey!',
   labelKey: 'name',
   name: 'ВЭД программа',
-  normalize: (value) => value,
-  rules: defaultRules,
+  rules,
 };
 
-const FEAProgramSelect = ({ value, formParams, ...props }) => {
-  const { crud } = config;
-  const { useGetOneByIdAsync, useGetAllAsync } = crud;
-  const { data: dataById } = useGetOneByIdAsync(value);
-  const { data: allData } = useGetAllAsync();
-
-  return (
-    <QueryableSelect
-      {...{
-        ...props,
-        dataById: dataById || {},
-        allData: allData || [],
-        crud: config.crud,
-        formParams: _.merge({}, defaultFormParams, formParams),
-      }}
-    />
-  );
+export const FEAProgramSelect: React.FC<MultimodeControlProps> = (props) => {
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
 };
-
-export default FEAProgramSelect;

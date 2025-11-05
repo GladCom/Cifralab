@@ -14,7 +14,8 @@ export type BaseControlParams = {
   displayOptions: Record<DisplayMode, boolean>;
 };
 
-export type FormParams = FormItemProps & { key: string };
+// TODO: возможно никакой labelKey тут и не нужен, вместо него в select использовать key?
+export type FormParams = FormItemProps & { key: string; labelKey?: string };
 
 export type MultimodeControlValue = boolean | number | string | null | undefined;
 

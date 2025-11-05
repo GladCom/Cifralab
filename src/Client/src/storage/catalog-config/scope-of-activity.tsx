@@ -1,4 +1,4 @@
-import React from 'react';
+import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,
@@ -7,10 +7,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/scope-of-activity-crud';
-import scopeOfActivityModel from '../models/scope-of-activity';
-import ScopeOfActivitySelect from '../../components/shared/business/selects/scope-of-activity-select';
-
-const iconStyle = { marginRight: '5px' };
+import scopeOfActivityModel from '../model/scope-of-activity';
 
 export default {
   detailsLink: 'scopeOfActivity',

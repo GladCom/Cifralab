@@ -1,4 +1,4 @@
-import StringControl from '../../components/shared/business/common/string-control';
+import { StringControl } from '../../components/shared/control/string-control';
 
 const rules = [
   {

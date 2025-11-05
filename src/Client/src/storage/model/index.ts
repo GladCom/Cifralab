@@ -9,7 +9,7 @@ import kindOrderModel from './kind-order';
 import personRequestsModel from './person-requests';
 import requestStatusModel from './request-status';
 import scopeOfActivityModel from './scope-of-activity';
-import studentsModel from './students';
+import studentsModel from './student';
 import studentStatusModel from './student-status';
 import typeEducationModel from './type-education';
 

@@ -5,7 +5,7 @@ import {
   useAddscopeOfActivityMutation,
   useEditscopeOfActivityMutation,
   useRemovescopeOfActivityMutation,
-} from '../services/scope-of-activity-api';
+} from '../service/scope-of-activity-api';
 
 export {
   useGetscopeOfActivityQuery as useGetAllAsync,

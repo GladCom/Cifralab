@@ -1,6 +1,5 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions as userActions } from '../../../storage/slices/user-slice';
+import { actions as userActions } from '../../../storage/slice/user-slice';
 import Logo from './logo';
 import { Flex, Layout, Button, Typography } from 'antd';
 
