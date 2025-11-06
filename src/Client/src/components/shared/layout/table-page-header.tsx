@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Flex, Button, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import AddOneForm from '../catalog-provider/forms/add-one-form';
+import InputFilter from "@components/shared/filters/input-filter";
 
 const style = {
   height: '7vh',
@@ -9,11 +10,11 @@ const style = {
   padding: '1vh',
 };
 
-const TablePageHeader = ({ config, title, query, setQuery }) => {
+const TablePageHeader = ({ config, title, setQuery }) => {
   const { properties, crud } = config;
   const [showAddOneForm, setShowAddOneForm] = useState(false);
 
-  const handleSearch = (searchValue) => {
+  const handleSearch = (searchValue: string) => {
     setQuery(prevQuery => {
       const newQuery = { ...prevQuery };
 
@@ -22,7 +23,6 @@ const TablePageHeader = ({ config, title, query, setQuery }) => {
       } else {
         delete newQuery.name;
       }
-
       return newQuery;
     });
   };
@@ -33,9 +33,7 @@ const TablePageHeader = ({ config, title, query, setQuery }) => {
         <Flex justify="left" align="center" style={{ width: '90%' }}>
           <h3 style={{ margin: '2vh', fontSize: '1.5rem' }}>{title}</h3>
         </Flex>
-        <Flex>
-          <Input.Search placeholder="" allowClear onSearch={handleSearch} style={{ width: 300 }} />
-        </Flex>
+        <InputFilter placeholder={''} onChange={handleSearch} />
         <Flex justify="center" align="center" style={{ width: '10%' }}>
           <Button type="primary" onClick={() => setShowAddOneForm(true)}>
             <PlusOutlined />

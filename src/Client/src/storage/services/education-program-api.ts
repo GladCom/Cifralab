@@ -9,7 +9,9 @@ export const educationProgramApi = createApi({
       query: () => '',
     }),
     getEducationProgramPaged: builder.query({
-      query: () => '', //  TODO: Переделать
+      query: (filter: object) => {
+        return `?${filter.filterDataReq.toString()}`; //TODO: Переделать
+      },
       providesTags: ['EducationProgram'],
     }),
     getEducationProgramById: builder.query({
