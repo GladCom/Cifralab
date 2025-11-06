@@ -10,18 +10,55 @@ import Email from '../../components/shared/business/common/email';
 import PhoneNumber from '../../components/shared/business/phone-number';
 import DateTimeView from '../../components/shared/business/date-time-view';
 
+
 const model = {
   family: {
     name: 'Фамилия',
     type: String,
+    formParams: {
+      rules: [
+        {
+          required: true,
+          message: 'Необходимо заполнить фамилию',
+        },
+        {
+          pattern: /^[А-Яа-яЁё]+(-[А-Яа-яЁё]+)?$/,
+          message: 'Фамилия должна содержать только символы кириллицы',
+        },
+      ],
+    },
   },
   name: {
     name: 'Имя',
     type: String,
+    formParams: {
+      rules: [
+        {
+          required: true,
+          message: 'Необходимо заполнить имя',
+        },
+        {
+          pattern: /^[А-Яа-яЁё]+(-[А-Яа-яЁё]+)?$/,
+          message: 'Имя должно содержать только символы кириллицы',
+        },
+      ],
+    },
   },
   patron: {
     name: 'Отчество',
     type: String,
+    formParams: {
+      rules: [
+        {
+          required: true,
+          message: 'Необходимо заполнить отчество',
+        },
+        {
+          pattern: /^[А-Яа-яЁё]+(-[А-Яа-яЁё]+)?$/,
+          message: 'Отчество должно содержать только символы кириллицы',
+        },
+      ],
+    },
   },
   dateOfCreate: {
     name: 'Дата и время заявки',
