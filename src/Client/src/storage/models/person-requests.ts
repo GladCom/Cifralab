@@ -67,21 +67,6 @@ const model = {
     name: 'E-mail',
     type: Email,
   },
-  scopeOfActivityLevelOneId: {
-    name: 'Сфера деятельности уровень 1',
-    type: ScopeOfActivitySelect,
-  },
-  scopeOfActivityLevelTwoId: {
-    name: 'Сфера деятельности уровень 2',
-    type: ScopeOfActivitySelect,
-    formParams: {
-      rules: [
-        {
-          required: false,
-        },
-      ],
-    },
-  },
   agreement: {
     name: 'Согласие на обработку перс. даннных',
     type: CheckBox,
