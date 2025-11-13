@@ -5,12 +5,14 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { config } from 'dotenv';
 import webpack from 'webpack';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 config();
 
 // Получаем __dirname в ES модулях
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const projectRoot = process.cwd();
 
 export default (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -129,6 +131,14 @@ export default (env, argv) => {
       new HtmlWebpackPlugin({
         template: './index.html',
         favicon: './src/assets/favicon.ico',
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.join(projectRoot, 'public/manifest.json'),
+            to: 'manifest.json',
+          },
+        ],
       }),
       new webpack.DefinePlugin({
         'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL),
