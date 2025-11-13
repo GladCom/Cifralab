@@ -50,38 +50,50 @@ export type MultimodeControlProps = {
   setValue?: (value: MultimodeControlValue) => void;
   onChange?: () => void;
   setDisplayMode?: (mode: DisplayMode) => void;
-  //  TODO: разобраться что это за типы.
-  // dataById?: object,
-  // allData?: any,
-  // crud?: any
 };
 
 export const MultimodeControl: React.FC<MultimodeControlProps> = ({ formParams, controlParams: params, ...props }) => {
-  const { controlMap, controlWrapperMap, displayMode, value, setValue } = props;
-  const [currentDisplayMode, setCurrentDisplayMode] = useState<DisplayMode>(displayMode);
+  const { controlMap, controlWrapperMap, displayMode, value, setValue, onChange } = props;
+  const [currentDisplayMode, setCurrentDisplayMode] = useState<DisplayMode>(displayMode || DisplayMode.VIEW);
   const [isChanged, setIsChanged] = useState(false);
 
   const handleSetValue = useCallback(
     (newValue: MultimodeControlValue) => {
       setIsChanged(newValue !== value);
-      setValue(newValue);
+
+      if (setValue) {
+        setValue(newValue);
+      }
     },
     [value, setValue],
   );
 
-  const ControlByMode = { ...defaultControlByModeMap, ...controlMap }[currentDisplayMode] ?? DefaultViewControl;
-  const BaseControlWrapperByMode =
-    { ...defaultControlWrapperByModeMap, ...controlWrapperMap }[currentDisplayMode] ?? ViewWrapper;
+  const handleOnChange = useCallback(() => {
+    //  TODO Показыкать уведомение?
+
+    if (onChange) {
+      onChange();
+    }
+  }, [onChange]);
+
+  const resultWrapperMap = { ...defaultControlWrapperByModeMap, ...controlWrapperMap };
+  const resultControlMap = { ...defaultControlByModeMap, ...controlMap };
+  const ControlByMode = resultControlMap[currentDisplayMode] ?? DefaultViewControl;
+  const BaseControlWrapperByMode = resultWrapperMap[currentDisplayMode] ?? ViewWrapper;
 
   return (
     <BaseControlWrapperByMode
       {...props}
       Control={ControlByMode}
-      setValue={handleSetValue}
-      setDisplayMode={setCurrentDisplayMode}
+      controlMap={resultControlMap}
+      controlWrapperMap={resultWrapperMap}
+      value={value}
       isChanged={isChanged}
       controlParams={_.merge({}, defaultControlParams, params)}
       formParams={_.merge({}, defaultFormParams, formParams)}
+      setValue={handleSetValue}
+      onChange={handleOnChange}
+      setDisplayMode={setCurrentDisplayMode}
     />
   );
 };

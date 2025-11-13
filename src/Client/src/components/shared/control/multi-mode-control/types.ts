@@ -1,7 +1,7 @@
 import { ComponentType } from 'react';
 import { EditableViewControlProps, ViewControlProps } from './default-controls';
 import { FormItemProps } from 'antd';
-import { MultimodeControlProps } from './multi-mode-control';
+import { MultimodeWrapperControlProps } from './default-control-wrappers';
 
 export enum DisplayMode {
   VIEW = 'viewMode',
@@ -26,7 +26,7 @@ export type ControlByModeMap = {
   editorMode?: ComponentType<EditableControlProps>;
 };
 
-export type ControlWrapperByModeMap = Record<DisplayMode, ComponentType<MultimodeControlProps>>;
+export type ControlWrapperByModeMap = Record<DisplayMode, ComponentType<MultimodeWrapperControlProps>>;
 
 export type EditableControlProps = {
   value: MultimodeControlValue;

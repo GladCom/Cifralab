@@ -1,16 +1,40 @@
 import { Typography, Form, Button, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
-import { MultimodeControlValue, ControlWrapperByModeMap, DisplayMode } from './types';
-import { MultimodeControlProps } from './multi-mode-control';
+import {
+  MultimodeControlValue,
+  ControlWrapperByModeMap,
+  DisplayMode,
+  ControlByModeMap,
+  BaseControlParams,
+  FormParams,
+} from './types';
+import { ComponentType } from 'react';
 
 const { Text } = Typography;
 const ChangeSymbol = () => <Text>* </Text>;
 
-export const ViewWrapper: React.FC<MultimodeControlProps> = ({ Control, value }) => {
+export type MultimodeWrapperControlProps = {
+  //  TODO: если поставить вместо any - MultiControlProps, то возникает ошибка, подумать над этим.
+  Control: ComponentType<any>;
+  controlMap: ControlByModeMap;
+  controlWrapperMap: ControlWrapperByModeMap;
+  value: MultimodeControlValue;
+  defaultValue?: MultimodeControlValue;
+  placeholder?: string;
+  displayMode?: DisplayMode;
+  isChanged: boolean;
+  controlParams: BaseControlParams;
+  formParams: FormParams;
+  setValue: (value: MultimodeControlValue) => void;
+  onChange: () => void;
+  setDisplayMode: (mode: DisplayMode) => void;
+};
+
+export const ViewWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, value }) => {
   return <Control value={value} />;
 };
 
-export const EditableViewWrapper: React.FC<MultimodeControlProps> = ({ Control, ...props }) => {
+export const EditableViewWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
   const { isChanged: changed, setDisplayMode } = props;
 
   return (
@@ -27,7 +51,7 @@ export const EditableViewWrapper: React.FC<MultimodeControlProps> = ({ Control, 
   );
 };
 
-export const EditorWrapper: React.FC<MultimodeControlProps> = ({ Control, ...props }) => {
+export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
   const { value, formParams, setValue, setDisplayMode } = props;
   const { key, rules, normalize, hasFeedback } = formParams;
 
@@ -74,7 +98,7 @@ export const EditorWrapper: React.FC<MultimodeControlProps> = ({ Control, ...pro
   );
 };
 
-export const FormItemWrapper: React.FC<MultimodeControlProps> = ({ Control, ...props }) => {
+export const FormItemWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
   const { value, formParams, controlParams: params } = props;
   const { key, name, normalize, hasFeedback, rules } = formParams;
   const { displayOptions } = params;

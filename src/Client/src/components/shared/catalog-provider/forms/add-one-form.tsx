@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Form } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
 
