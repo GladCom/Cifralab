@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ComponentType } from 'react';
 import { Modal, Form } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
+import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
 
 const EditForm = ({ item, control, config, refetch }) => {
   const { id } = item;
@@ -55,13 +56,13 @@ const EditForm = ({ item, control, config, refetch }) => {
       )}
     >
       {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
-        const Item = type;
+        const Item: ComponentType<MultimodeControlProps> = type;
 
         return (
           <Item
             key={key}
             value={itemData[key]}
-            params={params}
+            controlParams={params}
             formParams={{ key, name, ...formParams }}
             displayMode={DisplayMode.FORM_ITEM}
             setValue={(value) => {

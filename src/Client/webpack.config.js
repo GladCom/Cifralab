@@ -155,6 +155,6 @@ export default (env, argv) => {
       hot: true,
       open: true,
     },
-    devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
   };
 };

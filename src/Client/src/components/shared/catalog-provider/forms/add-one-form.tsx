@@ -1,5 +1,7 @@
 import { Modal, Form } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
+import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
+import { ComponentType } from 'react';
 
 const AddOneForm = ({ control, properties, crud }) => {
   const { useAddOneAsync } = crud;
@@ -41,12 +43,12 @@ const AddOneForm = ({ control, properties, crud }) => {
       )}
     >
       {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
-        const Item = type;
+        const Item: ComponentType<MultimodeControlProps> = type;
 
         return (
           <Item
             key={key}
-            params={params}
+            controlParams={params}
             formParams={{ key, name, ...formParams }}
             displayMode={DisplayMode.FORM_ITEM}
             setValue={(value) => {
