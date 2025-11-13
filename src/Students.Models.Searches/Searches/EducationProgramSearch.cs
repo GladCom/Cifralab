@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Students.Models.Searches.Searches
 {
@@ -10,7 +6,21 @@ namespace Students.Models.Searches.Searches
   {
     public override Predicate<EducationProgram> GetSearchPredicate()
     {
-      throw new NotImplementedException();
+      if (string.IsNullOrWhiteSpace(this.Query))
+        return _ => true;
+      var lower = this.Query.Trim().ToLower();
+      return (program) => program.Name.ToLower().Contains(lower);
+    }
+
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    public EducationProgramSearch()
+    {
+      this.SearchProperties = new List<string>
+      {
+        nameof(EducationProgram.Name)
+      };
     }
   }
 }
