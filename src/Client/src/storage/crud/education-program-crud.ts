@@ -7,6 +7,7 @@ import {
   useAddEducationProgramMutation,
   useEditEducationProgramMutation,
   useRemoveEducationProgramMutation,
+  useGetEducationProgramSearchQuery
 } from '../services/education-program-api';
 
 const useEditOneAsync = () => {
@@ -37,4 +38,5 @@ export {
   useAddEducationProgramMutation as useAddOneAsync,
   useEditOneAsync,
   useRemoveEducationProgramMutation as useRemoveOneAsync,
+  useGetEducationProgramSearchQuery as useSearchAsync,
 };

@@ -10,7 +10,7 @@ const style = {
   padding: '1vh',
 };
 
-const TablePageHeader = ({ config, title }) => {
+const TablePageHeader = ({ config, title, onSearch }) => {
   const { properties, crud, searchPlaceholder } = config;
   const [showAddOneForm, setShowAddOneForm] = useState(false);
 
@@ -25,7 +25,12 @@ const TablePageHeader = ({ config, title }) => {
         <h3 style={styles.title}>{title}</h3>
 
         <Flex justify="flex-end" align="center" gap={8}>
-          {searchPlaceholder && <SearchInput placeholder={searchPlaceholder} />}
+          {searchPlaceholder && (
+            <SearchInput
+              placeholder={searchPlaceholder}
+              onSearch={onSearch}
+            />
+          )}
           <Button type="primary" onClick={() => setShowAddOneForm(true)}>
             <PlusOutlined />
             добавить
