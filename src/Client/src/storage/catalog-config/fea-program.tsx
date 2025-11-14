@@ -6,13 +6,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/fea-program-crud';
-import feaProgramModel from '../model/fea-program';
+import { feaProgramFormModel } from '../model/fea-program';
 
 export default {
   detailsLink: 'feaProgram',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: feaProgramModel,
+  properties: feaProgramFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

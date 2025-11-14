@@ -9,8 +9,9 @@ import { EducationTypeSelect } from '../../components/shared/control/selects/edu
 import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
 import { StatusEntrancExamsSelect } from '../../components/shared/control/selects/status-entranc-exams-select';
 import { StringControl } from '../../components/shared/control/string-control';
+import { FormModel } from './types';
 
-const model = {
+export const personRequestFormModel: FormModel = {
   family: {
     name: 'Фамилия',
     type: StringControl,
@@ -75,6 +76,7 @@ const model = {
     name: 'Сфера деятельности уровень 2',
     type: ScopeOfActivitySelect,
     formParams: {
+      key: 'ScopeOfActivitySelect2Key',
       rules: [
         {
           required: false,
@@ -87,5 +89,3 @@ const model = {
     type: CheckBox,
   },
 };
-
-export default model;

@@ -8,10 +8,10 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/education-form-crud';
-import { educationProgramsModel } from '../model/index';
 import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
 import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
 import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
+import { educationProgramFormModel } from '../model/education-programs';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
 const IsArchive = ({ record }) => {
@@ -42,7 +42,7 @@ export default {
   detailsLink: 'educationProgram',
   hasDetailsPage: true,
   serverPaged: false,
-  properties: educationProgramsModel,
+  properties: educationProgramFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

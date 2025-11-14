@@ -1,7 +1,17 @@
 import { StringControl } from '../../components/shared/control/string-control';
+import { FormModel } from './types';
 
-const model = {
-  name: { name: 'Вид программы', type: StringControl, show: true, required: true },
+export const kindEducationProgramFormModel: FormModel = {
+  name: {
+    name: 'Вид программы',
+    type: StringControl,
+    formParams: {
+      key: 'nameKey',
+      rules: [
+        {
+          required: true,
+        },
+      ],
+    },
+  },
 };
-
-export default model;

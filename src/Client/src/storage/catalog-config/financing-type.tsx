@@ -6,13 +6,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/financing-type-crud';
-import financingTypeModel from '../model/financing-type';
+import { financingTypeFormModel } from '../model/financing-type';
 
 export default {
   detailsLink: 'financingType',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: financingTypeModel,
+  properties: financingTypeFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

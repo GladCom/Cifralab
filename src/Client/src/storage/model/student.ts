@@ -3,14 +3,16 @@ import { Age } from '../../components/shared/control/age';
 import { BirthDate } from '../../components/shared/control/birth-date';
 import { Email } from '../../components/shared/control/email';
 import { Gender } from '../../components/shared/control/gender';
+import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 import { PhoneNumber } from '../../components/shared/control/phone-number';
 import { EducationTypeSelect } from '../../components/shared/control/selects/education-type-select';
 import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
 import { Snils } from '../../components/shared/control/snils';
 import { StringControl } from '../../components/shared/control/string-control';
 import { YesNoControl } from '../../components/shared/control/yes-no-control';
+import { FormModel } from './types';
 
-const model = {
+export const studentFormModel: FormModel = {
   family: {
     name: 'Фамилия',
     type: StringControl,
@@ -35,15 +37,19 @@ const model = {
     name: 'Возраст',
     type: Age,
     formParams: {
+      key: 'AgeKey',
       rules: [
         {
           required: false,
         },
       ],
     },
-    params: {
-      show: {
-        form: false,
+    controlParams: {
+      displayOptions: {
+        [DisplayMode.FORM_ITEM]: false,
+        [DisplayMode.VIEW]: true,
+        [DisplayMode.EDITABLE_VIEW]: true,
+        [DisplayMode.EDITOR]: true,
       },
     },
   },
@@ -83,6 +89,7 @@ const model = {
     name: 'Сфера деятельности ур.2',
     type: ScopeOfActivitySelect,
     formParams: {
+      key: 'ScopeOfActivitySelect2',
       rules: [
         {
           required: false,
@@ -106,14 +113,4 @@ const model = {
     name: 'ОВЗ',
     type: YesNoControl,
   },
-  // projects: {
-  //     name: 'Проекты',
-  //     type: String,
-  // },
-  // iT_Experience: {
-  //     name: 'Опыт в IT',
-  //     type: String,
-  // },
 };
-
-export default model;

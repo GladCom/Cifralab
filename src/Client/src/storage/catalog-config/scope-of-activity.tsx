@@ -8,13 +8,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/scope-of-activity-crud';
-import scopeOfActivityModel from '../model/scope-of-activity';
+import { scopeOfActivityFormModel } from '../model/scope-of-activity';
 
 export default {
   detailsLink: 'scopeOfActivity',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: scopeOfActivityModel,
+  properties: scopeOfActivityFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

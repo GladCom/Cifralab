@@ -6,13 +6,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/kind-education-program-crud';
-import { kindOrderModel } from '../model/index';
+import { kindOrderFormModel } from '../model/kind-order';
 
 export default {
   detailsLink: 'kindOrder',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: kindOrderModel,
+  properties: kindOrderFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

@@ -6,13 +6,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/education-form-crud';
-import { educationFormModel } from '../model/index';
+import { educationFormFormModel } from '../model/education-form';
 
 export default {
   detailsLink: 'educationForm',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: educationFormModel,
+  properties: educationFormFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,
