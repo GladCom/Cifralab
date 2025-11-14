@@ -19,6 +19,7 @@ export const kindDocumentRiseQualificationApi = createApi({
     }),
     addKindDocumentRiseQualification: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

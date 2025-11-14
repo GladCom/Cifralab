@@ -19,6 +19,7 @@ export const feaProgramApi = createApi({
     }),
     addFEAProgram: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

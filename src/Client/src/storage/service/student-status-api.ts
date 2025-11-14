@@ -19,6 +19,7 @@ export const studentStatusApi = createApi({
     }),
     addStudentStatus: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

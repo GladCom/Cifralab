@@ -19,6 +19,7 @@ export const requestStatusApi = createApi({
     }),
     addRequestStatus: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

@@ -19,6 +19,7 @@ export const kindEducationProgramApi = createApi({
     }),
     addKindEducationProgram: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

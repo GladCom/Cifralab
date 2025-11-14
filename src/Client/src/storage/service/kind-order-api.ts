@@ -19,6 +19,7 @@ export const kindOrderApi = createApi({
     }),
     addKindOrder: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

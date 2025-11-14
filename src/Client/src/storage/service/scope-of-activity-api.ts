@@ -19,6 +19,7 @@ export const scopeOfActivityApi = createApi({
     }),
     addscopeOfActivity: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),
