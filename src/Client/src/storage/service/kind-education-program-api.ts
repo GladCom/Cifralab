@@ -4,6 +4,7 @@ import apiUrl from './api-url';
 export const kindEducationProgramApi = createApi({
   reducerPath: 'kindEducationProgram',
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/kindEducationProgram` }),
+  tagTypes: ['KindEducationProgram'],
   endpoints: (builder) => ({
     getKindEducationProgram: builder.query({
       query: () => '',

@@ -4,6 +4,7 @@ import apiUrl from './api-url';
 export const financingTypeApi = createApi({
   reducerPath: 'financingType',
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/financingType` }),
+  tagTypes: ['FinancingType'],
   endpoints: (builder) => ({
     getFinancingType: builder.query({
       query: () => '',

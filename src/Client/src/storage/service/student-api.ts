@@ -5,6 +5,7 @@ export const studentsApi = createApi({
   reducerPath: 'students',
   keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/student` }), //  TODO: уточнить url
+  tagTypes: ['Students'],
   endpoints: (builder) => ({
     getStudents: builder.query({
       query: () => '',

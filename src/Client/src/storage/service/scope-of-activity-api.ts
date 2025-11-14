@@ -4,6 +4,7 @@ import apiUrl from './api-url';
 export const scopeOfActivityApi = createApi({
   reducerPath: 'scopeOfActivity',
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/scopeOfActivity` }),
+  tagTypes: ['ScopeOfActivity'],
   endpoints: (builder) => ({
     getscopeOfActivity: builder.query({
       query: () => '',
