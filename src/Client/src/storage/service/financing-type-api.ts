@@ -18,6 +18,7 @@ export const financingTypeApi = createApi({
     }),
     addFinancingType: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

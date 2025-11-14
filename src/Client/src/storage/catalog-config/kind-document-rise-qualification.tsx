@@ -6,13 +6,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/kind-document-rise-qualification-crud';
-import kindDocumentRiseQualificationModel from '../model/kind-document-rise-qualification';
+import { kindDocumentRiseQualificationFormModel } from '../model/kind-document-rise-qualification';
 
 export default {
   detailsLink: 'kindDocumentRiseQualification',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: kindDocumentRiseQualificationModel,
+  properties: kindDocumentRiseQualificationFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

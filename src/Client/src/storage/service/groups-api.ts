@@ -19,6 +19,7 @@ export const groupsApi = createApi({
     }),
     addGroup: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

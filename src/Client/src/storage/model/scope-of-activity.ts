@@ -1,7 +1,8 @@
 import { ScopeOfActivityLevel } from '../../components/shared/control/scope-of-activity-level';
 import { StringControl } from '../../components/shared/control/string-control';
+import { FormModel } from './types';
 
-const model = {
+export const scopeOfActivityFormModel: FormModel = {
   nameOfScope: {
     name: 'Сфера деятельности',
     type: StringControl,
@@ -11,5 +12,3 @@ const model = {
     type: ScopeOfActivityLevel,
   },
 };
-
-export default model;

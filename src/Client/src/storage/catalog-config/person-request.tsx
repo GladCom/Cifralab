@@ -8,11 +8,11 @@ import {
   useRemoveOneAsync,
 } from '../crud/person-request-crud';
 import { useGetRequestStatusQuery } from '../service/request-status-api';
-import { personRequestsModel } from '../model/index';
 import { Select } from 'antd';
 import { BirthDate } from '../../components/shared/control/birth-date';
 import { CheckCircleFilled } from '@ant-design/icons';
 import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
+import { personRequestFormModel } from '../model/person-request';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {
@@ -59,7 +59,7 @@ export default {
   detailsLink: 'requests',
   hasDetailsPage: true,
   serverPaged: true,
-  properties: personRequestsModel,
+  properties: personRequestFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

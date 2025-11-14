@@ -18,6 +18,7 @@ export const typeEducationApi = createApi({
     }),
     addTypeEducation: builder.mutation({
       query: (item) => ({
+        url: '',
         method: 'POST',
         body: item,
       }),

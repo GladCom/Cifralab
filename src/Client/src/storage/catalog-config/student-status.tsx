@@ -6,13 +6,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/student-status-crud';
-import { studentStatusModel } from '../model/index';
+import { studentStatusFormModel } from '../model/student-status';
 
 export default {
   detailsLink: 'studentStatus',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: studentStatusModel,
+  properties: studentStatusFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

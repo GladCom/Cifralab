@@ -6,13 +6,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/request-status-crud';
-import { requestStatusModel } from '../model/index';
+import { requestStatusFormModel } from '../model/request-status';
 
 export default {
   detailsLink: 'statusRequest',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: requestStatusModel,
+  properties: requestStatusFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

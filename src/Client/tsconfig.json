@@ -1,17 +1,21 @@
 {
   "compilerOptions": {
+    //  Настройки, влияющие на плавный переход проекта с JS на TS
+    "strict": false, // Включить все strict-опции
+    "allowJs": true, // Разрешить .js-файлы
+    "noImplicitAny": false, // Запрет неявного `any`
+    "strictNullChecks": false, // Явная проверка null/undefined
+    "noUnusedLocals": false, // Ошибка на неиспользуемые переменные
+    "noUnusedParameters": false, // Ошибка на неиспользуемые параметры
+
     "target": "ESNext", // Современный ECMAScript
     "module": "ESNext", // Использовать ES-модули
     "lib": ["DOM", "DOM.Iterable", "ESNext"], // Библиотеки для типов
     "jsx": "react-jsx", // JSX-трансформация (React 17+)
-    "strict": true, // Включить все strict-опции
     "moduleResolution": "Bundler", // Для работы с node_modules
     "esModuleInterop": true, // Упрощённый импорт CommonJS
     "skipLibCheck": true, // Пропускать проверку типов библиотек
     "forceConsistentCasingInFileNames": true, // Чувствительность к регистру в именах файлов
-    "noUnusedLocals": true, // Ошибка на неиспользуемые переменные
-    "noUnusedParameters": true, // Ошибка на неиспользуемые параметры
-    "noImplicitAny": true, // Запрет неявного `any`
     "baseUrl": "./src", // Базовый путь для импортов
     "paths": {
       "@/*": ["./*"], // Алиас @ для всех файлов в src
@@ -24,12 +28,10 @@
       "@store/*": ["store/*"], // Алиас для хранилища (Redux/Zustand)
       "@services/*": ["services/*"] // Алиас для API-сервисов
     },
-    "allowJs": true, // Разрешить .js-файлы
     "outDir": "./distWebpack", // Папка для скомпилированных файлов (если нужно)
     "isolatedModules": true, // Важно для работы с Babel/ESLint
     "allowSyntheticDefaultImports": true, // Для совместимости с CommonJS
     "resolveJsonModule": true, // Импорт JSON файлов
-    "strictNullChecks": true, // Явная проверка null/undefined
     "noFallthroughCasesInSwitch": true, // Предупреждение о break в switch
     "incremental": true, // Ускорение последующих сборок
     "plugins": [

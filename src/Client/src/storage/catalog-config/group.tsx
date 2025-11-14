@@ -8,13 +8,13 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/group-crud';
-import { groupsModel } from '../model/index';
+import { groupFormModel } from '../model/group';
 
 export default {
   detailsLink: 'group',
   hasDetailsPage: true,
   serverPaged: false,
-  properties: groupsModel,
+  properties: groupFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,
