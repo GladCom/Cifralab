@@ -4,7 +4,6 @@ import apiUrl from './api-url';
 export const studentStatusApi = createApi({
   reducerPath: 'studentStatus',
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/studentStatus` }),
-  tagTypes: ['StudentStatus'],
   endpoints: (builder) => ({
     getStudentStatus: builder.query({
       query: () => '',

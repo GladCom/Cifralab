@@ -4,7 +4,6 @@ import apiUrl from './api-url';
 export const kindDocumentRiseQualificationApi = createApi({
   reducerPath: 'kindDocumentRiseQualification',
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/kindDocumentRiseQualification` }),
-  tagTypes: ['KindDocumentRiseQualification'],
   endpoints: (builder) => ({
     getKindDocumentRiseQualification: builder.query({
       query: () => '',

@@ -4,7 +4,6 @@ import apiUrl from './api-url';
 export const educationFormApi = createApi({
   reducerPath: 'educationForm',
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/educationForm` }),
-  tagTypes: ['EducationForm'],
   endpoints: (builder) => ({
     getEducationForm: builder.query({
       query: () => '',

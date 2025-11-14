@@ -5,7 +5,6 @@ export const groupsApi = createApi({
   reducerPath: 'groups',
   keepUnusedDataFor: 30,
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/group` }),
-  tagTypes: ['Groups'],
   endpoints: (builder) => ({
     getGroups: builder.query({
       query: () => '',

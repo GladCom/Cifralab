@@ -4,7 +4,6 @@ import apiUrl from './api-url';
 export const feaProgramApi = createApi({
   reducerPath: 'fEAProgram',
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/fEAProgram` }),
-  tagTypes: ['FEAProgram'],
   endpoints: (builder) => ({
     getFEAProgram: builder.query({
       query: () => '',
