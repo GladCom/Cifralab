@@ -26,12 +26,12 @@ const rules: Rule[] = [
 ];
 
 const formParams: FormParams = {
-  key: 'defaultKey!',
+  key: 'RequestStatusSelectKey!',
   labelKey: 'name',
   name: 'Статус заявки',
   rules,
 };
 
-export const EducationStatusSelect: React.FC<MultimodeControlProps> = (props) => {
+export const RequestStatusSelect: React.FC<MultimodeControlProps> = (props) => {
   return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
 };

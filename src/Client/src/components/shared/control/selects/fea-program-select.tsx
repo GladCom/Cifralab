@@ -26,7 +26,7 @@ const rules: Rule[] = [
 ];
 
 const formParams: FormParams = {
-  key: 'defaultKey!',
+  key: 'FEAProgramSelectKey!',
   labelKey: 'name',
   name: 'ВЭД программа',
   rules,

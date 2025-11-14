@@ -24,7 +24,7 @@ const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, on
   //  Эффект нужен чтобы проинициализировать начальным значением
   useEffect(() => {
     onChange(value || false);
-  }, []);
+  }, [onChange, value]);
 
   return <Switch key={key} defaultValue={Boolean(value)} onChange={onChange} defaultChecked={Boolean(value)} />;
 };
@@ -45,7 +45,7 @@ const rules: Rule[] = [
 
 const formParams: FormParams = {
   key: 'ошибка!',
-  name: 'ошибка!',
+  name: 'Да/Нет',
   rules: rules,
 };
 

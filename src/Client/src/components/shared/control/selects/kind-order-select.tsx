@@ -26,7 +26,7 @@ const rules: Rule[] = [
 ];
 
 const formParams: FormParams = {
-  key: 'defaultKey!',
+  key: 'KindOrderSelectSelectKey!',
   labelKey: 'name',
   name: 'Тип приказа',
   rules,

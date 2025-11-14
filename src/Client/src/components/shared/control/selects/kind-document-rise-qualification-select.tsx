@@ -26,7 +26,7 @@ const rules: Rule[] = [
 ];
 
 const formParams: FormParams = {
-  key: 'defaultKey!',
+  key: 'KindDocumentRiseQualificationSelectKey!',
   labelKey: 'name',
   name: 'Вид документа повышения квалификации',
   rules,

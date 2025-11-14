@@ -18,5 +18,6 @@ const formParams: FormParams = {
 };
 
 export const BirthDate: React.FC<MultimodeControlProps> = (props) => {
+  //  TODO: Ant Design не нравится дефолтное значение.
   return <DateControl {...props} defaultValue={'1990-03-05'} formParams={formParams} />;
 };

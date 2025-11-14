@@ -43,7 +43,7 @@ const rules: Rule[] = [
 ];
 
 const formParams: FormParams = {
-  key: 'defaultKey!',
+  key: 'StatusEntrancExamsSelectKey!',
   labelKey: 'statusEntrancExams',
   name: 'Выберите значение',
   rules,

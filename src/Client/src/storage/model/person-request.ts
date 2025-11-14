@@ -70,11 +70,15 @@ const model = {
   scopeOfActivityLevelOneId: {
     name: 'Сфера деятельности уровень 1',
     type: ScopeOfActivitySelect,
+    formParams: {
+      key: 'ScopeOfActivitySelect1Key',
+    },
   },
   scopeOfActivityLevelTwoId: {
     name: 'Сфера деятельности уровень 2',
     type: ScopeOfActivitySelect,
     formParams: {
+      key: 'ScopeOfActivitySelect2Key',
       rules: [
         {
           required: false,

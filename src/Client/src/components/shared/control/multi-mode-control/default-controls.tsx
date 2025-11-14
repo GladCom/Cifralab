@@ -57,7 +57,7 @@ export const DefaultFormItemControl: React.FC<EditableControlProps> = ({
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.checked);
+      onChange(event.target.value);
     },
     [onChange],
   );
@@ -66,7 +66,7 @@ export const DefaultFormItemControl: React.FC<EditableControlProps> = ({
     <Input
       key={key}
       allowClear
-      value={String(value ?? 'Неверный тип данных')}
+      value={String(value ?? '')}
       onChange={handleChange}
       defaultValue=""
       placeholder={placeholder}

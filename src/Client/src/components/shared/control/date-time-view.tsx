@@ -20,5 +20,6 @@ const formParams: FormParams = {
 // TODO: Какое-то странное имя компонента, судя по параметрам в formParams, надо переименовать
 // и возможно перенести сам компонент куда-то.
 export const DateTimeView: React.FC<MultimodeControlProps> = (props) => {
+  //  TODO: Ant Design не нравится дефолтное значение.
   return <DateTimeControl {...props} defaultValue={'2025-03-05T00:00:00'} formParams={formParams} />;
 };

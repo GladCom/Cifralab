@@ -54,11 +54,11 @@ const rules: Rule[] = [
 ];
 
 const formParams: FormParams = {
-  key: 'name',
+  key: 'CheckBoxKey!',
   name: 'Да/Нет',
   rules,
 };
 
 export const CheckBox: React.FC<MultimodeControlProps> = (props) => (
-  <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />
+  <MultimodeControl {...props} value={false} controlMap={controlMap} formParams={formParams} />
 );

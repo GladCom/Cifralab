@@ -55,7 +55,6 @@ const rules: Rule[] = [
 const formParams: FormParams = {
   key: 'date',
   name: 'Введите дату',
-  //normalize: (value) => value,
   rules,
   hasFeedback: true,
 };
