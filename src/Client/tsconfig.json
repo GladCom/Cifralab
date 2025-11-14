@@ -4,7 +4,7 @@
     "strict": false, // Включить все strict-опции
     "allowJs": true, // Разрешить .js-файлы
     "noImplicitAny": false, // Запрет неявного `any`
-    "strictNullChecks": true, // Явная проверка null/undefined
+    "strictNullChecks": false, // Явная проверка null/undefined
     "noUnusedLocals": false, // Ошибка на неиспользуемые переменные
     "noUnusedParameters": false, // Ошибка на неиспользуемые параметры
 

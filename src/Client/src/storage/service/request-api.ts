@@ -5,6 +5,7 @@ export const requestsApi = createApi({
   reducerPath: 'personrequests',
   keepUnusedDataFor: 5, // время жизни кэша для всех эндпоинтов
   baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/Request` }), //  TODO: уточнить url
+  tagTypes: ['Requests'],
   endpoints: (builder) => ({
     getPersonRequests: builder.query({
       query: () => '',
