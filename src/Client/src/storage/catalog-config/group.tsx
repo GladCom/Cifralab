@@ -8,7 +8,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/group-crud';
-import { groupFormModel } from '../model/group';
+import { groupFormModel } from '../form-model/group';
 
 export default {
   detailsLink: 'group',

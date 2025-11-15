@@ -10,7 +10,7 @@ import {
 } from '../service/request-api';
 
 const useGetAllAsync = () => {
-  const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetPersonRequestsQuery();
+  const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetPersonRequestsQuery(undefined);
 
   return { data, isError, isSuccess, error, isLoading, isFetching, refetch };
 };
@@ -59,5 +59,5 @@ export {
   useGetPersonRequestByIdQuery as useGetOneByIdAsync,
   useAddPersonRequestMutation as useAddOneAsync,
   useEditOneAsync,
-  useRemovePersonRequestMutation as useRemoveOneAsync,
+  useRemoveOneAsync,
 };

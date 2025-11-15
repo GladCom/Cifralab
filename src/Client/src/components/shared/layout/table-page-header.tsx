@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Flex, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import AddOneForm from '../catalog-provider/forms/add-one-form';
+import { AddOneForm } from '../catalog-provider/forms/add-one-form';
 
 const style = {
   height: '7vh',
@@ -26,7 +26,7 @@ const TablePageHeader = ({ config, title }) => {
           </Button>
         </Flex>
       </Flex>
-      <AddOneForm control={{ showAddOneForm, setShowAddOneForm }} properties={properties} crud={crud} />
+      <AddOneForm visibilityControl={{ showAddOneForm, setShowAddOneForm }} formModel={properties} crud={crud} />
     </>
   );
 };

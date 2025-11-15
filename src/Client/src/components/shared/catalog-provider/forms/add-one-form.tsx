@@ -2,10 +2,20 @@ import { Modal, Form } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
 import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
 import { ComponentType } from 'react';
+import { FormModel } from '../../../../storage/form-model/types';
 
-const AddOneForm = ({ control, properties, crud }) => {
+type AddOneFormProps = {
+  visibilityControl: {
+    showAddOneForm: boolean;
+    setShowAddOneForm: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  formModel: FormModel;
+  crud: any;
+};
+
+export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formModel, crud }) => {
   const { useAddOneAsync } = crud;
-  const { showAddOneForm, setShowAddOneForm } = control;
+  const { showAddOneForm, setShowAddOneForm } = visibilityControl;
   const [addOne, { error, isLoading }] = useAddOneAsync();
   const [form] = Form.useForm();
 
@@ -42,13 +52,13 @@ const AddOneForm = ({ control, properties, crud }) => {
         </Form>
       )}
     >
-      {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
+      {Object.entries(formModel).map(([key, { name, type, formParams, controlParams }]) => {
         const Item: ComponentType<MultimodeControlProps> = type;
 
         return (
           <Item
             key={key}
-            controlParams={params}
+            controlParams={controlParams}
             formParams={{ key, name, ...formParams }}
             displayMode={DisplayMode.FORM_ITEM}
             setValue={(value) => {
@@ -62,5 +72,3 @@ const AddOneForm = ({ control, properties, crud }) => {
     </Modal>
   );
 };
-
-export default AddOneForm;

@@ -32,7 +32,7 @@ const RequestDetailsPage = () => {
   const onSave = useCallback(() => {
     editRequest({ id, item: requestData });
     setIsChanged(false);
-  }, [id, requestData]);
+  }, [editRequest, id, requestData]);
 
   const onCancel = useCallback(() => {
     setRequestData(initialData);

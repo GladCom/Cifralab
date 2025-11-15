@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/type-education-crud';
-import { typeEducationFormModel } from '../model/type-education';
+import { typeEducationFormModel } from '../form-model/type-education';
 
 export default {
   detailsLink: 'typeEducation',

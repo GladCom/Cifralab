@@ -1,22 +1,8 @@
 import config from '../../../../storage/catalog-config/education-form';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
+import { FormParams } from '../multi-mode-control/types';
 import { Rule } from 'antd/es/form';
-import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
-import { EditorFormItemSelectControl } from './common/editor-form-item-select-control';
-import { DefaultEditableViewControl, DefaultViewControl } from '../multi-mode-control/default-controls';
-
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = (props) => {
-  const { crud } = config;
-
-  return <EditorFormItemSelectControl {...props} crud={crud} />;
-};
-
-const controlMap: ControlByModeMap = {
-  [DisplayMode.VIEW]: DefaultViewControl,
-  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
-  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
-  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
-};
+import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { QueryableSelectControl } from './common/queryable-select-control';
 
 const rules: Rule[] = [
   {
@@ -33,5 +19,6 @@ const formParams: FormParams = {
 };
 
 export const EducationFormSelect: React.FC<MultimodeControlProps> = (props) => {
-  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+  const { crud } = config;
+  return <QueryableSelectControl {...props} crud={crud} formParams={formParams} />;
 };

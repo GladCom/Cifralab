@@ -8,7 +8,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/scope-of-activity-crud';
-import { scopeOfActivityFormModel } from '../model/scope-of-activity';
+import { scopeOfActivityFormModel } from '../form-model/scope-of-activity';
 
 export default {
   detailsLink: 'scopeOfActivity',

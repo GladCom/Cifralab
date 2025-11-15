@@ -1,10 +1,10 @@
 import { InputNumber } from 'antd';
 import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
   // Преобразуем значение в число, обрабатывая null/undefined
   const numericValue = value != null ? Number(value) : undefined;

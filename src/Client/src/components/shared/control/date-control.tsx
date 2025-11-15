@@ -1,19 +1,19 @@
 import React, { useCallback } from 'react';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
-import { ViewControlProps } from './multi-mode-control/default-controls';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { MultiControlProps } from './multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
 import _ from 'lodash';
 
 const { Text } = Typography;
 
-const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
+const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
   return <Text>{dayjs(String(value ?? 'Неверный тип данных')).format('DD.MM.YYYY')}</Text>;
 };
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
   defaultValue,
   onChange,
   formParams,

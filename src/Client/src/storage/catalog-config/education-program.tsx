@@ -11,7 +11,7 @@ import {
 import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
 import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
 import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
-import { educationProgramFormModel } from '../model/education-programs';
+import { educationProgramFormModel } from '../form-model/education-programs';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим
 const IsArchive = ({ record }) => {

@@ -8,7 +8,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/student-crud';
-import { studentFormModel } from '../model/student';
+import { studentFormModel } from '../form-model/student';
 
 export default {
   detailsLink: 'student',

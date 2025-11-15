@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/request-status-crud';
-import { requestStatusFormModel } from '../model/request-status';
+import { requestStatusFormModel } from '../form-model/request-status';
 
 export default {
   detailsLink: 'statusRequest',

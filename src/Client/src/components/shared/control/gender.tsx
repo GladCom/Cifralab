@@ -1,8 +1,8 @@
 import { Select, Typography } from 'antd';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import { ViewControlProps } from './multi-mode-control/default-controls';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 
@@ -17,9 +17,9 @@ const keyValueMap: Record<string, string> = {
   '': 'Выберите пол',
 };
 
-const ViewControl: React.FC<ViewControlProps> = ({ value }) => <Text>{keyValueMap[String(value ?? '')]}</Text>;
+const ViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{keyValueMap[String(value ?? '')]}</Text>;
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams, placeholder }) => {
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams, placeholder }) => {
   const { key } = formParams;
 
   return (

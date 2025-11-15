@@ -1,5 +1,5 @@
 import { useState, useCallback, ComponentType } from 'react';
-import { defaultControlByModeMap, DefaultViewControl } from './default-controls';
+import { defaultControlByModeMap, DefaultViewControl, MultiControlProps } from './default-controls';
 import _ from 'lodash';
 import {
   BaseControlParams,
@@ -36,8 +36,7 @@ const defaultControlParams: BaseControlParams = {
 };
 
 export type MultimodeControlProps = {
-  //  TODO: если поставить вместо any - MultiControlProps, то возникает ошибка, подумать над этим.
-  Control?: ComponentType<any>;
+  Control?: ComponentType<MultiControlProps>;
   controlMap?: ControlByModeMap;
   controlWrapperMap?: ControlWrapperByModeMap;
   value?: MultimodeControlValue;
@@ -47,13 +46,23 @@ export type MultimodeControlProps = {
   isChanged?: boolean;
   controlParams?: BaseControlParams;
   formParams?: FormParams;
+  crud?: any;
   setValue?: (value: MultimodeControlValue) => void;
   onChange?: () => void;
   setDisplayMode?: (mode: DisplayMode) => void;
 };
 
-export const MultimodeControl: React.FC<MultimodeControlProps> = ({ formParams, controlParams: params, ...props }) => {
-  const { controlMap, controlWrapperMap, displayMode, value, setValue, onChange } = props;
+export const MultimodeControl: React.FC<MultimodeControlProps> = (props) => {
+  const {
+    controlMap,
+    controlWrapperMap,
+    displayMode,
+    value,
+    controlParams,
+    formParams: externalFormParams,
+    setValue,
+    onChange,
+  } = props;
   const [currentDisplayMode, setCurrentDisplayMode] = useState<DisplayMode>(displayMode || DisplayMode.VIEW);
   const [isChanged, setIsChanged] = useState(false);
 
@@ -76,21 +85,27 @@ export const MultimodeControl: React.FC<MultimodeControlProps> = ({ formParams, 
     }
   }, [onChange]);
 
-  const resultWrapperMap = { ...defaultControlWrapperByModeMap, ...controlWrapperMap };
-  const resultControlMap = { ...defaultControlByModeMap, ...controlMap };
-  const ControlByMode = resultControlMap[currentDisplayMode] ?? DefaultViewControl;
-  const BaseControlWrapperByMode = resultWrapperMap[currentDisplayMode] ?? ViewWrapper;
+  const finalFormParams = _.merge(
+    {},
+    defaultFormParams, // база
+    externalFormParams, // переопределения
+  );
+
+  const finalWrapperMap = { ...defaultControlWrapperByModeMap, ...controlWrapperMap };
+  const finalControlMap = { ...defaultControlByModeMap, ...controlMap };
+  const ControlByMode = finalControlMap[currentDisplayMode] ?? DefaultViewControl;
+  const BaseControlWrapperByMode = finalWrapperMap[currentDisplayMode] ?? ViewWrapper;
 
   return (
     <BaseControlWrapperByMode
       {...props}
       Control={ControlByMode}
-      controlMap={resultControlMap}
-      controlWrapperMap={resultWrapperMap}
+      controlMap={finalControlMap}
+      controlWrapperMap={finalWrapperMap}
       value={value}
       isChanged={isChanged}
-      controlParams={_.merge({}, defaultControlParams, params)}
-      formParams={_.merge({}, defaultFormParams, formParams)}
+      controlParams={_.merge({}, defaultControlParams, controlParams)}
+      formParams={finalFormParams}
       setValue={handleSetValue}
       onChange={handleOnChange}
       setDisplayMode={setCurrentDisplayMode}

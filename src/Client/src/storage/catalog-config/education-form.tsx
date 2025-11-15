@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/education-form-crud';
-import { educationFormFormModel } from '../model/education-form';
+import { educationFormFormModel } from '../form-model/education-form';
 
 export default {
   detailsLink: 'educationForm',

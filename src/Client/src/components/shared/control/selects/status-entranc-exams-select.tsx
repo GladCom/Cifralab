@@ -1,6 +1,6 @@
 import { Select, Typography } from 'antd';
-import { ViewControlProps } from '../multi-mode-control/default-controls';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from '../multi-mode-control/types';
+import { MultiControlProps } from '../multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 
@@ -20,9 +20,9 @@ const keyValueMap = {
   3: 'Выполнено',
 };
 
-const ViewControl: React.FC<ViewControlProps> = ({ value }) => <Text>{keyValueMap[value]}</Text>;
+const ViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{keyValueMap[value]}</Text>;
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
 
   return <Select key={key} defaultValue={value} style={{ minWidth: '200px' }} options={options} onChange={onChange} />;

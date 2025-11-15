@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Switch, Typography } from 'antd';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import { ControlByModeMap, DisplayMode, EditableControlProps, FormParams } from './multi-mode-control/types';
+import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
-import { ViewControlProps } from './multi-mode-control/default-controls';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 const keyValueMap: Record<string, string> = {
@@ -13,12 +13,12 @@ const keyValueMap: Record<string, string> = {
   undefined: 'не указано',
 };
 
-const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
+const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
   const stringValue = String(value ?? 'null');
   return <Text>{keyValueMap[stringValue] || 'не указано'}</Text>;
 };
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
 
   //  Эффект нужен чтобы проинициализировать начальным значением

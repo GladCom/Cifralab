@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/financing-type-crud';
-import { financingTypeFormModel } from '../model/financing-type';
+import { financingTypeFormModel } from '../form-model/financing-type';
 
 export default {
   detailsLink: 'financingType',

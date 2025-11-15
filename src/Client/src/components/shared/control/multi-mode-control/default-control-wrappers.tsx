@@ -9,13 +9,13 @@ import {
   FormParams,
 } from './types';
 import { ComponentType } from 'react';
+import { MultiControlProps } from './default-controls';
 
 const { Text } = Typography;
-const ChangeSymbol = () => <Text>* </Text>;
+export const ChangeSymbol = () => <Text>* </Text>;
 
 export type MultimodeWrapperControlProps = {
-  //  TODO: если поставить вместо any - MultiControlProps, то возникает ошибка, подумать над этим.
-  Control: ComponentType<any>;
+  Control: ComponentType<MultiControlProps>;
   controlMap: ControlByModeMap;
   controlWrapperMap: ControlWrapperByModeMap;
   value: MultimodeControlValue;
@@ -25,6 +25,7 @@ export type MultimodeWrapperControlProps = {
   isChanged: boolean;
   controlParams: BaseControlParams;
   formParams: FormParams;
+  crud?: any;
   setValue: (value: MultimodeControlValue) => void;
   onChange: () => void;
   setDisplayMode: (mode: DisplayMode) => void;
@@ -35,11 +36,11 @@ export const ViewWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, v
 };
 
 export const EditableViewWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
-  const { isChanged: changed, setDisplayMode } = props;
+  const { isChanged, setDisplayMode } = props;
 
   return (
     <Space>
-      {changed && <ChangeSymbol />}
+      {isChanged && <ChangeSymbol />}
       <Control {...props} />
       <Button
         color="default"
@@ -52,7 +53,7 @@ export const EditableViewWrapper: React.FC<MultimodeWrapperControlProps> = ({ Co
 };
 
 export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
-  const { value, formParams, setValue, setDisplayMode } = props;
+  const { value, defaultValue, formParams, setValue, setDisplayMode } = props;
   const { key, rules, normalize, hasFeedback } = formParams;
 
   const onSubmit = (formValue: { [key: string]: MultimodeControlValue }) => {
@@ -72,7 +73,7 @@ export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control,
         key={key}
         name={key}
         //label={name}
-        initialValue={value}
+        initialValue={defaultValue}
         rules={rules}
         normalize={normalize}
         hasFeedback={hasFeedback}
@@ -80,7 +81,7 @@ export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control,
         <Control
           {...{
             ...props,
-            defaultValue: value,
+            //defaultValue: value,
           }}
         />
       </Form.Item>
@@ -98,10 +99,10 @@ export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control,
   );
 };
 
-export const FormItemWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
-  const { value, formParams, controlParams: params } = props;
+export const FormItemWrapper: React.FC<MultimodeWrapperControlProps> = (props) => {
+  const { Control, value, placeholder, crud, defaultValue, formParams, onChange, controlParams } = props;
   const { key, name, normalize, hasFeedback, rules } = formParams;
-  const { displayOptions } = params;
+  const { displayOptions } = controlParams;
   const { formItemMode } = displayOptions;
 
   return (
@@ -110,12 +111,19 @@ export const FormItemWrapper: React.FC<MultimodeWrapperControlProps> = ({ Contro
         key={key}
         name={key}
         label={name}
-        initialValue={value}
+        initialValue={defaultValue}
         rules={rules}
         normalize={normalize}
         hasFeedback={hasFeedback}
       >
-        <Control {...props} />
+        <Control
+          value={value}
+          placeholder={placeholder}
+          formParams={formParams}
+          crud={crud}
+          options={undefined}
+          onChange={onChange}
+        />
       </Form.Item>
     )
   );

@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/kind-education-program-crud';
-import { kindOrderFormModel } from '../model/kind-order';
+import { kindOrderFormModel } from '../form-model/kind-order';
 
 export default {
   detailsLink: 'kindOrder',

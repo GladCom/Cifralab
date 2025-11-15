@@ -1,24 +1,25 @@
 import { Input, Typography } from 'antd';
-import { MultimodeControlValue, ControlByModeMap, DisplayMode, EditableControlProps } from './types';
+import { MultimodeControlValue, ControlByModeMap, DisplayMode, FormParams } from './types';
 import { ChangeEvent, useCallback } from 'react';
 
 const { Text } = Typography;
 
-export type MultiControlProps = ViewControlProps | EditableViewControlProps | EditableControlProps;
-
-export type ViewControlProps = {
+export type MultiControlProps = {
   value: MultimodeControlValue;
+  defaultValue?: MultimodeControlValue;
+  placeholder?: string;
+  formParams?: FormParams;
+  crud?: any;
+  options?: any;
+  //  TODO: a точно ли тут надо передавать значение а не событие?
+  onChange?: (value: MultimodeControlValue) => void;
 };
 
-export const DefaultViewControl: React.FC<ViewControlProps> = ({ value }) => <Text>{value}</Text>;
+export const DefaultViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{value}</Text>;
 
-export type EditableViewControlProps = {
-  value: MultimodeControlValue;
-};
+export const DefaultEditableViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{value}</Text>;
 
-export const DefaultEditableViewControl: React.FC<EditableViewControlProps> = ({ value }) => <Text>{value}</Text>;
-
-export const DefaultEditorControl: React.FC<EditableControlProps> = ({
+export const DefaultEditorControl: React.FC<MultiControlProps> = ({
   value,
   onChange,
   defaultValue,
@@ -29,7 +30,7 @@ export const DefaultEditorControl: React.FC<EditableControlProps> = ({
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.checked);
+      onChange(event.target.value);
     },
     [onChange],
   );
@@ -47,12 +48,7 @@ export const DefaultEditorControl: React.FC<EditableControlProps> = ({
   );
 };
 
-export const DefaultFormItemControl: React.FC<EditableControlProps> = ({
-  value,
-  onChange,
-  formParams,
-  placeholder,
-}) => {
+export const DefaultFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams, placeholder }) => {
   const { key } = formParams;
 
   const handleChange = useCallback(

@@ -12,7 +12,7 @@ import { Select } from 'antd';
 import { BirthDate } from '../../components/shared/control/birth-date';
 import { CheckCircleFilled } from '@ant-design/icons';
 import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
-import { personRequestFormModel } from '../model/person-request';
+import { personRequestFormModel } from '../form-model/person-request';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {

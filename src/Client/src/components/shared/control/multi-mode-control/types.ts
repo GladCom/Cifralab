@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { EditableViewControlProps, ViewControlProps } from './default-controls';
+import { MultiControlProps } from './default-controls';
 import { FormItemProps } from 'antd';
 import { MultimodeWrapperControlProps } from './default-control-wrappers';
 
@@ -19,20 +19,6 @@ export type FormParams = FormItemProps & { key: string; labelKey?: string };
 
 export type MultimodeControlValue = boolean | number | string | null | undefined;
 
-export type ControlByModeMap = {
-  viewMode?: ComponentType<ViewControlProps>;
-  editableViewMode?: ComponentType<EditableViewControlProps>;
-  formItemMode?: ComponentType<EditableControlProps>;
-  editorMode?: ComponentType<EditableControlProps>;
-};
+export type ControlByModeMap = Record<DisplayMode, ComponentType<MultiControlProps>>;
 
 export type ControlWrapperByModeMap = Record<DisplayMode, ComponentType<MultimodeWrapperControlProps>>;
-
-export type EditableControlProps = {
-  value: MultimodeControlValue;
-  defaultValue: MultimodeControlValue;
-  placeholder: string;
-  formParams: FormParams;
-  //  TODO: a точно ли тут надо передавать значение а не событие?
-  onChange: (value: MultimodeControlValue) => void;
-};

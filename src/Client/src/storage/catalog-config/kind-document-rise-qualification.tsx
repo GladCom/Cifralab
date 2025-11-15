@@ -6,7 +6,7 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/kind-document-rise-qualification-crud';
-import { kindDocumentRiseQualificationFormModel } from '../model/kind-document-rise-qualification';
+import { kindDocumentRiseQualificationFormModel } from '../form-model/kind-document-rise-qualification';
 
 export default {
   detailsLink: 'kindDocumentRiseQualification',

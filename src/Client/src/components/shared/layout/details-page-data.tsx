@@ -1,6 +1,7 @@
-import React from 'react';
+import { ComponentType } from 'react';
 import { Row, Col, Space } from 'antd';
 import { DisplayMode } from '../control/multi-mode-control/types';
+import { MultimodeControlProps } from '../control/multi-mode-control/multi-mode-control';
 
 const rowStyle = {
   alignItems: 'center',
@@ -9,8 +10,8 @@ const rowStyle = {
 const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
   return (
     <Space direction="vertical" size={0} style={{ display: 'flex', paddingLeft: '3vh' }}>
-      {Object.entries(items).map(([key, { name, type, formParams, params }]) => {
-        const Item = type;
+      {Object.entries(items).map(([key, { name, type, formParams, controlParams }]) => {
+        const Item: ComponentType<MultimodeControlProps> = type;
 
         return (
           <Row style={rowStyle} key={key}>
@@ -18,10 +19,9 @@ const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
             <Col span={8}>
               <Item
                 key={key}
-                name={key}
                 value={data[key]}
                 displayMode={DisplayMode.EDITABLE_VIEW}
-                params={params}
+                controlParams={controlParams}
                 formParams={{ key, name, ...formParams }}
                 setValue={(value) => {
                   editData({

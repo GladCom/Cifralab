@@ -3,11 +3,11 @@ import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/mu
 import {
   ControlByModeMap,
   DisplayMode,
-  EditableControlProps,
+  MultiControlProps,
   FormParams,
   MultimodeControlValue,
 } from './multi-mode-control/types';
-import { ViewControlProps } from './multi-mode-control/default-controls';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 import { Rule } from 'antd/es/form';
 import { useCallback } from 'react';
 
@@ -22,11 +22,11 @@ const getSafeBoolean = (value: MultimodeControlValue): boolean => {
   return false;
 };
 
-const ViewControl: React.FC<ViewControlProps> = ({ value }) => {
+const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
   return <Checkbox checked={getSafeBoolean(value)} disabled={true} />;
 };
 
-const CommonEditorFormItemControl: React.FC<EditableControlProps> = ({ value, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
 
   const handleChange = useCallback(
