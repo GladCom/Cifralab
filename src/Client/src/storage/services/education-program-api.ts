@@ -15,7 +15,7 @@ export const educationProgramApi = createApi({
     getEducationProgramSearch: builder.query({
       query: (queryText) => {
         const encoded = encodeURIComponent(JSON.stringify({ query: queryText }));
-        return `SearchDTO?searchWithoutType=${encoded}`;
+        return `Search?searchWithoutType=${encoded}`;
       },
       providesTags: ['EducationProgram'],
     }),
