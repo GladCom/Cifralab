@@ -3,6 +3,7 @@ import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './
 import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import _ from 'lodash';
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
@@ -44,5 +45,12 @@ const formParams: FormParams = {
 };
 
 export const Cost: React.FC<MultimodeControlProps> = (props) => {
-  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+  const { formParams: externalFormParams } = props;
+  const finalFormParams = _.merge(
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
+
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={finalFormParams} />;
 };

@@ -4,6 +4,7 @@ import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/mu
 import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultiControlProps } from './multi-mode-control/default-controls';
+import _ from 'lodash';
 
 const { Text } = Typography;
 const keyValueMap: Record<string, string> = {
@@ -50,5 +51,12 @@ const formParams: FormParams = {
 };
 
 export const YesNoControl: React.FC<MultimodeControlProps> = (props) => {
-  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+  const { formParams: externalFormParams } = props;
+  const finalFormParams = _.merge(
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
+
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={finalFormParams} />;
 };
