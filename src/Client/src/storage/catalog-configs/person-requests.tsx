@@ -7,7 +7,10 @@ import {
   useEditOneAsync,
   useRemoveOneAsync,
 } from '../crud/person-requests-crud';
+import { useGetEducationProgramQuery } from '../services/education-program-api';
 import { useGetRequestStatusQuery } from '../services/request-status-api';
+import { useGetTypeEducationQuery } from '../services/type-education-api';
+import { useGetEntranceExamStatusesQuery } from '../services/requests-api';
 import { personRequestsModel } from '../models/index';
 import { Select } from 'antd';
 import { CheckCircleFilled } from '@ant-design/icons';
@@ -68,37 +71,99 @@ export default {
     useEditOneAsync,
     useRemoveOneAsync,
   },
+  filters: [
+    {
+      key: 'educationProgramId',
+      backendKey: 'EducationProgramId',
+      label: 'Программа обучения',
+      placeholder: 'Все программы',
+      useQuery: useGetEducationProgramQuery,
+      mapOptions: (data) =>
+        (Array.isArray(data) ? data : []).map((item) => ({
+          value: item.id,
+          label: item.name,
+        })),
+    },
+    {
+      key: 'statusRequestId',
+      backendKey: 'StatusRequestId',
+      label: 'Статус заявки',
+      placeholder: 'Все статусы',
+      useQuery: useGetRequestStatusQuery,
+      mapOptions: (data) =>
+        (Array.isArray(data) ? data : []).map((item) => ({
+          value: item.id,
+          label: item.name,
+        })),
+    },
+    {
+      key: 'typeEducationId',
+      backendKey: 'TypeEducationId',
+      label: 'Уровень образования',
+      placeholder: 'Все уровни образования',
+      useQuery: useGetTypeEducationQuery,
+      mapOptions: (data) =>
+        (Array.isArray(data) ? data : []).map((item) => ({
+          value: item.id,
+          label: item.name,
+        })),
+    },
+    {
+      key: 'statusEntrancExams',
+      backendKey: 'StatusEntranceExam',
+      label: 'Статус вступительного испытания',
+      placeholder: 'Все статусы испытания',
+      useQuery: useGetEntranceExamStatusesQuery,
+      mapOptions: (data) =>
+        (Array.isArray(data) ? data : []).map((item) => ({
+          value: item.id,
+          label: item.status,
+        })),
+    },
+  ],
   columns: [
     {
       title: 'Ф.И.О. заявителя',
       dataIndex: 'studentFullName',
       key: 'studentFullName',
+      sorter: true,
+      sorterKey: 'StudentFullName',
     },
     {
       title: 'Дата рождения',
       dataIndex: 'birthDate',
       key: 'birthDate',
+      sorter: true,
+      sorterKey: 'BirthDate',
       render: (_, record) => <BirthDate value={record.birthDate} mode="info" />,
     },
     {
       title: 'Место проживания',
       dataIndex: 'address',
       key: 'address',
+      sorter: true,
+      sorterKey: 'Address',
     },
     {
       title: 'Уровень образования',
       dataIndex: 'typeEducation',
       key: 'typeEducation',
+      sorter: true,
+      sorterKey: 'TypeEducation',
     },
     {
       title: 'Программа обучения',
       dataIndex: 'educationProgram',
       key: 'educationProgram',
+      sorter: true,
+      sorterKey: 'EducationProgram',
     },
     {
       title: 'E-mail',
       dataIndex: 'email',
       key: 'email',
+      sorter: true,
+      sorterKey: 'Email',
       render: (_, { email }) => (
         <span>
           {email} &nbsp;
@@ -110,6 +175,8 @@ export default {
       title: 'Статус',
       dataIndex: 'statusRequest',
       key: 'statusRequest',
+      sorter: true,
+      sorterKey: 'StatusRequest',
       render: (_, record) => {
         return <StatusRequestForm record={record} />;
       },

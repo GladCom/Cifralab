@@ -9,7 +9,7 @@ const DefaultFormComponent = ({ value, onChange, formParams }: FieldProps) => {
   const { key } = formParams;
 
   const formattValue = useCallback((value) => {
-    onChange(value.value);
+    onChange(value);
   }, []);
 
   return (
@@ -26,7 +26,7 @@ const DefaultFormComponent = ({ value, onChange, formParams }: FieldProps) => {
 const DefaultEditComponent = ({ value, onChange, formParams }: FieldProps) => {
   const { key } = formParams;
   const formattValue = useCallback((value) => {
-    onChange(value.value);
+    onChange(value);
     console.log(value);
   });
 
@@ -35,7 +35,6 @@ const DefaultEditComponent = ({ value, onChange, formParams }: FieldProps) => {
       value={value}
       key={key}
       allowClear
-      token="d9684e8c81525df77c58918948ebad6a9c83ea40"
       onChange={formattValue}
     />
   );
@@ -52,7 +51,7 @@ const rules = [
     message: 'Необходимо заполнить место проживания',
   },
   {
-    pattern: /^[А-Яа-яЁё0-9\s-.,/]+$/,
+    pattern: /^[А-Яа-яЁё0-9\s.,/-]+$/,
     message: 'Неверный формат адреса',
   }
 ];
@@ -65,12 +64,13 @@ const formParams = {
   hasFeedback: true,
 };
 
-const Address = (props) : AddressProps => {
+const Address = (props: AddressProps) => {
   return (
     <BaseControl
       {...{
         ...props,
         components,
+        params: {},
         formParams,
       }}
     />

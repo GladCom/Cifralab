@@ -40,9 +40,14 @@ public class RequestFilter : Filter<Request>
   public Guid? StudentStatusId { get; set; }
 
   /// <summary>
+  /// Идентификатор уровня образования.
+  /// </summary>
+  public Guid? TypeEducationId { get; set; }
+
+  /// <summary>
   /// Статус вступительного испытания
   /// </summary>
-  public StatusEntrancExams? StatusEntrancExams { get; set; }
+  public int? StatusEntranceExam { get; set; }
 
   /// <summary>
   /// Регистрационный номер
@@ -78,7 +83,10 @@ public class RequestFilter : Filter<Request>
         (string.IsNullOrEmpty(this.DataNumberDogovor) || x.DataNumberDogovor == this.DataNumberDogovor) &&
         (!this.StatusRequestId.HasValue || x.StatusRequestId == this.StatusRequestId) &&
         (!this.StudentStatusId.HasValue || x.StudentStatusId == this.StudentStatusId) &&
-        (!this.StatusEntrancExams.HasValue || x.StatusEntrancExams == this.StatusEntrancExams) &&
+        (!this.TypeEducationId.HasValue ||
+          (x.Student is not null && x.Student.TypeEducationId == this.TypeEducationId) ||
+          (x.PhantomStudent is not null && x.PhantomStudent.TypeEducationId == this.TypeEducationId)) &&
+        (!this.StatusEntranceExam.HasValue || StatusEntranceExam == (int)x.StatusEntrancExams) &&
         (string.IsNullOrEmpty(this.RegistrationNumber) || x.RegistrationNumber == this.RegistrationNumber) &&
         (string.IsNullOrEmpty(this.Email) || x.Email == this.Email) &&
         (string.IsNullOrEmpty(this.Phone) || x.Phone == this.Phone) &&

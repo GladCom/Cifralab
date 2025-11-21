@@ -10,8 +10,19 @@ export const requestsApi = createApi({
       query: () => '',
     }),
     getPersonRequestsPaged: builder.query({
-      query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
+      query: ({ pageNumber, pageSize, filterDataReq }) => {
+        const page = pageNumber ?? 1;
+        const size = pageSize ?? 10;
+        const suffix = filterDataReq ?? '';
+        const normalizedSuffix = suffix && !suffix.startsWith('&') 
+        ? `&${suffix}` 
+        : suffix || '';
+        return `paged?page=${page}&size=${size}${normalizedSuffix}`;
+      },
       providesTags: ['Requests'],
+    }),
+    getEntranceExamStatuses: builder.query({
+      query: () => 'entranceExamStatuses',
     }),
     getPersonRequestById: builder.query({
       query: (id) => ({
@@ -48,6 +59,7 @@ export const requestsApi = createApi({
 export const {
   useGetPersonRequestsQuery,
   useGetPersonRequestsPagedQuery,
+  useGetEntranceExamStatusesQuery,
   useGetPersonRequestByIdQuery,
   useAddPersonRequestMutation,
   useEditPersonRequestMutation,
