@@ -37,6 +37,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '7.0.x'
-
+      
+      - name: Restore dependencies
+        run: dotnet restore ./src/Students.sln
+        
       - name: Run tests
         run: dotnet test ./src/Students.sln --configuration Release --no-restore --verbosity normal
