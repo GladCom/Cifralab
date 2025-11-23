@@ -44,11 +44,11 @@ jobs:
 
       - name: Deploy PROD
         run: |
-          scp -r . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:deploy/prod
+          scp -r . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/prod
           ssh -A ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S deploy/prod/build/down.sh prod && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S deploy/prod/build/build.sh prod && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S deploy/prod/build/run.sh prod \
+            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/prod/build/down.sh prod && \
+            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/prod/build/build.sh prod && \
+            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/prod/build/run.sh prod \
           "
 
 
@@ -77,9 +77,9 @@ jobs:
 
       - name: Deploy Test Stand ${{ matrix.stand }}
         run: |
-          scp -r . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:deploy/${{ matrix.stand }}
+          scp -r . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ matrix.stand }}
           ssh -A ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S deploy/${{ matrix.stand }}/build/down.sh ${{ matrix.stand }} && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S deploy/${{ matrix.stand }}/build/build.sh ${{ matrix.stand }} && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S deploy/${{ matrix.stand }}/build/run.sh ${{ matrix.stand }} \
+            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/${{ matrix.stand }}/build/down.sh ${{ matrix.stand }} && \
+            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/${{ matrix.stand }}/build/build.sh ${{ matrix.stand }} && \
+            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/${{ matrix.stand }}/build/run.sh ${{ matrix.stand }} \
           "
