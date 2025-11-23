@@ -4,7 +4,30 @@
   useGetRosstatReportMutation,
 } from '../crud/reports-crud';
 
-const createReportConfig = ({ onEdit = (record) => console.warn('Обработчик onEdit не предоставлен', record) }) => {
+// 1. Описываем типы
+
+type MutationHook = (...args: any[]) => any;
+
+interface CreateReportConfigParams<TRecord = any> {
+  onEdit?: (record: TRecord) => void;
+}
+
+interface IReportConfig<TData = any> {
+  detailsLink: string;
+  hasDetailsPage: boolean;
+  serverPaged: boolean;
+  crud: {
+    useGetPFDOReportMutation: MutationHook;
+    useGetSummaryReportMutation: MutationHook;
+    useGetRosstatReportMutation: MutationHook;
+  };
+  filters: any[];
+  dataConverter: (data: TData) => TData;
+}
+
+// 2. Применяем типы к функции
+
+const createReportConfig = <TData = any>(): IReportConfig<TData> => {
   return {
     detailsLink: 'report',
     hasDetailsPage: true,
@@ -14,9 +37,8 @@ const createReportConfig = ({ onEdit = (record) => console.warn('Обработ�
       useGetSummaryReportMutation,
       useGetRosstatReportMutation,
     },
-
     filters: [],
-    dataConverter: (data) => data,
+    dataConverter: (data: TData) => data,
   };
 };
 

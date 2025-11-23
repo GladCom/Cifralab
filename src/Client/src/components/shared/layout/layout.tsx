@@ -3,6 +3,7 @@ import Header from './header';
 import Navbar from './navbar';
 import Content from './content';
 import { Layout as AntLayout } from 'antd';
+import React from 'react';
 
 const headerStyle = {
   textAlign: 'center',
@@ -19,8 +20,11 @@ const footerStyle = {
 };
 
 const title = 'Сервис обработки заявок';
-
-const Layout = ({ children }) => {
+interface Props {
+  title?: string;
+  children: React.ReactNode;
+}
+const Layout: React.FC<Props> = ({ children, title }) => {
   return (
     <AntLayout style={layoutStyle}>
       <Header title={title} style={headerStyle} />

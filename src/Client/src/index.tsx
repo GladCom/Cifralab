@@ -7,14 +7,25 @@ import reportWebVitals from './report-web-vitals';
 import store from './storage/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const router = createBrowserRouter(createRoutesFromElements(<Route path="*" element={<App />} />));
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient({
+  defaultOptions:{
+    queries: {
+        refetchOnWindowFocus: false,
+        retry: 1,
+    },
+    }
+  }});
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+        </QueryClientProvider>
     </Provider>
   </React.StrictMode>,
 );

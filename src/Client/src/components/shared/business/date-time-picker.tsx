@@ -1,0 +1,15 @@
+﻿import React from 'react';
+import { DatePicker } from 'antd';
+import { RangeValue } from '@/types';
+import type { RangePickerProps } from 'antd/es/date-picker';
+const { RangePicker } = DatePicker;
+
+interface IProps extends Omit<RangePickerProps, 'onChange'> {
+  onDateChange: (dates: RangeValue | null) => void;
+}
+
+const DateTimePicker: React.FC<IProps> = ({ onDateChange, ...restProps }) => {
+  return <RangePicker {...restProps} onChange={(dates) => onDateChange(dates)} />;
+};
+
+export default DateTimePicker;
