@@ -3,7 +3,7 @@ name: Build and Tests
 on:
   push:
     branches:
-      - *
+      - '*'
 
 jobs:
   checkout_code:
