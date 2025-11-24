@@ -1,6 +1,6 @@
 ﻿import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import apiUrl from './apiUrl.js';
-import {IGroupFilter} from "@/types";
+import apiUrl from './api-url';
+import { IGroupFilter } from '@/types';
 
 const baseUrl = `${apiUrl}/report`;
 
@@ -66,8 +66,6 @@ export const reportApi = createApi({
       extraOptions: { responseHandler: 'arraybuffer' },
       invalidatesTags: [{ type: 'reports', id: 'LIST' }],
     }),
-
-
   }),
 });
 
