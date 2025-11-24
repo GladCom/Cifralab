@@ -1,3 +1,4 @@
+import { ArchiveCheckbox } from '../../components/shared/control/archive-check-box';
 import { Cost } from '../../components/shared/control/cost';
 import { HoursCount } from '../../components/shared/control/hours-count';
 import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
@@ -181,7 +182,7 @@ export const educationProgramFormModel: FormModel = {
   },
   inArchive: {
     name: 'В архиве',
-    type: YesNoControl,
+    type: ArchiveCheckbox,
     formParams: {
       key:  DtoKeys.IS_ARCHIVE,
       rules: [
