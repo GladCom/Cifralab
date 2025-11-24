@@ -103,7 +103,7 @@ export default {
       render: (_, { email }) => (
         <span>
           {email} &nbsp;
-          <EmailCopyButton  email={email} />
+          <EmailCopyButton email={email} />
         </span>
       ),
     },

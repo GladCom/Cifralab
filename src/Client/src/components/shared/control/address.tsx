@@ -12,7 +12,7 @@ const rules: Rule[] = [
   {
     pattern: /^[А-Яа-яЁё0-9\s-.,/]+$/,
     message: 'Неверный формат адреса',
-  }
+  },
 ];
 
 const formParams: FormParams = {

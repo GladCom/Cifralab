@@ -3,7 +3,11 @@ import { AutoComplete } from 'antd';
 import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
-import { DefaultEditableViewControl, DefaultViewControl, MultiControlProps } from './multi-mode-control/default-controls';
+import {
+  DefaultEditableViewControl,
+  DefaultViewControl,
+  MultiControlProps,
+} from './multi-mode-control/default-controls';
 import { DtoKeys } from '../../../storage/service/types';
 
 const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru', 'yahoo.com'];
@@ -84,7 +88,7 @@ const rules: Rule[] = [
   {
     pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
     message: 'Только латиница и стандартный формат email',
-  }
+  },
 ];
 
 const formParams: FormParams = {
