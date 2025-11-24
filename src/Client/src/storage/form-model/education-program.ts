@@ -7,6 +7,7 @@ import { KindDocumentRiseQualificationSelect } from '../../components/shared/con
 import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
 import { StringControl } from '../../components/shared/control/string-control';
 import { YesNoControl } from '../../components/shared/control/yes-no-control';
+import { DtoKeys } from '../service/types';
 import { FormModel } from './types';
 
 export const educationProgramFormModel: FormModel = {
@@ -14,7 +15,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Программа обучения',
     type: StringControl,
     formParams: {
-      key: 'nameKey',
+      key:  DtoKeys.NAME,
       rules: [
         {
           required: true,
@@ -26,7 +27,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Стоимость',
     type: Cost,
     formParams: {
-      key: 'costKey',
+      key:  DtoKeys.COST,
       rules: [
         {
           required: true,
@@ -38,7 +39,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Кол-во часов',
     type: HoursCount,
     formParams: {
-      key: 'hoursCountKey',
+      key:  DtoKeys.HOURS_COUNT,
       rules: [
         {
           required: true,
@@ -50,7 +51,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Форма образования',
     type: EducationFormSelect,
     formParams: {
-      key: 'educationFormIdKey',
+      key:  DtoKeys.EDUCATION_FORM_ID,
       rules: [
         {
           required: true,
@@ -62,7 +63,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Вид программы',
     type: KindEducationProgramSelect,
     formParams: {
-      key: 'kindEducationProgramIdKey',
+      key:  DtoKeys.KIND_EDUCATION_PROGRAM_ID,
       rules: [
         {
           required: true,
@@ -74,7 +75,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Вид документа',
     type: KindDocumentRiseQualificationSelect,
     formParams: {
-      key: 'kindDocumentRiseQualificationIdKey',
+      key:  DtoKeys.KIND_DOCUMENT_RISE_QUALIFICATION_ID,
       rules: [
         {
           required: true,
@@ -86,7 +87,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Модульная программа',
     type: YesNoControl,
     formParams: {
-      key: 'isModularProgramKey',
+      key:  DtoKeys.IS_MODULAR_PROGRAM,
       rules: [
         {
           required: true,
@@ -98,7 +99,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'ВЭД программы',
     type: FEAProgramSelect,
     formParams: {
-      key: 'feaProgramIdKey',
+      key:  DtoKeys.FEA_PROGRAM_ID,
       rules: [
         {
           required: true,
@@ -110,7 +111,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Источник финансирования',
     type: FinancingTypeSelect,
     formParams: {
-      key: 'financingTypeIdKey',
+      key:  DtoKeys.FINANCING_TYPE_ID,
       rules: [
         {
           required: true,
@@ -122,7 +123,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Обязательно наличие ВО',
     type: YesNoControl,
     formParams: {
-      key: 'isCollegeProgramKey',
+      key:  DtoKeys.IS_COLLEGE_PROGRAM,
       rules: [
         {
           required: true,
@@ -134,7 +135,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Сетевая форма',
     type: YesNoControl,
     formParams: {
-      key: 'isNetworkProgramKey',
+      key:  DtoKeys.IS_NETWORK_PROGRAM,
       rules: [
         {
           required: true,
@@ -146,7 +147,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Применение ДОТ',
     type: YesNoControl,
     formParams: {
-      key: 'isDOTProgramKey',
+      key:  DtoKeys.IS_DOT_PROGRAM,
       rules: [
         {
           required: true,
@@ -158,7 +159,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Применение ДОТ полностью',
     type: YesNoControl,
     formParams: {
-      key: 'isFullDOTProgramKey',
+      key:  DtoKeys.IS_FULL_DOT_PROGRAM,
       rules: [
         {
           required: true,
@@ -170,7 +171,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Наименование квалификации',
     type: StringControl,
     formParams: {
-      key: 'qualificationNameKey',
+      key:  DtoKeys.QUALIFICATION_NAME,
       rules: [
         {
           required: true,
@@ -182,7 +183,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'В архиве',
     type: YesNoControl,
     formParams: {
-      key: 'isArchiveKey',
+      key:  DtoKeys.IS_ARCHIVE,
       rules: [
         {
           required: true,
