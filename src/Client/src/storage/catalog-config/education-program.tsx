@@ -7,7 +7,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
-} from '../crud/education-form-crud';
+} from '../crud/education-program-crud';
 import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
 import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
 import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
