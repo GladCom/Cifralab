@@ -23,18 +23,6 @@ export const educationProgramFormModel: FormModel = {
       ],
     },
   },
-  cost: {
-    name: 'Стоимость',
-    type: Cost,
-    formParams: {
-      key:  DtoKeys.COST,
-      rules: [
-        {
-          required: true,
-        },
-      ],
-    },
-  },
   hoursCount: {
     name: 'Кол-во часов',
     type: HoursCount,
@@ -71,11 +59,23 @@ export const educationProgramFormModel: FormModel = {
       ],
     },
   },
-  kindDocumentRiseQualificationId: {
-    name: 'Вид документа',
-    type: KindDocumentRiseQualificationSelect,
+  cost: {
+    name: 'Стоимость',
+    type: Cost,
     formParams: {
-      key:  DtoKeys.KIND_DOCUMENT_RISE_QUALIFICATION_ID,
+      key:  DtoKeys.COST,
+      rules: [
+        {
+          required: true,
+        },
+      ],
+    },
+  },
+  financingTypeId: {
+    name: 'Источник финансирования',
+    type: FinancingTypeSelect,
+    formParams: {
+      key:  DtoKeys.FINANCING_TYPE_ID,
       rules: [
         {
           required: true,
@@ -100,30 +100,6 @@ export const educationProgramFormModel: FormModel = {
     type: FEAProgramSelect,
     formParams: {
       key:  DtoKeys.FEA_PROGRAM_ID,
-      rules: [
-        {
-          required: true,
-        },
-      ],
-    },
-  },
-  financingTypeId: {
-    name: 'Источник финансирования',
-    type: FinancingTypeSelect,
-    formParams: {
-      key:  DtoKeys.FINANCING_TYPE_ID,
-      rules: [
-        {
-          required: true,
-        },
-      ],
-    },
-  },
-  isCollegeProgram: {
-    name: 'Обязательно наличие ВО',
-    type: YesNoControl,
-    formParams: {
-      key:  DtoKeys.IS_COLLEGE_PROGRAM,
       rules: [
         {
           required: true,
@@ -167,11 +143,35 @@ export const educationProgramFormModel: FormModel = {
       ],
     },
   },
+  isCollegeProgram: {
+    name: 'Обязательно наличие ВО',
+    type: YesNoControl,
+    formParams: {
+      key:  DtoKeys.IS_COLLEGE_PROGRAM,
+      rules: [
+        {
+          required: true,
+        },
+      ],
+    },
+  },
   qualificationName: {
     name: 'Наименование квалификации',
     type: StringControl,
     formParams: {
       key:  DtoKeys.QUALIFICATION_NAME,
+      rules: [
+        {
+          required: true,
+        },
+      ],
+    },
+  },
+  kindDocumentRiseQualificationId: {
+    name: 'Вид документа',
+    type: KindDocumentRiseQualificationSelect,
+    formParams: {
+      key:  DtoKeys.KIND_DOCUMENT_RISE_QUALIFICATION_ID,
       rules: [
         {
           required: true,
