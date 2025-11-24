@@ -4,7 +4,11 @@
  */
 export enum DtoKeys {
   NAME = 'name',
+  FAMILY = 'family',
+  PATRON = 'patron',
+  ADDRESS = 'address',
   COST = 'cost',
+  EMAIL = 'email',
   HOURS_COUNT = 'hoursCount',
   EDUCATION_FORM_ID = 'educationFormId',
   KIND_DOCUMENT_RISE_QUALIFICATION_ID = 'kindDocumentRiseQualificationId',

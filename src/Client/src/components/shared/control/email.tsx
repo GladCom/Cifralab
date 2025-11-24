@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { AutoComplete } from 'antd';
-import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
+import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
-import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
+import { DefaultEditableViewControl, DefaultViewControl, MultiControlProps } from './multi-mode-control/default-controls';
+import { DtoKeys } from '../../../storage/service/types';
 
-const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru'];
+const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru', 'yahoo.com'];
 
 const FormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
@@ -80,10 +81,14 @@ const rules: Rule[] = [
     type: 'email',
     message: 'Некорректно заполнен email',
   },
+  {
+    pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+    message: 'Только латиница и стандартный формат email',
+  }
 ];
 
 const formParams: FormParams = {
-  key: 'email',
+  key: DtoKeys.EMAIL,
   name: 'E-mail',
   rules,
 };

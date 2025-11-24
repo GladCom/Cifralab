@@ -9,20 +9,60 @@ import { EducationTypeSelect } from '../../components/shared/control/selects/edu
 import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
 import { StatusEntrancExamsSelect } from '../../components/shared/control/selects/status-entranc-exams-select';
 import { StringControl } from '../../components/shared/control/string-control';
+import { DtoKeys } from '../service/types';
 import { FormModel } from './types';
 
 export const personRequestFormModel: FormModel = {
   family: {
     name: 'Фамилия',
     type: StringControl,
+    formParams: {
+      key: DtoKeys.FAMILY,
+      rules: [
+        {
+          required: true,
+          message: 'Необходимо заполнить фамилию',
+        },
+        {
+          pattern: /^[А-Яа-яЁё]+(-[А-Яа-яЁё]+)?$/,
+          message: 'Фамилия должна содержать только символы кириллицы',
+        },
+      ],
+    },
   },
   name: {
     name: 'Имя',
     type: StringControl,
+    formParams: {
+      key: DtoKeys.NAME,
+      rules: [
+        {
+          required: true,
+          message: 'Необходимо заполнить имя',
+        },
+        {
+          pattern: /^[А-Яа-яЁё]+(-[А-Яа-яЁё]+)?$/,
+          message: 'Имя должно содержать только символы кириллицы',
+        },
+      ],
+    },
   },
   patron: {
     name: 'Отчество',
     type: StringControl,
+    formParams: {
+      key: DtoKeys.PATRON,
+      rules: [
+        {
+          required: true,
+          message: 'Необходимо заполнить отчество',
+        },
+        {
+          pattern: /^[А-Яа-яЁё]+(-[А-Яа-яЁё]+)?$/,
+          message: 'Отчество должно содержать только символы кириллицы',
+        },
+      ],
+    },
   },
   dateOfCreate: {
     name: 'Дата и время заявки',
