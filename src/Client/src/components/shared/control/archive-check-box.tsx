@@ -15,10 +15,5 @@ export const ArchiveCheckbox = ({ value, setValue }) => {
     }
   };
 
-  return (
-    <Checkbox
-      checked={!!value}
-      onChange={handleChange}
-    />
-  );
+  return <Checkbox checked={!!value} onChange={handleChange} />;
 };

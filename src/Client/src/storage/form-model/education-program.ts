@@ -16,7 +16,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Программа обучения',
     type: StringControl,
     formParams: {
-      key:  DtoKeys.NAME,
+      key: DtoKeys.NAME,
       rules: [
         {
           required: true,
@@ -28,7 +28,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Кол-во часов',
     type: HoursCount,
     formParams: {
-      key:  DtoKeys.HOURS_COUNT,
+      key: DtoKeys.HOURS_COUNT,
       rules: [
         {
           required: true,
@@ -40,7 +40,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Форма образования',
     type: EducationFormSelect,
     formParams: {
-      key:  DtoKeys.EDUCATION_FORM_ID,
+      key: DtoKeys.EDUCATION_FORM_ID,
       rules: [
         {
           required: true,
@@ -52,7 +52,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Вид программы',
     type: KindEducationProgramSelect,
     formParams: {
-      key:  DtoKeys.KIND_EDUCATION_PROGRAM_ID,
+      key: DtoKeys.KIND_EDUCATION_PROGRAM_ID,
       rules: [
         {
           required: true,
@@ -64,7 +64,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Стоимость',
     type: Cost,
     formParams: {
-      key:  DtoKeys.COST,
+      key: DtoKeys.COST,
       rules: [
         {
           required: true,
@@ -76,7 +76,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Источник финансирования',
     type: FinancingTypeSelect,
     formParams: {
-      key:  DtoKeys.FINANCING_TYPE_ID,
+      key: DtoKeys.FINANCING_TYPE_ID,
       rules: [
         {
           required: true,
@@ -88,7 +88,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Модульная программа',
     type: YesNoControl,
     formParams: {
-      key:  DtoKeys.IS_MODULAR_PROGRAM,
+      key: DtoKeys.IS_MODULAR_PROGRAM,
       rules: [
         {
           required: true,
@@ -100,7 +100,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'ВЭД программы',
     type: FEAProgramSelect,
     formParams: {
-      key:  DtoKeys.FEA_PROGRAM_ID,
+      key: DtoKeys.FEA_PROGRAM_ID,
       rules: [
         {
           required: true,
@@ -112,7 +112,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Сетевая форма',
     type: YesNoControl,
     formParams: {
-      key:  DtoKeys.IS_NETWORK_PROGRAM,
+      key: DtoKeys.IS_NETWORK_PROGRAM,
       rules: [
         {
           required: true,
@@ -124,7 +124,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Применение ДОТ',
     type: YesNoControl,
     formParams: {
-      key:  DtoKeys.IS_DOT_PROGRAM,
+      key: DtoKeys.IS_DOT_PROGRAM,
       rules: [
         {
           required: true,
@@ -136,7 +136,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Применение ДОТ полностью',
     type: YesNoControl,
     formParams: {
-      key:  DtoKeys.IS_FULL_DOT_PROGRAM,
+      key: DtoKeys.IS_FULL_DOT_PROGRAM,
       rules: [
         {
           required: true,
@@ -148,7 +148,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Обязательно наличие ВО',
     type: YesNoControl,
     formParams: {
-      key:  DtoKeys.IS_COLLEGE_PROGRAM,
+      key: DtoKeys.IS_COLLEGE_PROGRAM,
       rules: [
         {
           required: true,
@@ -160,7 +160,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Наименование квалификации',
     type: StringControl,
     formParams: {
-      key:  DtoKeys.QUALIFICATION_NAME,
+      key: DtoKeys.QUALIFICATION_NAME,
       rules: [
         {
           required: true,
@@ -172,7 +172,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'Вид документа',
     type: KindDocumentRiseQualificationSelect,
     formParams: {
-      key:  DtoKeys.KIND_DOCUMENT_RISE_QUALIFICATION_ID,
+      key: DtoKeys.KIND_DOCUMENT_RISE_QUALIFICATION_ID,
       rules: [
         {
           required: true,
@@ -184,7 +184,7 @@ export const educationProgramFormModel: FormModel = {
     name: 'В архиве',
     type: ArchiveCheckbox,
     formParams: {
-      key:  DtoKeys.IS_ARCHIVE,
+      key: DtoKeys.IS_ARCHIVE,
       rules: [
         {
           required: true,

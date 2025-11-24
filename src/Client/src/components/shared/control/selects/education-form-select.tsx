@@ -23,10 +23,10 @@ export const EducationFormSelect: React.FC<MultimodeControlProps> = (props) => {
   const { crud } = config;
   const { formParams: externalFormParams, ...restProps } = props;
   const finalFormParams = _.merge(
-      {},
-      formParams, // база
-      externalFormParams, // переопределения
-    );
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
 
   return <QueryableSelectControl {...props} crud={crud} formParams={finalFormParams} />;
 };

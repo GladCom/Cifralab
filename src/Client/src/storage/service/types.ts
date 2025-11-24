@@ -2,7 +2,7 @@
  * По этим ключам формируются поля API-сущностей в payload запросов.
  * Используются в моделях форм.
  */
-export enum  DtoKeys {
+export enum DtoKeys {
   NAME = 'name',
   COST = 'cost',
   HOURS_COUNT = 'hoursCount',
