@@ -39,14 +39,12 @@ namespace Students.Models.Searches.Searches
 
       return r =>
       {
-        if (r.Student != null)
-        {
-          if ((r.Student.Family?.ToLower().Contains(lower) ?? false) ||
-              (r.Student.Name?.ToLower().Contains(lower) ?? false) ||
-              (r.Student.Patron?.ToLower().Contains(lower) ?? false) ||
-              (r.Student.FullName?.ToLower().Contains(lower) ?? false))
-            return true;
-        }
+        if (r.Student != null &&
+            ((r.Student.Family?.ToLower().Contains(lower) ?? false) ||
+             (r.Student.Name?.ToLower().Contains(lower) ?? false) ||
+             (r.Student.Patron?.ToLower().Contains(lower) ?? false) ||
+             (r.Student.FullName?.ToLower().Contains(lower) ?? false)))
+          return true;
 
         return
           (r.RegistrationNumber?.ToLower().Contains(lower) ?? false) ||
