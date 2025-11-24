@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import { TablePageHeader } from '../layout/index';
 import FilterPanel from '../catalog-provider/filter-panel';
 
 const EntityTable = ({ config, title }) => {
-  const { fields, properties, detailsLink, crud, columns, serverPaged, dataConverter } = config;
-  const { useGetAllPagedAsync, useRemoveOneAsync, useAddOneAsync, useGetOneByIdAsync, useEditOneAsync, useSearchAsync } = crud;
+  const { detailsLink, crud, columns, serverPaged, dataConverter } = config;
+  const { useGetAllPagedAsync, useSearchAsync } = crud;
 
   const [searchText, setSearchText] = useState('');
   const [queryString, setQueryString] = useState('');
@@ -23,31 +23,22 @@ const EntityTable = ({ config, title }) => {
 
   const {
     data: dataFromServer,
-    error,
     isLoading,
     isFetching,
-    refetch,
   } = useGetAllPagedAsync({
     pageNumber: tableParams.pagination.current,
     pageSize: tableParams.pagination.pageSize,
     filterDataReq: queryString,
   });
 
-
-  const searchHook = useSearchAsync ? useSearchAsync(searchText) : { data: null };
+  const searchResults = useSearchAsync ? useSearchAsync(searchText) : { data: null };
 
   const isSearching = !!searchText.trim();
-  const dataToDisplay = isSearching
-    ? searchHook?.data
-    : serverPaged
-      ? dataFromServer?.data
-      : dataFromServer;
+  const dataToDisplay = isSearching ? searchResults?.data : serverPaged ? dataFromServer?.data : dataFromServer;
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
-      const total = serverPaged
-        ? dataFromServer?.totalCount
-        : dataFromServer?.length;
+      const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
       setData(dataToDisplay);
       setLoading(false);
       setTableParams({
@@ -61,7 +52,7 @@ const EntityTable = ({ config, title }) => {
     }
   }, [
     dataFromServer,
-    searchHook?.data,
+    searchResults?.data,
     searchText,
     tableParams.pagination?.current,
     tableParams.pagination?.pageSize,
@@ -95,11 +86,7 @@ const EntityTable = ({ config, title }) => {
 
   return (
     <>
-      <TablePageHeader
-        config={config}
-        title={title}
-        onSearch={setSearchText}
-      />
+      <TablePageHeader config={config} title={title} onSearch={setSearchText} />
       <FilterPanel config={config} query={query} setQuery={setQuery} />
       <Table
         rowKey={(record) => record.id}
