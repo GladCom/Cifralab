@@ -8,6 +8,10 @@
     "noUnusedLocals": false, // Ошибка на неиспользуемые переменные
     "noUnusedParameters": false, // Ошибка на неиспользуемые параметры
 
+    // Source maps:
+    "sourceMap": true,        // ← генерировать .map файлы
+    "inlineSources": true,     // ← встраивать исходный код TypeScript в .map файлы (удобно для отладки)
+
     "target": "ESNext", // Современный ECMAScript
     "module": "ESNext", // Использовать ES-модули
     "lib": ["DOM", "DOM.Iterable", "ESNext"], // Библиотеки для типов
@@ -39,7 +43,7 @@
         "name": "next"
       }
     ],
-    "noEmit": true
+    //"noEmit": true  //  Если включить эту настройку, то перестают генериться sourceMap-файлы и отладчик перестает работать.
   },
   "include": [
     // Какие файлы проверять
