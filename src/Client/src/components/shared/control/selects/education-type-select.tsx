@@ -21,7 +21,7 @@ const formParams: FormParams = {
 
 export const EducationTypeSelect: React.FC<MultimodeControlProps> = (props) => {
   const { crud } = config;
-  const { formParams: externalFormParams, ...restProps } = props;
+  const { formParams: externalFormParams } = props;
   const finalFormParams = _.merge(
     {},
     formParams, // база

@@ -53,7 +53,7 @@ export const EditableViewWrapper: React.FC<MultimodeWrapperControlProps> = ({ Co
 };
 
 export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
-  const { value, defaultValue, formParams, setValue, setDisplayMode } = props;
+  const { defaultValue, formParams, setValue, setDisplayMode } = props;
   const { key, rules, normalize, hasFeedback } = formParams;
 
   const onSubmit = (formValue: { [key: string]: MultimodeControlValue }) => {

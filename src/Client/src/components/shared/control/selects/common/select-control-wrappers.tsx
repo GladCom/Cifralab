@@ -36,7 +36,18 @@ export const EditableViewSelectControlWrapper: React.FC<MultimodeWrapperControlP
 };
 
 export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> = (props) => {
-  const { Control, value, defaultValue, onChange, placeholder, formParams, controlParams, setValue, setDisplayMode, crud } = props;
+  const {
+    Control,
+    value,
+    defaultValue,
+    onChange,
+    placeholder,
+    formParams,
+    controlParams,
+    setValue,
+    setDisplayMode,
+    crud,
+  } = props;
   const { key, labelKey, rules, normalize, hasFeedback } = formParams;
   const { displayOptions } = controlParams;
   const { editorMode } = displayOptions;
