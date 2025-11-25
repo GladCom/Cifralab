@@ -3,8 +3,9 @@ import { useCallback } from 'react';
 // import 'react-dadata/dist/react-dadata.css';
 import { BaseControl } from '../base-controls/base-control';
 import { Input } from 'antd';
+import { AddressProps, FieldProps } from '../base-controls/types';
 
-const DefaultFormComponent = ({ value, onChange, formParams }) => {
+const DefaultFormComponent = ({ value, onChange, formParams }: FieldProps) => {
   const { key } = formParams;
 
   const formattValue = useCallback((value) => {
@@ -22,7 +23,7 @@ const DefaultFormComponent = ({ value, onChange, formParams }) => {
   );
 };
 
-const DefaultEditComponent = ({ value, onChange, formParams }) => {
+const DefaultEditComponent = ({ value, onChange, formParams }: FieldProps) => {
   const { key } = formParams;
   const formattValue = useCallback((value) => {
     onChange(value.value);
@@ -50,17 +51,21 @@ const rules = [
     required: true,
     message: 'Необходимо заполнить место проживания',
   },
+  {
+    pattern: /^[А-Яа-яЁё0-9\s-.,/]+$/,
+    message: 'Неверный формат адреса',
+  }
 ];
 
 const formParams = {
   key: 'address',
   name: 'Место проживания',
-  normalize: (value) => value,
+  normalize: (value: string) => value,
   rules,
   hasFeedback: true,
 };
 
-const Address = (props) => {
+const Address = (props) : AddressProps => {
   return (
     <BaseControl
       {...{

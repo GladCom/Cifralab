@@ -12,6 +12,7 @@ import { personRequestsModel } from '../models/index';
 import { Select } from 'antd';
 import { CheckCircleFilled } from '@ant-design/icons';
 import BirthDate from '../../components/shared/business/birth-date';
+import { EmailCopyButton } from '../../components/shared/business/common/email-copy-button';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {
@@ -99,6 +100,12 @@ export default {
       title: 'E-mail',
       dataIndex: 'email',
       key: 'email',
+      render: (_, { email }) => (
+        <span>
+          {email} &nbsp;
+          <EmailCopyButton  email={email} />
+        </span>
+      ),
     },
     {
       title: 'Статус',

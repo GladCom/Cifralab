@@ -30,6 +30,31 @@ type FormParams = {
   hasFeedback: boolean;
 };
 
+type AddressFormParams = {
+  key: string;
+  name: string;
+  normalize: () => {};
+  rules: unknown;
+  hasFeedback: boolean;
+};
+
+export type AutoCompleteOption = {
+  label: string;
+  value: string;
+};
+
+type EmailFormParams = {
+  key: string;
+  name: string;
+  rules: unknown;
+};
+
+export type FieldProps = {
+  value?: string;
+  onChange: (value: string) => void;
+  formParams: EmailFormParams;
+};
+
 export interface IBaseControl {
   mode: ControlMode;
   value: boolean | number | string;
@@ -39,7 +64,15 @@ export interface IBaseControl {
   setValue: () => {};
   setMode: () => {};
   onChange: () => {};
-}
+};
+
+export type EmailProps = {
+  formParams?: Partial<EmailFormParams>;
+} & IBaseControl;
+
+export type AddressProps = {
+  formParams?: Partial<AddressFormParams>;
+} & IBaseControl;
 
 export interface IInfoControl extends IBaseControl {}
 

@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import _ from 'lodash';
 import { AutoComplete } from 'antd';
 import { BaseControl } from '../base-controls/base-control';
+import {FieldProps, AutoCompleteOption, EmailProps} from '../base-controls/types';
 
-const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru'];
+const mails: string[] = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru', 'yahoo.com'];
 
-const DefaultFormComponent = ({ value, onChange, formParams }) => {
+
+
+const DefaultFormComponent = ({ value, onChange, formParams }: FieldProps) => {
   const { key } = formParams;
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<AutoCompleteOption[]>([]);
 
-  const handleChange = (inputValue) => {
+  const handleChange = (inputValue: string) => {
     setOptions(() => {
       if (!inputValue || inputValue.includes('@')) {
         return [];
@@ -33,11 +36,11 @@ const DefaultFormComponent = ({ value, onChange, formParams }) => {
   );
 };
 
-const DefaultEditComponent = ({ value, onChange, formParams }) => {
+const DefaultEditComponent = ({ value, onChange, formParams }: FieldProps) => {
   const { key } = formParams;
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<AutoCompleteOption[]>([]);
 
-  const handleChange = (inputValue) => {
+  const handleChange = (inputValue: string) => {
     setOptions(() => {
       if (!inputValue || inputValue.includes('@')) {
         return [];
@@ -76,20 +79,27 @@ const rules = [
     type: 'email',
     message: 'Некорректно заполнен email',
   },
+  {
+    pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+    message: 'Только латиница и стандартный формат email',
+  }
 ];
 
 const defaultFormParams = {
   key: 'email',
   name: 'E-mail',
-  rules,
+  rules
 };
 
-const Email = ({ formParams, ...props }) => (
+
+
+const Email = ({ formParams, ...props }: EmailProps) => (
   <BaseControl
     {...{
       components,
       placeholder: 'введите e-mail',
       ...props,
+      params: {},
       formParams: _.merge({}, defaultFormParams, formParams),
     }}
   />
