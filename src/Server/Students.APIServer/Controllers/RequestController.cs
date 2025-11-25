@@ -4,10 +4,6 @@ using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
-using Students.Models.Enums;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Students.APIServer.Controllers;
 
@@ -39,6 +35,16 @@ public class RequestController : GenericAPiController<Request>
         {
             var result = await this._requestRepository.Create(form);
             return this.Ok(result);
+        }
+        catch (ArgumentException argEx)
+        {
+            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+            return this.BadRequest(argEx.Message);
+        }
+        catch (InvalidOperationException invOpEx)
+        {
+            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+            return this.BadRequest(invOpEx.Message);
         }
         catch (Exception e)
         {
@@ -105,6 +111,16 @@ public class RequestController : GenericAPiController<Request>
             var items = await this._requestRepository.GetRequestDTOByPageFilteredSorted(pageable.PageNumber, pageable.PageSize, sortingField ?? "StudentFullName", isSortAsc, filterString!);
             return this.Ok(items);
         }
+        catch (ArgumentException argEx)
+        {
+            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+            return this.BadRequest(argEx.Message);
+        }
+        catch (InvalidOperationException invOpEx)
+        {
+            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+            return this.BadRequest(invOpEx.Message);
+        }
         catch (Exception e)
         {
             this.Logger.LogError(e, "Error while getting Entities");
@@ -123,6 +139,16 @@ public class RequestController : GenericAPiController<Request>
         {
             var statuses = await _requestRepository.GetEntranceExamStatuses();
             return this.Ok(statuses);
+        }
+        catch (ArgumentException argEx)
+        {
+            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+            return this.BadRequest(argEx.Message);
+        }
+        catch (InvalidOperationException invOpEx)
+        {
+            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+            return this.BadRequest(invOpEx.Message);
         }
         catch (Exception e)
         {
@@ -143,6 +169,16 @@ public class RequestController : GenericAPiController<Request>
         {
             var requestDTO = await this._requestRepository.GetRequestDTO(id);
             return requestDTO is null ? this.NotFoundException() : this.Ok(requestDTO);
+        }
+        catch (ArgumentException argEx)
+        {
+            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+            return this.BadRequest(argEx.Message);
+        }
+        catch (InvalidOperationException invOpEx)
+        {
+            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+            return this.BadRequest(invOpEx.Message);
         }
         catch (Exception e)
         {
