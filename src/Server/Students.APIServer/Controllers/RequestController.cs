@@ -67,6 +67,16 @@ public class RequestController : GenericAPiController<Request>
             var result = await this._requestRepository.Update(id, form);
             return result is null ? this.NotFoundException() : this.Ok(form);
         }
+        catch (ArgumentException argEx)
+        {
+            this.Logger.LogWarning(argEx, "Invalid argument while updating Entity");
+            return this.BadRequest(argEx.Message);
+        }
+        catch (InvalidOperationException invOpEx)
+        {
+            this.Logger.LogWarning(invOpEx, "Invalid operation while updating Entity");
+            return this.BadRequest(invOpEx.Message);
+        }
         catch (Exception e)
         {
             this.Logger.LogError(e, "Error while updating Entity");
