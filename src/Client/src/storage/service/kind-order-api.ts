@@ -15,7 +15,6 @@ export const kindOrderApi = createApi({
     }),
     getKindOrderById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['KindOrder'],
     }),
     addKindOrder: builder.mutation({
       query: (item) => ({

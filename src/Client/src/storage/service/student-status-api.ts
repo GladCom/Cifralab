@@ -15,7 +15,6 @@ export const studentStatusApi = createApi({
     }),
     getStudentStatusById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['StudentStatus'],
     }),
     addStudentStatus: builder.mutation({
       query: (item) => ({

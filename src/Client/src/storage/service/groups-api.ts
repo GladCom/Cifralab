@@ -16,7 +16,6 @@ export const groupsApi = createApi({
     }),
     getGroupById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['Groups'],
     }),
     addGroup: builder.mutation({
       query: (item) => ({

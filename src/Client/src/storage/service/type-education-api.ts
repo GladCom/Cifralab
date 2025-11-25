@@ -15,7 +15,6 @@ export const typeEducationApi = createApi({
     }),
     getTypeEducationById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['TypeEducation'],
     }),
     addTypeEducation: builder.mutation({
       query: (item) => ({

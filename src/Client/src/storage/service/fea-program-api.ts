@@ -15,7 +15,6 @@ export const feaProgramApi = createApi({
     }),
     getFEAProgramById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['FEAProgram'],
     }),
     addFEAProgram: builder.mutation({
       query: (item) => ({

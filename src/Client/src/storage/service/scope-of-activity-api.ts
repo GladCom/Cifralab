@@ -15,7 +15,6 @@ export const scopeOfActivityApi = createApi({
     }),
     getscopeOfActivityById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['ScopeOfActivity'],
     }),
     addscopeOfActivity: builder.mutation({
       query: (item) => ({

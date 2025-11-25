@@ -15,7 +15,6 @@ export const kindEducationProgramApi = createApi({
     }),
     getKindEducationProgramById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['KindEducationProgram'],
     }),
     addKindEducationProgram: builder.mutation({
       query: (item) => ({

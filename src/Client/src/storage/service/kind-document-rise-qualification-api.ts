@@ -15,7 +15,6 @@ export const kindDocumentRiseQualificationApi = createApi({
     }),
     getKindDocumentRiseQualificationById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['KindDocumentRiseQualification'],
     }),
     addKindDocumentRiseQualification: builder.mutation({
       query: (item) => ({

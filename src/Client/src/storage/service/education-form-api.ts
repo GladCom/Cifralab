@@ -15,7 +15,6 @@ export const educationFormApi = createApi({
     }),
     getEducationFormById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['EducationForm'],
     }),
     addEducationForm: builder.mutation({
       query: (item) => ({

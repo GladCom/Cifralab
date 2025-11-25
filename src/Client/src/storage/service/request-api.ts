@@ -34,7 +34,7 @@ export const requestsApi = createApi({
         method: 'PUT',
         body: item,
       }),
-      invalidatesTags: ['Requests', 'RequestById'],
+      invalidatesTags: ['Requests'],
     }),
     removePersonRequest: builder.mutation({
       query: (id) => ({

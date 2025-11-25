@@ -15,7 +15,6 @@ export const financingTypeApi = createApi({
     }),
     getFinancingTypeById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['FinancingType'],
     }),
     addFinancingType: builder.mutation({
       query: (item) => ({

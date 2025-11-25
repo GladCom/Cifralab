@@ -15,7 +15,6 @@ export const requestStatusApi = createApi({
     }),
     getRequestStatusById: builder.query({
       query: (id) => id,
-      invalidatesTags: ['RequestStatus'],
     }),
     addRequestStatus: builder.mutation({
       query: (item) => ({
