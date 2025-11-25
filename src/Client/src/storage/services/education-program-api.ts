@@ -12,6 +12,13 @@ export const educationProgramApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['EducationProgram'],
     }),
+    getEducationProgramSearch: builder.query({
+      query: (queryText) => {
+        const encoded = encodeURIComponent(JSON.stringify({ query: queryText }));
+        return `Search?searchWithoutType=${encoded}`;
+      },
+      providesTags: ['EducationProgram'],
+    }),
     getEducationProgramById: builder.query({
       query: (id) => id,
       providesTags: ['EducationProgramById'],
@@ -48,4 +55,5 @@ export const {
   useAddEducationProgramMutation,
   useEditEducationProgramMutation,
   useRemoveEducationProgramMutation,
+  useGetEducationProgramSearchQuery
 } = educationProgramApi;

@@ -59,6 +59,7 @@ export default {
   detailsLink: 'requests',
   hasDetailsPage: true,
   serverPaged: true,
+  searchPlaceholder: 'Поиск по заявкам',
   properties: personRequestsModel,
   crud: {
     useGetAllAsync,
