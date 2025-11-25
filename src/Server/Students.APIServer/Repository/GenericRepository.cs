@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
+using Students.Models;
 using Students.Models.Filters.Filters;
+using Students.Models.Searches.Searches;
 
 namespace Students.APIServer.Repository;
 
@@ -80,6 +82,19 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   public virtual async Task<IEnumerable<TEntity>> GetFiltered(Filter<TEntity> filter)
   {
     return await this.Get(filter.GetFilterPredicate());
+  }
+
+  /// <inheritdoc />
+  public virtual async Task<IEnumerable<TEntity>> GetSearched(Search<TEntity> search)
+  {
+    IQueryable<TEntity> query = this.DbSet;
+
+    if (typeof(TEntity) == typeof(Request))
+    {
+      query = query.Include(e => ((Request)(object)e).Student) as IQueryable<TEntity>;
+    }
+
+    return await this.Get(search.GetSearchPredicate(), query);
   }
 
   /// <summary>

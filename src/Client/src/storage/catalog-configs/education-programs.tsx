@@ -7,6 +7,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useSearchAsync,
 } from '../crud/education-program-crud';
 import { educationProgramsModel } from '../models/index';
 import KindEducationProgramSelect from '../../components/shared/business/selects/kind-education-program-select';
@@ -42,6 +43,7 @@ export default {
   hasDetailsPage: true,
   serverPaged: false,
   properties: educationProgramsModel,
+  searchPlaceholder: 'Поиск',
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,
@@ -49,6 +51,7 @@ export default {
     useAddOneAsync,
     useEditOneAsync,
     useRemoveOneAsync,
+    useSearchAsync,
   },
   columns: [
     {
