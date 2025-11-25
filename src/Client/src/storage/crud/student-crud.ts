@@ -8,7 +8,7 @@ import {
 } from '../service/student-api';
 
 const useGetAllAsync = () => {
-  const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetStudentsQuery();
+  const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetStudentsQuery({});
 
   return { data, isError, isSuccess, error, isLoading, isFetching, refetch };
 };

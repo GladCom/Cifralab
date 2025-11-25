@@ -18,7 +18,7 @@ import { EmailCopyButton } from '../../components/shared/control/email-copy-butt
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {
   const { id, statusRequest, statusRequestId } = record;
-  const { data, isLoading, isFetching, refetch } = useGetRequestStatusQuery();
+  const { data, isLoading, isFetching, refetch } = useGetRequestStatusQuery({});
   const [editRequest, { isSuccess, isError }] = useEditOneAsync();
   const [status, setStatus] = useState('');
   const selectRef = useRef(null);
