@@ -6,11 +6,8 @@ stages:
 # Запуск юнит тестов
 frontend-test:
   stage: test
-  image: node:23.1.0-alpine3.19
+  image: node:current-alpine3.19
   tags: [ common ]
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
-      when: on_success
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
     when: always
@@ -21,10 +18,9 @@ frontend-test:
       junit:
         - junit.xml
   script:
-    - cd ./src/Client
     - npm install jest
     - npm install --save-dev jest-junit
-    - npm run test
+    - npm run test:ci
 
 # Проверка компиляции бэкенд
 backend-compile:
@@ -40,14 +36,14 @@ backend-compile:
 # Проверка сборки frontend
 frontend-build:
   stage: compile
-  image: node:23.1.0-alpine3.19
+  image: node:current-alpine3.19
   tags: [ common ]
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_REF_NAME != 'main'
       when: on_success
   script:
     - cd ./src/Client 
-    - npm install --legacy-peer-deps
+    - npm ci
     - CI=false npm run build
   
 # Запус юнит тестов
@@ -68,26 +64,19 @@ backend-test:
   script:
     - dotnet test ./test/TestAPI --test-adapter-path . --logger 'junit;LogFilePath=../Artifacts/{assembly}.Result.xml;MethodFormat=Class;FailureBodyFormat=Verbose'
 
-# Деплой на продуктовый стенд
-deploy-on-prod-stand:
+# Деплой на тестовый стенд
+deploy-on-demo-stand:
   stage: deploy
   tags: [ deploy ]
   rules:
-    - if: ( $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main' ) || ( "prod" =~ $CI_COMMIT_TAG )
+    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_REF_NAME == 'main'
       when: on_success
   script:
-    - ./build/down.sh prod
-    - sed -i -e 's/https:\/\/cifra2024.udmr.ru\/seq/http:\/\/10.10.41.11:9000/g' ./src/Server/Students.APIServer/appsettings.json
-    - echo REACT_APP_API_URL=https://cifra2024.udmr.ru/apiprod > ./src/Client/.env
-    - BUILD_OUT=$(./build/build.sh prod)
-    - ./build/run.sh prod
+    - ./build/down.sh
+    - BUILD_OUT=$(./build/build.sh)
+    - ./build/run.sh
     - BUILD_STATUS="${BUILD_OUT:0-1}"
-    - if [ $BUILD_STATUS == 0 ]; then MESSAGE="Запущен деплой с сервера $CI_API_V4_URL  $CI_SERVER_HOST  $CI_PROJECT_URL проект  $CI_PROJECT_ROOT_NAMESPACE / $CI_PROJECT_NAME коммит $CI_COMMIT_MESSAGE тег $CI_COMMIT_TAG автор $CI_COMMIT_AUTHOR ветка  $CI_COMMIT_BRANCH на прод"; else MESSAGE="!!! Ошибка деплоя с сервера $CI_API_V4_URL  $CI_SERVER_HOST  $CI_PROJECT_URL проект  $CI_PROJECT_ROOT_NAMESPACE / $CI_PROJECT_NAME коммит $CI_COMMIT_MESSAGE тег $CI_COMMIT_TAG автор $CI_COMMIT_AUTHOR ветка  $CI_COMMIT_BRANCH на прод"; fi
-    - URL="https://api.telegram.org/bot$keytelegram/sendMessage"
-    - curl -s -X POST $URL -d chat_id=$channeltelegram -d text="$MESSAGE"
     - exit $BUILD_STATUS
- 
- 
     
 # Подготовить деплой тестовго стенда
 .before-deploy-on-test-script: &before-deploy-on-test-script
@@ -106,7 +95,6 @@ deploy-on-prod-stand:
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "mkdir -p cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}"
   - scp -r $(pwd) "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}:cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}"
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/down.sh ${TEST_STAND}"
-  - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S echo REACT_APP_API_URL=http://${TEST_IP_AND_PORT} > ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/src/Client/.env"
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/build.sh ${TEST_STAND}"
   - ssh -A "${CIFRA_TEST_USER}@${CIFRA_TEST_HOST}" "cat cifra/.password | sudo -S ~/cifra/${TEST_STAND}/${CI_COMMIT_SHORT_SHA}/cifra/build/run.sh ${TEST_STAND}"
 
@@ -121,7 +109,6 @@ deploy-on-test-stand-1:
     - *before-deploy-on-test-script
   script:
     - TEST_STAND=test1
-    - TEST_IP_AND_PORT=${CIFRA_TEST_IP}:8001
     - *deploy-on-test-script
 
 # Деплой на тестовый стенд 2
@@ -135,5 +122,4 @@ deploy-on-test-stand-2:
     - *before-deploy-on-test-script
   script:
     - TEST_STAND=test2
-    - TEST_IP_AND_PORT=${CIFRA_TEST_IP}:8002
     - *deploy-on-test-script
