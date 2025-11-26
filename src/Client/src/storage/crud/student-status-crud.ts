@@ -5,7 +5,7 @@ import {
   useAddStudentStatusMutation,
   useEditStudentStatusMutation,
   useRemoveStudentStatusMutation,
-} from '../services/student-status-api';
+} from '../service/student-status-api';
 
 export {
   useGetStudentStatusQuery as useGetAllAsync,

@@ -5,7 +5,7 @@ import {
   useAddKindOrderMutation,
   useEditKindOrderMutation,
   useRemoveKindOrderMutation,
-} from '../services/kind-order-api';
+} from '../service/kind-order-api';
 
 export {
   useGetKindOrderQuery as useGetAllAsync,

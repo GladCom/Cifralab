@@ -5,7 +5,7 @@ import {
   useAddKindDocumentRiseQualificationMutation,
   useEditKindDocumentRiseQualificationMutation,
   useRemoveKindDocumentRiseQualificationMutation,
-} from '../services/kind-document-rise-qualification-api';
+} from '../service/kind-document-rise-qualification-api';
 
 export {
   useGetKindDocumentRiseQualificationQuery as useGetAllAsync,

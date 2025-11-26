@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Flex, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import AddOneForm from '../catalog-provider/forms/add-one-form';
-import { SearchInput } from '../business/common/search-input';
+import { AddOneForm } from '../catalog-provider/forms/add-one-form';
+import { SearchInput } from '../control/search-input';
 
 const style = {
   height: '7vh',
@@ -16,33 +16,18 @@ const TablePageHeader = ({ config, title, onSearch }) => {
 
   return (
     <>
-      <Flex
-        style={style}
-        className="border-bottom border-primary"
-        justify="space-between"
-        align="center"
-      >
+      <Flex style={style} className="border-bottom border-primary" justify="space-between" align="center">
         <h3 style={styles.title}>{title}</h3>
 
         <Flex justify="flex-end" align="center" gap={8}>
-          {searchPlaceholder && (
-            <SearchInput
-              placeholder={searchPlaceholder}
-              onSearch={onSearch}
-            />
-          )}
+          {searchPlaceholder && <SearchInput placeholder={searchPlaceholder} onSearch={onSearch} />}
           <Button type="primary" onClick={() => setShowAddOneForm(true)}>
             <PlusOutlined />
             добавить
           </Button>
         </Flex>
       </Flex>
-
-      <AddOneForm
-        control={{ showAddOneForm, setShowAddOneForm }}
-        properties={properties}
-        crud={crud}
-      />
+      <AddOneForm control={{ showAddOneForm, setShowAddOneForm }} properties={properties} crud={crud} />
     </>
   );
 };

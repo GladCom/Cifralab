@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import { TablePageHeader } from '../layout/index';
@@ -12,34 +12,14 @@ const EntityTable = ({ config, title }) => {
   const [queryString, setQueryString] = useState('');
   const [query, setQuery] = useState({});
   const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 10,
     },
-    sortOrder: undefined,
-    sortField: undefined,
-    sortBackendField: undefined,
   });
   const navigate = useNavigate();
-
-  const sorterFieldMap = useMemo(() => {
-    return (columns ?? []).reduce((acc, column) => {
-      const backendField = column?.sorterKey;
-
-      if (!backendField) {
-        return acc;
-      }
-
-      const identifiers = [column?.dataIndex, column?.key].filter(Boolean);
-
-      identifiers.forEach((identifier) => {
-        acc[identifier] = backendField;
-      });
-
-      return acc;
-    }, {});
-  }, [columns]);
 
   const {
     data: dataFromServer,
@@ -51,74 +31,66 @@ const EntityTable = ({ config, title }) => {
     filterDataReq: queryString,
   });
 
-  const searchResults = useSearchAsync ? useSearchAsync(searchText) : { data: null };
-
+  const searchResults = useSearchAsync(searchText) || { data: null };
   const isSearching = !!searchText.trim();
   const dataToDisplay = isSearching ? searchResults?.data : serverPaged ? dataFromServer?.data : dataFromServer;
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
-      const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
-      setData(normalizedData);
-
-      setTableParams((prev) => ({
-        ...prev,
+      //  const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
+      setData(dataToDisplay);
+      setLoading(false);
+      setTableParams({
+        ...tableParams,
         pagination: {
-          ...prev.pagination,
-          total,
-          position: ['bottomLeft'],
+          ...tableParams.pagination,
+          // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
+          //total,
+          //position: ['bottomLeft'],
         },
-      }));
+      });
     }
   }, [
     dataFromServer,
+    tableParams.pagination.pageSize,
+    searchResults.data,
+    searchText,
     isLoading,
     isFetching,
+    serverPaged,
+    dataToDisplay,
+    tableParams,
   ]);
 
   useEffect(() => {
-    const params = new URLSearchParams();
+    let queryString = '';
+    for (const [key, value] of Object.entries(query)) {
+      queryString += `&${key}=${value}`;
+    }
+    setQueryString(queryString);
+  }, [query]);
 
-    Object.entries(query).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        params.set(key, String(value));
-      }
+  const handleTableChange = (pagination) => {
+    setTableParams({
+      pagination,
+      // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
+      //  filters,
+      //  sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
+      //  sortField: Array.isArray(sorter) ? undefined : sorter.field,
     });
 
-    if (tableParams.sortBackendField) {
-      params.set('sortingField', tableParams.sortBackendField);
-      const isSortAsc = tableParams.sortOrder === 'descend' ? 'false' : 'true';
-      params.set('isSortAsc', isSortAsc);
-    }
-
-    const paramsString = params.toString();
-    setQueryString(paramsString ? `&${paramsString}` : '');
-  }, [query, tableParams.sortBackendField, tableParams.sortOrder]);
-
-  const handleTableChange = (pagination, filters, sorter) => {
-    const sortOrder = sorter?.order;
-    const sortKey = sorter?.field ?? sorter?.columnKey;
-    const backendField = sortKey ? sorterFieldMap[sortKey] : undefined;
-
-    setTableParams((prev) => ({
-      pagination: {
-        ...pagination,
-        position: pagination.position ?? prev.pagination?.position,
-      },
-      filters,
-      sortOrder,
-      sortField: sortKey,
-      sortBackendField: backendField,
-    }));
-
+    // `dataSource` is useless since `pageSize` changed
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
+      setData(undefined);
     }
   };
 
-  const openDetailsInfo = useCallback((item) => {
-    navigate(`/${detailsLink}/${item.id}`);
-  }, []);
+  const openDetailsInfo = useCallback(
+    (item) => {
+      navigate(`/${detailsLink}/${item.id}`);
+    },
+    [detailsLink, navigate],
+  );
 
   return (
     <>
@@ -126,9 +98,9 @@ const EntityTable = ({ config, title }) => {
       <FilterPanel config={config} query={query} setQuery={setQuery} />
       <Table
         rowKey={(record) => record.id}
-        dataSource={dataConverter(dataToDisplay)}
+        dataSource={dataConverter(data)}
         pagination={tableParams.pagination}
-        loading={isLoading || isFetching}
+        loading={loading}
         onChange={handleTableChange}
         columns={columns}
         onRow={(record) => ({

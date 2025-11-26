@@ -1,6 +1,4 @@
 # cifralab_students
-[![.github/workflows/.github-ci.yml](https://github.com/GladCom/Cifralab/actions/workflows/.github-ci.yml/badge.svg?branch=develop)](https://github.com/GladCom/Cifralab/actions/workflows/.github-ci.yml)
-
 Запуск Backend:
 
 1. Установить систему контроля версий git (https://git-scm.com/downloads, если желаете работать из консоли).<br>

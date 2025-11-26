@@ -5,7 +5,7 @@ import {
   useAddFEAProgramMutation,
   useEditFEAProgramMutation,
   useRemoveFEAProgramMutation,
-} from '../services/fea-program-api';
+} from '../service/fea-program-api';
 
 export {
   useGetFEAProgramQuery as useGetAllAsync,
