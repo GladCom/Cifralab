@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Students.APIServer.Extension.Pagination;
 
@@ -61,12 +62,15 @@ public class PagedPage<T> where T : class
     /// <param name="pageNumber">Номер страницы</param>
     /// <param name="pageSize">Размер страницы</param>
     /// <param name="orderKey"></param>
+    /// <param name="isAsc">Направление сортировки. true - asc, false - desc</param>
     /// <returns>Пагинированные данные</returns>
 
-    public static async Task <PagedPage<T>> ToPagedPage<OrderKey>(IQueryable<T> source, int pageNumber, int pageSize, Func<T, OrderKey> orderKey)
+    public static async Task<PagedPage<T>> ToPagedPage<OrderKey>(IQueryable<T> source, int pageNumber, int pageSize, Func<T, OrderKey> orderKey, bool isAsc = true)
     {
         var count = source.Count();
         var items = await source.AsNoTracking().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-        return new PagedPage<T>(items.OrderBy(orderKey).ToList(), count, pageNumber, pageSize);
+        var sortedItems = isAsc ? items.OrderBy(orderKey).ToList() : items.OrderByDescending(orderKey).ToList();
+
+        return new PagedPage<T>(sortedItems, count, pageNumber, pageSize);
     }
 }
