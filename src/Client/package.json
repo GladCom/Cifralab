@@ -19,7 +19,6 @@
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.4",
-    "web-vitals": "^5.1.0",
     "yup": "^1.7.1"
   },
   "scripts": {
