@@ -18,6 +18,9 @@ export const requestsApi = createApi({
       //  TODO: в разработке
       query: (queryText) => '',
     }),
+    getEntranceExamStatuses: builder.query({
+      query: () => 'entranceExamStatuses',
+    }),
     getPersonRequestById: builder.query({
       query: (id) => ({
         url: `/GetDTO/${id}`,
@@ -58,4 +61,5 @@ export const {
   useEditPersonRequestMutation,
   useRemovePersonRequestMutation,
   useGetPersonRequestSearchQuery,
+  useGetEntranceExamStatusesQuery,
 } = requestsApi;

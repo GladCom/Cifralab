@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import { TablePageHeader } from '../layout/index';
@@ -18,6 +18,9 @@ const EntityTable = ({ config, title }) => {
       current: 1,
       pageSize: 10,
     },
+    // sortOrder: undefined,
+    // sortField: undefined,
+    // sortBackendField: undefined,
   });
   const navigate = useNavigate();
 
@@ -97,7 +100,7 @@ const EntityTable = ({ config, title }) => {
       <FilterPanel config={config} query={query} setQuery={setQuery} />
       <Table
         rowKey={(record) => record.id}
-        dataSource={dataConverter(data)}
+        dataSource={dataConverter(dataToDisplay)}
         pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}

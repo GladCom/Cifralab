@@ -77,7 +77,7 @@ public class RequestRepositoryTests
     const int pageSize = 2;
 
     // Act
-    var result = await this._requestRepository.GetRequestDTOByPageFilteredSorted(page, pageSize, "StudentFullName", true, "{}");
+    var result = await this._requestRepository.GetRequestsDTOByPage(page, pageSize);
 
     // Assert
     Assert.Multiple(() =>
