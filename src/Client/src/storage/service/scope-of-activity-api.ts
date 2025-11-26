@@ -13,6 +13,10 @@ export const scopeOfActivityApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['ScopeOfActivity'],
     }),
+    getScopeOfActivitySearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getscopeOfActivityById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddscopeOfActivityMutation,
   useEditscopeOfActivityMutation,
   useRemovescopeOfActivityMutation,
+  useGetScopeOfActivitySearchQuery,
 } = scopeOfActivityApi;

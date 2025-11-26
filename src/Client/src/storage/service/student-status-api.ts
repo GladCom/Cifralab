@@ -13,6 +13,10 @@ export const studentStatusApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['StudentStatus'],
     }),
+    getStudentStatusSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getStudentStatusById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddStudentStatusMutation,
   useEditStudentStatusMutation,
   useRemoveStudentStatusMutation,
+  useGetStudentStatusSearchQuery,
 } = studentStatusApi;

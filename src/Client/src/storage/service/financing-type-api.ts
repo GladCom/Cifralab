@@ -13,6 +13,10 @@ export const financingTypeApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['FinancingType'],
     }),
+    getFinancingTypeSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getFinancingTypeById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddFinancingTypeMutation,
   useEditFinancingTypeMutation,
   useRemoveFinancingTypeMutation,
+  useGetFinancingTypeSearchQuery,
 } = financingTypeApi;

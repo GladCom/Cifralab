@@ -13,6 +13,10 @@ export const typeEducationApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['TypeEducation'],
     }),
+    getTypeEducationSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getTypeEducationById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddTypeEducationMutation,
   useEditTypeEducationMutation,
   useRemoveTypeEducationMutation,
+  useGetTypeEducationSearchQuery,
 } = typeEducationApi;

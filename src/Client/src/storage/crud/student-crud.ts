@@ -5,6 +5,7 @@ import {
   useAddStudentMutation,
   useEditStudentMutation,
   useRemoveStudentMutation,
+  useGetStudentSearchQuery,
 } from '../service/student-api';
 
 const useGetAllAsync = () => {
@@ -37,4 +38,5 @@ export {
   useAddStudentMutation as useAddOneAsync,
   useEditStudentMutation as useEditOneAsync,
   useRemoveOneAsync,
+  useGetStudentSearchQuery as useSearchAsync,
 };

@@ -13,6 +13,10 @@ export const requestStatusApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['RequestStatus'],
     }),
+    getRequestStatusSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getRequestStatusById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddRequestStatusMutation,
   useEditRequestStatusMutation,
   useRemoveRequestStatusMutation,
+  useGetRequestStatusSearchQuery,
 } = requestStatusApi;

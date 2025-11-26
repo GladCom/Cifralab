@@ -14,6 +14,10 @@ export const groupsApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['Groups'],
     }),
+    getGroupsSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getGroupById: builder.query({
       query: (id) => id,
     }),
@@ -50,4 +54,5 @@ export const {
   useAddGroupMutation,
   useEditGroupMutation,
   useRemoveGroupMutation,
+  useGetGroupsSearchQuery,
 } = groupsApi;

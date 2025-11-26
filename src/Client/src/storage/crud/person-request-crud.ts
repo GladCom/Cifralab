@@ -7,6 +7,7 @@ import {
   useAddPersonRequestMutation,
   useEditPersonRequestMutation,
   useRemovePersonRequestMutation,
+  useGetPersonRequestSearchQuery,
 } from '../service/request-api';
 
 const useGetAllAsync = () => {
@@ -60,4 +61,5 @@ export {
   useAddPersonRequestMutation as useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useGetPersonRequestSearchQuery as useSearchAsync,
 };

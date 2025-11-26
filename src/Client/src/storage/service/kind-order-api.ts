@@ -13,6 +13,10 @@ export const kindOrderApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['KindOrder'],
     }),
+    getKindOrderSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getKindOrderById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddKindOrderMutation,
   useEditKindOrderMutation,
   useRemoveKindOrderMutation,
+  useGetKindOrderSearchQuery,
 } = kindOrderApi;

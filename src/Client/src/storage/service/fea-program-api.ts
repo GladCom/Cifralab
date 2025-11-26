@@ -13,6 +13,10 @@ export const feaProgramApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['FEAProgram'],
     }),
+    getFEAProgramSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getFEAProgramById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddFEAProgramMutation,
   useEditFEAProgramMutation,
   useRemoveFEAProgramMutation,
+  useGetFEAProgramSearchQuery,
 } = feaProgramApi;

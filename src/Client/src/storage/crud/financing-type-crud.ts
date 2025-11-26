@@ -5,6 +5,7 @@ import {
   useAddFinancingTypeMutation,
   useEditFinancingTypeMutation,
   useRemoveFinancingTypeMutation,
+  useGetFinancingTypeSearchQuery,
 } from '../service/financing-type-api';
 
 export {
@@ -14,4 +15,5 @@ export {
   useAddFinancingTypeMutation as useAddOneAsync,
   useEditFinancingTypeMutation as useEditOneAsync,
   useRemoveFinancingTypeMutation as useRemoveOneAsync,
+  useGetFinancingTypeSearchQuery as useSearchAsync,
 };
