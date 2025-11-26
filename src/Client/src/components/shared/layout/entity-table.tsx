@@ -59,7 +59,6 @@ const EntityTable = ({ config, title }) => {
     isFetching,
     serverPaged,
     dataToDisplay,
-    tableParams,
   ]);
 
   useEffect(() => {

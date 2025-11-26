@@ -5,6 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useSearchAsync,
 } from '../crud/student-status-crud';
 import { studentStatusFormModel } from '../form-model/student-status';
 
@@ -20,6 +21,7 @@ export default {
     useAddOneAsync,
     useEditOneAsync,
     useRemoveOneAsync,
+    useSearchAsync,
   },
   columns: [
     {

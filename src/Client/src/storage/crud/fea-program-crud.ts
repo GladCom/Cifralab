@@ -5,6 +5,7 @@ import {
   useAddFEAProgramMutation,
   useEditFEAProgramMutation,
   useRemoveFEAProgramMutation,
+  useGetFEAProgramSearchQuery,
 } from '../service/fea-program-api';
 
 export {
@@ -14,4 +15,5 @@ export {
   useAddFEAProgramMutation as useAddOneAsync,
   useEditFEAProgramMutation as useEditOneAsync,
   useRemoveFEAProgramMutation as useRemoveOneAsync,
+  useGetFEAProgramSearchQuery as useSearchAsync,
 };

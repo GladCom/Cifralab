@@ -5,6 +5,7 @@ import {
   useAddRequestStatusMutation,
   useEditRequestStatusMutation,
   useRemoveRequestStatusMutation,
+  useGetRequestStatusSearchQuery,
 } from '../service/request-status-api';
 
 export {
@@ -14,4 +15,5 @@ export {
   useAddRequestStatusMutation as useAddOneAsync,
   useEditRequestStatusMutation as useEditOneAsync,
   useRemoveRequestStatusMutation as useRemoveOneAsync,
+  useGetRequestStatusSearchQuery as useSearchAsync,
 };

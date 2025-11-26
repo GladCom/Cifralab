@@ -5,6 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useSearchAsync,
 } from '../crud/kind-document-rise-qualification-crud';
 import { kindDocumentRiseQualificationFormModel } from '../form-model/kind-document-rise-qualification';
 
@@ -20,6 +21,7 @@ export default {
     useAddOneAsync,
     useEditOneAsync,
     useRemoveOneAsync,
+    useSearchAsync,
   },
   columns: [
     {

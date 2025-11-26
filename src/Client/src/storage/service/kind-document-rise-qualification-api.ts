@@ -13,6 +13,10 @@ export const kindDocumentRiseQualificationApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['KindDocumentRiseQualification'],
     }),
+    getKindDocumentRiseQualificationSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getKindDocumentRiseQualificationById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddKindDocumentRiseQualificationMutation,
   useEditKindDocumentRiseQualificationMutation,
   useRemoveKindDocumentRiseQualificationMutation,
+  useGetKindDocumentRiseQualificationSearchQuery,
 } = kindDocumentRiseQualificationApi;

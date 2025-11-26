@@ -13,6 +13,10 @@ export const kindEducationProgramApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['KindEducationProgram'],
     }),
+    getKindEducationProgramSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getKindEducationProgramById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddKindEducationProgramMutation,
   useEditKindEducationProgramMutation,
   useRemoveKindEducationProgramMutation,
+  useGetKindEducationProgramSearchQuery,
 } = kindEducationProgramApi;

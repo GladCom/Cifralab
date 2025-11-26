@@ -6,6 +6,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useSearchAsync,
 } from '../crud/person-request-crud';
 import { useGetRequestStatusQuery } from '../service/request-status-api';
 import { Select } from 'antd';
@@ -69,6 +70,7 @@ export default {
     useAddOneAsync,
     useEditOneAsync,
     useRemoveOneAsync,
+    useSearchAsync,
   },
   columns: [
     {

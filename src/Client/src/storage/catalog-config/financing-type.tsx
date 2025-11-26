@@ -5,6 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useSearchAsync,
 } from '../crud/financing-type-crud';
 import { financingTypeFormModel } from '../form-model/financing-type';
 
@@ -20,6 +21,7 @@ export default {
     useAddOneAsync,
     useEditOneAsync,
     useRemoveOneAsync,
+    useSearchAsync,
   },
   columns: [
     {

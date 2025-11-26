@@ -13,6 +13,10 @@ export const educationFormApi = createApi({
       query: () => '', //  TODO: Переделать
       providesTags: ['EducationForm'],
     }),
+    getEducationFormSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getEducationFormById: builder.query({
       query: (id) => id,
     }),
@@ -49,4 +53,5 @@ export const {
   useAddEducationFormMutation,
   useEditEducationFormMutation,
   useRemoveEducationFormMutation,
+  useGetEducationFormSearchQuery,
 } = educationFormApi;

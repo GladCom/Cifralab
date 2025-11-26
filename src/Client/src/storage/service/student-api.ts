@@ -14,6 +14,10 @@ export const studentsApi = createApi({
       query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
       providesTags: ['Students'],
     }),
+    getStudentSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getStudentById: builder.query({
       query: (id) => id,
     }),
@@ -50,4 +54,5 @@ export const {
   useAddStudentMutation,
   useEditStudentMutation,
   useRemoveStudentMutation,
+  useGetStudentSearchQuery,
 } = studentsApi;

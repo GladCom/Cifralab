@@ -14,6 +14,10 @@ export const requestsApi = createApi({
       query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
       providesTags: ['Requests'],
     }),
+    getPersonRequestSearch: builder.query({
+      //  TODO: в разработке
+      query: (queryText) => '',
+    }),
     getPersonRequestById: builder.query({
       query: (id) => ({
         url: `/GetDTO/${id}`,
@@ -53,4 +57,5 @@ export const {
   useAddPersonRequestMutation,
   useEditPersonRequestMutation,
   useRemovePersonRequestMutation,
+  useGetPersonRequestSearchQuery,
 } = requestsApi;

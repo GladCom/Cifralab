@@ -5,6 +5,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useSearchAsync,
 } from '../crud/education-form-crud';
 import { educationFormFormModel } from '../form-model/education-form';
 
@@ -20,6 +21,7 @@ export default {
     useAddOneAsync,
     useEditOneAsync,
     useRemoveOneAsync,
+    useSearchAsync,
   },
   columns: [
     {

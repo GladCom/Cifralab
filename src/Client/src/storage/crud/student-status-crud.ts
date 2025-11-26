@@ -5,6 +5,7 @@ import {
   useAddStudentStatusMutation,
   useEditStudentStatusMutation,
   useRemoveStudentStatusMutation,
+  useGetStudentStatusSearchQuery,
 } from '../service/student-status-api';
 
 export {
@@ -14,4 +15,5 @@ export {
   useAddStudentStatusMutation as useAddOneAsync,
   useEditStudentStatusMutation as useEditOneAsync,
   useRemoveStudentStatusMutation as useRemoveOneAsync,
+  useGetStudentStatusSearchQuery as useSearchAsync,
 };
