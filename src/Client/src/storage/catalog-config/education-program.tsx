@@ -7,6 +7,7 @@ import {
   useAddOneAsync,
   useEditOneAsync,
   useRemoveOneAsync,
+  useSearchAsync,
 } from '../crud/education-program-crud';
 import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
 import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
@@ -43,6 +44,7 @@ export default {
   hasDetailsPage: true,
   serverPaged: false,
   properties: educationProgramFormModel,
+  searchPlaceholder: 'Поиск',
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,
@@ -50,6 +52,7 @@ export default {
     useAddOneAsync,
     useEditOneAsync,
     useRemoveOneAsync,
+    useSearchAsync,
   },
   columns: [
     {

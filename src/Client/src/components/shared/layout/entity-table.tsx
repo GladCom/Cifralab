@@ -1,12 +1,14 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import { TablePageHeader } from '../layout/index';
 import FilterPanel from '../catalog-provider/filter-panel';
 
 const EntityTable = ({ config, title }) => {
-  const { fields, properties, detailsLink, crud, columns, serverPaged, dataConverter } = config;
-  const { useGetAllPagedAsync, useRemoveOneAsync, useAddOneAsync, useGetOneByIdAsync, useEditOneAsync } = crud;
+  const { detailsLink, crud, columns, serverPaged, dataConverter } = config;
+  const { useGetAllPagedAsync, useSearchAsync } = crud;
+
+  const [searchText, setSearchText] = useState('');
   const [queryString, setQueryString] = useState('');
   const [query, setQuery] = useState({});
   const [data, setData] = useState();
@@ -21,38 +23,43 @@ const EntityTable = ({ config, title }) => {
 
   const {
     data: dataFromServer,
-    error,
     isLoading,
     isFetching,
-    refetch,
   } = useGetAllPagedAsync({
     pageNumber: tableParams.pagination.current,
     pageSize: tableParams.pagination.pageSize,
     filterDataReq: queryString,
   });
 
+  const searchResults = useSearchAsync(searchText) || { data: null };
+  const isSearching = !!searchText.trim();
+  const dataToDisplay = isSearching ? searchResults?.data : serverPaged ? dataFromServer?.data : dataFromServer;
+
   useEffect(() => {
     if (!isLoading && !isFetching) {
-      const normalizedData = serverPaged ? dataFromServer?.data : dataFromServer;
-      const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
-      setData(normalizedData);
+      //  const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
+      setData(dataToDisplay);
       setLoading(false);
       setTableParams({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          total,
-          position: ['bottomLeft'],
+          // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
+          //total,
+          //position: ['bottomLeft'],
         },
       });
     }
   }, [
     dataFromServer,
-    tableParams.pagination?.current,
-    tableParams.pagination?.pageSize,
-    tableParams?.sortOrder,
-    tableParams?.sortField,
-    JSON.stringify(tableParams.filters),
+    tableParams.pagination.pageSize,
+    searchResults.data,
+    searchText,
+    isLoading,
+    isFetching,
+    serverPaged,
+    dataToDisplay,
+    tableParams,
   ]);
 
   useEffect(() => {
@@ -63,27 +70,31 @@ const EntityTable = ({ config, title }) => {
     setQueryString(queryString);
   }, [query]);
 
-  const handleTableChange = (pagination, filters, sorter) => {
+  const handleTableChange = (pagination) => {
     setTableParams({
       pagination,
-      filters,
-      sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
-      sortField: Array.isArray(sorter) ? undefined : sorter.field,
+      // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
+      //  filters,
+      //  sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
+      //  sortField: Array.isArray(sorter) ? undefined : sorter.field,
     });
 
     // `dataSource` is useless since `pageSize` changed
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
+      setData(undefined);
     }
   };
 
-  const openDetailsInfo = useCallback((item) => {
-    navigate(`/${detailsLink}/${item.id}`);
-  });
+  const openDetailsInfo = useCallback(
+    (item) => {
+      navigate(`/${detailsLink}/${item.id}`);
+    },
+    [detailsLink, navigate],
+  );
 
   return (
     <>
-      <TablePageHeader config={config} title={title} />
+      <TablePageHeader config={config} title={title} onSearch={setSearchText} />
       <FilterPanel config={config} query={query} setQuery={setQuery} />
       <Table
         rowKey={(record) => record.id}
@@ -92,16 +103,14 @@ const EntityTable = ({ config, title }) => {
         loading={loading}
         onChange={handleTableChange}
         columns={columns}
-        onRow={(record) => {
-          return {
-            onClick: ({ target }) => {
-              if (target.tagName.toLowerCase() === 'td') {
-                openDetailsInfo(record);
-              }
-            },
-            style: { cursor: 'pointer' },
-          };
-        }}
+        onRow={(record) => ({
+          onClick: ({ target }) => {
+            if (target.tagName.toLowerCase() === 'td') {
+              openDetailsInfo(record);
+            }
+          },
+          style: { cursor: 'pointer' },
+        })}
       />
     </>
   );

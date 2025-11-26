@@ -61,6 +61,7 @@ export default {
   hasDetailsPage: true,
   serverPaged: true,
   properties: personRequestFormModel,
+  searchPlaceholder: 'Поиск по заявкам',
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

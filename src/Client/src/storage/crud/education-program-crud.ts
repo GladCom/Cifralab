@@ -6,12 +6,13 @@ import {
   useAddEducationProgramMutation,
   useEditEducationProgramMutation,
   useRemoveEducationProgramMutation,
+  useGetEducationProgramSearchQuery,
 } from '../service/education-program-api';
 import useNotifications from '../../notification/use-notifications';
 
 const useEditOneAsync = () => {
   const [editItem, editingResult] = useEditEducationProgramMutation();
-  const { data, error, isUninitialized, isLoading, isSuccess, isError, reset } = editingResult;
+  const { error, isSuccess, isError } = editingResult;
 
   const { showSuccess, showError } = useNotifications();
 
@@ -22,7 +23,7 @@ const useEditOneAsync = () => {
     if (isError) {
       showError('Ошибка! Редактирование программы не удалось!', error);
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, showSuccess, showError, error]);
 
   const editProgram = ({ id, item }) => {
     editItem({ id, item });
@@ -37,4 +38,5 @@ export {
   useAddEducationProgramMutation as useAddOneAsync,
   useEditOneAsync,
   useRemoveEducationProgramMutation as useRemoveOneAsync,
+  useGetEducationProgramSearchQuery as useSearchAsync,
 };
