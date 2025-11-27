@@ -3,20 +3,39 @@ import { DownloadOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import DateTimePicker from '@components/shared/business/date-time-picker';
 import { RangeValue } from '@/types';
+import { useMutation } from '@tanstack/react-query';
+import { fetchPFDOReport, IOrderRequest } from '@/api/reposrtApi';
 
 const { Paragraph, Title } = Typography;
 
 const FRDOReportBody = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [dateRange, setDataRange] = useState<RangeValue | null>(null);
+  // TODO: Сделал так чтобы не хранить обьект запроса в стейт, надо подумать как это переделать
+  const [studentId, setStudentId] = useState<string | null>();
+  const [groupsIds, setGroupsIds] = useState<string[] | null>([]);
 
-  const handlePreview = () => {
-    if (!dateRange || !dateRange[0] || !dateRange[1]) {
-      message.warning('Пожалуйста, выберите период для предпросмотра.');
+  const reportMutation = useMutation({
+    mutationFn: (params: IOrderRequest) => fetchPFDOReport(params),
+  });
+
+  const reportGeneration = () => {
+    debugger;
+    if (!dateRange) {
+      message.warning('Пожалуйста, выберите период для формирования отчёта.');
       return;
+    } else {
+      const params: IOrderRequest = {
+        endDateMax: null,
+        endDateMin: dateRange[0].format('YYYY-MM-DD'),
+        startDateMax: null,
+        startDateMin: dateRange[1].format('YYYY-MM-DD'),
+        studentId: null,
+        groupNames: null,
+      };
+
+      reportMutation.mutate(params);
     }
-    const startDate = dateRange[0].format('YYYY-MM-DD');
-    const endDate = dateRange[1].format('YYYY-MM-DD');
   };
 
   return (
@@ -36,15 +55,20 @@ const FRDOReportBody = () => {
           <strong>2а. Добавьте необходимы поля и скачайте отчёт:</strong>
         </Paragraph>
         <Space>
-          <Button type="primary" icon={<DownloadOutlined />} loading={isDownloading}>
-            {isDownloading ? 'Формирование...' : 'Скачать .xlsx'}
+          <Button
+            type="primary"
+            onClick={reportGeneration}
+            icon={<DownloadOutlined />}
+            loading={reportMutation.isPending}
+          >
+            {reportMutation.isPending ? 'Формирование...' : 'Скачать .xlsx'}
           </Button>
         </Space>
         <Paragraph style={{ marginBottom: 0 }}>
           <strong>2б. Сформируйте и скачайте отчёт на основе данных из системы:</strong>
         </Paragraph>
-        <Button type="primary" icon={<DownloadOutlined />} loading={isDownloading}>
-          {isDownloading ? 'Формирование...' : 'Сформировать и скачать .xlsx'}
+        <Button type="primary" disabled={true} icon={<DownloadOutlined />} loading={reportMutation.isPending}>
+          {reportMutation.isPending ? 'Формирование...' : 'Сформировать и скачать .xlsx'}
         </Button>
       </Space>
     </Card>

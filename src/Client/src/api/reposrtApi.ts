@@ -2,7 +2,7 @@
 import { apiFileRequest } from '@/api/apiClient';
 
 export const OrderResponseSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   number: z.string().nullable(),
   date: z.coerce.date(),
   kindOrderId: z.string().uuid(),
@@ -10,16 +10,15 @@ export const OrderResponseSchema = z.object({
 });
 
 export const ReportRequestSchema = z.object({
-  id: z.string().uuid(),
-  studentId: z.string().uuid(),
+  studentId: z.string().nullable(),
   startDateMin: z.string().nullable(),
   startDateMax: z.string().nullable(),
   endDateMin: z.string().nullable(),
   endDateMax: z.string().nullable(),
+  groupNames: z.array(z.string()).nullable(),
 });
 
 export type IOrderRequest = z.infer<typeof ReportRequestSchema>;
-export type IOrderReponse = z.infer<typeof OrderResponseSchema>;
 
 const downloadReport = async (endpoint: string, params: IOrderRequest, downloadFileName: string): Promise<void> => {
   try {
@@ -32,7 +31,7 @@ const downloadReport = async (endpoint: string, params: IOrderRequest, downloadF
       body: JSON.stringify(params),
     };
 
-    const blob = await apiFileRequest(endpoint, options);
+    const blob = await apiFileRequest<IOrderRequest>(endpoint, params, options);
 
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');

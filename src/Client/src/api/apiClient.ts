@@ -21,8 +21,8 @@ export async function apiJsonRequest<T>(url: string, schema: z.ZodType<T>, optio
   return schema.parse(jsonData);
 }
 
-export const apiFileRequest = async (url: string, params?: unknown, options?: RequestInit): Promise<Blob> => {
-  const baseURL = `${BASE_API_URL}${url}`;
+export const apiFileRequest = async <T>(url: string, params?: T, options?: RequestInit): Promise<Blob> => {
+  const baseURL = `${BASE_API_URL}/${url}`;
   const response = await fetch(`${baseURL}`, {
     method: 'POST',
     headers: {

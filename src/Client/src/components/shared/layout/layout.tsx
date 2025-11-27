@@ -17,9 +17,11 @@ const layoutStyle = {
 const footerStyle = {
   textAlign: 'center',
   backgroundColor: '#fff',
+  position: 'sticky',
 };
 
 const title = 'Сервис обработки заявок';
+
 interface Props {
   title?: string;
   children: React.ReactNode;
