@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { actions as userActions } from '../../storage/slices/user-slice';
+import { actions as userActions } from '../../storage/slice/user-slice';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex, Tooltip } from 'antd';
 

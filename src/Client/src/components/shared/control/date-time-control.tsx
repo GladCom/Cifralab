@@ -1,0 +1,73 @@
+import { useCallback } from 'react';
+import { DatePicker, Typography } from 'antd';
+import dayjs from 'dayjs';
+import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
+import { Rule } from 'antd/es/form';
+import { MultiControlProps } from './multi-mode-control/default-controls';
+import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+import _ from 'lodash';
+
+const { Text } = Typography;
+
+const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
+  return <Text>{dayjs(String(value ?? 'Неверный тип данных')).format('DD.MM.YYYY HH:mm:ss')}</Text>;
+};
+
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ defaultValue, onChange, formParams }) => {
+  const { key } = formParams;
+
+  const formattValue = useCallback(
+    (date: dayjs.Dayjs) => {
+      const formattedDateString = dayjs(date).format('YYYY-MM-DDTHH:mm:ss');
+      onChange(formattedDateString);
+    },
+    [onChange],
+  );
+
+  return (
+    <DatePicker
+      key={key}
+      defaultValue={dayjs(String(defaultValue ?? 'Неверный тип данных'))}
+      showTime
+      format={{
+        format: 'DD.MM.YYYY HH:mm:ss',
+        type: 'mask',
+      }}
+      onChange={formattValue}
+    />
+  );
+};
+
+const controlMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: ViewControl,
+  [DisplayMode.EDITABLE_VIEW]: ViewControl,
+  [DisplayMode.EDITOR]: CommonEditorFormItemControl,
+  [DisplayMode.FORM_ITEM]: CommonEditorFormItemControl,
+};
+
+const rules: Rule[] = [
+  {
+    required: true,
+    message: 'Необходимо заполнить дату',
+  },
+];
+
+const formParams: FormParams = {
+  key: 'date',
+  name: 'Введите дату',
+  rules,
+  hasFeedback: true,
+};
+
+export const DateTimeControl: React.FC<MultimodeControlProps> = (props) => {
+  const { formParams: externalFormParams, ...restProps } = props;
+
+  // Такой финт нужен для переопределения formParams при переиспользовании компонента.
+  const finalFormParams = _.merge(
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
+
+  return <MultimodeControl {...restProps} controlMap={controlMap} formParams={finalFormParams} />;
+};

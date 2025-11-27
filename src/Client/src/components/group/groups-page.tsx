@@ -1,6 +1,5 @@
-import React from 'react';
 import { Layout, EntityTable } from '../shared/layout/index';
-import config from '../../storage/catalog-configs/groups';
+import config from '../../storage/catalog-config/group';
 
 const GroupsPage = () => {
   return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import config from '../../storage/catalog-configs/person-requests';
+import config from '../../storage/catalog-config/person-request';
 
 const RequestDetailsPage = () => {
   const { id } = useParams();
@@ -32,7 +32,7 @@ const RequestDetailsPage = () => {
   const onSave = useCallback(() => {
     editRequest({ id, item: requestData });
     setIsChanged(false);
-  }, [id, requestData]);
+  }, [editRequest, id, requestData]);
 
   const onCancel = useCallback(() => {
     setRequestData(initialData);
