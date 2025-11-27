@@ -8,14 +8,22 @@ import DateTimePicker from '../shared/control/date-time-picker';
 
 const { Paragraph, Title } = Typography;
 
-const FRDOReportBody = () => {
+export interface IProps {
+  title: string;
+  description: string;
+  fetchfn: (params: IOrderRequest) => Promise<void>;
+}
+const DefaultReportBody = (props: IProps) => {
+  const { fetchfn, title, description } = props;
+
   const [dateRange, setDataRange] = useState<RangeValue | null>(null);
+
   // TODO: Сделал так чтобы не хранить обьект запроса в стейт, надо подумать как это переделать
   const [studentId, setStudentId] = useState<string | null>();
   const [groupsIds, setGroupsIds] = useState<string[] | null>([]);
 
   const reportMutation = useMutation({
-    mutationFn: (params: IOrderRequest) => fetchPFDOReport(params),
+    mutationFn: (params: IOrderRequest) => fetchfn(params),
   });
 
   const reportGeneration = () => {
@@ -37,7 +45,7 @@ const FRDOReportBody = () => {
 
   return (
     <Card>
-      <Title level={4}>отчёт ФРДО</Title>
+      <Title level={4}>{title}</Title>
       <Paragraph type="secondary">
         Выгрузка данных о выданных документах об образовании в формате Excel для последующей загрузки в федеральный
         реестр.
@@ -72,4 +80,4 @@ const FRDOReportBody = () => {
   );
 };
 
-export default FRDOReportBody;
+export default DefaultReportBody;

@@ -1,36 +1,21 @@
 import React from 'react';
 import { Layout } from '../shared/layout/index';
-import ReportCard from '@components/report/report-card';
-import { Space } from 'antd';
-import Accordion from '@components/shared/business/base-controls/Accordion';
 import FRDOReportBody from '@components/report/FRDO-report-body';
-import createReportConfig from '../../storage/catalog-configs/report';
+import Accordion from '../shared/control/base-controls/Accordion';
+import DefaultReportBody from '@components/report/deafault-report-card-body';
+import { fetchPFDOReport } from '@/api/reposrtApi';
 
 const ReportsPage = () => {
-  const { crud } = createReportConfig();
-  const {} = crud;
   return (
     <Layout title="Отчеты">
+      <Accordion>
+        <DefaultReportBody />
+      </Accordion>
       <Accordion>
         <FRDOReportBody />
       </Accordion>
       <Accordion>
-        <ReportCard
-          title={'отчёт ФРДО'}
-          description={
-            'Выгрузка данных о выданных документах об образовании в формате Excel для последующей загрузки в федеральный реестр.'
-          }
-        ></ReportCard>
-      </Accordion>
-      <Accordion>
-        <ReportCard
-          title={'отчёт ФРДО'}
-          description={
-            'Выгрузка данных о выданных документах об образовании в формате Excel для последующей загрузки в федеральный реестр.'
-          }
-        >
-          <Space />
-        </ReportCard>
+        <FRDOReportBody />
       </Accordion>
     </Layout>
   );

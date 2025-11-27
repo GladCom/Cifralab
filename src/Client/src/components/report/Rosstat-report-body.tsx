@@ -8,8 +8,10 @@ import DateTimePicker from '../shared/control/date-time-picker';
 
 const { Paragraph, Title } = Typography;
 
-const FRDOReportBody = () => {
+const RosstatReportBody = () => {
+  const [isDownloading, setIsDownloading] = useState(false);
   const [dateRange, setDataRange] = useState<RangeValue | null>(null);
+
   // TODO: Сделал так чтобы не хранить обьект запроса в стейт, надо подумать как это переделать
   const [studentId, setStudentId] = useState<string | null>();
   const [groupsIds, setGroupsIds] = useState<string[] | null>([]);
@@ -31,13 +33,14 @@ const FRDOReportBody = () => {
         studentId: null,
         groupNames: null,
       };
+
       reportMutation.mutate(params);
     }
   };
 
   return (
     <Card>
-      <Title level={4}>отчёт ФРДО</Title>
+      <Title level={4}>отчёт Росстат</Title>
       <Paragraph type="secondary">
         Выгрузка данных о выданных документах об образовании в формате Excel для последующей загрузки в федеральный
         реестр.
@@ -72,4 +75,4 @@ const FRDOReportBody = () => {
   );
 };
 
-export default FRDOReportBody;
+export default RosstatReportBody;
