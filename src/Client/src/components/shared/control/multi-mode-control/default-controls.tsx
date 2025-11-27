@@ -1,0 +1,79 @@
+import { Input, Typography } from 'antd';
+import { MultimodeControlValue, ControlByModeMap, DisplayMode, FormParams } from './types';
+import { ChangeEvent, useCallback } from 'react';
+
+const { Text } = Typography;
+
+export type MultiControlProps = {
+  value: MultimodeControlValue;
+  defaultValue?: MultimodeControlValue;
+  placeholder?: string;
+  formParams?: FormParams;
+  crud?: any;
+  options?: any;
+  //  TODO: a точно ли тут надо передавать значение а не событие?
+  onChange?: (value: MultimodeControlValue) => void;
+};
+
+export const DefaultViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{value}</Text>;
+
+export const DefaultEditableViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{value}</Text>;
+
+export const DefaultEditorControl: React.FC<MultiControlProps> = ({
+  value,
+  onChange,
+  defaultValue,
+  formParams,
+  placeholder,
+}) => {
+  const { key } = formParams;
+
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChange(event.target.value);
+    },
+    [onChange],
+  );
+
+  return (
+    <Input
+      key={key}
+      allowClear
+      value={String(value ?? 'Неверный тип данных')}
+      onChange={handleChange}
+      defaultValue={String(defaultValue ?? 'Неверный тип данных')}
+      placeholder={placeholder}
+      type="textarea"
+    />
+  );
+};
+
+export const DefaultFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams, placeholder }) => {
+  const { key } = formParams;
+
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChange(event.target.value);
+    },
+    [onChange],
+  );
+
+  return (
+    <Input
+      key={key}
+      allowClear
+      value={String(value ?? '')}
+      onChange={handleChange}
+      defaultValue=""
+      placeholder={placeholder}
+      type="textarea"
+    />
+  );
+};
+
+export const defaultControlByModeMap: ControlByModeMap = {
+  [DisplayMode.VIEW]: DefaultViewControl,
+  [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
+  [DisplayMode.EDITOR]: DefaultEditorControl,
+  [DisplayMode.FORM_ITEM]: DefaultFormItemControl,
+};

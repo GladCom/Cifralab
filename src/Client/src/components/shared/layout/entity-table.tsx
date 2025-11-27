@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import { TablePageHeader } from '../layout/index';
@@ -18,6 +18,9 @@ const EntityTable = ({ config, title }) => {
       current: 1,
       pageSize: 10,
     },
+    // sortOrder: undefined,
+    // sortField: undefined,
+    // sortBackendField: undefined,
   });
   const navigate = useNavigate();
 
@@ -31,31 +34,34 @@ const EntityTable = ({ config, title }) => {
     filterDataReq: queryString,
   });
 
-  const searchResults = useSearchAsync ? useSearchAsync(searchText) : { data: null };
-
+  const searchResults = useSearchAsync(searchText) || { data: null };
   const isSearching = !!searchText.trim();
   const dataToDisplay = isSearching ? searchResults?.data : serverPaged ? dataFromServer?.data : dataFromServer;
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
-      const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
+      //  const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
       setData(dataToDisplay);
       setLoading(false);
       setTableParams({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          total,
-          position: ['bottomLeft'],
+          // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
+          //total,
+          //position: ['bottomLeft'],
         },
       });
     }
   }, [
     dataFromServer,
-    searchResults?.data,
+    tableParams.pagination.pageSize,
+    searchResults.data,
     searchText,
-    tableParams.pagination?.current,
-    tableParams.pagination?.pageSize,
+    isLoading,
+    isFetching,
+    serverPaged,
+    dataToDisplay,
   ]);
 
   useEffect(() => {
@@ -66,23 +72,27 @@ const EntityTable = ({ config, title }) => {
     setQueryString(queryString);
   }, [query]);
 
-  const handleTableChange = (pagination, filters, sorter) => {
+  const handleTableChange = (pagination) => {
     setTableParams({
       pagination,
-      filters,
-      sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
-      sortField: Array.isArray(sorter) ? undefined : sorter.field,
+      // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
+      //  filters,
+      //  sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
+      //  sortField: Array.isArray(sorter) ? undefined : sorter.field,
     });
 
     // `dataSource` is useless since `pageSize` changed
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
+      setData(undefined);
     }
   };
 
-  const openDetailsInfo = useCallback((item) => {
-    navigate(`/${detailsLink}/${item.id}`);
-  }, []);
+  const openDetailsInfo = useCallback(
+    (item) => {
+      navigate(`/${detailsLink}/${item.id}`);
+    },
+    [detailsLink, navigate],
+  );
 
   return (
     <>
