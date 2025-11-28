@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       environment:
-        description: "prod | test1 | test2"
+        description: "prod | test"
         required: true
         type: string
       branch:
@@ -20,11 +20,12 @@ on:
         required: true
 
 jobs:
-  deploy:
+  deploy_prod:
+    if: ${{ inputs.environment == 'prod' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout selected branch
+      - name: Checkout branch
         uses: actions/checkout@v5
         with:
           ref: ${{ inputs.branch }}
@@ -38,49 +39,103 @@ jobs:
           echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Resolve settings for environment
-        id: cfg
-        run: |
-          if [ "${{ inputs.environment }}" = "prod" ]; then
-              echo "project=prod" >> $GITHUB_OUTPUT
-              echo "api_port=7000" >> $GITHUB_OUTPUT
-              echo "front_port=7000" >> $GITHUB_OUTPUT
-              echo "pg_port=5540" >> $GITHUB_OUTPUT
-              echo "remote_dir=prod" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.environment }}" = "test1" ]; then
-              echo "project=test1" >> $GITHUB_OUTPUT
-              echo "api_port=7001" >> $GITHUB_OUTPUT
-              echo "front_port=7001" >> $GITHUB_OUTPUT
-              echo "pg_port=5541" >> $GITHUB_OUTPUT
-              echo "remote_dir=test1" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.environment }}" = "test2" ]; then
-              echo "project=test2" >> $GITHUB_OUTPUT
-              echo "api_port=7002" >> $GITHUB_OUTPUT
-              echo "front_port=7002" >> $GITHUB_OUTPUT
-              echo "pg_port=5542" >> $GITHUB_OUTPUT
-              echo "remote_dir=test2" >> $GITHUB_OUTPUT
-          else
-              echo "Unknown environment: ${{ inputs.environment }}"
-              exit 1
-          fi
-
-      - name: Upload docker-compose.yaml
+      - name: Upload docker-compose
         run: |
           scp build/docker-compose.yaml \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.cfg.outputs.remote_dir }}/docker-compose.yaml
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/prod/docker-compose.yaml
 
-      - name: Deploy via docker compose
+      - name: Deploy PROD
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd cifra/${{ steps.cfg.outputs.remote_dir }} && \
-            PROJECT_NAME=${{ steps.cfg.outputs.project }} \
-            API_PORT=${{ steps.cfg.outputs.api_port }} \
-            FRONT_PORT=${{ steps.cfg.outputs.front_port }} \
-            PG_PORT=${{ steps.cfg.outputs.pg_port }} \
-            docker compose --project-name ${{ steps.cfg.outputs.project }} pull && \
-            PROJECT_NAME=${{ steps.cfg.outputs.project }} \
-            API_PORT=${{ steps.cfg.outputs.api_port }} \
-            FRONT_PORT=${{ steps.cfg.outputs.front_port }} \
-            PG_PORT=${{ steps.cfg.outputs.pg_port }} \
-            docker compose --project-name ${{ steps.cfg.outputs.project }} up -d --remove-orphans \
+            cd cifra/prod && \
+            PROJECT_NAME=prod \
+            API_PORT=7000 \
+            FRONT_PORT=7000 \
+            PG_PORT=5540 \
+            docker compose --project-name prod pull && \
+            PROJECT_NAME=prod \
+            API_PORT=7000 \
+            FRONT_PORT=7000 \
+            PG_PORT=5540 \
+            docker compose --project-name prod up -d --remove-orphans \
+          "
+
+  deploy_test1:
+    if: ${{ inputs.environment == 'test' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Prepare SSH
+        run: |
+          eval $(ssh-agent -s)
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload docker-compose
+        run: |
+          scp build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/test1/docker-compose.yaml
+
+      - name: Deploy TEST1
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd cifra/test1 && \
+            PROJECT_NAME=test1 \
+            API_PORT=7001 \
+            FRONT_PORT=7001 \
+            PG_PORT=5541 \
+            docker compose --project-name test1 pull && \
+            PROJECT_NAME=test1 \
+            API_PORT=7001 \
+            FRONT_PORT=7001 \
+            PG_PORT=5541 \
+            docker compose --project-name test1 up -d --remove-orphans \
+          "
+
+  deploy_test2:
+    if: ${{ inputs.environment == 'test' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Prepare SSH
+        run: |
+          eval $(ssh-agent -s)
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload docker-compose
+        run: |
+          scp build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/test2/docker-compose.yaml
+
+      - name: Deploy TEST2
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd cifra/test2 && \
+            PROJECT_NAME=test2 \
+            API_PORT=7002 \
+            FRONT_PORT=7002 \
+            PG_PORT=5542 \
+            docker compose --project-name test2 pull && \
+            PROJECT_NAME=test2 \
+            API_PORT=7002 \
+            FRONT_PORT=7002 \
+            PG_PORT=5542 \
+            docker compose --project-name test2 up -d --remove-orphans \
           "
