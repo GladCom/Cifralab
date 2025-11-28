@@ -94,3 +94,52 @@
           with:
             name: junit-report
             path: src/Client/junit.xml
+
+    docker-build:
+      needs: build-test
+      runs-on: ubuntu-latest
+
+      permissions:
+        packages: write
+        contents: read
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Login to GHCR
+          uses: docker/login-action@v3
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Prepare Tags
+          id: vars
+          run: |
+            echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+            echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
+
+        - name: Build backend image
+          run: |
+            docker build \
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:develop-${{ steps.vars.outputs.sha }} \
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:latest-develop \
+              -f Server/Students.APIServer/Dockerfile .
+
+        - name: Push backend image
+          run: |
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:develop-${{ steps.vars.outputs.sha }}
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:latest-develop
+
+        - name: Build frontend image
+          run: |
+            docker build \
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:develop-${{ steps.vars.outputs.sha }} \
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:latest-develop \
+              -f src/Client/Dockerfile src/Client
+
+        - name: Push frontend image
+          run: |
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:develop-${{ steps.vars.outputs.sha }}
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:latest-develop
