@@ -18,13 +18,9 @@ on:
         required: true
       SSH_KEY:
         required: true
-      SSH_PASSWORD:
-        required: true
 
 jobs:
-
-  deploy_prod:
-    if: ${{ inputs.environment == 'prod' }}
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -42,50 +38,15 @@ jobs:
           echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Debug SSH paths
+      - name: Upload docker-compose.yaml
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}"
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -la /home/${{ secrets.SSH_USER }}/cifra"
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pwd"
+          scp ./build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/cifra/${{ inputs.environment }}/docker-compose.yaml
 
-      - name: Deploy PROD
+      - name: Deploy via docker compose
         run: |
-          scp -r . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/prod
-          ssh -A ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/prod/build/down.sh prod && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/prod/build/build.sh prod && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/prod/build/run.sh prod \
-          "
-
-
-  deploy_test:
-    if: ${{ inputs.environment == 'test' }}
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        stand: [ "test1", "test2" ]
-
-    steps:
-      - name: Checkout selected branch
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.branch }}
-
-      - name: Prepare SSH
-        run: |
-          eval $(ssh-agent -s)
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-
-      - name: Deploy Test Stand ${{ matrix.stand }}
-        run: |
-          scp -r . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ matrix.stand }}
-          ssh -A ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/${{ matrix.stand }}/build/down.sh ${{ matrix.stand }} && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/${{ matrix.stand }}/build/build.sh ${{ matrix.stand }} && \
-            echo '${{ secrets.SSH_PASSWORD }}' | sudo -S cifra/${{ matrix.stand }}/build/run.sh ${{ matrix.stand }} \
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd /home/${{ secrets.SSH_USER }}/cifra/${{ inputs.environment }} && \
+            docker compose pull && \
+            docker compose up -d --remove-orphans \
           "

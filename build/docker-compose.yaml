@@ -1,38 +1,41 @@
-
 services:
-    cifralabs.students.api:
-        ports:
-            - '80:80'
-        environment:
-            - 'ASPNETCORE_URLS=http://+'
-            - TZ=Europe/Moscow
-            - DBServer=postgres
-            - DBPort=5432
-            - DBName=cifralabs_studentDB
-            - DBLogin=cifralabs_studentDB_Service
-            - 'DBPassword=P@ssw0rd!'
-            - ASPNETCORE_ENVIRONMENT=Development
-        container_name: students.api
-        image: cifralabs.students.api:latest
-        restart: unless-stopped
-        
-    cifralabs.students.front:
-        ports:
-            - '2056:3000'
-        container_name: cifralabs.students.front
-        image: cifralabs.students.front:latest
-        restart: unless-stopped
+  cifralabs.students.api:
+    image: ghcr.io/gladcom/cifralab/backend:latest-develop
+    container_name: students.api
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_URLS=http://+
+      - TZ=Europe/Moscow
+      - DBServer=postgres
+      - DBPort=5432
+      - DBName=cifralabs_studentDB
+      - DBLogin=cifralabs_studentDB_Service
+      - DBPassword=P@ssw0rd!
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - postgres
 
-    cifralabs.postgres:
-        image: postgres:latest
-        environment:
-            POSTGRES_DB: "cifralabs_studentDB"
-            POSTGRES_USER: "cifralabs_studentDB_Service"
-            POSTGRES_PASSWORD: "P@ssw0rd!"
-            PGDATA: /data/postgres
-        ports:
-            - "5432:5432"
-        volumes:
-            - ./pgdata:/data/postgres
-        restart: unless-stopped
-        container_name: postgres
+  cifralabs.students.front:
+    image: ghcr.io/gladcom/cifralab/frontend:latest-develop
+    container_name: students.front
+    restart: unless-stopped
+    ports:
+      - "2056:3000"
+    depends_on:
+      - cifralabs.students.api
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "cifralabs_studentDB"
+      POSTGRES_USER: "cifralabs_studentDB_Service"
+      POSTGRES_PASSWORD: "P@ssw0rd!"
+      PGDATA: /data/postgres
+    volumes:
+      - ./pgdata:/data/postgres
+    ports:
+      - "5432:5432"
