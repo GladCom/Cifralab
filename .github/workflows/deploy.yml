@@ -18,18 +18,17 @@ on:
         required: true
       SSH_KEY:
         required: true
+      GHCR_PAT:
+        required: true
 
 jobs:
-  deploy_prod:
-    if: ${{ inputs.environment == 'prod' }}
+
+  prepare_server:
     runs-on: ubuntu-latest
-
+    outputs:
+      branch: ${{ inputs.branch }}
+      environment: ${{ inputs.environment }}
     steps:
-      - name: Checkout branch
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.branch }}
-
       - name: Prepare SSH
         run: |
           eval $(ssh-agent -s)
@@ -39,16 +38,26 @@ jobs:
           echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Upload docker-compose
-        run: |
-          scp build/docker-compose.yaml \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/prod/docker-compose.yaml
-
       - name: Login to GHCR on server
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
             echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin \
           "
+
+  deploy_prod:
+    needs: prepare_server
+    if: ${{ inputs.environment == 'prod' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Upload docker-compose
+        run: |
+          scp build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/prod/docker-compose.yaml
 
       - name: Deploy PROD
         run: |
@@ -59,31 +68,18 @@ jobs:
             FRONT_PORT=7000 \
             PG_PORT=5540 \
             docker compose --project-name prod pull && \
-            PROJECT_NAME=prod \
-            API_PORT=7000 \
-            FRONT_PORT=7000 \
-            PG_PORT=5540 \
             docker compose --project-name prod up -d --remove-orphans \
           "
 
   deploy_test1:
+    needs: prepare_server
     if: ${{ inputs.environment == 'test' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout branch
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
         with:
           ref: ${{ inputs.branch }}
-
-      - name: Prepare SSH
-        run: |
-          eval $(ssh-agent -s)
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Upload docker-compose
         run: |
@@ -99,31 +95,18 @@ jobs:
             FRONT_PORT=7001 \
             PG_PORT=5541 \
             docker compose --project-name test1 pull && \
-            PROJECT_NAME=test1 \
-            API_PORT=7001 \
-            FRONT_PORT=7001 \
-            PG_PORT=5541 \
             docker compose --project-name test1 up -d --remove-orphans \
           "
 
   deploy_test2:
+    needs: prepare_server
     if: ${{ inputs.environment == 'test' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout branch
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
         with:
           ref: ${{ inputs.branch }}
-
-      - name: Prepare SSH
-        run: |
-          eval $(ssh-agent -s)
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Upload docker-compose
         run: |
@@ -139,9 +122,5 @@ jobs:
             FRONT_PORT=7002 \
             PG_PORT=5542 \
             docker compose --project-name test2 pull && \
-            PROJECT_NAME=test2 \
-            API_PORT=7002 \
-            FRONT_PORT=7002 \
-            PG_PORT=5542 \
             docker compose --project-name test2 up -d --remove-orphans \
           "
