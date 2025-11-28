@@ -96,7 +96,7 @@
             path: src/Client/junit.xml
 
     docker-build:
-      needs: build-test
+      needs: [build_backend, build_frontend, test_backend, test_frontend]
       runs-on: ubuntu-latest
 
       permissions:
