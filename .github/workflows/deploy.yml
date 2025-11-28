@@ -22,37 +22,28 @@ on:
         required: true
 
 jobs:
-
-  prepare_server:
-    runs-on: ubuntu-latest
-    outputs:
-      branch: ${{ inputs.branch }}
-      environment: ${{ inputs.environment }}
-    steps:
-      - name: Prepare SSH
-        run: |
-          eval $(ssh-agent -s)
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
-          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-
-      - name: Login to GHCR on server
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin \
-          "
-
   deploy_prod:
-    needs: prepare_server
     if: ${{ inputs.environment == 'prod' }}
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout branch
+        uses: actions/checkout@v5
         with:
           ref: ${{ inputs.branch }}
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Login to GHCR on server
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin"
 
       - name: Upload docker-compose
         run: |
@@ -61,66 +52,67 @@ jobs:
 
       - name: Deploy PROD
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd cifra/prod && \
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd cifra/prod &&
             PROJECT_NAME=prod \
             API_PORT=7000 \
             FRONT_PORT=7000 \
             PG_PORT=5540 \
-            docker compose --project-name prod pull && \
-            docker compose --project-name prod up -d --remove-orphans \
+            docker compose --project-name prod pull &&
+            PROJECT_NAME=prod \
+            API_PORT=7000 \
+            FRONT_PORT=7000 \
+            PG_PORT=5540 \
+            docker compose --project-name prod up -d --remove-orphans
           "
 
-  deploy_test1:
-    needs: prepare_server
+
+  deploy_test:
     if: ${{ inputs.environment == 'test' }}
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        stand:
+          - { name: "test1", api: 7001, front: 7001, pg: 5541, dir: "test1" }
+          - { name: "test2", api: 7002, front: 7002, pg: 5542, dir: "test2" }
+
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout branch
+        uses: actions/checkout@v5
         with:
           ref: ${{ inputs.branch }}
 
-      - name: Upload docker-compose
-        run: |
-          scp build/docker-compose.yaml \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/test1/docker-compose.yaml
-
-      - name: Deploy TEST1
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd cifra/test1 && \
-            PROJECT_NAME=test1 \
-            API_PORT=7001 \
-            FRONT_PORT=7001 \
-            PG_PORT=5541 \
-            docker compose --project-name test1 pull && \
-            docker compose --project-name test1 up -d --remove-orphans \
-          "
-
-  deploy_test2:
-    needs: prepare_server
-    if: ${{ inputs.environment == 'test' }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v5
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          ref: ${{ inputs.branch }}
+          ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Upload docker-compose
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Login to GHCR on server
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin"
+
+      - name: Upload docker-compose for ${{ matrix.stand.name }}
         run: |
           scp build/docker-compose.yaml \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/test2/docker-compose.yaml
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ matrix.stand.dir }}/docker-compose.yaml
 
-      - name: Deploy TEST2
+      - name: Deploy ${{ matrix.stand.name }}
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd cifra/test2 && \
-            PROJECT_NAME=test2 \
-            API_PORT=7002 \
-            FRONT_PORT=7002 \
-            PG_PORT=5542 \
-            docker compose --project-name test2 pull && \
-            docker compose --project-name test2 up -d --remove-orphans \
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd cifra/${{ matrix.stand.dir }} &&
+            PROJECT_NAME=${{ matrix.stand.name }} \
+            API_PORT=${{ matrix.stand.api }} \
+            FRONT_PORT=${{ matrix.stand.front }} \
+            PG_PORT=${{ matrix.stand.pg }} \
+            docker compose --project-name ${{ matrix.stand.name }} pull &&
+            PROJECT_NAME=${{ matrix.stand.name }} \
+            API_PORT=${{ matrix.stand.api }} \
+            FRONT_PORT=${{ matrix.stand.front }} \
+            PG_PORT=${{ matrix.stand.pg }} \
+            docker compose --project-name ${{ matrix.stand.name }} up -d --remove-orphans
           "
