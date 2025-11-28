@@ -13,17 +13,17 @@ import RequestDetailPage from './request/request-detail-page';
 import OrdersDetailsPage from './order/orders-details-page';
 import OrdersPage from './order/orders-page';
 import ReportsPage from './report/reports-page';
-import { NotificationProvider } from '../notifications/notification-context';
-import EducationFormPage from './catalog-pages/education-form-page';
-import RequestStatusPage from './catalog-pages/request-status-page';
-import TypeEducationPage from './catalog-pages/type-education-page';
-import StudentStatusPage from './catalog-pages/student-status-page';
-import KindOrderPage from './catalog-pages/kind-order-page';
-import KindDocumentRiseQualificationPage from './catalog-pages/kind-document-rise-qualification-page';
-import FinancingTypePage from './catalog-pages/financing-type-page';
-import FEAProgramPage from './catalog-pages/fea-program-page';
-import KindEducationProgramPage from './catalog-pages/kind-education-program-page';
-import ScopeOfActivityPage from './catalog-pages/scope-of-activity-page';
+import { NotificationProvider } from '../notification/notification-context';
+import EducationFormPage from './catalog-page/education-form-page';
+import RequestStatusPage from './catalog-page/request-status-page';
+import TypeEducationPage from './catalog-page/type-education-page';
+import StudentStatusPage from './catalog-page/student-status-page';
+import KindOrderPage from './catalog-page/kind-order-page';
+import KindDocumentRiseQualificationPage from './catalog-page/kind-document-rise-qualification-page';
+import FinancingTypePage from './catalog-page/financing-type-page';
+import FEAProgramPage from './catalog-page/fea-program-page';
+import KindEducationProgramPage from './catalog-page/kind-education-program-page';
+import ScopeOfActivityPage from './catalog-page/scope-of-activity-page';
 
 const App = () => {
   return (

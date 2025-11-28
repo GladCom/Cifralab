@@ -5,7 +5,8 @@ import {
   useAddTypeEducationMutation,
   useEditTypeEducationMutation,
   useRemoveTypeEducationMutation,
-} from '../services/type-education-api';
+  useGetTypeEducationSearchQuery,
+} from '../service/type-education-api';
 
 export {
   useGetTypeEducationQuery as useGetAllAsync,
@@ -14,4 +15,5 @@ export {
   useAddTypeEducationMutation as useAddOneAsync,
   useEditTypeEducationMutation as useEditOneAsync,
   useRemoveTypeEducationMutation as useRemoveOneAsync,
+  useGetTypeEducationSearchQuery as useSearchAsync,
 };

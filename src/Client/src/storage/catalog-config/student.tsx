@@ -1,0 +1,71 @@
+import { BirthDate } from '../../components/shared/control/birth-date';
+import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
+import {
+  useGetAllAsync,
+  useGetAllPagedAsync,
+  useGetOneByIdAsync,
+  useAddOneAsync,
+  useEditOneAsync,
+  useRemoveOneAsync,
+  useSearchAsync,
+} from '../crud/student-crud';
+import { studentFormModel } from '../form-model/student';
+
+export default {
+  detailsLink: 'student',
+  hasDetailsPage: true,
+  serverPaged: true,
+  properties: studentFormModel,
+  crud: {
+    useGetAllAsync,
+    useGetAllPagedAsync,
+    useGetOneByIdAsync,
+    useAddOneAsync,
+    useEditOneAsync,
+    useRemoveOneAsync,
+    useSearchAsync,
+  },
+  columns: [
+    {
+      title: 'Ф.И.О. обучающегося',
+      dataIndex: 'studentFullName',
+      key: 'fullName',
+    },
+    {
+      title: 'Дата рождения',
+      dataIndex: 'birthDate1',
+      key: 'birthDate',
+    },
+    {
+      title: 'Место проживания',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Программа обучения',
+      dataIndex: 'programName',
+      key: 'programName',
+    },
+    {
+      title: 'Группа',
+      dataIndex: 'groupName',
+      key: 'groupName',
+    },
+    {
+      title: 'Год обучения',
+      dataIndex: 'groupEndDate',
+      key: 'groupEndDate',
+    },
+    {
+      title: 'Статус заявки',
+      dataIndex: 'statusRequestName',
+      key: 'statusRequestName',
+    },
+  ],
+  dataConverter: (data) => {
+    return data?.map(({ birthDate, ...props }) => {
+      const birthDate1 = <BirthDate value={birthDate} displayMode={DisplayMode.VIEW} />;
+      return { ...props, birthDate1 };
+    });
+  },
+};

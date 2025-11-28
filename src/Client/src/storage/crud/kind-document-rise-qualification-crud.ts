@@ -5,7 +5,8 @@ import {
   useAddKindDocumentRiseQualificationMutation,
   useEditKindDocumentRiseQualificationMutation,
   useRemoveKindDocumentRiseQualificationMutation,
-} from '../services/kind-document-rise-qualification-api';
+  useGetKindDocumentRiseQualificationSearchQuery,
+} from '../service/kind-document-rise-qualification-api';
 
 export {
   useGetKindDocumentRiseQualificationQuery as useGetAllAsync,
@@ -14,4 +15,5 @@ export {
   useAddKindDocumentRiseQualificationMutation as useAddOneAsync,
   useEditKindDocumentRiseQualificationMutation as useEditOneAsync,
   useRemoveKindDocumentRiseQualificationMutation as useRemoveOneAsync,
+  useGetKindDocumentRiseQualificationSearchQuery as useSearchAsync,
 };
