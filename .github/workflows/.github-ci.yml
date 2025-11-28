@@ -128,7 +128,6 @@
               -f src/Dockerfile \
               src
 
-
         - name: Push backend image
           run: |
             docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:develop-${{ steps.vars.outputs.sha }}
@@ -139,7 +138,9 @@
             docker build \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:develop-${{ steps.vars.outputs.sha }} \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:latest-develop \
-              -f src/Client/Dockerfile src/Client
+              -f src/Client/Dockerfile \
+              src/Client
+
 
         - name: Push frontend image
           run: |
