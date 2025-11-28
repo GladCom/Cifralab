@@ -5,7 +5,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-COPY "Students.APIServer.csproj", "./"
+COPY Students.APIServer.csproj, ./
 RUN dotnet restore
 
 COPY . .
