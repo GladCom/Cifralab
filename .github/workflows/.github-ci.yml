@@ -125,7 +125,9 @@
             docker build \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:develop-${{ steps.vars.outputs.sha }} \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:latest-develop \
-              -f src/Dockerfile .
+              -f src/Dockerfile \
+              src
+
 
         - name: Push backend image
           run: |
