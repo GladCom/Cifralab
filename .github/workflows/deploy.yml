@@ -55,12 +55,12 @@ jobs:
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd cifra/prod &&
             PROJECT_NAME=prod \
-            API_PORT=7000 \
+            API_PORT=8000 \
             FRONT_PORT=7000 \
             PG_PORT=5540 \
             docker compose --project-name prod pull &&
             PROJECT_NAME=prod \
-            API_PORT=7000 \
+            API_PORT=8000 \
             FRONT_PORT=7000 \
             PG_PORT=5540 \
             docker compose --project-name prod up -d --remove-orphans
@@ -74,8 +74,8 @@ jobs:
     strategy:
       matrix:
         stand:
-          - { name: "test1", api: 7001, front: 7001, pg: 5541, dir: "test1" }
-          - { name: "test2", api: 7002, front: 7002, pg: 5542, dir: "test2" }
+          - { name: "test1", api: 8001, front: 7001, pg: 5541, dir: "test1" }
+          - { name: "test2", api: 8002, front: 7002, pg: 5542, dir: "test2" }
 
     steps:
       - name: Checkout branch
