@@ -44,6 +44,12 @@ jobs:
           scp build/docker-compose.yaml \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/prod/docker-compose.yaml
 
+      - name: Login to GHCR on server
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin \
+          "
+
       - name: Deploy PROD
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
