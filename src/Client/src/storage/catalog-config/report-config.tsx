@@ -1,8 +1,7 @@
-﻿import { fetchPFDOReport, fetchRosstatReport } from '@/api/reposrtApi';
-import { boolean, string } from 'yup';
+﻿import { fetchPFDOReport, fetchRostatReport, IReportRequest } from '@/api/reportsApi';
 
 export interface IReportCrud {
-  getReport: (params: string) => Promise<void>;
+  getReport: (params: IReportRequest) => Promise<void>;
 }
 
 export interface IReportConfig {
@@ -12,10 +11,9 @@ export interface IReportConfig {
   hasDetailsPage: boolean;
   serverPaged: boolean;
   crud: IReportCrud;
-  dataConverter?: (data: never) => never;
+  dataConverter?: (data: any) => any;
 }
 
-fd;
 export abstract class BaseReportConfig implements IReportConfig {
   abstract title: string;
   abstract crud: IReportCrud;
@@ -41,6 +39,6 @@ export class PFDOReportConfig extends BaseReportConfig {
 export class RosstatReportConfig extends BaseReportConfig {
   title = 'отчёт Росстат';
   crud = {
-    getReport: fetchRosstatReport,
+    getReport: fetchRostatReport,
   };
 }

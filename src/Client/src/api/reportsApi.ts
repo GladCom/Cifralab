@@ -51,8 +51,8 @@ export const fetchPFDOReport = async (params: IOrderRequest): Promise<void> => {
   await downloadReport('report/GetPFDOReport', params, 'Отчет_ФРДО.xlsx');
 };
 
-export const fetchRosstatReport = async (params: IOrderRequest): Promise<void> => {
-  await downloadReport('report/GetRosstatReport', params, 'Отчет_Росстат.xlsx');
+export const fetchRostatReport = async (params: IOrderRequest): Promise<void> => {
+  await downloadReport('report/GetRostatReport', params, 'Отчет_Росстат.xlsx');
 };
 
 export const fetchSummaryReport = async (params: IOrderRequest): Promise<void> => {

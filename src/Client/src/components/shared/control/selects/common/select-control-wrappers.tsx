@@ -9,7 +9,9 @@ export const ViewSelectControlWrapper: React.FC<MultimodeWrapperControlProps> = 
   const { labelKey } = formParams;
   const { useGetOneByIdAsync } = crud;
   const { data: dataById } = useGetOneByIdAsync(value);
-  const displayValue = labelKey ? dataById?.[labelKey] : undefined;
+
+  const item = Array.isArray(dataById) ? dataById[0] : dataById;
+  const displayValue = labelKey ? item?.[labelKey] : undefined;
 
   return <Control {...props} value={displayValue || 'Данные отсутствуют'} />;
 };

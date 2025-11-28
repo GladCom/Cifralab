@@ -1,37 +1,48 @@
-﻿import { Button, Card, Divider, message, Space, Typography } from 'antd';
+﻿import { Button, Card, Divider, Flex, message, Space, Typography } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RangeValue } from '@/types';
 import { useMutation } from '@tanstack/react-query';
-import { fetchPFDOReport, IOrderRequest } from '@/api/reposrtApi';
+import { IReportRequest } from '@/api/reportsApi';
 import DateTimePicker from '../shared/control/date-time-picker';
+import { IReportConfig } from '@/storage/catalog-config/report-config';
+import { GroupSelect } from '@components/shared/control/selects/group-select';
+import { DisplayMode } from '@components/shared/control/multi-mode-control/types';
 
 const { Paragraph, Title } = Typography;
 
 export interface IProps {
-  title: string;
-  description: string;
-  fetchfn: (params: IOrderRequest) => Promise<void>;
+  config: IReportConfig;
 }
-const DefaultReportBody = (props: IProps) => {
-  const { fetchfn, title, description } = props;
+
+const DefaultReportBody = ({ config }: IProps) => {
+  const { title, description } = config;
 
   const [dateRange, setDataRange] = useState<RangeValue | null>(null);
 
   // TODO: Сделал так чтобы не хранить обьект запроса в стейт, надо подумать как это переделать
   const [studentId, setStudentId] = useState<string | null>();
-  const [groupsIds, setGroupsIds] = useState<string[] | null>([]);
+  const [groupsId, setGroupsId] = useState<string | null>('');
 
   const reportMutation = useMutation({
-    mutationFn: (params: IOrderRequest) => fetchfn(params),
+    mutationFn: (params: IReportRequest) => config.crud.getReport(params),
   });
 
+  useEffect(() => {
+    console.log(groupsId);
+  }, [groupsId]);
+
   const reportGeneration = () => {
+    if (!groupsId) {
+      message.warning('Пожалуйста, выберите группу.');
+      return;
+    }
+
     if (!dateRange) {
       message.warning('Пожалуйста, выберите период для формирования отчёта.');
       return;
     } else {
-      const params: IOrderRequest = {
+      const params: IReportRequest = {
         endDateMax: null,
         endDateMin: dateRange[0].format('YYYY-MM-DD'),
         startDateMax: null,
@@ -46,16 +57,18 @@ const DefaultReportBody = (props: IProps) => {
   return (
     <Card>
       <Title level={4}>{title}</Title>
-      <Paragraph type="secondary">
-        Выгрузка данных о выданных документах об образовании в формате Excel для последующей загрузки в федеральный
-        реестр.
-      </Paragraph>
+      <Paragraph type="secondary">{description}</Paragraph>
       <Divider />
       <Space direction="vertical" size="middle">
         <Paragraph>
           <strong>1. Выберите период формирования отчётов:</strong>
         </Paragraph>
-        <DateTimePicker onDateChange={setDataRange} />
+
+        <Flex style={{ gap: '10px' }}>
+          <DateTimePicker onDateChange={setDataRange} />
+          <GroupSelect displayMode={DisplayMode.EDITOR} setValue={(val: string | null) => setGroupsId(val)} />
+        </Flex>
+
         <Paragraph>
           <strong>2а. Добавьте необходимы поля и скачайте отчёт:</strong>
         </Paragraph>
