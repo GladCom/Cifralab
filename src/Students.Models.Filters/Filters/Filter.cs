@@ -16,4 +16,16 @@ public abstract class Filter<TEntity> where TEntity : class
   /// </summary>
   /// <returns>Предикат.</returns>
   public abstract Predicate<TEntity> GetFilterPredicate();
+  
+  /// <summary>
+  /// Получить фильтр по текстовому свойству.
+  /// </summary>
+  /// <param name="filterValue">Значение свойства фильтра.</param>
+  /// <param name="modelValue">Значение свойства модели.</param>
+  /// <returns></returns>
+  protected static bool FilterByStringProperty(string? filterValue, string modelValue)
+  {
+    return string.IsNullOrEmpty(filterValue) || 
+           modelValue.ToLower().Contains(filterValue.ToLower());
+  }
 }
