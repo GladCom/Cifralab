@@ -96,12 +96,12 @@
             path: src/Client/junit.xml
 
     docker-build:
-      needs: [build_backend, build_frontend, test_backend, test_frontend]
       runs-on: ubuntu-latest
+      needs: [build_backend, build_frontend, test_backend, test_frontend]
 
       permissions:
-        packages: write
         contents: read
+        packages: write
 
       steps:
         - name: Checkout
@@ -114,35 +114,39 @@
             username: ${{ github.actor }}
             password: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Prepare Tags
+        - name: Prepare tags
           id: vars
           run: |
             echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
             echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
+            # Определяем тип ветки
+            if [ "${GITHUB_REF_NAME}" = "main" ]; then
+              echo "suffix=release" >> $GITHUB_OUTPUT
+            else
+              echo "suffix=develop" >> $GITHUB_OUTPUT
+            fi
+
         - name: Build backend image
           run: |
             docker build \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:develop-${{ steps.vars.outputs.sha }} \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:latest-develop \
-              -f src/Dockerfile \
-              src
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }} \
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
+              -f src/Dockerfile .
 
         - name: Push backend image
           run: |
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:develop-${{ steps.vars.outputs.sha }}
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:latest-develop
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
 
         - name: Build frontend image
           run: |
             docker build \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:develop-${{ steps.vars.outputs.sha }} \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:latest-develop \
-              -f src/Client/Dockerfile \
-              src/Client
-
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }} \
+              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
+              -f src/Client/Dockerfile src/Client
 
         - name: Push frontend image
           run: |
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:develop-${{ steps.vars.outputs.sha }}
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:latest-develop
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}
+            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
