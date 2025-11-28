@@ -22,4 +22,6 @@ export enum DtoKeys {
   IS_DOT_PROGRAM = 'isDOTProgram',
   IS_FULL_DOT_PROGRAM = 'isFullDOTProgram',
   QUALIFICATION_NAME = 'qualificationName',
+  SCOPE_OF_ACTIVITY_LEVEL_ONE_ID = 'scopeOfActivityLevelOneId',
+  SCOPE_OF_ACTIVITY_LEVEL_TWO_ID = 'scopeOfActivityLevelTwoId',
 }

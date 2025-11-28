@@ -46,6 +46,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
     controlParams,
     setValue,
     setDisplayMode,
+    options,
     crud,
   } = props;
   const { key, labelKey, rules, normalize, hasFeedback } = formParams;
@@ -55,7 +56,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
   const { data: dataById } = useGetOneByIdAsync(value);
   const { data: allData } = useGetAllAsync();
 
-  const options = useMemo(() => {
+  const finalOptions = useMemo(() => {
     if (!labelKey) {
       console.error('EditorFormItemSelectControl: labelKey is required but not provided');
       return [];
@@ -99,7 +100,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
             defaultValue={labelKey ? dataById?.[labelKey] : undefined}
             placeholder={placeholder}
             onChange={onChange}
-            options={options}
+            options={options ?? finalOptions}
           />
         </Form.Item>
         <Form.Item>

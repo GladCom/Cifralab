@@ -26,6 +26,7 @@ export type MultimodeWrapperControlProps = {
   controlParams: BaseControlParams;
   formParams: FormParams;
   crud?: any;
+  options?: any;
   setValue: (value: MultimodeControlValue) => void;
   onChange: () => void;
   setDisplayMode: (mode: DisplayMode) => void;

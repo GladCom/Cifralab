@@ -3,6 +3,7 @@ import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeade
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import config from '../../storage/catalog-config/student';
+import { StudentForm } from './student-form';
 
 const StudentDetailsPage = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ const StudentDetailsPage = () => {
     <Layout>
       <DetailsPageHeader title={title} />
       <h2 style={{ padding: '3vh' }}>{`${studentData.family} ${studentData?.name} ${studentData?.patron}`}</h2>
-      <DetailsPageData items={properties} data={studentData} editData={setStudentData} setIsChanged={setIsChanged} />
+      <StudentForm studentData={studentData} setStudentData={setStudentData} setIsChanged={setIsChanged} />
       <hr />
       <Row>
         <Col>

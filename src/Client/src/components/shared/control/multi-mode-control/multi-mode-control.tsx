@@ -47,6 +47,7 @@ export type MultimodeControlProps = {
   controlParams?: BaseControlParams;
   formParams?: FormParams;
   crud?: any;
+  options?: any;
   setValue?: (value: MultimodeControlValue) => void;
   onChange?: () => void;
   setDisplayMode?: (mode: DisplayMode) => void;
@@ -69,8 +70,8 @@ export const MultimodeControl: React.FC<MultimodeControlProps> = (props) => {
   const handleSetValue = useCallback(
     (newValue: MultimodeControlValue) => {
       setIsChanged(newValue !== value);
-
       if (setValue) {
+        //  TODO Показыкать уведомение?
         setValue(newValue);
       }
     },
@@ -78,8 +79,6 @@ export const MultimodeControl: React.FC<MultimodeControlProps> = (props) => {
   );
 
   const handleOnChange = useCallback(() => {
-    //  TODO Показыкать уведомение?
-
     if (onChange) {
       onChange();
     }
