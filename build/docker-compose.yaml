@@ -1,41 +1,29 @@
 services:
-  cifralabs.students.api:
-    image: ghcr.io/gladcom/cifralab/backend:latest-develop
-    container_name: students.api
-    restart: unless-stopped
+  api:
+    image: ghcr.io/gladcom/cifralab/backend:latest
+    container_name: ${PROJECT_NAME}_api
     ports:
-      - "80:80"
+      - "${API_PORT}:80"
     environment:
-      - ASPNETCORE_URLS=http://+
-      - TZ=Europe/Moscow
-      - DBServer=postgres
-      - DBPort=5432
-      - DBName=cifralabs_studentDB
-      - DBLogin=cifralabs_studentDB_Service
-      - DBPassword=P@ssw0rd!
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - postgres
-
-  cifralabs.students.front:
-    image: ghcr.io/gladcom/cifralab/frontend:latest-develop
-    container_name: students.front
+      ASPNETCORE_URLS: http://+
     restart: unless-stopped
+
+  front:
+    image: ghcr.io/gladcom/cifralab/frontend:latest
+    container_name: ${PROJECT_NAME}_front
     ports:
-      - "2056:3000"
-    depends_on:
-      - cifralabs.students.api
+      - "${FRONT_PORT}:3000"
+    restart: unless-stopped
 
   postgres:
-    image: postgres:15
-    container_name: postgres
-    restart: unless-stopped
+    image: postgres:14
+    container_name: ${PROJECT_NAME}_postgres
     environment:
-      POSTGRES_DB: "cifralabs_studentDB"
-      POSTGRES_USER: "cifralabs_studentDB_Service"
-      POSTGRES_PASSWORD: "P@ssw0rd!"
-      PGDATA: /data/postgres
-    volumes:
-      - ./pgdata:/data/postgres
+      POSTGRES_DB: cifra_${PROJECT_NAME}
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
     ports:
-      - "5432:5432"
+      - "${PG_PORT}:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    restart: unless-stopped

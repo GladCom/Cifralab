@@ -3,12 +3,12 @@ name: Deploy
 on:
   workflow_call:
     inputs:
-      branch:
-        description: "Branch"
+      environment:
+        description: "prod | test1 | test2"
         required: true
         type: string
-      environment:
-        description: "prod || test"
+      branch:
+        description: "Branch to deploy"
         required: true
         type: string
     secrets:
@@ -38,15 +38,49 @@ jobs:
           echo -e "Host *\n\tStrictHostKeyChecking=no\n" > ~/.ssh/config
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
+      - name: Resolve settings for environment
+        id: cfg
+        run: |
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+              echo "project=prod" >> $GITHUB_OUTPUT
+              echo "api_port=7000" >> $GITHUB_OUTPUT
+              echo "front_port=7000" >> $GITHUB_OUTPUT
+              echo "pg_port=5540" >> $GITHUB_OUTPUT
+              echo "remote_dir=prod" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "test1" ]; then
+              echo "project=test1" >> $GITHUB_OUTPUT
+              echo "api_port=7001" >> $GITHUB_OUTPUT
+              echo "front_port=7001" >> $GITHUB_OUTPUT
+              echo "pg_port=5541" >> $GITHUB_OUTPUT
+              echo "remote_dir=test1" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "test2" ]; then
+              echo "project=test2" >> $GITHUB_OUTPUT
+              echo "api_port=7002" >> $GITHUB_OUTPUT
+              echo "front_port=7002" >> $GITHUB_OUTPUT
+              echo "pg_port=5542" >> $GITHUB_OUTPUT
+              echo "remote_dir=test2" >> $GITHUB_OUTPUT
+          else
+              echo "Unknown environment: ${{ inputs.environment }}"
+              exit 1
+          fi
+
       - name: Upload docker-compose.yaml
         run: |
-          scp ./build/docker-compose.yaml \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/cifra/${{ inputs.environment }}/docker-compose.yaml
+          scp build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.cfg.outputs.remote_dir }}/docker-compose.yaml
 
       - name: Deploy via docker compose
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd /home/${{ secrets.SSH_USER }}/cifra/${{ inputs.environment }} && \
-            docker compose pull && \
-            docker compose up -d --remove-orphans \
+            cd cifra/${{ steps.cfg.outputs.remote_dir }} && \
+            PROJECT_NAME=${{ steps.cfg.outputs.project }} \
+            API_PORT=${{ steps.cfg.outputs.api_port }} \
+            FRONT_PORT=${{ steps.cfg.outputs.front_port }} \
+            PG_PORT=${{ steps.cfg.outputs.pg_port }} \
+            docker compose --project-name ${{ steps.cfg.outputs.project }} pull && \
+            PROJECT_NAME=${{ steps.cfg.outputs.project }} \
+            API_PORT=${{ steps.cfg.outputs.api_port }} \
+            FRONT_PORT=${{ steps.cfg.outputs.front_port }} \
+            PG_PORT=${{ steps.cfg.outputs.pg_port }} \
+            docker compose --project-name ${{ steps.cfg.outputs.project }} up -d --remove-orphans \
           "
