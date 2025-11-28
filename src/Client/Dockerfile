@@ -16,6 +16,8 @@ COPY . .
 # Собираем приложение для продакшена
 RUN npm run build
 
+RUN echo "======= BUILD OUTPUT =======" && ls -R /app
+
 # Используем другой образ для запуска статики
 FROM node:18-alpine
 
