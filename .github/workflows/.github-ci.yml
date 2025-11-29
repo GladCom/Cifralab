@@ -132,7 +132,8 @@
             docker build \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }} \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
-              -f src/Dockerfile .
+              -f src/Dockerfile \
+              src
 
         - name: Push backend image
           run: |
@@ -144,7 +145,8 @@
             docker build \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }} \
               -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
-              -f src/Client/Dockerfile src/Client
+              -f src/Client/Dockerfile \
+              src/Client
 
         - name: Push frontend image
           run: |
