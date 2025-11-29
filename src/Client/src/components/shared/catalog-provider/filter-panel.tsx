@@ -7,7 +7,7 @@ const style = {
 };
 
 const FilterSelect = ({ filter, query, setQuery }) => {
-  const { key, backendKey, label, placeholder, useQuery, mapOptions } = filter;
+  const { backendKey, label, placeholder, useQuery, mapOptions } = filter;
   const { data, isLoading } = useQuery({});
   const options = mapOptions ? mapOptions(data) : [];
   const currentValue = query[backendKey];
