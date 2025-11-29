@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:14
+    image: postgres:16
     container_name: ${PROJECT_NAME}_postgres
     environment:
       POSTGRES_DB: cifra_${PROJECT_NAME}
