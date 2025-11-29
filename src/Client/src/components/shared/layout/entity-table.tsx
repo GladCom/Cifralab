@@ -18,9 +18,9 @@ const EntityTable = ({ config, title }) => {
       current: 1,
       pageSize: 10,
     },
-    // sortOrder: undefined,
-    // sortField: undefined,
-    // sortBackendField: undefined,
+    sortOrder: undefined,
+    sortField: undefined,
+    sortBackendField: undefined,
   });
   const navigate = useNavigate();
 
@@ -32,6 +32,8 @@ const EntityTable = ({ config, title }) => {
     pageNumber: tableParams.pagination.current,
     pageSize: tableParams.pagination.pageSize,
     filterDataReq: queryString,
+    sortingField: tableParams.sortBackendField || undefined,
+    isSortAsc: tableParams.sortOrder ? tableParams.sortOrder === 'ascend' : undefined,
   });
 
   const searchResults = useSearchAsync(searchText) || { data: null };
@@ -56,6 +58,9 @@ const EntityTable = ({ config, title }) => {
   }, [
     dataFromServer,
     tableParams.pagination.pageSize,
+    tableParams.pagination.current,
+    tableParams.sortOrder,
+    tableParams.sortBackendField,
     searchResults.data,
     searchText,
     isLoading,
@@ -65,21 +70,50 @@ const EntityTable = ({ config, title }) => {
   ]);
 
   useEffect(() => {
-    let queryString = '';
+    const filterObject = {};
     for (const [key, value] of Object.entries(query)) {
-      queryString += `&${key}=${value}`;
+      if (value !== undefined && value !== null && value !== '') {
+        filterObject[key] = value;
+      }
     }
-    setQueryString(queryString);
+    const filterString = Object.keys(filterObject).length > 0 ? JSON.stringify(filterObject) : '{}';
+    setQueryString(`&filterString=${encodeURIComponent(filterString)}`);
+    setTableParams((prev) => {
+      if (prev.pagination.current === 1) {
+        return prev;
+      }
+      return {
+        ...prev,
+        pagination: {
+          ...prev.pagination,
+          current: 1,
+        },
+      };
+    });
   }, [query]);
 
-  const handleTableChange = (pagination) => {
-    setTableParams({
+  const handleTableChange = (pagination, filters, sorter) => {
+    const sortOrder = Array.isArray(sorter) ? undefined : sorter?.order;
+    const sortField = Array.isArray(sorter) ? undefined : sorter?.field;
+    
+    // Находим backendKey для сортировки
+    // Ant Design передает sorter.field как dataIndex колонки
+    let sortBackendField = undefined;
+    if (sortField && columns) {
+      const column = columns.find((col) => 
+        col.dataIndex === sortField || col.key === sortField
+      );
+      if (column?.sorterKey) {
+        sortBackendField = column.sorterKey;
+      }
+    }
+
+    setTableParams((prev) => ({
       pagination,
-      // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
-      //  filters,
-      //  sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
-      //  sortField: Array.isArray(sorter) ? undefined : sorter.field,
-    });
+      sortOrder: sortOrder !== undefined ? sortOrder : undefined,
+      sortField: sortField !== undefined ? sortField : undefined,
+      sortBackendField: sortBackendField !== undefined ? sortBackendField : undefined,
+    }));
 
     // `dataSource` is useless since `pageSize` changed
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
@@ -94,6 +128,19 @@ const EntityTable = ({ config, title }) => {
     [detailsLink, navigate],
   );
 
+  const tableColumns = useMemo(() => {
+    return columns.map((col) => {
+      const column = {
+        ...col,
+        sorter: col.sorter ? true : false,
+        sortOrder: col.sorter && tableParams.sortField === (col.key || col.dataIndex) 
+          ? tableParams.sortOrder 
+          : null,
+      };
+      return column;
+    });
+  }, [columns, tableParams.sortField, tableParams.sortOrder]);
+
   return (
     <>
       <TablePageHeader config={config} title={title} onSearch={setSearchText} />
@@ -104,7 +151,7 @@ const EntityTable = ({ config, title }) => {
         pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
-        columns={columns}
+        columns={tableColumns}
         onRow={(record) => ({
           onClick: ({ target }) => {
             if (target.tagName.toLowerCase() === 'td') {

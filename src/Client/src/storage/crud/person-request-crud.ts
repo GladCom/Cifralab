@@ -16,11 +16,13 @@ const useGetAllAsync = () => {
   return { data, isError, isSuccess, error, isLoading, isFetching, refetch };
 };
 
-const useGetAllPagedAsync = ({ pageNumber, pageSize, filterDataReq: queryString }) => {
+const useGetAllPagedAsync = ({ pageNumber, pageSize, filterDataReq: queryString, sortingField, isSortAsc }) => {
   const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetPersonRequestsPagedQuery({
     pageNumber,
     pageSize,
     filterDataReq: queryString,
+    sortingField,
+    isSortAsc,
   });
 
   return { data, isError, isSuccess, error, isLoading, isFetching, refetch };

@@ -1,20 +1,62 @@
 import React from 'react';
-import { Flex } from 'antd';
+import { Flex, Select } from 'antd';
 
 const style = {
-  height: '10vh',
-  minHeight: '50px',
+  height: '10vh',  
+  padding: '10px',
 };
 
-const FilterPanel = ({ config }) => {
+const FilterSelect = ({ filter, query, setQuery }) => {
+  const { key, backendKey, label, placeholder, useQuery, mapOptions } = filter;
+  const { data, isLoading } = useQuery({});
+  const options = mapOptions ? mapOptions(data) : [];
+  const currentValue = query[backendKey];
+
+  const handleChange = (value) => {
+    setQuery((prevQuery) => {
+      const newQuery = { ...prevQuery };
+      if (value === undefined || value === null || value === '') {
+        delete newQuery[backendKey];
+      } else {
+        newQuery[backendKey] = value;
+      }
+      return newQuery;
+    });
+  };
+
   return (
-    <>
-      <Flex style={style} className="border-bottom border-primary">
-        <Flex justify="center" align="center" style={{ width: '90%' }}>
-          <span> </span>
+    <Select
+      showSearch
+      style={{ minWidth: '200px' }}
+      placeholder={placeholder || label}
+      value={currentValue}
+      onChange={handleChange}
+      loading={isLoading}
+      allowClear
+      filterOption={(input, option) =>
+        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+      }
+      options={options}
+    />
+  );
+};
+
+const FilterPanel = ({ config, query, setQuery }) => {
+  const { filters } = config || {};
+
+  if (!filters || filters.length === 0) {
+    return null;
+  }
+
+  return (
+    <Flex style={style} className="border-bottom border-primary" gap="middle" wrap="wrap">
+      {filters.map((filter) => (
+        <Flex key={filter.key} vertical gap="small">
+          <span style={{ fontSize: '12px', fontWeight: '500' }}>{filter.label}</span>
+          <FilterSelect filter={filter} query={query} setQuery={setQuery} />
         </Flex>
-      </Flex>
-    </>
+      ))}
+    </Flex>
   );
 };
 
