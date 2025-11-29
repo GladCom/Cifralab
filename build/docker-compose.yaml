@@ -1,6 +1,6 @@
 services:
   api:
-    image: ghcr.io/gladcom/cifralab/backend:latest-develop
+    image: ghcr.io/gladcom/cifralab/backend:${IMAGE_TAG}
     container_name: ${PROJECT_NAME}_api
     ports:
       - "${API_PORT}:80"
@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
 
   front:
-    image: ghcr.io/gladcom/cifralab/frontend:latest-develop
+    image: ghcr.io/gladcom/cifralab/frontend:${IMAGE_TAG}
     container_name: ${PROJECT_NAME}_front
     ports:
       - "${FRONT_PORT}:3000"

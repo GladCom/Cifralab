@@ -49,23 +49,24 @@ jobs:
         run: |
           scp build/docker-compose.yaml \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/prod/docker-compose.yaml
-
+  
       - name: Deploy PROD
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd cifra/prod &&
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd cifra/prod && \
+            IMAGE_TAG=release \
             PROJECT_NAME=prod \
             API_PORT=8000 \
             FRONT_PORT=7000 \
             PG_PORT=5540 \
-            docker compose --project-name prod pull &&
+            docker compose --project-name prod pull && \
+            IMAGE_TAG=release \
             PROJECT_NAME=prod \
             API_PORT=8000 \
             FRONT_PORT=7000 \
             PG_PORT=5540 \
-            docker compose --project-name prod up -d --remove-orphans
+            docker compose --project-name prod up -d --remove-orphans \
           "
-
 
   deploy_test:
     if: ${{ inputs.environment == 'test' }}
@@ -104,12 +105,14 @@ jobs:
       - name: Deploy ${{ matrix.stand.name }}
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd cifra/${{ matrix.stand.dir }} &&
+            cd cifra/${{ matrix.stand.dir }} && \
+            IMAGE_TAG=develop \
             PROJECT_NAME=${{ matrix.stand.name }} \
             API_PORT=${{ matrix.stand.api }} \
             FRONT_PORT=${{ matrix.stand.front }} \
             PG_PORT=${{ matrix.stand.pg }} \
-            docker compose --project-name ${{ matrix.stand.name }} pull &&
+            docker compose --project-name ${{ matrix.stand.name }} pull && \
+            IMAGE_TAG=develop \
             PROJECT_NAME=${{ matrix.stand.name }} \
             API_PORT=${{ matrix.stand.api }} \
             FRONT_PORT=${{ matrix.stand.front }} \
