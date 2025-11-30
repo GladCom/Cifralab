@@ -1,4 +1,6 @@
-﻿namespace Students.Models.Filters.Filters;
+﻿using System.Text.Json.Serialization;
+
+namespace Students.Models.Filters.Filters;
 
 public class GroupFilter : Filter<Group>
 {
@@ -27,10 +29,11 @@ public class GroupFilter : Filter<Group>
   /// </summary>
   public DateOnly? EndDateMax { get; set; }
 
-  /// <summary>
-  ///   Группы.
-  /// </summary>
-  public List<string>? Names { get; set; }
+    /// <summary>
+    ///   Группы.
+    /// </summary>
+    ///
+  public List<string>? GroupNames { get; set; }
 
   /// <summary>
   /// Предикат по которому осуществляется фильтрация.
@@ -43,7 +46,7 @@ public class GroupFilter : Filter<Group>
       (!this.StartDateMax.HasValue || x.StartDate <= this.StartDateMax) &&
       (!this.EndDateMax.HasValue || x.EndDate <= this.EndDateMax) &&
       (!this.EndDateMin.HasValue || x.EndDate >= this.EndDateMin) &&
-      (this.Names is null || this.Names.Contains(x.Name!)) && 
+      (this.GroupNames is null || this.GroupNames.Contains(x.Name!)) && 
       (!this.StudentId.HasValue || x.GroupStudent.Any(gs => gs.StudentId == this.StudentId));
   }
 }
