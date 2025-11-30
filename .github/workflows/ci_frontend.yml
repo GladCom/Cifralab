@@ -6,7 +6,6 @@ on:
 jobs:
   build_frontend:
     runs-on: ubuntu-latest
-    needs: checkout_code
     container:
       image: node:23.1.0-alpine3.19
 
