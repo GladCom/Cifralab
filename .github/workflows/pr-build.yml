@@ -1,0 +1,96 @@
+  name: Build and Tests
+  
+  on:
+    pull_request:
+  
+  jobs:
+    checkout_code:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v5
+  
+    build_backend:
+      runs-on: ubuntu-latest
+      needs: checkout_code
+      steps:
+        - uses: actions/checkout@v5
+  
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: '7.0.x'
+  
+        - name: Restore dependencies
+          run: dotnet restore ./src/Students.sln
+  
+        - name: Build the project
+          run: dotnet build ./src/Students.sln --configuration Release --no-restore
+    
+    test_backend:
+      runs-on: ubuntu-latest
+      needs: build_backend
+      steps:
+        - uses: actions/checkout@v5
+  
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: '7.0.x'
+
+        - name: Restore dependencies
+          run: dotnet restore ./src/Students.sln
+                
+        - name: Run tests using solution without build
+          run: dotnet test ./src/Students.sln --configuration Release --no-restore --verbosity normal
+
+    build_frontend:
+      runs-on: ubuntu-latest
+      needs: checkout_code
+      container:
+        image: node:23.1.0-alpine3.19
+  
+      steps:  
+        - uses: actions/checkout@v5
+  
+        - name: Install dependencies
+          working-directory: ./src/Client
+          run: npm install --legacy-peer-deps
+  
+        - name: Build frontend
+          working-directory: ./src/Client
+          run: CI=false npm run build
+
+    test_frontend:
+      runs-on: ubuntu-latest
+      needs: build_frontend
+      
+      container:
+        image: node:23.1.0-alpine3.19
+      
+      steps:
+        - uses: actions/checkout@v5
+  
+        - name: Install test dependencies
+          working-directory: ./src/Client
+          run: |
+            npm install jest
+            npm install --save-dev jest-junit
+        
+        - name: Run tests
+          working-directory: ./src/Client
+          env:
+            JEST_JUNIT_OUTPUT: junit.xml
+          run: npm test -- --coverage --testResultsProcessor="jest-junit"
+        
+        - name: Upload coverage report
+          uses: actions/upload-artifact@v4
+          with:
+            name: coverage
+            path: src/Client/coverage/
+        
+        - name: Upload junit report
+          uses: actions/upload-artifact@v4
+          with:
+            name: junit-report
+            path: src/Client/junit.xml
