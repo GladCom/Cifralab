@@ -42,6 +42,7 @@ const DefaultReportBody = ({ config }: IProps) => {
       message.warning('Пожалуйста, выберите период для формирования отчёта.');
       return;
     } else {
+      // TODO: временное решение
       const params: IReportRequest = {
         endDateMax: null,
         endDateMin: dateRange[1].format('YYYY-MM-DD'),

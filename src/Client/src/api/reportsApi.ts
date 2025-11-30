@@ -56,5 +56,5 @@ export const fetchRostatReport = async (params: IOrderRequest): Promise<void> =>
 };
 
 export const fetchSummaryReport = async (params: IOrderRequest): Promise<void> => {
-  await downloadReport('report/GetSummaryReport', params, 'Отчет_Росстат.xlsx');
+  await downloadReport('report/GetSummaryReport', params, 'Отчет_По_Обучающимся.xlsx');
 };

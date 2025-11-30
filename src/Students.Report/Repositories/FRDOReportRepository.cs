@@ -52,7 +52,6 @@ public class FRDOReportRepository : BaseReportRepository<FRDOModel>
             .AsNoTracking()
             .AsAsyncEnumerable();
 
-        // 2. Логируем и проверяем
         int totalGroups = 0;
 
         await foreach (var group in query)
@@ -62,31 +61,46 @@ public class FRDOReportRepository : BaseReportRepository<FRDOModel>
             bool result = condition(group);
 
             if (result)
-            {
                 frdoModels.AddRange(group.Students.Select(student => InitializeObject(student, group)));
-            }
-            else
-            {
-                var debugName = group.Name;
-                var debugDate = group.StartDate;
-            }
         }
 
         if (totalGroups == 0)
-        {
             throw new Exception("В базе вообще нет групп! Проверь ConnectionString.");
-        }
 
         return frdoModels;
     }
 
-  /// <summary>
-  ///   Инициализация свойств оъекта.
-  /// </summary>
-  /// <param name="student">Сущность.</param>
-  /// <param name="group">Сущность.</param>
-  /// <returns>Сущность.</returns>
-  private static FRDOModel InitializeObject(Student student, Group group)
+  public static Form1PKModel CalculateStatistics(List<Student> allStudents)
+  {
+      var stats = new Form1PKModel();
+
+      stats.TotalListeners = allStudents.Count;
+
+      stats.WomenCount = allStudents.Count(s => s.Sex == SexHuman.Woman);
+
+      foreach (var student in allStudents)
+      {
+          var age =student.Age; 
+
+          if (age < 25) stats.AgeUnder25++;
+          else if (age <= 29) stats.Age25_29++;
+          else if (age <= 34) stats.Age30_34++;
+          else if (age <= 39) stats.Age35_39++;
+          else if (age <= 44) stats.Age40_44++;
+
+      }
+
+
+      return stats;
+  }
+
+    /// <summary>
+    ///   Инициализация свойств оъекта.
+    /// </summary>
+    /// <param name="student">Сущность.</param>
+    /// <param name="group">Сущность.</param>
+    /// <returns>Сущность.</returns>
+    private static FRDOModel InitializeObject(Student student, Group group)
   {
     var empty = string.Empty;
     return new FRDOModel
