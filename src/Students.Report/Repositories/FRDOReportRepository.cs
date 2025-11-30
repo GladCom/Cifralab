@@ -30,27 +30,55 @@ public class FRDOReportRepository : BaseReportRepository<FRDOModel>
   /// <returns>Список данных отчета.</returns>
   protected override async Task<List<FRDOModel>> FetchData(Predicate<Group> condition)
   {
-    var frdoModels = new List<FRDOModel>();
-    await foreach(var group in this.Context.Groups
-      .Include(group => group.Students)
-        .ThenInclude(student => student.TypeEducation)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.FEAProgram)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.EducationForm)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.FinancingType)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.KindDocumentRiseQualification)
-      .AsNoTracking()
-      .AsAsyncEnumerable())
-      if(condition(group))
-      {
-        frdoModels.AddRange(group.Students.Select(student => InitializeObject(student, group)));
-      }
+        var frdoModels = new List<FRDOModel>();
 
-    return frdoModels;
-  }
+        // 1. Делаем запрос
+        var query = this.Context.Groups
+            .Include(group => group.Students)
+                .ThenInclude(student => student.TypeEducation)
+
+            .Include(group => group.Students)
+                .ThenInclude(student => student.GroupStudent)
+            .Include(group => group.GroupStudent)
+
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.FEAProgram)
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.EducationForm)
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.FinancingType)
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.KindDocumentRiseQualification)
+            .AsNoTracking()
+            .AsAsyncEnumerable();
+
+        // 2. Логируем и проверяем
+        int totalGroups = 0;
+
+        await foreach (var group in query)
+        {
+            totalGroups++;
+
+            bool result = condition(group);
+
+            if (result)
+            {
+                frdoModels.AddRange(group.Students.Select(student => InitializeObject(student, group)));
+            }
+            else
+            {
+                var debugName = group.Name;
+                var debugDate = group.StartDate;
+            }
+        }
+
+        if (totalGroups == 0)
+        {
+            throw new Exception("В базе вообще нет групп! Проверь ConnectionString.");
+        }
+
+        return frdoModels;
+    }
 
   /// <summary>
   ///   Инициализация свойств оъекта.

@@ -44,9 +44,9 @@ const DefaultReportBody = ({ config }: IProps) => {
     } else {
       const params: IReportRequest = {
         endDateMax: null,
-        endDateMin: dateRange[0].format('YYYY-MM-DD'),
+        endDateMin: dateRange[1].format('YYYY-MM-DD'),
         startDateMax: null,
-        startDateMin: dateRange[1].format('YYYY-MM-DD'),
+        startDateMin: dateRange[0].format('YYYY-MM-DD'),
         studentId: null,
         groupNames: groupsId,
       };
