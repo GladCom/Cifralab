@@ -1,0 +1,39 @@
+name: Build Backend
+
+on:
+  workflow_call:
+
+jobs:
+  build_backend:
+    runs-on: ubuntu-latest
+    needs: checkout_code
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ./src/Students.sln
+
+      - name: Build the project
+        run: dotnet build ./src/Students.sln --configuration Release --no-restore
+  
+  test_backend:
+    runs-on: ubuntu-latest
+    needs: build_backend
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ./src/Students.sln
+              
+      - name: Run tests using solution without build
+        run: dotnet test ./src/Students.sln --configuration Release --no-restore --verbosity normal
