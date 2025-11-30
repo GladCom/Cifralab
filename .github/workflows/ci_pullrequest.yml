@@ -5,7 +5,9 @@ on:
 
 jobs:
   ci_backend:
+    name: CI Backend
     uses: ./.github/workflows/ci_backend.yml
 
   ci_frontend:
+    name: CI Frontend
     uses: ./.github/workflows/ci_frontend.yml
