@@ -5,15 +5,16 @@ import { Row, Col, Button } from 'antd';
 import config from '../../storage/catalog-config/student';
 import { StudentForm } from './student-form';
 import { skipToken } from '@reduxjs/toolkit/query/react';
+import { Student } from '../../storage/service/types';
 
 export const StudentDetailsPage = () => {
   const { id } = useParams();
-  const [studentData, setStudentData] = useState({});
-  const [initialData, setInitialData] = useState({});
+  const [studentData, setStudentData] = useState<Student>();
+  const [initialData, setInitialData] = useState<Student>();
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress, setIsSaveInProgress] = useState(false);
 
-  const { properties, crud } = config;
+  const { crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id || skipToken);
 
@@ -42,14 +43,14 @@ export const StudentDetailsPage = () => {
     setIsChanged(false);
   }, [initialData]);
 
-  const title = `Обучающиеся - ${studentData.family} ${studentData?.name} ${studentData?.patron}`;
+  const title = `Обучающиеся - ${studentData?.family} ${studentData?.name} ${studentData?.patron}`;
 
   return isLoading || isFetching ? (
     <Loading />
   ) : (
     <Layout>
       <DetailsPageHeader title={title} />
-      <h2 style={{ padding: '3vh' }}>{`${studentData.family} ${studentData?.name} ${studentData?.patron}`}</h2>
+      <h2 style={{ padding: '3vh' }}>{`${studentData?.family} ${studentData?.name} ${studentData?.patron}`}</h2>
       <StudentForm studentData={studentData} setStudentData={setStudentData} setIsChanged={setIsChanged} />
       <hr />
       {isChanged && (

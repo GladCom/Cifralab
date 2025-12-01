@@ -1,11 +1,13 @@
-import { Col, Row, Space } from 'antd';
+// В данном случае, почему-то, импорт React необходим.
 import React from 'react';
+import { Col, Row, Space } from 'antd';
 import { DisplayMode } from '../shared/control/multi-mode-control/types';
+import { Student } from '../../storage/service/types';
 
 type StudentFormWrapperProps = {
   children?: React.ReactNode;
-  studentData: any;
-  setStudentData: (data: any) => void;
+  studentData: Student;
+  setStudentData: (data: Student) => void;
   setIsChanged: (isChanged: boolean) => void;
 };
 

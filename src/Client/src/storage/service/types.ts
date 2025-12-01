@@ -1,3 +1,6 @@
+import z from 'zod';
+import { GroupSchema, RequestSchema, SexHumanEnum, StatusEntrancExamsEnum, StudentSchema } from './schemas';
+
 /**
  * По этим ключам формируются поля API-сущностей в payload запросов.
  * Используются в моделях форм.
@@ -26,3 +29,9 @@ export enum DtoKeys {
   SCOPE_OF_ACTIVITY_LEVEL_ONE_ID = 'scopeOfActivityLevelOneId',
   SCOPE_OF_ACTIVITY_LEVEL_TWO_ID = 'scopeOfActivityLevelTwoId',
 }
+
+export type SexHuman = z.infer<typeof SexHumanEnum>;
+export type StatusEntrancExams = z.infer<typeof StatusEntrancExamsEnum>;
+export type Group = z.infer<typeof GroupSchema>;
+export type Request = z.infer<typeof RequestSchema>;
+export type Student = z.infer<typeof StudentSchema>;

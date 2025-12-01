@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DtoKeys } from '../../storage/service/types';
+import { DtoKeys, Student } from '../../storage/service/types';
 import { StringControl } from '../shared/control/string-control';
 import { StudentFormWrapper } from './student-form-wrapper';
 import { ScopeOfActivitySelect } from '../shared/control/selects/scope-of-activity-select';
@@ -8,8 +8,8 @@ import { EducationTypeSelect } from '../shared/control/selects/education-type-se
 import { DisplayMode } from '../shared/control/multi-mode-control/types';
 
 type StudentFormProps = {
-  studentData: any;
-  setStudentData: (data: any) => void;
+  studentData: Student;
+  setStudentData: (data: Student) => void;
   setIsChanged: (isChanged: boolean) => void;
 };
 
