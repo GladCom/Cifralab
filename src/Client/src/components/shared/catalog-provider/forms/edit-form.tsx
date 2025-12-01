@@ -35,7 +35,7 @@ const EditForm = ({ item, control, config, refetch }) => {
       open={showEditForm}
       confirmLoading={isLoading || isFetching}
       onCancel={() => setShowEditForm(false)}
-      destroyOnClose
+      destroyOnHidden
       okButtonProps={{
         autoFocus: true,
         htmlType: 'submit',
