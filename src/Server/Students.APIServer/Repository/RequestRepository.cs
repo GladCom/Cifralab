@@ -6,6 +6,7 @@ using Students.DBCore.Contexts;
 using Students.Models;
 using Students.Models.Enums;
 using Students.Models.Filters;
+using Students.Models.Searches.Searches;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -294,16 +295,47 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
                 }).ToList();
     }
 
-    #endregion
+  public async Task<IEnumerable<RequestDTO>> SearchRequestsDTO(Search<Request> search)
+  {
+    // Предикат из твоего RequestSearch
+    var predicate = search.GetSearchPredicate();
 
-    #region Базовый класс
+    // Та же самая "обвязка" Include, что и в GetRequestsDTOByPage
+    var baseQuery = this.DbSet.AsNoTracking()
+      .Include(r => r.Student)
+        .ThenInclude(s => s!.TypeEducation)
+      .Include(r => r.PhantomStudent)
+        .ThenInclude(s => s!.TypeEducation)
+      .Include(r => r.EducationProgram)
+      .Include(r => r.Status)
+      .Include(r => r.Orders)!
+        .ThenInclude(o => o.KindOrder)
+      .AsEnumerable()            // дальше фильтруем в памяти через Predicate<Request>
+      .Where(r => predicate(r));
 
-    /// <summary>
-    /// Модифицированное создание заявки.
-    /// </summary>
-    /// <param name="request">Заявка.</param>
-    /// <returns>Заявка.</returns>
-    public override async Task<Request> Create(Request request)
+    var result = new List<RequestDTO>();
+
+    foreach (var r in baseQuery)
+    {
+      // у тебя уже есть маппер Request → RequestDTO
+      var dto = await this._mapper.RequestToRequestDTO(r);
+      result.Add(dto);
+    }
+
+    return result;
+  }
+
+
+  #endregion
+
+  #region Базовый класс
+
+  /// <summary>
+  /// Модифицированное создание заявки.
+  /// </summary>
+  /// <param name="request">Заявка.</param>
+  /// <returns>Заявка.</returns>
+  public override async Task<Request> Create(Request request)
     {
         if (request.DateOfCreate == DateTime.MinValue)
         {

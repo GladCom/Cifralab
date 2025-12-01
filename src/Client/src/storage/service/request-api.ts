@@ -15,8 +15,11 @@ export const requestsApi = createApi({
       providesTags: ['Requests'],
     }),
     getPersonRequestSearch: builder.query({
-      //  TODO: в разработке
-      query: (queryText) => '',
+      query: (queryText) => {
+        const encoded = encodeURIComponent(JSON.stringify({ query: queryText }));
+        return `SearchDTO?searchWithoutType=${encoded}`;
+      },
+      providesTags: ['Requests'],
     }),
     getEntranceExamStatuses: builder.query({
       query: () => 'entranceExamStatuses',
@@ -50,6 +53,7 @@ export const requestsApi = createApi({
       }),
       invalidatesTags: ['Requests'],
     }),
+
   }),
 });
 
