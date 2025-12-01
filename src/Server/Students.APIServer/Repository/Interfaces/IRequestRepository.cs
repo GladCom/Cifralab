@@ -65,5 +65,10 @@ public interface IRequestRepository : IGenericRepository<Request>
   /// <returns>Заявка с подгруженными сущностями.</returns>
   Task<RequestDTO?> GetRequestDTO(Guid id);
 
+  /// <summary>
+  /// Поиск заявок на основе поискового запроса.
+  /// </summary>
+  /// <param name="search">Объект поискового запроса.</param>
+  /// <returns>Коллекция найденных DTO заявок.</returns>
   Task<IEnumerable<RequestDTO>> SearchRequestsDTO(Search<Request> search);
 }

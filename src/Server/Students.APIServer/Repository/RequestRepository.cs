@@ -297,10 +297,8 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
 
   public async Task<IEnumerable<RequestDTO>> SearchRequestsDTO(Search<Request> search)
   {
-    // Предикат из твоего RequestSearch
     var predicate = search.GetSearchPredicate();
 
-    // Та же самая "обвязка" Include, что и в GetRequestsDTOByPage
     var baseQuery = this.DbSet.AsNoTracking()
       .Include(r => r.Student)
         .ThenInclude(s => s!.TypeEducation)
@@ -310,14 +308,13 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
       .Include(r => r.Status)
       .Include(r => r.Orders)!
         .ThenInclude(o => o.KindOrder)
-      .AsEnumerable()            // дальше фильтруем в памяти через Predicate<Request>
+      .AsEnumerable()            
       .Where(r => predicate(r));
 
     var result = new List<RequestDTO>();
 
     foreach (var r in baseQuery)
     {
-      // у тебя уже есть маппер Request → RequestDTO
       var dto = await this._mapper.RequestToRequestDTO(r);
       result.Add(dto);
     }
