@@ -11,6 +11,7 @@ export enum DtoKeys {
   EMAIL = 'email',
   HOURS_COUNT = 'hoursCount',
   EDUCATION_FORM_ID = 'educationFormId',
+  EDUCATION_TYPE_ID = 'typeEducationId',
   KIND_DOCUMENT_RISE_QUALIFICATION_ID = 'kindDocumentRiseQualificationId',
   KIND_EDUCATION_PROGRAM_ID = 'kindEducationProgramId',
   IS_MODULAR_PROGRAM = 'isModularProgram',
