@@ -4,6 +4,25 @@ import { Table } from 'antd';
 import { TablePageHeader } from '../layout/index';
 import FilterPanel from '../catalog-provider/filter-panel';
 
+interface TableColumn {
+  title: string;
+  dataIndex?: string;
+  key?: string;
+  sorter?: boolean;
+  sorterKey?: string;
+  render?: (value: unknown, record: unknown) => React.ReactNode;
+}
+
+interface TableParams {
+  pagination: {
+    current: number;
+    pageSize: number;
+  };
+  sortOrder?: 'ascend' | 'descend';
+  sortField?: string;
+  sortingField?: string;
+}
+
 const EntityTable = ({ config, title }) => {
   const { detailsLink, crud, columns, serverPaged, dataConverter } = config;
   const { useGetAllPagedAsync, useSearchAsync } = crud;
@@ -13,14 +32,14 @@ const EntityTable = ({ config, title }) => {
   const [query, setQuery] = useState({});
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
-  const [tableParams, setTableParams] = useState({
+  const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
     sortOrder: undefined,
     sortField: undefined,
-    sortBackendField: undefined,
+    sortingField: undefined,
   });
   const navigate = useNavigate();
 
@@ -32,7 +51,7 @@ const EntityTable = ({ config, title }) => {
     pageNumber: tableParams.pagination.current,
     pageSize: tableParams.pagination.pageSize,
     filterDataReq: queryString,
-    sortingField: tableParams.sortBackendField || undefined,
+    sortingField: tableParams.sortingField || undefined,
     isSortAsc: tableParams.sortOrder ? tableParams.sortOrder === 'ascend' : undefined,
   });
 
@@ -57,10 +76,7 @@ const EntityTable = ({ config, title }) => {
     }
   }, [
     dataFromServer,
-    tableParams.pagination.pageSize,
-    tableParams.pagination.current,
-    tableParams.sortOrder,
-    tableParams.sortBackendField,
+    tableParams,
     searchResults.data,
     searchText,
     isLoading,
@@ -96,15 +112,13 @@ const EntityTable = ({ config, title }) => {
     const sortOrder = Array.isArray(sorter) ? undefined : sorter?.order;
     const sortField = Array.isArray(sorter) ? undefined : sorter?.field;
     
-    // Находим backendKey для сортировки
-    // Ant Design передает sorter.field как dataIndex колонки
-    let sortBackendField = undefined;
+    let sortingField: string | undefined = undefined;
     if (sortField && columns) {
-      const column = columns.find((col) => 
+      const column = (columns as TableColumn[]).find((col) => 
         col.dataIndex === sortField || col.key === sortField
       );
       if (column?.sorterKey) {
-        sortBackendField = column.sorterKey;
+        sortingField = column.sorterKey;
       }
     }
 
@@ -112,7 +126,7 @@ const EntityTable = ({ config, title }) => {
       pagination,
       sortOrder: sortOrder !== undefined ? sortOrder : undefined,
       sortField: sortField !== undefined ? sortField : undefined,
-      sortBackendField: sortBackendField !== undefined ? sortBackendField : undefined,
+      sortingField: sortingField,
     }));
 
     // `dataSource` is useless since `pageSize` changed
@@ -129,12 +143,12 @@ const EntityTable = ({ config, title }) => {
   );
 
   const tableColumns = useMemo(() => {
-    return columns.map((col) => {
+    return (columns as TableColumn[]).map((col) => {
       const column = {
         ...col,
         sorter: col.sorter ? true : false,
         sortOrder: col.sorter && tableParams.sortField === (col.key || col.dataIndex) 
-          ? tableParams.sortOrder 
+          ? tableParams.sortOrder
           : null,
       };
       return column;
@@ -146,15 +160,15 @@ const EntityTable = ({ config, title }) => {
       <TablePageHeader config={config} title={title} onSearch={setSearchText} />
       <FilterPanel config={config} query={query} setQuery={setQuery} />
       <Table
-        rowKey={(record) => record.id}
+        rowKey={(record: any) => record.id}
         dataSource={dataConverter(dataToDisplay)}
         pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
         columns={tableColumns}
-        onRow={(record) => ({
-          onClick: ({ target }) => {
-            if (target.tagName.toLowerCase() === 'td') {
+        onRow={(record: any) => ({
+          onClick: ({ target }: React.MouseEvent) => {
+            if ((target as HTMLElement).tagName.toLowerCase() === 'td') {
               openDetailsInfo(record);
             }
           },

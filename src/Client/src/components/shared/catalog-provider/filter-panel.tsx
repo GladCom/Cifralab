@@ -1,18 +1,18 @@
-import React from 'react';
 import { Flex, Select } from 'antd';
+import { FilterSelectProps, FilterPanelProps } from './filters/filter';
 
 const style = {
   height: '10vh',  
   padding: '10px',
 };
 
-const FilterSelect = ({ filter, query, setQuery }) => {
-  const { backendKey, label, placeholder, useQuery, mapOptions } = filter;
+const FilterSelect = ({ filter, query, setQuery }: FilterSelectProps) => {
+  const { key, backendKey, label, placeholder, useQuery, mapOptions } = filter;
   const { data, isLoading } = useQuery({});
   const options = mapOptions ? mapOptions(data) : [];
   const currentValue = query[backendKey];
 
-  const handleChange = (value) => {
+  const handleChange = (value: string | number | undefined) => {
     setQuery((prevQuery) => {
       const newQuery = { ...prevQuery };
       if (value === undefined || value === null || value === '') {
@@ -41,7 +41,7 @@ const FilterSelect = ({ filter, query, setQuery }) => {
   );
 };
 
-const FilterPanel = ({ config, query, setQuery }) => {
+const FilterPanel = ({ config, query, setQuery }: FilterPanelProps) => {
   const { filters } = config || {};
 
   if (!filters || filters.length === 0) {
