@@ -18,7 +18,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <summary>
   /// Контекст репозитория.
   /// </summary>
-  private readonly StudentContext _context;
+  protected readonly StudentContext _context;
 
   /// <summary>
   /// DbSet репозитория.

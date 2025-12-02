@@ -30,4 +30,12 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// <param name="studentId">Идентификатор студента.</param>
   /// <param name="requestId">Идентификатор заявки, для которой производиться проверка.</param>
   Task<bool> IsAlreadyStudied(Guid studentId, Guid requestId);
+  
+  /// <summary>
+  /// Зачисление в группу по заявке.
+  /// </summary>
+  /// <param name="id">ID заявки.</param>
+  /// <param name="groupId">ID группы.</param>
+  /// <returns></returns>
+  Task Enrollment(Guid studentId, Guid requestId, Guid groupId);
 }

@@ -15,6 +15,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   #region Поля и свойства
 
   private readonly IStudentHistoryRepository _studentHistoryRepository;
+  private readonly IGroupRepository _groupRepository;
 
   #endregion
 
@@ -99,6 +100,38 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
       throw new Exception(string.Empty, e);
     }
   }
+  
+  public async Task Enrollment(Guid studentId, Guid requestId, Guid groupId)
+  {
+    var student = await this.GetStudentWithGroupsAndRequests(studentId);
+    if (student == null)
+      throw new ArgumentException("Student not found");
+    if (student.Requests != null && student.Requests.All(x => x.Id != requestId))
+      throw new ArgumentException("The request doesn't exist for this student. Create it first.");
+    var group = await this._context.Groups.FindAsync(groupId);
+    if (group == null)
+      throw new ArgumentException("Group not found");
+    try
+    {
+      var newGroupStudent = new GroupStudent()
+      {
+        StudentId = studentId,
+        GroupId = groupId,
+        RequestId = requestId
+      };
+      if (student.GroupStudent != null)
+        student.GroupStudent = new List<GroupStudent>();
+      student.GroupStudent.Add(newGroupStudent);
+      await this._context.AddAsync(newGroupStudent);
+      await this._context.SaveChangesAsync();
+    }
+    catch (Exception e)
+    {
+      throw new Exception(e.Message, e);
+    }
+
+    
+  }
 
   #endregion
 
@@ -109,7 +142,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// </summary>
   /// <param name="context">Контекст базы данных.</param>
   /// <param name="studentHistoryRepository">Репозиторий групп студентов.</param>
-  public StudentRepository(StudentContext context, IStudentHistoryRepository studentHistoryRepository) : base(context)
+  public StudentRepository(StudentContext context, IStudentHistoryRepository studentHistoryRepository
+    ) : base(context)
   {
     this._studentHistoryRepository = studentHistoryRepository;
   }

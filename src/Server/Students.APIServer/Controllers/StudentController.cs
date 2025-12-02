@@ -60,6 +60,22 @@ public class StudentController : GenericAPiController<Student>
       return this.Exception();
     }
   }
+  
+  [HttpPost("Enrollment")]
+  public async Task<IActionResult> Enrollment(Guid id, Guid requestId, Guid groupId)
+  {
+    if (id == Guid.Empty || groupId == Guid.Empty)
+      return this.BadRequest("Request ID and group ID cannot be empty");
+    try
+    {
+      this._studentRepository.Enrollment(id, requestId, groupId);
+    }
+    catch (Exception argEx)
+    {
+      return this.BadRequest(argEx.Message);
+    }
+    return this.Ok();
+  }
 
   #endregion
 
