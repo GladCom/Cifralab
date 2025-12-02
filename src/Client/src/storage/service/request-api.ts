@@ -15,10 +15,13 @@ export const requestsApi = createApi({
       providesTags: ['Requests'],
     }),
     getPersonRequestSearch: builder.query({
-      //  TODO: в разработке
-      query: (queryText) => '',
+       query: (queryText) => {
+        const encoded = encodeURIComponent(JSON.stringify({ query: queryText }));
+        return `Search?searchWithoutType=${encoded}`;
+      },
+      providesTags: ['Requests'],
     }),
-    getEntranceExamStatuses: builder.query({
+    ExamStatuses: builder.query({
       query: () => 'entranceExamStatuses',
     }),
     getPersonRequestById: builder.query({

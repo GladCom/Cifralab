@@ -13,6 +13,41 @@ namespace Students.Models;
 public class Request
 {
   /// <summary>
+  /// Полное Ф.И.О. студента, связанного с заявкой.
+  /// Используется фронтом для отображения в таблице.
+  /// </summary>
+  public string? StudentFullName => Student?.FullName;
+
+  /// <summary>
+  /// Дата рождения студента, связанного с заявкой.
+  /// Нужна таблице поиска и отображения.
+  /// </summary>
+  public DateOnly? BirthDate => Student?.BirthDate;
+
+  /// <summary>
+  /// Адрес студента (место проживания), возвращаемый для таблицы.
+  /// </summary>
+  public string? Address => Student?.Address;
+
+  /// <summary>
+  /// Наименование уровня образования (TypeEducation.Name) студента.
+  /// Используется в колонке "Уровень образования".
+  /// </summary>
+  public string? TypeEducation => Student?.TypeEducation?.Name;
+
+  /// <summary>
+  /// Наименование образовательной программы, связанной с заявкой.
+  /// Применяется в колонке "Программа обучения".
+  /// </summary>
+  public string? EducationProgramName => EducationProgram?.Name;
+
+  /// <summary>
+  /// Текстовое представление статуса заявки (Status.Name).
+  /// Используется для отображения текущего статуса.
+  /// </summary>
+  public string? StatusRequest => Status?.Name;
+
+  /// <summary>
   /// Id заявки, Как буд-то тут перебор необходимых данных
   /// </summary>
   public Guid Id { get; set; }

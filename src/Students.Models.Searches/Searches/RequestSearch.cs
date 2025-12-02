@@ -37,20 +37,20 @@ namespace Students.Models.Searches.Searches
 
       var lower = Query.Trim().ToLower();
 
-      return r =>
-      {
-        if (r.Student != null &&
-            ((r.Student.Family?.ToLower().Contains(lower) ?? false) ||
-             (r.Student.Name?.ToLower().Contains(lower) ?? false) ||
-             (r.Student.Patron?.ToLower().Contains(lower) ?? false) ||
-             (r.Student.FullName?.ToLower().Contains(lower) ?? false)))
-          return true;
+     return r =>
+     {
+       if (r.Student != null &&
+           ((r.Student.Family?.ToLower().Contains(lower) ?? false) ||
+            (r.Student.Name?.ToLower().Contains(lower) ?? false) ||
+            (r.Student.Patron?.ToLower().Contains(lower) ?? false) ||
+            (r.Student.FullName?.ToLower().Contains(lower) ?? false)))
+         return true;
 
-        return
-          (r.RegistrationNumber?.ToLower().Contains(lower) ?? false) ||
-          (r.Email?.ToLower().Contains(lower) ?? false) ||
-          (r.Phone?.ToLower().Contains(lower) ?? false);
-      };
+       return
+         (r.RegistrationNumber?.ToLower().Contains(lower) ?? false) ||
+         (r.Email?.ToLower().Contains(lower) ?? false) ||
+         (r.Phone?.ToLower().Contains(lower) ?? false);
+     };
     }
   }
 }
