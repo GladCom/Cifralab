@@ -23,21 +23,17 @@ export const DefaultEditorControl: React.FC<MultiControlProps> = ({
   value,
   onChange,
   defaultValue,
-  formParams,
   placeholder,
 }) => {
-  const { key } = formParams;
-
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.value);
+      onChange && onChange(event.target.value);
     },
     [onChange],
   );
 
   return (
     <Input
-      key={key}
       allowClear
       value={String(value ?? 'Неверный тип данных')}
       onChange={handleChange}
@@ -49,11 +45,14 @@ export const DefaultEditorControl: React.FC<MultiControlProps> = ({
 };
 
 export const DefaultFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams, placeholder }) => {
+  if (!formParams) {
+    throw Error('EditorFormItemSelectControl: formParams is required but not provided');
+  }
   const { key } = formParams;
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.value);
+      onChange && onChange(event.target.value);
     },
     [onChange],
   );
