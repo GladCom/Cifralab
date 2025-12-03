@@ -6,6 +6,14 @@ services:
       - "${API_PORT}:80"
     environment:
       ASPNETCORE_URLS: http://+
+      TZ: Europe/Moscow
+      DBServer: ${PROJECT_NAME}_postgres
+      DBPort: 5432
+      DBName: cifra_${PROJECT_NAME}
+      DBLogin: cifra_${PROJECT_NAME}_user
+      DBPassword: "P@ssw0rd!"
+      ASPNETCORE_ENVIRONMENT: Development
+
     restart: unless-stopped
 
   front:
@@ -22,8 +30,8 @@ services:
     container_name: ${PROJECT_NAME}_postgres
     environment:
       POSTGRES_DB: cifra_${PROJECT_NAME}
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: cifra_${PROJECT_NAME}_user
+      POSTGRES_PASSWORD: "P@ssw0rd!"
     ports:
       - "${PG_PORT}:5432"
     volumes:
