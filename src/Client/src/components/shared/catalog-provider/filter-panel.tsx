@@ -1,12 +1,48 @@
 import { Flex, Select } from 'antd';
-import { FilterSelectProps, FilterPanelProps } from './filters/filter';
+import React from 'react';
+import { DtoKeys } from '../../../storage/service/types';
 
 const style = {
   height: '10vh',  
   padding: '10px',
 };
 
-const FilterSelect = ({ filter, query, setQuery }: FilterSelectProps) => {
+interface Filter {
+  key: string;
+  backendKey: DtoKeys;
+  label: string;
+  placeholder?: string;
+  useQuery: UseQueryHook;
+  mapOptions?: (data: unknown) => SelectOption[];
+}
+
+interface UseQueryResult<T = unknown> {
+  data: T;
+  isLoading: boolean;
+}
+
+interface SelectOption {
+  value: string | number;
+  label: string;
+}
+
+export interface Query {
+  [key: string]: string | number | undefined;
+}
+
+export interface FilterConfig {
+  filters?: Filter[];
+}
+
+type UseQueryHook = (params?: Record<string, unknown>) => UseQueryResult;
+
+export type FilterSelectProps = {
+  filter: Filter;
+  query: Query;
+  setQuery: React.Dispatch<React.SetStateAction<Query>>;
+};
+
+const FilterSelect: React.FC<FilterSelectProps> = ({ filter, query, setQuery }) => {
   const { backendKey, label, placeholder, useQuery, mapOptions } = filter;
   const { data, isLoading } = useQuery({});
   const options = mapOptions ? mapOptions(data) : [];
@@ -41,7 +77,13 @@ const FilterSelect = ({ filter, query, setQuery }: FilterSelectProps) => {
   );
 };
 
-const FilterPanel = ({ config, query, setQuery }: FilterPanelProps) => {
+export type FilterPanelProps = {
+  config?: FilterConfig;
+  query: Query;
+  setQuery: React.Dispatch<React.SetStateAction<Query>>;
+};
+
+const FilterPanel: React.FC<FilterPanelProps> = ({ config, query, setQuery }) => {
   const { filters } = config || {};
 
   if (!filters || filters.length === 0) {

@@ -1,35 +1,69 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
+import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import { TablePageHeader } from '../layout/index';
-import FilterPanel from '../catalog-provider/filter-panel';
+import FilterPanel, { Query, FilterConfig } from '../catalog-provider/filter-panel';
 
-interface TableColumn {
-  title: string;
-  dataIndex?: string;
-  key?: string;
-  sorter?: boolean;
+type TableColumn = ColumnType<unknown> & {
   sorterKey?: string;
-  render?: (value: unknown, record: unknown) => React.ReactNode;
-}
+};
 
-interface TableParams {
-  pagination: {
-    current: number;
-    pageSize: number;
-  };
+type TableParams = {
+  pagination: TablePaginationConfig;
   sortOrder?: 'ascend' | 'descend';
   sortField?: string;
   sortingField?: string;
+};
+
+type SorterParams = { order?: 'ascend' | 'descend'; field?: string | number | readonly (string | number)[] };
+
+type DataWithDataField = {
+  data?: unknown;
+};
+
+type TableRecord = {
+  id: string | number;
+  [key: string]: unknown;
+};
+
+function isDataWithDataField(value: unknown): value is DataWithDataField {
+  return typeof value === 'object' && value !== null && 'data' in value;
 }
 
-const EntityTable = ({ config, title }) => {
+function isHTMLElement(value: unknown): value is HTMLElement {
+  return value instanceof HTMLElement;
+}
+
+function isTableRecord(value: unknown): value is TableRecord {
+  return typeof value === 'object' && value !== null && 'id' in value;
+}
+
+type EntityTableConfig = {
+  detailsLink: string;
+  crud: {
+    useGetAllPagedAsync: (params?: unknown) => { data?: unknown; isLoading: boolean; isFetching: boolean };
+    useSearchAsync: (searchText: string) => { data?: unknown } | null;
+  };
+  columns: TableColumn[];
+  serverPaged: boolean;
+  dataConverter: (data: unknown) => unknown[];
+  properties?: unknown;
+  searchPlaceholder?: string;
+} & FilterConfig;
+
+type EntityTableProps = {
+  config: EntityTableConfig;
+  title: string;
+};
+
+const EntityTable = ({ config, title }: EntityTableProps) => {
   const { detailsLink, crud, columns, serverPaged, dataConverter } = config;
   const { useGetAllPagedAsync, useSearchAsync } = crud;
 
   const [searchText, setSearchText] = useState('');
   const [queryString, setQueryString] = useState('');
-  const [query, setQuery] = useState({});
+  const [query, setQuery] = useState<Query>({});
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
@@ -57,7 +91,11 @@ const EntityTable = ({ config, title }) => {
 
   const searchResults = useSearchAsync(searchText) || { data: null };
   const isSearching = !!searchText.trim();
-  const dataToDisplay = isSearching ? searchResults?.data : serverPaged ? dataFromServer?.data : dataFromServer;
+  const dataToDisplay: unknown = isSearching 
+    ? searchResults?.data 
+    : serverPaged 
+      ? (isDataWithDataField(dataFromServer) ? dataFromServer.data : undefined)
+      : dataFromServer;
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
@@ -76,13 +114,13 @@ const EntityTable = ({ config, title }) => {
     }
   }, [
     dataFromServer,
-    tableParams,
     searchResults.data,
     searchText,
     isLoading,
     isFetching,
     serverPaged,
     dataToDisplay,
+    queryString,
   ]);
 
   useEffect(() => {
@@ -108,25 +146,29 @@ const EntityTable = ({ config, title }) => {
     });
   }, [query]);
 
-  const handleTableChange = (pagination, filters, sorter) => {
-    const sortOrder = Array.isArray(sorter) ? undefined : sorter?.order;
-    const sortField = Array.isArray(sorter) ? undefined : sorter?.field;
+  const handleTableChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, unknown>,
+    sortParams: SorterParams | SorterParams[]
+  ) => {
+    const sortInfo = Array.isArray(sortParams) ? sortParams[0] : sortParams;
+    const sortOrder = sortInfo?.order;
+    const sortFieldRaw = sortInfo?.field;
+    const sortField = sortFieldRaw 
+      ? (Array.isArray(sortFieldRaw) ? sortFieldRaw[0]?.toString() : String(sortFieldRaw))
+      : undefined;
     
-    let sortingField: string | undefined = undefined;
-    if (sortField && columns) {
-      const column = (columns as TableColumn[]).find((col) => 
-        col.dataIndex === sortField || col.key === sortField
-      );
-      if (column?.sorterKey) {
-        sortingField = column.sorterKey;
-      }
-    }
+    const column = sortField
+      ? columns.find((col) => 
+          col.dataIndex === sortField || col.key === sortField
+        )
+      : undefined;
 
     setTableParams((prev) => ({
       pagination,
-      sortOrder: sortOrder !== undefined ? sortOrder : undefined,
-      sortField: sortField !== undefined ? sortField : undefined,
-      sortingField: sortingField,
+      sortOrder,
+      sortField,
+      sortingField: column?.sorterKey,
     }));
 
     // `dataSource` is useless since `pageSize` changed
@@ -136,14 +178,14 @@ const EntityTable = ({ config, title }) => {
   };
 
   const openDetailsInfo = useCallback(
-    (item) => {
+    (item: TableRecord) => {
       navigate(`/${detailsLink}/${item.id}`);
     },
     [detailsLink, navigate],
   );
 
   const tableColumns = useMemo(() => {
-    return (columns as TableColumn[]).map((col) => {
+    return columns.map((col) => {
       const column = {
         ...col,
         sorter: col.sorter ? true : false,
@@ -160,16 +202,23 @@ const EntityTable = ({ config, title }) => {
       <TablePageHeader config={config} title={title} onSearch={setSearchText} />
       <FilterPanel config={config} query={query} setQuery={setQuery} />
       <Table
-        rowKey={(record: any) => record.id}
+        rowKey={(record: unknown) => {
+          if (isTableRecord(record)) {
+            return String(record.id);
+          }
+          return '';
+        }}
         dataSource={dataConverter(dataToDisplay)}
         pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
         columns={tableColumns}
-        onRow={(record: any) => ({
+        onRow={(record: unknown) => ({
           onClick: ({ target }: React.MouseEvent) => {
-            if ((target as HTMLElement).tagName.toLowerCase() === 'td') {
-              openDetailsInfo(record);
+            if (isHTMLElement(target) && target.tagName.toLowerCase() === 'td') {
+              if (isTableRecord(record)) {
+                openDetailsInfo(record);
+              }
             }
           },
           style: { cursor: 'pointer' },
