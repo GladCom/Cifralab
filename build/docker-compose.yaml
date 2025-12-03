@@ -34,5 +34,5 @@ services:
     ports:
       - "${PG_PORT}:5432"
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./pgdata_${PROJECT_NAME}:/var/lib/postgresql/data
     restart: unless-stopped
