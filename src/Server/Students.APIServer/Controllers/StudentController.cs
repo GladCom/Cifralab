@@ -68,13 +68,17 @@ public class StudentController : GenericAPiController<Student>
       return this.BadRequest("Request ID and group ID cannot be empty");
     try
     {
-      this._studentRepository.Enrollment(id, requestId, groupId);
+      var student = await this._studentRepository.Enrollment(id, requestId, groupId);
+      return this.Ok(student);
     }
-    catch (Exception argEx)
+    catch (ArgumentException argEx)
     {
       return this.BadRequest(argEx.Message);
     }
-    return this.Ok();
+    catch (InvalidOperationException ioEx)
+    {
+      return this.Conflict(ioEx.Message);
+    }
   }
 
   #endregion

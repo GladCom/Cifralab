@@ -50,7 +50,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   {
     return await this.GetOne(x => x.Id == studentId, this.DbSet
       .Include(x => x.Groups)
-      .Include(x => x.Requests));
+      .Include(x => x.Requests)
+      .AsNoTracking());
   }
 
   /// <summary>
@@ -101,7 +102,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     }
   }
   
-  public async Task Enrollment(Guid studentId, Guid requestId, Guid groupId)
+  public async Task<Student?> Enrollment(Guid studentId, Guid requestId, Guid groupId)
   {
     var student = await this.GetStudentWithGroupsAndRequests(studentId);
     if (student == null)
@@ -111,6 +112,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     var group = await this._context.Groups.FindAsync(groupId);
     if (group == null)
       throw new ArgumentException("Group not found");
+    if (student.Groups != null && student.Groups.Any(x => x.Id == group.Id))
+      throw new InvalidOperationException("Student already study in this group");
     try
     {
       var newGroupStudent = new GroupStudent()
@@ -119,18 +122,17 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
         GroupId = groupId,
         RequestId = requestId
       };
-      if (student.GroupStudent != null)
+      if (student.GroupStudent == null)
         student.GroupStudent = new List<GroupStudent>();
       student.GroupStudent.Add(newGroupStudent);
       await this._context.AddAsync(newGroupStudent);
       await this._context.SaveChangesAsync();
+      return await this.GetStudentWithGroupsAndRequests(studentId);
     }
     catch (Exception e)
     {
       throw new Exception(e.Message, e);
     }
-
-    
   }
 
   #endregion
