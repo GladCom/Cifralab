@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
@@ -102,6 +103,17 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     }
   }
   
+  /// <summary>
+  /// Зачисление студента в группу.
+  /// </summary>
+  /// <param name="studentId">ID студента.</param>
+  /// <param name="requestId">ID заявки студента.</param>
+  /// <param name="groupId">ID группы в которую надо зачислить студента.</param>
+  /// <returns>Студент с обновленными группами.</returns>
+  /// <exception cref="ArgumentException">Возникает в случае если не сущетсвует группа студент или заявка.</exception>
+  /// <exception cref="InvalidOperationException">Возникает при попытке добавить студента в группу, где он уже есть
+  /// или в случае, если студент не подавал туда заявку или завка уже использована.</exception>
+  /// <exception cref="Exception"></exception>
   public async Task<Student?> Enrollment(Guid studentId, Guid requestId, Guid groupId)
   {
     var student = await this.GetStudentWithGroupsAndRequests(studentId);
@@ -114,6 +126,9 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
       throw new ArgumentException("Group not found");
     if (student.Groups != null && student.Groups.Any(x => x.Id == group.Id))
       throw new InvalidOperationException("Student already study in this group");
+    var request = await this._context.Requests.FindAsync(requestId);
+    if (group.EducationProgramId != request.EducationProgramId)
+      throw new InvalidOperationException("The education program group does not match the requested program");
     try
     {
       var newGroupStudent = new GroupStudent()
@@ -128,6 +143,10 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
       await this._context.AddAsync(newGroupStudent);
       await this._context.SaveChangesAsync();
       return await this.GetStudentWithGroupsAndRequests(studentId);
+    }
+    catch (PostgresException ex) when (ex.SqlState == "23505")
+    {
+      throw new InvalidOperationException("Based on this request, the student has already been enrolled in the group.");
     }
     catch (Exception e)
     {
