@@ -159,12 +159,18 @@ jobs:
             cd cifra/$NAME
 
             if [ \"$BACK\" = 'success' ]; then
-              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT docker compose pull api
-              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT docker compose up -d api
+              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT \
+              docker compose --project-name $NAME pull api
+
+              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT \
+              docker compose --project-name $NAME up -d api --remove-orphans
             fi
 
             if [ \"$FRONT\" = 'success' ]; then
-              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT docker compose pull front
-              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT docker compose up -d front
+              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT \
+              docker compose --project-name $NAME pull front
+
+              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT \
+              docker compose --project-name $NAME up -d front --remove-orphans
             fi
           "
