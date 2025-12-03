@@ -1,18 +1,28 @@
 services:
   api:
-    image: ghcr.io/gladcom/cifralab/backend:latest-develop
+    image: ghcr.io/gladcom/cifralab/backend:${IMAGE_TAG}
     container_name: ${PROJECT_NAME}_api
     ports:
       - "${API_PORT}:80"
     environment:
       ASPNETCORE_URLS: http://+
+      TZ: Europe/Moscow
+      DBServer: ${PROJECT_NAME}_postgres
+      DBPort: 5432
+      DBName: cifra_${PROJECT_NAME}
+      DBLogin: cifra_${PROJECT_NAME}_user
+      DBPassword: "P@ssw0rd!"
+      ASPNETCORE_ENVIRONMENT: Development
+
     restart: unless-stopped
 
   front:
-    image: ghcr.io/gladcom/cifralab/frontend:latest-develop
+    image: ghcr.io/gladcom/cifralab/frontend:${IMAGE_TAG}
     container_name: ${PROJECT_NAME}_front
     ports:
       - "${FRONT_PORT}:3000"
+    env_file:
+      - .env
     restart: unless-stopped
 
   postgres:
@@ -20,8 +30,8 @@ services:
     container_name: ${PROJECT_NAME}_postgres
     environment:
       POSTGRES_DB: cifra_${PROJECT_NAME}
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: cifra_${PROJECT_NAME}_user
+      POSTGRES_PASSWORD: "P@ssw0rd!"
     ports:
       - "${PG_PORT}:5432"
     volumes:
