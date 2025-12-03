@@ -6,7 +6,7 @@ on:
 
 jobs:
   detect_backend_changes:
-    uses: ./.github/workflows/detect_backend_changes.yml
+    uses: ./.github/workflows/detectors/detect_backend_changes.yml
 
   ci_backend:
     needs: detect_backend_changes
@@ -14,7 +14,7 @@ jobs:
     uses: ./.github/workflows/ci_backend.yml
 
   detect_frontend_changes:
-    uses: ./.github/workflows/detect_frontend_changes.yml
+    uses: ./.github/workflows/detectors/detect_frontend_changes.yml
 
   ci_frontend:
     needs: detect_frontend_changes
