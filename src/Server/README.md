@@ -1,2 +1,1 @@
 # Application server directory
-жопа
