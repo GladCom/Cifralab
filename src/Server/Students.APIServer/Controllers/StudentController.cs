@@ -64,8 +64,8 @@ public class StudentController : GenericAPiController<Student>
   [HttpPost("Enrollment")]
   public async Task<IActionResult> Enrollment(Guid id, Guid requestId, Guid groupId)
   {
-    if (id == Guid.Empty || groupId == Guid.Empty)
-      return this.BadRequest("Request ID and group ID cannot be empty");
+    if (id == Guid.Empty || groupId == Guid.Empty || requestId == Guid.Empty)
+      return this.BadRequest("Request ID, group ID and student ID cannot be empty");
     try
     {
       var student = await this._studentRepository.Enrollment(id, requestId, groupId);
