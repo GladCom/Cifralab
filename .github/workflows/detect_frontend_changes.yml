@@ -1,0 +1,37 @@
+name: Detect Frontend Changes
+
+on:
+  workflow_call:
+    outputs:
+      changed:
+        value: ${{ jobs.detect_frontend_changes.outputs.changed }}
+
+jobs:
+  detect_frontend_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check_frontend.outputs.changed }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect frontend changes
+        id: check_frontend
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+
+          echo "Изменённые файлы:"
+          echo "$CHANGED_FILES"
+
+          FRONTEND_FILES=$(echo "$CHANGED_FILES" | grep "^src/Client/" || true)
+
+          echo "Frontend-файлы:"
+          echo "$FRONTEND_FILES"
+
+          if [ -n "$FRONTEND_FILES" ]; then
+            echo "changed=1" >> $GITHUB_OUTPUT
+          else
+            echo "changed=0" >> $GITHUB_OUTPUT
+          fi

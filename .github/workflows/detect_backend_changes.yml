@@ -1,0 +1,37 @@
+name: Detect Backend Changes
+
+on:
+  workflow_call:
+    outputs:
+      changed:
+        value: ${{ jobs.detect_backend_changes.outputs.changed }}
+
+jobs:
+  detect_backend_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check_backend.outputs.changed }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect backend changes
+        id: check_backend
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+
+          echo "Изменённые файлы:"
+          echo "$CHANGED_FILES"
+
+          BACKEND_FILES=$(echo "$CHANGED_FILES" | grep "^src/" | grep -v "^src/Client/" || true)
+
+          echo "Backend-файлы:"
+          echo "$BACKEND_FILES"
+
+          if [ -n "$BACKEND_FILES" ]; then
+            echo "changed=1" >> $GITHUB_OUTPUT
+          else
+            echo "changed=0" >> $GITHUB_OUTPUT
+          fi
