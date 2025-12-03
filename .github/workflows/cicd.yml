@@ -147,30 +147,31 @@ jobs:
 
       - name: Deploy changed services
         run: |
-          BACK="${{ needs.cd_backend.result }}"
-          FRONT="${{ needs.cd_frontend.result }}"
-          NAME="${{ needs.prepare_variables.outputs.project_name }}"
-          TAG="${{ needs.prepare_variables.outputs.suffix }}"
-          API_PORT="${{ needs.prepare_variables.outputs.api_port }}"
-          FRONT_PORT="${{ needs.prepare_variables.outputs.front_port }}"
-          PG_PORT="${{ needs.prepare_variables.outputs.pg_port }}"
-
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd cifra/$NAME
+            cd cifra/${{ needs.prepare_variables.outputs.project_name }}
 
-            if [ \"$BACK\" = 'success' ]; then
-              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT \
-              docker compose --project-name $NAME pull api
+            export PROJECT_NAME='${{ needs.prepare_variables.outputs.project_name }}'
+            export IMAGE_TAG='${{ needs.prepare_variables.outputs.suffix }}'
+            export API_PORT='${{ needs.prepare_variables.outputs.api_port }}'
+            export FRONT_PORT='${{ needs.prepare_variables.outputs.front_port }}'
+            export PG_PORT='${{ needs.prepare_variables.outputs.pg_port }}'
 
-              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT \
-              docker compose --project-name $NAME up -d api --remove-orphans
+            echo \"Using variables:\"
+            echo PROJECT_NAME=\$PROJECT_NAME
+            echo IMAGE_TAG=\$IMAGE_TAG
+            echo API_PORT=\$API_PORT
+            echo FRONT_PORT=\$FRONT_PORT
+            echo PG_PORT=\$PG_PORT
+
+            # Backend
+            if [ '${{ needs.cd_backend.result }}' = 'success' ]; then
+              docker compose --project-name \$PROJECT_NAME pull api
+              docker compose --project-name \$PROJECT_NAME up -d api --remove-orphans
             fi
 
-            if [ \"$FRONT\" = 'success' ]; then
-              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT \
-              docker compose --project-name $NAME pull front
-
-              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT \
-              docker compose --project-name $NAME up -d front --remove-orphans
+            # Frontend
+            if [ '${{ needs.cd_frontend.result }}' = 'success' ]; then
+              docker compose --project-name \$PROJECT_NAME pull front
+              docker compose --project-name \$PROJECT_NAME up -d front --remove-orphans
             fi
           "
