@@ -22,8 +22,6 @@ services:
     container_name: ${PROJECT_NAME}_front
     ports:
       - "${FRONT_PORT}:3000"
-    env_file:
-      - .env
     restart: unless-stopped
 
   postgres:
