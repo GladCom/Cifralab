@@ -5,6 +5,7 @@ on:
 
 jobs:
   detect_frontend_changes:
+    id: check_frontend
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check_frontend.outputs.changed }}
