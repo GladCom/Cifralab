@@ -28,7 +28,7 @@ jobs:
           echo "$FRONTEND_FILES"
 
           if [ -n "$FRONTEND_FILES" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "changed='true'" >> $GITHUB_OUTPUT
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed='false'" >> $GITHUB_OUTPUT
           fi
