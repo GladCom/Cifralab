@@ -26,10 +26,10 @@ WORKDIR /app
 RUN npm install -g serve
 
 # Копируем скомпилированное приложение из предыдущего этапа
-COPY --from=build /app/distWebpack ./dist
+COPY --from=build /app/build ./build
 
 # Открываем порт 3000
 EXPOSE 3000
 
 # Запускаем serve для раздачи статики
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["serve", "-s", "build", "-l", "3000"]
