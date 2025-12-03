@@ -423,10 +423,12 @@ public class DbService : IDisposable
   /// KindDocumentRiseQualificationId - вид документа повышения квалификации - если нет записи в экселе по полученному документу, 
   /// то информации по виду документа нет, 
   /// поэтому записываю по умолчанию "Удостоверение о повышении квалификации", так как это свойство обязательно к заполнению у программы обучения)
+  /// Так как документ по умолчанию "Удостоверение о повышении квалификации" ти программы по умолчанию - "Программа повышения квалификации"
   /// </summary>
   /// <param name="item">Данные из эксель.</param>
   /// <param name="educationFormId">Идентификатор формы обучения.</param>
   /// <param name="kindDocumentRiseQualificationId">Идентификатор вида документа повышения квалификации.</param>
+  /// <param name="kindEducationProgramId">Тип образовательной программы.</param>
   /// <param name="feaProgramId">Идентификатор ВЭД программы.</param>
   /// <param name="financingTypeId">Идентификатор типа финансирования.</param>
   /// <returns>Идентификатор программы обучения.</returns>
@@ -461,7 +463,15 @@ public class DbService : IDisposable
       throw new Exception("Ошибка записи типа документа о повышении квалификации.");
     }
 
+    kindEducationProgramId ??=
+      this._pgContext.KindEducationPrograms
+        .FirstOrDefault(k => k.Name.Contains("Программа повышения квалификации"))?
+        .Id;
+    if (kindEducationProgramId is null)
+      throw new ArgumentException("Не удалось заполнить тип образовательной программы");
+
     var educationProgram = this._pgContext.EducationPrograms.FirstOrDefault(e => e.Name != null && e.Name.ToLower().Trim() == nameEducationProgram);
+    
 
     if(educationProgram is not null)
     {
