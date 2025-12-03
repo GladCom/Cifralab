@@ -5,166 +5,166 @@ on:
     branches: [main, develop, gladkov_es/refactor-deploy-script]
 
 jobs:
-detect_backend_changes:
-  uses: ./.github/workflows/detect_backend_changes.yml
+  detect_backend_changes:
+    uses: ./.github/workflows/detect_backend_changes.yml
 
-ci_backend:
-  needs: detect_backend_changes
-  if: needs.detect_backend_changes.outputs.changed == 'true'
-  uses: ./.github/workflows/ci_backend.yml
+  ci_backend:
+    needs: detect_backend_changes
+    if: needs.detect_backend_changes.outputs.changed == 'true'
+    uses: ./.github/workflows/ci_backend.yml
 
-detect_frontend_changes:
-  uses: ./.github/workflows/detect_frontend_changes.yml
+  detect_frontend_changes:
+    uses: ./.github/workflows/detect_frontend_changes.yml
 
-ci_frontend:
-  needs: detect_frontend_changes
-  if: needs.detect_frontend_changes.outputs.changed == 'true'
-  uses: ./.github/workflows/ci_frontend.yml
+  ci_frontend:
+    needs: detect_frontend_changes
+    if: needs.detect_frontend_changes.outputs.changed == 'true'
+    uses: ./.github/workflows/ci_frontend.yml
 
-prepare_variables:
-  runs-on: ubuntu-latest
-  outputs:
-    sha: ${{ steps.vars.outputs.sha }}
-    repo: ${{ steps.vars.outputs.repo }}
-    suffix: ${{ steps.vars.outputs.suffix }}
-    project_name: ${{ steps.vars.outputs.project_name }}
-    api_port: ${{ steps.vars.outputs.api_port }}
-    front_port: ${{ steps.vars.outputs.front_port }}
-    pg_port: ${{ steps.vars.outputs.pg_port }}
-  steps:
-    - name: Prepare deploy variables
-      id: vars
-      run: |
-        echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-        echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
+  prepare_variables:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.vars.outputs.sha }}
+      repo: ${{ steps.vars.outputs.repo }}
+      suffix: ${{ steps.vars.outputs.suffix }}
+      project_name: ${{ steps.vars.outputs.project_name }}
+      api_port: ${{ steps.vars.outputs.api_port }}
+      front_port: ${{ steps.vars.outputs.front_port }}
+      pg_port: ${{ steps.vars.outputs.pg_port }}
+    steps:
+      - name: Prepare deploy variables
+        id: vars
+        run: |
+          echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
-        if [ "${GITHUB_REF_NAME}" = "main" ]; then
-          echo "suffix=release" >> $GITHUB_OUTPUT
-          echo "project_name=${{ vars.PROD_STAND_NAME }}" >> $GITHUB_OUTPUT
-          echo "api_port=${{ vars.PROD_API_PORT }}" >> $GITHUB_OUTPUT
-          echo "front_port=${{ vars.PROD_FRONT_PORT }}" >> $GITHUB_OUTPUT
-          echo "pg_port=${{ vars.PROD_DB_PORT }}" >> $GITHUB_OUTPUT
-        elif [ "${GITHUB_REF_NAME}" = "gladkov_es/refactor-deploy-script" ]; then
-          echo "suffix=develop" >> $GITHUB_OUTPUT
-          echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
-          echo "api_port=${{ vars.DEV_API_PORT }}" >> $GITHUB_OUTPUT
-          echo "front_port=${{ vars.DEV_FRONT_PORT }}" >> $GITHUB_OUTPUT
-          echo "pg_port=${{ vars.DEV_DB_PORT }}" >> $GITHUB_OUTPUT
-        else
-          echo "Unsupported branch: ${GITHUB_REF_NAME}"
-          exit 1
-        fi
-
-cd_backend:
-  needs: [ci_backend, prepare_variables]
-  if: needs.ci_backend.result == 'success'
-  runs-on: ubuntu-latest
-
-  steps:
-    - uses: actions/checkout@v5
-      with:
-        ref: ${{ inputs.branch }}
-
-    - name: Login to GHCR
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: gladcom
-        password: ${{ secrets.GHCR_PAT }}
-
-    - name: Build backend image
-      run: |
-        docker build \
-          -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }} \
-          -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }} \
-          -f src/Dockerfile src
-
-    - name: Push backend
-      run: |
-        docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }}
-        docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }}
-
-cd_frontend:
-  needs: [ci_frontend, prepare_variables]
-  if: needs.ci_frontend.result == 'success'
-  runs-on: ubuntu-latest
-
-  steps:
-    - uses: actions/checkout@v5
-      with:
-        ref: ${{ inputs.branch }}
-
-    - name: Generate .env for frontend
-      run: |
-        chmod +x build/create-env.sh
-        API_HOST=${{ secrets.SSH_HOST }} \
-        API_PORT=${{ needs.prepare_variables.outputs.api_port }} \
-        bash build/create-env.sh
-        mv .env src/Client/.env
-
-    - name: Login to GHCR
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: gladcom
-        password: ${{ secrets.GHCR_PAT }}
-
-    - name: Build frontend image
-      run: |
-        docker build \
-          -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }} \
-          -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }} \
-          -f src/Client/Dockerfile src/Client
-
-    - name: Push frontend
-      run: |
-        docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }}
-        docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }}
-
-cd_deploy:
-  runs-on: ubuntu-latest
-  needs: [cd_backend, cd_frontend, prepare_variables]
-  if: needs.cd_backend.result == 'success' || needs.cd_frontend.result == 'success'
-
-  steps:
-    - uses: actions/checkout@v5
-
-    - uses: webfactory/ssh-agent@v0.7.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_KEY }}
-
-    - run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-
-    - name: Upload docker-compose
-      run: |
-        scp build/docker-compose.yaml \
-          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ needs.prepare_variables.outputs.project_name }}/docker-compose.yaml
-
-    - name: Login to GHCR on server
-      run: |
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-          "echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin"
-
-    - name: Deploy changed services
-      run: |
-        BACK="${{ needs.cd_backend.result }}"
-        FRONT="${{ needs.cd_frontend.result }}"
-        NAME="${{ needs.prepare_variables.outputs.project_name }}"
-        TAG="${{ needs.prepare_variables.outputs.suffix }}"
-        API_PORT="${{ needs.prepare_variables.outputs.api_port }}"
-        FRONT_PORT="${{ needs.prepare_variables.outputs.front_port }}"
-        PG_PORT="${{ needs.prepare_variables.outputs.pg_port }}"
-
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-          cd cifra/$NAME
-
-          if [ \"$BACK\" = 'success' ]; then
-            IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT docker compose pull api
-            IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT docker compose up -d api
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "suffix=release" >> $GITHUB_OUTPUT
+            echo "project_name=${{ vars.PROD_STAND_NAME }}" >> $GITHUB_OUTPUT
+            echo "api_port=${{ vars.PROD_API_PORT }}" >> $GITHUB_OUTPUT
+            echo "front_port=${{ vars.PROD_FRONT_PORT }}" >> $GITHUB_OUTPUT
+            echo "pg_port=${{ vars.PROD_DB_PORT }}" >> $GITHUB_OUTPUT
+          elif [ "${GITHUB_REF_NAME}" = "gladkov_es/refactor-deploy-script" ]; then
+            echo "suffix=develop" >> $GITHUB_OUTPUT
+            echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
+            echo "api_port=${{ vars.DEV_API_PORT }}" >> $GITHUB_OUTPUT
+            echo "front_port=${{ vars.DEV_FRONT_PORT }}" >> $GITHUB_OUTPUT
+            echo "pg_port=${{ vars.DEV_DB_PORT }}" >> $GITHUB_OUTPUT
+          else
+            echo "Unsupported branch: ${GITHUB_REF_NAME}"
+            exit 1
           fi
 
-          if [ \"$FRONT\" = 'success' ]; then
-            IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT docker compose pull front
-            IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT docker compose up -d front
-          fi
-        "
+  cd_backend:
+    needs: [ci_backend, prepare_variables]
+    if: needs.ci_backend.result == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: gladcom
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build backend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }} \
+            -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }} \
+            -f src/Dockerfile src
+
+      - name: Push backend
+        run: |
+          docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }}
+          docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/backend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }}
+
+  cd_frontend:
+    needs: [ci_frontend, prepare_variables]
+    if: needs.ci_frontend.result == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Generate .env for frontend
+        run: |
+          chmod +x build/create-env.sh
+          API_HOST=${{ secrets.SSH_HOST }} \
+          API_PORT=${{ needs.prepare_variables.outputs.api_port }} \
+          bash build/create-env.sh
+          mv .env src/Client/.env
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: gladcom
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build frontend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }} \
+            -t ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }} \
+            -f src/Client/Dockerfile src/Client
+
+      - name: Push frontend
+        run: |
+          docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }}
+          docker push ghcr.io/${{ needs.prepare_variables.outputs.repo }}/frontend:${{ needs.prepare_variables.outputs.suffix }}-${{ needs.prepare_variables.outputs.sha }}
+
+  cd_deploy:
+    runs-on: ubuntu-latest
+    needs: [cd_backend, cd_frontend, prepare_variables]
+    if: needs.cd_backend.result == 'success' || needs.cd_frontend.result == 'success'
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload docker-compose
+        run: |
+          scp build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ needs.prepare_variables.outputs.project_name }}/docker-compose.yaml
+
+      - name: Login to GHCR on server
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin"
+
+      - name: Deploy changed services
+        run: |
+          BACK="${{ needs.cd_backend.result }}"
+          FRONT="${{ needs.cd_frontend.result }}"
+          NAME="${{ needs.prepare_variables.outputs.project_name }}"
+          TAG="${{ needs.prepare_variables.outputs.suffix }}"
+          API_PORT="${{ needs.prepare_variables.outputs.api_port }}"
+          FRONT_PORT="${{ needs.prepare_variables.outputs.front_port }}"
+          PG_PORT="${{ needs.prepare_variables.outputs.pg_port }}"
+
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd cifra/$NAME
+
+            if [ \"$BACK\" = 'success' ]; then
+              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT docker compose pull api
+              IMAGE_TAG=$TAG API_PORT=$API_PORT PG_PORT=$PG_PORT docker compose up -d api
+            fi
+
+            if [ \"$FRONT\" = 'success' ]; then
+              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT docker compose pull front
+              IMAGE_TAG=$TAG FRONT_PORT=$FRONT_PORT docker compose up -d front
+            fi
+          "
