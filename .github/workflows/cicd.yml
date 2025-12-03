@@ -91,7 +91,7 @@
       - name: Generate .env for frontend
         run: |
           chmod +x build/create-env.sh
-          API_HOST=${{ steps.vars.outputs.project_name }}_api \
+          API_HOST=${{ secrets.SSH_HOST }} \
           API_PORT=${{ steps.vars.outputs.api_port }} \
           bash build/create-env.sh \
           echo "Generated .env:"
