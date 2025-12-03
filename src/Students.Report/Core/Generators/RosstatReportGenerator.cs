@@ -13,25 +13,26 @@ public class RosstatReportGenerator : BaseReportGenerator, IRosstatReportGenerat
 {
   private readonly RosstatReportRepository _reportRepository;
 
-  /// <summary>
-  ///   Генерировать отчет для Росстата.
-  /// </summary>
-  /// <returns>Книга.</returns>
-  public async Task<XLWorkbook?> ReportForExcelAsync(GroupFilter filter)
-  {
-    var listReportData = await this._reportRepository.Get(filter);
-    var template = new XLTemplate(this.PathTemplate("Form1-PK.xlsx"));
-    template.AddVariable(listReportData.FirstOrDefault());
-    template.Generate();
+    /// <summary>
+    ///   Генерировать отчет для Росстата.
+    /// </summary>
+    /// <returns>Книга.</returns>
+    public async Task<XLWorkbook?> ReportForExcelAsync(GroupFilter filter)
+    {
+        var listReportData = await this._reportRepository.Get(filter);
+        var template = new XLTemplate(this.PathTemplate("Form1-PK.xlsx"));
 
-    return template.Workbook as XLWorkbook;
-  }
+        template.AddVariable("Items", listReportData);
 
-  /// <summary>
-  ///   Конструктор.
-  /// </summary>
-  /// <param name="reportRepository">Репозиторий.</param>
-  public RosstatReportGenerator(RosstatReportRepository reportRepository)
+        template.Generate();
+        return template.Workbook as XLWorkbook;
+    }
+
+    /// <summary>
+    ///   Конструктор.
+    /// </summary>
+    /// <param name="reportRepository">Репозиторий.</param>
+    public RosstatReportGenerator(RosstatReportRepository reportRepository)
   {
     this._reportRepository = reportRepository;
   }

@@ -22,7 +22,7 @@ const DefaultReportBody = ({ config }: IProps) => {
 
   // TODO: Сделал так чтобы не хранить обьект запроса в стейт, надо подумать как это переделать
   const [studentId, setStudentId] = useState<string | null>();
-  const [groupsId, setGroupsId] = useState<string | null>('');
+  const [groupsId, setGroupsId] = useState<string[] | null>(null);
 
   const reportMutation = useMutation({
     mutationFn: (params: IReportRequest) => config.crud.getReport(params),
@@ -34,21 +34,22 @@ const DefaultReportBody = ({ config }: IProps) => {
 
   const reportGeneration = () => {
     if (!groupsId) {
-      message.warning('Пожалуйста, выберите группу.');
+      message.warning('Пожалуйста, выберите группы, для формирования отчёта.');
       return;
     }
-
+  console.log(groupsId);
     if (!dateRange) {
       message.warning('Пожалуйста, выберите период для формирования отчёта.');
       return;
     } else {
+      // TODO: временное решение
       const params: IReportRequest = {
         endDateMax: null,
-        endDateMin: dateRange[0].format('YYYY-MM-DD'),
+        endDateMin: dateRange[1].format('YYYY-MM-DD'),
         startDateMax: null,
-        startDateMin: dateRange[1].format('YYYY-MM-DD'),
+        startDateMin: dateRange[0].format('YYYY-MM-DD'),
         studentId: null,
-        groupNames: null,
+        groupNames: groupsId,
       };
       reportMutation.mutate(params);
     }
@@ -61,12 +62,12 @@ const DefaultReportBody = ({ config }: IProps) => {
       <Divider />
       <Space direction="vertical" size="middle">
         <Paragraph>
-          <strong>1. Выберите период формирования отчётов:</strong>
+          <strong>1. Выберите период формирования отчётов и группы, по которым это нужно сделать:</strong>
         </Paragraph>
 
         <Flex style={{ gap: '10px' }}>
           <DateTimePicker onDateChange={setDataRange} />
-          <GroupSelect displayMode={DisplayMode.EDITOR} setValue={(val: string | null) => setGroupsId(val)} />
+          <GroupSelect displayMode={DisplayMode.MULTI_SELECT} value={groupsId} setValue={(val: string[] | null) => setGroupsId(val)} />
         </Flex>
 
         <Paragraph>

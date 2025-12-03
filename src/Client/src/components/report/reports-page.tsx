@@ -2,6 +2,7 @@ import { Layout } from '../shared/layout/index';
 import FRDOReportBody from '@components/report/FRDO-report-body';
 import Accordion from '../shared/control/base-controls/Accordion';
 import RosstatReportBody from '@components/report/Rosstat-report-body';
+import SummaryReportBody from './Summary-report-body';
 
 const ReportsPage = () => {
   return (
@@ -13,7 +14,7 @@ const ReportsPage = () => {
         <RosstatReportBody />
       </Accordion>
       <Accordion>
-        <FRDOReportBody />
+        <SummaryReportBody />
       </Accordion>
     </Layout>
   );
