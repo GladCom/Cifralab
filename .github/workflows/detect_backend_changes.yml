@@ -2,6 +2,9 @@ name: Detect Backend Changes
 
 on:
   workflow_call:
+    outputs:
+      changed:
+        value: ${{ jobs.detect_backend_changes.outputs.changed }}
 
 jobs:
   detect_backend_changes:
