@@ -22,51 +22,88 @@
         packages: write
 
       steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
 
-        - name: Login to GHCR
-          uses: docker/login-action@v3
-          with:
-            registry: ghcr.io
-            username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
 
-        - name: Prepare tags
-          id: vars
-          run: |
-            echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
-            echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-            # Определяем тип ветки
-            if [ "${GITHUB_REF_NAME}" = "main" ]; then
-              echo "suffix=release" >> $GITHUB_OUTPUT
-            else
-              echo "suffix=develop" >> $GITHUB_OUTPUT
-            fi
+      - name: Login to GHCR on server
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin"
 
-        - name: Build backend image
-          run: |
-            docker build \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }} \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
-              -f src/Dockerfile \
-              src
+      - name: Prepare tags
+        id: vars
+        run: |
+          echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
-        - name: Build frontend image
-          run: |
-            docker build \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }} \
-              -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
-              -f src/Client/Dockerfile \
-              src/Client
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "suffix=release" >> $GITHUB_OUTPUT
+            echo "project_name=${{ vars.PROD_STAND_NAME }}" >> $GITHUB_OUTPUT
+            echo "api_port=${{ vars.PROD_API_PORT }}" >> $GITHUB_OUTPUT
+            echo "front_port=${{ vars.PROD_FRONT_PORT }}" >> $GITHUB_OUTPUT
+            echo "pg_port=${{ vars.PROD_DB_PORT }}" >> $GITHUB_OUTPUT
 
-        - name: Push backend image
-          run: |
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
+          elif [ "${GITHUB_REF_NAME}" = "develop" ]; then
+            echo "suffix=develop" >> $GITHUB_OUTPUT
+            echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
+            echo "api_port=${{ vars.DEV_API_PORT }}" >> $GITHUB_OUTPUT
+            echo "front_port=${{ vars.DEV_FRONT_PORT }}" >> $GITHUB_OUTPUT
+            echo "pg_port=${{ vars.DEV_DB_PORT }}" >> $GITHUB_OUTPUT
 
-        - name: Push frontend image
-          run: |
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}
-            docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
+          else
+            echo "Unsupported branch: ${GITHUB_REF_NAME}"
+            exit 1
+          fi
+
+      - name: Upload docker-compose
+        run: |
+          scp build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.project_name }}/docker-compose.yaml
+  
+      - name: Generate .env for frontend
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd cifra/${{ steps.vars.outputs.suffix }} && \
+            API_HOST=${{ secrets.SERVER_HOST }} \
+            API_PORT=${{ steps.vars.outputs.api_port }} \
+            bash build/create-env.sh \
+          "
+
+      - name: Upload env generator script
+        run: |
+          scp build/create-env.sh \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.suffix }}/create-env.sh
+
+      - name: Make env script executable
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            chmod +x cifra/${{ steps.vars.outputs.suffix }}/create-env.sh \
+          "
+
+      - name: Deploy ${{ steps.vars.outputs.project_name }}
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd cifra/${{ steps.vars.outputs.project_name }} && \
+            IMAGE_TAG=${{ steps.vars.outputs.suffix }} \
+            PROJECT_NAME=${{ steps.vars.outputs.project_name }} \
+            API_PORT=${{ steps.vars.outputs.api_port }} \
+            FRONT_PORT=${{ steps.vars.outputs.front_port }} \
+            PG_PORT=${{ steps.vars.outputs.pg_port }} \
+            docker compose --project-name ${{ steps.vars.outputs.project_name }} pull && \
+            IMAGE_TAG=${{ steps.vars.outputs.suffix }} \
+            PROJECT_NAME=${{ steps.vars.outputs.project_name }} \
+            API_PORT=${{ steps.vars.outputs.api_port }} \
+            FRONT_PORT=${{ steps.vars.outputs.front_port }} \
+            PG_PORT=${{ steps.vars.outputs.pg_port }} \
+            docker compose --project-name ${{ steps.vars.outputs.project_name }} up -d --remove-orphans \
+          "
