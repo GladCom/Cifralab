@@ -89,15 +89,14 @@
           docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
 
       - name: Generate .env for frontend
-        working-directory: src/Client
         run: |
-          chmod +x create-env.sh
+          chmod +x build/create-env.sh
           API_HOST=${{ steps.vars.outputs.project_name }}_api \
           API_PORT=${{ steps.vars.outputs.api_port }} \
-          bash create-env.sh \
+          bash build/create-env.sh \
           echo "Generated .env:"
           cat .env
-          "
+          mv .env src/Client/.env          
 
       - name: Build frontend image
         run: |
