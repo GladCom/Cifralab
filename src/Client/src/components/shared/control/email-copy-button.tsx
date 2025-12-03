@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Tooltip } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
 import useNotifications from '../../../notification/use-notifications';
@@ -15,6 +15,7 @@ export const EmailCopyButton: React.FC<EmailCopyButtonProps> = ({ email }) => {
       await navigator.clipboard.writeText(email);
       showSuccess('E-mail скопирован', `Адрес "${email}" скопирован в буфер обмена`);
     } catch (error) {
+      /* eslint-disable-next-line no-console */
       console.error('Ошибка копирования e-mail:', error);
       showError('Не удалось скопировать e-mail', error);
     }

@@ -4,8 +4,8 @@ import { Modal, Form, Result } from 'antd';
 const RoutingWarningModal = ({ show, blocker }) => {
   const [form] = Form.useForm();
 
-  const onSubmit = (e) => {
-    console.log(e);
+  const onSubmit = () => {
+    // console.log(e); // если понадобится, раскомментируйте
     blocker.proceed();
   };
 

@@ -46,7 +46,7 @@ export type MultimodeControlProps = {
   isChanged?: boolean;
   controlParams?: BaseControlParams;
   formParams?: FormParams;
-  crud?: any;
+  crud?: unknown;
   setValue?: (value: MultimodeControlValue) => void;
   onChange?: () => void;
   setDisplayMode?: (mode: DisplayMode) => void;

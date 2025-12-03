@@ -6,7 +6,7 @@ const style = {
   minHeight: '50px',
 };
 
-const FilterPanel = ({ config }) => {
+const FilterPanel = ({ _config }) => {
   return (
     <>
       <Flex style={style} className="border-bottom border-primary">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Checkbox } from 'antd';
 import {
   useGetAllAsync,
@@ -18,8 +18,8 @@ import { educationProgramFormModel } from '../form-model/education-program';
 const IsArchive = ({ record }) => {
   const { id, isArchive } = record;
   const [editProgram, { isSuccess, isError }] = useEditOneAsync();
-  const [status, setStatus] = useState('');
   const checkboxRef = useRef(null);
+  const [_status, setStatus] = useState(null);
 
   useEffect(() => {
     if (isError) {

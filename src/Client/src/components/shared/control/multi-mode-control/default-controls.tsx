@@ -9,8 +9,8 @@ export type MultiControlProps = {
   defaultValue?: MultimodeControlValue;
   placeholder?: string;
   formParams?: FormParams;
-  crud?: any;
-  options?: any;
+  crud?: unknown;
+  options?: unknown;
   //  TODO: a точно ли тут надо передавать значение а не событие?
   onChange?: (value: MultimodeControlValue) => void;
 };

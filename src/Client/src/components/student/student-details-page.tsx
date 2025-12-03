@@ -9,12 +9,10 @@ const StudentDetailsPage = () => {
   const [studentData, setStudentData] = useState({});
   const [initialData, setInitialData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
-  const [isSaveInProgress, setIsSaveInProgress] = useState(false);
-
   const { properties, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
-  const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
-
+  const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
+  const [isSaveInProgress, setIsSaveInProgress] = useState(false);
   const [editStudent] = useEditOneAsync();
 
   useEffect(() => {
@@ -30,10 +28,12 @@ const StudentDetailsPage = () => {
     ({ currentLocation, nextLocation }) => isChanged && currentLocation.pathname !== nextLocation.pathname,
   );
 
-  const onSave = useCallback(() => {
-    editStudent({ id, item: studentData });
+  const onSave = useCallback(async () => {
+    setIsSaveInProgress(true); // начинаем сохранение
+    await editStudent({ id, item: studentData });
+    setIsSaveInProgress(false); // завершаем сохранение
     setIsChanged(false);
-  }, [id, studentData]);
+  }, [id, studentData, editStudent]);
 
   const onCancel = useCallback(() => {
     setStudentData(initialData);
@@ -52,7 +52,7 @@ const StudentDetailsPage = () => {
       <hr />
       <Row>
         <Col>
-          <Button onClick={onSave} style={{ marginRight: '10px' }}>
+          <Button onClick={onSave} style={{ marginRight: '10px' }} disabled={isSaveInProgress}>
             Сохранить
           </Button>
         </Col>

@@ -25,7 +25,7 @@ export type MultimodeWrapperControlProps = {
   isChanged: boolean;
   controlParams: BaseControlParams;
   formParams: FormParams;
-  crud?: any;
+  crud?: unknown;
   setValue: (value: MultimodeControlValue) => void;
   onChange: () => void;
   setDisplayMode: (mode: DisplayMode) => void;
@@ -62,6 +62,7 @@ export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control,
       setValue(newValue);
       setDisplayMode(DisplayMode.EDITABLE_VIEW);
     } else {
+      /* eslint-disable-next-line no-console */
       console.error(`Field "${key}" not found in form values. Available fields: ${Object.keys(formValue).join(', ')}`);
       // TODO: показать уведомление пользователю
     }

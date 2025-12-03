@@ -15,7 +15,7 @@ export const feaProgramApi = createApi({
     }),
     getFEAProgramSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getFEAProgramById: builder.query({
       query: (id) => id,
