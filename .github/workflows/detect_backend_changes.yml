@@ -31,7 +31,7 @@ jobs:
           echo "$BACKEND_FILES"
 
           if [ -n "$BACKEND_FILES" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "changed=1" >> $GITHUB_OUTPUT
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed=0" >> $GITHUB_OUTPUT
           fi

@@ -10,7 +10,7 @@ jobs:
 
   ci_backend:
     needs: detect_backend_changes
-    if: needs.detect_backend_changes.outputs.changed == 'true'
+    if: needs.detect_backend_changes.outputs.changed == 1
     uses: ./.github/workflows/ci_backend.yml
 
   detect_frontend_changes:
@@ -18,7 +18,7 @@ jobs:
 
   ci_frontend:
     needs: detect_frontend_changes
-    if: needs.detect_frontend_changes.outputs.changed == 'true'
+    if: needs.detect_frontend_changes.outputs.changed == 1
     uses: ./.github/workflows/ci_frontend.yml
 
   prepare_variables:
