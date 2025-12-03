@@ -1,5 +1,4 @@
-﻿import React from 'react';
-import { RosstatReportConfig } from '@/storage/catalog-config/report-config';
+﻿import { RosstatReportConfig } from '@/storage/catalog-config/report-config';
 import DefaultReportBody from '@components/report/deafault-report-card-body';
 
 const RosstatReportBody = () => {

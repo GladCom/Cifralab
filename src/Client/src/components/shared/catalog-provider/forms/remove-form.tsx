@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Form, Result } from 'antd';
 
 const RemoveForm = ({ item, control, config, refetch }) => {

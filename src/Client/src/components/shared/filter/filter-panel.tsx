@@ -1,5 +1,3 @@
-import React from 'react';
-
 const FilterPanel = ({ children }) => {
   const style = {
     height: '10vh',

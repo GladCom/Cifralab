@@ -1,15 +1,10 @@
-﻿import React from 'react';
-import DefaultReportBody from '@components/report/deafault-report-card-body';
+﻿import DefaultReportBody from '@components/report/deafault-report-card-body';
 import { PFDOReportConfig } from '@/storage/catalog-config/report-config';
 
 const FRDOReportBody = () => {
   const pfdoConfig = new PFDOReportConfig();
 
-  return (
-    <>
-      <DefaultReportBody config={pfdoConfig} />
-    </>
-  );
+  return <DefaultReportBody config={pfdoConfig} />;
 };
 
 export default FRDOReportBody;
