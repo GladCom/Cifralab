@@ -408,3 +408,7 @@ docs/Writerside/.idea/
 src/Client/test_server/
 /src/Client/.vscode
 src/Client/distWebpack/
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/prettier.xml
+/.idea/vcs.xml
