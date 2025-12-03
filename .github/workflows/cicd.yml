@@ -5,7 +5,6 @@
       branches:
         - main
         - develop
-        - gladkov_es/deploy-prod-and-tests
   
   jobs:
     ci_backend:
@@ -50,13 +49,6 @@
             echo "pg_port=${{ vars.PROD_DB_PORT }}" >> $GITHUB_OUTPUT
 
           elif [ "${GITHUB_REF_NAME}" = "develop" ]; then
-            echo "suffix=develop" >> $GITHUB_OUTPUT
-            echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
-            echo "api_port=${{ vars.DEV_API_PORT }}" >> $GITHUB_OUTPUT
-            echo "front_port=${{ vars.DEV_FRONT_PORT }}" >> $GITHUB_OUTPUT
-            echo "pg_port=${{ vars.DEV_DB_PORT }}" >> $GITHUB_OUTPUT
-
-          elif [ "${GITHUB_REF_NAME}" = "gladkov_es/deploy-prod-and-tests" ]; then
             echo "suffix=develop" >> $GITHUB_OUTPUT
             echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
             echo "api_port=${{ vars.DEV_API_PORT }}" >> $GITHUB_OUTPUT
