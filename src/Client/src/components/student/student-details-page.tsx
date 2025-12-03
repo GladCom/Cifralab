@@ -10,6 +10,8 @@ import { Student } from '../../storage/service/types';
 export const StudentDetailsPage = () => {
   const { id } = useParams();
   const [studentData, setStudentData] = useState<Student>();
+  //  formKeyValue нужен чтобы форма перемонтировалась при сохранении и отмене.
+  const [formKeyValue, setFormKeyValue] = useState(0);
   const [initialData, setInitialData] = useState<Student>();
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress, setIsSaveInProgress] = useState(false);
@@ -36,22 +38,31 @@ export const StudentDetailsPage = () => {
   const onSave = useCallback(() => {
     editStudent({ id, item: studentData });
     setIsChanged(false);
+    setFormKeyValue((prev) => prev + 1);
+    setInitialData(studentData);
   }, [id, studentData]);
 
   const onCancel = useCallback(() => {
+    setFormKeyValue((prev) => prev + 1);
     setStudentData(initialData);
     setIsChanged(false);
   }, [initialData]);
 
   const title = `Обучающиеся - ${studentData?.family} ${studentData?.name} ${studentData?.patron}`;
 
-  return isLoading || isFetching ? (
+  return isLoading || isFetching || !studentData ? (
     <Loading />
   ) : (
     <Layout>
       <DetailsPageHeader title={title} />
       <h2 style={{ padding: '3vh' }}>{`${studentData?.family} ${studentData?.name} ${studentData?.patron}`}</h2>
-      <StudentForm studentData={studentData} setStudentData={setStudentData} setIsChanged={setIsChanged} />
+      {/* новый key будет пересоздавать форму заново, чтобы ресетить все внутренние состояния контролов, например isChanged */}
+      <StudentForm
+        key={formKeyValue}
+        studentData={studentData}
+        setStudentData={setStudentData}
+        setIsChanged={setIsChanged}
+      />
       <hr />
       {isChanged && (
         <Row>

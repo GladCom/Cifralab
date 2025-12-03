@@ -10,8 +10,16 @@ export enum DtoKeys {
   FAMILY = 'family',
   PATRON = 'patron',
   ADDRESS = 'address',
+  BIRTH_DATE = 'birthDate',
   COST = 'cost',
+  SEX = 'sex',
+  AGE = 'age',
+  PHONE = 'phone',
+  SNILS = 'snils',
   EMAIL = 'email',
+  NATIONALITY = 'nationality',
+  IT_EXPERIENCE = 'iT_Experience',
+  SPECIALITY = 'speciality',
   HOURS_COUNT = 'hoursCount',
   EDUCATION_FORM_ID = 'educationFormId',
   EDUCATION_TYPE_ID = 'typeEducationId',
@@ -28,6 +36,11 @@ export enum DtoKeys {
   QUALIFICATION_NAME = 'qualificationName',
   SCOPE_OF_ACTIVITY_LEVEL_ONE_ID = 'scopeOfActivityLevelOneId',
   SCOPE_OF_ACTIVITY_LEVEL_TWO_ID = 'scopeOfActivityLevelTwoId',
+  FULL_NAME_DOCUMENT = 'fullNameDocument',
+  DOCUMENT_SERIES = 'documentSeries',
+  DOCUMENT_NUMBER = 'documentNumber',
+  DATE_TAKE_DIPLOM = 'dateTakeDiplom',
+  DISABILITY = 'disability',
 }
 
 export type SexHuman = z.infer<typeof SexHumanEnum>;

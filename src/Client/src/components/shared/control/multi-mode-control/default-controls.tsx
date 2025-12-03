@@ -19,12 +19,7 @@ export const DefaultViewControl: React.FC<MultiControlProps> = ({ value }) => <T
 
 export const DefaultEditableViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{value}</Text>;
 
-export const DefaultEditorControl: React.FC<MultiControlProps> = ({
-  value,
-  onChange,
-  defaultValue,
-  placeholder,
-}) => {
+export const DefaultEditorControl: React.FC<MultiControlProps> = ({ value, onChange, defaultValue, placeholder }) => {
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       onChange && onChange(event.target.value);
@@ -35,9 +30,9 @@ export const DefaultEditorControl: React.FC<MultiControlProps> = ({
   return (
     <Input
       allowClear
-      value={String(value ?? 'Неверный тип данных')}
+      value={String(value ?? '')}
       onChange={handleChange}
-      defaultValue={String(defaultValue ?? 'Неверный тип данных')}
+      defaultValue={String(defaultValue ?? '')}
       placeholder={placeholder}
       type="textarea"
     />

@@ -16,7 +16,7 @@ const rowStyle = {
 };
 
 export const StudentFormWrapper: React.FC<StudentFormWrapperProps> = (props) => {
-  const { children, studentData, setStudentData, setIsChanged } = props
+  const { children, studentData, setStudentData, setIsChanged } = props;
 
   return (
     <>
@@ -31,21 +31,19 @@ export const StudentFormWrapper: React.FC<StudentFormWrapperProps> = (props) => 
             <Row style={rowStyle} key={key}>
               <Col span={3}>{formParams.name}</Col>
               <Col span={8}>
-                {
-                  React.cloneElement(child, {
-                    key: key,
-                    value: studentData[key],
-                    displayMode: DisplayMode.EDITABLE_VIEW,
-                    setValue: (value) => {
-                      setStudentData({
-                        ...studentData,
-                        [key]: value,
-                      }),
-                      setIsChanged(true);
-                    },
-                    ...child.props
-                  })
-                }
+                {React.cloneElement(child, {
+                  key: key,
+                  value: studentData[key],
+                  displayMode: DisplayMode.EDITABLE_VIEW,
+                  setValue: (value) => {
+                    (setStudentData({
+                      ...studentData,
+                      [key]: value,
+                    }),
+                      setIsChanged(true));
+                  },
+                  ...child.props,
+                })}
               </Col>
             </Row>
           </Space>

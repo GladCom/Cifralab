@@ -78,9 +78,7 @@ export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control,
         normalize={normalize}
         hasFeedback={hasFeedback}
       >
-        <Control
-          {...props}
-        />
+        <Control {...props} />
       </Form.Item>
       <Form.Item>
         <Space>
