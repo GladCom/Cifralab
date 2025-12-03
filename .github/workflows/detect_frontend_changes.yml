@@ -22,7 +22,7 @@ jobs:
           echo "Изменённые файлы:"
           echo "$CHANGED_FILES"
 
-          FRONTEND_FILES=$(echo "$CHANGED_FILES" | grep -q "^src/Client/" || true)
+          FRONTEND_FILES=$(echo "$CHANGED_FILES" | grep "^src/Client/" || true)
 
           echo "Frontend-файлы:"
           echo "$FRONTEND_FILES"
