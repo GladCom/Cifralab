@@ -73,30 +73,47 @@
             exit 1
           fi
 
+      - name: Build backend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }} \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
+            -f src/Dockerfile \
+            src
+                      
+      - name: Push backend image
+        run: |
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
+
+      - name: Generate .env for frontend
+        working-directory: src/Client
+        run: |
+          chmod +x create-env.sh
+          API_HOST=${{ steps.vars.outputs.project_name }}_api \
+          API_PORT=${{ steps.vars.outputs.api_port }} \
+          bash create-env.sh \
+          echo "Generated .env:"
+          cat .env
+          "
+
+      - name: Build frontend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }} \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
+            -f src/Client/Dockerfile \
+            src/Client
+
+      - name: Push frontend image
+        run: |
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
+
       - name: Upload docker-compose
         run: |
           scp build/docker-compose.yaml \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.project_name }}/docker-compose.yaml
-  
-      - name: Upload env generator script
-        run: |
-          scp build/create-env.sh \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.project_name }}/create-env.sh
-
-      - name: Generate .env for frontend
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd cifra/${{ steps.vars.outputs.project_name }} && \
-            API_HOST=${{ steps.vars.outputs.project_name }}_api \
-            API_PORT=${{ steps.vars.outputs.api_port }} \
-            bash create-env.sh \
-          "
-
-      - name: Make env script executable
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            chmod +x cifra/${{ steps.vars.outputs.project_name }}/create-env.sh \
-          "
 
       - name: Deploy ${{ steps.vars.outputs.project_name }}
         run: |
