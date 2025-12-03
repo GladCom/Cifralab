@@ -1,21 +1,22 @@
-  name: Detect Backend Changes
-  on:
+name: Detect Backend Changes
+
+on:
   workflow_call:
 
-  jobs:
-    detect_backend_changes:
-      runs-on: ubuntu-latest
-      outputs:
-        changed: ${{ steps.check_backend.outputs.changed }}
+jobs:
+  detect_backend_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check_backend.outputs.changed }}
 
-      steps:
-        - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Detect backend changes
-          id: check_backend
-          run: |
-            if git diff --name-only HEAD^ HEAD | grep -q "^src/" | grep -vq "^src/Client/"; then
-              echo "changed=true" >> $GITHUB_OUTPUT
-            else
-              echo "changed=false" >> $GITHUB_OUTPUT
-            fi
+      - name: Detect backend changes
+        id: check_backend
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep -q "^src/" | grep -vq "^src/Client/"; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi

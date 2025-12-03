@@ -1,4 +1,5 @@
 name: Detect Frontend Changes
+
 on:
   workflow_call:
 
