@@ -5,6 +5,7 @@
       branches:
         - main
         - develop
+        - gladkov_es/deploy-prod-and-tests
   
   jobs:
     ci_backend:
@@ -60,6 +61,13 @@
             echo "front_port=${{ vars.DEV_FRONT_PORT }}" >> $GITHUB_OUTPUT
             echo "pg_port=${{ vars.DEV_DB_PORT }}" >> $GITHUB_OUTPUT
 
+          elif [ "${GITHUB_REF_NAME}" = "gladkov_es/deploy-prod-and-tests" ]; then
+            echo "suffix=develop" >> $GITHUB_OUTPUT
+            echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
+            echo "api_port=${{ vars.DEV_API_PORT }}" >> $GITHUB_OUTPUT
+            echo "front_port=${{ vars.DEV_FRONT_PORT }}" >> $GITHUB_OUTPUT
+            echo "pg_port=${{ vars.DEV_DB_PORT }}" >> $GITHUB_OUTPUT
+
           else
             echo "Unsupported branch: ${GITHUB_REF_NAME}"
             exit 1
@@ -70,24 +78,24 @@
           scp build/docker-compose.yaml \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.project_name }}/docker-compose.yaml
   
-      - name: Generate .env for frontend
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd cifra/${{ steps.vars.outputs.suffix }} && \
-            API_HOST=${{ secrets.SERVER_HOST }} \
-            API_PORT=${{ steps.vars.outputs.api_port }} \
-            bash build/create-env.sh \
-          "
-
       - name: Upload env generator script
         run: |
           scp build/create-env.sh \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.suffix }}/create-env.sh
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.project_name }}/create-env.sh
+
+      - name: Generate .env for frontend
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd cifra/${{ steps.vars.outputs.project_name }} && \
+            API_HOST=${{ steps.vars.outputs.project_name }}_api \
+            API_PORT=${{ steps.vars.outputs.api_port }} \
+            bash create-env.sh \
+          "
 
       - name: Make env script executable
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            chmod +x cifra/${{ steps.vars.outputs.suffix }}/create-env.sh \
+            chmod +x cifra/${{ steps.vars.outputs.project_name }}/create-env.sh \
           "
 
       - name: Deploy ${{ steps.vars.outputs.project_name }}
