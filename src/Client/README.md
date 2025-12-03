@@ -4,7 +4,7 @@
 [Технологии](#technology)
 [Установка приложения](#install)
 [Справочная информация](#inform)
-
+жопа
 <a name="technology"><h2>Стек технологий</h2></a>
 - [React](https://ru.legacy.reactjs.org/)
 - [React-Redux](https://react-redux.js.org/)
