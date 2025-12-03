@@ -1,3 +1,8 @@
+name: Detect Frontend Changes
+on:
+  workflow_call:
+
+jobs:
   detect_frontend_changes:
     runs-on: ubuntu-latest
     outputs:
