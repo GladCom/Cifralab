@@ -153,8 +153,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     if (student.Groups != null && student.Groups.Any(x => x.Id == group.Id))
       throw new InvalidOperationException("Student already study in this group");
     var request = await this._context.Requests.FindAsync(requestId);
-    //if (group.EducationProgramId != request.EducationProgramId)
-    //  throw new InvalidOperationException("The education program group does not match the requested program");
+    if (group.EducationProgramId != request?.EducationProgramId)
+      throw new InvalidOperationException("The education program group does not match the requested program");
   }
 
   #endregion
