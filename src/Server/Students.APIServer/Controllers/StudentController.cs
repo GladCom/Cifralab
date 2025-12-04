@@ -61,14 +61,14 @@ public class StudentController : GenericAPiController<Student>
     }
   }
   
-  [HttpPost("Enrollment")]
-  public async Task<IActionResult> Enrollment(Guid id, Guid requestId, Guid groupId)
+  [HttpPost("EnrollStudentInGroup")]
+  public async Task<IActionResult> EnrollStudentInGroup(Guid id, Guid requestId, Guid groupId)
   {
     if (id == Guid.Empty || groupId == Guid.Empty || requestId == Guid.Empty)
-      return this.BadRequest("Request ID, group ID and student ID cannot be empty");
+      return this.BadRequest("Request ID, group ID or student ID is empty");
     try
     {
-      var student = await this._studentRepository.Enrollment(id, requestId, groupId);
+      var student = await this._studentRepository.EnrollStudentInGroup(id, requestId, groupId);
       return this.Ok(student);
     }
     catch (ArgumentException argEx)

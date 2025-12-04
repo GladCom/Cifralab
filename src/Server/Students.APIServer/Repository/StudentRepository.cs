@@ -113,8 +113,34 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <exception cref="ArgumentException">Возникает в случае если не сущетсвует группа студент или заявка.</exception>
   /// <exception cref="InvalidOperationException">Возникает при попытке добавить студента в группу, где он уже есть
   /// или в случае, если студент не подавал туда заявку или завка уже использована.</exception>
-  /// <exception cref="Exception"></exception>
-  public async Task<Student?> Enrollment(Guid studentId, Guid requestId, Guid groupId)
+  public async Task<Student?> EnrollStudentInGroup(Guid studentId, Guid requestId, Guid groupId)
+  {
+    var student = await this.GetStudentWithGroupsAndRequests(studentId);
+    await this.ValidateEnrollmentData(studentId,  requestId, groupId);
+    try
+    {
+      var newGroupStudent = new GroupStudent()
+      {
+        StudentId = studentId,
+        GroupId = groupId,
+        RequestId = requestId
+      };
+      if (student.GroupStudent == null)
+        student.GroupStudent = new List<GroupStudent>();
+      await this._context.AddAsync(newGroupStudent);
+      await this._context.SaveChangesAsync();
+      return await this.GetStudentWithGroupsAndRequests(studentId);
+    }
+    
+    // Так как добавляем GroupStudent в которой первичный ключ requestId ошибка говорит о том,
+    // что по этой заявке студент уже зачислен в группу
+    catch (DbUpdateException ex) when (ex.InnerException is PostgresException pgEx && pgEx.SqlState == "23505")
+    {
+      throw new InvalidOperationException("Based on this request, the student has already been enrolled in the group.", ex);
+    }
+  }
+
+  private async Task ValidateEnrollmentData(Guid studentId, Guid requestId, Guid groupId)
   {
     var student = await this.GetStudentWithGroupsAndRequests(studentId);
     if (student == null)
@@ -127,31 +153,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     if (student.Groups != null && student.Groups.Any(x => x.Id == group.Id))
       throw new InvalidOperationException("Student already study in this group");
     var request = await this._context.Requests.FindAsync(requestId);
-    if (group.EducationProgramId != request.EducationProgramId)
-      throw new InvalidOperationException("The education program group does not match the requested program");
-    try
-    {
-      var newGroupStudent = new GroupStudent()
-      {
-        StudentId = studentId,
-        GroupId = groupId,
-        RequestId = requestId
-      };
-      if (student.GroupStudent == null)
-        student.GroupStudent = new List<GroupStudent>();
-      student.GroupStudent.Add(newGroupStudent);
-      await this._context.AddAsync(newGroupStudent);
-      await this._context.SaveChangesAsync();
-      return await this.GetStudentWithGroupsAndRequests(studentId);
-    }
-    catch (PostgresException ex) when (ex.SqlState == "23505")
-    {
-      throw new InvalidOperationException("Based on this request, the student has already been enrolled in the group.");
-    }
-    catch (Exception e)
-    {
-      throw new Exception(e.Message, e);
-    }
+    //if (group.EducationProgramId != request.EducationProgramId)
+    //  throw new InvalidOperationException("The education program group does not match the requested program");
   }
 
   #endregion
@@ -163,8 +166,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// </summary>
   /// <param name="context">Контекст базы данных.</param>
   /// <param name="studentHistoryRepository">Репозиторий групп студентов.</param>
-  public StudentRepository(StudentContext context, IStudentHistoryRepository studentHistoryRepository
-    ) : base(context)
+  public StudentRepository(StudentContext context, IStudentHistoryRepository studentHistoryRepository) : base(context)
   {
     this._studentHistoryRepository = studentHistoryRepository;
   }
