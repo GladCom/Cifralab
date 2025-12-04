@@ -3,9 +3,8 @@ import { Flex } from 'antd';
 
 interface IProps {}
 
-const AccordionPanel: React.FC<IProps> = ({}) => {
-  const [selectedAccrodion, setSelectedAccrodion] = useState<ReactNode | null>(null);
-  const [accordion, setAccordion] = useState<ReactNode[]>([]);
+export const AccordionPanel: React.FC<IProps> = ({}) => {
+  const [accordion] = useState<ReactNode[]>([]);
   return (
     <Flex>
       {accordion.map((item, i) => (
@@ -14,5 +13,3 @@ const AccordionPanel: React.FC<IProps> = ({}) => {
     </Flex>
   );
 };
-
-export default AccordionPanel;

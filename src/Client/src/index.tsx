@@ -6,6 +6,7 @@ import store from './storage/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
 
 const router = createBrowserRouter(createRoutesFromElements(<Route path="*" element={<App />} />));
 const root = ReactDOM.createRoot(document.getElementById('root'));
