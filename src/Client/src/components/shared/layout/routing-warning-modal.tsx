@@ -4,7 +4,6 @@ const RoutingWarningModal = ({ show, blocker }) => {
   const [form] = Form.useForm();
 
   const onSubmit = (e) => {
-    console.log(e);
     blocker.proceed();
   };
 

@@ -12,7 +12,6 @@ const PhoneFilter = ({ placeholder, onChange }) => {
         //defaultMask="+.(...)...-...."
         masks={{ ru: '(...) ...-....' }}
         inputStyle={{ width: '100%', height: '32px' }} // Устанавливаем ширину для соответствия стилям Ant Design
-        onChange={(data) => console.log(data)}
       />
     </div>
   );
