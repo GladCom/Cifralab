@@ -19,7 +19,7 @@ const RoutingWarningModal = ({ show, blocker }) => {
       open={show}
       okText="Всеравно перейти"
       cancelText="Остаться на странице"
-      destroyOnClose
+      destroyOnHidden
       okButtonProps={{
         autoFocus: false,
         danger: true,
