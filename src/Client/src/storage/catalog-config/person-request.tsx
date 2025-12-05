@@ -137,6 +137,8 @@ export default {
       title: 'Дата рождения',
       dataIndex: 'birthDate',
       key: 'birthDate',
+      sorter: true,
+      sorterKey: 'BirthDate',
       render: (_, record) => <BirthDate value={record.birthDate} displayMode={DisplayMode.VIEW} />,
     },
     {
