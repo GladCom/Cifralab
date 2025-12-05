@@ -738,7 +738,7 @@ public class DbService : IDisposable
                                                                e.Name.ToLower().Trim() == name
                                                                && ((e.Patron == null && patron == string.Empty) ||
                                                                    (e.Patron != null && e.Patron.ToLower().Trim() == patron))
-                                                               && e.Surname.ToLower().Trim() == family
+                                                               && e.Family.ToLower().Trim() == family
                                                                && e.BirthDate == birthDate);
 
     if(student is not null)
@@ -751,7 +751,7 @@ public class DbService : IDisposable
       student = new Student
       {
         Id = Guid.NewGuid(),
-        Surname = item.Family ?? string.Empty,
+        Family = item.Family ?? string.Empty,
         Name = item.Name,
         Patron = item.Patron,
         BirthDate = birthDate,
@@ -891,7 +891,7 @@ public class DbService : IDisposable
                                                                e.Name.ToLower().Trim() == name
                                                                && ((e.Patron == null && patron == string.Empty) ||
                                                                    (e.Patron != null && e.Patron.ToLower().Trim() == patron))
-                                                               && e.Surname.ToLower().Trim() == family
+                                                               && e.Family.ToLower().Trim() == family
                                                                && e.BirthDate == birthDate);
 
     if(student is null)

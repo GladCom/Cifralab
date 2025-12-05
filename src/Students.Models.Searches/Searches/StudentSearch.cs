@@ -21,7 +21,7 @@ namespace Students.Models.Searches.Searches
     {
       SearchProperties = new()
       {
-        nameof(Student.Surname),
+        nameof(Student.Family),
         nameof(Student.Name),
         nameof(Student.Patron),
         nameof(Student.FullName)
@@ -32,7 +32,7 @@ namespace Students.Models.Searches.Searches
     /// Возвращает предикат, выполняющий поиск студентов по фамилии, имени, отчеству и полному ФИО.
     /// </summary>
     /// <returns>
-    /// Предикат, возвращающий <c>true</c>, если хотя бы одно из полей <see cref="Student.Surname"/>,
+    /// Предикат, возвращающий <c>true</c>, если хотя бы одно из полей <see cref="Student.Family"/>,
     /// <see cref="Student.Name"/>, <see cref="Student.Patron"/> или <see cref="Student.FullName"/>
     /// содержит строку, заданную в свойстве <see cref="Search{TEntity}.Query"/>; 
     /// иначе возвращается <c>false</c>.
@@ -45,7 +45,7 @@ namespace Students.Models.Searches.Searches
       var lower = Query.Trim().ToLower();
 
       return s =>
-        (s.Surname?.ToLower().Contains(lower) ?? false) ||
+        (s.Family?.ToLower().Contains(lower) ?? false) ||
         (s.Name?.ToLower().Contains(lower) ?? false) ||
         (s.Patron?.ToLower().Contains(lower) ?? false) ||
         (s.FullName?.ToLower().Contains(lower) ?? false);

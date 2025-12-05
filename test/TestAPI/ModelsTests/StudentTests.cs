@@ -71,7 +71,7 @@ public class StudentTests
     {
       var student = new Student
       {
-        Surname = "null",
+        Family = "null",
         BirthDate = default,
         Sex = default,
         Address = "null",
@@ -95,7 +95,7 @@ public class StudentTests
     {
       var student = new Student
       {
-        Surname = "null",
+        Family = "null",
         BirthDate = default,
         Sex = default,
         Address = "null",
@@ -118,7 +118,7 @@ public class StudentTests
     {
       var student = new Student
       {
-        Surname = "null",
+        Family = "null",
         BirthDate = default,
         Sex = default,
         Address = "null",
@@ -141,7 +141,7 @@ public class StudentTests
     {
       var student = new Student
       {
-        Surname = "null",
+        Family = "null",
         BirthDate = default,
         Sex = default,
         Address = "null",

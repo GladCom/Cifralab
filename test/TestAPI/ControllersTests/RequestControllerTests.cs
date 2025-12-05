@@ -104,7 +104,7 @@ public class RequestControllerTests
 
     var foundStudentAfterPost = this._studentContext.Students
       .Any(e => e.Phone == phone && e.BirthDate == date
-                                 && e.Name == name && e.Patron == patron && e.Surname == family);
+                                 && e.Name == name && e.Patron == patron && e.Family == family);
 
     Assert.Multiple(() =>
     {
@@ -646,7 +646,7 @@ public class RequestControllerTests
       Id = id,
       Name = name,
       Patron = patron,
-      Surname = family,
+      Family = family,
       BirthDate = date,
       Sex = default,
       Address = "null",

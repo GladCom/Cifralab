@@ -30,7 +30,7 @@ public class EducationProgramRepositoryTests
     return new Student
     {
       Id = Guid.NewGuid(),
-      Surname = "null",
+      Family = "null",
       BirthDate = default,
       Sex = default,
       Address = "null",

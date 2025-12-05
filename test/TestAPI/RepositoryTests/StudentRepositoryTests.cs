@@ -111,7 +111,7 @@ public class StudentRepositoryTests
     return new Student
     {
       Id = Guid.NewGuid(),
-      Surname = "null",
+      Family = "null",
       BirthDate = default,
       Sex = default,
       Address = "null",

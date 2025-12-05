@@ -92,7 +92,7 @@ public class Mapper
       Id = request.Id,
       StudentId = request.Student?.Id,
       StudentFullName = request.Student?.FullName ?? string.Empty,
-      family = request.Student?.Surname,
+      family = request.Student?.Family,
       name = request.Student?.Name,
       patron = request.Student?.Patron,
       StatusRequest = request.Status?.Name,
@@ -130,7 +130,7 @@ public class Mapper
     return new StudentDTO
     {
       Id = student.Id,
-      StudentFamily = student.Surname,
+      StudentFamily = student.Family,
       StudentName = student.Name,
       StudentPatron = student.Patron,
       StudentFullName = student.FullName,
@@ -223,7 +223,7 @@ public class Mapper
   {
     return new Student
     {
-      Surname = form.family!,
+      Family = form.family!,
       Name = form.name,
       Patron = form.patron,
       BirthDate = (DateOnly)form.BirthDate!,
