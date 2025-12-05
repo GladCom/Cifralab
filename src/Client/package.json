@@ -19,7 +19,8 @@
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.4",
-    "yup": "^1.7.1"
+    "yup": "^1.7.1",
+    "zod": "^4.1.13"
   },
   "scripts": {
     "start": "npm run dev",

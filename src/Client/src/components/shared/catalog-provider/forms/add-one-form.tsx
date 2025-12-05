@@ -1,8 +1,15 @@
+//много правок не определен тип ANY
 import { Modal, Form } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
 import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
 import { ComponentType } from 'react';
 import { FormModel } from '../../../../storage/form-model/types';
+
+type UseAddOneAsyncReturnType = [(values: Record<string, unknown>) => void, { error?: unknown; isLoading: boolean }];
+
+type CrudType = {
+  useAddOneAsync: () => UseAddOneAsyncReturnType;
+};
 
 type AddOneFormProps = {
   visibilityControl: {
@@ -10,13 +17,13 @@ type AddOneFormProps = {
     setShowAddOneForm: React.Dispatch<React.SetStateAction<boolean>>;
   };
   formModel: FormModel;
-  crud: any;
+  crud: CrudType;
 };
-
+// ошибка осталась не нашел как исправить
 export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formModel, crud }) => {
   const { useAddOneAsync } = crud;
   const { showAddOneForm, setShowAddOneForm } = visibilityControl;
-  const [addOne, { error, isLoading }] = useAddOneAsync();
+  const [addOne, { _error, _isLoading }] = useAddOneAsync();
   const [form] = Form.useForm();
 
   const onSubmit = (formValues) => {

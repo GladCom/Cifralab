@@ -16,7 +16,7 @@ export const groupsApi = createApi({
     }),
     getGroupsSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getGroupById: builder.query({
       query: (id) => id,

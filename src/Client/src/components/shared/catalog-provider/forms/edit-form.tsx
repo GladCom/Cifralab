@@ -3,24 +3,23 @@ import { Modal, Form } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
 import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
 
-const EditForm = ({ item, control, config, refetch }) => {
+const EditForm = ({ item, control, config }) => {
   const { id } = item;
   const [form] = Form.useForm();
   const [itemData, setItemData] = useState(item);
   const { showEditForm, setShowEditForm } = control;
   const { properties, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
-  const { data, error, isLoading, isSuccess, isError, isFetching } = useGetOneByIdAsync(id);
-
-  const [editItem, { error: editItemError, isLoading: isEdittingItem }] = useEditOneAsync();
+  const { data, isLoading, isSuccess, isFetching } = useGetOneByIdAsync(id);
+  const [editItem, { error: _editItemError, isLoading: _isEdittingItem }] = useEditOneAsync();
 
   useEffect(() => {
-    if (!isLoading && !isFetching) {
+    if (!isLoading && !isFetching && data) {
       const newData = { ...data };
       delete newData.id;
       setItemData(newData);
     }
-  }, [isLoading, isFetching]);
+  }, [isLoading, isFetching, data]);
 
   useEffect(() => {}, [isSuccess]);
 
@@ -35,7 +34,7 @@ const EditForm = ({ item, control, config, refetch }) => {
       open={showEditForm}
       confirmLoading={isLoading || isFetching}
       onCancel={() => setShowEditForm(false)}
-      destroyOnClose
+      destroyOnHidden
       okButtonProps={{
         autoFocus: true,
         htmlType: 'submit',

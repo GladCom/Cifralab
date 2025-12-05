@@ -9,7 +9,7 @@ export const EditorFormItemSelectControl: React.FC<MultiControlProps> = (props) 
   }
   const { key } = formParams;
 
-  const filterOption = (input: string, option?: { label?: any }) => {
+  const filterOption = (input: string, option?: { label?: string }) => {
     const label = String(option?.label ?? '');
     return label.toLowerCase().includes(input.toLowerCase());
   };

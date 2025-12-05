@@ -23,23 +23,26 @@ const items = [
 const GenderFilter = ({ onChange }) => {
   const [gender, setGender] = useState('пол');
 
-  const onClick = useCallback(({ key }) => {
-    const select = {
-      1: () => {
-        setGender('муж.');
-        onChange(1);
-      },
-      2: () => {
-        setGender('жен.');
-        onChange(2);
-      },
-      0: () => {
-        setGender('пол');
-        onChange(0);
-      },
-    };
-    select[key]();
-  });
+  const onClick = useCallback(
+    ({ key }) => {
+      const select = {
+        1: () => {
+          setGender('муж.');
+          onChange(1);
+        },
+        2: () => {
+          setGender('жен.');
+          onChange(2);
+        },
+        0: () => {
+          setGender('пол');
+          onChange(0);
+        },
+      };
+      select[key]();
+    },
+    [onChange],
+  );
 
   const menuProps = {
     items,

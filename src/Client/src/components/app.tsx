@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './authorization/private-route';
 import LoginPage from './authorization/login-page';
 import StudentsPage from './student/students-page';
-import StudentDetailsPage from './student/student-details-page';
 import GroupsPage from './group/groups-page';
 import GroupDetailsPage from './group/group-details-page';
 import ProgramsPage from './program/programs-page';
@@ -24,6 +23,7 @@ import FinancingTypePage from './catalog-page/financing-type-page';
 import FEAProgramPage from './catalog-page/fea-program-page';
 import KindEducationProgramPage from './catalog-page/kind-education-program-page';
 import ScopeOfActivityPage from './catalog-page/scope-of-activity-page';
+import { StudentDetailsPage } from './student/student-details-page';
 
 const App = () => {
   return (

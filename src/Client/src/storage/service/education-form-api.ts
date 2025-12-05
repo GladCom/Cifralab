@@ -15,7 +15,7 @@ export const educationFormApi = createApi({
     }),
     getEducationFormSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getEducationFormById: builder.query({
       query: (id) => id,
