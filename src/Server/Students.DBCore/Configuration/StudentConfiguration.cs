@@ -17,7 +17,7 @@ internal class StudentConfiguration : IEntityTypeConfiguration<Student>
       .IsRequired()
       .ValueGeneratedOnAdd();
 
-    builder.Property(x => x.Family)
+    builder.Property(x => x.Surname)
       .IsRequired();
 
     builder.Property(x => x.BirthDate)

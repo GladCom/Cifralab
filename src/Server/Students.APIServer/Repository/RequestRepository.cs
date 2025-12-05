@@ -80,7 +80,9 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
     var date = form.birthDate;
 
     var student = await this._studentRepository.GetOne(x =>
+
       x.Name == form.name && x.Family == form.family && x.Patron == form.patron && x.BirthDate == date && x.Email == form.email);
+
 
     if (student is null)
     {

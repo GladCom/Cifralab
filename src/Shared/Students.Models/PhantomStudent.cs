@@ -176,7 +176,7 @@ public class PhantomStudent
   public Student ToStudent => new Student()
   {
     Address = this.Address,
-    Family = this.Family,
+    Surname = this.Family,
     Name = this.Name,
     Patron = this.Patron,
 

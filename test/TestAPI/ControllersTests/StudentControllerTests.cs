@@ -162,7 +162,7 @@ public class StudentControllerTests
     return new Student
     {
       Id = Guid.NewGuid(),
-      Family = "Иванов",
+      Surname = "Иванов",
       Name = "Иван",
       Patron = "Иванович",
       BirthDate = new DateOnly(2000, 5, 20),

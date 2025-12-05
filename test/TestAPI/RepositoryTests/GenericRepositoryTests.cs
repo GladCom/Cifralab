@@ -69,7 +69,7 @@ public class GenericRepositoryTests
     await this._studentContext.SaveChangesAsync();
     bool Predicate(Student s)
     {
-      return s.Family == "Тестовый";
+      return s.Surname == "Тестовый";
     }
 
     //Act
@@ -309,7 +309,7 @@ public class GenericRepositoryTests
     return new Student
     {
       Id = id,
-      Family = "Тестовый",
+      Surname = "Тестовый",
       BirthDate = default,
       Sex = default,
       Address = "null",

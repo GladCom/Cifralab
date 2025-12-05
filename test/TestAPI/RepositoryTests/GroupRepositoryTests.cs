@@ -196,7 +196,7 @@ public class GroupRepositoryTests
     return new Student
     {
       Id = Guid.NewGuid(),
-      Family = "null",
+      Surname = "null",
       BirthDate = default,
       Sex = default,
       Address = "null",

@@ -21,7 +21,7 @@ public class Student
   /// Фамилия
   /// экспорт из заявки
   /// </summary>
-  public required string Family { get; set; }
+  public required string Surname { get; set; }
 
   /// <summary>
   /// Имя
@@ -39,7 +39,7 @@ public class Student
   /// экспорт из заявки
   /// </summary>
   //Возможно нужна стратегия отображения ФИО, но тогда через конструктор
-  public string FullName => $"{this.Family} {this.Name} {this.Patron}";
+  public string FullName => $"{this.Surname} {this.Name} {this.Patron}";
 
   /// <summary>
   /// Дата рождения

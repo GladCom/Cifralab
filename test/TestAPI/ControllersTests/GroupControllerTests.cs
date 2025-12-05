@@ -190,7 +190,7 @@ public class GroupControllerTests
     return new Student()
     {
       Id = id,
-      Family = family,
+      Surname = family,
       Name = name,
       Patron = patron,
       BirthDate = DateOnly.Parse("01.01.2000"),
