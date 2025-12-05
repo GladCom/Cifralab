@@ -30,35 +30,77 @@ public class FRDOReportRepository : BaseReportRepository<FRDOModel>
   /// <returns>Список данных отчета.</returns>
   protected override async Task<List<FRDOModel>> FetchData(Predicate<Group> condition)
   {
-    var frdoModels = new List<FRDOModel>();
-    await foreach(var group in this.Context.Groups
-      .Include(group => group.Students)
-        .ThenInclude(student => student.TypeEducation)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.FEAProgram)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.EducationForm)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.FinancingType)
-      .Include(group => group.EducationProgram)
-        .ThenInclude(ep => ep!.KindDocumentRiseQualification)
-      .AsNoTracking()
-      .AsAsyncEnumerable())
-      if(condition(group))
+        var frdoModels = new List<FRDOModel>();
+
+        // 1. Делаем запрос
+        var query = this.Context.Groups
+            .Include(group => group.Students)
+                .ThenInclude(student => student.TypeEducation)
+
+            .Include(group => group.Students)
+                .ThenInclude(student => student.GroupStudent)
+            .Include(group => group.GroupStudent)
+
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.FEAProgram)
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.EducationForm)
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.FinancingType)
+            .Include(group => group.EducationProgram)
+                .ThenInclude(ep => ep!.KindDocumentRiseQualification)
+            .AsNoTracking()
+            .AsAsyncEnumerable();
+
+        int totalGroups = 0;
+
+        await foreach (var group in query)
+        {
+            totalGroups++;
+
+            bool result = condition(group);
+
+            if (result)
+                frdoModels.AddRange(group.Students.Select(student => InitializeObject(student, group)));
+        }
+
+        if (totalGroups == 0)
+            throw new Exception("В базе вообще нет групп! Проверь ConnectionString.");
+
+        return frdoModels;
+    }
+
+  public static Form1PKModel CalculateStatistics(List<Student> allStudents)
+  {
+      var stats = new Form1PKModel();
+
+      stats.TotalListeners = allStudents.Count;
+
+      stats.WomenCount = allStudents.Count(s => s.Sex == SexHuman.Woman);
+
+      foreach (var student in allStudents)
       {
-        frdoModels.AddRange(group.Students.Select(student => InitializeObject(student, group)));
+          var age =student.Age; 
+
+          if (age < 25) stats.AgeUnder25++;
+          else if (age <= 29) stats.Age25_29++;
+          else if (age <= 34) stats.Age30_34++;
+          else if (age <= 39) stats.Age35_39++;
+          else if (age <= 44) stats.Age40_44++;
+
       }
 
-    return frdoModels;
+
+      return stats;
   }
 
-  /// <summary>
-  ///   Инициализация свойств оъекта.
-  /// </summary>
-  /// <param name="student">Сущность.</param>
-  /// <param name="group">Сущность.</param>
-  /// <returns>Сущность.</returns>
-  private static FRDOModel InitializeObject(Student student, Group group)
+    /// <summary>
+    ///   Инициализация свойств оъекта.
+    /// </summary>
+    /// <param name="student">Сущность.</param>
+    /// <param name="group">Сущность.</param>
+    /// <returns>Сущность.</returns>
+    private static FRDOModel InitializeObject(Student student, Group group)
   {
     var empty = string.Empty;
     return new FRDOModel

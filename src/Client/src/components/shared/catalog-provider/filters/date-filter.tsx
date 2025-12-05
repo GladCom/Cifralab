@@ -1,4 +1,3 @@
-import React from 'react';
 import dayjs from 'dayjs';
 import moment from 'moment';
 import { DatePicker, Space } from 'antd';

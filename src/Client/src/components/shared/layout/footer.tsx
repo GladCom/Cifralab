@@ -1,4 +1,3 @@
-import React from 'react';
 import { Flex, Layout, Typography } from 'antd';
 
 const { Footer } = Layout;

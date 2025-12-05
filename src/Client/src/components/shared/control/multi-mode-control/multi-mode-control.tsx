@@ -79,7 +79,6 @@ export const MultimodeControl: React.FC<MultimodeControlProps> = (props) => {
 
   const handleOnChange = useCallback(() => {
     //  TODO Показыкать уведомение?
-
     if (onChange) {
       onChange();
     }

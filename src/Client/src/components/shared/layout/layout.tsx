@@ -16,11 +16,16 @@ const layoutStyle = {
 const footerStyle = {
   textAlign: 'center',
   backgroundColor: '#fff',
+  position: 'sticky',
 };
 
 const title = 'Сервис обработки заявок';
 
-const Layout = ({ children }) => {
+interface Props {
+  title?: string;
+  children: React.ReactNode;
+}
+const Layout: React.FC<Props> = ({ children, title }) => {
   return (
     <AntLayout style={layoutStyle}>
       <Header title={title} style={headerStyle} />

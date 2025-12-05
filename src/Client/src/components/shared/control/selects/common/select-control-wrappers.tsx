@@ -9,7 +9,9 @@ export const ViewSelectControlWrapper: React.FC<MultimodeWrapperControlProps> = 
   const { labelKey } = formParams;
   const { useGetOneByIdAsync } = crud;
   const { data: dataById } = useGetOneByIdAsync(value);
-  const displayValue = labelKey ? dataById?.[labelKey] : undefined;
+
+  const item = Array.isArray(dataById) ? dataById[0] : dataById;
+  const displayValue = labelKey ? item?.[labelKey] : undefined;
 
   return <Control {...props} value={displayValue || 'Данные отсутствуют'} />;
 };
@@ -32,6 +34,35 @@ export const EditableViewSelectControlWrapper: React.FC<MultimodeWrapperControlP
         onClick={() => setDisplayMode(DisplayMode.EDITOR)}
       />
     </Space>
+  );
+};
+
+export const FormItemMultiSelectControlWrapper: React.FC<MultimodeWrapperControlProps> = (props) => {
+  const { Control, value, placeholder, formParams, setValue, crud } = props;
+  const { key, labelKey, name, normalize, hasFeedback, rules } = formParams;
+  const { useGetAllAsync } = crud;
+  const { data: allData } = useGetAllAsync();
+
+  const options = useMemo(() => {
+    if (!labelKey) return [];
+    return (allData || []).map((d) => ({
+      value: d.id,
+      label: String(d[labelKey] ?? ''),
+    }));
+  }, [allData, labelKey]);
+
+  return (
+    <Form.Item
+      key={key}
+      name={key}
+      label={name}
+      initialValue={value}
+      rules={rules}
+      normalize={normalize}
+      hasFeedback={hasFeedback}
+    >
+      <Control key={key} placeholder={placeholder} onChange={setValue} value={value} options={options} />
+    </Form.Item>
   );
 };
 
