@@ -23,13 +23,13 @@ public class StudentHistoryRepository : GenericRepository<StudentHistory>, IStud
   /// <returns>История изменений студента.</returns>
   public async Task<StudentHistory?> CreateStudentHistory(Student oldStudent, Student newStudent)
   {
-    if(oldStudent.Family == newStudent.Family && oldStudent.Name == newStudent.Name)
+    if(oldStudent.Surname == newStudent.Surname && oldStudent.Name == newStudent.Name)
       return null;
 
     var studentHistory = new StudentHistory
     {
       StudentId = oldStudent.Id,
-      Family = oldStudent.Family != newStudent.Family ? oldStudent.Family : null,
+      Family = oldStudent.Surname != newStudent.Surname ? oldStudent.Surname : null,
       Name = oldStudent.Name != newStudent.Name ? oldStudent.Name : null,
       ChangeDate = DateTime.Now,
     };

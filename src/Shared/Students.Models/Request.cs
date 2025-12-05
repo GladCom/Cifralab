@@ -13,6 +13,36 @@ namespace Students.Models;
 public class Request
 {
   /// <summary>
+  /// Полное ФИО студента.
+  /// </summary>
+  public string? StudentFullName => Student?.FullName;
+
+  /// <summary>
+  /// Дата рождения студента.
+  /// </summary>
+  public DateOnly? BirthDate => Student?.BirthDate;
+
+  /// <summary>
+  /// Адрес студента (место проживания).
+  /// </summary>
+  public string? Address => Student?.Address;
+
+  /// <summary>
+  /// Наименование уровня образования студента.
+  /// </summary>
+  public string? TypeEducation => Student?.TypeEducation?.Name;
+
+  /// <summary>
+  /// Наименование образовательной программы, связанной с заявкой.
+  /// </summary>
+  public string? EducationProgramName => EducationProgram?.Name;
+
+  /// <summary>
+  /// Текстовое представление статуса заявки.
+  /// </summary>
+  public string? StatusRequest => Status?.Name;
+
+  /// <summary>
   /// Id заявки, Как буд-то тут перебор необходимых данных
   /// </summary>
   public Guid Id { get; set; }

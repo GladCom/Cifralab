@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DBLogin": "postgres",
         "DBName": "cifra",
-        "DBPassword": "19Ivan192004",
+        "DBPassword": "postgres",
         "DBPort": "5432",
         "DBServer": "localhost"
       },

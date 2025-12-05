@@ -586,7 +586,7 @@ internal static class HasDataEntities
     new Student
     {
       Id = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
-      Family = "Иванов",
+      Surname = "Иванов",
       Name = "Иван",
       Patron = "Иванович",
       BirthDate = new DateOnly(2003,
@@ -609,7 +609,7 @@ internal static class HasDataEntities
     new Student
     {
       Id = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
-      Family = "Иванова",
+      Surname = "Иванова",
       Name = "Анна",
       Patron = "Ивановна",
       BirthDate = new DateOnly(2004,
