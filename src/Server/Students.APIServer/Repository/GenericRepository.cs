@@ -88,12 +88,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   public virtual async Task<IEnumerable<TEntity>> GetSearched(Search<TEntity> search)
   {
     IQueryable<TEntity> query = this.DbSet;
-
-    if (typeof(TEntity) == typeof(Request))
-    {
-      query = query.Include(e => ((Request)(object)e).Student) as IQueryable<TEntity>;
-    }
-
     return await this.Get(search.GetSearchPredicate(), query);
   }
 
