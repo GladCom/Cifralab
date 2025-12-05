@@ -59,6 +59,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
 
   const finalOptions = useMemo(() => {
     if (!labelKey) {
+      /* eslint-disable-next-line no-console */
       console.error('EditorFormItemSelectControl: labelKey is required but not provided');
       return [];
     }
@@ -76,6 +77,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
       setValue(newValue);
       setDisplayMode(DisplayMode.EDITABLE_VIEW);
     } else {
+      /* eslint-disable-next-line no-console */
       console.error(`Field "${key}" not found in form values. Available fields: ${Object.keys(formValue).join(', ')}`);
       // TODO: показать уведомление пользователю
     }
@@ -130,6 +132,7 @@ export const FormItemSelectControlWrapper: React.FC<MultimodeWrapperControlProps
 
   const options = useMemo(() => {
     if (!labelKey) {
+      /* eslint-disable-next-line no-console */
       console.error('EditorFormItemSelectControl: labelKey is required but not provided');
       return [];
     }

@@ -14,12 +14,10 @@ export const StudentDetailsPage = () => {
   const [formKeyValue, setFormKeyValue] = useState(0);
   const [initialData, setInitialData] = useState<Student>();
   const [isChanged, setIsChanged] = useState(false);
-  const [isSaveInProgress, setIsSaveInProgress] = useState(false);
 
   const { crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
-  const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id || skipToken);
-
+  const { data, isLoading, isFetching } = useGetOneByIdAsync(id || skipToken);
   const [editStudent] = useEditOneAsync();
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export const StudentDetailsPage = () => {
     setIsChanged(false);
     setFormKeyValue((prev) => prev + 1);
     setInitialData(studentData);
-  }, [id, studentData]);
+  }, [editStudent, id, studentData]);
 
   const onCancel = useCallback(() => {
     setFormKeyValue((prev) => prev + 1);
@@ -72,9 +70,7 @@ export const StudentDetailsPage = () => {
             </Button>
           </Col>
           <Col>
-            <Button onClick={onCancel} disabled={isSaveInProgress}>
-              Отмена
-            </Button>
+            <Button onClick={onCancel}>Отмена</Button>
           </Col>
         </Row>
       )}

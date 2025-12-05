@@ -25,7 +25,7 @@ export const StudentForm: React.FC<StudentFormProps> = (props) => {
   const [scopeOfActivityLvl2DisplayMode, setScopeOfActivityLvl2DisplayMode] = useState<DisplayMode>(
     DisplayMode.EDITABLE_VIEW,
   );
-  const [scopeOfActivityLvl2Options, setScopeOfActivityLvl2Options] = useState<any>([]);
+  const [scopeOfActivityLvl2Options, setScopeOfActivityLvl2Options] = useState([]);
   const { data, isLoading, isFetching } = useGetscopeOfActivityQuery(undefined);
   const { studentData, setStudentData, setIsChanged } = props;
 

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import { TablePageHeader } from '../layout/index';
@@ -11,7 +11,7 @@ const EntityTable = ({ config, title }) => {
   const [searchText, setSearchText] = useState('');
   const [queryString, setQueryString] = useState('');
   const [query, setQuery] = useState({});
-  const [data, setData] = useState();
+  const [_data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -43,15 +43,17 @@ const EntityTable = ({ config, title }) => {
       //  const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
       setData(dataToDisplay);
       setLoading(false);
-      setTableParams({
-        ...tableParams,
+      setTableParams((prev) => ({
+        ...prev,
+        //...tableParams,
         pagination: {
-          ...tableParams.pagination,
+          ...prev.pagination,
+          //...tableParams.pagination,
           // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
           //total,
           //position: ['bottomLeft'],
         },
-      });
+      }));
     }
   }, [
     dataFromServer,
@@ -73,13 +75,14 @@ const EntityTable = ({ config, title }) => {
   }, [query]);
 
   const handleTableChange = (pagination) => {
-    setTableParams({
+    setTableParams((prev) => ({
+      ...prev,
       pagination,
       // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
       //  filters,
       //  sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
       //  sortField: Array.isArray(sorter) ? undefined : sorter.field,
-    });
+    }));
 
     // `dataSource` is useless since `pageSize` changed
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {

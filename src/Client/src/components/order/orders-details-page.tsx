@@ -9,7 +9,6 @@ const OrdersDetailsPage = () => {
   const { id } = useParams();
   const [programData, setProgramData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
-  const [isSaveInProgress, setIsSaveInProgress] = useState(false);
   const [initialData, setInitialData] = useState({});
   const { properties, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
@@ -33,7 +32,7 @@ const OrdersDetailsPage = () => {
   const onSave = useCallback(() => {
     editProgram({ id, item: programData });
     setIsChanged(false);
-  }, [id, programData]);
+  }, [id, programData, editProgram]);
 
   const onCancel = useCallback(() => {
     setProgramData(initialData);
@@ -56,9 +55,7 @@ const OrdersDetailsPage = () => {
           </Button>
         </Col>
         <Col>
-          <Button onClick={onCancel} disabled={isSaveInProgress}>
-            Отмена
-          </Button>
+          <Button onClick={onCancel}>Отмена</Button>
         </Col>
       </Row>
       <RoutingWarningModal show={blocker.state === 'blocked'} blocker={blocker} />

@@ -15,7 +15,7 @@ export const requestStatusApi = createApi({
     }),
     getRequestStatusSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getRequestStatusById: builder.query({
       query: (id) => id,
