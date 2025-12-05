@@ -25,7 +25,7 @@ const RemoveForm = ({ item, control, config }) => {
       okText="Всеравно удалить"
       cancelText="Отмена"
       onCancel={onCancel}
-      destroyOnClose
+      destroyOnHidden
       okButtonProps={{
         autoFocus: false,
         danger: true,

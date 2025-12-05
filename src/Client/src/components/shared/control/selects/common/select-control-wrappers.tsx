@@ -3,6 +3,7 @@ import { ChangeSymbol, MultimodeWrapperControlProps } from '../../multi-mode-con
 import { Button, Form, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { DisplayMode, MultimodeControlValue } from '../../multi-mode-control/types';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 
 export const ViewSelectControlWrapper: React.FC<MultimodeWrapperControlProps> = (props) => {
   const { Control, value, formParams, crud } = props;
@@ -18,7 +19,7 @@ export const EditableViewSelectControlWrapper: React.FC<MultimodeWrapperControlP
   const { Control, isChanged, value, formParams, crud, setDisplayMode } = props;
   const { labelKey } = formParams;
   const { useGetOneByIdAsync } = crud;
-  const { data: dataById } = useGetOneByIdAsync(value);
+  const { data: dataById } = useGetOneByIdAsync(value || skipToken);
   const displayValue = labelKey ? dataById?.[labelKey] : undefined;
 
   return (
@@ -46,6 +47,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
     controlParams,
     setValue,
     setDisplayMode,
+    options,
     crud,
   } = props;
   const { key, labelKey, rules, normalize, hasFeedback } = formParams;
@@ -55,7 +57,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
   const { data: dataById } = useGetOneByIdAsync(value);
   const { data: allData } = useGetAllAsync();
 
-  const options = useMemo(() => {
+  const finalOptions = useMemo(() => {
     if (!labelKey) {
       /* eslint-disable-next-line no-console */
       console.error('EditorFormItemSelectControl: labelKey is required but not provided');
@@ -101,7 +103,7 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
             defaultValue={labelKey ? dataById?.[labelKey] : undefined}
             placeholder={placeholder}
             onChange={onChange}
-            options={options}
+            options={options ?? finalOptions}
           />
         </Form.Item>
         <Form.Item>
