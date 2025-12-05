@@ -25,7 +25,7 @@ export const requestsApi = createApi({
     }),
     getPersonRequestSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getEntranceExamStatuses: builder.query({
       query: () => 'entranceExamStatuses',

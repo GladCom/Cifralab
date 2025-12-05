@@ -15,7 +15,7 @@ export const scopeOfActivityApi = createApi({
     }),
     getScopeOfActivitySearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getscopeOfActivityById: builder.query({
       query: (id) => id,

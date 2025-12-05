@@ -2,7 +2,7 @@ import { Select, Typography } from 'antd';
 import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import { MultiControlProps } from './multi-mode-control/default-controls';
+//обьявлен 2 раза //import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 

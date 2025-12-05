@@ -15,7 +15,7 @@ export const kindDocumentRiseQualificationApi = createApi({
     }),
     getKindDocumentRiseQualificationSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getKindDocumentRiseQualificationById: builder.query({
       query: (id) => id,

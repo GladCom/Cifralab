@@ -7,13 +7,13 @@ import {
   FormParams,
   MultimodeControlValue,
 } from './multi-mode-control/types';
-import { MultiControlProps } from './multi-mode-control/default-controls';
+// обьявлена 2 раза import { MultiControlProps } from './multi-mode-control/default-controls';
 import { Rule } from 'antd/es/form';
 import { useCallback } from 'react';
 
 const getSafeBoolean = (value: MultimodeControlValue): boolean => {
   if (typeof value === 'boolean') return value;
-
+  // eslint-disable-next-line no-console
   console.warn('Checkbox received non-boolean value:', {
     value,
     type: typeof value,

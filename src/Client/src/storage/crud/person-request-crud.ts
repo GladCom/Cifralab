@@ -30,14 +30,12 @@ const useGetAllPagedAsync = ({ pageNumber, pageSize, filterDataReq: queryString,
 
 const useRemoveOneAsync = () => {
   const [removeItem, removingResult] = useRemovePersonRequestMutation();
-  const { data, error, isUninitialized, isLoading, isSuccess, isError, reset } = removingResult;
-
   return [removeItem, removingResult];
 };
 
 const useEditOneAsync = () => {
   const [editItem, editingResult] = useEditPersonRequestMutation();
-  const { data, error, isUninitialized, isLoading, isSuccess, isError, reset } = editingResult;
+  const { error, isSuccess, isError } = editingResult;
 
   const { showSuccess, showError } = useNotifications();
 
@@ -48,7 +46,7 @@ const useEditOneAsync = () => {
     if (isError) {
       showError('Ошибка! Редактирование заявки не удалось!', error);
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, showSuccess, showError, error]);
 
   const editRequest = ({ id, item }) => {
     editItem({ id, item });

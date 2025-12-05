@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
@@ -102,15 +102,17 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
       //  const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
       setData(dataToDisplay);
       setLoading(false);
-      setTableParams({
-        ...tableParams,
+      setTableParams((prev) => ({
+        ...prev,
+        //...tableParams,
         pagination: {
-          ...tableParams.pagination,
+          ...prev.pagination,
+          //...tableParams.pagination,
           // TODO: этих полей нет в сигнатуре, проработать этот вопрос.
           //total,
           //position: ['bottomLeft'],
         },
-      });
+      }));
     }
   }, [
     dataFromServer,

@@ -8,7 +8,7 @@ const ProgramDetailsPage = () => {
   const { id } = useParams();
   const [programData, setProgramData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
-  const [isSaveInProgress, setIsSaveInProgress] = useState(false);
+  const [isSaveInProgress] = useState(false);
   const [initialData, setInitialData] = useState({});
   const { properties, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
@@ -32,7 +32,7 @@ const ProgramDetailsPage = () => {
   const onSave = useCallback(() => {
     editProgram({ id, item: programData });
     setIsChanged(false);
-  }, [id, programData]);
+  }, [id, programData, editProgram]);
 
   const onCancel = useCallback(() => {
     setProgramData(initialData);
