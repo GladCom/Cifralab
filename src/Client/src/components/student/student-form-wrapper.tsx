@@ -36,11 +36,11 @@ export const StudentFormWrapper: React.FC<StudentFormWrapperProps> = (props) => 
                   value: studentData[key],
                   displayMode: DisplayMode.EDITABLE_VIEW,
                   setValue: (value) => {
-                    (setStudentData({
+                    setStudentData({
                       ...studentData,
                       [key]: value,
-                    }),
-                      setIsChanged(true));
+                    });
+                    setIsChanged(true);
                   },
                   ...child.props,
                 })}

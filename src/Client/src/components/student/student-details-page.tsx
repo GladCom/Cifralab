@@ -38,7 +38,7 @@ export const StudentDetailsPage = () => {
     setIsChanged(false);
     setFormKeyValue((prev) => prev + 1);
     setInitialData(studentData);
-  }, [id, studentData]);
+  }, [editStudent, id, studentData]);
 
   const onCancel = useCallback(() => {
     setFormKeyValue((prev) => prev + 1);
@@ -70,9 +70,7 @@ export const StudentDetailsPage = () => {
             </Button>
           </Col>
           <Col>
-            <Button onClick={onCancel} disabled={isSaveInProgress}>
-              Отмена
-            </Button>
+            <Button onClick={onCancel}>Отмена</Button>
           </Col>
         </Row>
       )}
@@ -80,4 +78,3 @@ export const StudentDetailsPage = () => {
     </Layout>
   );
 };
-
