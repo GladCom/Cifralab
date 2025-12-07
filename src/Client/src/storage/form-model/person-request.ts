@@ -91,6 +91,9 @@ export const personRequestFormModel: FormModel = {
   statusEntrancExams: {
     name: 'Тестовое задание',
     type: StatusEntrancExamsSelect,
+    formParams: {
+      key: DtoKeys.STATUS_ENTRANC_EXAMS,
+    },
   },
   birthDate: {
     name: 'Дата рождения',
@@ -112,14 +115,14 @@ export const personRequestFormModel: FormModel = {
     name: 'Сфера деятельности уровень 1',
     type: ScopeOfActivitySelect,
     formParams: {
-      key: 'ScopeOfActivitySelect1Key',
+      key: DtoKeys.SCOPE_OF_ACTIVITY_LEVEL_ONE_ID,
     },
   },
   scopeOfActivityLevelTwoId: {
     name: 'Сфера деятельности уровень 2',
     type: ScopeOfActivitySelect,
     formParams: {
-      key: 'ScopeOfActivitySelect2Key',
+      key: DtoKeys.SCOPE_OF_ACTIVITY_LEVEL_TWO_ID,
       rules: [
         {
           required: false,
@@ -130,5 +133,8 @@ export const personRequestFormModel: FormModel = {
   agreement: {
     name: 'Согласие на обработку перс. даннных',
     type: CheckBox,
+    formParams: {
+      key: DtoKeys.AGREEMENT,
+    },
   },
 };

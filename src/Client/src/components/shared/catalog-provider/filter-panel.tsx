@@ -3,7 +3,7 @@ import React from 'react';
 import { DtoKeys } from '../../../storage/service/types';
 
 const style = {
-  height: '10vh',  
+  height: '10vh',
   padding: '10px',
 };
 
@@ -69,9 +69,7 @@ const FilterSelect: React.FC<FilterSelectProps> = ({ filter, query, setQuery }) 
       onChange={handleChange}
       loading={isLoading}
       allowClear
-      filterOption={(input, option) =>
-        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-      }
+      filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
       options={options}
     />
   );

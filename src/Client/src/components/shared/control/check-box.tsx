@@ -10,6 +10,7 @@ import {
 // обьявлена 2 раза import { MultiControlProps } from './multi-mode-control/default-controls';
 import { Rule } from 'antd/es/form';
 import { useCallback } from 'react';
+import _ from 'lodash';
 
 const getSafeBoolean = (value: MultimodeControlValue): boolean => {
   if (typeof value === 'boolean') return value;
@@ -59,6 +60,12 @@ const formParams: FormParams = {
   rules,
 };
 
-export const CheckBox: React.FC<MultimodeControlProps> = (props) => (
-  <MultimodeControl {...props} value={false} controlMap={controlMap} formParams={formParams} />
-);
+export const CheckBox: React.FC<MultimodeControlProps> = (props) => {
+  const { formParams: externalFormParams } = props;
+  const finalFormParams = _.merge(
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
+  return <MultimodeControl {...props} value={false} controlMap={controlMap} formParams={finalFormParams} />;
+};
