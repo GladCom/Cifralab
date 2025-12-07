@@ -1,4 +1,4 @@
-import { Input, Typography,Select } from 'antd';
+import { Input, Typography } from 'antd';
 import { MultimodeControlValue, ControlByModeMap, DisplayMode, FormParams } from './types';
 import { ChangeEvent, useCallback } from 'react';
 
@@ -71,46 +71,9 @@ export const DefaultFormItemControl: React.FC<MultiControlProps> = ({ value, onC
   );
 };
 
-export const MultiSelectEditorControl: React.FC<MultiControlProps> = ({
-  value,
-  onChange,
-  placeholder,
-  options,
-}) => {
-
-  const handleChange = (event: any) => {
-    if (onChange) {
-      onChange(event);
-    }
-  };
-
-  return (
-    <Select
-      mode="multiple"
-      allowClear
-      showSearch
-      style={{ minWidth: 200, width: '100%' }}
-      placeholder={placeholder}
-      value={value}
-      onChange={handleChange}
-      options={options}
-      // Фильтрация для поиска
-      filterOption={(input, option) =>
-        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-      }
-    />
-  );
-};
-
-
-export const MultiSelectFormItemControl: React.FC<MultiControlProps> = (props) => {
-  return <MultiSelectEditorControl {...props} />;
-};
-
 export const defaultControlByModeMap: ControlByModeMap = {
   [DisplayMode.VIEW]: DefaultViewControl,
   [DisplayMode.EDITABLE_VIEW]: DefaultEditableViewControl,
   [DisplayMode.EDITOR]: DefaultEditorControl,
   [DisplayMode.FORM_ITEM]: DefaultFormItemControl,
-  [DisplayMode.MULTI_SELECT]: MultiSelectEditorControl,
 };

@@ -8,7 +8,6 @@ export enum DisplayMode {
   EDITABLE_VIEW = 'editableViewMode',
   EDITOR = 'editorMode',
   FORM_ITEM = 'formItemMode',
-  MULTI_SELECT = 'multiselect',
 }
 
 export type BaseControlParams = {

@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { IReportRequest } from '@/api/reportsApi';
 import DateTimePicker from '../shared/control/date-time-picker';
 import { IReportConfig } from '@/storage/catalog-config/report-config';
-import { GroupSelect } from '@components/shared/control/selects/group-select';
+import { GroupMultiSelect } from '@components/shared/control/selects/group-select';
 import { DisplayMode } from '@components/shared/control/multi-mode-control/types';
 
 const { Paragraph, Title } = Typography;
@@ -61,8 +61,8 @@ export const DefaultReportBody = ({ config }: IProps) => {
 
         <Flex style={{ gap: '10px' }}>
           <DateTimePicker onDateChange={setDataRange} />
-          <GroupSelect
-            displayMode={DisplayMode.MULTI_SELECT}
+          <GroupMultiSelect
+            displayMode={DisplayMode.FORM_ITEM}
             value={groupsId}
             setValue={(val: string[] | null) => setGroupsId(val)}
           />
