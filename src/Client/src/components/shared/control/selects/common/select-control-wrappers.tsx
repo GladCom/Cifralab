@@ -38,7 +38,7 @@ export const EditableViewSelectControlWrapper: React.FC<MultimodeWrapperControlP
 };
 
 export const FormItemMultiSelectControlWrapper: React.FC<MultimodeWrapperControlProps> = (props) => {
-  const { Control, value, onChange, placeholder, formParams,setValue,controlParams, crud } = props;
+  const { Control, value, placeholder, formParams, setValue, crud } = props;
   const { key, labelKey, name, normalize, hasFeedback, rules } = formParams;
   const { useGetAllAsync } = crud;
   const { data: allData } = useGetAllAsync();
@@ -51,25 +51,18 @@ export const FormItemMultiSelectControlWrapper: React.FC<MultimodeWrapperControl
     }));
   }, [allData, labelKey]);
 
-  return ((
-      <Form.Item
-        key={key}
-        name={key}
-        label={name}
-        initialValue={value}
-        rules={rules}
-        normalize={normalize}
-        hasFeedback={hasFeedback}
-      >
-        <Control
-          key={key}
-          placeholder={placeholder}
-          onChange={setValue}
-          value={value}
-          options={options}
-        />
-      </Form.Item>
-    )
+  return (
+    <Form.Item
+      key={key}
+      name={key}
+      label={name}
+      initialValue={value}
+      rules={rules}
+      normalize={normalize}
+      hasFeedback={hasFeedback}
+    >
+      <Control key={key} placeholder={placeholder} onChange={setValue} value={value} options={options} />
+    </Form.Item>
   );
 };
 
@@ -116,7 +109,6 @@ export const EditorSelectControlWrapper: React.FC<MultimodeWrapperControlProps> 
       // TODO: показать уведомление пользователю
     }
   };
-
 
   return (
     editorMode && (

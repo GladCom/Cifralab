@@ -1,9 +1,8 @@
-import React from 'react';
 import { Layout } from '../shared/layout/index';
-import FRDOReportBody from '@components/report/FRDO-report-body';
+import { FRDOReportBody } from '@components/report/FRDO-report-body';
 import Accordion from '../shared/control/base-controls/Accordion';
-import RosstatReportBody from '@components/report/Rosstat-report-body';
-import SummaryReportBody from './Summary-report-body';
+import { RosstatReportBody } from '@components/report/Rosstat-report-body';
+import { SummaryReportBody } from '@components/report/summary-report-body';
 
 const ReportsPage = () => {
   return (

@@ -1,6 +1,6 @@
 ﻿import { Button, Card, Divider, Flex, message, Space, Typography } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RangeValue } from '@/types';
 import { useMutation } from '@tanstack/react-query';
 import { IReportRequest } from '@/api/reportsApi';
@@ -15,7 +15,7 @@ export interface IProps {
   config: IReportConfig;
 }
 
-const DefaultReportBody = ({ config }: IProps) => {
+export const DefaultReportBody = ({ config }: IProps) => {
   const { title, description } = config;
 
   const [dateRange, setDataRange] = useState<RangeValue | null>(null);
@@ -28,21 +28,15 @@ const DefaultReportBody = ({ config }: IProps) => {
     mutationFn: (params: IReportRequest) => config.crud.getReport(params),
   });
 
-  useEffect(() => {
-    console.log(groupsId);
-  }, [groupsId]);
-
   const reportGeneration = () => {
     if (!groupsId) {
       message.warning('Пожалуйста, выберите группы, для формирования отчёта.');
       return;
     }
-  console.log(groupsId);
     if (!dateRange) {
       message.warning('Пожалуйста, выберите период для формирования отчёта.');
       return;
     } else {
-      // TODO: временное решение
       const params: IReportRequest = {
         endDateMax: null,
         endDateMin: dateRange[1].format('YYYY-MM-DD'),
@@ -67,7 +61,11 @@ const DefaultReportBody = ({ config }: IProps) => {
 
         <Flex style={{ gap: '10px' }}>
           <DateTimePicker onDateChange={setDataRange} />
-          <GroupSelect displayMode={DisplayMode.MULTI_SELECT} value={groupsId} setValue={(val: string[] | null) => setGroupsId(val)} />
+          <GroupSelect
+            displayMode={DisplayMode.MULTI_SELECT}
+            value={groupsId}
+            setValue={(val: string[] | null) => setGroupsId(val)}
+          />
         </Flex>
 
         <Paragraph>
@@ -93,5 +91,3 @@ const DefaultReportBody = ({ config }: IProps) => {
     </Card>
   );
 };
-
-export default DefaultReportBody;

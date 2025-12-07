@@ -20,12 +20,12 @@ public class RosstatReportGenerator : BaseReportGenerator, IRosstatReportGenerat
     public async Task<XLWorkbook?> ReportForExcelAsync(GroupFilter filter)
     {
         var listReportData = await this._reportRepository.Get(filter);
-        var template = new XLTemplate(this.PathTemplate("Form1-PK.xlsx"));
-
-        template.AddVariable("Items", listReportData);
-
-        template.Generate();
-        return template.Workbook as XLWorkbook;
+        using (var template = new XLTemplate(this.PathTemplate("Form1-PK.xlsx")))
+        {
+            template.AddVariable("Items", listReportData);
+            template.Generate();
+            return template.Workbook as XLWorkbook;
+        }
     }
 
     /// <summary>

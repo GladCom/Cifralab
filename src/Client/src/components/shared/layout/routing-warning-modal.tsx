@@ -1,11 +1,9 @@
-import React from 'react';
 import { Modal, Form, Result } from 'antd';
 
 const RoutingWarningModal = ({ show, blocker }) => {
   const [form] = Form.useForm();
 
   const onSubmit = (e) => {
-    console.log(e);
     blocker.proceed();
   };
 

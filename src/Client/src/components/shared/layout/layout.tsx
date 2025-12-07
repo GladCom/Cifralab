@@ -3,7 +3,6 @@ import Header from './header';
 import Navbar from './navbar';
 import Content from './content';
 import { Layout as AntLayout } from 'antd';
-import React from 'react';
 
 const headerStyle = {
   textAlign: 'center',
