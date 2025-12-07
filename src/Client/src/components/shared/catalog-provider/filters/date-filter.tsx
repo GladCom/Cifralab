@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
-import moment from 'moment';
 import { DatePicker, Space } from 'antd';
 
 const dateFormat = 'DD.MM.YYYY';
-
+/*
 const customParser = (value) => {
   if (!value) return value;
 
@@ -18,7 +17,7 @@ const customParser = (value) => {
 
   return value; // Возвращаем оригинальное значение, если формат не соответствует
 };
-
+*/
 const DateFilter = ({ placeholder, onChange }) => {
   return (
     <div className="col-2">

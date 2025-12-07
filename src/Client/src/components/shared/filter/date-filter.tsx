@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
-import moment from 'moment';
+//import moment from 'moment';
 import { DatePicker, Space } from 'antd';
 
 const dateFormat = 'DD.MM.YYYY';
 
-const customParser = (value) => {
+/* const customParser = (value) => {
   if (!value) return value;
 
   if (value.length === 8) {
@@ -16,7 +16,7 @@ const customParser = (value) => {
 
   return value;
 };
-
+*/
 const DateFilter = ({ placeholder, onChange }) => {
   return (
     <div className="col-2">

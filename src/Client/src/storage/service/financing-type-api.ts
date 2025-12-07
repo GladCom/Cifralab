@@ -15,7 +15,7 @@ export const financingTypeApi = createApi({
     }),
     getFinancingTypeSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getFinancingTypeById: builder.query({
       query: (id) => id,

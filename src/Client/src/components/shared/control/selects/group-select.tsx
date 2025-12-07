@@ -1,10 +1,10 @@
 ﻿import { Rule } from 'antd/es/form';
 import config from '../../../../storage/catalog-config/group';
-import { ControlByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
-import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { ControlByModeMap, ControlWrapperByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
 import { QueryableSelectControl } from './common/queryable-select-control';
-import { MultiControlProps } from '@components/shared/control/multi-mode-control/default-controls';
 import { Select } from 'antd';
+import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import { MultiControlProps } from '../multi-mode-control/default-controls';
 
 const rules: Rule[] = [
   {
@@ -16,15 +16,20 @@ const rules: Rule[] = [
 const formParams: FormParams = {
   key: 'GroupSelectKey',
   labelKey: 'name',
-  name: 'Группа',
+  name: 'Группы',
   rules,
 };
-export const MultiSelectEditorControl: React.FC<MultiControlProps> = ({ value, onChange, placeholder, options }) => {
-  const handleChange = (event: any) => {
-    if (onChange) {
-      onChange(event);
-    }
-  };
+
+export const MultiSelectEditorControl: React.FC<MultiControlProps> = ({ value, onChange, placeholder, options, setValue}) => {
+
+    const handleChange = (newValue: any) => {
+        if (onChange) {
+            onChange(newValue);
+        }
+        if (setValue) {
+            setValue(newValue);
+        }
+    };
 
   return (
     <Select
@@ -57,5 +62,10 @@ export const GroupMultiSelect: React.FC<MultimodeControlProps> = (props) => {
     externalFormParams, // переопределения
   );
 
-  return <QueryableSelectControl {...props} crud={crud} controlMap={controlMap} formParams={finalFormParams} />;
+  return  <QueryableSelectControl
+      {...props}
+      crud={crud}
+      controlMap={controlMap}
+      formParams={finalFormParams}
+  />;
 };

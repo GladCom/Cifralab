@@ -19,9 +19,6 @@ export const DefaultReportBody = ({ config }: IProps) => {
   const { title, description } = config;
 
   const [dateRange, setDataRange] = useState<RangeValue | null>(null);
-
-  // TODO: Сделал так чтобы не хранить обьект запроса в стейт, надо подумать как это переделать
-  const [studentId, setStudentId] = useState<string | null>();
   const [groupsId, setGroupsId] = useState<string[] | null>(null);
 
   const reportMutation = useMutation({

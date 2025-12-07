@@ -1,7 +1,7 @@
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-const PhoneFilter = ({ placeholder, onChange }) => {
+const PhoneFilter = ({ placeholder }) => {
   return (
     <div className="col-2">
       <PhoneInput
@@ -12,6 +12,8 @@ const PhoneFilter = ({ placeholder, onChange }) => {
         //defaultMask="+.(...)...-...."
         masks={{ ru: '(...) ...-....' }}
         inputStyle={{ width: '100%', height: '32px' }} // Устанавливаем ширину для соответствия стилям Ant Design
+        /* eslint-disable-next-line no-console */
+        onChange={(data) => console.log(data)}
       />
     </div>
   );

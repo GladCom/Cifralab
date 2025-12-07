@@ -11,7 +11,7 @@ const GroupDetailsPage = () => {
   const [isChanged, setIsChanged] = useState(false);
   const { properties, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
-  const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
+  const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
   const [editGroup] = useEditOneAsync();
 
@@ -31,7 +31,7 @@ const GroupDetailsPage = () => {
   const onSave = useCallback(() => {
     editGroup({ id, item: groupData });
     setIsChanged(false);
-  }, [id, groupData]);
+  }, [id, groupData, editGroup]);
 
   const onCancel = useCallback(() => {
     setGroupData(initialData);
