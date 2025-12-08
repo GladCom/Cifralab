@@ -10,6 +10,10 @@ import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/mu
 import merge from 'lodash/merge';
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   // Преобразуем значение в число, обрабатывая null/undefined

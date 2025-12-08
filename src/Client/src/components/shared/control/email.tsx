@@ -13,6 +13,10 @@ import { DtoKeys } from '../../../storage/service/types';
 const mails = ['mail.ru', 'gmail.com', 'ya.ru', 'icloud.com', 'disk.ru', 'list.ru', 'yahoo.com'];
 
 const FormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
 
@@ -41,6 +45,10 @@ const FormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formPar
 };
 
 const EditorControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
 

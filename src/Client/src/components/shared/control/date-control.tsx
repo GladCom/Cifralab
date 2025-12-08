@@ -19,6 +19,10 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
   formParams,
   placeholder,
 }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   const formattValue = useCallback(

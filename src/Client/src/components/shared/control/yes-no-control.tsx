@@ -20,6 +20,10 @@ const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
 };
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   //  Эффект нужен чтобы проинициализировать начальным значением

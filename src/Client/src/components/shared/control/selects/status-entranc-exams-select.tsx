@@ -24,6 +24,10 @@ const keyValueMap = {
 const ViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{keyValueMap[value]}</Text>;
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   return <Select key={key} defaultValue={value} style={{ minWidth: '200px' }} options={options} onChange={onChange} />;
