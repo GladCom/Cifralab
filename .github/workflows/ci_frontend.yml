@@ -19,7 +19,7 @@ jobs:
       - name: Run strict linter (no warnings allowed)
         working-directory: ./src/Client
         run: npx eslint src --ext .ts,.tsx,.js,.jsx --max-warnings=0
-        
+
       - name: Build frontend
         working-directory: ./src/Client
         run: CI=false npm run build
@@ -34,9 +34,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install all dependencies (including test deps)
+      - name: Install test dependencies
         working-directory: ./src/Client
-        run: npm install --legacy-peer-deps
+        run: |
+          npm install jest
+          npm install --save-dev jest-junit
       
       - name: Run tests
         working-directory: ./src/Client
