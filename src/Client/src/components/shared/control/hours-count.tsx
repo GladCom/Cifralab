@@ -1,9 +1,13 @@
 import { InputNumber } from 'antd';
-import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
-import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
+import {
+  DefaultEditableViewControl,
+  DefaultViewControl,
+  MultiControlProps,
+} from './multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   const { key } = formParams;
@@ -44,7 +48,7 @@ const formParams: FormParams = {
 
 export const HoursCount: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

@@ -1,16 +1,10 @@
 import { Checkbox, CheckboxChangeEvent } from 'antd';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import {
-  ControlByModeMap,
-  DisplayMode,
-  MultiControlProps,
-  FormParams,
-  MultimodeControlValue,
-} from './multi-mode-control/types';
-// обьявлена 2 раза import { MultiControlProps } from './multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, FormParams, MultimodeControlValue } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { useCallback } from 'react';
-import _ from 'lodash';
+import merge from 'lodash/merge';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const getSafeBoolean = (value: MultimodeControlValue): boolean => {
   if (typeof value === 'boolean') return value;
@@ -62,7 +56,7 @@ const formParams: FormParams = {
 
 export const CheckBox: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { Switch, Typography } from 'antd';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-//или используем
-//import { MultiControlProps } from './multi-mode-control/default-controls';
-import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
+import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
-import _ from 'lodash';
+import merge from 'lodash/merge';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 const keyValueMap: Record<string, string> = {
@@ -53,7 +52,7 @@ const formParams: FormParams = {
 
 export const YesNoControl: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

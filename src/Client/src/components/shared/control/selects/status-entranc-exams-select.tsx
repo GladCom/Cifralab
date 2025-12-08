@@ -3,7 +3,7 @@ import { MultiControlProps } from '../multi-mode-control/default-controls';
 import { ControlByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 const { Text } = Typography;
 
@@ -52,7 +52,7 @@ const formParams: FormParams = {
 
 export const StatusEntrancExamsSelect: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

@@ -5,7 +5,7 @@ import { MultiControlProps } from './multi-mode-control/default-controls';
 import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 const { Text } = Typography;
 
@@ -69,7 +69,7 @@ export const DateControl: React.FC<MultimodeControlProps> = (props) => {
 
   // Такой финт нужен для переопределения formParams при переиспользовании компонента,
   // например в компоненте BirthDate
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения
