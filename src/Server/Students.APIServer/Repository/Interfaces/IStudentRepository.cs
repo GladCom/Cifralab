@@ -34,8 +34,8 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// <summary>
   /// Зачисление в группу по заявке.
   /// </summary>
-  /// <param name="id">ID заявки.</param>
+  /// <param name="requestId">ID заявки.</param>
   /// <param name="groupId">ID группы.</param>
   /// <returns>Студент с заполненными заявками и группами</returns>
-  Task<Student?> EnrollStudentInGroup(Guid studentId, Guid requestId, Guid groupId);
+  Task<Student?> EnrollStudentInGroup(Guid requestId, Guid groupId);
 }

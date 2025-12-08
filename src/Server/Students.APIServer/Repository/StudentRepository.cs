@@ -112,24 +112,24 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <returns>Студент с обновленными группами.</returns>
   /// <exception cref="ArgumentException">Возникает в случае если не сущетсвует группа студент или заявка.</exception>
   /// <exception cref="InvalidOperationException">Возникает при попытке добавить студента в группу, где он уже есть
-  /// или в случае, если студент не подавал туда заявку или завка уже использована.</exception>
-  public async Task<Student?> EnrollStudentInGroup(Guid studentId, Guid requestId, Guid groupId)
+  /// или в случае, если студент не подавал туда заявку или заявка уже использована.</exception>
+  public async Task<Student?> EnrollStudentInGroup(Guid requestId, Guid groupId)
   {
-    var student = await this.GetStudentWithGroupsAndRequests(studentId);
-    await this.ValidateEnrollmentData(studentId,  requestId, groupId);
+    var request = await this.GetValidEnrollmentRequestWithStudent(requestId, groupId);
+
     try
     {
       var newGroupStudent = new GroupStudent()
       {
-        StudentId = studentId,
+        StudentId = request.Student.Id,
         GroupId = groupId,
         RequestId = requestId
       };
-      if (student.GroupStudent == null)
-        student.GroupStudent = new List<GroupStudent>();
+      if (request.Student.GroupStudent == null)
+        request.Student.GroupStudent = new List<GroupStudent>();
       await this._context.AddAsync(newGroupStudent);
       await this._context.SaveChangesAsync();
-      return await this.GetStudentWithGroupsAndRequests(studentId);
+      return request.Student;
     }
     
     // Так как добавляем GroupStudent в которой первичный ключ requestId ошибка говорит о том,
@@ -140,21 +140,49 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
     }
   }
 
-  private async Task ValidateEnrollmentData(Guid studentId, Guid requestId, Guid groupId)
+  /// <summary>
+  /// Получить проверенную заявку для зачисления со студентом.
+  /// </summary>
+  /// <param name="requestId">Id заявки студента.</param>
+  /// <param name="groupId">ID группы в которую надо зачислить студента.</param>
+  /// <exception cref="ArgumentException">Возвращается если группа или заявка не найдены.</exception>
+  /// <exception cref="InvalidOperationException">Возвращается если действие зачисления недопустимо.</exception>
+  /// <returns>Заявка со студентом.</returns>
+  private async Task<Request> GetValidEnrollmentRequestWithStudent(Guid requestId, Guid groupId)
   {
-    var student = await this.GetStudentWithGroupsAndRequests(studentId);
-    if (student == null)
-      throw new ArgumentException("Student not found");
-    if (student.Requests != null && student.Requests.All(x => x.Id != requestId))
-      throw new ArgumentException("The request doesn't exist for this student. Create it first.");
     var group = await this._context.Groups.FindAsync(groupId);
     if (group == null)
+    {
       throw new ArgumentException("Group not found");
-    if (student.Groups != null && student.Groups.Any(x => x.Id == group.Id))
-      throw new InvalidOperationException("Student already study in this group");
-    var request = await this._context.Requests.FindAsync(requestId);
+    }
+    
+    var request = await this._context.Requests
+      .Include(r => r.Student)
+        .ThenInclude(s=>s.GroupStudent)
+      .Include(r=> r.EducationProgram)
+      .SingleOrDefaultAsync(r => r.Id == requestId);
+
+    if (request == null)
+    {
+      throw new ArgumentException("Request not found");
+    }
+    
     if (group.EducationProgramId != request?.EducationProgramId)
+    {
       throw new InvalidOperationException("The education program group does not match the requested program");
+    }
+
+    if (request.Student == null)
+    {
+      throw new InvalidOperationException("The student is not assigned to this request");
+    }
+
+    if (request.Student.GroupStudent?.Any(g => g.GroupId == groupId) == true)
+    {
+      throw new InvalidOperationException("The student has already been enrolled in the group");
+    }
+    
+    return request;
   }
 
   #endregion
