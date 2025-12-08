@@ -23,7 +23,7 @@ export const requestsApi = createApi({
       },
       providesTags: ['Requests'],
     }),
-     getPersonRequestSearch: builder.query({
+    getPersonRequestSearch: builder.query({
       query: (queryText) => {
         const encoded = encodeURIComponent(JSON.stringify({ query: queryText }));
         return `Search?searchWithoutType=${encoded}`;
