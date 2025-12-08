@@ -23,9 +23,12 @@ export const requestsApi = createApi({
       },
       providesTags: ['Requests'],
     }),
-    getPersonRequestSearch: builder.query({
-      //  TODO: в разработке
-      query: (_queryText) => '',
+     getPersonRequestSearch: builder.query({
+       query: (queryText) => {
+        const encoded = encodeURIComponent(JSON.stringify({ query: queryText }));
+        return `Search?searchWithoutType=${encoded}`;
+       },
+      providesTags: ['Requests'],
     }),
     getEntranceExamStatuses: builder.query({
       query: () => 'entranceExamStatuses',
