@@ -17,6 +17,9 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ defaultValue
   if (!formParams) {
     throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
   }
+  if (!onChange) {
+    throw new Error('CommonEditorFormItemControl: "onChange" is required but was not provided.');
+  }
 
   const { key } = formParams;
 
