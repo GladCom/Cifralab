@@ -2,7 +2,11 @@ import { InputNumber } from 'antd';
 import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import { DefaultEditableViewControl, DefaultViewControl, MultiControlProps } from './multi-mode-control/default-controls';
+import {
+  DefaultEditableViewControl,
+  DefaultViewControl,
+  MultiControlProps,
+} from './multi-mode-control/default-controls';
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   if (!formParams) {

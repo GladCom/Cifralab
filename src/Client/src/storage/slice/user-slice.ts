@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type UserState ={
+type UserState = {
   userName: string | null;
   token: string | null;
   loggedIn: boolean;
