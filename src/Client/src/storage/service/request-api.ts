@@ -11,12 +11,21 @@ export const requestsApi = createApi({
       query: () => '',
     }),
     getPersonRequestsPaged: builder.query({
-      query: ({ pageNumber, pageSize, filterDataReq }) => `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`,
+      query: ({ pageNumber, pageSize, filterDataReq, sortingField, isSortAsc }) => {
+        var url = `paged?page=${pageNumber}&size=${pageSize}${filterDataReq}`;
+        if (sortingField) {
+          url += `&sortingField=${encodeURIComponent(sortingField)}`;
+        }
+        if (isSortAsc !== undefined) {
+          url += `&isSortAsc=${isSortAsc}`;
+        }
+        return url;
+      },
       providesTags: ['Requests'],
     }),
     getPersonRequestSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getEntranceExamStatuses: builder.query({
       query: () => 'entranceExamStatuses',

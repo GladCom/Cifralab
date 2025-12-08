@@ -1,11 +1,11 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import moment from 'moment';
+//import moment from 'moment';
 import { DatePicker, Space } from 'antd';
 
 const dateFormat = 'DD.MM.YYYY';
 
-const customParser = (value) => {
+/* const customParser = (value) => {
   if (!value) return value;
 
   // Если введено ровно 8 символов
@@ -19,7 +19,7 @@ const customParser = (value) => {
 
   return value; // Возвращаем оригинальное значение, если формат не соответствует
 };
-
+*/
 const DateFilter = ({ placeholder, onChange }) => {
   return (
     <div className="col-2">

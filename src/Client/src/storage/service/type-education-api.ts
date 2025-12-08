@@ -15,7 +15,7 @@ export const typeEducationApi = createApi({
     }),
     getTypeEducationSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getTypeEducationById: builder.query({
       query: (id) => id,

@@ -15,7 +15,7 @@ export const studentStatusApi = createApi({
     }),
     getStudentStatusSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getStudentStatusById: builder.query({
       query: (id) => id,

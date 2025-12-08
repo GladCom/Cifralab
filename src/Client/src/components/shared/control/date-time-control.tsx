@@ -3,7 +3,7 @@ import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
-import { MultiControlProps } from './multi-mode-control/default-controls';
+// 2 обьявлена import { MultiControlProps } from './multi-mode-control/default-controls';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import _ from 'lodash';
 

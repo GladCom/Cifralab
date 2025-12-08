@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
@@ -8,11 +8,11 @@ const RequestDetailsPage = () => {
   const { id } = useParams();
   const [requestData, setRequestData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
-  const [isSaveInProgress, setIsSaveInProgress] = useState(false);
+  const [isSaveInProgress] = useState(false);
   const [initialData, setInitialData] = useState({});
   const { properties, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
-  const { data, isLoading, isFetching, refetch } = useGetOneByIdAsync(id);
+  const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
   const [editRequest] = useEditOneAsync();
 

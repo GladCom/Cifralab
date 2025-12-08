@@ -1,12 +1,12 @@
 import React from 'react';
 import { Modal, Form, Result } from 'antd';
 
-const RemoveForm = ({ item, control, config, refetch }) => {
+const RemoveForm = ({ item, control, config }) => {
   const { id } = item;
   const [form] = Form.useForm();
   const { crud } = config;
   const { useRemoveOneAsync } = crud;
-  const [removeItem, queryState] = useRemoveOneAsync();
+  const [removeItem] = useRemoveOneAsync();
   const { showRemoveForm, setShowRemoveForm } = control;
 
   const onSubmit = () => {
@@ -25,7 +25,7 @@ const RemoveForm = ({ item, control, config, refetch }) => {
       okText="Всеравно удалить"
       cancelText="Отмена"
       onCancel={onCancel}
-      destroyOnClose
+      destroyOnHidden
       okButtonProps={{
         autoFocus: false,
         danger: true,

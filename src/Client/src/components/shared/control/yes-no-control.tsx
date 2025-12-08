@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { Switch, Typography } from 'antd';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
+//или используем
+//import { MultiControlProps } from './multi-mode-control/default-controls';
 import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
-import { MultiControlProps } from './multi-mode-control/default-controls';
 import _ from 'lodash';
 
 const { Text } = Typography;

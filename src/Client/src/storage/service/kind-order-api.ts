@@ -15,7 +15,7 @@ export const kindOrderApi = createApi({
     }),
     getKindOrderSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getKindOrderById: builder.query({
       query: (id) => id,

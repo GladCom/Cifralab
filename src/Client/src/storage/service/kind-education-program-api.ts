@@ -15,7 +15,7 @@ export const kindEducationProgramApi = createApi({
     }),
     getKindEducationProgramSearch: builder.query({
       //  TODO: в разработке
-      query: (queryText) => '',
+      query: (_queryText) => '',
     }),
     getKindEducationProgramById: builder.query({
       query: (id) => id,
