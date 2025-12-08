@@ -1,11 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const { loggedIn } = JSON.parse(sessionStorage.getItem('loggedIn')) ?? { loggedIn: false }; //  TODO: удалить потом!
+type UserState ={
+  userName: string | null;
+  token: string | null;
+  loggedIn: boolean;
+};
 
-const initialState = {
+const storedLoggedIn = sessionStorage.getItem('loggedIn');
+const parsedLoggedIn = storedLoggedIn ? JSON.parse(storedLoggedIn) : { loggedIn: false };
+const loggedIn = Boolean(parsedLoggedIn?.loggedIn);
+
+const initialState: UserState = {
   userName: localStorage.getItem('userName'),
   token: localStorage.getItem('token'),
-  loggedIn, //  TODO: скорей всего это состояние должно быть не здесь
+  loggedIn,
 };
 
 const userSlice = createSlice({
