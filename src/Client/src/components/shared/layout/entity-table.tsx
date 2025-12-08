@@ -64,7 +64,7 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
   const [searchText, setSearchText] = useState('');
   const [queryString, setQueryString] = useState('');
   const [query, setQuery] = useState<Query>({});
-  const [data, setData] = useState();
+  const [_data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -91,10 +91,12 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
 
   const searchResults = useSearchAsync(searchText) || { data: null };
   const isSearching = !!searchText.trim();
-  const dataToDisplay: unknown = isSearching 
-    ? searchResults?.data 
-    : serverPaged 
-      ? (isDataWithDataField(dataFromServer) ? dataFromServer.data : undefined)
+  const dataToDisplay: unknown = isSearching
+    ? searchResults?.data
+    : serverPaged
+      ? isDataWithDataField(dataFromServer)
+        ? dataFromServer.data
+        : undefined
       : dataFromServer;
 
   useEffect(() => {
@@ -114,16 +116,7 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
         },
       }));
     }
-  }, [
-    dataFromServer,
-    searchResults.data,
-    searchText,
-    isLoading,
-    isFetching,
-    serverPaged,
-    dataToDisplay,
-    queryString,
-  ]);
+  }, [dataFromServer, searchResults.data, searchText, isLoading, isFetching, serverPaged, dataToDisplay, queryString]);
 
   useEffect(() => {
     const filterObject = {};
@@ -151,22 +144,20 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
   const handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, unknown>,
-    sortParams: SorterParams | SorterParams[]
+    sortParams: SorterParams | SorterParams[],
   ) => {
     const sortInfo = Array.isArray(sortParams) ? sortParams[0] : sortParams;
     const sortOrder = sortInfo?.order;
     const sortFieldRaw = sortInfo?.field;
-    const sortField = sortFieldRaw 
-      ? (Array.isArray(sortFieldRaw) ? sortFieldRaw[0]?.toString() : String(sortFieldRaw))
-      : undefined;
-    
-    const column = sortField
-      ? columns.find((col) => 
-          col.dataIndex === sortField || col.key === sortField
-        )
+    const sortField = sortFieldRaw
+      ? Array.isArray(sortFieldRaw)
+        ? sortFieldRaw[0]?.toString()
+        : String(sortFieldRaw)
       : undefined;
 
-    setTableParams((prev) => ({
+    const column = sortField ? columns.find((col) => col.dataIndex === sortField || col.key === sortField) : undefined;
+
+    setTableParams((_prev) => ({
       pagination,
       sortOrder,
       sortField,
@@ -191,9 +182,7 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
       const column = {
         ...col,
         sorter: col.sorter ? true : false,
-        sortOrder: col.sorter && tableParams.sortField === (col.key || col.dataIndex) 
-          ? tableParams.sortOrder
-          : null,
+        sortOrder: col.sorter && tableParams.sortField === (col.key || col.dataIndex) ? tableParams.sortOrder : null,
       };
       return column;
     });
