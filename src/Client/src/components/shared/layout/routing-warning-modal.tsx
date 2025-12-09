@@ -1,9 +1,9 @@
 import { Modal, Form, Result } from 'antd';
 
-const RoutingWarningModal = ({ show, blocker }) => {
+export const RoutingWarningModal = ({ show, blocker }) => {
   const [form] = Form.useForm();
 
-  const onSubmit = (e) => {
+  const onSubmit = () => {
     blocker.proceed();
   };
 
@@ -38,5 +38,3 @@ const RoutingWarningModal = ({ show, blocker }) => {
     </Modal>
   );
 };
-
-export default RoutingWarningModal;

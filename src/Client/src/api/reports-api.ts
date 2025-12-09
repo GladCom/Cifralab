@@ -1,5 +1,6 @@
 ﻿import { z } from 'zod';
 import { apiFileRequest } from '@/api/apiсlient';
+import { message } from 'antd';
 
 export const ReportRequestSchema = z.object({
   studentId: z.string().nullable(),
@@ -35,7 +36,7 @@ const downloadReport = async (endpoint: string, params: IOrderRequest, downloadF
     link.parentNode?.removeChild(link);
     window.URL.revokeObjectURL(url);
   } catch (error) {
-    console.error(`Не удалось скачать файл с эндпоинта ${endpoint}:`, error);
+    message.error('Не удалось скачать файл с эндпоинта', error);
   }
 };
 

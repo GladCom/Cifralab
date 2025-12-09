@@ -19,8 +19,6 @@ const footerStyle = {
   position: 'sticky',
 };
 
-const title = 'Сервис обработки заявок';
-
 interface Props {
   title?: string;
   children: React.ReactNode;

@@ -11,7 +11,7 @@ export interface IReportConfig {
   hasDetailsPage: boolean;
   serverPaged: boolean;
   crud: IReportCrud;
-  dataConverter?: (data: any) => any;
+  dataConverter?: (data: never) => never;
 }
 
 export abstract class BaseReportConfig implements IReportConfig {
@@ -24,7 +24,7 @@ export abstract class BaseReportConfig implements IReportConfig {
   hasDetailsPage: boolean = false;
   serverPaged: boolean = false;
 
-  dataConverter(data: any): any {
+  dataConverter(data: never): never {
     return data;
   }
 }

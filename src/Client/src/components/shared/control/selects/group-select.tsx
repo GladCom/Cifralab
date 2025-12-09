@@ -21,19 +21,10 @@ const formParams: FormParams = {
   rules,
 };
 
-export const MultiSelectEditorControl: React.FC<MultiControlProps> = ({
-  value,
-  onChange,
-  placeholder,
-  options,
-  setValue,
-}) => {
-  const handleChange = (newValue: any) => {
+export const MultiSelectEditorControl: React.FC<MultiControlProps> = ({ value, onChange, placeholder, options }) => {
+  const handleChange = (newValue: string) => {
     if (onChange) {
       onChange(newValue);
-    }
-    if (setValue) {
-      setValue(newValue);
     }
   };
 
