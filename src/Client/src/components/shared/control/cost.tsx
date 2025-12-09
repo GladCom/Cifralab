@@ -1,11 +1,19 @@
 import { InputNumber } from 'antd';
-import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
-import { DefaultEditableViewControl, DefaultViewControl } from './multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
+import {
+  DefaultEditableViewControl,
+  DefaultViewControl,
+  MultiControlProps,
+} from './multi-mode-control/default-controls';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   // Преобразуем значение в число, обрабатывая null/undefined
@@ -46,7 +54,7 @@ const formParams: FormParams = {
 
 export const Cost: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

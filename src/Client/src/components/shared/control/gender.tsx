@@ -1,8 +1,8 @@
 import { Select, Typography } from 'antd';
-import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
+import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-//обьявлен 2 раза //import { MultiControlProps } from './multi-mode-control/default-controls';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 
@@ -20,6 +20,10 @@ const keyValueMap: Record<string, string> = {
 const ViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{keyValueMap[String(value ?? '')]}</Text>;
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams, placeholder }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   return (

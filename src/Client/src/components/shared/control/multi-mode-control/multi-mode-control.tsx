@@ -1,6 +1,6 @@
 import { useState, useCallback, ComponentType } from 'react';
 import { defaultControlByModeMap, DefaultViewControl, MultiControlProps } from './default-controls';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 import {
   BaseControlParams,
   MultimodeControlValue,
@@ -85,7 +85,7 @@ export const MultimodeControl: React.FC<MultimodeControlProps> = (props) => {
     }
   }, [onChange]);
 
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     defaultFormParams, // база
     externalFormParams, // переопределения
@@ -104,7 +104,7 @@ export const MultimodeControl: React.FC<MultimodeControlProps> = (props) => {
       controlWrapperMap={finalWrapperMap}
       value={value}
       isChanged={isChanged}
-      controlParams={_.merge({}, defaultControlParams, controlParams)}
+      controlParams={merge({}, defaultControlParams, controlParams)}
       formParams={finalFormParams}
       setValue={handleSetValue}
       onChange={handleOnChange}

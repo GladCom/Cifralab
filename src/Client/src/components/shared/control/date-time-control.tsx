@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { DatePicker, Typography } from 'antd';
 import dayjs from 'dayjs';
-import { ControlByModeMap, DisplayMode, MultiControlProps, FormParams } from './multi-mode-control/types';
+import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
-// 2 обьявлена import { MultiControlProps } from './multi-mode-control/default-controls';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import _ from 'lodash';
+import merge from 'lodash/merge';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const { Text } = Typography;
 
@@ -14,6 +14,13 @@ const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
 };
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ defaultValue, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+  if (!onChange) {
+    throw new Error('CommonEditorFormItemControl: "onChange" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   const formattValue = useCallback(
@@ -63,7 +70,7 @@ export const DateTimeControl: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams, ...restProps } = props;
 
   // Такой финт нужен для переопределения formParams при переиспользовании компонента.
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

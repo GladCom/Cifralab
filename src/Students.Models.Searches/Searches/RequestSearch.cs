@@ -35,21 +35,20 @@ namespace Students.Models.Searches.Searches
       if (string.IsNullOrWhiteSpace(Query))
         return _ => true;
 
-      var lower = Query.Trim().ToLower();
+      var normalizedQuery = Query.Trim().ToLower();
 
       return r =>
       {
-        if (r.Student != null &&
-            ((r.Student.Family?.ToLower().Contains(lower) ?? false) ||
-             (r.Student.Name?.ToLower().Contains(lower) ?? false) ||
-             (r.Student.Patron?.ToLower().Contains(lower) ?? false) ||
-             (r.Student.FullName?.ToLower().Contains(lower) ?? false)))
+        if (r.Student != null && 
+            ((r.Student.FullName.ToLower().Contains(normalizedQuery)) ||
+             (r.RegistrationNumber.ToLower().Contains(normalizedQuery)) ||
+             (r.Email.ToLower().Contains(normalizedQuery)) ||
+             (r.Phone.ToLower().Contains(normalizedQuery))))
+        {
           return true;
+        }
 
-        return
-          (r.RegistrationNumber?.ToLower().Contains(lower) ?? false) ||
-          (r.Email?.ToLower().Contains(lower) ?? false) ||
-          (r.Phone?.ToLower().Contains(lower) ?? false);
+        return false;
       };
     }
   }

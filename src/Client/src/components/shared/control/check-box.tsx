@@ -1,15 +1,10 @@
 import { Checkbox, CheckboxChangeEvent } from 'antd';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
-import {
-  ControlByModeMap,
-  DisplayMode,
-  MultiControlProps,
-  FormParams,
-  MultimodeControlValue,
-} from './multi-mode-control/types';
-// обьявлена 2 раза import { MultiControlProps } from './multi-mode-control/default-controls';
+import { ControlByModeMap, DisplayMode, FormParams, MultimodeControlValue } from './multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { useCallback } from 'react';
+import merge from 'lodash/merge';
+import { MultiControlProps } from './multi-mode-control/default-controls';
 
 const getSafeBoolean = (value: MultimodeControlValue): boolean => {
   if (typeof value === 'boolean') return value;
@@ -27,6 +22,13 @@ const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
 };
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+  if (!onChange) {
+    throw new Error('CommonEditorFormItemControl: "onChange" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   const handleChange = useCallback(
@@ -59,6 +61,12 @@ const formParams: FormParams = {
   rules,
 };
 
-export const CheckBox: React.FC<MultimodeControlProps> = (props) => (
-  <MultimodeControl {...props} value={false} controlMap={controlMap} formParams={formParams} />
-);
+export const CheckBox: React.FC<MultimodeControlProps> = (props) => {
+  const { formParams: externalFormParams } = props;
+  const finalFormParams = merge(
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
+  return <MultimodeControl {...props} value={false} controlMap={controlMap} formParams={finalFormParams} />;
+};

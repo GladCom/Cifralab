@@ -9,7 +9,7 @@ import {
   ViewSelectControlWrapper,
 } from './select-control-wrappers';
 import { EditorFormItemSelectControl } from './select-controls';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 const defaultControlByModeMap: ControlByModeMap = {
   [DisplayMode.VIEW]: DefaultViewControl,
@@ -43,7 +43,7 @@ export const QueryableSelectControl: React.FC<MultimodeControlProps> = (props) =
   const { formParams: externalFormParams, crud, controlMap, controlWrapperMap, ...restProps } = props;
   // Такой финт нужен для переопределения formParams при переиспользовании компонента,
   // например в компоненте BirthDate
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

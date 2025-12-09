@@ -5,7 +5,7 @@ import { MultiControlProps } from './multi-mode-control/default-controls';
 import { ControlByModeMap, DisplayMode, FormParams } from './multi-mode-control/types';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 const { Text } = Typography;
 
@@ -19,6 +19,13 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
   formParams,
   placeholder,
 }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+  if (!onChange) {
+    throw new Error('CommonEditorFormItemControl: "onChange" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   const formattValue = useCallback(
@@ -69,7 +76,7 @@ export const DateControl: React.FC<MultimodeControlProps> = (props) => {
 
   // Такой финт нужен для переопределения formParams при переиспользовании компонента,
   // например в компоненте BirthDate
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения
