@@ -1,4 +1,4 @@
-﻿import { fetchPFDOReport, fetchRostatReport, IReportRequest, fetchSummaryReport } from '@/api/reportsApi';
+﻿import { fetchPFDOReport, fetchRostatReport, IReportRequest, fetchSummaryReport } from '@/api/reports-api';
 
 export interface IReportCrud {
   getReport: (params: IReportRequest) => Promise<void>;
@@ -37,10 +37,10 @@ export class PFDOReportConfig extends BaseReportConfig {
 }
 
 export class SummaryReportConfig extends BaseReportConfig {
-  title = "отчёт по обучающимся";
+  title = 'отчёт по обучающимся';
   crud = {
     getReport: fetchSummaryReport,
-  }
+  };
 }
 
 export class RosstatReportConfig extends BaseReportConfig {

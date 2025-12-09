@@ -1,7 +1,6 @@
 ﻿import { useState, type HTMLAttributes, type ReactNode } from 'react';
 import IconArrow from '@assets/arrow-icon.svg';
 import styled from 'styled-components';
-import { MultimodeControlProps } from '@components/shared/control/multi-mode-control/multi-mode-control';
 
 interface IProps {
   children: ReactNode;

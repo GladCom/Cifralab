@@ -1,13 +1,5 @@
 ﻿import { z } from 'zod';
-import { apiFileRequest } from '@/api/apiClient';
-
-export const OrderResponseSchema = z.object({
-  id: z.string(),
-  number: z.string().nullable(),
-  date: z.coerce.date(),
-  kindOrderId: z.string().uuid(),
-  requestId: z.string().uuid(),
-});
+import { apiFileRequest } from '@/api/apiсlient';
 
 export const ReportRequestSchema = z.object({
   studentId: z.string().nullable(),

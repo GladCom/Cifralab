@@ -3,7 +3,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { RangeValue } from '@components/report/types';
 import { useMutation } from '@tanstack/react-query';
-import { IReportRequest } from '@/api/reportsApi';
+import { IReportRequest } from '@/api/reports-api';
 import DateTimePicker from '../shared/control/date-time-picker';
 import { IReportConfig } from '@/storage/catalog-config/report-config';
 import { GroupMultiSelect } from '@components/shared/control/selects/group-select';
