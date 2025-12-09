@@ -177,7 +177,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
       throw new InvalidOperationException("The student is not assigned to this request");
     }
 
-    if (request.Student.GroupStudent?.Any(g => g.GroupId == groupId))
+    if (request.Student.GroupStudent.Any(g => g.GroupId == groupId))
     {
       throw new InvalidOperationException("The student has already been enrolled in the group");
     }
