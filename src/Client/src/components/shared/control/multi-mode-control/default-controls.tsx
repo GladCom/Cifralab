@@ -13,7 +13,6 @@ export type MultiControlProps = {
   options?: unknown;
   //  TODO: a точно ли тут надо передавать значение а не событие?
   onChange?: (value: MultimodeControlValue) => void;
-  setValue?: (value: MultimodeControlValue) => void;
 };
 
 export const DefaultViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{value}</Text>;

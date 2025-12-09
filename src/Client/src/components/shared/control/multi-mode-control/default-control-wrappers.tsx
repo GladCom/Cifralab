@@ -56,7 +56,6 @@ export const EditableViewWrapper: React.FC<MultimodeWrapperControlProps> = ({ Co
 export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control, ...props }) => {
   const { value, defaultValue, formParams, setValue, setDisplayMode } = props;
   const { key, rules, normalize, hasFeedback } = formParams;
-
   const onSubmit = (formValue: { [key: string]: MultimodeControlValue }) => {
     const newValue = formValue[key];
     if (newValue !== undefined) {
@@ -96,7 +95,8 @@ export const EditorWrapper: React.FC<MultimodeWrapperControlProps> = ({ Control,
 };
 
 export const FormItemWrapper: React.FC<MultimodeWrapperControlProps> = (props) => {
-  const { Control, value, placeholder, crud, defaultValue, formParams, onChange, controlParams } = props;
+  const { Control, value, placeholder, crud, defaultValue, formParams, onChange, controlParams, setValue, options } =
+    props;
   const { key, name, normalize, hasFeedback, rules } = formParams;
   const { displayOptions } = controlParams;
   const { formItemMode } = displayOptions;
@@ -117,8 +117,9 @@ export const FormItemWrapper: React.FC<MultimodeWrapperControlProps> = (props) =
           placeholder={placeholder}
           formParams={formParams}
           crud={crud}
-          options={undefined}
+          options={options}
           onChange={onChange}
+          setValue={setValue}
         />
       </Form.Item>
     )

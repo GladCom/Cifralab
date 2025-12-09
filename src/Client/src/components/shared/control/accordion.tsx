@@ -1,6 +1,7 @@
 ﻿import { useState, type HTMLAttributes, type ReactNode } from 'react';
-import IconArrow from '@/assets/arrow-icon.svg';
+import IconArrow from '@assets/arrow-icon.svg';
 import styled from 'styled-components';
+import { MultimodeControlProps } from '@components/shared/control/multi-mode-control/multi-mode-control';
 
 interface IProps {
   children: ReactNode;
@@ -16,7 +17,7 @@ interface IMainLayoutProps {
 interface IArrowIconProps {
   isOpen: boolean;
 }
-
+// TODO: Надо привеси к стандартному виду ()
 const MainLayout = styled.div<IMainLayoutProps>`
   display: flex;
   flex-direction: row;
@@ -44,7 +45,6 @@ const AccButton = styled.button`
   cursor: pointer;
 `;
 
-//TODO: исправить на интерфейс
 const ArrowIcon = styled.img<IArrowIconProps>`
   width: 16px;
   height: 16px;
@@ -53,20 +53,18 @@ const ArrowIcon = styled.img<IArrowIconProps>`
   transition: max-height 0.3s ease-in-out;
 `;
 
-const Accordion = (props: IProps) => {
+export const Accordion: React.FC<IProps> = ({ buttonProps, wrapperProps, imageProps, bodyProps, children }) => {
   const [isView, setIsView] = useState(false);
   const handlerBtnArrow = () => {
     setIsView((v) => !v);
   };
 
   return (
-    <MainLayout {...props.wrapperProps} className="accordion" isView={isView}>
-      <AccButton {...props.buttonProps} onClick={handlerBtnArrow}>
-        <ArrowIcon {...props.imageProps} isOpen={isView} src={IconArrow} alt="Стрелка для открытия аккордеона" />
+    <MainLayout {...wrapperProps} className="accordion" isView={isView}>
+      <AccButton {...buttonProps} onClick={handlerBtnArrow}>
+        <ArrowIcon {...imageProps} isOpen={isView} src={IconArrow} alt="Стрелка для открытия аккордеона" />
       </AccButton>
-      <div {...props.bodyProps}>{props.children}</div>
+      <div {...bodyProps}>{children}</div>
     </MainLayout>
   );
 };
-
-export default Accordion;

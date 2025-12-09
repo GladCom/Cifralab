@@ -1,9 +1,7 @@
-﻿import React, { ReactNode, useState } from 'react';
+﻿import { ReactNode, useState } from 'react';
 import { Flex } from 'antd';
 
-interface IProps {}
-
-export const AccordionPanel: React.FC<IProps> = ({}) => {
+export const AccordionPanel = () => {
   const [accordion] = useState<ReactNode[]>([]);
   return (
     <Flex>

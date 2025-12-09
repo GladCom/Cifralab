@@ -1,5 +1,5 @@
 ﻿import { DatePicker } from 'antd';
-import { RangeValue } from '@/types';
+import { RangeValue } from '@components/report/types';
 import type { RangePickerProps } from 'antd/es/date-picker';
 const { RangePicker } = DatePicker;
 

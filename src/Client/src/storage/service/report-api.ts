@@ -1,6 +1,6 @@
 ﻿import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import apiUrl from './api-url';
-import { IGroupFilter } from '@/types';
+import { IGroupFilter } from '@components/report/types';
 
 const baseUrl = `${apiUrl}/report`;
 

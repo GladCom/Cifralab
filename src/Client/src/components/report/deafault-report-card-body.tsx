@@ -1,7 +1,7 @@
 ﻿import { Button, Card, Divider, Flex, message, Space, Typography } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { RangeValue } from '@/types';
+import { RangeValue } from '@components/report/types';
 import { useMutation } from '@tanstack/react-query';
 import { IReportRequest } from '@/api/reportsApi';
 import DateTimePicker from '../shared/control/date-time-picker';
