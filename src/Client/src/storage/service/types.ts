@@ -41,6 +41,8 @@ export enum DtoKeys {
   DOCUMENT_NUMBER = 'documentNumber',
   DATE_TAKE_DIPLOM = 'dateTakeDiplom',
   DISABILITY = 'disability',
+  AGREEMENT = 'agreement',
+  STATUS_ENTRANC_EXAMS = 'statusEntrancExams',
 }
 
 export type SexHuman = z.infer<typeof SexHumanEnum>;

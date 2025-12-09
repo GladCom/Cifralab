@@ -64,6 +64,7 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
   const [searchText, setSearchText] = useState('');
   const [queryString, setQueryString] = useState('');
   const [query, setQuery] = useState<Query>({});
+  //  TODO: data не используется? Скорей всего надо исправлять.
   const [_data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({

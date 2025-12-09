@@ -7,6 +7,7 @@ export const EditorFormItemSelectControl: React.FC<MultiControlProps> = (props) 
   if (!formParams) {
     throw Error('EditorFormItemSelectControl: formParams is required but not provided');
   }
+
   const { key } = formParams;
 
   const filterOption = (input: string, option?: { label?: string }) => {

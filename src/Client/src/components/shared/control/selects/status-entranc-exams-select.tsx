@@ -3,6 +3,7 @@ import { MultiControlProps } from '../multi-mode-control/default-controls';
 import { ControlByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
+import merge from 'lodash/merge';
 
 const { Text } = Typography;
 
@@ -23,6 +24,10 @@ const keyValueMap = {
 const ViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{keyValueMap[value]}</Text>;
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
+  if (!formParams) {
+    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+  }
+
   const { key } = formParams;
 
   return <Select key={key} defaultValue={value} style={{ minWidth: '200px' }} options={options} onChange={onChange} />;
@@ -50,5 +55,11 @@ const formParams: FormParams = {
 };
 
 export const StatusEntrancExamsSelect: React.FC<MultimodeControlProps> = (props) => {
-  return <MultimodeControl {...props} controlMap={controlMap} formParams={formParams} />;
+  const { formParams: externalFormParams } = props;
+  const finalFormParams = merge(
+    {},
+    formParams, // база
+    externalFormParams, // переопределения
+  );
+  return <MultimodeControl {...props} controlMap={controlMap} formParams={finalFormParams} />;
 };

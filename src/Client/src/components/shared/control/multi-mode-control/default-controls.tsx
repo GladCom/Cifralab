@@ -43,6 +43,7 @@ export const DefaultFormItemControl: React.FC<MultiControlProps> = ({ value, onC
   if (!formParams) {
     throw Error('EditorFormItemSelectControl: formParams is required but not provided');
   }
+
   const { key } = formParams;
 
   const handleChange = useCallback(
