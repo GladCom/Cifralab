@@ -9,6 +9,7 @@ using Students.Models.Filters;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using Students.Models.Searches.Searches;
 
 namespace Students.APIServer.Repository;
 
@@ -292,6 +293,19 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
                         _ => status.ToString()
                     }
                 }).ToList();
+    }
+
+    /// <inheritdoc/>
+    public override async Task<IEnumerable<Request>> GetSearched(Search<Request> search)
+    {
+        IQueryable<Request> query = this.DbSet
+            .Include(r => r.Student)
+            .ThenInclude(s => s!.TypeEducation)
+            .Include(r => r.EducationProgram)
+            .Include(r => r.Status);
+
+        var predicate = search.GetSearchPredicate();
+        return await this.Get(predicate, query);
     }
 
     #endregion
