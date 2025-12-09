@@ -167,7 +167,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
       throw new ArgumentException("Request not found");
     }
     
-    if (group.EducationProgramId != request?.EducationProgramId)
+    if (group.EducationProgramId != request.EducationProgramId)
     {
       throw new InvalidOperationException("The education program group does not match the requested program");
     }
