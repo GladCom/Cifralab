@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
+import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import config from '../../storage/catalog-config/person-request';
+import { personRequestConfig } from '../../storage/catalog-config/person-request';
+import { DetailsPageData } from '../shared/layout/details-page-data';
 
 const RequestDetailsPage = () => {
   const { id } = useParams();
@@ -10,7 +11,7 @@ const RequestDetailsPage = () => {
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress] = useState(false);
   const [initialData, setInitialData] = useState({});
-  const { properties, crud } = config;
+  const { properties, crud } = personRequestConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 

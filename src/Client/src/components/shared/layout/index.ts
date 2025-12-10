@@ -7,7 +7,6 @@ import Logo from './logo';
 import Navbar from './navbar';
 import Spinner from './spinner';
 import Loading from './loading';
-import DetailsPageData from './details-page-data';
 import RoutingWarningModal from './routing-warning-modal';
 import EntityTable from './entity-table';
 import DetailsPageHeader from './details-page-header';
@@ -23,7 +22,6 @@ export {
   Navbar,
   Spinner,
   Loading,
-  DetailsPageData,
   RoutingWarningModal,
   EntityTable,
   DetailsPageHeader,

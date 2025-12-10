@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
+import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import config from '../../storage/catalog-config/group';
 import { Group } from '../../storage/service/types';
+import { DetailsPageData } from '../shared/layout/details-page-data';
 
 const GroupDetailsPage = () => {
   const { id } = useParams();
