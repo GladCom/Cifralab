@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
@@ -15,6 +16,7 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   #region Поля и свойства
 
   private readonly IStudentHistoryRepository _studentHistoryRepository;
+  private readonly IGroupRepository _groupRepository;
 
   #endregion
 
@@ -49,7 +51,8 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   {
     return await this.GetOne(x => x.Id == studentId, this.DbSet
       .Include(x => x.Groups)
-      .Include(x => x.Requests));
+      .Include(x => x.Requests)
+      .AsNoTracking());
   }
 
   /// <summary>
@@ -98,6 +101,88 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
 
       throw new Exception(string.Empty, e);
     }
+  }
+  
+  /// <summary>
+  /// Зачисление студента в группу.
+  /// </summary>
+  /// <param name="studentId">ID студента.</param>
+  /// <param name="requestId">ID заявки студента.</param>
+  /// <param name="groupId">ID группы в которую надо зачислить студента.</param>
+  /// <returns>Студент с обновленными группами.</returns>
+  /// <exception cref="ArgumentException">Возникает в случае если не сущетсвует группа студент или заявка.</exception>
+  /// <exception cref="InvalidOperationException">Возникает при попытке добавить студента в группу, где он уже есть
+  /// или в случае, если студент не подавал туда заявку или заявка уже использована.</exception>
+  public async Task<Student?> EnrollStudentInGroup(Guid requestId, Guid groupId)
+  {
+    var request = await this.GetValidEnrollmentRequestWithStudent(requestId, groupId);
+
+    try
+    {
+      var newGroupStudent = new GroupStudent()
+      {
+        StudentId = request.Student.Id,
+        GroupId = groupId,
+        RequestId = requestId
+      };
+      if (request.Student.GroupStudent == null)
+        request.Student.GroupStudent = new List<GroupStudent>();
+      await this._context.AddAsync(newGroupStudent);
+      await this._context.SaveChangesAsync();
+      return request.Student;
+    }
+    
+    // Так как добавляем GroupStudent в которой первичный ключ requestId ошибка говорит о том,
+    // что по этой заявке студент уже зачислен в группу
+    catch (DbUpdateException ex) when (ex.InnerException is PostgresException pgEx && pgEx.SqlState == "23505")
+    {
+      throw new InvalidOperationException("Based on this request, the student has already been enrolled in the group.", ex);
+    }
+  }
+
+  /// <summary>
+  /// Получить проверенную заявку для зачисления со студентом.
+  /// </summary>
+  /// <param name="requestId">Id заявки студента.</param>
+  /// <param name="groupId">ID группы в которую надо зачислить студента.</param>
+  /// <exception cref="ArgumentException">Возвращается если группа или заявка не найдены.</exception>
+  /// <exception cref="InvalidOperationException">Возвращается если действие зачисления недопустимо.</exception>
+  /// <returns>Заявка со студентом.</returns>
+  private async Task<Request> GetValidEnrollmentRequestWithStudent(Guid requestId, Guid groupId)
+  {
+    var group = await this._context.Groups.FindAsync(groupId);
+    if (group == null)
+    {
+      throw new ArgumentException("Group not found");
+    }
+    
+    var request = await this._context.Requests
+      .Include(r => r.Student)
+        .ThenInclude(s=>s.GroupStudent)
+      .Include(r=> r.EducationProgram)
+      .SingleOrDefaultAsync(r => r.Id == requestId);
+
+    if (request == null)
+    {
+      throw new ArgumentException("Request not found");
+    }
+    
+    if (group.EducationProgramId != request.EducationProgramId)
+    {
+      throw new InvalidOperationException("The education program group does not match the requested program");
+    }
+
+    if (request.Student == null)
+    {
+      throw new InvalidOperationException("The student is not assigned to this request");
+    }
+
+    if (request.Student.GroupStudent.Any(g => g.GroupId == groupId))
+    {
+      throw new InvalidOperationException("The student has already been enrolled in the group");
+    }
+    
+    return request;
   }
 
   #endregion
