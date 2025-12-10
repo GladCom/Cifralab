@@ -3,18 +3,32 @@ import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeade
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import config from '../../storage/catalog-config/person-request';
+import DetermineStudentModal from './determine-student-modal';
+import {useGetSimilarStudentsQuery} from '../../storage/service/student-api';
 
 const RequestDetailsPage = () => {
   const { id } = useParams();
-  const [requestData, setRequestData] = useState({});
+  const [requestData, setRequestData] = useState<Record<string, any>>({});
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress] = useState(false);
-  const [initialData, setInitialData] = useState({});
+  const [initialData, setInitialData] = useState<Record<string, any>>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { properties, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
   const [editRequest] = useEditOneAsync();
+
+  const fullname = `${requestData.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`.trim();
+  const { data: similarStudents, isLoading: isLoadingSimilar } = useGetSimilarStudentsQuery(
+    {
+      fullname,
+      adress: requestData.address || '',
+      email: requestData.email || '',
+      phone: requestData.phone || '',
+    },
+    { skip: !isModalOpen }
+  );
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
@@ -39,6 +53,10 @@ const RequestDetailsPage = () => {
     setIsChanged(false);
   }, [initialData]);
 
+  const handleOpenModal = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
   const title = `Заявки - ${requestData.family} ${requestData?.name} ${requestData?.patron}`;
 
   return isLoading || isFetching ? (
@@ -58,11 +76,22 @@ const RequestDetailsPage = () => {
           </Button>
         </Col>
         <Col>
-          <Button onClick={onCancel} disabled={isSaveInProgress}>
+          <Button onClick={onCancel} disabled={isSaveInProgress} style={{ marginRight: '10px' }}>
             Отмена
           </Button>
         </Col>
+        <Col>
+          <Button onClick={handleOpenModal} style={{ marginRight: '10px' }}>
+            Определить студента
+          </Button>
+        </Col>
       </Row>
+      <DetermineStudentModal 
+        open={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        students={similarStudents}
+        isLoading={isLoadingSimilar}
+      />
       <RoutingWarningModal show={blocker.state === 'blocked'} blocker={blocker} />
     </Layout>
   );

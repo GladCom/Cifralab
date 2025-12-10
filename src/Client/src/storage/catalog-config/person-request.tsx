@@ -15,6 +15,7 @@ import { CheckCircleFilled } from '@ant-design/icons';
 import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 import { personRequestFormModel } from '../form-model/person-request';
 import { EmailCopyButton } from '../../components/shared/control/email-copy-button';
+import TransferToStudentButton from '../../components/shared/control/transfer-to-student-button';
 import { useGetEducationProgramQuery } from '../service/education-program-api';
 import { useGetTypeEducationQuery } from '../service/type-education-api';
 import { useGetEntranceExamStatusesQuery } from '../service/request-api';
@@ -188,8 +189,8 @@ export default {
     {
       title: 'Обучающийся',
       key: 'trined',
-      render: (_, { trained }) => {
-        return trained && <CheckCircleFilled style={{ color: '#52c41a' }} />;
+      render: (_, record) => {
+        return <TransferToStudentButton studentId={record.studentId} />;
       },
     },
   ],
