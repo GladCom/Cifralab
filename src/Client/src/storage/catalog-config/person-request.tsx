@@ -49,7 +49,7 @@ const StatusRequestForm = ({ record }) => {
       defaultValue={statusRequest}
       style={{ minWidth: '150px' }}
       placeholder="Статус заявки"
-      filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+      filterOption={(input, option) => (option?.label ?? '').toString().toLowerCase().includes(input.toLowerCase())}
       onChange={onChange}
       variant="borderless"
       loading={isLoading || isFetching}
