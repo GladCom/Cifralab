@@ -23,7 +23,7 @@ type AddOneFormProps = {
 export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formModel, crud }) => {
   const { useAddOneAsync } = crud;
   const { showAddOneForm, setShowAddOneForm } = visibilityControl;
-  const [addOne, { _error, _isLoading }] = useAddOneAsync();
+  const [addOne] = useAddOneAsync();
   const [form] = Form.useForm();
 
   const onSubmit = (formValues) => {
