@@ -46,10 +46,12 @@ export const studentsApi = createApi({
     }),
     getSimilarStudents: builder.query({
       query: ({ fullname, adress, email, phone }) => {
-        const encoded = encodeURIComponent(JSON.stringify({fullname: fullname, adress: adress, email: email, phone: phone}));
+        const encoded = encodeURIComponent(
+          JSON.stringify({ fullname: fullname, adress: adress, email: email, phone: phone }),
+        );
         return `Filter?filterWithoutType=${encoded}`;
       },
-      providesTags: ['Students']
+      providesTags: ['Students'],
     }),
   }),
 });
@@ -62,5 +64,5 @@ export const {
   useEditStudentMutation,
   useRemoveStudentMutation,
   useGetStudentSearchQuery,
-  useGetSimilarStudentsQuery
+  useGetSimilarStudentsQuery,
 } = studentsApi;

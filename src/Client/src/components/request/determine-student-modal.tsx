@@ -10,7 +10,7 @@ type Student = {
   phone?: string | null;
   address?: string | null;
   email?: string | null;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 type DetermineStudentModalProps = {
@@ -52,7 +52,13 @@ const DetermineStudentModal = ({ open, onClose, students, isLoading }: Determine
       centered
       cancelButtonProps={{ style: { display: 'none' } }}
       footer={[
-        <Button key="confirm" type="primary" onClick={handleConfirm} disabled={!selectedStudentId} style={{ marginRight: '8px' }}>
+        <Button
+          key="confirm"
+          type="primary"
+          onClick={handleConfirm}
+          disabled={!selectedStudentId}
+          style={{ marginRight: '8px' }}
+        >
           Подтвердить
         </Button>,
         <Button key="close" onClick={onClose}>
@@ -84,18 +90,10 @@ const DetermineStudentModal = ({ open, onClose, students, isLoading }: Determine
                       textAlign: 'center',
                     }}
                   >
-                    <div style={{ fontWeight: isSelected ? 'bold' : 'normal' }}>
-                      {getStudentFullName(student)}
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'grey'}}>
-                      {student.phone}
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'grey'}}>
-                      {student.email}
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'grey'}}>
-                      {student.address}
-                    </div>
+                    <div style={{ fontWeight: isSelected ? 'bold' : 'normal' }}>{getStudentFullName(student)}</div>
+                    <div style={{ fontSize: '12px', color: 'grey' }}>{student.phone}</div>
+                    <div style={{ fontSize: '12px', color: 'grey' }}>{student.email}</div>
+                    <div style={{ fontSize: '12px', color: 'grey' }}>{student.address}</div>
                   </div>
                 </Col>
               );
@@ -112,4 +110,3 @@ const DetermineStudentModal = ({ open, onClose, students, isLoading }: Determine
 };
 
 export default DetermineStudentModal;
-

@@ -4,13 +4,15 @@ import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import config from '../../storage/catalog-config/person-request';
 import DetermineStudentModal from './determine-student-modal';
-import {useGetSimilarStudentsQuery} from '../../storage/service/student-api';
+import { useGetSimilarStudentsQuery } from '../../storage/service/student-api';
 
 const RequestDetailsPage = () => {
   const { id } = useParams();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [requestData, setRequestData] = useState<Record<string, any>>({});
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [initialData, setInitialData] = useState<Record<string, any>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { properties, crud } = config;
@@ -27,7 +29,7 @@ const RequestDetailsPage = () => {
       email: requestData.email || '',
       phone: requestData.phone || '',
     },
-    { skip: !isModalOpen }
+    { skip: !isModalOpen },
   );
 
   useEffect(() => {
@@ -86,8 +88,8 @@ const RequestDetailsPage = () => {
           </Button>
         </Col>
       </Row>
-      <DetermineStudentModal 
-        open={isModalOpen} 
+      <DetermineStudentModal
+        open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         students={similarStudents}
         isLoading={isLoadingSimilar}
