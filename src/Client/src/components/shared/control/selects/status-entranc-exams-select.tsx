@@ -21,7 +21,12 @@ const keyValueMap = {
   3: 'Выполнено',
 };
 
-const ViewControl: React.FC<MultiControlProps> = ({ value }) => <Text>{keyValueMap[value]}</Text>;
+const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
+  const safeValue = typeof value === 'number' && keyValueMap.hasOwnProperty(value)
+    ? keyValueMap[value]
+    : '—'; // или пустая строка, или другое значение по умолчанию
+  return <Text>{keyValueMap[safeValue]}</Text>;
+};
 
 const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ value, onChange, formParams }) => {
   if (!formParams) {
