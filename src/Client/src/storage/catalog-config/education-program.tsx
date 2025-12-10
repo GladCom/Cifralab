@@ -44,7 +44,7 @@ export default {
   detailsLink: 'educationProgram',
   hasDetailsPage: true,
   serverPaged: false,
-  properties: educationProgramFormModel,
+  formModel: educationProgramFormModel,
   searchPlaceholder: 'Поиск',
   crud: {
     useGetAllAsync,

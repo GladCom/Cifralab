@@ -15,7 +15,7 @@ export default {
   detailsLink: 'scopeOfActivity',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: scopeOfActivityFormModel,
+  formModel: scopeOfActivityFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

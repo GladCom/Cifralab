@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { AddOneForm } from '../catalog-provider/forms/add-one-form';
 import { SearchInput } from '../control/search-input';
 import { EntityTableConfig } from './entity-table';
+import Spinner from './spinner';
 
 const containerStyle = {
   height: '7vh',
@@ -26,8 +27,12 @@ type TablePageHeaderProps = {
 };
 
 export const TablePageHeader: React.FC<TablePageHeaderProps> = ({ config, title, onSearch }) => {
-  const { properties, crud, searchPlaceholder } = config;
+  const { formModel, crud, searchPlaceholder } = config;
   const [showAddOneForm, setShowAddOneForm] = useState(false);
+
+  if (!formModel) {
+    return <Spinner />
+  }
 
   return (
     <>
@@ -42,7 +47,7 @@ export const TablePageHeader: React.FC<TablePageHeaderProps> = ({ config, title,
           </Button>
         </Flex>
       </Flex>
-      <AddOneForm visibilityControl={{ showAddOneForm, setShowAddOneForm }} formModel={properties} crud={crud} />
+      <AddOneForm visibilityControl={{ showAddOneForm, setShowAddOneForm }} formModel={formModel} crud={crud} />
     </>
   );
 };

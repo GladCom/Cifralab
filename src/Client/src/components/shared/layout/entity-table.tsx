@@ -4,6 +4,7 @@ import { Table } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import { TablePageHeader } from '../layout/index';
 import FilterPanel, { Query, FilterConfig } from '../catalog-provider/filter-panel';
+import { FormModel } from '../../../storage/form-model/types';
 
 type TableColumn = ColumnType<unknown> & {
   sorterKey?: string;
@@ -48,7 +49,7 @@ export type EntityTableConfig = {
   columns: TableColumn[];
   serverPaged: boolean;
   dataConverter: (data: unknown) => unknown[];
-  properties?: unknown;
+  formModel?: FormModel;
   searchPlaceholder?: string;
 } & FilterConfig;
 

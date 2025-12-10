@@ -66,7 +66,7 @@ export const personRequestConfig: EntityTableConfig = {
   detailsLink: 'requests',
   hasDetailsPage: true,
   serverPaged: true,
-  properties: personRequestFormModel,
+  formModel: personRequestFormModel,
   searchPlaceholder: 'Поиск по заявкам',
   crud: {
     useGetAllAsync,

@@ -1,4 +1,3 @@
-//много правок не определен тип ANY
 import { Modal, Form } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
 import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
@@ -19,7 +18,7 @@ type AddOneFormProps = {
   formModel: FormModel;
   crud: CrudType;
 };
-// ошибка осталась не нашел как исправить
+
 export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formModel, crud }) => {
   const { useAddOneAsync } = crud;
   const { showAddOneForm, setShowAddOneForm } = visibilityControl;

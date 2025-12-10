@@ -8,7 +8,7 @@ const EditForm = ({ item, control, config }) => {
   const [form] = Form.useForm();
   const [itemData, setItemData] = useState(item);
   const { showEditForm, setShowEditForm } = control;
-  const { properties, crud } = config;
+  const { formModel, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isSuccess, isFetching } = useGetOneByIdAsync(id);
   const [editItem, { error: _editItemError, isLoading: _isEdittingItem }] = useEditOneAsync();
@@ -54,7 +54,7 @@ const EditForm = ({ item, control, config }) => {
         </Form>
       )}
     >
-      {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
+      {Object.entries(formModel).map(([key, { name, type, formParams, params }]) => {
         const Item: ComponentType<MultimodeControlProps> = type;
 
         return (

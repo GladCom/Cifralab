@@ -13,7 +13,7 @@ export default {
   detailsLink: 'financingType',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: financingTypeFormModel,
+  formModel: financingTypeFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,
