@@ -4,19 +4,13 @@ import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mo
 import { ComponentType } from 'react';
 import { FormModel } from '../../../../storage/form-model/types';
 
-type UseAddOneAsyncReturnType = [(values: Record<string, unknown>) => void, { error?: unknown; isLoading: boolean }];
-
-type CrudType = {
-  useAddOneAsync: () => UseAddOneAsyncReturnType;
-};
-
 type AddOneFormProps = {
   visibilityControl: {
     showAddOneForm: boolean;
     setShowAddOneForm: React.Dispatch<React.SetStateAction<boolean>>;
   };
   formModel: FormModel;
-  crud: CrudType;
+  crud: unknown;
 };
 
 export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formModel, crud }) => {

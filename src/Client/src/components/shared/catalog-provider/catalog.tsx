@@ -153,10 +153,18 @@ const Catalog: React.FC<CatalogProps> = ({ config, title }) => {
         </ConfigProvider>
       </Table>
       {showEditForm && (
-        <EditForm item={item} visibilityControl={{ visible: showEditForm, setVisible: setShowEditForm }} config={config} />
+        <EditForm
+          item={item}
+          visibilityControl={{ visible: showEditForm, setVisible: setShowEditForm }}
+          config={config}
+        />
       )}
       {showRemoveForm && (
-        <RemoveForm item={item} visibilityControl={{ visible: showRemoveForm, setVisible: setShowRemoveForm }} config={config} />
+        <RemoveForm
+          item={item}
+          visibilityControl={{ visible: showRemoveForm, setVisible: setShowRemoveForm }}
+          config={config}
+        />
       )}
     </>
   );
