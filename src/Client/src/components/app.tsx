@@ -6,10 +6,7 @@ import GroupsPage from './group/groups-page';
 import GroupDetailsPage from './group/group-details-page';
 import ProgramsPage from './program/programs-page';
 import ProgramDetailsPage from './program/program-details-page';
-
 import PersonRequestsPage from './request/person-requests-page';
-import RequestDetailPage from './request/request-detail-page';
-import OrdersDetailsPage from './order/orders-details-page';
 import OrdersPage from './order/orders-page';
 import ReportsPage from './report/reports-page';
 import { NotificationProvider } from '../notification/notification-context';
@@ -24,6 +21,7 @@ import FEAProgramPage from './catalog-page/fea-program-page';
 import KindEducationProgramPage from './catalog-page/kind-education-program-page';
 import ScopeOfActivityPage from './catalog-page/scope-of-activity-page';
 import { StudentDetailsPage } from './student/student-details-page';
+import { RequestDetailPage } from './request/request-detail-page';
 
 const App = () => {
   return (
@@ -108,14 +106,6 @@ const App = () => {
           element={
             <PrivateRoute>
               <OrdersPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/order/:id"
-          element={
-            <PrivateRoute>
-              <OrdersDetailsPage />
             </PrivateRoute>
           }
         />
