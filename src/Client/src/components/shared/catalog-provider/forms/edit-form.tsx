@@ -9,7 +9,7 @@ type EditFormProps = {
   visibilityControl: {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  }
+  };
   config: EntityTableConfig;
 };
 

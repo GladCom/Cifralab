@@ -74,7 +74,6 @@ export const EducationProgramSchema = z.object({
   qualificationName: z.string().nullable().describe('Наименование квалификации, профессии, специальности'),
 });
 
-
 export const RequestDTOSchema = z.object({
   studentFullName: z.string().nullable().optional().describe('ФИО.'),
   family: z.string().nullable().optional().describe('Фамилия.'),
@@ -94,7 +93,9 @@ export const RequestDTOSchema = z.object({
   iT_Experience: z.string().nullable().optional().describe('Опыт в ИТ'),
   speciality: z.string().nullable().optional().describe('Специальность'),
   projects: z.string().nullable().optional().describe('Проекты'),
-  statusEntrancExams: StatusEntrancExamsEnum.describe('Статусы вступительных экзаменов').transform(val => Number(val) as 0 | 1 | 2 | 3),
+  statusEntrancExams: StatusEntrancExamsEnum.describe('Статусы вступительных экзаменов').transform(
+    (val) => Number(val) as 0 | 1 | 2 | 3,
+  ),
   phone: z.string().nullable().optional().describe('Телефон'),
   scopeOfActivityLevelOneId: z.uuid().nullable().optional().describe('Ид сферы деятельности 1 уровень'),
   scopeOfActivityLevelTwoId: z.uuid().nullable().optional().describe('Ид сферы деятельности 2 уровень'),

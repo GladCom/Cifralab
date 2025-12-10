@@ -22,9 +22,7 @@ const keyValueMap = {
 };
 
 const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
-  const safeValue = typeof value === 'number' && keyValueMap.hasOwnProperty(value)
-    ? keyValueMap[value]
-    : '—'; // или пустая строка, или другое значение по умолчанию
+  const safeValue = typeof value === 'number' && Object.hasOwn(keyValueMap, value) ? keyValueMap[value] : '—';
   return <Text>{keyValueMap[safeValue]}</Text>;
 };
 

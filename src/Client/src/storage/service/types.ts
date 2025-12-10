@@ -1,5 +1,13 @@
 import z from 'zod';
-import { EducationProgramSchema, GroupSchema, RequestDTOSchema, RequestSchema, SexHumanEnum, StatusEntrancExamsEnum, StudentSchema } from './schemas';
+import {
+  EducationProgramSchema,
+  GroupSchema,
+  RequestDTOSchema,
+  RequestSchema,
+  SexHumanEnum,
+  StatusEntrancExamsEnum,
+  StudentSchema,
+} from './schemas';
 
 /**
  * По этим ключам формируются поля API-сущностей в payload запросов.

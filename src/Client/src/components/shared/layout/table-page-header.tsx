@@ -31,7 +31,7 @@ export const TablePageHeader: React.FC<TablePageHeaderProps> = ({ config, title,
   const [showAddOneForm, setShowAddOneForm] = useState(false);
 
   if (!formModel) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   return (
