@@ -53,7 +53,7 @@ public class FRDOReportRepository : BaseReportRepository<FRDOModel>
   }
 
   /// <summary>
-  ///   Инициализация свойств оъекта.
+  ///   Инициализация свойств объекта.
   /// </summary>
   /// <param name="student">Сущность.</param>
   /// <param name="group">Сущность.</param>
