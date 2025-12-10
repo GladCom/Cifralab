@@ -49,7 +49,7 @@ export type EntityTableConfig = {
   columns: TableColumn[];
   serverPaged: boolean;
   dataConverter: (data: unknown) => unknown[];
-  formModel?: FormModel;
+  formModel: FormModel;
   searchPlaceholder?: string;
 } & FilterConfig;
 

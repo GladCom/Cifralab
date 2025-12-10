@@ -3,7 +3,7 @@ import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shar
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import config from '../../storage/catalog-config/group';
-import { Group } from '../../storage/service/types';
+import type { Group } from '../../storage/service/types';
 import { DetailsPageData } from '../shared/layout/details-page-data';
 
 const GroupDetailsPage = () => {
@@ -11,7 +11,7 @@ const GroupDetailsPage = () => {
   const [groupData, setGroupData] = useState<Group>();
   const [initialData, setInitialData] = useState<Group>();
   const [isChanged, setIsChanged] = useState(false);
-  const { properties, crud } = config;
+  const { formModel, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
@@ -40,6 +40,10 @@ const GroupDetailsPage = () => {
     setIsChanged(false);
   }, [initialData]);
 
+  if (!groupData) {
+    return <Loading />;
+  }
+
   const title = `Группы - ${groupData?.name}`;
 
   return isLoading || isFetching ? (
@@ -48,7 +52,7 @@ const GroupDetailsPage = () => {
     <Layout>
       <DetailsPageHeader title={title} />
       <h2 style={{ padding: '3vh' }}>{groupData?.name}</h2>
-      <DetailsPageData items={properties} data={groupData} editData={setGroupData} setIsChanged={setIsChanged} />
+      <DetailsPageData items={formModel} data={groupData} editData={setGroupData} setIsChanged={setIsChanged} />
       <hr />
       <Row>
         <Col>
