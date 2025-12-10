@@ -6,7 +6,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex, Tooltip } from 'antd';
 import { ValidateStatus } from 'antd/es/form/FormItem';
 
-const containerStyle = {
+const containerStyle: React.CSSProperties = {
   background: 'linear-gradient(to bottom right, #e968a4, #005aff)',
 };
 

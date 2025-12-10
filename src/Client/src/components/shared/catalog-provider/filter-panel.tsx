@@ -2,7 +2,7 @@ import { Flex, Select } from 'antd';
 import React from 'react';
 import { DtoKeys } from '../../../storage/service/types';
 
-const style = {
+const style: React.CSSProperties = {
   height: '10vh',
   padding: '10px',
 };

@@ -2,7 +2,7 @@ import Header from './header';
 import Content from './content';
 import Empty from './empty';
 import Footer from './footer';
-import Layout from './layout';
+import { Layout } from './layout';
 import Logo from './logo';
 import Navbar from './navbar';
 import Spinner from './spinner';
