@@ -19,7 +19,7 @@ const IsArchive = ({ record }) => {
   const { id, isArchive } = record;
   const [editProgram, { isSuccess, isError }] = useEditOneAsync();
   const checkboxRef = useRef(null);
-  const [_status, setStatus] = useState(null);
+  const [_status, setStatus] = useState<string>();
 
   useEffect(() => {
     if (isError) {
@@ -33,7 +33,8 @@ const IsArchive = ({ record }) => {
     delete editetProgram.educationForm;
     delete editetProgram.kindDocumentRiseQualification;
     editProgram({ id, item: { ...editetProgram, isArchive: target.checked } });
-    checkboxRef.current.blur();
+    // TODO: вроде, лишний код. Если проблем не будет - удалить.
+    //checkboxRef.current.blur();
   };
 
   return <Checkbox ref={checkboxRef} defaultChecked={isArchive} onChange={onChange} />;

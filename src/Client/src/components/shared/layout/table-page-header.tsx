@@ -3,21 +3,36 @@ import { Flex, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { AddOneForm } from '../catalog-provider/forms/add-one-form';
 import { SearchInput } from '../control/search-input';
+import { EntityTableConfig } from './entity-table';
 
-const style = {
+const containerStyle = {
   height: '7vh',
   minHeight: '50px',
   padding: '1vh',
 };
 
-const TablePageHeader = ({ config, title, onSearch }) => {
+const headerStyle = {
+  title: {
+    margin: '2vh',
+    fontSize: '1.5rem',
+    flex: 1,
+  } as const,
+};
+
+type TablePageHeaderProps = {
+  config: EntityTableConfig;
+  title: string;
+  onSearch?: (value: any) => void;
+};
+
+export const TablePageHeader: React.FC<TablePageHeaderProps> = ({ config, title, onSearch }) => {
   const { properties, crud, searchPlaceholder } = config;
   const [showAddOneForm, setShowAddOneForm] = useState(false);
 
   return (
     <>
-      <Flex style={style} className="border-bottom border-primary" justify="space-between" align="center">
-        <h3 style={styles.title}>{title}</h3>
+      <Flex style={containerStyle} className="border-bottom border-primary" justify="space-between" align="center">
+        <h3 style={headerStyle.title}>{title}</h3>
 
         <Flex justify="flex-end" align="center" gap={8}>
           {searchPlaceholder && <SearchInput placeholder={searchPlaceholder} onSearch={onSearch} />}
@@ -31,13 +46,3 @@ const TablePageHeader = ({ config, title, onSearch }) => {
     </>
   );
 };
-
-const styles = {
-  title: {
-    margin: '2vh',
-    fontSize: '1.5rem',
-    flex: 1,
-  } as const,
-};
-
-export default TablePageHeader;

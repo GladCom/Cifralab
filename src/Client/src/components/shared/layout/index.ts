@@ -11,7 +11,7 @@ import DetailsPageData from './details-page-data';
 import RoutingWarningModal from './routing-warning-modal';
 import EntityTable from './entity-table';
 import DetailsPageHeader from './details-page-header';
-import TablePageHeader from './table-page-header';
+import { TablePageHeader } from './table-page-header';
 
 export {
   Header,

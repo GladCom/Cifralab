@@ -4,7 +4,7 @@ import FilterPanel from './filter-panel';
 import RemoveForm from './forms/remove-form';
 import EditForm from './forms/edit-form';
 import { Button, Table, ConfigProvider } from 'antd';
-import TablePageHeader from '../layout/table-page-header';
+import { TablePageHeader } from '../layout/table-page-header';
 /* Много исправлений проверить на работоспособность и корректность*/
 const { Column } = Table;
 
