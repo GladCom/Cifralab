@@ -1,19 +1,23 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterPanel from './filter-panel';
-import RemoveForm from './forms/remove-form';
-import EditForm from './forms/edit-form';
 import { Button, Table, ConfigProvider } from 'antd';
 import { TablePageHeader } from '../layout/table-page-header';
-/* Много исправлений проверить на работоспособность и корректность*/
+import { EditForm } from './forms/edit-form';
+import { RemoveForm } from './forms/remove-form';
+import { EntityTableConfig } from '../layout/entity-table';
+
 const { Column } = Table;
 
-const Catalog = ({ config, title }) => {
+type CatalogProps = {
+  config: EntityTableConfig;
+  title: string;
+};
+
+const Catalog: React.FC<CatalogProps> = ({ config, title }) => {
   const { detailsLink, crud, hasDetailsPage, columns, serverPaged, dataConverter } = config;
   const { useGetAllPagedAsync } = crud;
   const navigate = useNavigate();
-
-  // переменные
   const [item, setItem] = useState({});
   const [queryString, setQueryString] = useState('');
   const [showEditForm, setShowEditForm] = useState(false);
@@ -33,7 +37,6 @@ const Catalog = ({ config, title }) => {
     error,
     isLoading,
     isFetching,
-    refetch,
   } = useGetAllPagedAsync({
     pageNumber: tableParams.pagination.current,
     pageSize: tableParams.pagination.pageSize,
@@ -150,10 +153,10 @@ const Catalog = ({ config, title }) => {
         </ConfigProvider>
       </Table>
       {showEditForm && (
-        <EditForm item={item} control={{ showEditForm, setShowEditForm }} config={config} refetch={refetch} />
+        <EditForm item={item} visibilityControl={{ visible: showEditForm, setVisible: setShowEditForm }} config={config} />
       )}
       {showRemoveForm && (
-        <RemoveForm item={item} control={{ showRemoveForm, setShowRemoveForm }} config={config} refetch={refetch} />
+        <RemoveForm item={item} visibilityControl={{ visible: showRemoveForm, setVisible: setShowRemoveForm }} config={config} />
       )}
     </>
   );

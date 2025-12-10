@@ -51,6 +51,7 @@ export type EntityTableConfig = {
   dataConverter: (data: unknown) => unknown[];
   formModel: FormModel;
   searchPlaceholder?: string;
+  hasDetailsPage?: boolean;
 } & FilterConfig;
 
 type EntityTableProps = {
