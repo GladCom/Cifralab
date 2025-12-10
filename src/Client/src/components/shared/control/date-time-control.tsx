@@ -13,7 +13,11 @@ const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
   return <Text>{dayjs(String(value ?? 'Неверный тип данных')).format('DD.MM.YYYY HH:mm:ss')}</Text>;
 };
 
-const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ defaultValue, onChange, formParams }) => {
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
+  defaultValue,
+  onChange,
+  formParams,
+}) => {
   if (!formParams) {
     throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
   }
@@ -24,9 +28,13 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ defaultValue
   const { key } = formParams;
 
   const formattValue = useCallback(
-    (date: dayjs.Dayjs) => {
-      const formattedDateString = dayjs(date).format('YYYY-MM-DDTHH:mm:ss');
-      onChange(formattedDateString);
+    (date: dayjs.Dayjs | null, dateString: string) => {
+      if (!date) {
+        onChange(null);
+        return;
+      }
+
+      onChange(dayjs(date).format('YYYY-MM-DDTHH:mm:ss'));
     },
     [onChange],
   );
@@ -34,12 +42,9 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ defaultValue
   return (
     <DatePicker
       key={key}
-      defaultValue={dayjs(String(defaultValue ?? 'Неверный тип данных'))}
+      defaultValue={defaultValue ? dayjs(defaultValue) : null}
       showTime
-      format={{
-        format: 'DD.MM.YYYY HH:mm:ss',
-        type: 'mask',
-      }}
+      format="DD.MM.YYYY HH:mm:ss"
       onChange={formattValue}
     />
   );
