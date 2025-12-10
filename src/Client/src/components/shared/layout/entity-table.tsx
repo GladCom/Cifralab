@@ -39,7 +39,7 @@ function isTableRecord(value: unknown): value is TableRecord {
   return typeof value === 'object' && value !== null && 'id' in value;
 }
 
-type EntityTableConfig = {
+export type EntityTableConfig = {
   detailsLink: string;
   crud: {
     useGetAllPagedAsync: (params?: unknown) => { data?: unknown; isLoading: boolean; isFetching: boolean };
