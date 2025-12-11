@@ -7,7 +7,7 @@ import Logo from './logo';
 import Navbar from './navbar';
 import Spinner from './spinner';
 import Loading from './loading';
-import RoutingWarningModal from './routing-warning-modal';
+import { RoutingWarningModal } from './routing-warning-modal';
 import EntityTable from './entity-table';
 import DetailsPageHeader from './details-page-header';
 import { TablePageHeader } from './table-page-header';
