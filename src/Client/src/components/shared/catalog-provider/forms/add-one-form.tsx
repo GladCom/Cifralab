@@ -19,17 +19,17 @@ export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formM
   const [addOne] = useAddOneAsync();
   const [form] = Form.useForm();
 
-    const validateDates = (values) => {
+  const validateDates = (values) => {
     const { startDate, endDate } = values;
 
-        if (startDate && endDate) {
+    if (startDate && endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
 
-           if (start > end) {
+      if (start > end) {
         return {
           isValid: false,
-          message: 'Дата начала не может быть позже даты окончания'
+          message: 'Дата начала не может быть позже даты окончания',
         };
       }
     }
@@ -38,14 +38,14 @@ export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formM
   };
 
   const onSubmit = (formValues) => {
-        const validation = validateDates(formValues);
+    const validation = validateDates(formValues);
 
     if (!validation.isValid) {
-           message.error(validation.message);
+      message.error(validation.message);
       return;
     }
 
-       addOne(formValues);
+    addOne(formValues);
     setShowAddOneForm(false);
     form.resetFields();
   };
