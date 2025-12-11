@@ -415,3 +415,4 @@ src/Client/distWebpack/
 *.rar
 *.7z
 *.tar.gz
+/src/Server/Students.DBCore/Migrations/20251211172517_AddNewColumnIsArchive.cs
