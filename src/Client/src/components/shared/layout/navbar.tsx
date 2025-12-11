@@ -4,7 +4,7 @@ import useMenuConfig from './menu-config';
 
 const { Sider } = Layout;
 
-const siderStyle = {
+const siderStyle: React.CSSProperties = {
   textAlign: 'center',
   backgroundColor: '#fff',
 };

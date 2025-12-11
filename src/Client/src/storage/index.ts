@@ -16,7 +16,7 @@ import { groupsApi } from './service/groups-api';
 import { requestsApi } from './service/request-api';
 import { scopeOfActivityApi } from './service/scope-of-activity-api';
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     user: userReducer,
     [authApi.reducerPath]: authApi.reducer,
@@ -53,3 +53,5 @@ export default configureStore({
       .concat(requestsApi.middleware)
       .concat(scopeOfActivityApi.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>;

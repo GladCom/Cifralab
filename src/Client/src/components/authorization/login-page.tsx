@@ -4,20 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import { actions as userActions } from '../../storage/slice/user-slice';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex, Tooltip } from 'antd';
+import { ValidateStatus } from 'antd/es/form/FormItem';
 
-const containerStyle = {
+const containerStyle: React.CSSProperties = {
   background: 'linear-gradient(to bottom right, #e968a4, #005aff)',
+};
+
+type ValidationState = {
+  status?: ValidateStatus;
+  message?: string;
 };
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [validationState, setValidationState] = useState({});
+  const [validationState, setValidationState] = useState<ValidationState>({});
 
   const onSubmit = ({ username, password, remember }) => {
     if (username !== 'user' || password !== '123') {
       setValidationState({
-        state: 'error',
+        status: 'error',
         message: 'Неправильный логин или пароль',
       });
       return;
@@ -44,7 +50,7 @@ const LoginPage = () => {
           <Tooltip title="Попробуйте user">
             <Form.Item
               name="username"
-              validateStatus={validationState.state}
+              validateStatus={validationState.status}
               help={validationState.message}
               rules={[
                 {
@@ -59,7 +65,7 @@ const LoginPage = () => {
           <Tooltip title="Попробуйте 123">
             <Form.Item
               name="password"
-              validateStatus={validationState.state}
+              validateStatus={validationState.status}
               help={validationState.message}
               rules={[
                 {

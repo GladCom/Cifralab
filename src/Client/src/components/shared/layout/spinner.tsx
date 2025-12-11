@@ -1,7 +1,7 @@
 import React from 'react';
 import { TailSpin } from 'react-loader-spinner';
 
-const overlayStyle = {
+const overlayStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
   left: 0,

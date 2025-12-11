@@ -4,6 +4,7 @@ import { Table } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import { TablePageHeader } from '../layout/index';
 import FilterPanel, { Query, FilterConfig } from '../catalog-provider/filter-panel';
+import { FormModel } from '../../../storage/form-model/types';
 
 type TableColumn = ColumnType<unknown> & {
   sorterKey?: string;
@@ -39,7 +40,7 @@ function isTableRecord(value: unknown): value is TableRecord {
   return typeof value === 'object' && value !== null && 'id' in value;
 }
 
-type EntityTableConfig = {
+export type EntityTableConfig = {
   detailsLink: string;
   crud: {
     useGetAllPagedAsync: (params?: unknown) => { data?: unknown; isLoading: boolean; isFetching: boolean };
@@ -48,8 +49,9 @@ type EntityTableConfig = {
   columns: TableColumn[];
   serverPaged: boolean;
   dataConverter: (data: unknown) => unknown[];
-  properties?: unknown;
+  formModel: FormModel;
   searchPlaceholder?: string;
+  hasDetailsPage?: boolean;
 } & FilterConfig;
 
 type EntityTableProps = {

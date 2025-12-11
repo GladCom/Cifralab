@@ -10,9 +10,9 @@ import { Student } from '../../storage/service/types';
 export const StudentDetailsPage = () => {
   const { id } = useParams();
   const [studentData, setStudentData] = useState<Student>();
+  const [initialData, setInitialData] = useState<Student>();
   //  formKeyValue нужен чтобы форма перемонтировалась при сохранении и отмене.
   const [formKeyValue, setFormKeyValue] = useState(0);
-  const [initialData, setInitialData] = useState<Student>();
   const [isChanged, setIsChanged] = useState(false);
 
   const { crud } = config;
