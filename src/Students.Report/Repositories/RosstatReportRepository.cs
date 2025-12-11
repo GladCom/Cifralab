@@ -13,6 +13,11 @@ namespace Students.Reports.Repositories;
 public class RosstatReportRepository : BaseReportRepository<RosstatModel>
 {
   /// <summary>
+  /// Группы для вычисления отчета.
+  /// </summary>
+  private List<Group> ReportGroups {get; set;}
+  
+  /// <summary>
   ///   Формирование данных для отчета.
   /// </summary>
   /// <param name="filter">Фильтр</param>
@@ -40,15 +45,88 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   protected async Task<RosstatModel> FetchModel(Predicate<Group> condition)
   {
     var rosstatModel = new RosstatModel();
-    var programs = this.Context.Groups.Where(g => condition(g))
-      .Include(p=>p.EducationProgram)
-        .ThenInclude(ep => ep.KindEducationProgram)
-      .ToList();
-    rosstatModel.AdvancedTrainingProgramsCount = programs
-      .Count(p => p.EducationProgram?.KindEducationProgram?.Name == "Программа повышения квалификации");
-    rosstatModel.ProfessionalRetrainingProgramsCount = programs
-      .Count(p => p.EducationProgram?.KindEducationProgram?.Name == "Программа профессиональной переподготовки");
+    this.ReportGroups = this.SetReportGroups(condition);
+    
+
+      
+    
+    
+
     return rosstatModel;
+  }
+
+  /// <summary>
+  /// Задать список групп, которые будут участвовать в расчете отчета.
+  /// </summary>
+  /// <param name="condition">Условие, по которому отбираются группы.</param>
+  /// <returns>Список групп.</returns>
+  private List<Group> SetReportGroups(Predicate<Group> condition)
+  {
+    return this.Context.Groups.Where(g => condition(g))
+      .Include(group => group.EducationProgram)
+      .ThenInclude(ep => ep.KindEducationProgram)
+      .Include(group => group.Students)
+      .ToList();
+  }
+
+  /// <summary>
+  /// Получить количество групп по условию.
+  /// </summary>
+  /// <param name="condition">Условие.</param>
+  /// <returns>Количество групп.</returns>
+  private int GetGroupsCount(Func<Group, bool> condition)
+  {
+    return this.ReportGroups
+      .Count(condition);
+  }
+
+  /// <summary>
+  /// Получить количество студентов в группах.
+  /// </summary>
+  /// <param name="condition">Условие.</param>
+  /// <returns>Количество студентов.</returns>
+  private int GetStudentsInGroups(Func<Group, bool> condition)
+  {
+    return this.ReportGroups
+      .Where(condition)
+      .SelectMany(p => p.Students)
+      .Count(); 
+  }
+
+  private void CalculateEducationProgramInfo(RosstatModel rosstatModel)
+  {
+    bool IsThisTypeProgramm(Group group, string programKindName)
+    {
+      return group.EducationProgram?.KindEducationProgram?.Name == programKindName;
+    }
+
+    rosstatModel.AdvancedTrainingProgramsCount =
+      this.GetGroupsCount(g => IsThisTypeProgramm(g, "Программа повышения квалификации"));
+
+    rosstatModel.ProfessionalRetrainingProgramsCount =
+      this.GetGroupsCount(g => IsThisTypeProgramm(g, "Программа профессиональной переподготовки"));
+
+    bool IsStudentLearnedOnThisCourse(Group group, string courseName)
+    {
+      return group.EducationProgram?.KindEducationProgram?.Name == courseName;
+    }
+    
+    rosstatModel.AdvancedTrainingProgramStudentsCount =
+      this.GetStudentsInGroups(g => IsStudentLearnedOnThisCourse(g, ""));
+    rosstatModel.AdvancedTrainingProgramsNetworkCount =
+      this.GetGroupsCount(group => group.EducationProgram?.IsNetworkProgram == true &&
+                                   group.EducationProgram?.KindEducationProgram?.Name==
+                                   "Программа повышения квалификации");
+      
+    
+
+    rosstatModel.ProfessionalRetrainingProgramStudentsCount =
+      this.GetStudentsInGroups(p => p.EducationProgram?.KindEducationProgram?.Name ==
+                                    "Программа профессиональной переподготовки");
+    rosstatModel.ProfessionalRetrainingProgramNetworkCount =
+      this.GetGroupsCount(group => group.EducationProgram?.IsNetworkProgram == true &&
+      group.EducationProgram?.KindEducationProgram?.Name==
+      "Программа профессиональной переподготовки");
   }
 
   /// <summary>
