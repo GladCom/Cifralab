@@ -6,7 +6,7 @@ const baseUrl = `${apiUrl}/report`;
 
 const jsonBaseQuery = fetchBaseQuery({ baseUrl });
 
-const arrayBufferBaseQuery = async (args, api, extraOptions) => {
+const arrayBufferBaseQuery = async (args) => {
   const { url, method, body } = args;
   try {
     const response = await fetch(`${baseUrl}${url}`, { method, body });
