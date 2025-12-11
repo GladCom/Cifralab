@@ -1,4 +1,4 @@
-import { Modal, Form } from 'antd';
+import { Modal, Form, message } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
 import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
 import { ComponentType } from 'react';
@@ -19,7 +19,38 @@ export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formM
   const [addOne] = useAddOneAsync();
   const [form] = Form.useForm();
 
+  // Функция для проверки дат
+  const validateDates = (values) => {
+    const { startDate, endDate } = values;
+
+    // Если обе даты заполнены
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      // Проверяем что дата начала не позже даты окончания
+      if (start > end) {
+        return {
+          isValid: false,
+          message: 'Дата начала не может быть позже даты окончания'
+        };
+      }
+    }
+
+    return { isValid: true };
+  };
+
   const onSubmit = (formValues) => {
+    // Проверяем даты перед отправкой
+    const validation = validateDates(formValues);
+
+    if (!validation.isValid) {
+      // Показываем ошибку и остаемся на форме
+      message.error(validation.message);
+      return; // Не закрываем форму и не отправляем данные
+    }
+
+    // Если валидация прошла успешно
     addOne(formValues);
     setShowAddOneForm(false);
     form.resetFields();
