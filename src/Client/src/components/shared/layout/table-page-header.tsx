@@ -23,7 +23,8 @@ const headerStyle = {
 type TablePageHeaderProps = {
   config: EntityTableConfig;
   title: string;
-  onSearch?: (value: any) => void;
+  // TODO: уточнить типизацию
+  onSearch?: (value: unknown) => void;
 };
 
 export const TablePageHeader: React.FC<TablePageHeaderProps> = ({ config, title, onSearch }) => {

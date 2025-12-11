@@ -10,7 +10,8 @@ const rowStyle = {
 
 type DetailsPageDataProps = {
   items: FormModel;
-  data: Array<any>;
+  // TODO: уточнить типизацию
+  data: Array<unknown>;
   editData: (data: unknown) => void;
   setIsChanged: (value: boolean) => void;
 };

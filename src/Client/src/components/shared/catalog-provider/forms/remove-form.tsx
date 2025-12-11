@@ -2,7 +2,8 @@ import { Modal, Form, Result } from 'antd';
 import { EntityTableConfig } from '../../layout/entity-table';
 
 type RemoveFormProps = {
-  item: any;
+  // TODO: уточнить типизацию
+  item: unknown;
   visibilityControl: {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;

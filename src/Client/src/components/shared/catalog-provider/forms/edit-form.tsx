@@ -5,7 +5,8 @@ import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mo
 import { EntityTableConfig } from '../../layout/entity-table';
 
 type EditFormProps = {
-  item: any;
+  // TODO: уточнить типизацию
+  item: unknown;
   visibilityControl: {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
