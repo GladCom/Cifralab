@@ -3,6 +3,7 @@ import Header from './header';
 import Navbar from './navbar';
 import Content from './content';
 import { Layout as AntLayout } from 'antd';
+import { PropsWithChildren } from 'react';
 
 const headerStyle = {
   textAlign: 'center',
@@ -19,14 +20,16 @@ const footerStyle = {
   position: 'sticky',
 };
 
-interface Props {
+const defaultTitle = 'Сервис обработки заявок';
+
+type LayoutProps = PropsWithChildren<{
   title?: string;
-  children: React.ReactNode;
-}
-const Layout: React.FC<Props> = ({ children, title }) => {
+}>;
+
+export const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   return (
     <AntLayout style={layoutStyle}>
-      <Header title={title} style={headerStyle} />
+      <Header title={title ?? defaultTitle} style={headerStyle} />
       <AntLayout hasSider>
         <Navbar width="15%" />
         <Content>{children}</Content>
@@ -35,5 +38,3 @@ const Layout: React.FC<Props> = ({ children, title }) => {
     </AntLayout>
   );
 };
-
-export default Layout;

@@ -15,7 +15,7 @@ export default {
   detailsLink: 'student',
   hasDetailsPage: true,
   serverPaged: true,
-  properties: studentFormModel,
+  formModel: studentFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

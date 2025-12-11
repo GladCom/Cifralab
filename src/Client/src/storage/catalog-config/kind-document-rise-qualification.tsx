@@ -13,7 +13,7 @@ export default {
   detailsLink: 'kindDocumentRiseQualification',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: kindDocumentRiseQualificationFormModel,
+  formModel: kindDocumentRiseQualificationFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

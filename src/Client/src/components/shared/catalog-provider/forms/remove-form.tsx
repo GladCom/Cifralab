@@ -1,26 +1,37 @@
 import { Modal, Form, Result } from 'antd';
+import { EntityTableConfig } from '../../layout/entity-table';
 
-const RemoveForm = ({ item, control, config }) => {
+type RemoveFormProps = {
+  // TODO: уточнить типизацию
+  item: unknown;
+  visibilityControl: {
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  config: EntityTableConfig;
+};
+
+export const RemoveForm: React.FC<RemoveFormProps> = ({ item, visibilityControl, config }) => {
   const { id } = item;
   const [form] = Form.useForm();
   const { crud } = config;
   const { useRemoveOneAsync } = crud;
   const [removeItem] = useRemoveOneAsync();
-  const { showRemoveForm, setShowRemoveForm } = control;
+  const { visible, setVisible } = visibilityControl;
 
   const onSubmit = () => {
     removeItem(id);
-    setShowRemoveForm(false);
+    setVisible(false);
   };
 
   const onCancel = () => {
-    setShowRemoveForm(false);
+    setVisible(false);
   };
 
   return (
     <Modal
       title="Внимание!"
-      open={showRemoveForm}
+      open={visible}
       okText="Всеравно удалить"
       cancelText="Отмена"
       onCancel={onCancel}
@@ -40,5 +51,3 @@ const RemoveForm = ({ item, control, config }) => {
     </Modal>
   );
 };
-
-export default RemoveForm;

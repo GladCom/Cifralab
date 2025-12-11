@@ -13,7 +13,7 @@ export default {
   detailsLink: 'feaProgram',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: feaProgramFormModel,
+  formModel: feaProgramFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

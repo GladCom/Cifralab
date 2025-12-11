@@ -1,10 +1,10 @@
+import { personRequestConfig } from '../../storage/catalog-config/person-request';
 import { Layout, EntityTable } from '../shared/layout/index';
-import config from '../../storage/catalog-config/person-request';
 
 const PersonRequestsPage = () => {
   return (
     <Layout>
-      <EntityTable config={config} title="Заявки" />
+      <EntityTable config={personRequestConfig} title="Заявки" />
     </Layout>
   );
 };
