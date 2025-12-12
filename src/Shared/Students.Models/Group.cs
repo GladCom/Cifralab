@@ -41,7 +41,6 @@ public class Group
   /// <summary>
   /// Студенты.
   /// </summary>
-  [JsonIgnore]
   public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 
   //Для таблицы Группы персон для связи многие ко многим.
