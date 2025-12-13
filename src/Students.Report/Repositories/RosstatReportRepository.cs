@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Students.DBCore.Contexts;
 using Students.Models;
 using Students.Models.Enums;
 using Students.Models.Filters.Filters;
 using Students.Reports.Models;
+using Students.Reports.Models.RosstatModelParts;
 using Students.Reports.Repositories.Abstracts;
 
 namespace Students.Reports.Repositories;
@@ -25,6 +28,8 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   /// <returns>Данные.</returns>
   public async Task<List<RosstatModel>> Get(GroupFilter filter)
   {
+    var models = await FetchModel(filter.GetFilterPredicate());
+    Console.Write("s");
     return await this.FetchData(filter.GetFilterPredicate());
   }
 
@@ -48,10 +53,7 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
     var rosstatModel = new RosstatModel();
     this.ReportGroups = this.SetReportGroups(condition);
     this.CalculateEducationProgramInfo(rosstatModel);
-    
-
-      
-    
+    this.CalculateStudentsInfo(rosstatModel);
     
 
     return rosstatModel;
@@ -64,10 +66,14 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   /// <returns>Список групп.</returns>
   private List<Group> SetReportGroups(Predicate<Group> condition)
   {
-    return this.Context.Groups.Where(g => condition(g))
+    var allGroups = this.Context.Groups
       .Include(group => group.EducationProgram)
       .ThenInclude(ep => ep.KindEducationProgram)
       .Include(group => group.Students)
+      .ToList();
+    
+    return allGroups
+      .Where(group => condition(group))
       .ToList();
   }
 
@@ -164,18 +170,31 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
       this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsNetwork(g));
   }
 
+  /// <summary>
+  /// Рассчитать данные студентов по модели.
+  /// </summary>
+  /// <param name="rosstatModel">Модель в которую будут записываться данные.</param>
   private void CalculateStudentsInfo(RosstatModel rosstatModel)
   {
-    rosstatModel.StudentsInfo.AdvancedModuleStudents =
-      this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsModular(g));
-    rosstatModel.StudentsInfo.RetrainingModuleStudents = 
-      this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g));
-    rosstatModel.StudentsInfo.WomanTotal = this.GetStudentsInGroups(g => true, this.IsWoman);
-    
-    rosstatModel.StudentsInfo.AdvancedStudentsWorkers =
-      this.GetStudentsInGroups(this.IsAdvanced,
-        s => s.ScopeOfActivityLevelOne?.NameOfScope == "Работники предприятий и организаций");
-    
+    Type typeOfRosstatModel = rosstatModel.StudentsInfo.GetType();
+    PropertyInfo[] studentTypes = typeOfRosstatModel.GetProperties();
+
+    foreach (var studentType in studentTypes)
+    {
+      if (studentType.PropertyType == typeof(StudentProgramStats))
+      {
+        var studentTypeInfo = studentType.GetValue(rosstatModel.StudentsInfo) as StudentProgramStats;
+        studentTypeInfo.Advanced = this.GetStudentsInGroups(this.IsAdvanced, studentTypeInfo.studentCondition);
+        studentTypeInfo.Retraining = this.GetStudentsInGroups(this.IsRetraining, studentTypeInfo.studentCondition);
+        studentTypeInfo.AdvancedModular =
+          this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsModular(g), studentTypeInfo.studentCondition);
+        studentTypeInfo.RetrainingModular =
+          this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g), studentTypeInfo.studentCondition);
+        studentTypeInfo.Woman =
+          this.GetStudentsInGroups(g => true, s => this.IsWoman(s) && studentTypeInfo.studentCondition(s));
+
+      }
+    }
   }
 
   /// <summary>
