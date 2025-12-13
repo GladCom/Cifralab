@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
+import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import config from '../../storage/catalog-config/person-request';
 import DetermineStudentModal from './determine-student-modal';
 import { useGetSimilarStudentsQuery } from '../../storage/service/student-api';
+import { personRequestConfig } from '../../storage/catalog-config/person-request';
+import { DetailsPageData } from '../shared/layout/details-page-data';
+import type { RequestDTO } from '../../storage/service/types';
 
-const RequestDetailsPage = () => {
+export const RequestDetailPage = () => {
   const { id } = useParams();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [requestData, setRequestData] = useState<Record<string, any>>({});
@@ -15,9 +17,9 @@ const RequestDetailsPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [initialData, setInitialData] = useState<Record<string, any>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { properties, crud } = config;
+  const { properties, crud } = personRequestConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
-  const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
+  const { data: personRequestData, isLoading, isFetching } = useGetOneByIdAsync(id);
 
   const [editRequest] = useEditOneAsync();
 
@@ -34,12 +36,12 @@ const RequestDetailsPage = () => {
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
-      const newData = { ...data };
+      const newData = { ...personRequestData };
       delete newData.id;
       setRequestData(newData);
       setInitialData(newData);
     }
-  }, [isLoading, isFetching, data]);
+  }, [isLoading, isFetching, personRequestData]);
 
   let blocker = useBlocker(
     ({ currentLocation, nextLocation }) => isChanged && currentLocation.pathname !== nextLocation.pathname,
@@ -69,7 +71,7 @@ const RequestDetailsPage = () => {
       <h2 style={{ padding: '3vh' }}>
         {requestData.family} {requestData?.name} {requestData?.patron}
       </h2>
-      <DetailsPageData items={properties} data={requestData} editData={setRequestData} setIsChanged={setIsChanged} />
+      <DetailsPageData items={formModel} data={requestData} editData={setRequestData} setIsChanged={setIsChanged} />
       <hr />
       <Row>
         <Col>
@@ -98,5 +100,3 @@ const RequestDetailsPage = () => {
     </Layout>
   );
 };
-
-export default RequestDetailsPage;

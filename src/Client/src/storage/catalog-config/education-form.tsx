@@ -13,7 +13,7 @@ export default {
   detailsLink: 'educationForm',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: educationFormFormModel,
+  formModel: educationFormFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,
