@@ -6,7 +6,6 @@ import DetermineStudentModal from './determine-student-modal';
 import { useGetSimilarStudentsQuery } from '../../storage/service/student-api';
 import { personRequestConfig } from '../../storage/catalog-config/person-request';
 import { DetailsPageData } from '../shared/layout/details-page-data';
-import type { RequestDTO } from '../../storage/service/types';
 
 export const RequestDetailPage = () => {
   const { id } = useParams();
@@ -17,7 +16,7 @@ export const RequestDetailPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [initialData, setInitialData] = useState<Record<string, any>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { properties, crud } = personRequestConfig;
+  const { crud, formModel } = personRequestConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data: personRequestData, isLoading, isFetching } = useGetOneByIdAsync(id);
 
