@@ -1,6 +1,9 @@
 namespace Students.Reports.Models.RosstatModelParts;
 
-public class EducationInfo
+/// <summary>
+/// Сведения об образовательных программах, реализуемых организацией (п 1.3 отчета)
+/// </summary>
+public class EducationInfoRosstatModel
 {
   /// <summary>
   /// Количество программ повышения квалификации.
@@ -31,4 +34,17 @@ public class EducationInfo
   /// Количество реализованных сетевых программ переподготовки.
   /// </summary>
   public int ProfessionalRetrainingProgramNetworkCount {get; set;}
+  
+  /// <summary>
+  /// Количество реализованных сетевых программ повышения квалификации.
+  /// </summary>
+  public int AdvancedTrainingProgramsNetworkStudentsCount {get; set;}
+  
+  /// <summary>
+  /// Количество реализованных сетевых программ переподготовки.
+  /// </summary>
+  public int ProfessionalRetrainingProgramNetworkStudentsCount {get; set;}
+  
+  /// с использованием ресурсов иностранных организаций везде считаю 0. Такого нет в модели.
+  /// Договоров с организациями тоже нет. Потому тоже везде считаю как 0.
 }

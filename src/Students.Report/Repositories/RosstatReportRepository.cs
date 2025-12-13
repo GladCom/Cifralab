@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Students.DBCore.Contexts;
 using Students.Models;
+using Students.Models.Enums;
 using Students.Models.Filters.Filters;
 using Students.Reports.Models;
 using Students.Reports.Repositories.Abstracts;
@@ -46,6 +47,7 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   {
     var rosstatModel = new RosstatModel();
     this.ReportGroups = this.SetReportGroups(condition);
+    this.CalculateEducationProgramInfo(rosstatModel);
     
 
       
@@ -83,50 +85,97 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   /// <summary>
   /// Получить количество студентов в группах.
   /// </summary>
-  /// <param name="condition">Условие.</param>
+  /// <param name="groupCondition">Условие для групп.</param>
+  /// <param name="studentCondition">Условие для студентов.</param>
   /// <returns>Количество студентов.</returns>
-  private int GetStudentsInGroups(Func<Group, bool> condition)
+  private int GetStudentsInGroups(Func<Group, bool> groupCondition, Func<Student, bool>? studentCondition = null)
   {
     return this.ReportGroups
-      .Where(condition)
+      .Where(groupCondition)
       .SelectMany(p => p.Students)
-      .Count(); 
+      .Count(s => studentCondition == null || studentCondition(s)); 
   }
 
+  /// <summary>
+  /// Флаг, что группа обучалась по программе повышения квалификации.
+  /// </summary>
+  /// <param name="group">Группа.</param>
+  /// <returns>Является ли группой повышения квалификации.</returns>
+  private bool IsAdvanced(Group group)
+  {
+    return group.EducationProgram?.KindEducationProgram?.Name == "Программа повышения квалификации";
+  }
+
+  /// <summary>
+  /// Флаг, что группа обучалась по программе переподготовки.
+  /// </summary>
+  /// <param name="group">Группа.</param>
+  /// <returns>Является ли группой переподготовки.</returns>
+  private bool IsRetraining(Group group)
+  {
+    return group.EducationProgram?.KindEducationProgram?.Name == "Программа профессиональной переподготовки";
+  }
+
+  /// <summary>
+  /// Флаг, что группа сетевая.
+  /// </summary>
+  /// <param name="group">Группа.</param>
+  /// <returns>Является ли сетевой.</returns>
+  private bool IsNetwork(Group group)
+  {
+    return group.EducationProgram?.IsNetworkProgram == true;
+  }
+
+  /// <summary>
+  /// Флаг, что группа является модульной.
+  /// </summary>
+  /// <param name="group">Группа.</param>
+  /// <returns>Является ли группа модульной.</returns>
+  private bool IsModular(Group group)
+  {
+    return group.EducationProgram?.IsModularProgram == true;
+  }
+
+  private bool IsWoman(Student student)
+  {
+    return student.Sex == SexHuman.Woman;
+  }
+  
+  /// <summary>
+  /// Расчет сведений об образовательных прогрммах. 
+  /// </summary>
+  /// <param name="rosstatModel">Модель в которую будут записываться данные.</param>
   private void CalculateEducationProgramInfo(RosstatModel rosstatModel)
   {
-    bool IsThisTypeProgramm(Group group, string programKindName)
-    {
-      return group.EducationProgram?.KindEducationProgram?.Name == programKindName;
-    }
-
-    rosstatModel.AdvancedTrainingProgramsCount =
-      this.GetGroupsCount(g => IsThisTypeProgramm(g, "Программа повышения квалификации"));
-
-    rosstatModel.ProfessionalRetrainingProgramsCount =
-      this.GetGroupsCount(g => IsThisTypeProgramm(g, "Программа профессиональной переподготовки"));
-
-    bool IsStudentLearnedOnThisCourse(Group group, string courseName)
-    {
-      return group.EducationProgram?.KindEducationProgram?.Name == courseName;
-    }
+    rosstatModel.EducationInfo.AdvancedTrainingProgramsCount = this.GetGroupsCount(this.IsAdvanced);
+    rosstatModel.EducationInfo.ProfessionalRetrainingProgramsCount = this.GetGroupsCount(this.IsRetraining);
     
-    rosstatModel.AdvancedTrainingProgramStudentsCount =
-      this.GetStudentsInGroups(g => IsStudentLearnedOnThisCourse(g, ""));
-    rosstatModel.AdvancedTrainingProgramsNetworkCount =
-      this.GetGroupsCount(group => group.EducationProgram?.IsNetworkProgram == true &&
-                                   group.EducationProgram?.KindEducationProgram?.Name==
-                                   "Программа повышения квалификации");
-      
-    
+    rosstatModel.EducationInfo.AdvancedTrainingProgramStudentsCount = this.GetStudentsInGroups(this.IsAdvanced);
+    rosstatModel.EducationInfo.ProfessionalRetrainingProgramStudentsCount = this.GetStudentsInGroups(this.IsRetraining);
 
-    rosstatModel.ProfessionalRetrainingProgramStudentsCount =
-      this.GetStudentsInGroups(p => p.EducationProgram?.KindEducationProgram?.Name ==
-                                    "Программа профессиональной переподготовки");
-    rosstatModel.ProfessionalRetrainingProgramNetworkCount =
-      this.GetGroupsCount(group => group.EducationProgram?.IsNetworkProgram == true &&
-      group.EducationProgram?.KindEducationProgram?.Name==
-      "Программа профессиональной переподготовки");
+    rosstatModel.EducationInfo.AdvancedTrainingProgramsNetworkCount =
+      this.GetGroupsCount(g => this.IsAdvanced(g) && this.IsNetwork(g));
+    rosstatModel.EducationInfo.ProfessionalRetrainingProgramNetworkCount =
+      this.GetGroupsCount(g => this.IsRetraining(g) && this.IsNetwork(g));
+    
+    rosstatModel.EducationInfo.AdvancedTrainingProgramsNetworkStudentsCount =
+      this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsNetwork(g));
+    rosstatModel.EducationInfo.ProfessionalRetrainingProgramNetworkStudentsCount =
+      this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsNetwork(g));
+  }
+
+  private void CalculateStudentsInfo(RosstatModel rosstatModel)
+  {
+    rosstatModel.StudentsInfo.AdvancedModuleStudents =
+      this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsModular(g));
+    rosstatModel.StudentsInfo.RetrainingModuleStudents = 
+      this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g));
+    rosstatModel.StudentsInfo.WomanTotal = this.GetStudentsInGroups(g => true, this.IsWoman);
+    
+    rosstatModel.StudentsInfo.AdvancedStudentsWorkers =
+      this.GetStudentsInGroups(this.IsAdvanced,
+        s => s.ScopeOfActivityLevelOne?.NameOfScope == "Работники предприятий и организаций");
+    
   }
 
   /// <summary>

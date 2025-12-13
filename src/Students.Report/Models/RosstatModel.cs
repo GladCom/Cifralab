@@ -1,4 +1,6 @@
-﻿namespace Students.Reports.Models;
+﻿using Students.Reports.Models.RosstatModelParts;
+
+namespace Students.Reports.Models;
 
 /// <summary>
 ///   Модель отчета.
@@ -6,32 +8,12 @@
 public class RosstatModel
 {
   /// <summary>
-  /// Количество программ повышения квалификации.
+  ///  Сведения об образовательных программах, реализуемых организацией (п 1.3 отчета)
   /// </summary>
-  public int AdvancedTrainingProgramsCount {get; set;}
+  public EducationInfoRosstatModel EducationInfo { get; set; } = new EducationInfoRosstatModel();
   
   /// <summary>
-  /// Количество программ переподготовки.
+  /// Распределение слушателей по программам. (п 2.1 отчета)
   /// </summary>
-  public int ProfessionalRetrainingProgramsCount {get; set;}
-  
-  /// <summary>
-  /// Количество студентов, прошедших программу повышения квалификации.
-  /// </summary>
-  public int AdvancedTrainingProgramStudentsCount {get; set;}
-  
-  /// <summary>
-  /// Количество студентов, прошедших программу переподготовки.
-  /// </summary>
-  public int ProfessionalRetrainingProgramStudentsCount {get; set;}
-  
-  /// <summary>
-  /// Количество реализованных сетевых программ повышения квалификации.
-  /// </summary>
-  public int AdvancedTrainingProgramsNetworkCount {get; set;}
-  
-  /// <summary>
-  /// Количество реализованных сетевых программ переподготовки.
-  /// </summary>
-  public int ProfessionalRetrainingProgramNetworkCount {get; set;}
+  public StudentsInfoRosstatModel StudentsInfo { get; set; } = new StudentsInfoRosstatModel();
 }
