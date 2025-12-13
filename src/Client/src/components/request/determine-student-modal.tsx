@@ -1,29 +1,20 @@
 import { useState } from 'react';
 import { Modal, Spin, Row, Col, Button } from 'antd';
+import { Student } from '../../storage/service/types';
 
-type Student = {
-  id?: string;
-  family?: string | null;
-  name?: string | null;
-  patron?: string | null;
-  fullName?: string | null;
-  phone?: string | null;
-  address?: string | null;
-  email?: string | null;
-  [key: string]: unknown;
-};
+type StudentWithId = Student & { id?: string };
 
 type DetermineStudentModalProps = {
   open: boolean;
   onClose: () => void;
-  students?: Student[] | null;
+  students?: StudentWithId[] | null;
   isLoading?: boolean;
 };
 
 const DetermineStudentModal = ({ open, onClose, students, isLoading }: DetermineStudentModalProps) => {
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
 
-  const getStudentFullName = (student: Student): string => {
+  const getStudentFullName = (student: StudentWithId): string => {
     if (student.fullName) {
       return student.fullName;
     }
@@ -109,4 +100,4 @@ const DetermineStudentModal = ({ open, onClose, students, isLoading }: Determine
   );
 };
 
-export default DetermineStudentModal;
+export { DetermineStudentModal };

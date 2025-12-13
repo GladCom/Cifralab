@@ -11,4 +11,4 @@ const TransferToStudentButton = ({ studentId }: { studentId?: string }) => {
   return <Button onClick={() => navigate(url)}>Перейти</Button>;
 };
 
-export default TransferToStudentButton;
+export { TransferToStudentButton };

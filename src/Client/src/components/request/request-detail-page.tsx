@@ -2,19 +2,26 @@ import { useState, useEffect, useCallback } from 'react';
 import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import DetermineStudentModal from './determine-student-modal';
+import { DetermineStudentModal } from './determine-student-modal';
 import { useGetSimilarStudentsQuery } from '../../storage/service/student-api';
 import { personRequestConfig } from '../../storage/catalog-config/person-request';
 import { DetailsPageData } from '../shared/layout/details-page-data';
+import { RequestDTO } from '../../storage/service/types';
+
+const isRequestDTO = (data: unknown): data is RequestDTO => {
+  return typeof data === 'object' && data !== null;
+};
+
+const getRequestDTO = (data: unknown): RequestDTO | undefined => {
+  return isRequestDTO(data) ? data : undefined;
+};
 
 export const RequestDetailPage = () => {
   const { id } = useParams();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [requestData, setRequestData] = useState<Record<string, any>>({});
+  const [requestData, setRequestData] = useState<RequestDTO | undefined>(getRequestDTO({}));
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [initialData, setInitialData] = useState<Record<string, any>>({});
+  const [initialData, setInitialData] = useState<RequestDTO | undefined>(getRequestDTO({}));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { crud, formModel } = personRequestConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
@@ -22,13 +29,13 @@ export const RequestDetailPage = () => {
 
   const [editRequest] = useEditOneAsync();
 
-  const fullname = `${requestData.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`.trim();
+  const fullname = `${requestData?.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`.trim();
   const { data: similarStudents, isLoading: isLoadingSimilar } = useGetSimilarStudentsQuery(
     {
       fullname,
-      adress: requestData.address || '',
-      email: requestData.email || '',
-      phone: requestData.phone || '',
+      adress: requestData?.address || '',
+      email: requestData?.email || '',
+      phone: requestData?.phone || '',
     },
     { skip: !isModalOpen },
   );
@@ -37,8 +44,11 @@ export const RequestDetailPage = () => {
     if (!isLoading && !isFetching) {
       const newData = { ...personRequestData };
       delete newData.id;
-      setRequestData(newData);
-      setInitialData(newData);
+      const requestDTO = getRequestDTO(newData);
+      if (requestDTO) {
+        setRequestData(requestDTO);
+        setInitialData(requestDTO);
+      }
     }
   }, [isLoading, isFetching, personRequestData]);
 
@@ -47,8 +57,10 @@ export const RequestDetailPage = () => {
   );
 
   const onSave = useCallback(() => {
-    editRequest({ id, item: requestData });
-    setIsChanged(false);
+    if (requestData) {
+      editRequest({ id, item: requestData });
+      setIsChanged(false);
+    }
   }, [editRequest, id, requestData]);
 
   const onCancel = useCallback(() => {
@@ -60,7 +72,7 @@ export const RequestDetailPage = () => {
     setIsModalOpen(true);
   }, []);
 
-  const title = `Заявки - ${requestData.family} ${requestData?.name} ${requestData?.patron}`;
+  const title = `Заявки - ${requestData?.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`;
 
   return isLoading || isFetching ? (
     <Loading />
@@ -68,9 +80,11 @@ export const RequestDetailPage = () => {
     <Layout>
       <DetailsPageHeader title={title} />
       <h2 style={{ padding: '3vh' }}>
-        {requestData.family} {requestData?.name} {requestData?.patron}
+        {requestData?.family} {requestData?.name} {requestData?.patron}
       </h2>
-      <DetailsPageData items={formModel} data={requestData} editData={setRequestData} setIsChanged={setIsChanged} />
+      {requestData && (
+        <DetailsPageData items={formModel} data={requestData} editData={setRequestData} setIsChanged={setIsChanged} />
+      )}
       <hr />
       <Row>
         <Col>
