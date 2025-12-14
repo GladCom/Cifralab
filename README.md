@@ -1,4 +1,6 @@
 # cifralab_students
+<img width="1024" height="512" alt="Без имени" src="https://github.com/user-attachments/assets/ae2cc515-b428-4dd0-9bfe-e6c6d9db31e7" />
+
 Запуск Backend:
 
 1. Установить систему контроля версий git (https://git-scm.com/downloads, если желаете работать из консоли).<br>
