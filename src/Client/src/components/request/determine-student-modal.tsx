@@ -22,7 +22,10 @@ const getStudentFullName = (student: StudentWithId): string => {
   return parts.length > 0 ? parts.join(' ') : 'Не указано';
 };
 
-const getSelectedStudentFullName = (selectedStudentId: string | null, students: StudentWithId[] | null | undefined): string => {
+const getSelectedStudentFullName = (
+  selectedStudentId: string | null,
+  students: StudentWithId[] | null | undefined,
+): string => {
   if (!selectedStudentId || !students) {
     return '';
   }
