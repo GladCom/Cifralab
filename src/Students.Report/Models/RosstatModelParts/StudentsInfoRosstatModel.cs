@@ -5,7 +5,7 @@ namespace Students.Reports.Models.RosstatModelParts;
 
 public class StudentsInfoRosstatModel<T> where T : StudentInfoModel, new()
 {
-  public List<T> Categories { get; set; } = new List<T>();
+  public List<T> Categories { get; set; } = new ();
 
   public StudentsInfoRosstatModel(List<ScopeOfActivity> scopeOfActivities)
   {

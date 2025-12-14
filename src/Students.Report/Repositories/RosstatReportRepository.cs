@@ -29,8 +29,6 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   /// <returns>Данные.</returns>
   public async Task<List<RosstatModel>> Get(GroupFilter filter)
   {
-    var models = await FetchModel(filter.GetFilterPredicate());
-    Console.Write("s");
     return await this.FetchData(filter.GetFilterPredicate());
   }
 
@@ -41,7 +39,9 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   /// <returns>Список данных отчета.</returns>
   protected override async Task<List<RosstatModel>> FetchData(Predicate<Group> condition)
   {
-    throw new NotImplementedException();
+    var dataList = new List<RosstatModel>();
+    dataList.Add(await this.FetchModel(condition));
+    return dataList;
   }
   
   /// <summary>
