@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 const TransferToStudentButton = ({ studentId }: { studentId?: string }) => {
   const navigate = useNavigate();
-  var url = `/student/${studentId}`;
+
   if (!studentId) {
-    url = '/students';
+    return null;
   }
 
-  return <Button onClick={() => navigate(url)}>Перейти</Button>;
+  return <Button onClick={() => navigate(`/student/${studentId}`)}>Перейти</Button>;
 };
 
 export { TransferToStudentButton };

@@ -55,6 +55,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
                 var fantomStudent = await this._mapper.WebhookToPhantomStudent(form);
                 fantomStudent = await this._phantomStudentRepository.Create(fantomStudent);
                 request.PhantomStudentId = fantomStudent.Id;
+                request.StudentId = null;
             }
         }
         else
@@ -96,6 +97,7 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
                 var fantomStudent = await Mapper.NewRequestDTOToPhantomStudent(form);
                 fantomStudent = await this._phantomStudentRepository.Create(fantomStudent);
                 request.PhantomStudentId = fantomStudent.Id;
+                request.StudentId = null;
             }
         }
         else
@@ -340,9 +342,9 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
             throw new ArgumentException("Phantom student was not found");
         }
 
-        request.PhantomStudent = null;
-        request.PhantomStudentId = null;
-        this._context.PhantomStudents.Remove(phantomStudent);
+        //request.PhantomStudent = null;
+        //request.PhantomStudentId = null;
+        //this._context.PhantomStudents.Remove(phantomStudent);
         request.StudentId = studentId;
         await this._context.SaveChangesAsync();
         return await _mapper.RequestToRequestDTO(request);

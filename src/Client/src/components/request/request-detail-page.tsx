@@ -4,6 +4,7 @@ import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import { DetermineStudentModal } from './determine-student-modal';
 import { useGetSimilarStudentsQuery } from '../../storage/service/student-api';
+import { useAssignStudentToRequestMutation } from '../../storage/service/request-api';
 import { personRequestConfig } from '../../storage/catalog-config/person-request';
 import { DetailsPageData } from '../shared/layout/details-page-data';
 import { RequestDTO } from '../../storage/service/types';
@@ -28,6 +29,7 @@ export const RequestDetailPage = () => {
   const { data: personRequestData, isLoading, isFetching } = useGetOneByIdAsync(id);
 
   const [editRequest] = useEditOneAsync();
+  const [assignStudentToRequest] = useAssignStudentToRequestMutation();
 
   const fullname = `${requestData?.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`.trim();
   const { data: similarStudents, isLoading: isLoadingSimilar } = useGetSimilarStudentsQuery(
@@ -72,6 +74,29 @@ export const RequestDetailPage = () => {
     setIsModalOpen(true);
   }, []);
 
+  const handleConfirmStudent = useCallback(
+    async (studentId: string) => {
+      if (!id) {
+        return;
+      }
+
+      await assignStudentToRequest({
+        requestId: id,
+        studentId: studentId,
+      }).unwrap();
+
+      setRequestData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, studentId: studentId };
+      });
+      setInitialData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, studentId: studentId };
+      });
+    },
+    [id, assignStudentToRequest],
+  );
+
   const title = `Заявки - ${requestData?.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`;
 
   return isLoading || isFetching ? (
@@ -98,7 +123,7 @@ export const RequestDetailPage = () => {
           </Button>
         </Col>
         <Col>
-          <Button onClick={handleOpenModal} style={{ marginRight: '10px' }}>
+          <Button onClick={handleOpenModal} disabled={!!requestData?.studentId} style={{ marginRight: '10px' }}>
             Определить студента
           </Button>
         </Col>
@@ -108,6 +133,8 @@ export const RequestDetailPage = () => {
         onClose={() => setIsModalOpen(false)}
         students={similarStudents}
         isLoading={isLoadingSimilar}
+        requestId={id}
+        onConfirm={handleConfirmStudent}
       />
       <RoutingWarningModal show={blocker.state === 'blocked'} blocker={blocker} />
     </Layout>

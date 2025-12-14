@@ -63,10 +63,13 @@ export const requestsApi = createApi({
       invalidatesTags: ['Requests'],
     }),
     assignStudentToRequest: builder.mutation({
-      query: ({ studentRequestPair }) => ({
+      query: ({ requestId, studentId }) => ({
         url: '/SetStudent',
         method: 'PATCH',
-        body: studentRequestPair,
+        body: {
+          requestId,
+          studentId,
+        },
       }),
       invalidatesTags: ['Requests'],
     }),
