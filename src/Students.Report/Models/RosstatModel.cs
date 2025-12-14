@@ -15,5 +15,5 @@ public class RosstatModel
   /// <summary>
   /// Распределение слушателей по программам. (п 2.1 отчета)
   /// </summary>
-  public StudentsInfoRosstatModel StudentsInfo { get; set; } = new StudentsInfoRosstatModel();
+  public StudentsInfoRosstatModel StudentsInfo { get; set; }
 }

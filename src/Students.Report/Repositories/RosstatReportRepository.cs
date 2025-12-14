@@ -5,6 +5,7 @@ using Students.DBCore.Contexts;
 using Students.Models;
 using Students.Models.Enums;
 using Students.Models.Filters.Filters;
+using Students.Models.ReferenceModels;
 using Students.Reports.Models;
 using Students.Reports.Models.RosstatModelParts;
 using Students.Reports.Repositories.Abstracts;
@@ -176,24 +177,18 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   /// <param name="rosstatModel">Модель в которую будут записываться данные.</param>
   private void CalculateStudentsInfo(RosstatModel rosstatModel)
   {
-    Type typeOfRosstatModel = rosstatModel.StudentsInfo.GetType();
-    PropertyInfo[] studentTypes = typeOfRosstatModel.GetProperties();
-
-    foreach (var studentType in studentTypes)
+    List<ScopeOfActivity> scopeOfActivities = this.Context.ScopesOfActivity.ToList();
+    rosstatModel.StudentsInfo = new StudentsInfoRosstatModel(scopeOfActivities);
+    foreach (var category in rosstatModel.StudentsInfo.Categories)
     {
-      if (studentType.PropertyType == typeof(StudentProgramStats))
-      {
-        var studentTypeInfo = studentType.GetValue(rosstatModel.StudentsInfo) as StudentProgramStats;
-        studentTypeInfo.Advanced = this.GetStudentsInGroups(this.IsAdvanced, studentTypeInfo.studentCondition);
-        studentTypeInfo.Retraining = this.GetStudentsInGroups(this.IsRetraining, studentTypeInfo.studentCondition);
-        studentTypeInfo.AdvancedModular =
-          this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsModular(g), studentTypeInfo.studentCondition);
-        studentTypeInfo.RetrainingModular =
-          this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g), studentTypeInfo.studentCondition);
-        studentTypeInfo.Woman =
-          this.GetStudentsInGroups(g => true, s => this.IsWoman(s) && studentTypeInfo.studentCondition(s));
-
-      }
+      category.Advanced = this.GetStudentsInGroups(this.IsAdvanced, category.studentCondition);
+      category.Retraining = this.GetStudentsInGroups(this.IsRetraining, category.studentCondition);
+      category.AdvancedModular =
+        this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsModular(g), category.studentCondition);
+      category.RetrainingModular =
+        this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g), category.studentCondition);
+      category.Woman =
+        this.GetStudentsInGroups(g => true, s => this.IsWoman(s) && category.studentCondition(s));
     }
   }
 
