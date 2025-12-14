@@ -55,7 +55,7 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
     this.ReportGroups = this.SetReportGroups(condition);
     this.CalculateEducationProgramInfo(rosstatModel);
     this.CalculateStudentsInfo(rosstatModel);
-    
+    this.CalculateStudentsInfo(rosstatModel);
 
     return rosstatModel;
   }
@@ -69,8 +69,11 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   {
     var allGroups = this.Context.Groups
       .Include(group => group.EducationProgram)
-      .ThenInclude(ep => ep.KindEducationProgram)
+        .ThenInclude(ep => ep.KindEducationProgram)
+      .Include(group => group.EducationProgram)
+        .ThenInclude(ep => ep.FinancingType)
       .Include(group => group.Students)
+      .AsSplitQuery()
       .ToList();
     
     return allGroups
@@ -178,7 +181,7 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   private void CalculateStudentsInfo(RosstatModel rosstatModel)
   {
     List<ScopeOfActivity> scopeOfActivities = this.Context.ScopesOfActivity.ToList();
-    rosstatModel.StudentsInfo = new StudentsInfoRosstatModel(scopeOfActivities);
+    rosstatModel.StudentsInfo = new StudentsInfoRosstatModel<StudentProgramStats>(scopeOfActivities);
     foreach (var category in rosstatModel.StudentsInfo.Categories)
     {
       category.Advanced = this.GetStudentsInGroups(this.IsAdvanced, category.studentCondition);
@@ -189,6 +192,51 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
         this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g), category.studentCondition);
       category.Woman =
         this.GetStudentsInGroups(g => true, s => this.IsWoman(s) && category.studentCondition(s));
+    }
+  }
+
+  /// <summary>
+  /// Расчет по источникам финансирования.
+  /// </summary>
+  /// <param name="rosstatModel"></param>
+  private void CalculateFundingSourcesInfo(RosstatModel rosstatModel)
+  {
+    List<ScopeOfActivity> scopeOfActivities = this.Context.ScopesOfActivity.ToList();
+    rosstatModel.FundingSourcesInfo = new StudentsInfoRosstatModel<FundingSources>(scopeOfActivities);
+    
+    bool IsFederalBudget(Group group) => group.EducationProgram.FinancingType.SourceName ==
+                                         "За счет бюджетных ассигнований федерального бюджета";
+    
+    bool IsRegionalBudget(Group group)=> group.EducationProgram.FinancingType.SourceName ==
+                                         "За счет бюджетных ассигнований бюджетов субъектов РФ";
+    
+    bool IsLocalBudget(Group group)=> group.EducationProgram.FinancingType.SourceName ==
+                                         "За счет бюджетных ассигнований местных бюджетов";
+    
+    bool IsIndividualBudget(Group group)=> group.EducationProgram.FinancingType.SourceName ==
+                                      "По договорам за счет средств физических лиц";
+    
+    bool IsCompanyBudget(Group group)=> group.EducationProgram.FinancingType.SourceName ==
+                                           "По договорам за счет средств юридических лиц";
+    
+    bool IsSelfBudget(Group group)=> group.EducationProgram.FinancingType.SourceName ==
+                                        "За счет собственных средств организации";
+    
+    foreach (var category in rosstatModel.FundingSourcesInfo.Categories)
+    {
+      category.FederalBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsFederalBudget(g), category.studentCondition);
+      category.RegionalBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsAdvanced(g) && IsRegionalBudget(g), category.studentCondition);
+      category.LocalBudgetAdvanced = this.GetStudentsInGroups(g  => this.IsAdvanced(g) && IsLocalBudget(g), category.studentCondition);
+      category.IndividualBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsIndividualBudget(g), category.studentCondition);
+      category.CompanyBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsCompanyBudget(g), category.studentCondition);
+      category.SelfBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsAdvanced(g) && IsSelfBudget(g), category.studentCondition);
+      
+      category.FederalBudgetRetraining = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsFederalBudget(g), category.studentCondition);
+      category.RegionalBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsRegionalBudget(g), category.studentCondition);
+      category.LocalBudgetAdvanced = this.GetStudentsInGroups(g  => this.IsRetraining(g) && IsLocalBudget(g), category.studentCondition);
+      category.IndividualBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsIndividualBudget(g), category.studentCondition);
+      category.CompanyBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsCompanyBudget(g), category.studentCondition);
+      category.SelfBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsRetraining(g) && IsSelfBudget(g), category.studentCondition);
     }
   }
 
