@@ -96,7 +96,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// </summary>
   /// <param name="id">Идентификатор сущности.</param>
   /// <returns>Сущность.</returns>
-  public async Task<TEntity?> FindById(Guid id)
+  public virtual async Task<TEntity?> FindById(Guid id)
   {
     return await this.DbSet.FindAsync(id);
   }
