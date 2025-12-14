@@ -308,6 +308,46 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
         return await this.Get(predicate, query);
     }
 
+    /// <summary>
+    /// Определение студента к заявке
+    /// </summary>
+    /// <param name="requestId">Идентификатор заявки</param>
+    /// <param name="studentId">Идентификатор студента</param>
+    /// <returns>Обновленная заявка</returns>
+    /// <exception cref="ArgumentException"></exception>
+    public async Task<RequestDTO> SetStudentToRequest(Guid requestId, Guid studentId)
+    {
+        var request = await this.FindById(requestId);
+        if (request == null)
+        {
+            throw new ArgumentException("Request not found");
+        }
+        if (request.PhantomStudentId == null && request.StudentId != null)
+        {
+            throw new ArgumentException("Student is already assigned to this request");
+        }
+
+        var student = await this._context.Students.AsNoTracking().Where(x => x.Id == studentId).FirstOrDefaultAsync();
+        if (student == null)
+        {
+            throw new ArgumentException("Student not found");
+        }
+
+
+        var phantomStudent = await this._context.PhantomStudents.Where(x => x.Id == request.PhantomStudentId).FirstOrDefaultAsync();
+        if (phantomStudent == null)
+        {
+            throw new ArgumentException("Phantom student was not found");
+        }
+
+        request.PhantomStudent = null;
+        request.PhantomStudentId = null;
+        this._context.PhantomStudents.Remove(phantomStudent);
+        request.StudentId = studentId;
+        await this._context.SaveChangesAsync();
+        return await _mapper.RequestToRequestDTO(request);
+    }
+
     #endregion
 
     #region Базовый класс
