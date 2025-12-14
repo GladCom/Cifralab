@@ -2,6 +2,6 @@
   useGetPFDOReportMutation,
   useGetSummaryReportMutation,
   useGetRosstatReportMutation,
-} from '../services/report-api';
+} from '../service/report-api';
 
 export { useGetPFDOReportMutation, useGetSummaryReportMutation, useGetRosstatReportMutation };

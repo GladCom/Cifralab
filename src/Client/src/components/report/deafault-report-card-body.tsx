@@ -3,8 +3,8 @@ import { DownloadOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { RangeValue } from '@components/report/types';
 import { useMutation } from '@tanstack/react-query';
-import { IReportRequest } from '@/api/reports-api';
-import DateTimePicker from '../shared/control/date-time-picker';
+import { IOrderRequest } from '@/api/reports-api';
+import { DateTimePicker } from '../shared/control/date-time-picker';
 import { IReportConfig } from '@/storage/catalog-config/report-config';
 import { GroupMultiSelect } from '@components/shared/control/selects/group-select';
 import { DisplayMode } from '@components/shared/control/multi-mode-control/types';
@@ -22,7 +22,7 @@ export const DefaultReportBody = ({ config }: IProps) => {
   const [groupsId, setGroupsId] = useState<string[] | null>(null);
 
   const reportMutation = useMutation({
-    mutationFn: (params: IReportRequest) => config.crud.getReport(params),
+    mutationFn: (params: IOrderRequest) => config.crud.getReport(params),
   });
 
   const reportGeneration = () => {
@@ -34,7 +34,7 @@ export const DefaultReportBody = ({ config }: IProps) => {
       message.warning('Пожалуйста, выберите период для формирования отчёта.');
       return;
     } else {
-      const params: IReportRequest = {
+      const params: IOrderRequest = {
         endDateMax: null,
         endDateMin: dateRange[1].format('YYYY-MM-DD'),
         startDateMax: null,

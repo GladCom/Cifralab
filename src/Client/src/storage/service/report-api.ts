@@ -1,6 +1,5 @@
 ﻿import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import apiUrl from './api-url';
-import { IGroupFilter } from '@components/report/types';
 
 const baseUrl = `${apiUrl}/report`;
 
@@ -26,7 +25,7 @@ const arrayBufferBaseQuery = async (args) => {
 const hybridBaseQuery = async (args, api, extraOptions) => {
   if (extraOptions?.responseHandler === 'arraybuffer') {
     // Если флаг установлен, используем обработчик для ArrayBuffer
-    return arrayBufferBaseQuery(args, api, extraOptions);
+    return arrayBufferBaseQuery(args);
   }
 
   return jsonBaseQuery(args, api, extraOptions);
@@ -40,7 +39,7 @@ export const reportApi = createApi({
   tagTypes: ['report', 'reports'],
   endpoints: (builder) => ({
     GetPFDOReport: builder.mutation({
-      query: (body: IGroupFilter) => ({
+      query: (body: never) => ({
         url: '/GetPFDOReport',
         method: 'POST',
         body: body,
@@ -49,7 +48,7 @@ export const reportApi = createApi({
       invalidatesTags: [{ type: 'reports', id: 'LIST' }],
     }),
     GetSummaryReport: builder.mutation({
-      query: (body: IGroupFilter) => ({
+      query: (body: never) => ({
         url: '/GetSummaryReport',
         method: 'POST',
         body: body,
@@ -58,7 +57,7 @@ export const reportApi = createApi({
       invalidatesTags: [{ type: 'reports', id: 'LIST' }],
     }),
     GetRosstatReport: builder.mutation({
-      query: (body: IGroupFilter) => ({
+      query: (body: never) => ({
         url: '/GetRosstatReport',
         method: 'POST',
         body: body,

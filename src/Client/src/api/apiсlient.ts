@@ -4,16 +4,13 @@ const BASE_API_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:5137';
 
 export async function apiJsonRequest<T>(url: string, schema: z.ZodType<T>, options?: RequestInit): Promise<T> {
   const baseURL = `${BASE_API_URL}${url}`;
-  const response = await fetch(
-    baseURL,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      ...options?.headers,
-    },
+  const response = await fetch(baseURL, {
     ...options,
-  );
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...options?.headers,
+  });
   if (!response.ok) {
     throw new Error(response.statusText);
   }

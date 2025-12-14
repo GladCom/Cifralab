@@ -6,6 +6,7 @@ import { QueryableSelectControl } from './common/queryable-select-control';
 import { Select } from 'antd';
 import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import { MultiControlProps } from '../multi-mode-control/default-controls';
+import { DefaultOptionType } from 'antd/es/select';
 
 const rules: Rule[] = [
   {
@@ -37,8 +38,12 @@ export const MultiSelectEditorControl: React.FC<MultiControlProps> = ({ value, o
       placeholder={placeholder}
       value={value}
       onChange={handleChange}
-      options={options}
-      filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+      options={options as DefaultOptionType[]}
+      filterOption={(input, option) =>
+        String(option?.label ?? '')
+          .toLowerCase()
+          .includes(input.toLowerCase())
+      }
     />
   );
 };
