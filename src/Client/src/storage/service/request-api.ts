@@ -62,6 +62,14 @@ export const requestsApi = createApi({
       }),
       invalidatesTags: ['Requests'],
     }),
+    assignStudentToRequest: builder.mutation({
+      query: ({studentRequestPair}) => ({
+        url: `/SetStudent`,
+        method: 'PATCH',
+        body: studentRequestPair,
+      }),
+      invalidatesTags: ['Requests'],
+    }),
   }),
 });
 
@@ -74,4 +82,5 @@ export const {
   useRemovePersonRequestMutation,
   useGetPersonRequestSearchQuery,
   useGetEntranceExamStatusesQuery,
+  useAssignStudentToRequestMutation,
 } = requestsApi;
