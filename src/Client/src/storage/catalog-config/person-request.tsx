@@ -189,7 +189,7 @@ export const personRequestConfig: EntityTableConfig = {
     },
     {
       title: 'Обучающийся',
-      key: 'trined',
+      key: 'student',
       render: (_, record) => {
         return <TransferToStudentButton studentId={record.studentId} />;
       },

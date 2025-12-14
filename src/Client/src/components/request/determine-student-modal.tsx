@@ -14,18 +14,27 @@ type DetermineStudentModalProps = {
   onConfirm?: (studentId: string) => Promise<void>;
 };
 
-const DetermineStudentModal = ({ open, onClose, students, isLoading, onConfirm }: DetermineStudentModalProps) => {
+const getStudentFullName = (student: StudentWithId): string => {
+  if (student.fullName) {
+    return student.fullName;
+  }
+  const parts = [student.family, student.name, student.patron].filter(Boolean);
+  return parts.length > 0 ? parts.join(' ') : 'Не указано';
+};
+
+const getSelectedStudentFullName = (selectedStudentId: string | null, students: StudentWithId[] | null | undefined): string => {
+  if (!selectedStudentId || !students) {
+    return '';
+  }
+  const student = students.find((s) => s.id === selectedStudentId);
+  return student ? getStudentFullName(student) : '';
+};
+
+const DetermineStudentModal: React.FC<DetermineStudentModalProps> = (props) => {
+  const { open, onClose, students, isLoading, onConfirm } = props;
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  const getStudentFullName = (student: StudentWithId): string => {
-    if (student.fullName) {
-      return student.fullName;
-    }
-    const parts = [student.family, student.name, student.patron].filter(Boolean);
-    return parts.length > 0 ? parts.join(' ') : 'Не указано';
-  };
 
   const handleStudentClick = (studentId: string | undefined) => {
     if (studentId) {
@@ -55,14 +64,6 @@ const DetermineStudentModal = ({ open, onClose, students, isLoading, onConfirm }
 
   const handleConfirmCancel = () => {
     setShowConfirmModal(false);
-  };
-
-  const getSelectedStudentFullName = (): string => {
-    if (!selectedStudentId || !students) {
-      return '';
-    }
-    const student = students.find((s) => s.id === selectedStudentId);
-    return student ? getStudentFullName(student) : '';
   };
 
   return (
@@ -133,7 +134,7 @@ const DetermineStudentModal = ({ open, onClose, students, isLoading, onConfirm }
       </Modal>
       <ConfirmStudentSelectionModal
         show={showConfirmModal}
-        studentFullName={getSelectedStudentFullName()}
+        studentFullName={getSelectedStudentFullName(selectedStudentId, students)}
         isSubmitting={isSubmitting}
         onConfirm={handleConfirmSubmit}
         onCancel={handleConfirmCancel}
