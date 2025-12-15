@@ -8,7 +8,7 @@ type ConfirmStudentSelectionModalProps = {
   onCancel: () => void;
 };
 
-const ConfirmStudentSelectionModal = ({
+export const ConfirmStudentSelectionModal = ({
   show,
   studentFullName,
   isSubmitting = false,
@@ -46,5 +46,3 @@ const ConfirmStudentSelectionModal = ({
     </Modal>
   );
 };
-
-export { ConfirmStudentSelectionModal };

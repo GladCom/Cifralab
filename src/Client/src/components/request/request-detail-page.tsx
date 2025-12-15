@@ -70,10 +70,6 @@ export const RequestDetailPage = () => {
     setIsChanged(false);
   }, [initialData]);
 
-  const handleOpenModal = useCallback(() => {
-    setIsModalOpen(true);
-  }, []);
-
   const handleConfirmStudent = useCallback(
     async (studentId: string) => {
       if (!id) {
@@ -123,7 +119,7 @@ export const RequestDetailPage = () => {
           </Button>
         </Col>
         <Col>
-          <Button onClick={handleOpenModal} disabled={!!requestData?.studentId} style={{ marginRight: '10px' }}>
+          <Button onClick={() => setIsModalOpen(true)} disabled={!!requestData?.studentId} style={{ marginRight: '10px' }}>
             Определить студента
           </Button>
         </Col>

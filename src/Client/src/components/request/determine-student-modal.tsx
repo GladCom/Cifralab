@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal, Spin, Row, Col, Button } from 'antd';
 import { Student } from '../../storage/service/types';
 import { ConfirmStudentSelectionModal } from './confirm-student-selection-modal';
+import useNotifications from '../../notification/use-notifications';
 
 type StudentWithId = Student & { id?: string };
 
@@ -35,6 +36,7 @@ const getSelectedStudentFullName = (
 
 const DetermineStudentModal: React.FC<DetermineStudentModalProps> = (props) => {
   const { open, onClose, students, isLoading, onConfirm } = props;
+  const { showError } = useNotifications();
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -47,6 +49,7 @@ const DetermineStudentModal: React.FC<DetermineStudentModalProps> = (props) => {
 
   const handleConfirmClick = () => {
     if (!selectedStudentId) {
+      showError('Ошибка', 'Необходимо выбрать студента из списка');
       return;
     }
     setShowConfirmModal(true);
