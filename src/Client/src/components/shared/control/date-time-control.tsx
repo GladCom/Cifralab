@@ -28,7 +28,7 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
   const { key } = formParams;
 
   const formattValue = useCallback(
-    (date: dayjs.Dayjs | null, dateString: string) => {
+    (date: dayjs.Dayjs | null, _dateString: string) => {
       if (!date) {
         onChange(null);
         return;
