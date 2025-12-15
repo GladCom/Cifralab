@@ -119,7 +119,11 @@ export const RequestDetailPage = () => {
           </Button>
         </Col>
         <Col>
-          <Button onClick={() => setIsModalOpen(true)} disabled={!!requestData?.studentId} style={{ marginRight: '10px' }}>
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            disabled={!!requestData?.studentId}
+            style={{ marginRight: '10px' }}
+          >
             Определить студента
           </Button>
         </Col>
