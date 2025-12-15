@@ -75,6 +75,12 @@ public class GroupRepository : GenericRepository<Group>, IGroupRepository
     return this.Get(filter.GetFilterPredicate(), this.DbSet.Include(x => x.GroupStudent));
   }
 
+  public override async Task<Group?> FindById(Guid id)
+  {
+    return await this.DbSet.Include(g => g.Students)
+      .FirstOrDefaultAsync(g => g.Id == id);
+  }
+
   #endregion
 
   #region Конструкторы
