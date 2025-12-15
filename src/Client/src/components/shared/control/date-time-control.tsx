@@ -13,11 +13,7 @@ const ViewControl: React.FC<MultiControlProps> = ({ value }) => {
   return <Text>{dayjs(String(value ?? 'Неверный тип данных')).format('DD.MM.YYYY HH:mm:ss')}</Text>;
 };
 
-const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
-  defaultValue,
-  onChange,
-  formParams,
-}) => {
+const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({ defaultValue, onChange, formParams }) => {
   if (!formParams) {
     throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
   }
