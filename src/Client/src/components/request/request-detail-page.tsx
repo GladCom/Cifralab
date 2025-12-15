@@ -2,28 +2,55 @@ import { useState, useEffect, useCallback } from 'react';
 import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
+import { DetermineStudentModal } from './determine-student-modal';
+import { useGetSimilarStudentsQuery } from '../../storage/service/student-api';
+import { useAssignStudentToRequestMutation } from '../../storage/service/request-api';
 import { personRequestConfig } from '../../storage/catalog-config/person-request';
 import { DetailsPageData } from '../shared/layout/details-page-data';
-import type { RequestDTO } from '../../storage/service/types';
+import { RequestDTO } from '../../storage/service/types';
+
+const isRequestDTO = (data: unknown): data is RequestDTO => {
+  return typeof data === 'object' && data !== null;
+};
+
+const getRequestDTO = (data: unknown): RequestDTO | undefined => {
+  return isRequestDTO(data) ? data : undefined;
+};
 
 export const RequestDetailPage = () => {
   const { id } = useParams();
-  const [requestData, setRequestData] = useState<RequestDTO>();
-  const [initialData, setInitialData] = useState<RequestDTO>();
+  const [requestData, setRequestData] = useState<RequestDTO | undefined>(getRequestDTO({}));
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress] = useState(false);
-  const { formModel, crud } = personRequestConfig;
+  const [initialData, setInitialData] = useState<RequestDTO | undefined>(getRequestDTO({}));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { crud, formModel } = personRequestConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data: personRequestData, isLoading, isFetching } = useGetOneByIdAsync(id);
 
   const [editRequest] = useEditOneAsync();
+  const [assignStudentToRequest] = useAssignStudentToRequestMutation();
+
+  const fullname = `${requestData?.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`.trim();
+  const { data: similarStudents, isLoading: isLoadingSimilar } = useGetSimilarStudentsQuery(
+    {
+      fullname,
+      adress: requestData?.address || '',
+      email: requestData?.email || '',
+      phone: requestData?.phone || '',
+    },
+    { skip: !isModalOpen },
+  );
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
       const newData = { ...personRequestData };
       delete newData.id;
-      setRequestData(newData);
-      setInitialData(newData);
+      const requestDTO = getRequestDTO(newData);
+      if (requestDTO) {
+        setRequestData(requestDTO);
+        setInitialData(requestDTO);
+      }
     }
   }, [isLoading, isFetching, personRequestData]);
 
@@ -32,8 +59,10 @@ export const RequestDetailPage = () => {
   );
 
   const onSave = useCallback(() => {
-    editRequest({ id, item: requestData });
-    setIsChanged(false);
+    if (requestData) {
+      editRequest({ id, item: requestData });
+      setIsChanged(false);
+    }
   }, [editRequest, id, requestData]);
 
   const onCancel = useCallback(() => {
@@ -41,11 +70,30 @@ export const RequestDetailPage = () => {
     setIsChanged(false);
   }, [initialData]);
 
-  if (!requestData) {
-    return <Loading />;
-  }
+  const handleConfirmStudent = useCallback(
+    async (studentId: string) => {
+      if (!id) {
+        return;
+      }
 
-  const title = `Заявки - ${requestData?.family} ${requestData?.name} ${requestData?.patron}`;
+      await assignStudentToRequest({
+        requestId: id,
+        studentId: studentId,
+      }).unwrap();
+
+      setRequestData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, studentId: studentId };
+      });
+      setInitialData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, studentId: studentId };
+      });
+    },
+    [id, assignStudentToRequest],
+  );
+
+  const title = `Заявки - ${requestData?.family || ''} ${requestData?.name || ''} ${requestData?.patron || ''}`;
 
   return isLoading || isFetching ? (
     <Loading />
@@ -53,9 +101,11 @@ export const RequestDetailPage = () => {
     <Layout>
       <DetailsPageHeader title={title} />
       <h2 style={{ padding: '3vh' }}>
-        {requestData.family} {requestData?.name} {requestData?.patron}
+        {requestData?.family} {requestData?.name} {requestData?.patron}
       </h2>
-      <DetailsPageData items={formModel} data={requestData} editData={setRequestData} setIsChanged={setIsChanged} />
+      {requestData && (
+        <DetailsPageData items={formModel} data={requestData} editData={setRequestData} setIsChanged={setIsChanged} />
+      )}
       <hr />
       <Row>
         <Col>
@@ -64,11 +114,28 @@ export const RequestDetailPage = () => {
           </Button>
         </Col>
         <Col>
-          <Button onClick={onCancel} disabled={isSaveInProgress}>
+          <Button onClick={onCancel} disabled={isSaveInProgress} style={{ marginRight: '10px' }}>
             Отмена
           </Button>
         </Col>
+        <Col>
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            disabled={!!requestData?.studentId}
+            style={{ marginRight: '10px' }}
+          >
+            Определить студента
+          </Button>
+        </Col>
       </Row>
+      <DetermineStudentModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        students={similarStudents}
+        isLoading={isLoadingSimilar}
+        requestId={id}
+        onConfirm={handleConfirmStudent}
+      />
       <RoutingWarningModal show={blocker.state === 'blocked'} blocker={blocker} />
     </Layout>
   );

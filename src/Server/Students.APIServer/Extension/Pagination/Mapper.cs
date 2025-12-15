@@ -33,6 +33,7 @@ public class Mapper
     return new Request
     {
       Id = Guid.NewGuid(),
+      StudentId = null,
       Email = form.Email,
       Phone = form.Phone,
       EducationProgramId = (await this._educationProgramRepository.GetOne(x => x.Name == form.Education))?.Id,
@@ -90,7 +91,7 @@ public class Mapper
     return new RequestDTO
     {
       Id = request.Id,
-      StudentId = request.Student?.Id,
+      StudentId = request.StudentId == null || request.StudentId == Guid.Empty ? null : request.StudentId,
       StudentFullName = request.Student?.FullName ?? string.Empty,
       family = request.Student?.Family,
       name = request.Student?.Name,
@@ -176,7 +177,7 @@ public class Mapper
     return new Request
     {
       //Id = requestDTO.Id ?? default,
-      //StudentId = requestDTO.StudentId,
+      StudentId = null,
       EducationProgramId = form.educationProgramId,
       //DocumentRiseQualificationId = requestDTO.
       StatusRequestId = (await this._statusRequestRepository.GetOne(x => x.Name!.ToLower() == "новая заявка"))?.Id,

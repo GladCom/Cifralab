@@ -63,4 +63,12 @@ public interface IRequestRepository : IGenericRepository<Request>
     /// <param name="id">Идентификатор заявки.</param>
     /// <returns>Заявка с подгруженными сущностями.</returns>
     Task<RequestDTO?> GetRequestDTO(Guid id);
+
+    /// <summary>
+    /// Определить студента к заявке
+    /// </summary>
+    /// <param name="requestId">Идентификатор заявки</param>
+    /// <param name="studentId">Идентификатор подходящего студента</param>
+    /// <returns>Обновленная заявка</returns>
+    Task<RequestDTO> SetStudentToRequest(Guid requestId, Guid studentId);
 }

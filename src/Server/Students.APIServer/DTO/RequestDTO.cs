@@ -228,3 +228,19 @@ public class RequestDTO
     /// </summary>
     public DateTime DateOfCreate { get; set; }
 }
+
+/// <summary>
+/// Привязка студента к заявке
+/// </summary>
+public class StudentRequestDTO
+{
+    /// <summary>
+    /// Идентификатор заявки
+    /// </summary>
+    public Guid RequestId { get; set; }
+
+    /// <summary>
+    /// Идентификатор подходящего студента
+    /// </summary>
+    public Guid StudentId { get; set; }
+}
