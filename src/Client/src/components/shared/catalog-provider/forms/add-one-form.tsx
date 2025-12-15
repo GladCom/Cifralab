@@ -1,8 +1,20 @@
-import { Modal, Form } from 'antd';
+import { Modal, Form, message } from 'antd';
 import { DisplayMode } from '../../control/multi-mode-control/types';
 import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
 import { ComponentType } from 'react';
 import { FormModel } from '../../../../storage/form-model/types';
+
+interface FormValues {
+  [key: string]: string | number | boolean | Date | null;
+}
+
+interface AddOneResult {
+  loading: boolean;
+}
+
+interface CrudOperations {
+  useAddOneAsync: () => [(values: FormValues) => Promise<void>, AddOneResult];
+}
 
 type AddOneFormProps = {
   visibilityControl: {
@@ -10,7 +22,7 @@ type AddOneFormProps = {
     setShowAddOneForm: React.Dispatch<React.SetStateAction<boolean>>;
   };
   formModel: FormModel;
-  crud: unknown;
+  crud: CrudOperations;
 };
 
 export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formModel, crud }) => {
@@ -19,7 +31,35 @@ export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formM
   const [addOne] = useAddOneAsync();
   const [form] = Form.useForm();
 
-  const onSubmit = (formValues) => {
+  const validateDates = (values: FormValues) => {
+    const { startDate, endDate } = values as {
+      startDate?: string | Date;
+      endDate?: string | Date;
+    };
+
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      if (start > end) {
+        return {
+          isValid: false,
+          message: 'Дата начала не может быть позже даты окончания',
+        };
+      }
+    }
+
+    return { isValid: true };
+  };
+
+  const onSubmit = (formValues: FormValues) => {
+    const validation = validateDates(formValues);
+
+    if (!validation.isValid) {
+      message.error(validation.message);
+      return;
+    }
+
     addOne(formValues);
     setShowAddOneForm(false);
     form.resetFields();
