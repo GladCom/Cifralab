@@ -28,20 +28,24 @@ public class RosstatReportGenerator : BaseReportGenerator, IRosstatReportGenerat
     var properties = typeOfRosstatModel.GetProperties();
     foreach (var property in properties)
     {
-      if (property.PropertyType == typeof(StudentsInfoRosstatModel<StudentProgramStats>))
+      if (property.PropertyType.IsGenericType)
       {
-        var studentProgramStats = property.GetValue(rosstatModel) as StudentsInfoRosstatModel<StudentProgramStats>;
-        foreach (var variable in studentProgramStats.Categories)
+        var genericTypeDefinition = property.PropertyType.GetGenericTypeDefinition();
+        if (genericTypeDefinition == typeof(StudentsInfoRosstatModel<>))
         {
-          Type typeOfVariable = variable.GetType();
-          var variableProperties = typeOfVariable.GetProperties();
-          foreach (var variableProperty in variableProperties)
+          dynamic studentProgramStats = property.GetValue(rosstatModel);
+          foreach (var variable in studentProgramStats.Categories)
           {
-            if (variableProperty.PropertyType == typeof(int))
+            Type typeOfVariable = variable.GetType();
+            var variableProperties = typeOfVariable.GetProperties();
+            foreach (var variableProperty in variableProperties)
             {
-              var key = $"{variable.NameOfScope}_{variableProperty.Name}".Replace(" ", "_");
-              Console.WriteLine(key);
-              template.AddVariable(key, variableProperty.GetValue(variable));
+              if (variableProperty.PropertyType == typeof(int))
+              {
+                var key = $"{variable.NameOfScope}_{variableProperty.Name}_{property.Name}".Replace(" ", "_")
+                  .Replace(".", string.Empty);
+                template.AddVariable(key, variableProperty.GetValue(variable));
+              }
             }
           }
         }

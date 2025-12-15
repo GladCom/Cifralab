@@ -9,7 +9,7 @@ public abstract class StudentInfoModel
   public void SetNameOfScope(string nameOfScope)
   {
     this.NameOfScope = nameOfScope;
-    this.studentCondition = s => s.ScopeOfActivityLevelOne?.NameOfScope == nameOfScope ||
-                                 s.ScopeOfActivityLevelTwo?.NameOfScope == nameOfScope;    
+    this.studentCondition = s => s.ScopeOfActivityLevelTwo?.NameOfScope == nameOfScope ||
+                                 s.ScopeOfActivityLevelOne?.NameOfScope == nameOfScope;    
   }
 }

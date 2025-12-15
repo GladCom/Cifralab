@@ -55,7 +55,7 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
     this.ReportGroups = this.SetReportGroups(condition);
     this.CalculateEducationProgramInfo(rosstatModel);
     this.CalculateStudentsInfo(rosstatModel);
-    this.CalculateStudentsInfo(rosstatModel);
+    this.CalculateFundingSourcesInfo(rosstatModel);
 
     return rosstatModel;
   }
