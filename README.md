@@ -1,44 +1,65 @@
-# cifralab_students
 <img width="1024" height="512" alt="Без имени" src="https://github.com/user-attachments/assets/ae2cc515-b428-4dd0-9bfe-e6c6d9db31e7" />
 
-Запуск Backend:
+[![Pull Request CI](https://github.com/GladCom/Cifralab/actions/workflows/ci_pullrequest.yml/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/ci_pullrequest.yml) [![CI/CD Pipeline](https://github.com/GladCom/Cifralab/actions/workflows/cicd.yml/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/cicd.yml) [![CodeQL](https://github.com/GladCom/Cifralab/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/github-code-scanning/codeql)
 
-1. Установить систему контроля версий git (https://git-scm.com/downloads, если желаете работать из консоли).<br>
-Для работы в визуальной среде разработки (IDE) поставить: VisualStudio, Rider, любое IDE со встроенным git
-(https://visualstudio.microsoft.com/ru/downloads/) 
+Учебная платформа для студентов курса ["ЦифраЛаб"](https://academy.udmr.ru/promprogramming).
 
-2. В браузере открыть ссылку https://cifra2024.mooo.com/cifra/cifra/-/branches
-    1. Выбрать ветку для тестирования / разработки.
-    2. В правой части окна найти синюю кнопку "Код" (Code).
-    3. Нажать и выбрать "Clone with https"
-    4. Нажать на кнопку рядом с текстом "Копировать URL"
-    5. В коммандной строке "GIT CMD" набрать git clone "Сюда вставить, то что было скопировано на предыдущем шаге" и нажать enter
+[Академия «Цифра»](https://academy.udmr.ru/) — учебный центр по подготовке ИТ-специалистов, созданный при поддержке Минцифры УР. Чтобы записаться на курс будущие студенты оставляют на сайте заявку на обучение по выбранной программе. Наш сервис даёт возможность интеграции с сайтом Академии, обрабатывать и управлять заявками, зачислять студентов на курс и многое другое.
 
-3. Установка переменных окружения (настраивается каждый раз, если меняется адрес базы данных): 
-    1. Win + R, в строчку вставьте sysdm.cpl и нажмите "ОК", выбирите вкладку "Дополнительно",в нижней части окна нажмите кнопку "Переменные среды". В части "Переменные среды пользователя..." создайте переменные окружения:<br>
-    DBLogin<br>
-    DBName<br>
-    DBPassword<br>
-    DBPort<br>
-    DBServer<br>
-    В них прописать значения для подключения к базе данных
-4. Создание базы данных (если не хотите подключаться к внешнй базе данных, а развернуть польносьсью свой сервер баз данных)
-Если базы еще нет, то запустить миграцию Migration.bat 
-(в пути необходимо указать путь где располагается ваш локальный репозиторий) 
-Для запуска Backend-Server-API запустить runAPI.bat (в пути необходимо указать путь где располагается ваш локальный репозиторий)
+# Содержание
+- [Работа с исходниками](#работа-с-исходниками)
+  - [Подготовка окружения](#подготовка-окружения)
+  - [Развёртывание серверной части на Windows](#развёртывание-серверной-части-на-windows)
+  - [Развёртывание клиентской части на Windows](#развёртывание-клиентской-части-на-windows)
 
-5. Запустить swagger можно через браузер, прописав в адресе http://localhost:5137/swagger/index.html (нужен для отладки методов Backend)
+# Работа с исходниками
 
-6. Исходные тексты для файлов:
-    1. Migration.bat:<br>
-        ```
-        dotnet tool install --global dotnet-ef<br>
-        cd C:\cifra_repository\src\Server\Students.DBCore<br>
-        dotnet ef migrations add AddColumnIsArchive --context="PGContext"<br>
-        dotnet ef database update --context="PGContext"
-        ```
-    2. runAPI.bat:
-        ```
-        cd C:\cifra_repository\src<br>
-        dotnet build dotnet run --project Server\Students.APIServer --verbosity m --launch-profile http
-        ```
+## Подготовка окружения
+
+0. Чтобы скачать как git-репозиторий: ```git clone https://github.com/GladCom/Cifralab.git```. 
+Или скачайте архив последнего релиза репозитория, либо же конкретной ветки.
+1. Скачайте [PostgreSQL 14](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads).
+> [!NOTE]
+> Для подключения к серверу БД на хосте пропустите этап с установкой PG локально.
+2. Скачайте [.NET 7](https://dotnet.microsoft.com/ru-ru/download/dotnet/7.0)
+3. Скачайте [node.js 18 версии](https://nodejs.org/en/download)
+> [!NOTE]
+> После всех установок рекомендуется перезапустить систему, если вы ещё этого не сделали.
+
+
+## Развёртывание серверной части на Windows
+
+1. Установка переменных окружения. 
+   1. Запустите окно "Выполнить" (Win + R)
+   2. Введите `sysdm.cpl` и нажмите "ОК"
+   3. Выберете вкладку "Дополнительно"
+   4. В нижней части окна нажмите кнопку "Переменные среды". 
+   5. В части "Переменные среды пользователя..." создайте переменные окружения:
+       - DBLogin
+       - DBName
+       - DBPassword
+       - DBPort
+       - DBServer
+    
+       В них прописать значения для подключения к базе данных.
+> [!IMPORTANT] 
+> Убедитесь, что заданный пользователь в DBLogin действительно существует.
+2. Если БД уже существует, то запустите миграцию БД. TODO дописать: @dezodemius.
+3. Через `cmd` из папки `src` запустите сборку проекта командой `dotnet build Students.sln`.
+4. Из папки `src/Server/Students.APIServer` запустите сервер командой `dotnet run .\Students.APIServer.csproj`
+5. Готово! 
+   - Доступ к Swagger осуществляется по адресу http://localhost:5137/Swagger/index.html.
+   - API сервера доступно по адресу http://localhost:5137
+
+
+## Развёртывание клиентской части на Windows
+
+1. Перейдите в папку `src/Client`.
+2. Запустите в этой папке `cmd` и запустите установку зависимостей командой `npm install --legacy-peer-deps`.
+3. В папке `src/Client` создать файл `.env` со следующим содержимым:
+   ```js
+   REACT_APP_API_URL=http://localhost:5137
+   ```
+4. Запустить клиент из этой же папки командой `npm start`.
+5. Готово!
+   - Доступ к клиенту осуществляется по адресу http://localhost:3000/.
