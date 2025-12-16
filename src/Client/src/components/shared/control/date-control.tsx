@@ -57,8 +57,9 @@ const rules: Rule[] = [
   },
   {
     validator: (_, value) => {
-      if (!value) return Promise.resolve();
-
+      if (!value) {
+        return Promise.resolve();
+      }
       const today = dayjs().startOf('day');
       const selected = dayjs(value).startOf('day');
 
