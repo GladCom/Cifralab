@@ -157,21 +157,19 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   /// <param name="rosstatModel">Модель в которую будут записываться данные.</param>
   private void CalculateEducationProgramInfo(RosstatModel rosstatModel)
   {
-    rosstatModel.EducationInfo.AdvancedTrainingProgramsCount = this.GetGroupsCount(this.IsAdvanced);
-    rosstatModel.EducationInfo.ProfessionalRetrainingProgramsCount = this.GetGroupsCount(this.IsRetraining);
-    
-    rosstatModel.EducationInfo.AdvancedTrainingProgramStudentsCount = this.GetStudentsInGroups(this.IsAdvanced);
-    rosstatModel.EducationInfo.ProfessionalRetrainingProgramStudentsCount = this.GetStudentsInGroups(this.IsRetraining);
+    rosstatModel.EducationProgrammInfo = new StudentsInfoRosstatModel<EducationProgrammInfoRosstatModel>();
+    List <EducationProgram> educationPrograms = this.Context.EducationPrograms.ToList();
+    rosstatModel.EducationProgrammInfo.AddEducationalProgramCategory(educationPrograms);
 
-    rosstatModel.EducationInfo.AdvancedTrainingProgramsNetworkCount =
-      this.GetGroupsCount(g => this.IsAdvanced(g) && this.IsNetwork(g));
-    rosstatModel.EducationInfo.ProfessionalRetrainingProgramNetworkCount =
-      this.GetGroupsCount(g => this.IsRetraining(g) && this.IsNetwork(g));
-    
-    rosstatModel.EducationInfo.AdvancedTrainingProgramsNetworkStudentsCount =
-      this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsNetwork(g));
-    rosstatModel.EducationInfo.ProfessionalRetrainingProgramNetworkStudentsCount =
-      this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsNetwork(g));
+    foreach (var category in rosstatModel.EducationProgrammInfo.Categories)
+    {
+      category.ProgramsCount = this.GetGroupsCount(category.EducationProgramCondition);
+      category.StudentsCount = this.GetStudentsInGroups(category.EducationProgramCondition);
+      category.ProgramsNetworkCount =
+        this.GetGroupsCount(g => this.IsNetwork(g) && category.EducationProgramCondition(g));
+      category.ProgramsNetworkStudentsCount =
+        this.GetStudentsInGroups(g => this.IsNetwork(g) && category.EducationProgramCondition(g));
+    }
   }
 
   /// <summary>
@@ -181,17 +179,18 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   private void CalculateStudentsInfo(RosstatModel rosstatModel)
   {
     List<ScopeOfActivity> scopeOfActivities = this.Context.ScopesOfActivity.ToList();
-    rosstatModel.StudentsInfo = new StudentsInfoRosstatModel<StudentProgramStats>(scopeOfActivities);
+    rosstatModel.StudentsInfo = new StudentsInfoRosstatModel<PartialProgramStats>();
+    rosstatModel.StudentsInfo.AddScopeOfActivityCategory(scopeOfActivities);
     foreach (var category in rosstatModel.StudentsInfo.Categories)
     {
-      category.Advanced = this.GetStudentsInGroups(this.IsAdvanced, category.studentCondition);
-      category.Retraining = this.GetStudentsInGroups(this.IsRetraining, category.studentCondition);
+      category.Advanced = this.GetStudentsInGroups(this.IsAdvanced, category.ScopeOfActivityCondition);
+      category.Retraining = this.GetStudentsInGroups(this.IsRetraining, category.ScopeOfActivityCondition);
       category.AdvancedModular =
-        this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsModular(g), category.studentCondition);
+        this.GetStudentsInGroups(g => this.IsAdvanced(g) && this.IsModular(g), category.ScopeOfActivityCondition);
       category.RetrainingModular =
-        this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g), category.studentCondition);
+        this.GetStudentsInGroups(g => this.IsRetraining(g) && this.IsModular(g), category.ScopeOfActivityCondition);
       category.Woman =
-        this.GetStudentsInGroups(g => true, s => this.IsWoman(s) && category.studentCondition(s));
+        this.GetStudentsInGroups(g => true, s => this.IsWoman(s) && category.ScopeOfActivityCondition(s));
     }
   }
 
@@ -202,7 +201,8 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   private void CalculateFundingSourcesInfo(RosstatModel rosstatModel)
   {
     List<ScopeOfActivity> scopeOfActivities = this.Context.ScopesOfActivity.ToList();
-    rosstatModel.FundingSourcesInfo = new StudentsInfoRosstatModel<FundingSources>(scopeOfActivities);
+    rosstatModel.FundingSourcesInfo = new StudentsInfoRosstatModel<FundingSources>();
+    rosstatModel.FundingSourcesInfo.AddScopeOfActivityCategory(scopeOfActivities);
     
     bool IsFederalBudget(Group group) => group.EducationProgram.FinancingType.SourceName ==
                                          "За счет бюджетных ассигнований федерального бюджета";
@@ -224,19 +224,19 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
     
     foreach (var category in rosstatModel.FundingSourcesInfo.Categories)
     {
-      category.FederalBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsFederalBudget(g), category.studentCondition);
-      category.RegionalBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsAdvanced(g) && IsRegionalBudget(g), category.studentCondition);
-      category.LocalBudgetAdvanced = this.GetStudentsInGroups(g  => this.IsAdvanced(g) && IsLocalBudget(g), category.studentCondition);
-      category.IndividualBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsIndividualBudget(g), category.studentCondition);
-      category.CompanyBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsCompanyBudget(g), category.studentCondition);
-      category.SelfBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsAdvanced(g) && IsSelfBudget(g), category.studentCondition);
+      category.FederalBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsFederalBudget(g), category.ScopeOfActivityCondition);
+      category.RegionalBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsAdvanced(g) && IsRegionalBudget(g), category.ScopeOfActivityCondition);
+      category.LocalBudgetAdvanced = this.GetStudentsInGroups(g  => this.IsAdvanced(g) && IsLocalBudget(g), category.ScopeOfActivityCondition);
+      category.IndividualBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsIndividualBudget(g), category.ScopeOfActivityCondition);
+      category.CompanyBudgetAdvanced = this.GetStudentsInGroups(g => this.IsAdvanced(g) && IsCompanyBudget(g), category.ScopeOfActivityCondition);
+      category.SelfBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsAdvanced(g) && IsSelfBudget(g), category.ScopeOfActivityCondition);
       
-      category.FederalBudgetRetraining = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsFederalBudget(g), category.studentCondition);
-      category.RegionalBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsRegionalBudget(g), category.studentCondition);
-      category.LocalBudgetAdvanced = this.GetStudentsInGroups(g  => this.IsRetraining(g) && IsLocalBudget(g), category.studentCondition);
-      category.IndividualBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsIndividualBudget(g), category.studentCondition);
-      category.CompanyBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsCompanyBudget(g), category.studentCondition);
-      category.SelfBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsRetraining(g) && IsSelfBudget(g), category.studentCondition);
+      category.FederalBudgetRetraining = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsFederalBudget(g), category.ScopeOfActivityCondition);
+      category.RegionalBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsRegionalBudget(g), category.ScopeOfActivityCondition);
+      category.LocalBudgetAdvanced = this.GetStudentsInGroups(g  => this.IsRetraining(g) && IsLocalBudget(g), category.ScopeOfActivityCondition);
+      category.IndividualBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsIndividualBudget(g), category.ScopeOfActivityCondition);
+      category.CompanyBudgetAdvanced = this.GetStudentsInGroups(g => this.IsRetraining(g) && IsCompanyBudget(g), category.ScopeOfActivityCondition);
+      category.SelfBudgetAdvanced = this.GetStudentsInGroups(g =>  this.IsRetraining(g) && IsSelfBudget(g), category.ScopeOfActivityCondition);
     }
   }
 

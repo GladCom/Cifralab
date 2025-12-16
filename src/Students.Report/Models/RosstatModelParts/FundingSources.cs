@@ -1,6 +1,6 @@
 namespace Students.Reports.Models.RosstatModelParts;
 
-public class FundingSources : StudentInfoModel
+public class FundingSources : PartialInfoRosstatModel
 {
   public int FederalBudgetAdvanced { get; set; }
   public int RegionalBudgetAdvanced { get; set; }

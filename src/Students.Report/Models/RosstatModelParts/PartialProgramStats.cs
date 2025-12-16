@@ -2,7 +2,7 @@ using Students.Models;
 
 namespace Students.Reports.Models.RosstatModelParts;
 
-public class StudentProgramStats : StudentInfoModel
+public class PartialProgramStats : PartialInfoRosstatModel
 {
   // Не понятно где в модели студента взять присвоена ли квалификация. Это столбец 6.
   public int Advanced{get;set;}
