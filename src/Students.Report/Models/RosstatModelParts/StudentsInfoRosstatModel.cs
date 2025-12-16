@@ -8,9 +8,9 @@ public class StudentsInfoRosstatModel<T> where T : PartialInfoRosstatModel, new(
   public List<T> Categories { get; set; } = new ();
 
   /// <summary>
-  /// Добавить в модель сведений категории по занятости.
+  /// Добавить в модель сведений категорию, ограниченную по занятости.
   /// </summary>
-  /// <param name="scopeOfActivities"></param>
+  /// <param name="scopeOfActivities">Имя категории занятости.</param>
   public void AddScopeOfActivityCategory(List<ScopeOfActivity> scopeOfActivities)
   {
     foreach (var scopeOfActivity in scopeOfActivities)
@@ -24,12 +24,12 @@ public class StudentsInfoRosstatModel<T> where T : PartialInfoRosstatModel, new(
     }
   }
 
+  /// <summary>
+  /// Добавить в модель сведений категорию, ограниченную по образовательной программе.
+  /// </summary>
+  /// <param name="educationalPrograms"></param>
   public void AddEducationalProgramCategory(List<EducationProgram> educationalPrograms)
   {
-    if (typeof(T) != typeof(EducationProgram))
-    {
-      throw new InvalidOperationException("Данное действие можно вызвать только для типа EducationProgram");
-    }
     foreach (var educationalProgram in educationalPrograms)
     {
       if (educationalProgram.Name != null)

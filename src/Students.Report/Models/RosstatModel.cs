@@ -21,4 +21,9 @@ public class RosstatModel
   /// Распределение слушателей по типам финансирования. (п. 2.2 отчета)
   /// </summary>
   public StudentsInfoRosstatModel<FundingSources> FundingSourcesInfo { get; set; } 
+  
+  /// <summary>
+  /// Распределение студентов по возрастам.
+  /// </summary>
+  public StudentsInfoRosstatModel<StudentAges> StudentAgesInfo { get; set; }
 }

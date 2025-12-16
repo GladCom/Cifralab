@@ -240,6 +240,11 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
     }
   }
 
+  private void CalculateStudentAgesInfo(RosstatModel rosstatModel)
+  {
+    
+  }
+
   /// <summary>
   ///   Конструктор.
   /// </summary>

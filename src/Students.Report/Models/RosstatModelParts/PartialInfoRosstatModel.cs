@@ -5,19 +5,9 @@ namespace Students.Reports.Models.RosstatModelParts;
 public abstract class PartialInfoRosstatModel
 {
   /// <summary>
-  /// Название рода занятий.
-  /// </summary>
-  private string? NameOfScope { get; set; }
-  
-  /// <summary>
   /// Ограничение по роду занятий.
   /// </summary>
-  public  Func<Student, bool>? ScopeOfActivityCondition { get; private set; }
-  
-  /// <summary>
-  /// Имя образовательной программы.
-  /// </summary>
-  private string? EducationProgramName { get; set; }
+  public Func<Student, bool>? ScopeOfActivityCondition { get; private set; }
   
   /// <summary>
   /// Ограничение группы по образовательной программе.
@@ -30,7 +20,6 @@ public abstract class PartialInfoRosstatModel
   /// <param name="nameOfScope">Название рода занятий.</param>
   public void SetNameOfScopeCondition(string nameOfScope)
   {
-    this.NameOfScope = nameOfScope;
     this.ScopeOfActivityCondition = s => s.ScopeOfActivityLevelTwo?.NameOfScope == nameOfScope ||
                                  s.ScopeOfActivityLevelOne?.NameOfScope == nameOfScope;    
   }
