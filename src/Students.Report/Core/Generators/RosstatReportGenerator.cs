@@ -42,8 +42,9 @@ public class RosstatReportGenerator : BaseReportGenerator, IRosstatReportGenerat
             {
               if (variableProperty.PropertyType == typeof(int))
               {
-                var key = $"{variable.NameOfScope}_{variableProperty.Name}_{property.Name}".Replace(" ", "_")
+                var key = $"{variable.Name}_{variableProperty.Name}_{property.Name}".Replace(" ", "_")
                   .Replace(".", string.Empty);
+                Console.WriteLine($"{key}__{variableProperty.GetValue(variable)}");
                 template.AddVariable(key, variableProperty.GetValue(variable));
               }
             }

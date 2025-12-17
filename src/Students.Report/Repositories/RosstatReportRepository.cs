@@ -56,7 +56,7 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
     this.CalculateEducationProgramInfo(rosstatModel);
     this.CalculateStudentsInfo(rosstatModel);
     this.CalculateFundingSourcesInfo(rosstatModel);
-
+    this.CalculateStudentAgesInfo(rosstatModel);
     return rosstatModel;
   }
 
@@ -158,8 +158,8 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
   private void CalculateEducationProgramInfo(RosstatModel rosstatModel)
   {
     rosstatModel.EducationProgrammInfo = new StudentsInfoRosstatModel<EducationProgrammInfoRosstatModel>();
-    List <EducationProgram> educationPrograms = this.Context.EducationPrograms.ToList();
-    rosstatModel.EducationProgrammInfo.AddEducationalProgramCategory(educationPrograms);
+    List <KindEducationProgram> kindEducationPrograms = this.Context.KindEducationPrograms.ToList();
+    rosstatModel.EducationProgrammInfo.AddEducationalProgramCategory(kindEducationPrograms);
 
     foreach (var category in rosstatModel.EducationProgrammInfo.Categories)
     {
@@ -242,7 +242,38 @@ public class RosstatReportRepository : BaseReportRepository<RosstatModel>
 
   private void CalculateStudentAgesInfo(RosstatModel rosstatModel)
   {
-    
+    rosstatModel.StudentAgesInfo =new StudentsInfoRosstatModel<StudentAges>();
+    List<KindEducationProgram> kindEducationPrograms = this.Context.KindEducationPrograms.ToList();
+    rosstatModel.StudentAgesInfo.AddEducationalProgramCategory(kindEducationPrograms);
+    // часть категорий нужно ограничить не только по типу группы но и по полу студентов.
+    foreach (var category in rosstatModel.StudentAgesInfo.Categories)
+    {
+      category.SetOnlyWomanCondition(true);
+    }
+    rosstatModel.StudentAgesInfo.AddEducationalProgramCategory(kindEducationPrograms);
+    foreach (var category in rosstatModel.StudentAgesInfo.Categories)
+    {
+      category.AgesUnder25 =
+        this.GetStudentsInGroups(category.EducationProgramCondition, s => s.Age < 25 && category.SexCondition(s));
+      category.Ages25_29 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 25 && s.Age < 30 && category.SexCondition(s));
+      category.Ages30_34 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 30 && s.Age < 35 && category.SexCondition(s));
+      category.Ages35_39 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 35 && s.Age < 40 && category.SexCondition(s));
+      category.Ages40_44 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 40 && s.Age < 45 && category.SexCondition(s));
+      category.Ages45_49 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 45 && s.Age < 50 && category.SexCondition(s));
+      category.Ages50_54 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 50 && s.Age < 55 && category.SexCondition(s));
+      category.Ages55_59 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 55 && s.Age < 60 && category.SexCondition(s));
+      category.Ages60_64 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 60 && s.Age < 65 && category.SexCondition(s));
+      category.AgesOver65 = this.GetStudentsInGroups(category.EducationProgramCondition,
+        s => s.Age >= 65 && category.SexCondition(s));
+    }
   }
 
   /// <summary>

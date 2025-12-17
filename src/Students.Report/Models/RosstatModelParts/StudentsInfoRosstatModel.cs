@@ -28,14 +28,14 @@ public class StudentsInfoRosstatModel<T> where T : PartialInfoRosstatModel, new(
   /// Добавить в модель сведений категорию, ограниченную по образовательной программе.
   /// </summary>
   /// <param name="educationalPrograms"></param>
-  public void AddEducationalProgramCategory(List<EducationProgram> educationalPrograms)
+  public void AddEducationalProgramCategory(List<KindEducationProgram> kindEducationalPrograms)
   {
-    foreach (var educationalProgram in educationalPrograms)
+    foreach (var kindEducationalProgram in kindEducationalPrograms)
     {
-      if (educationalProgram.Name != null)
+      if (kindEducationalProgram.Name != null)
       {
         var newCategory = new T();
-        newCategory.SetEducationProgramCondition(educationalProgram.Name);
+        newCategory.SetEducationProgramCondition(kindEducationalProgram.Name);
         this.Categories.Add(newCategory);
       }
     }
