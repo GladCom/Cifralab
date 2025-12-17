@@ -20,18 +20,20 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
   placeholder,
 }) => {
   if (!formParams) {
-    throw new Error('CommonEditorFormItemControl: "formParams" is required but was not provided.');
+    throw new Error('formParams is required');
   }
   if (!onChange) {
-    throw new Error('CommonEditorFormItemControl: "onChange" is required but was not provided.');
+    throw new Error('onChange is required');
   }
-
   const { key } = formParams;
 
   const formattValue = useCallback(
-    (date: dayjs.Dayjs) => {
-      const formattedDateString = dayjs(date).format('YYYY-MM-DD');
-      onChange(formattedDateString);
+    (date: dayjs.Dayjs | null, _dateString: string) => {
+      if (!date) {
+        onChange(null);
+        return;
+      }
+      onChange(dayjs(date).format('YYYY-MM-DD'));
     },
     [onChange],
   );
@@ -40,11 +42,8 @@ const CommonEditorFormItemControl: React.FC<MultiControlProps> = ({
     <DatePicker
       key={key}
       placeholder={placeholder}
-      defaultValue={dayjs(String(defaultValue ?? 'Неверный тип данных'))}
-      format={{
-        format: 'DD.MM.YYYY',
-        type: 'mask',
-      }}
+      defaultValue={defaultValue ? dayjs(defaultValue) : null}
+      format="DD.MM.YYYY"
       onChange={formattValue}
     />
   );

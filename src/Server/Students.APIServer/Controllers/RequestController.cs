@@ -196,19 +196,45 @@ public class RequestController : GenericAPiController<Request>
             return this.Exception();
         }
     }
-    #endregion
 
-    #region Базовый класс
-
-    #endregion
-
-    #region Конструкторы
 
     /// <summary>
-    /// Конструктор.
+    /// Привязать студента к заявке
     /// </summary>
-    /// <param name="logger">Логгер.</param>
-    /// <param name="requestRepository">Репозиторий заявок.</param>
+    /// <param name="studentRequest">Идентификаторы заявки + студента</param>
+    /// <returns>Обновленная заявка</returns>
+    [HttpPatch("SetStudent")]
+    public async Task<IActionResult> SetStudentToRequest([FromBody] StudentRequestDTO studentRequest)
+    {
+        try
+        {
+            var requestDto = await this._requestRepository.SetStudentToRequest(studentRequest.RequestId, studentRequest.StudentId);
+            return this.Ok(requestDto);
+        }
+        catch (ArgumentException argEx)
+        {
+            this.Logger.LogError(argEx, "Invalid argument while getting entity");
+            return this.BadRequest(argEx.Message);
+        }
+        catch (Exception e)
+        {
+            this.Logger.LogError(e, "Error while setting student to request");
+            return this.Exception();
+        }
+    }
+    #endregion
+
+        #region Базовый класс
+
+        #endregion
+
+        #region Конструкторы
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="logger">Логгер.</param>
+        /// <param name="requestRepository">Репозиторий заявок.</param>
     public RequestController(IRequestRepository requestRepository,
     ILogger<Request> logger) : base(requestRepository, logger)
     {
