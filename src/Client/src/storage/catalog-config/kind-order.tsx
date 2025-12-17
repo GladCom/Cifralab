@@ -13,7 +13,7 @@ export default {
   detailsLink: 'kindOrder',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: kindOrderFormModel,
+  formModel: kindOrderFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

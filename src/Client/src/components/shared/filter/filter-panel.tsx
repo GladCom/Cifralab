@@ -1,17 +1,15 @@
-import React from 'react';
+const style: React.CSSProperties = {
+  height: '10vh',
+  minHeight: '50px',
+};
 
 const FilterPanel = ({ children }) => {
-  const style = {
-    height: '10vh',
-    minHeight: '50px',
-  };
-
   return (
     <div
       className="
-            row 
+            row
             d-flex
-            align-items-center 
+            align-items-center
             w-100
             text-center
             border-bottom

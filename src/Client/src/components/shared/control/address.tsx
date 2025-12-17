@@ -1,7 +1,7 @@
 import { FormParams } from './multi-mode-control/types';
 import { MultimodeControl, MultimodeControlProps } from './multi-mode-control/multi-mode-control';
 import { Rule } from 'antd/es/form';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 import { DtoKeys } from '../../../storage/service/types';
 
 const rules: Rule[] = [
@@ -24,7 +24,7 @@ const formParams: FormParams = {
 
 export const Address: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

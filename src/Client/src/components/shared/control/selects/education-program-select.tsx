@@ -3,7 +3,7 @@ import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control'
 import { FormParams } from '../multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { QueryableSelectControl } from './common/queryable-select-control';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 
 const rules: Rule[] = [
   {
@@ -22,7 +22,7 @@ const formParams: FormParams = {
 export const EducationProgramSelect: React.FC<MultimodeControlProps> = (props) => {
   const { crud } = config;
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

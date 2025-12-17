@@ -13,7 +13,7 @@ export default {
   detailsLink: 'statusRequest',
   hasDetailsPage: false,
   serverPaged: false,
-  properties: requestStatusFormModel,
+  formModel: requestStatusFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

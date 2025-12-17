@@ -4,6 +4,7 @@ import { Table } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import { TablePageHeader } from '../layout/index';
 import FilterPanel, { Query, FilterConfig } from '../catalog-provider/filter-panel';
+import { FormModel } from '../../../storage/form-model/types';
 
 type TableColumn = ColumnType<unknown> & {
   sorterKey?: string;
@@ -39,7 +40,7 @@ function isTableRecord(value: unknown): value is TableRecord {
   return typeof value === 'object' && value !== null && 'id' in value;
 }
 
-type EntityTableConfig = {
+export type EntityTableConfig = {
   detailsLink: string;
   crud: {
     useGetAllPagedAsync: (params?: unknown) => { data?: unknown; isLoading: boolean; isFetching: boolean };
@@ -48,8 +49,9 @@ type EntityTableConfig = {
   columns: TableColumn[];
   serverPaged: boolean;
   dataConverter: (data: unknown) => unknown[];
-  properties?: unknown;
+  formModel: FormModel;
   searchPlaceholder?: string;
+  hasDetailsPage?: boolean;
 } & FilterConfig;
 
 type EntityTableProps = {
@@ -64,7 +66,8 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
   const [searchText, setSearchText] = useState('');
   const [queryString, setQueryString] = useState('');
   const [query, setQuery] = useState<Query>({});
-  const [data, setData] = useState();
+  //  TODO: data не используется? Скорей всего надо исправлять.
+  const [_data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -91,10 +94,12 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
 
   const searchResults = useSearchAsync(searchText) || { data: null };
   const isSearching = !!searchText.trim();
-  const dataToDisplay: unknown = isSearching 
-    ? searchResults?.data 
-    : serverPaged 
-      ? (isDataWithDataField(dataFromServer) ? dataFromServer.data : undefined)
+  const dataToDisplay: unknown = isSearching
+    ? searchResults?.data
+    : serverPaged
+      ? isDataWithDataField(dataFromServer)
+        ? dataFromServer.data
+        : undefined
       : dataFromServer;
 
   useEffect(() => {
@@ -114,16 +119,7 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
         },
       }));
     }
-  }, [
-    dataFromServer,
-    searchResults.data,
-    searchText,
-    isLoading,
-    isFetching,
-    serverPaged,
-    dataToDisplay,
-    queryString,
-  ]);
+  }, [dataFromServer, searchResults.data, searchText, isLoading, isFetching, serverPaged, dataToDisplay, queryString]);
 
   useEffect(() => {
     const filterObject = {};
@@ -151,22 +147,20 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
   const handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, unknown>,
-    sortParams: SorterParams | SorterParams[]
+    sortParams: SorterParams | SorterParams[],
   ) => {
     const sortInfo = Array.isArray(sortParams) ? sortParams[0] : sortParams;
     const sortOrder = sortInfo?.order;
     const sortFieldRaw = sortInfo?.field;
-    const sortField = sortFieldRaw 
-      ? (Array.isArray(sortFieldRaw) ? sortFieldRaw[0]?.toString() : String(sortFieldRaw))
-      : undefined;
-    
-    const column = sortField
-      ? columns.find((col) => 
-          col.dataIndex === sortField || col.key === sortField
-        )
+    const sortField = sortFieldRaw
+      ? Array.isArray(sortFieldRaw)
+        ? sortFieldRaw[0]?.toString()
+        : String(sortFieldRaw)
       : undefined;
 
-    setTableParams((prev) => ({
+    const column = sortField ? columns.find((col) => col.dataIndex === sortField || col.key === sortField) : undefined;
+
+    setTableParams((_prev) => ({
       pagination,
       sortOrder,
       sortField,
@@ -191,9 +185,7 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
       const column = {
         ...col,
         sorter: col.sorter ? true : false,
-        sortOrder: col.sorter && tableParams.sortField === (col.key || col.dataIndex) 
-          ? tableParams.sortOrder
-          : null,
+        sortOrder: col.sorter && tableParams.sortField === (col.key || col.dataIndex) ? tableParams.sortOrder : null,
       };
       return column;
     });

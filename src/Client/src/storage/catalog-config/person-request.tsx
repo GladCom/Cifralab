@@ -11,20 +11,22 @@ import {
 import { useGetRequestStatusQuery } from '../service/request-status-api';
 import { Select } from 'antd';
 import { BirthDate } from '../../components/shared/control/birth-date';
-import { CheckCircleFilled } from '@ant-design/icons';
 import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
 import { personRequestFormModel } from '../form-model/person-request';
 import { EmailCopyButton } from '../../components/shared/control/email-copy-button';
+import { TransferToStudentButton } from '../../components/shared/control/transfer-to-student-button';
 import { useGetEducationProgramQuery } from '../service/education-program-api';
 import { useGetTypeEducationQuery } from '../service/type-education-api';
 import { useGetEntranceExamStatusesQuery } from '../service/request-api';
+import { EntityTableConfig } from '../../components/shared/layout/entity-table';
+import { InputStatus } from 'antd/es/_util/statusUtils';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим
 const StatusRequestForm = ({ record }) => {
   const { id, statusRequest } = record;
   const { data, isLoading, isFetching } = useGetRequestStatusQuery({});
   const [editRequest, { isSuccess, isError }] = useEditOneAsync();
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState<InputStatus>();
   const selectRef = useRef(null);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ const StatusRequestForm = ({ record }) => {
       defaultValue={statusRequest}
       style={{ minWidth: '150px' }}
       placeholder="Статус заявки"
-      filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+      filterOption={(input, option) => (option?.label ?? '').toString().toLowerCase().includes(input.toLowerCase())}
       onChange={onChange}
       variant="borderless"
       loading={isLoading || isFetching}
@@ -60,11 +62,11 @@ const StatusRequestForm = ({ record }) => {
   );
 };
 
-export default {
+export const personRequestConfig: EntityTableConfig = {
   detailsLink: 'requests',
   hasDetailsPage: true,
   serverPaged: true,
-  properties: personRequestFormModel,
+  formModel: personRequestFormModel,
   searchPlaceholder: 'Поиск по заявкам',
   crud: {
     useGetAllAsync,
@@ -187,9 +189,9 @@ export default {
     },
     {
       title: 'Обучающийся',
-      key: 'trined',
-      render: (_, { trained }) => {
-        return trained && <CheckCircleFilled style={{ color: '#52c41a' }} />;
+      key: 'student',
+      render: (_, record) => {
+        return <TransferToStudentButton studentId={record.studentId} />;
       },
     },
   ],

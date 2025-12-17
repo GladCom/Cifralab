@@ -1,18 +1,19 @@
 import { Flex, Select } from 'antd';
-import React from 'react';
-import { DtoKeys } from '../../../storage/service/types';
 
-const style = {
-  height: '10vh',  
+const style: React.CSSProperties = {
+  height: '10vh',
   padding: '10px',
 };
 
 interface Filter {
   key: string;
-  backendKey: DtoKeys;
+  // TODO: возможно это должно быть DtoKeys
+  backendKey: string;
   label: string;
   placeholder?: string;
-  useQuery: UseQueryHook;
+  // TODO: пока что это не UseQueryHook. Разобраться и уточнить тип.
+  // Проблема решиться когда перейдем с RTK Query на React Query
+  useQuery: UseQueryHook | unknown;
   mapOptions?: (data: unknown) => SelectOption[];
 }
 
@@ -69,9 +70,7 @@ const FilterSelect: React.FC<FilterSelectProps> = ({ filter, query, setQuery }) 
       onChange={handleChange}
       loading={isLoading}
       allowClear
-      filterOption={(input, option) =>
-        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-      }
+      filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
       options={options}
     />
   );

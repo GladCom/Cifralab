@@ -1,5 +1,13 @@
 import z from 'zod';
-import { GroupSchema, RequestSchema, SexHumanEnum, StatusEntrancExamsEnum, StudentSchema } from './schemas';
+import {
+  EducationProgramSchema,
+  GroupSchema,
+  RequestDTOSchema,
+  RequestSchema,
+  SexHumanEnum,
+  StatusEntrancExamsEnum,
+  StudentSchema,
+} from './schemas';
 
 /**
  * По этим ключам формируются поля API-сущностей в payload запросов.
@@ -41,10 +49,14 @@ export enum DtoKeys {
   DOCUMENT_NUMBER = 'documentNumber',
   DATE_TAKE_DIPLOM = 'dateTakeDiplom',
   DISABILITY = 'disability',
+  AGREEMENT = 'agreement',
+  STATUS_ENTRANC_EXAMS = 'statusEntrancExams',
 }
 
 export type SexHuman = z.infer<typeof SexHumanEnum>;
 export type StatusEntrancExams = z.infer<typeof StatusEntrancExamsEnum>;
 export type Group = z.infer<typeof GroupSchema>;
 export type Request = z.infer<typeof RequestSchema>;
+export type RequestDTO = z.infer<typeof RequestDTOSchema>;
 export type Student = z.infer<typeof StudentSchema>;
+export type EducationProgram = z.infer<typeof EducationProgramSchema>;

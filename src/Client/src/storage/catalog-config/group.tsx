@@ -15,7 +15,7 @@ export default {
   detailsLink: 'group',
   hasDetailsPage: true,
   serverPaged: false,
-  properties: groupFormModel,
+  formModel: groupFormModel,
   crud: {
     useGetAllAsync,
     useGetAllPagedAsync,

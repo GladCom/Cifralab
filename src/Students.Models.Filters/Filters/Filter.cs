@@ -6,14 +6,20 @@
 /// <typeparam name="TEntity">Сущность подвергаемая фильтрации.</typeparam>
 public abstract class Filter<TEntity> where TEntity : class
 {
-  /// <summary>
-  /// Id сущности.
-  /// </summary>
-  public Guid? Id { get; set; }
+    /// <summary>
+    /// Id сущности.
+    /// </summary>
+    public Guid? Id { get; set; }
 
-  /// <summary>
-  /// Предикат по которому осуществляется фильтрация.
-  /// </summary>
-  /// <returns>Предикат.</returns>
-  public abstract Predicate<TEntity> GetFilterPredicate();
+    /// <summary>
+    /// Предикат по которому осуществляется фильтрация.
+    /// </summary>
+    /// <returns>Предикат.</returns>
+    public abstract Predicate<TEntity> GetFilterPredicate();
+
+    protected static bool FilterByStringProperty(string? filterValue, string modelValue)
+    {
+        return string.IsNullOrEmpty(filterValue) ||
+               modelValue.ToLower().Contains(filterValue.ToLower());
+    }
 }
