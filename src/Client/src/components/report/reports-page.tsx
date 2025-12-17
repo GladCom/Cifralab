@@ -1,5 +1,5 @@
 import { Layout } from '../shared/layout/index';
-import { FrdoReportBody } from '@components/report/frdo-report-body';
+import { PFDOReportBody } from '@components/report/PFDO-report-body';
 import { Accordion } from '../shared/control/accordion/accordion';
 import { RosstatReportBody } from '@components/report/rosstat-report-body';
 import { SummaryReportBody } from '@components/report/summary-report-body';
@@ -8,7 +8,7 @@ const ReportsPage = () => {
   return (
     <Layout title="Отчеты">
       <Accordion>
-        <FrdoReportBody />
+        <PFDOReportBody />
       </Accordion>
       <Accordion>
         <RosstatReportBody />

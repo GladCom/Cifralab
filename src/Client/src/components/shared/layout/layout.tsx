@@ -20,7 +20,7 @@ const footerStyle = {
   position: 'sticky',
 };
 
-const defaultTitle = 'Сервис обработки заявок';
+const defaultTitle = 'РЎРµСЂРІРёСЃ РѕР±СЂР°Р±РѕС‚РєРё Р·Р°СЏРІРѕРє';
 
 type LayoutProps = PropsWithChildren<{
   title?: string;

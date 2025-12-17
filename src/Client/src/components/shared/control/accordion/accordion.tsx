@@ -1,6 +1,7 @@
 ﻿import './style.css';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 import IconArrow from '@assets/arrow-icon.svg';
+import { clsx } from 'clsx';
 
 interface Props {
   children: ReactNode;
@@ -11,22 +12,31 @@ interface Props {
 }
 
 export const Accordion: React.FC<Props> = ({ buttonProps, wrapperProps, imageProps, bodyProps, children }) => {
-  const [isView, setIsView] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handlerBtnArrow = () => {
-    setIsView((v) => !v);
+  const toggleAccordion = () => {
+    setIsOpen((prev) => !prev);
   };
 
-  const wrapperClass = `accordion ${isView ? 'accordionOpen' : ''} ${wrapperProps?.className || ''}`;
-  const iconClass = `icon ${isView ? 'iconOpen' : ''} ${imageProps?.className || ''}`;
-  const buttonClass = `button ${buttonProps?.className || ''}`;
-
   return (
-    <div {...wrapperProps} className={wrapperClass}>
-      <button type="button" {...buttonProps} className={buttonClass} onClick={handlerBtnArrow}>
-        <img src={IconArrow} alt="Стрелка" {...imageProps} className={iconClass} />
+    <div {...wrapperProps} className={clsx('accordion', { accordionOpen: isOpen }, wrapperProps?.className)}>
+      <button
+        type="button"
+        {...buttonProps}
+        className={clsx('button', buttonProps?.className)}
+        onClick={toggleAccordion}
+      >
+        <img
+          src={IconArrow}
+          alt="Стрелка"
+          {...imageProps}
+          className={clsx('icon', { iconOpen: isOpen }, imageProps?.className)}
+        />
       </button>
-      <div {...bodyProps}>{children}</div>
+
+      <div {...bodyProps} className={clsx(bodyProps?.className)}>
+        {children}
+      </div>
     </div>
   );
 };

@@ -11,9 +11,9 @@ export const ReportRequestSchema = z.object({
   groupNames: z.array(z.string()).nullable(),
 });
 
-export type IOrderRequest = z.infer<typeof ReportRequestSchema>;
+export type IReportRequest = z.infer<typeof ReportRequestSchema>;
 
-const downloadReport = async (endpoint: string, params: IOrderRequest, downloadFileName: string): Promise<void> => {
+const downloadReport = async (endpoint: string, params: IReportRequest, downloadFileName: string): Promise<void> => {
   try {
     const options: RequestInit = {
       method: 'POST',
@@ -24,7 +24,7 @@ const downloadReport = async (endpoint: string, params: IOrderRequest, downloadF
       body: JSON.stringify(params),
     };
 
-    const blob = await apiFileRequest<IOrderRequest>(endpoint, params, options);
+    const blob = await apiFileRequest<IReportRequest>(endpoint, params, options);
 
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -40,14 +40,14 @@ const downloadReport = async (endpoint: string, params: IOrderRequest, downloadF
   }
 };
 
-export const fetchPFDOReport = async (params: IOrderRequest): Promise<void> => {
+export const fetchPFDOReport = async (params: IReportRequest): Promise<void> => {
   await downloadReport('report/GetPFDOReport', params, 'Отчет_ФРДО.xlsx');
 };
 
-export const fetchRostatReport = async (params: IOrderRequest): Promise<void> => {
+export const fetchRostatReport = async (params: IReportRequest): Promise<void> => {
   await downloadReport('report/GetRostatReport', params, 'Отчет_Росстат.xlsx');
 };
 
-export const fetchSummaryReport = async (params: IOrderRequest): Promise<void> => {
+export const fetchSummaryReport = async (params: IReportRequest): Promise<void> => {
   await downloadReport('report/GetSummaryReport', params, 'Отчет_По_Обучающимся.xlsx');
 };

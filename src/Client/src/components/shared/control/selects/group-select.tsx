@@ -1,5 +1,4 @@
 ﻿import { Rule } from 'antd/es/form';
-import _ from 'lodash';
 import config from '../../../../storage/catalog-config/group';
 import { ControlByModeMap, DisplayMode, FormParams } from '../multi-mode-control/types';
 import { QueryableSelectControl } from './common/queryable-select-control';
@@ -7,6 +6,7 @@ import { Select } from 'antd';
 import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import { MultiControlProps } from '../multi-mode-control/default-controls';
 import { DefaultOptionType } from 'antd/es/select';
+import merge from 'lodash/merge';
 
 const rules: Rule[] = [
   {
@@ -58,7 +58,7 @@ const controlMap: ControlByModeMap = {
 export const GroupMultiSelect: React.FC<MultimodeControlProps> = (props) => {
   const { crud } = config;
   const { formParams: externalFormParams } = props;
-  const finalFormParams = _.merge(
+  const finalFormParams = merge(
     {},
     formParams, // база
     externalFormParams, // переопределения

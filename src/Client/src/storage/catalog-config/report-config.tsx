@@ -1,7 +1,7 @@
-﻿import { fetchPFDOReport, fetchRostatReport, IOrderRequest, fetchSummaryReport } from '@/api/reports-api';
+﻿import { fetchPFDOReport, fetchRostatReport, IReportRequest, fetchSummaryReport } from '@/api/reports-api';
 
 export interface IReportCrud {
-  getReport: (params: IOrderRequest) => Promise<void>;
+  getReport: (params: IReportRequest) => Promise<void>;
 }
 
 export interface IReportConfig {
