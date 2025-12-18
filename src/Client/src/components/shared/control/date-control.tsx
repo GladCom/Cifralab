@@ -61,6 +61,21 @@ const rules: Rule[] = [
     required: true,
     message: 'Необходимо заполнить дату',
   },
+  {
+    validator: (_, value) => {
+      if (!value) {
+        return Promise.resolve();
+      }
+      const today = dayjs().startOf('day');
+      const selected = dayjs(value).startOf('day');
+
+      if (selected.isAfter(today)) {
+        return Promise.reject('Дата не может быть больше текущей');
+      }
+
+      return Promise.resolve();
+    },
+  },
 ];
 
 const formParams: FormParams = {
