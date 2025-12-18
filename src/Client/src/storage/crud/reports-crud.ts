@@ -1,7 +1,7 @@
 ﻿import {
-  useGetPFDOReportMutation,
+  useGetPfdoReportMutation,
   useGetSummaryReportMutation,
   useGetRosstatReportMutation,
 } from '../service/report-api';
 
-export { useGetPFDOReportMutation, useGetSummaryReportMutation, useGetRosstatReportMutation };
+export { useGetPfdoReportMutation, useGetSummaryReportMutation, useGetRosstatReportMutation };

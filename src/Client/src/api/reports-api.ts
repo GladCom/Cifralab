@@ -1,5 +1,5 @@
 ﻿import { z } from 'zod';
-import { apiFileRequest } from '@/api/apiсlient';
+import { apiFileRequest } from '@/api/api-client';
 import { message } from 'antd';
 
 export const ReportRequestSchema = z.object({
@@ -11,9 +11,9 @@ export const ReportRequestSchema = z.object({
   groupNames: z.array(z.string()).nullable(),
 });
 
-export type IReportRequest = z.infer<typeof ReportRequestSchema>;
+export type ReportRequest = z.infer<typeof ReportRequestSchema>;
 
-const downloadReport = async (endpoint: string, params: IReportRequest, downloadFileName: string): Promise<void> => {
+const downloadReport = async (endpoint: string, params: ReportRequest, downloadFileName: string): Promise<void> => {
   try {
     const options: RequestInit = {
       method: 'POST',
@@ -24,7 +24,7 @@ const downloadReport = async (endpoint: string, params: IReportRequest, download
       body: JSON.stringify(params),
     };
 
-    const blob = await apiFileRequest<IReportRequest>(endpoint, params, options);
+    const blob = await apiFileRequest<ReportRequest>(endpoint, params, options);
 
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -40,14 +40,14 @@ const downloadReport = async (endpoint: string, params: IReportRequest, download
   }
 };
 
-export const fetchPFDOReport = async (params: IReportRequest): Promise<void> => {
+export const fetchPfdoReport = async (params: ReportRequest): Promise<void> => {
   await downloadReport('report/GetPFDOReport', params, 'Отчет_ФРДО.xlsx');
 };
 
-export const fetchRostatReport = async (params: IReportRequest): Promise<void> => {
+export const fetchRostatReport = async (params: ReportRequest): Promise<void> => {
   await downloadReport('report/GetRostatReport', params, 'Отчет_Росстат.xlsx');
 };
 
-export const fetchSummaryReport = async (params: IReportRequest): Promise<void> => {
+export const fetchSummaryReport = async (params: ReportRequest): Promise<void> => {
   await downloadReport('report/GetSummaryReport', params, 'Отчет_По_Обучающимся.xlsx');
 };

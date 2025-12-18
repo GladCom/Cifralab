@@ -38,7 +38,7 @@ export const reportApi = createApi({
   baseQuery: hybridBaseQuery,
   tagTypes: ['report', 'reports'],
   endpoints: (builder) => ({
-    GetPFDOReport: builder.mutation({
+    GetPfdoReport: builder.mutation({
       query: (body: never) => ({
         url: '/GetPFDOReport',
         method: 'POST',
@@ -68,4 +68,4 @@ export const reportApi = createApi({
   }),
 });
 
-export const { useGetPFDOReportMutation, useGetSummaryReportMutation, useGetRosstatReportMutation } = reportApi;
+export const { useGetPfdoReportMutation, useGetSummaryReportMutation, useGetRosstatReportMutation } = reportApi;

@@ -1,18 +1,18 @@
 ﻿import { Button, Card, Divider, Flex, message, Space, Typography } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { RangeValue } from '@components/report/types';
 import { useMutation } from '@tanstack/react-query';
-import { IReportRequest } from '@/api/reports-api';
+import { ReportRequest } from '@/api/reports-api';
 import { DateTimePicker } from '../shared/control/date-time-picker';
-import { IReportConfig } from '@/storage/catalog-config/report-config';
+import { ReportConfig } from '@/storage/catalog-config/report-config';
 import { GroupMultiSelect } from '@components/shared/control/selects/group-select';
 import { DisplayMode } from '@components/shared/control/multi-mode-control/types';
 
 const { Paragraph, Title } = Typography;
 
 export interface IProps {
-  config: IReportConfig;
+  config: ReportConfig;
 }
 
 export const DefaultReportBody = ({ config }: IProps) => {
@@ -22,7 +22,7 @@ export const DefaultReportBody = ({ config }: IProps) => {
   const [groupsId, setGroupsId] = useState<string[] | null>(null);
 
   const reportMutation = useMutation({
-    mutationFn: (params: IReportRequest) => config.crud.getReport(params),
+    mutationFn: (params: ReportRequest) => config.crud.getReport(params),
   });
 
   const reportGeneration = () => {
@@ -34,7 +34,7 @@ export const DefaultReportBody = ({ config }: IProps) => {
       message.warning('Пожалуйста, выберите период для формирования отчёта.');
       return;
     } else {
-      const params: IReportRequest = {
+      const params: ReportRequest = {
         endDateMax: null,
         endDateMin: dateRange[1].format('YYYY-MM-DD'),
         startDateMax: null,

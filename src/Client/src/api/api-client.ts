@@ -1,6 +1,6 @@
 ﻿import { z } from 'zod';
 
-const BASE_API_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:5137';
+export const BASE_API_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:5137';
 
 export async function apiJsonRequest<T>(url: string, schema: z.ZodType<T>, options?: RequestInit): Promise<T> {
   const baseURL = `${BASE_API_URL}${url}`;

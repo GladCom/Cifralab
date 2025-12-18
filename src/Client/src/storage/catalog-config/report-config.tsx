@@ -1,22 +1,22 @@
-﻿import { fetchPFDOReport, fetchRostatReport, IReportRequest, fetchSummaryReport } from '@/api/reports-api';
+﻿import { fetchPfdoReport, fetchRostatReport, ReportRequest, fetchSummaryReport } from '@/api/reports-api';
 
-export interface IReportCrud {
-  getReport: (params: IReportRequest) => Promise<void>;
+export interface ReportCrud {
+  getReport: (params: ReportRequest) => Promise<void>;
 }
 
-export interface IReportConfig {
+export interface ReportConfig {
   title: string;
   description: string;
   detailsLink: string;
   hasDetailsPage: boolean;
   serverPaged: boolean;
-  crud: IReportCrud;
+  crud: ReportCrud;
   dataConverter?: (data: never) => never;
 }
 
-export abstract class BaseReportConfig implements IReportConfig {
+export abstract class BaseReportConfig implements ReportConfig {
   abstract title: string;
-  abstract crud: IReportCrud;
+  abstract crud: ReportCrud;
 
   description: string =
     'Выгрузка данных о выданных документах об образовании в формате Excel для последующей загрузки в федеральный реестр.';
@@ -29,10 +29,10 @@ export abstract class BaseReportConfig implements IReportConfig {
   }
 }
 
-export class PFDOReportConfig extends BaseReportConfig {
+export class PfdoReportConfig extends BaseReportConfig {
   title = 'Отчёт ФРДО';
   crud = {
-    getReport: fetchPFDOReport,
+    getReport: fetchPfdoReport,
   };
 }
 
