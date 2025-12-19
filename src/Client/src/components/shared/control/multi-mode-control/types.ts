@@ -17,7 +17,7 @@ export type BaseControlParams = {
 // TODO: возможно никакой labelKey тут и не нужен, вместо него в select использовать key?
 export type FormParams = FormItemProps & { key: string; labelKey?: string };
 
-export type MultimodeControlValue = boolean | number | string | null | undefined;
+export type MultimodeControlValue = boolean | number | string | null | undefined | string[];
 
 export type ControlByModeMap = Record<DisplayMode, ComponentType<MultiControlProps>>;
 

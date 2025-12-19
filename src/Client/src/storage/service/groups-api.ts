@@ -19,7 +19,10 @@ export const groupsApi = createApi({
       query: (_queryText) => '',
     }),
     getGroupById: builder.query({
-      query: (id) => id,
+      query: () => ({
+        url: '',
+        method: 'GET',
+      }),
     }),
     addGroup: builder.mutation({
       query: (item) => ({

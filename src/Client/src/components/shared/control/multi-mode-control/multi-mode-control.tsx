@@ -70,7 +70,6 @@ export const MultimodeControl: React.FC<MultimodeControlProps> = (props) => {
   const handleSetValue = useCallback(
     (newValue: MultimodeControlValue) => {
       setIsChanged(newValue !== value);
-
       if (setValue) {
         //  TODO Показыкать уведомение?
         setValue(newValue);

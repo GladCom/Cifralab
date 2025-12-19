@@ -5,7 +5,6 @@ import { ControlByModeMap, ControlWrapperByModeMap, DisplayMode, FormParams } fr
 import {
   EditableViewSelectControlWrapper,
   EditorSelectControlWrapper,
-  FormItemSelectControlWrapper,
   ViewSelectControlWrapper,
 } from './select-control-wrappers';
 import { EditorFormItemSelectControl } from './select-controls';
@@ -22,7 +21,7 @@ const defaultControlWrapperByModeMap: ControlWrapperByModeMap = {
   [DisplayMode.VIEW]: ViewSelectControlWrapper,
   [DisplayMode.EDITABLE_VIEW]: EditableViewSelectControlWrapper,
   [DisplayMode.EDITOR]: EditorSelectControlWrapper,
-  [DisplayMode.FORM_ITEM]: FormItemSelectControlWrapper,
+  [DisplayMode.FORM_ITEM]: EditorSelectControlWrapper,
 };
 
 const rules: Rule[] = [
@@ -41,7 +40,6 @@ const formParams: FormParams = {
 
 export const QueryableSelectControl: React.FC<MultimodeControlProps> = (props) => {
   const { formParams: externalFormParams, crud, controlMap, controlWrapperMap, ...restProps } = props;
-
   // Такой финт нужен для переопределения formParams при переиспользовании компонента,
   // например в компоненте BirthDate
   const finalFormParams = merge(

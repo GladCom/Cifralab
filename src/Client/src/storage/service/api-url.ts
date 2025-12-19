@@ -1,3 +1,5 @@
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5137';
+import { BASE_API_URL } from '../../api/api-client';
+
+const apiUrl = BASE_API_URL;
 
 export default apiUrl;

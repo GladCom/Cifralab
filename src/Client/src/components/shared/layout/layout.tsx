@@ -17,6 +17,7 @@ const layoutStyle = {
 const footerStyle = {
   textAlign: 'center',
   backgroundColor: '#fff',
+  position: 'sticky',
 };
 
 const defaultTitle = 'Сервис обработки заявок';

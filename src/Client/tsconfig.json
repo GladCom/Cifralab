@@ -9,8 +9,8 @@
     "noUnusedParameters": false, // Ошибка на неиспользуемые параметры
 
     // Source maps:
-    "sourceMap": true,        // ← генерировать .map файлы
-    "inlineSources": true,     // ← встраивать исходный код TypeScript в .map файлы (удобно для отладки)
+    "sourceMap": true, // ← генерировать .map файлы
+    "inlineSources": true, // ← встраивать исходный код TypeScript в .map файлы (удобно для отладки)
 
     "target": "ESNext", // Современный ECMAScript
     "module": "ESNext", // Использовать ES-модули
@@ -21,6 +21,7 @@
     "skipLibCheck": true, // Пропускать проверку типов библиотек
     "forceConsistentCasingInFileNames": true, // Чувствительность к регистру в именах файлов
     "baseUrl": "./src", // Базовый путь для импортов
+
     "paths": {
       "@/*": ["./*"], // Алиас @ для всех файлов в src
       "@components/*": ["components/*"], // Алиас для компонентов
@@ -42,7 +43,7 @@
       {
         "name": "next"
       }
-    ],
+    ]
     //"noEmit": true  //  Если включить эту настройку, то перестают генериться sourceMap-файлы и отладчик перестает работать.
   },
   "include": [
