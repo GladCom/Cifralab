@@ -44,16 +44,10 @@
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "suffix=release" >> $GITHUB_OUTPUT
             echo "project_name=${{ vars.PROD_STAND_NAME }}" >> $GITHUB_OUTPUT
-            echo "api_port=${{ vars.PROD_API_PORT }}" >> $GITHUB_OUTPUT
-            echo "front_port=${{ vars.PROD_FRONT_PORT }}" >> $GITHUB_OUTPUT
-            echo "pg_port=${{ vars.PROD_DB_PORT }}" >> $GITHUB_OUTPUT
 
           elif [ "${GITHUB_REF_NAME}" = "develop" ]; then
             echo "suffix=develop" >> $GITHUB_OUTPUT
             echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
-            echo "api_port=${{ vars.DEV_API_PORT }}" >> $GITHUB_OUTPUT
-            echo "front_port=${{ vars.DEV_FRONT_PORT }}" >> $GITHUB_OUTPUT
-            echo "pg_port=${{ vars.DEV_DB_PORT }}" >> $GITHUB_OUTPUT
 
           else
             echo "Unsupported branch: ${GITHUB_REF_NAME}"
@@ -83,8 +77,6 @@
       - name: Generate .env for frontend
         run: |
           chmod +x build/create-env.sh
-          API_HOST=${{ secrets.SSH_HOST }} \
-          API_PORT=${{ steps.vars.outputs.api_port }} \
           bash build/create-env.sh \
           echo "Generated .env:"
           cat .env
@@ -119,14 +111,8 @@
             cd cifra/${{ steps.vars.outputs.project_name }} && \
             IMAGE_TAG=${{ steps.vars.outputs.suffix }} \
             PROJECT_NAME=${{ steps.vars.outputs.project_name }} \
-            API_PORT=${{ steps.vars.outputs.api_port }} \
-            FRONT_PORT=${{ steps.vars.outputs.front_port }} \
-            PG_PORT=${{ steps.vars.outputs.pg_port }} \
             docker compose --project-name ${{ steps.vars.outputs.project_name }} pull && \
             IMAGE_TAG=${{ steps.vars.outputs.suffix }} \
             PROJECT_NAME=${{ steps.vars.outputs.project_name }} \
-            API_PORT=${{ steps.vars.outputs.api_port }} \
-            FRONT_PORT=${{ steps.vars.outputs.front_port }} \
-            PG_PORT=${{ steps.vars.outputs.pg_port }} \
             docker compose --project-name ${{ steps.vars.outputs.project_name }} up -d --remove-orphans \
           "
