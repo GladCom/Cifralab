@@ -1,4 +1,5 @@
 ﻿using Students.Models.Filters.Filters;
+using Students.Models.Searches.Searches;
 
 namespace Students.APIServer.Repository.Interfaces;
 
@@ -51,6 +52,13 @@ public interface IGenericRepository<TEntity> where TEntity : class
   /// <param name="filter">Фильтр по которому происходит отбор.</param>
   /// <returns>Список сущностей.</returns>
   Task<IEnumerable<TEntity>> GetFiltered(Filter<TEntity> filter);
+
+  /// <summary>
+  /// Получение списка сущностей по поисковому запросу.
+  /// </summary>
+  /// <param name="search">Поисковый объект, содержащий условия поиска.</param>
+  /// <returns>Список найденных сущностей.</returns>
+  Task<IEnumerable<TEntity>> GetSearched(Search<TEntity> search);
 
   /// <summary>
   /// Удаление объекта.

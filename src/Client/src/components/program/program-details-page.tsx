@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, DetailsPageData, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
+import { useState, useEffect, useCallback } from 'react';
+import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import config from '../../storage/catalog-configs/education-programs';
+import config from '../../storage/catalog-config/education-program';
+import { DetailsPageData } from '../shared/layout/details-page-data';
+import { EducationProgram } from '../../storage/service/types';
 
 const ProgramDetailsPage = () => {
   const { id } = useParams();
-  const [programData, setProgramData] = useState({});
+  const [programData, setProgramData] = useState<EducationProgram>();
+  const [initialData, setInitialData] = useState<EducationProgram>();
   const [isChanged, setIsChanged] = useState(false);
-  const [isSaveInProgress, setIsSaveInProgress] = useState(false);
-  const [initialData, setInitialData] = useState({});
-  const { properties, crud } = config;
+  const [isSaveInProgress] = useState(false);
+  const { formModel, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
@@ -32,12 +34,16 @@ const ProgramDetailsPage = () => {
   const onSave = useCallback(() => {
     editProgram({ id, item: programData });
     setIsChanged(false);
-  }, [id, programData]);
+  }, [id, programData, editProgram]);
 
   const onCancel = useCallback(() => {
     setProgramData(initialData);
     setIsChanged(false);
   }, [initialData]);
+
+  if (!programData) {
+    return <Loading />;
+  }
 
   const title = `Программы - ${programData?.name}`;
 
@@ -47,7 +53,7 @@ const ProgramDetailsPage = () => {
     <Layout>
       <DetailsPageHeader title={title} />
       <h2 style={{ padding: '3vh' }}>{programData?.name}</h2>
-      <DetailsPageData items={properties} data={programData} editData={setProgramData} setIsChanged={setIsChanged} />
+      <DetailsPageData items={formModel} data={programData} editData={setProgramData} setIsChanged={setIsChanged} />
       <hr />
       <Row>
         <Col>

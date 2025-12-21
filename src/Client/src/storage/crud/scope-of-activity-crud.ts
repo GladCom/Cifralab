@@ -5,7 +5,8 @@ import {
   useAddscopeOfActivityMutation,
   useEditscopeOfActivityMutation,
   useRemovescopeOfActivityMutation,
-} from '../services/scope-of-activity-api';
+  useGetScopeOfActivitySearchQuery,
+} from '../service/scope-of-activity-api';
 
 export {
   useGetscopeOfActivityQuery as useGetAllAsync,
@@ -14,4 +15,5 @@ export {
   useAddscopeOfActivityMutation as useAddOneAsync,
   useEditscopeOfActivityMutation as useEditOneAsync,
   useRemovescopeOfActivityMutation as useRemoveOneAsync,
+  useGetScopeOfActivitySearchQuery as useSearchAsync,
 };

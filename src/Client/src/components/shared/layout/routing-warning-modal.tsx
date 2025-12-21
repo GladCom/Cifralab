@@ -1,11 +1,9 @@
-import React from 'react';
 import { Modal, Form, Result } from 'antd';
 
-const RoutingWarningModal = ({ show, blocker }) => {
+export const RoutingWarningModal = ({ show, blocker }) => {
   const [form] = Form.useForm();
 
-  const onSubmit = (e) => {
-    console.log(e);
+  const onSubmit = () => {
     blocker.proceed();
   };
 
@@ -19,7 +17,7 @@ const RoutingWarningModal = ({ show, blocker }) => {
       open={show}
       okText="Всеравно перейти"
       cancelText="Остаться на странице"
-      destroyOnClose
+      destroyOnHidden
       okButtonProps={{
         autoFocus: false,
         danger: true,
@@ -40,5 +38,3 @@ const RoutingWarningModal = ({ show, blocker }) => {
     </Modal>
   );
 };
-
-export default RoutingWarningModal;

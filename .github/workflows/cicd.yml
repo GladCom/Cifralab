@@ -1,0 +1,118 @@
+  name: CI/CD Pipeline
+  
+  on:
+    push:
+      branches:
+        - main
+        - develop
+  
+  jobs:
+    ci_backend:
+      uses: ./.github/workflows/ci_backend.yml
+
+    ci_frontend:
+      uses: ./.github/workflows/ci_frontend.yml
+
+    docker-build:
+      runs-on: ubuntu-latest
+      needs: [ci_backend, ci_frontend]
+
+      permissions:
+        contents: read
+        packages: write
+
+      steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Prepare tags
+        id: vars
+        run: |
+          echo "sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
+
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "suffix=release" >> $GITHUB_OUTPUT
+            echo "project_name=${{ vars.PROD_STAND_NAME }}" >> $GITHUB_OUTPUT
+
+          elif [ "${GITHUB_REF_NAME}" = "develop" ]; then
+            echo "suffix=develop" >> $GITHUB_OUTPUT
+            echo "project_name=${{ vars.DEV_STAND_NAME }}" >> $GITHUB_OUTPUT
+
+          else
+            echo "Unsupported branch: ${GITHUB_REF_NAME}"
+            exit 1
+          fi
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: gladcom
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build backend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }} \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
+            -f src/Dockerfile \
+            src
+                      
+      - name: Push backend image
+        run: |
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/backend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
+
+      - name: Generate .env for frontend
+        run: |
+          chmod +x build/create-env.sh
+          bash build/create-env.sh \
+          echo "Generated .env:"
+          cat .env
+          mv .env src/Client/.env          
+
+      - name: Build frontend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }} \
+            -t ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }} \
+            -f src/Client/Dockerfile \
+            src/Client
+
+      - name: Push frontend image
+        run: |
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}
+          docker push ghcr.io/${{ steps.vars.outputs.repo }}/frontend:${{ steps.vars.outputs.suffix }}-${{ steps.vars.outputs.sha }}
+
+      - name: Upload docker-compose
+        run: |
+          scp build/docker-compose.yaml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:cifra/${{ steps.vars.outputs.project_name }}/docker-compose.yaml
+
+      - name: Login to GHCR on server
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "echo '${{ secrets.GHCR_PAT }}' | docker login ghcr.io -u gladcom --password-stdin"
+
+      - name: Deploy ${{ steps.vars.outputs.project_name }}
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+            cd cifra/${{ steps.vars.outputs.project_name }} && \
+            IMAGE_TAG=${{ steps.vars.outputs.suffix }} \
+            PROJECT_NAME=${{ steps.vars.outputs.project_name }} \
+            docker compose --project-name ${{ steps.vars.outputs.project_name }} pull && \
+            IMAGE_TAG=${{ steps.vars.outputs.suffix }} \
+            PROJECT_NAME=${{ steps.vars.outputs.project_name }} \
+            docker compose --project-name ${{ steps.vars.outputs.project_name }} up -d --remove-orphans \
+          "

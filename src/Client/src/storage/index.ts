@@ -1,22 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './slices/user-slice';
-import { authApi } from './services/auth-api';
-import { studentsApi } from './services/students-api';
-import { educationFormApi } from './services/education-form-api';
-import { requestStatusApi } from './services/request-status-api';
-import { typeEducationApi } from './services/type-education-api';
-import { studentStatusApi } from './services/student-status-api';
-import { kindOrderApi } from './services/kind-order-api';
-import { kindDocumentRiseQualificationApi } from './services/kind-document-rise-qualification-api';
-import { kindEducationProgramApi } from './services/kind-education-program-api';
-import { financingTypeApi } from './services/financing-type-api';
-import { feaProgramApi } from './services/fea-program-api';
-import { educationProgramApi } from './services/education-program-api';
-import { groupsApi } from './services/groups-api';
-import { requestsApi } from './services/requests-api';
-import { scopeOfActivityApi } from './services/scope-of-activity-api';
+import userReducer from './slice/user-slice';
+import { authApi } from './service/auth-api';
+import { studentsApi } from './service/student-api';
+import { educationFormApi } from './service/education-form-api';
+import { requestStatusApi } from './service/request-status-api';
+import { typeEducationApi } from './service/type-education-api';
+import { studentStatusApi } from './service/student-status-api';
+import { kindOrderApi } from './service/kind-order-api';
+import { kindDocumentRiseQualificationApi } from './service/kind-document-rise-qualification-api';
+import { kindEducationProgramApi } from './service/kind-education-program-api';
+import { financingTypeApi } from './service/financing-type-api';
+import { feaProgramApi } from './service/fea-program-api';
+import { educationProgramApi } from './service/education-program-api';
+import { groupsApi } from './service/groups-api';
+import { requestsApi } from './service/request-api';
+import { scopeOfActivityApi } from './service/scope-of-activity-api';
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     user: userReducer,
     [authApi.reducerPath]: authApi.reducer,
@@ -53,3 +53,5 @@ export default configureStore({
       .concat(requestsApi.middleware)
       .concat(scopeOfActivityApi.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>;

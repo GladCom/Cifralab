@@ -1,16 +1,23 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterPanel from './filter-panel';
-import RemoveForm from './forms/remove-form';
-import EditForm from './forms/edit-form';
 import { Button, Table, ConfigProvider } from 'antd';
-import TablePageHeader from '../layout/table-page-header';
+import { TablePageHeader } from '../layout/table-page-header';
+import { EditForm } from './forms/edit-form';
+import { RemoveForm } from './forms/remove-form';
+import { EntityTableConfig } from '../layout/entity-table';
 
 const { Column } = Table;
 
-const Catalog = ({ config, title }) => {
-  const { fields, properties, detailsLink, crud, hasDetailsPage, columns, serverPaged, dataConverter } = config;
-  const { useGetAllPagedAsync, useRemoveOneAsync, useAddOneAsync, useGetOneByIdAsync, useEditOneAsync } = crud;
+type CatalogProps = {
+  config: EntityTableConfig;
+  title: string;
+};
+
+const Catalog: React.FC<CatalogProps> = ({ config, title }) => {
+  const { detailsLink, crud, hasDetailsPage, columns, serverPaged, dataConverter } = config;
+  const { useGetAllPagedAsync } = crud;
+  const navigate = useNavigate();
   const [item, setItem] = useState({});
   const [queryString, setQueryString] = useState('');
   const [showEditForm, setShowEditForm] = useState(false);
@@ -24,74 +31,80 @@ const Catalog = ({ config, title }) => {
       pageSize: 10,
     },
   });
-  const navigate = useNavigate();
 
   const {
     data: dataFromServer,
     error,
     isLoading,
     isFetching,
-    refetch,
   } = useGetAllPagedAsync({
     pageNumber: tableParams.pagination.current,
     pageSize: tableParams.pagination.pageSize,
     filterDataReq: queryString,
   });
 
+  // Вынесенная переменная totalCount
+  const totalCount = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
+
   useEffect(() => {
     if (!isLoading && !isFetching) {
       const normalizedData = serverPaged ? dataFromServer?.data : dataFromServer;
-      const total = serverPaged ? dataFromServer?.totalCount : dataFromServer?.length;
       setData(normalizedData);
       setLoading(false);
-      setTableParams({
-        ...tableParams,
+      setTableParams((prev) => ({
+        ...prev,
         pagination: {
-          ...tableParams.pagination,
-          total,
+          ...prev.pagination,
+          total: totalCount,
           position: ['bottomLeft'],
         },
-      });
+      }));
     }
-  }, [
-    dataFromServer,
-    tableParams.pagination?.current,
-    tableParams.pagination?.pageSize,
-    tableParams?.sortOrder,
-    tableParams?.sortField,
-    JSON.stringify(tableParams.filters),
-  ]);
+  }, [dataFromServer, isLoading, isFetching, serverPaged, totalCount]);
 
   useEffect(() => {
-    let queryString = '';
+    let qs = '';
     for (const [key, value] of Object.entries(query)) {
-      queryString += `&${key}=${value}`;
+      qs += `&${key}=${value}`;
     }
-    setQueryString(queryString);
+    setQueryString(qs);
   }, [query]);
 
+  // Обработчик смены таблицы
   const handleTableChange = (pagination, filters, sorter) => {
-    setTableParams({
+    setTableParams((prev) => ({
+      ...prev,
       pagination,
       filters,
-      sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
-      sortField: Array.isArray(sorter) ? undefined : sorter.field,
-    });
+      sortOrder: Array.isArray(sorter) ? undefined : sorter?.order,
+      sortField: Array.isArray(sorter) ? undefined : sorter?.field,
+    }));
 
-    // `dataSource` is useless since `pageSize` changed
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
       setData([]);
     }
   };
 
-  const openDetailsInfo = useCallback((item) => {
-    setItem(item);
-    if (hasDetailsPage) {
-      navigate(`/${detailsLink}/${item.id}`);
-    } else {
-      setShowEditForm(true);
-    }
-  });
+  const openDetailsInfo = useCallback(
+    (item) => {
+      setItem(item);
+      if (hasDetailsPage) {
+        navigate(`/${detailsLink}/${item.id}`);
+      } else {
+        setShowEditForm(true);
+      }
+    },
+    [hasDetailsPage, navigate, detailsLink],
+  );
+
+  // Обработка ошибок: показываем только если есть ошибка
+  if (error) {
+    return (
+      <div style={{ padding: '20px', color: 'red', fontWeight: 'bold' }}>
+        Произошла ошибка: {error.message || String(error)}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -140,10 +153,18 @@ const Catalog = ({ config, title }) => {
         </ConfigProvider>
       </Table>
       {showEditForm && (
-        <EditForm item={item} control={{ showEditForm, setShowEditForm }} config={config} refetch={refetch} />
+        <EditForm
+          item={item}
+          visibilityControl={{ visible: showEditForm, setVisible: setShowEditForm }}
+          config={config}
+        />
       )}
       {showRemoveForm && (
-        <RemoveForm item={item} control={{ showRemoveForm, setShowRemoveForm }} config={config} refetch={refetch} />
+        <RemoveForm
+          item={item}
+          visibilityControl={{ visible: showRemoveForm, setVisible: setShowRemoveForm }}
+          config={config}
+        />
       )}
     </>
   );

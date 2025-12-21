@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models.Filters;
+using Students.Models.Searches;
 using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
@@ -63,6 +64,30 @@ public abstract class GenericAPiController<TEntity> : ControllerBase where TEnti
       return this.Exception();
     }
   }
+
+  /// <summary>
+  /// Поиск.
+  /// </summary>
+  /// <param name="searchWithoutType">JSON-строка с параметрами поиска.</param>
+  /// <returns>Список найденных объектов.</returns>
+  [HttpGet("Search")]
+  public async Task<IActionResult> ListSearched([FromQuery] string searchWithoutType)
+  {
+    try
+    {
+      var search = SearchSerializer.SearchToTypedSearch<TEntity>(searchWithoutType);
+      if (search is null)
+        return this.BadRequest();
+
+      return this.Ok(await this._rep.GetSearched(search));
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while searching Entities");
+      return this.Exception();
+    }
+  }
+
 
   /// <summary>
   /// Получить объект по Id.

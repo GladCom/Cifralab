@@ -1,15 +1,26 @@
-import React from 'react';
+import { ComponentType } from 'react';
 import { Row, Col, Space } from 'antd';
+import { DisplayMode } from '../control/multi-mode-control/types';
+import { MultimodeControlProps } from '../control/multi-mode-control/multi-mode-control';
+import { FormModel } from '../../../storage/form-model/types';
 
 const rowStyle = {
   alignItems: 'center',
 };
 
-const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
+type DetailsPageDataProps = {
+  items: FormModel;
+  // TODO: уточнить типизацию
+  data: Array<unknown>;
+  editData: (data: unknown) => void;
+  setIsChanged: (value: boolean) => void;
+};
+
+export const DetailsPageData: React.FC<DetailsPageDataProps> = ({ items, data, editData, setIsChanged }) => {
   return (
     <Space direction="vertical" size={0} style={{ display: 'flex', paddingLeft: '3vh' }}>
-      {Object.entries(items).map(([key, { name, type, formParams, params }]) => {
-        const Item = type;
+      {Object.entries(items).map(([key, { name, type, formParams, controlParams }]) => {
+        const Item: ComponentType<MultimodeControlProps> = type;
 
         return (
           <Row style={rowStyle} key={key}>
@@ -17,10 +28,9 @@ const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
             <Col span={8}>
               <Item
                 key={key}
-                name={key}
                 value={data[key]}
-                mode="editableInfo"
-                params={params}
+                displayMode={DisplayMode.EDITABLE_VIEW}
+                controlParams={controlParams}
                 formParams={{ key, name, ...formParams }}
                 setValue={(value) => {
                   editData({
@@ -37,5 +47,3 @@ const DetailsPageData = ({ items, data, editData, setIsChanged }) => {
     </Space>
   );
 };
-
-export default DetailsPageData;

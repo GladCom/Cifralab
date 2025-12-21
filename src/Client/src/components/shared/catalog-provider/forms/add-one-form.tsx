@@ -1,13 +1,65 @@
-import React from 'react';
-import { Modal, Form } from 'antd';
+import { Modal, Form, message } from 'antd';
+import { DisplayMode } from '../../control/multi-mode-control/types';
+import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
+import { ComponentType } from 'react';
+import { FormModel } from '../../../../storage/form-model/types';
 
-const AddOneForm = ({ control, properties, crud }) => {
+interface FormValues {
+  [key: string]: string | number | boolean | Date | null;
+}
+
+interface AddOneResult {
+  loading: boolean;
+}
+
+interface CrudOperations {
+  useAddOneAsync: () => [(values: FormValues) => Promise<void>, AddOneResult];
+}
+
+type AddOneFormProps = {
+  visibilityControl: {
+    showAddOneForm: boolean;
+    setShowAddOneForm: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  formModel: FormModel;
+  crud: CrudOperations;
+};
+
+export const AddOneForm: React.FC<AddOneFormProps> = ({ visibilityControl, formModel, crud }) => {
   const { useAddOneAsync } = crud;
-  const { showAddOneForm, setShowAddOneForm } = control;
-  const [addOne, { error, isLoading }] = useAddOneAsync();
+  const { showAddOneForm, setShowAddOneForm } = visibilityControl;
+  const [addOne] = useAddOneAsync();
   const [form] = Form.useForm();
 
-  const onSubmit = (formValues) => {
+  const validateDates = (values: FormValues) => {
+    const { startDate, endDate } = values as {
+      startDate?: string | Date;
+      endDate?: string | Date;
+    };
+
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      if (start > end) {
+        return {
+          isValid: false,
+          message: 'Дата начала не может быть позже даты окончания',
+        };
+      }
+    }
+
+    return { isValid: true };
+  };
+
+  const onSubmit = (formValues: FormValues) => {
+    const validation = validateDates(formValues);
+
+    if (!validation.isValid) {
+      message.error(validation.message);
+      return;
+    }
+
     addOne(formValues);
     setShowAddOneForm(false);
     form.resetFields();
@@ -40,15 +92,15 @@ const AddOneForm = ({ control, properties, crud }) => {
         </Form>
       )}
     >
-      {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
-        const Item = type;
+      {Object.entries(formModel).map(([key, { name, type, formParams, controlParams }]) => {
+        const Item: ComponentType<MultimodeControlProps> = type;
 
         return (
           <Item
             key={key}
-            params={params}
+            controlParams={controlParams}
             formParams={{ key, name, ...formParams }}
-            mode="form"
+            displayMode={DisplayMode.FORM_ITEM}
             setValue={(value) => {
               form.setFieldsValue({
                 [key]: value,
@@ -60,5 +112,3 @@ const AddOneForm = ({ control, properties, crud }) => {
     </Modal>
   );
 };
-
-export default AddOneForm;

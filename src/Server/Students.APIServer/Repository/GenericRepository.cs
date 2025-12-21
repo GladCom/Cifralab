@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
+using Students.Models;
 using Students.Models.Filters.Filters;
+using Students.Models.Searches.Searches;
 
 namespace Students.APIServer.Repository;
 
@@ -16,7 +18,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
   /// <summary>
   /// Контекст репозитория.
   /// </summary>
-  private readonly StudentContext _context;
+  protected readonly StudentContext _context;
 
   /// <summary>
   /// DbSet репозитория.
@@ -82,12 +84,19 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     return await this.Get(filter.GetFilterPredicate());
   }
 
+  /// <inheritdoc />
+  public virtual async Task<IEnumerable<TEntity>> GetSearched(Search<TEntity> search)
+  {
+    IQueryable<TEntity> query = this.DbSet;
+    return await this.Get(search.GetSearchPredicate(), query);
+  }
+
   /// <summary>
   /// Поиск сущности по идентификатору.
   /// </summary>
   /// <param name="id">Идентификатор сущности.</param>
   /// <returns>Сущность.</returns>
-  public async Task<TEntity?> FindById(Guid id)
+  public virtual async Task<TEntity?> FindById(Guid id)
   {
     return await this.DbSet.FindAsync(id);
   }

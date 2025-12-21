@@ -1,4 +1,3 @@
-import React from 'react';
 import { Empty } from 'antd';
 
 const CustomEmpty = () => {
@@ -7,7 +6,7 @@ const CustomEmpty = () => {
   };
 
   return (
-    <div className="row h-100 align-items-center justify-content-center">
+    <div className="row h-100 align-items-center justify-content-center" style={style}>
       <Empty />
     </div>
   );

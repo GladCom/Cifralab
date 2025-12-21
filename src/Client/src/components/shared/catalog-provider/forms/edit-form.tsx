@@ -1,39 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, ComponentType } from 'react';
 import { Modal, Form } from 'antd';
+import { DisplayMode } from '../../control/multi-mode-control/types';
+import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
+import { EntityTableConfig } from '../../layout/entity-table';
 
-const EditForm = ({ item, control, config, refetch }) => {
+type EditFormProps = {
+  // TODO: уточнить типизацию
+  item: unknown;
+  visibilityControl: {
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+  config: EntityTableConfig;
+};
+
+export const EditForm: React.FC<EditFormProps> = ({ item, visibilityControl, config }) => {
   const { id } = item;
   const [form] = Form.useForm();
   const [itemData, setItemData] = useState(item);
-  const { showEditForm, setShowEditForm } = control;
-  const { properties, crud } = config;
+  const { visible, setVisible } = visibilityControl;
+  const { formModel, crud } = config;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
-  const { data, error, isLoading, isSuccess, isError, isFetching } = useGetOneByIdAsync(id);
-
-  const [editItem, { error: editItemError, isLoading: isEdittingItem }] = useEditOneAsync();
+  const { data, isLoading, isSuccess, isFetching } = useGetOneByIdAsync(id);
+  const [editItem, { error: _editItemError, isLoading: _isEdittingItem }] = useEditOneAsync();
 
   useEffect(() => {
-    if (!isLoading && !isFetching) {
+    if (!isLoading && !isFetching && data) {
       const newData = { ...data };
       delete newData.id;
       setItemData(newData);
     }
-  }, [isLoading, isFetching]);
+  }, [isLoading, isFetching, data]);
 
   useEffect(() => {}, [isSuccess]);
 
   const onCreate = (formValues) => {
     editItem({ id, item: formValues });
-    setShowEditForm(false);
+    setVisible(false);
   };
 
   return (
     <Modal
       title="Правка"
-      open={showEditForm}
+      open={visible}
       confirmLoading={isLoading || isFetching}
-      onCancel={() => setShowEditForm(false)}
-      destroyOnClose
+      onCancel={() => setVisible(false)}
+      destroyOnHidden
       okButtonProps={{
         autoFocus: true,
         htmlType: 'submit',
@@ -53,16 +65,16 @@ const EditForm = ({ item, control, config, refetch }) => {
         </Form>
       )}
     >
-      {Object.entries(properties).map(([key, { name, type, formParams, params }]) => {
-        const Item = type;
+      {Object.entries(formModel).map(([key, { name, type, formParams, controlParams }]) => {
+        const Item: ComponentType<MultimodeControlProps> = type;
 
         return (
           <Item
             key={key}
             value={itemData[key]}
-            params={params}
+            controlParams={controlParams}
             formParams={{ key, name, ...formParams }}
-            mode="form"
+            displayMode={DisplayMode.FORM_ITEM}
             setValue={(value) => {
               form.setFieldsValue({
                 [key]: value,
@@ -74,5 +86,3 @@ const EditForm = ({ item, control, config, refetch }) => {
     </Modal>
   );
 };
-
-export default EditForm;
