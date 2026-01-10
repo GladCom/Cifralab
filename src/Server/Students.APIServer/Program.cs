@@ -87,12 +87,16 @@ builder.Services.AddApiVersioning();
 builder.Services.AddControllers().AddJsonOptions(x =>
   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 app.UseCors(builder => builder
   .AllowAnyOrigin()
   .AllowAnyMethod()
   .AllowAnyHeader());
+
+app.MapHealthChecks("/health");
 
 if(app.Environment.IsDevelopment())
 {

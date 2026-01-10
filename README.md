@@ -1,7 +1,18 @@
 <img width="1024" height="512" alt="Без имени" src="https://github.com/user-attachments/assets/ae2cc515-b428-4dd0-9bfe-e6c6d9db31e7" />
 
-[![Pull Request CI](https://github.com/GladCom/Cifralab/actions/workflows/ci_pullrequest.yml/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/ci_pullrequest.yml) [![CI/CD Pipeline](https://github.com/GladCom/Cifralab/actions/workflows/cicd.yml/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/cicd.yml) [![CodeQL](https://github.com/GladCom/Cifralab/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/github-code-scanning/codeql)
+| Actions                                                                                                                                                                               |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![](https://github.com/GladCom/Cifralab/actions/workflows/ci_pullrequest.yml/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/ci_pullrequest.yml)                   |
+| [![](https://github.com/GladCom/Cifralab/actions/workflows/cicd.yml/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/cicd.yml)                                       |
+| [![](https://github.com/GladCom/Cifralab/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/GladCom/Cifralab/actions/workflows/github-code-scanning/codeql) |
 
+---
+| Сервисы                                       | Статус                                                                                               |
+|-----------------------------------------------|------------------------------------------------------------------------------------------------------|
+| [main](https://cifralab.dezodemius.ru)        | ![Health](https://img.shields.io/website?label=health&url=https://cifralab.dezodemius.ru/health)     |
+| [develop](https://cifralab.dev.dezodemius.ru) | ![Health](https://img.shields.io/website?label=health&url=https://cifralab.dev.dezodemius.ru/health) |
+
+---
 Учебная платформа для студентов курса ["ЦифраЛаб"](https://academy.udmr.ru/promprogramming).
 
 [Академия «Цифра»](https://academy.udmr.ru/) — учебный центр по подготовке ИТ-специалистов, созданный при поддержке Минцифры УР. Чтобы записаться на курс будущие студенты оставляют на сайте заявку на обучение по выбранной программе. Наш сервис даёт возможность интеграции с сайтом Академии, обрабатывать и управлять заявками, зачислять студентов на курс и многое другое.
