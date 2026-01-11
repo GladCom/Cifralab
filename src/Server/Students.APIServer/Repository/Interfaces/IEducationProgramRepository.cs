@@ -1,11 +1,16 @@
 ﻿using Students.Models;
 
-namespace Students.APIServer.Repository.Interfaces
+namespace Students.APIServer.Repository.Interfaces;
+
+/// <summary>
+/// Интерфейс программы обучения.
+/// </summary>
+public interface IEducationProgramRepository : IGenericRepository<EducationProgram>
 {
   /// <summary>
-  /// Интерфейс программы обучения.
+  /// Поменять статус признака Архив.
   /// </summary>
-  public interface IEducationProgramRepository
-  {
-  }
+  /// <param name="educationProgramId">Идентификатор.</param>
+  /// <returns>Программа обучения.</returns>
+  Task<EducationProgram?> MoveToArchiveOrBack(Guid educationProgramId);
 }

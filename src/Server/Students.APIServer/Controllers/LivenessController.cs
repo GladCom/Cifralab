@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Students.Models;
 using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
@@ -27,12 +26,11 @@ public class LivenessController : ControllerBase
   [HttpGet(Name = "Liveness Probe")]
   public IActionResult Get()
   {
-    return StatusCode
+    return this.Ok
     (
-      StatusCodes.Status200OK,
       new DefaultResponse
       {
-        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
       });
   }
 
@@ -46,7 +44,7 @@ public class LivenessController : ControllerBase
   /// <param name="logger">Логгер.</param>
   public LivenessController(ILogger<LivenessController> logger)
   {
-    _logger = logger;
+    this._logger = logger;
   }
 
   #endregion

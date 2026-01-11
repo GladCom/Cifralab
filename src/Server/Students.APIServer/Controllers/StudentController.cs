@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
-using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
 
@@ -19,101 +17,67 @@ public class StudentController : GenericAPiController<Student>
   #region Поля и свойства
 
   private readonly IStudentRepository _studentRepository;
-  private readonly ILogger<Student> _logger;
 
   #endregion
 
   #region Методы
 
+  //(кажется это можно вынести в абстрактный класс)
   /// <summary>
-  /// Список студентов с разделением по страницам (кажется это можно вынести в абстрактный класс).
+  /// Список студентов с разделением по страницам.
   /// </summary>
   [HttpGet("paged")]
   public async Task<IActionResult> ListAllPaged([FromQuery] Pageable pageable)
   {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize));
+    try
+    {
+      var items = await this._studentRepository.GetStudentsByPage(pageable.PageNumber, pageable.PageSize);
+      return this.Ok(items);
+    }
+    catch(Exception e)
+    {
+      this.Logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
   }
 
   /// <summary>
-  /// Список групп, в которых состоит студент.
+  /// Получить студента с заявками и группами.
   /// </summary>
-  /// <param name="student">Идентификатор студента.</param>
-  /// <returns>Список групп.</returns>
-  [HttpGet("GetListGroupsOfStudentExists")]
-  public async Task<IActionResult> GetListGroupsOfStudentExists(Guid student)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetListGroupsOfStudentExists(student));
-  }
-
-  /// <summary>
-  /// Список с заявками, которые подавал студент.
-  /// </summary>
-  /// <param name="student">Идентификатор студента.</param>
-  /// <returns>Список заявок.</returns>
-  [HttpGet("GetListRequestsOfStudentExists")]
-  public async Task<IActionResult> GetListRequestsOfStudentExists(Guid student)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetListRequestsOfStudentExists(student));
-  }
-
-
-  /// <summary>
-  /// Список с программами обучения, на которых учился студент.
-  /// </summary>
-  /// <param name="student">Идентификатор студента.</param>
-  /// <returns>Список программ обучения.</returns>
-  [HttpGet("GetListEducationProgramsOfStudentExists")]
-  public async Task<IActionResult> GetListEducationProgramsOfStudentExists(Guid student)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.GetListEducationProgramsOfStudentExists(student));
-  }
-
-  /// <summary>
-  /// Добавить студента в группу.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <param name="groupID">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
-  [HttpPost("AddStudentToGroup")]
-  public async Task<IActionResult> AddStudentToGroup(Guid studentId, Guid groupID)
-  {
-    return this.StatusCode(StatusCodes.Status200OK,
-      await this._studentRepository.AddStudentToGroup(studentId, groupID));
-  }
-
-  /// <summary>
-  /// Получить студента.
-  /// </summary>
-  /// <param name="id">Идентификатор студент.а</param>
-  /// <returns>Состояние запроса + студент.</returns>
-  public override async Task<IActionResult> Get(Guid id)
+  /// <param name="studentId">Идентификатор студент.а</param>
+  /// <returns>Студент с подгруженными заявками и группами.</returns>
+  [HttpPost("GetStudentWithGroupsAndRequests")]
+  public async Task<IActionResult> GetStudentWithGroupsAndRequests(Guid studentId)
   {
     try
     {
-      var form = await this._studentRepository.FindById(id);
-      if (form == null)
-      {
-        return this.StatusCode(StatusCodes.Status404NotFound,
-          new DefaultResponse
-          {
-            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-          });
-      }
-
-      return this.StatusCode(StatusCodes.Status200OK, form);
+      var form = await this._studentRepository.GetStudentWithGroupsAndRequests(studentId);
+      return form is null ? this.NotFoundException() : this.Ok(form);
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      this._logger.LogError(e, "Error while getting Entity by Id");
-      return this.StatusCode(StatusCodes.Status500InternalServerError,
-        new DefaultResponse
-        {
-          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
-        });
+      this.Logger.LogError(e, "Error while getting Entity by Id");
+      return this.Exception();
+    }
+  }
+  
+  [HttpPost("EnrollStudentInGroup")]
+  public async Task<IActionResult> EnrollStudentInGroup(Guid requestId, Guid groupId)
+  {
+    if (requestId == Guid.Empty || groupId == Guid.Empty)
+      return this.BadRequest("Request ID or group ID is empty");
+    try
+    {
+      var student = await this._studentRepository.EnrollStudentInGroup(requestId, groupId);
+      return this.Ok(student);
+    }
+    catch (ArgumentException argEx)
+    {
+      return this.BadRequest(argEx.Message);
+    }
+    catch (InvalidOperationException ioEx)
+    {
+      return this.Conflict(ioEx.Message);
     }
   }
 
@@ -124,14 +88,12 @@ public class StudentController : GenericAPiController<Student>
   /// <summary>
   /// Конструктор.
   /// </summary>
-  /// <param name="repository">Репозиторий студентов.</param>
   /// <param name="logger">Логгер.</param>
   /// <param name="studentRepository">Репозиторий студентов.</param>
-  public StudentController(IGenericRepository<Student> repository, ILogger<Student> logger,
-    IStudentRepository studentRepository) : base(repository, logger)
+  public StudentController(IStudentRepository studentRepository,
+    ILogger<Student> logger) : base(studentRepository, logger)
   {
     this._studentRepository = studentRepository;
-    this._logger = logger;
   }
 
   #endregion

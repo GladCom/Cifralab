@@ -1,10 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Students.APIServer.Extension.Pagination;
+using Students.APIServer.DTO;
 using Students.APIServer.Repository.Interfaces;
-using Students.Models;
-using Students.Models.ReferenceModels;
 using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
@@ -29,26 +28,6 @@ public class IntegrationController : ControllerBase
   /// </summary>
   private readonly IRequestRepository _requestRepository;
 
-  /// <summary>
-  /// Репозиторий студентов.
-  /// </summary>
-  private readonly IGenericRepository<Student> _studentRepository;
-
-  /// <summary>
-  /// Репозиторий образовательных программ.
-  /// </summary>
-  private readonly IGenericRepository<EducationProgram> _educationProgramRepository;
-
-  /// <summary>
-  /// Репозиторий статусов заявок.
-  /// </summary>
-  private readonly IGenericRepository<StatusRequest> _statusRequestRepository;
-
-  /// <summary>
-  /// Репозиторий типов образований.
-  /// </summary>
-  private readonly IGenericRepository<TypeEducation> _typeEducationRepository;
-
   #endregion
 
   #region Методы
@@ -63,39 +42,28 @@ public class IntegrationController : ControllerBase
   {
     try
     {
-      var request = Mapper.WebhookToRequest(form, _educationProgramRepository, _statusRequestRepository);
+      if(form.Test == "test")
+        return this.Ok(form);
 
-      var student = _studentRepository.Get().Result.FirstOrDefault(x =>
-        x.FullName == form.Name && x.BirthDate.ToString() == form.Birthday && x.Email == form.Email);
-
-      if (student == null)
-      {
-        request.IsAlreadyStudied = false;
-        if (!_studentRepository.Get().Result.Any(x =>
-              x.FullName == form.Name || x.BirthDate.ToString() == form.Birthday || x.Email == form.Email))
-        {
-          student = Mapper.WebhookToStudent(form, _studentRepository, _typeEducationRepository);
-          student = await _studentRepository.Create(student);
-        }
-      }
-      else
-      {
-        request.IsAlreadyStudied = true;
-      }
-
-      request.StudentId = student?.Id;
-      request.Student = student;
-
-      var result = await _requestRepository.Create(request);
-      return StatusCode(StatusCodes.Status200OK, form);
+      await this._requestRepository.Create(form);
+      return this.Ok(form);
     }
-    catch (Exception e)
+    catch(ValidationException e)
     {
-      _logger.LogError(e, "Error while creating new Entity");
-      return StatusCode(StatusCodes.Status500InternalServerError,
+      this._logger.LogError(e, "Error while creating new Entity");
+      return this.BadRequest(
         new DefaultResponse
         {
-          RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
+        });
+    }
+    catch(Exception e)
+    {
+      this._logger.LogError(e, "Error while creating new Entity");
+      return this.StatusCode(StatusCodes.Status500InternalServerError,
+        new DefaultResponse
+        {
+          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
         });
     }
   }
@@ -109,21 +77,10 @@ public class IntegrationController : ControllerBase
   /// </summary>
   /// <param name="logger">Логгер контроллера.</param>
   /// <param name="requestRepository">Репозиторий заявок.</param>
-  /// <param name="studentRepository">Репозиторий студентов.</param>
-  /// <param name="educationProgramRepository">Репозиторий образовательных программ.</param>
-  /// <param name="statusRequestRepository">Репозиторий статусов заявок.</param>
-  /// <param name="typeEducationRepository">Репозиторий типов образований.</param>
-  public IntegrationController(ILogger<IntegrationController> logger, IRequestRepository requestRepository,
-    IGenericRepository<Student> studentRepository, IGenericRepository<EducationProgram> educationProgramRepository,
-    IGenericRepository<StatusRequest> statusRequestRepository,
-    IGenericRepository<TypeEducation> typeEducationRepository)
+  public IntegrationController(IRequestRepository requestRepository, ILogger<IntegrationController> logger)
   {
-    _logger = logger;
-    _requestRepository = requestRepository;
-    _studentRepository = studentRepository;
-    _educationProgramRepository = educationProgramRepository;
-    _statusRequestRepository = statusRequestRepository;
-    _typeEducationRepository = typeEducationRepository;
+    this._logger = logger;
+    this._requestRepository = requestRepository;
   }
 
   #endregion

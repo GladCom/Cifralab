@@ -1,0 +1,57 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './api-url';
+
+export const kindEducationProgramApi = createApi({
+  reducerPath: 'kindEducationProgram',
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/kindEducationProgram` }),
+  tagTypes: ['KindEducationProgram'],
+  endpoints: (builder) => ({
+    getKindEducationProgram: builder.query({
+      query: () => '',
+    }),
+    getKindEducationProgramPaged: builder.query({
+      query: () => '', //  TODO: Переделать
+      providesTags: ['KindEducationProgram'],
+    }),
+    getKindEducationProgramSearch: builder.query({
+      //  TODO: в разработке
+      query: (_queryText) => '',
+    }),
+    getKindEducationProgramById: builder.query({
+      query: (id) => id,
+    }),
+    addKindEducationProgram: builder.mutation({
+      query: (item) => ({
+        url: '',
+        method: 'POST',
+        body: item,
+      }),
+      invalidatesTags: ['KindEducationProgram'],
+    }),
+    editKindEducationProgram: builder.mutation({
+      query: ({ id, item }) => ({
+        url: id,
+        method: 'PUT',
+        body: item,
+      }),
+      invalidatesTags: ['KindEducationProgram'],
+    }),
+    removeKindEducationProgram: builder.mutation({
+      query: (id) => ({
+        url: id,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['KindEducationProgram'],
+    }),
+  }),
+});
+
+export const {
+  useGetKindEducationProgramQuery,
+  useGetKindEducationProgramPagedQuery,
+  useGetKindEducationProgramByIdQuery,
+  useAddKindEducationProgramMutation,
+  useEditKindEducationProgramMutation,
+  useRemoveKindEducationProgramMutation,
+  useGetKindEducationProgramSearchQuery,
+} = kindEducationProgramApi;

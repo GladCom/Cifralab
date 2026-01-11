@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Students.Models.Enums;
@@ -71,40 +70,6 @@ public class Student
   public required SexHuman Sex { get; set; }
 
   /// <summary>
-  /// Гражданство
-  /// </summary>
-  public string? Nationality { get; set; }
-
-  //список полей вероятно кочующих в таблицу документы
-
-  /// <summary>
-  /// Валидированный СНИЛС.
-  /// </summary>
-  private string? _sNILS;
-
-  /// <summary>
-  /// СНИЛС
-  /// </summary>
-  public string? SNILS
-  {
-    get => _sNILS;
-    set
-    {
-      if (value != null)
-      {
-        if (Regex.IsMatch(value, @"^\d{3}-\d{3}-\d{3} \d{2}$"))
-          _sNILS = value;
-        else
-          throw new ValidationException("Not a valid SNILS.");
-      }
-      else
-      {
-        _sNILS = null;
-      }
-    }
-  }
-
-  /// <summary>
   /// Адрес, по-хорошему нужен либо справочник, либо формат стандарта ГОСТа Р 6.30-2003
   /// экспорт из заявки
   /// </summary>
@@ -122,11 +87,11 @@ public class Student
   /// </summary>
   public required string Phone
   {
-    get => _phone;
+    get => this._phone;
     set
     {
       if(Regex.IsMatch(value, @"^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$"))
-        _phone = value;
+        this._phone = value;
       else
         throw new ValidationException("Not a valid phone number.");
     }
@@ -144,14 +109,70 @@ public class Student
   /// </summary>
   public required string Email
   {
-    get => _email;
+    get => this._email;
     set
     {
       value = value.ToLower();
       if(Regex.IsMatch(value, @"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
-        _email = address.Address;
+        this._email = address.Address;
       else
         throw new ValidationException("Not a valid Email address.");
+    }
+  }
+
+  /// <summary>
+  /// Опыт в ИТ
+  /// экспорт из заявки
+  /// </summary>
+  public string? IT_Experience { get; set; }
+
+  /// <summary>
+  /// Ид Уровень образования
+  /// экспорт из заявки, хотя по факту тут тоже некий справочник Высшее образование / Среднее профессиональное образование / Студент ВО / Студент СПО
+  /// </summary>
+  public Guid? TypeEducationId { get; set; }
+
+  /// <summary>
+  /// Id сферы деятельности(1 уровень).
+  /// </summary>
+  public required Guid ScopeOfActivityLevelOneId { get; set; }
+
+  /// <summary>
+  /// Id сферы деятельности(2 уровень).
+  /// </summary>
+  public Guid? ScopeOfActivityLevelTwoId { get; set; }
+
+  /// <summary>
+  /// Гражданство
+  /// </summary>
+  public string? Nationality { get; set; }
+
+  //список полей вероятно кочующих в таблицу документы
+
+  /// <summary>
+  /// Валидированный СНИЛС.
+  /// </summary>
+  private string? _sNILS;
+
+  /// <summary>
+  /// СНИЛС
+  /// </summary>
+  public string? SNILS
+  {
+    get => this._sNILS;
+    set
+    {
+      if(value != null)
+      {
+        if(Regex.IsMatch(value, @"^\d{3}-\d{3}-\d{3} \d{2}$"))
+          this._sNILS = value;
+        else
+          throw new ValidationException("Not a valid SNILS.");
+      }
+      else
+      {
+        this._sNILS = null;
+      }
     }
   }
 
@@ -162,32 +183,10 @@ public class Student
   public string? Projects { get; set; }
 
   /// <summary>
-  /// Опыт в ИТ
-  /// экспорт из заявки
-  /// </summary>
-  public required string IT_Experience { get; set; }
-
-  /// <summary>
   /// ОВЗ (инвалид)
   /// Справочник
   /// </summary>
   public bool? Disability { get; set; }
-
-  /// <summary>
-  /// Ид Уровень образования
-  /// экспорт из заявки, хотя по факту тут тоже некий справочник Высшее образование / Среднее профессиональное образование / Студент ВО / Студент СПО
-  /// </summary>
-  public Guid? TypeEducationId { get; set; }
-  
-  /// <summary>
-  /// Id сферы деятельности(1 уровень).
-  /// </summary>
-  public required Guid ScopeOfActivityLevelOneId { get; set; }
-
-  /// <summary>
-  /// Id сферы деятельности(2 уровень).
-  /// </summary>
-  public Guid? ScopeOfActivityLevelTwoId { get; set; }
 
   /// <summary>
   /// Специальность
@@ -240,7 +239,7 @@ public class Student
   /// Группы
   /// Многие ко многим (мапирование через третью таблицу GroupPerson)
   /// </summary>
-  [JsonIgnore]
+  //[JsonIgnore]
   public virtual ICollection<Group>? Groups { get; set; }
 
   //public string EmailPrepared { get { return Email.ToLower(); } }
@@ -256,6 +255,6 @@ public class Student
   /// <summary>
   /// Заявки на обучение
   /// </summary>
-  [JsonIgnore]
+  //[JsonIgnore]
   public virtual ICollection<Request>? Requests { get; set; }
 }

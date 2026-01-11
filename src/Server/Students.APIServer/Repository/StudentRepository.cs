@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Students.APIServer.Extension;
+using Npgsql;
+using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
@@ -14,12 +15,12 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
 {
   #region Поля и свойства
 
-  private readonly StudentContext _ctx;
-  private readonly IGroupStudentRepository _studentInGroupRepository;
+  private readonly IStudentHistoryRepository _studentHistoryRepository;
+  private readonly IGroupRepository _groupRepository;
 
   #endregion
 
-  #region Методы
+  #region IStudentRepository
 
   /// <summary>
   /// Список студентов с пагинацией.
@@ -27,144 +28,161 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// <param name="page">Номер страницы.</param>
   /// <param name="pageSize">Размер страницы.</param>
   /// <returns>Список студентов с пагинацией.</returns>
-  public async Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize)
+  public async Task<PagedPage<StudentDTO>> GetStudentsByPage(int page, int pageSize)
   {
-    return await PagedPage<Student>.ToPagedPage(this._ctx.Students, page, pageSize, (x) => x.Family);
-  }
+    var query = this.DbSet
+      .Include(s => s.GroupStudent!)
+        .ThenInclude(gs => gs.Request!)
+          .ThenInclude(r => r.Status)
+      .Include(s => s.GroupStudent)!
+        .ThenInclude(gs => gs.Group)
+          .ThenInclude(g => g!.EducationProgram)
+      .Include(te => te.TypeEducation!).Select(x => Mapper.StudentToStudentDTO(x).Result);
 
-  /// <summary>
-  /// Список групп студента.
-  /// </summary>
-  /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список групп студента.</returns>
-  public async Task<IEnumerable<Group?>?> GetListGroupsOfStudentExists(Guid studentId)
-  {
-    var result = from x in _ctx.Groups
-      join y in _ctx.GroupStudent.Where(x => x.StudentsId == studentId).Select(s => s) on x.Id equals y.GroupsId
-      select x;
-    return await result.ToListAsync().ConfigureAwait(false);
-  }
-
-
-  /// <summary>
-  /// Список программ обучения, на которых обучался студент.
-  /// </summary>
-  /// <param name="studentId">Id студента.</param>
-  /// <returns>Список с программами обучения студента.</returns>
-  public async Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId)
-  {
-    var student = await base.FindById(studentId);
-    if(student is null)
-      return null;
-    var educationPrograms = new List<EducationProgram>();
-    student.Groups = new List<Group>();
-
-    await this._ctx.Entry(student).Collection(s => s.GroupStudent).LoadAsync();
-
-    foreach (var groupStudent in student.GroupStudent)
-    {
-      await this._ctx.Entry(groupStudent).Reference(s => s.Group).LoadAsync();
-      student.Groups.Add(groupStudent.Group);
-    }
-
-    foreach (var studentGroup in student.Groups)
-    {
-      await this._ctx.Entry(studentGroup).Reference(s => s.EducationProgram).LoadAsync();
-      educationPrograms.Add(studentGroup.EducationProgram);
-    }
-
-    return educationPrograms;
-  }
-
-  /// <summary>
-  /// Список заявок студента.
-  /// </summary>
-  /// <param name="studentId">Id студента.</param>
-  /// <returns>Список заявок студента.</returns>
-  public async Task<IEnumerable<Request?>?> GetListRequestsOfStudentExists(Guid studentId)
-  {
-    var student = await base.FindById(studentId);
-    if (student is null)
-      return null;
-    await this._ctx.Entry(student).Collection(s => s.Requests!).LoadAsync();
-    return student.Requests!.ToList();
-  }
-
-  /// <summary>
-  /// Добавление студента в группу.
-  /// </summary>
-  /// <param name="stud">Идентификатор студента.</param>
-  /// <param name="group">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
-  public async Task<Guid> AddStudentToGroup(Guid stud, Guid group)
-  {
-    await this._studentInGroupRepository.AddStudentInGroup(stud, group);
-    return stud;
+    return await PagedPage<StudentDTO>.ToPagedPage<string>(query, page, pageSize, x => x.StudentFamily);
   }
 
   /// <summary>
   /// Поиск студента (с подгрузкой данных о группах и заявках) по идентификатору.
   /// </summary>
-  /// <param name="id">Идентификатор студента.</param>
+  /// <param name="studentId">Идентификатор студента.</param>
   /// <returns>Студент.</returns>
-  public override async Task<Student?> FindById(Guid id)
+  public async Task<Student?> GetStudentWithGroupsAndRequests(Guid studentId)
   {
-    return await _ctx.Students.AsNoTracking()
+    return await this.GetOne(x => x.Id == studentId, this.DbSet
       .Include(x => x.Groups)
       .Include(x => x.Requests)
-      .FirstOrDefaultAsync(x => x.Id == id);
+      .AsNoTracking());
   }
 
   /// <summary>
-  /// Поиск студента по номеру телефона.
+  /// Студент проходил обучение в этом году.
   /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <returns>Студент.</returns>
-  public async Task<Student?> FindByPhone(string phone)
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="requestId">Идентификатор заявки, для которой производиться проверка.</param>
+  public async Task<bool> IsAlreadyStudied(Guid studentId, Guid requestId)
   {
-    var students = this._ctx.Students.AsNoTracking().AsAsyncEnumerable();
-    await foreach (var item in students)
+    return await this.GetOne(s => s.Id == studentId && s.Requests!.Any(y => y.Id != requestId &&
+                                           y.Orders!.Any(e => e.KindOrder!.Name!.ToLower() == "о зачислении" &&
+                                                              e.Date.Year == DateTime.Now.Year)),
+      this.DbSet
+        .Include(s => s.Requests)!
+          .ThenInclude(r => r.Orders)!
+          .ThenInclude(o => o.KindOrder)) is not null;
+  }
+
+  #endregion
+
+  #region Базовый класс
+
+  /// <summary>
+  /// Изменить студента.
+  /// </summary>
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="student">Обновлённый студент.</param>
+  /// <returns>Студент.</returns>
+  public override async Task<Student?> Update(Guid studentId, Student student)
+  {
+    var oldStudent = await this.FindById(studentId);
+    StudentHistory? studentHistory = null;
+    if(oldStudent is not null)
     {
-      if (item.Phone.GetPhoneFromStr().Equals(phone.GetPhoneFromStr()))
-      {
-        return item;
-      }
+      studentHistory = await this._studentHistoryRepository.CreateStudentHistory(oldStudent, student);
     }
 
-    return null;
-  }
-
-  /// <summary>
-  /// Поиск студента по email.
-  /// </summary>
-  /// <param name="email">Электронная почта.</param>
-  /// <returns>Студент.</returns>
-  public async Task<Student?> FindByEmail(string email)
-  {
-    return await this._ctx.Students.AsNoTracking()
-      .FirstOrDefaultAsync(x =>
-        x.Email.ToLower().Equals(email.ToLower()));
-  }
-
-  /// <summary>
-  /// Поиск студента по номеру телефона и email.
-  /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <param name="email">Электронная почта.</param>
-  /// <returns>Студент.</returns>
-  public async Task<Student?> FindByPhoneAndEmail(string phone, string email)
-  {
-    var students = this._ctx.Students.AsNoTracking().AsAsyncEnumerable();
-    await foreach (var item in students)
+    try
     {
-      if (item.Phone.GetPhoneFromStr().Equals(phone.GetPhoneFromStr())
-          && item.Email.ToLower().Equals(email.ToLower()))
+      return await base.Update(studentId, student);
+    }
+    catch(Exception e)
+    {
+      if(studentHistory is not null)
+        await this._studentHistoryRepository.Remove(studentHistory);
+
+      throw new Exception(string.Empty, e);
+    }
+  }
+  
+  /// <summary>
+  /// Зачисление студента в группу.
+  /// </summary>
+  /// <param name="studentId">ID студента.</param>
+  /// <param name="requestId">ID заявки студента.</param>
+  /// <param name="groupId">ID группы в которую надо зачислить студента.</param>
+  /// <returns>Студент с обновленными группами.</returns>
+  /// <exception cref="ArgumentException">Возникает в случае если не сущетсвует группа студент или заявка.</exception>
+  /// <exception cref="InvalidOperationException">Возникает при попытке добавить студента в группу, где он уже есть
+  /// или в случае, если студент не подавал туда заявку или заявка уже использована.</exception>
+  public async Task<Student?> EnrollStudentInGroup(Guid requestId, Guid groupId)
+  {
+    var request = await this.GetValidEnrollmentRequestWithStudent(requestId, groupId);
+
+    try
+    {
+      var newGroupStudent = new GroupStudent()
       {
-        return item;
-      }
+        StudentId = request.Student.Id,
+        GroupId = groupId,
+        RequestId = requestId
+      };
+      if (request.Student.GroupStudent == null)
+        request.Student.GroupStudent = new List<GroupStudent>();
+      await this._context.AddAsync(newGroupStudent);
+      await this._context.SaveChangesAsync();
+      return request.Student;
+    }
+    
+    // Так как добавляем GroupStudent в которой первичный ключ requestId ошибка говорит о том,
+    // что по этой заявке студент уже зачислен в группу
+    catch (DbUpdateException ex) when (ex.InnerException is PostgresException pgEx && pgEx.SqlState == "23505")
+    {
+      throw new InvalidOperationException("Based on this request, the student has already been enrolled in the group.", ex);
+    }
+  }
+
+  /// <summary>
+  /// Получить проверенную заявку для зачисления со студентом.
+  /// </summary>
+  /// <param name="requestId">Id заявки студента.</param>
+  /// <param name="groupId">ID группы в которую надо зачислить студента.</param>
+  /// <exception cref="ArgumentException">Возвращается если группа или заявка не найдены.</exception>
+  /// <exception cref="InvalidOperationException">Возвращается если действие зачисления недопустимо.</exception>
+  /// <returns>Заявка со студентом.</returns>
+  private async Task<Request> GetValidEnrollmentRequestWithStudent(Guid requestId, Guid groupId)
+  {
+    var group = await this._context.Groups.FindAsync(groupId);
+    if (group == null)
+    {
+      throw new ArgumentException("Group not found");
+    }
+    
+    var request = await this._context.Requests
+      .Include(r => r.Student)
+        .ThenInclude(s=>s.GroupStudent)
+      .Include(r=> r.EducationProgram)
+      .SingleOrDefaultAsync(r => r.Id == requestId);
+
+    if (request == null)
+    {
+      throw new ArgumentException("Request not found");
+    }
+    
+    if (group.EducationProgramId != request.EducationProgramId)
+    {
+      throw new InvalidOperationException("The education program group does not match the requested program");
     }
 
-    return null;
+    if (request.Student == null)
+    {
+      throw new InvalidOperationException("The student is not assigned to this request");
+    }
+
+    if (request.Student.GroupStudent.Any(g => g.GroupId == groupId))
+    {
+      throw new InvalidOperationException("The student has already been enrolled in the group");
+    }
+    
+    return request;
   }
 
   #endregion
@@ -175,11 +193,10 @@ public class StudentRepository : GenericRepository<Student>, IStudentRepository
   /// Конструктор.
   /// </summary>
   /// <param name="context">Контекст базы данных.</param>
-  /// <param name="studInGroupRep">Репозиторий групп студентов (это нужно удалить, заменить на репозиторий студентов).</param>
-  public StudentRepository(StudentContext context, IGroupStudentRepository studInGroupRep) : base(context)
+  /// <param name="studentHistoryRepository">Репозиторий групп студентов.</param>
+  public StudentRepository(StudentContext context, IStudentHistoryRepository studentHistoryRepository) : base(context)
   {
-    this._ctx = context;
-    this._studentInGroupRepository = studInGroupRep;
+    this._studentHistoryRepository = studentHistoryRepository;
   }
 
   #endregion

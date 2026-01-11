@@ -1,11 +1,9 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Students.DBCore.Contexts;
-using Students.Models;
 using Students.Models.WebModels;
 
 namespace Students.APIServer.Controllers;
-
 
 /// <summary>
 /// ReadinessController.
@@ -32,18 +30,18 @@ public class ReadinessController : ControllerBase
   {
     try
     {
-      return StatusCode(_ctx.Database.CanConnect() ? StatusCodes.Status200OK : StatusCodes.Status500InternalServerError, new DefaultResponse
+      return this.StatusCode(this._ctx.Database.CanConnect() ? StatusCodes.Status200OK : StatusCodes.Status500InternalServerError, new DefaultResponse
       {
-        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
       });
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      _logger.LogCritical(e.Message);
-      return StatusCode(StatusCodes.Status500InternalServerError,
+      this._logger.LogCritical(e.Message);
+      return this.StatusCode(StatusCodes.Status500InternalServerError,
         new DefaultResponse
         {
-          RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+          RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier
         });
     }
   }
@@ -59,8 +57,8 @@ public class ReadinessController : ControllerBase
   /// <param name="ctx">Контекст базы данных.</param>
   public ReadinessController(ILogger<LivenessController> logger, StudentContext ctx)
   {
-    _logger = logger;
-    _ctx = ctx;
+    this._logger = logger;
+    this._ctx = ctx;
   }
 
   #endregion

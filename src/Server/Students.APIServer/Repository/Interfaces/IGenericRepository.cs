@@ -1,4 +1,7 @@
-﻿namespace Students.APIServer.Repository.Interfaces;
+﻿using Students.Models.Filters.Filters;
+using Students.Models.Searches.Searches;
+
+namespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
 /// Интерфейс generic репозитория.
@@ -27,11 +30,35 @@ public interface IGenericRepository<TEntity> where TEntity : class
   Task<IEnumerable<TEntity>> Get();
 
   /// <summary>
-  /// Список объектов, с указанным условием.
+  /// Получение списка сущностей.
   /// </summary>
-  /// <param name="predicate">Условие.</param>
-  /// <returns>Список объектов, с указанным условием.</returns>
-  Task<IEnumerable<TEntity>> Get(Func<TEntity, bool> predicate);
+  /// <param name="dbSet">Модифицированный набор сущностей.</param>
+  /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
+  /// <returns>Список сущностей.</returns>
+  Task<IEnumerable<TEntity>> Get(Predicate<TEntity> predicate, IQueryable<TEntity>? dbSet = null);
+
+  /// <summary>
+  /// Получение подходящей сущности.
+  /// </summary>
+  /// <param name="dbSet">Модифицированный набор сущностей.</param>
+  /// <param name="predicate">Функция, по условию которой производится отбор данных из БД.</param>
+  /// <returns>Сущность.</returns>
+  Task<TEntity?> GetOne(Predicate<TEntity> predicate, IQueryable<TEntity>? dbSet = null);
+
+  //Метод для перегрузки и явного указания подгружаемых полей.
+  /// <summary>
+  /// Получение списка сущностей.
+  /// </summary>
+  /// <param name="filter">Фильтр по которому происходит отбор.</param>
+  /// <returns>Список сущностей.</returns>
+  Task<IEnumerable<TEntity>> GetFiltered(Filter<TEntity> filter);
+
+  /// <summary>
+  /// Получение списка сущностей по поисковому запросу.
+  /// </summary>
+  /// <param name="search">Поисковый объект, содержащий условия поиска.</param>
+  /// <returns>Список найденных сущностей.</returns>
+  Task<IEnumerable<TEntity>> GetSearched(Search<TEntity> search);
 
   /// <summary>
   /// Удаление объекта.

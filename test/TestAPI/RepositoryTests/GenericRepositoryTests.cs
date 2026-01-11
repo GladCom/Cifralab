@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Students.APIServer.Repository;
+using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
+using TestAPI.Utilities;
 
 namespace TestAPI.RepositoryTests;
 
@@ -9,7 +10,7 @@ namespace TestAPI.RepositoryTests;
 public class GenericRepositoryTests
 {
   private StudentContext _studentContext;
-  private GenericRepository<Student> _genericRepository;
+  private IGenericRepository<Student> _genericRepository;
   private readonly List<Guid> _guids = new()
   {
     Guid.Parse("aa634441-8637-417c-8c00-895753b37cbe"),
@@ -20,10 +21,8 @@ public class GenericRepositoryTests
   [SetUp]
   public void SetUp()
   {
-    this._studentContext = new InMemoryContext();
-    this._genericRepository = new GenericRepository<Student>(this._studentContext);
-    this._studentContext.Students.RemoveRange(this._studentContext.Set<Student>());
-    this._studentContext.SaveChanges();
+    this._studentContext = TestsDepends.GetContext();
+    this._genericRepository = TestsDepends.GetGenericRepository<Student>(this._studentContext);
   }
 
   [TearDown]
@@ -87,6 +86,47 @@ public class GenericRepositoryTests
     }
 
     Assert.That(actual, Is.EqualTo(expected));
+  }
+
+  [Test]
+  public async Task GetOne_Student_GetSuccessfully()
+  {
+    //Arrange
+    const string email = "assdfgg@gmail.com";
+
+    var student = GenerateNewStudent(this._guids[0]);
+    student.Email = email;
+    this._studentContext.AddRange(student);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualStudent = await this._genericRepository.GetOne(s => s.Email == email);
+
+    //Assert
+    Assert.Multiple(() =>
+    {
+      Assert.That(actualStudent, Is.Not.Null);
+      Assert.That(actualStudent?.Email, Is.EqualTo(email));
+    });
+  }
+
+  [Test]
+  public async Task GetOne_Student_NotExistException()
+  {
+    //Arrange
+    const string email = "assdfgg@gmail.com";
+
+    var student = GenerateNewStudent(this._guids[0]);
+    this._studentContext.AddRange(student);
+
+    await this._studentContext.SaveChangesAsync();
+
+    //Act
+    var actualStudent = await this._genericRepository.GetOne(s => s.Email == email);
+
+    //Assert
+    Assert.That(actualStudent, Is.Null);
   }
 
   [Test]
@@ -154,13 +194,13 @@ public class GenericRepositoryTests
   }
 
   [Test]
-  public async Task Create_NewStudent_IsNullException()
+  public void Create_NewStudent_IsNullException()
   {
     //Act
     var act = async () => await this._genericRepository.Create(null);
 
     //Assert
-    Assert.That(act, Throws.InstanceOf<ArgumentException>());
+    Assert.That(act, Throws.InstanceOf<NullReferenceException>());
   }
 
   [Test]

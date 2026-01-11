@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Students.DBCore.Contexts;
 
-public class PgContext : StudentContext
+public sealed class PgContext : WorkContext
 {
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
   {

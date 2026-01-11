@@ -39,6 +39,11 @@ public class EducationProgram
   public required Guid KindDocumentRiseQualificationId { get; set; }
 
   /// <summary>
+  /// Вид программы
+  /// </summary>
+  public required Guid KindEducationProgramId { get; set; }
+
+  /// <summary>
   /// Модульная программа.
   /// </summary>
   public required bool IsModularProgram { get; set; }
@@ -59,7 +64,7 @@ public class EducationProgram
   public required bool IsCollegeProgram { get; set; }
 
   /// <summary>
-  /// Признак программы в архиве.
+  /// Архивная программа.
   /// </summary>
   public required bool IsArchive { get; set; }
 
@@ -79,6 +84,11 @@ public class EducationProgram
   public required bool IsFullDOTProgram { get; set; }
 
   /// <summary>
+  /// Наименование квалификации, профессии, специальности
+  /// </summary>
+  public required string QualificationName { get; set; }
+
+  /// <summary>
   /// Форма обучения.
   /// </summary>
   [JsonIgnore]
@@ -89,6 +99,12 @@ public class EducationProgram
   /// </summary>
   [JsonIgnore]
   public virtual KindDocumentRiseQualification? KindDocumentRiseQualification { get; set; }
+
+  /// <summary>
+  /// Вид программы повышения квалификации
+  /// </summary>
+  [JsonIgnore]
+  public virtual KindEducationProgram? KindEducationProgram { get; set; }
 
   /// <summary>
   /// ВЭД программы.
@@ -107,4 +123,10 @@ public class EducationProgram
   /// </summary>
   [JsonIgnore]
   public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+
+  /// <summary>
+  /// Заявки.
+  /// </summary>
+  [JsonIgnore]
+  public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }

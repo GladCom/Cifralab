@@ -1,0 +1,55 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Students.Models;
+
+namespace Students.DBCore.Configuration;
+internal class PhantomStudentConfiguration : IEntityTypeConfiguration<PhantomStudent>
+{
+  public void Configure(EntityTypeBuilder<PhantomStudent> builder)
+  {
+    builder.HasKey(x => x.Id);
+
+    builder.Property(x => x.Id)
+      .IsRequired()
+      .ValueGeneratedOnAdd();
+
+    builder.Property(x => x.Family)
+      .IsRequired();
+
+    builder.Property(x => x.BirthDate)
+      .IsRequired();
+
+    builder.Property(x => x.Sex)
+      .IsRequired();
+
+    builder.Property(x => x.Address)
+      .IsRequired();
+
+    builder.Property(x => x.Phone)
+      .IsRequired();
+
+    builder.Property(x => x.Email)
+      .IsRequired();
+
+    builder.Property(x => x.IT_Experience)
+      .IsRequired();
+
+    builder.Property(x => x.Projects);
+    builder.Property(x => x.Speciality);
+
+    builder.Property(x => x.ScopeOfActivityLevelOneId)
+      .IsRequired();
+
+    builder.HasOne(s => s.TypeEducation)
+      .WithMany()
+      .HasForeignKey(s => s.TypeEducationId);
+
+    builder.HasOne(s => s.ScopeOfActivityLevelOne)
+      .WithMany()
+      .HasForeignKey(s => s.ScopeOfActivityLevelOneId);
+
+    builder.HasOne(s => s.ScopeOfActivityLevelTwo)
+      .WithMany()
+      .HasForeignKey(s => s.ScopeOfActivityLevelTwoId);
+  }
+}

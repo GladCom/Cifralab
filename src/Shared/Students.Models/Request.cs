@@ -13,6 +13,36 @@ namespace Students.Models;
 public class Request
 {
   /// <summary>
+  /// Полное ФИО студента.
+  /// </summary>
+  public string? StudentFullName => Student?.FullName;
+
+  /// <summary>
+  /// Дата рождения студента.
+  /// </summary>
+  public DateOnly? BirthDate => Student?.BirthDate;
+
+  /// <summary>
+  /// Адрес студента (место проживания).
+  /// </summary>
+  public string? Address => Student?.Address;
+
+  /// <summary>
+  /// Наименование уровня образования студента.
+  /// </summary>
+  public string? TypeEducation => Student?.TypeEducation?.Name;
+
+  /// <summary>
+  /// Наименование образовательной программы, связанной с заявкой.
+  /// </summary>
+  public string? EducationProgramName => EducationProgram?.Name;
+
+  /// <summary>
+  /// Текстовое представление статуса заявки.
+  /// </summary>
+  public string? StatusRequest => Status?.Name;
+  
+  /// <summary>
   /// Id заявки, Как буд-то тут перебор необходимых данных
   /// </summary>
   public Guid Id { get; set; }
@@ -22,6 +52,12 @@ public class Request
   /// экспорт из заявки
   /// </summary>
   public Guid? StudentId { get; set; }
+
+  /// <summary>
+  /// Id временного студента.
+  /// экспорт из заявки
+  /// </summary>
+  public Guid? PhantomStudentId { get; set; }
 
   /// <summary>
   ///  Id образовательной программы 
@@ -61,11 +97,6 @@ public class Request
   /// </summary>
   public string? RegistrationNumber { get; set; }
 
-  /// <summary>
-  /// Уже проходил обучение.
-  /// </summary>
-  public bool? IsAlreadyStudied { get; set; }
-
   #region PotomuchtoMincifraNeOtdaetSNILS
 
   /// <summary>
@@ -78,12 +109,12 @@ public class Request
   /// </summary>
   public required string Email
   {
-    get => _email;
+    get => this._email;
     set
     {
       value = value.ToLower();
-      if (Regex.IsMatch(value,@"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
-        _email = address.Address;
+      if(Regex.IsMatch(value, @"^\s*[\w\-\+_']+(\.[\w\-\+_']+)*\@[A-Za-z0-9]([\w\.-]*[A-Za-z0-9])?\.[A-Za-z][A-Za-z\.]*[A-Za-z]$") && MailAddress.TryCreate(value, out var address))
+        this._email = address.Address;
       else
         throw new ValidationException("Not a valid Email address.");
     }
@@ -101,11 +132,11 @@ public class Request
   /// </summary>
   public required string Phone
   {
-    get => _phone;
+    get => this._phone;
     set
     {
       if(Regex.IsMatch(value, @"^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$"))
-        _phone = value;
+        this._phone = value;
       else
         throw new ValidationException("Not a valid phone number.");
     }
@@ -114,10 +145,51 @@ public class Request
   #endregion PotomuchtoMincifraNeOtdaetSNILS
 
   /// <summary>
+  /// Согласие на обработу персональных данных
+  /// </summary>
+  public required bool Agreement { get; set; }
+
+  /// <summary>
   /// Персона
   /// </summary>
   [JsonIgnore]
   public virtual Student? Student { get; set; }
+
+  /// <summary>
+  ///  Дата создания заявки
+  /// </summary>
+  public DateTime DateOfCreate { get; set; }
+
+  /// <summary>
+  /// возраст студента на момент создания заявки
+  /// </summary>
+  [JsonIgnore]
+  public int? StudentAgeWhenSendRequest
+  {
+    get
+    {
+      var age = DateOfCreate.Year - Student?.BirthDate.Year;
+      // Корректировка возраста, если день рождения в этом году ещё не наступил
+      if (DateOfCreate.DayOfYear < Student?.BirthDate.DayOfYear)
+      {
+        age--;
+      }
+
+      return age;
+    }
+  }
+
+  /// <summary>
+  /// Временный студент.
+  /// </summary>
+  [JsonIgnore]
+  public virtual PhantomStudent? PhantomStudent { get; set; }
+
+  /// <summary>
+  /// Группа.
+  /// </summary>
+  [JsonIgnore]
+  public virtual GroupStudent? GroupStudent { get; set; }
 
   /// <summary>
   /// Образовательная программа
@@ -151,9 +223,4 @@ public class Request
   /// </summary>
   [JsonIgnore]
   public virtual ICollection<Order>? Orders { get; set; }
-
-  /// <summary>
-  /// Согласие на обработу персональных данных
-  /// </summary>
-  public required bool Agreement { get; set; }
 }

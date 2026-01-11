@@ -1,0 +1,57 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import apiUrl from './api-url';
+
+export const typeEducationApi = createApi({
+  reducerPath: 'typeEducation',
+  baseQuery: fetchBaseQuery({ baseUrl: `${apiUrl}/typeEducation` }),
+  tagTypes: ['TypeEducation'],
+  endpoints: (builder) => ({
+    getTypeEducation: builder.query({
+      query: () => '',
+    }),
+    getTypeEducationPaged: builder.query({
+      query: () => '', //  TODO: Переделать
+      providesTags: ['TypeEducation'],
+    }),
+    getTypeEducationSearch: builder.query({
+      //  TODO: в разработке
+      query: (_queryText) => '',
+    }),
+    getTypeEducationById: builder.query({
+      query: (id) => id,
+    }),
+    addTypeEducation: builder.mutation({
+      query: (item) => ({
+        url: '',
+        method: 'POST',
+        body: item,
+      }),
+      invalidatesTags: ['TypeEducation'],
+    }),
+    editTypeEducation: builder.mutation({
+      query: ({ id, item }) => ({
+        url: id,
+        method: 'PUT',
+        body: item,
+      }),
+      invalidatesTags: ['TypeEducation'],
+    }),
+    removeTypeEducation: builder.mutation({
+      query: (id) => ({
+        url: id,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['TypeEducation'],
+    }),
+  }),
+});
+
+export const {
+  useGetTypeEducationQuery,
+  useGetTypeEducationPagedQuery,
+  useGetTypeEducationByIdQuery,
+  useAddTypeEducationMutation,
+  useEditTypeEducationMutation,
+  useRemoveTypeEducationMutation,
+  useGetTypeEducationSearchQuery,
+} = typeEducationApi;

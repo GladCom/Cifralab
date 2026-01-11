@@ -25,6 +25,7 @@ internal static class HasDataEntities
     new(_documentRiseQualificationEntities);
 
   public static List<EducationProgram> EducationProgramEntities => new(_educationProgramEntities);
+  public static List<KindEducationProgram> KindEducationProgramEntities => new(_kindEducationProgramEntities);
   public static List<Group> GroupEntities => new(_groupEntities);
   public static List<GroupStudent> GroupStudentEntities => new(_groupStudentEntities);
   public static List<Order> OrderEntities => new(_orderEntities);
@@ -265,91 +266,106 @@ internal static class HasDataEntities
     {
       Id = new Guid("ca1c76a3-d268-4d06-8e4a-3721a4f2fb54"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители предприятий и организаций"
+      NameOfScope = "Руководители предприятий и организаций",
+      ScopeOfActivityParentId = new Guid("e768a213-0421-4c6f-85b8-0069882870c6")
     },
     new ScopeOfActivity
     {
       Id = new Guid("71e13148-a111-4c45-94b2-a920353d0571"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители дошкольных образовательных организаций"
+      NameOfScope = "Руководители дошкольных образовательных организаций",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("3af3138f-d487-4866-b8c3-b6e782bf1de8"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители общеобразовательных организаций"
+      NameOfScope = "Руководители общеобразовательных организаций",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("e94fff46-4a09-4c26-ad86-75219d0bc489"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители профессиональных образовательных организаций"
+      NameOfScope = "Руководители профессиональных образовательных организаций",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("b9115d04-3a42-42e3-8a74-61519f13a4e8"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители образовательных организаций ВО"
+      NameOfScope = "Руководители образовательных организаций ВО",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("d8b097c4-a4c3-447f-9ead-112312c25530"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители организаций ДПО"
+      NameOfScope = "Руководители организаций ДПО",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("e060399a-c130-4ea9-901c-28f62cb7c532"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители организаций дополнительного образования"
+      NameOfScope = "Руководители организаций дополнительного образования",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("77fdb430-5b2f-4c64-8a1a-6728be169e1f"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Педагогические работники дошкольных образовательных организаций"
+      NameOfScope = "Педагогические работники дошкольных образовательных организаций",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("ac7b229f-97a0-4325-9e32-c3334c2c8939"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Педагогические работники общеобразовательных организаций"
+      NameOfScope = "Педагогические работники общеобразовательных организаций",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("197a368e-b704-44ed-81fa-c494537a0813"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Педагогические работники профессиональных образовательных организаций"
+      NameOfScope = "Педагогические работники профессиональных образовательных организаций",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("5b12db36-3fe2-4831-be2f-075c0bc08d63"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Педагогические работники образовательных организаций ВО"
+      NameOfScope = "Педагогические работники образовательных организаций ВО",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("d58399ce-b5f3-4d0d-8cb9-79419fc373dd"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Педагогические работники организаций ДПО"
+      NameOfScope = "Педагогические работники организаций ДПО",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("ab739f86-1efe-4a5a-883c-ea6963d49e5e"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Педагогические работники организаций дополнительного образования"
+      NameOfScope = "Педагогические работники организаций дополнительного образования",
+      ScopeOfActivityParentId = new Guid("e1ab6e96-d9af-41c1-abca-61a1e5052a9e")
     },
     new ScopeOfActivity
     {
       Id = new Guid("fbd51db0-a7c0-4da0-9963-f5e668a13058"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Руководители гос.служащие"
+      NameOfScope = "Руководители гос.служащие",
+      ScopeOfActivityParentId = new Guid("ed3df49f-e714-4940-a151-458616ee7d84")
     },
     new ScopeOfActivity
     {
       Id = new Guid("9b70f630-83bf-4805-b9c9-e0a96c0a39b2"),
       Level = ScopeOfActivityLevel.Level2,
-      NameOfScope = "Безработные"
+      NameOfScope = "Безработные",
+      ScopeOfActivityParentId =  new Guid("5f450e00-d584-4736-882b-1b6ada2484bc")
     }
   };
 
@@ -463,13 +479,29 @@ internal static class HasDataEntities
       HoursCount = 250,
       EducationFormId = Guid.Parse("0241c1ac-bb5b-4ca1-bb46-89ba1e0c4287"),
       KindDocumentRiseQualificationId = Guid.Parse("aa7a8325-4b0d-4dd2-bedc-2c4a065ab332"),
+      KindEducationProgramId = Guid.Parse("a359d390-c3d8-45ed-a775-9e3fde156d78"),
       IsModularProgram = false,
       FinancingTypeId = Guid.Parse("0457cc26-6b4f-472b-bdbf-a9be3599e931"),
       IsCollegeProgram = false,
       IsArchive = false,
       IsNetworkProgram = false,
       IsDOTProgram = false,
-      IsFullDOTProgram = false
+      IsFullDOTProgram = false,
+      QualificationName = string.Empty
+    }
+  };
+
+  private static readonly List<KindEducationProgram> _kindEducationProgramEntities = new()
+  {
+    new KindEducationProgram
+    {
+      Id = new Guid("a359d390-c3d8-45ed-a775-9e3fde156d78"),
+      Name = "Программа повышения квалификации"
+    },
+    new KindEducationProgram
+    {
+      Id = new Guid("b3e7b025-6f6e-47b1-87b9-580a6bcafa67"),
+      Name = "Программа профессиональной переподготовки"
     }
   };
 
@@ -489,13 +521,15 @@ internal static class HasDataEntities
   {
     new GroupStudent
     {
-      StudentsId = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
-      GroupsId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7")
+      StudentId = new Guid("c337e8c4-142a-4f01-a54f-fea1be3d874b"),
+      GroupId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7"),
+      RequestId = new Guid("4178e3fa-dca8-4e28-a815-46cfacb61fe5")
     },
     new GroupStudent
     {
-      StudentsId = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
-      GroupsId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7")
+      StudentId = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
+      GroupId = new Guid("9a8cd57f-4afe-488b-ab0c-1a25519a2fd7"),
+      RequestId = new Guid("7ecc61ae-2472-484e-8078-3b34f3448b8e")
     }
   };
 
@@ -526,7 +560,24 @@ internal static class HasDataEntities
       RegistrationNumber = "432",
       Email = "III@gmail.com",
       Phone = "+7 (123) 456-78-90",
-      Agreement = true
+      Agreement = true,
+      DateOfCreate = DateTime.Now
+    },
+    new Request
+    {
+      Id = new Guid("7ecc61ae-2472-484e-8078-3b34f3448b8e"),
+      StudentId = new Guid("ce523bbd-dbd2-4bc6-8986-0f0c83926c57"),
+      EducationProgramId = new Guid("b741f950-19b2-472c-bf66-e84bec7c0bb5"),
+      DocumentRiseQualificationId = new Guid("5dde5f20-a247-45b5-b989-800a858d0b70"),
+      DataNumberDogovor = "2024-09-02, 9877",
+      StatusRequestId = new Guid("d2b3c504-1890-43f4-a351-22eea9b8dc08"),
+      StudentStatusId = new Guid("69b4aaff-b67f-483d-98e3-98d39da93d7a"),
+      StatusEntrancExams = StatusEntrancExams.Done,
+      RegistrationNumber = "432",
+      Email = "IAI@gmail.com",
+      Phone = "+7 (123) 451-71-90",
+      Agreement = true,
+      DateOfCreate = DateTime.Now
     }
   };
 

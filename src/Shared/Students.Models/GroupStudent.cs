@@ -3,29 +3,40 @@
 namespace Students.Models;
 
 /// <summary>
-/// Группа студентов (данный класс должен умереть)
+/// Группа студентов.
 /// </summary>
 public class GroupStudent
 {
   /// <summary>
-  /// Идентификатор студента
+  /// Идентификатор студента.
   /// </summary>
-  public required Guid StudentsId { get; set; }
+  public required Guid StudentId { get; set; }
 
   /// <summary>
-  /// Идентификатор группы
+  /// Идентификатор группы.
   /// </summary>
-  public required Guid GroupsId { get; set; }
+  public required Guid GroupId { get; set; }
 
   /// <summary>
-  /// Студент (навигационное свойство)
+  /// Идентификатор заявки.
+  /// </summary>
+  public required Guid RequestId { get; set; }
+
+  /// <summary>
+  /// Студент (навигационное свойство).
   /// </summary>
   [JsonIgnore]
   public virtual Student? Student { get; set; }
 
   /// <summary>
-  /// Группа (навигационное свойство)
+  /// Группа (навигационное свойство).
   /// </summary>
   [JsonIgnore]
   public virtual Group? Group { get; set; }
+
+  /// <summary>
+  /// Заявка (навигационное свойство).
+  /// </summary>
+  [JsonIgnore]
+  public virtual Request? Request { get; set; }
 }

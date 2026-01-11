@@ -407,3 +407,11 @@ docs/Writerside/.idea/
 
 src/Client/test_server/
 /src/Client/.vscode
+src/Client/distWebpack/
+/.idea/*
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar.gz

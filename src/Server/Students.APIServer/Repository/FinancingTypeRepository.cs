@@ -11,11 +11,11 @@ public class FinancingTypeRepository : GenericRepository<FinancingType>, IFinanc
 {
   #region Поля и свойства
 
-  private readonly StudentContext _context;
+
 
   #endregion
 
-  #region Методы
+  #region IFinancingTypeRepository
 
 
 
@@ -29,7 +29,6 @@ public class FinancingTypeRepository : GenericRepository<FinancingType>, IFinanc
   /// <param name="context"></param>
   public FinancingTypeRepository(StudentContext context) : base(context)
   {
-    _context = context;
   }
 
   #endregion

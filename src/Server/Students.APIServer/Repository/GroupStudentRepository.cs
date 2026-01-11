@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Students.APIServer.Repository.Interfaces;
+﻿using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
 
@@ -12,57 +11,33 @@ public class GroupStudentRepository : GenericRepository<GroupStudent>, IGroupStu
 {
   #region Поля и свойства
 
-  private readonly StudentContext _ctx;
+
 
   #endregion
 
-  #region Методы
+  #region IGroupStudentRepository
 
   /// <summary>
-  /// Добавление студента в группу.
+  /// Добавление студента по заявке в группу.
   /// </summary>
-  /// <param name="student">Идентификатор студента.</param>
+  /// <param name="request">Заявка.</param>
   /// <param name="groupId">Идентификатор группы.</param>
-  public async Task AddStudentInGroup(Guid student, Guid groupId)
+  /// <returns>Группа студентов.</returns>
+  public async Task<GroupStudent?> Create(Request request, Guid groupId)
   {
-    _ctx.GroupStudent.Add(new GroupStudent { StudentsId = student, GroupsId = groupId });
-    await _ctx.SaveChangesAsync();
-  }
-
-  /// <summary>
-  /// Добавление студентов в группу.
-  /// </summary>
-  /// <param name="students">Идентификатор студента.</param>
-  /// <param name="groupId">Идентификатор группы.</param>
-  public async Task AddStudentInGroup(IEnumerable<Student> students, Guid groupId)
-  {
-    foreach(var item in students)
+    try
     {
-      _ctx.GroupStudent.Add(new GroupStudent { StudentsId = item.Id, GroupsId = groupId });
+      return await this.Create(new GroupStudent
+      {
+        StudentId = request.Student!.Id,
+        GroupId = groupId,
+        RequestId = request.Id
+      });
     }
-
-    await _ctx.SaveChangesAsync();
-  }
-
-  /// <summary>
-  /// Актуальная группа студента.
-  /// </summary>
-  /// <param name="student">Студент.</param>
-  /// <returns>Группа студента.</returns>
-  public async Task<GroupStudent?> GetActualGroupOfStudent(Student student)
-  {
-    return await _ctx.GroupStudent.AsNoTracking().FirstOrDefaultAsync(x => x.StudentsId == student.Id);
-  }
-
-  /// <summary>
-  /// Список групп студента.
-  /// </summary>
-  /// <param name="student">Студент.</param>
-  /// <returns>Список групп студента.</returns>
-  public async Task<IEnumerable<GroupStudent>> GetListGroupsOfStudent(Student student)
-  {
-    return await _ctx.GroupStudent.AsNoTracking().Where(x => x.StudentsId == student.Id).ToListAsync();
-    //.SelectAsync(async x=> await (x));
+    catch
+    {
+      return null;
+    }
   }
 
   #endregion
@@ -75,7 +50,6 @@ public class GroupStudentRepository : GenericRepository<GroupStudent>, IGroupStu
   /// <param name="context">Контекст базы данных.</param>
   public GroupStudentRepository(StudentContext context) : base(context)
   {
-    _ctx = context;
   }
 
   #endregion

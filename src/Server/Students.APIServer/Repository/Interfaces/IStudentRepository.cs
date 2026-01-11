@@ -1,4 +1,5 @@
-﻿using Students.APIServer.Extension.Pagination;
+﻿using Students.APIServer.DTO;
+using Students.APIServer.Extension.Pagination;
 using Students.Models;
 
 namespace Students.APIServer.Repository.Interfaces;
@@ -14,56 +15,27 @@ public interface IStudentRepository : IGenericRepository<Student>
   /// <param name="page">Номер страницы.</param>
   /// <param name="pageSize">Размер страницы.</param>
   /// <returns>Список студентов с пагинацией.</returns>
-  Task<PagedPage<Student>> GetStudentsByPage(int page, int pageSize);
+  Task<PagedPage<StudentDTO>> GetStudentsByPage(int page, int pageSize);
 
   /// <summary>
-  /// Поиск по телефону.
-  /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <returns>Студент.</returns>
-  Task<Student?> FindByPhone(string phone);
-
-  /// <summary>
-  /// Поиск по электронной почте.
-  /// </summary>
-  /// <param name="email">Номер электронной почты.</param>
-  /// <returns>Студент.</returns>
-  Task<Student?> FindByEmail(string email);
-
-  /// <summary>
-  /// Поиск по номеру телефона и электронной почте.
-  /// </summary>
-  /// <param name="phone">Номер телефона.</param>
-  /// <param name="email">Электронная почта.</param>
-  /// <returns>Студент.</returns>
-  Task<Student?> FindByPhoneAndEmail(string phone, string email);
-
-  /// <summary>
-  /// Список групп студента.
+  /// Поиск студента (с подгрузкой данных о группах и заявках) по идентификатору.
   /// </summary>
   /// <param name="studentId">Идентификатор студента.</param>
-  /// <returns>Список групп студента.</returns>
-  Task<IEnumerable<Group?>?> GetListGroupsOfStudentExists(Guid studentId);
+  /// <returns>Студент.</returns>
+  Task<Student?> GetStudentWithGroupsAndRequests(Guid studentId);
 
   /// <summary>
-  /// Добавление студента в группу.
+  /// Студент проходил обучение в этом году.
   /// </summary>
-  /// <param name="stud">Идентификатор студента.</param>
-  /// <param name="group">Идентификатор группы.</param>
-  /// <returns>Идентификатор студента.</returns>
-  Task<Guid> AddStudentToGroup(Guid stud, Guid group);
-
+  /// <param name="studentId">Идентификатор студента.</param>
+  /// <param name="requestId">Идентификатор заявки, для которой производиться проверка.</param>
+  Task<bool> IsAlreadyStudied(Guid studentId, Guid requestId);
+  
   /// <summary>
-  /// Список программ обучения, на которых обучался студент.
+  /// Зачисление в группу по заявке.
   /// </summary>
-  /// <param name="studentId">Id студента.</param>
-  /// <returns>Список с программами обучения студента.</returns>
-  Task<IEnumerable<EducationProgram?>?> GetListEducationProgramsOfStudentExists(Guid studentId);
-
-  /// <summary>
-  /// Список заявок студента.
-  /// </summary>
-  /// <param name="studentId">Id студента.</param>
-  /// <returns>Список заявок студента.</returns>
-  Task<IEnumerable<Request?>?> GetListRequestsOfStudentExists(Guid studentId);
+  /// <param name="requestId">ID заявки.</param>
+  /// <param name="groupId">ID группы.</param>
+  /// <returns>Студент с заполненными заявками и группами</returns>
+  Task<Student?> EnrollStudentInGroup(Guid requestId, Guid groupId);
 }
