@@ -5,7 +5,7 @@ namespace Students.APIServer.Repository.Interfaces;
 /// <summary>
 /// Интерфейс программы обучения.
 /// </summary>
-public interface IEducationProgramRepository : IGenericRepository<EducationProgram>
+public interface IEducationProgramRepository : IGenericRepository<EducationProgram>, ISearchRepository<EducationProgram, EducationProgram>
 {
   /// <summary>
   /// Поменять статус признака Архив.
