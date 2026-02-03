@@ -18,13 +18,14 @@ export default [
   {
     ...reactRecommended,
     ...jsxRuntime,
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}'],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.es2021,
         ...globals.node,
         React: 'readonly',
+        process: 'readonly',
       },
       parser: typescriptParser,
       parserOptions: {
@@ -45,6 +46,7 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.es2021,
+        process: 'readonly',
       },
       parserOptions: {
         ecmaVersion: 'latest',
@@ -112,9 +114,53 @@ export default [
     },
   },
 
+  // КОНФИГУРАЦИЯ ДЛЯ ТЕСТОВ
+  {
+    files: ['__tests__/**/*', '**/*.test.ts', '**/*.test.tsx'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.jest, // Глобальные переменные Jest
+        jest: 'readonly',
+        describe: 'readonly',
+        test: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        React: 'readonly',
+      },
+      parser: typescriptParser,
+      parserOptions: {
+        project: './tsconfig.test.json', // Тестовый tsconfig
+      },
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      '@typescript-eslint': typescriptPlugin,
+    },
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-console': 'off',
+    },
+  },
+
   // Дополнительные правила для продакшена
   {
     files: ['src/**/*.{ts,tsx,js,jsx}'],
+    languageOptions: {
+      globals: {
+        process: 'readonly', // ← добавляем process здесь тоже
+      },
+    },
     rules: {
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     },
