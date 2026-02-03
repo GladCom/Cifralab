@@ -2,6 +2,8 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
 
+  setupFiles: ['<rootDir>/jest.polyfills.js'],
+
   // Где искать тесты
   roots: ['<rootDir>/__tests__'],
 
@@ -17,5 +19,5 @@ export default {
   },
 
   // Игнорировать node_modules
-  testPathIgnorePatterns: ['/node_modules/']
+  testPathIgnorePatterns: ['/node_modules/'],
 };
