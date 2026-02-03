@@ -1,0 +1,10 @@
+import React from 'react';
+import PersonRequestsPage from '../src/components/request/person-requests-page';
+import { renderWithProviders } from './test-utils';
+
+describe('PersonRequestsPage Snapshot', () => {
+  test('renders correctly', () => {
+    const tree = renderWithProviders(<PersonRequestsPage />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});

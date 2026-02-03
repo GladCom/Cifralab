@@ -39,6 +39,7 @@
     "quality": "npm run type-check && npm run lint && npm run format:check",
     "quality:fix": "npm run lint:fix && npm run format",
     "test": "jest",
+    "test:update-snapshots": "jest --updateSnapshot",
     "test:coverage": "jest --coverage",
     "deps:check": "ncu",
     "deps:update": "ncu -u && npm install",

@@ -20,4 +20,8 @@ export default {
 
   // Игнорировать node_modules
   testPathIgnorePatterns: ['/node_modules/'],
+
+  moduleNameMapper: {
+    '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/file-mock.js',
+  }
 };
