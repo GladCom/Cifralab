@@ -1,5 +1,5 @@
-﻿import { DefaultReportBody } from '@components/report/deafault-report-card-body';
-import { PfdoReportConfig } from '@/storage/catalog-config/report-config';
+﻿import { PfdoReportConfig } from '../../storage/catalog-config/report-config';
+import { DefaultReportBody } from './deafault-report-card-body';
 
 export const PfdoReportBody = () => {
   const PfdoConfig = new PfdoReportConfig();

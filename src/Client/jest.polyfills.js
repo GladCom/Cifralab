@@ -1,5 +1,5 @@
 // Перевод на ESM сломает тесты, по этому гасим.
-// eslint-disable-next-line no-undef
+/* eslint-disable no-undef */
 const util = require('util');
 
 // 1. TextEncoder/TextDecoder из Node.js
@@ -24,3 +24,8 @@ if (typeof window !== 'undefined' && typeof window.matchMedia === 'undefined') {
     }),
   });
 }
+
+global.AbortController = AbortController;
+global.fetch = require('whatwg-fetch').fetch;
+global.Request = require('whatwg-fetch').Request;
+global.Response = require('whatwg-fetch').Response;

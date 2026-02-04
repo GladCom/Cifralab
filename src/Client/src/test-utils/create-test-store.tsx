@@ -9,6 +9,9 @@ import { financingTypeApi } from '../../src/storage/service/financing-type-api';
 import { kindDocumentRiseQualificationApi } from '../../src/storage/service/kind-document-rise-qualification-api';
 import { typeEducationApi } from '../../src/storage/service/type-education-api';
 import { scopeOfActivityApi } from '../../src/storage/service/scope-of-activity-api';
+import { studentsApi } from '../../src/storage/service/student-api';
+import { groupsApi } from '../../src/storage/service/groups-api';
+
 import { configureStore } from '@reduxjs/toolkit';
 
 // Мок-редюсер для user
@@ -30,6 +33,8 @@ export const createTestStore = () =>
       [kindDocumentRiseQualificationApi.reducerPath]: kindDocumentRiseQualificationApi.reducer,
       [typeEducationApi.reducerPath]: typeEducationApi.reducer,
       [scopeOfActivityApi.reducerPath]: scopeOfActivityApi.reducer,
+      [studentsApi.reducerPath]: studentsApi.reducer,
+      [groupsApi.reducerPath]: groupsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware()
@@ -42,5 +47,7 @@ export const createTestStore = () =>
         .concat(financingTypeApi.middleware)
         .concat(kindDocumentRiseQualificationApi.middleware)
         .concat(typeEducationApi.middleware)
-        .concat(scopeOfActivityApi.middleware),
+        .concat(scopeOfActivityApi.middleware)
+        .concat(studentsApi.middleware)
+        .concat(groupsApi.middleware),
   });
