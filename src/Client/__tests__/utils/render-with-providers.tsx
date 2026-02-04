@@ -5,16 +5,16 @@ import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 
 // Импортируйте ВСЕ API-слайсы, которые используются в компонентах
-import { requestsApi } from '../src/storage/service/request-api';
-import { requestStatusApi } from '../src/storage/service/request-status-api';
-import { educationProgramApi } from '../src/storage/service/education-program-api';
-import { kindEducationProgramApi } from '../src/storage/service/kind-education-program-api';
-import { educationFormApi } from '../src/storage/service/education-form-api';
-import { feaProgramApi } from '../src/storage/service/fea-program-api';
-import { financingTypeApi } from '../src/storage/service/financing-type-api';
-import { kindDocumentRiseQualificationApi } from '../src/storage/service/kind-document-rise-qualification-api';
-import { typeEducationApi } from '../src/storage/service/type-education-api';
-import { scopeOfActivityApi } from '../src/storage/service/scope-of-activity-api';
+import { requestsApi } from '../../src/storage/service/request-api';
+import { requestStatusApi } from '../../src/storage/service/request-status-api';
+import { educationProgramApi } from '../../src/storage/service/education-program-api';
+import { kindEducationProgramApi } from '../../src/storage/service/kind-education-program-api';
+import { educationFormApi } from '../../src/storage/service/education-form-api';
+import { feaProgramApi } from '../../src/storage/service/fea-program-api';
+import { financingTypeApi } from '../../src/storage/service/financing-type-api';
+import { kindDocumentRiseQualificationApi } from '../../src/storage/service/kind-document-rise-qualification-api';
+import { typeEducationApi } from '../../src/storage/service/type-education-api';
+import { scopeOfActivityApi } from '../../src/storage/service/scope-of-activity-api';
 
 // Мок-редюсер для user
 const userReducer = (state = { userName: 'Test User' }, action) => {
