@@ -4,7 +4,7 @@ import { renderWithProviders } from '../utils/render-with-providers';
 
 describe('PersonRequestsPage Snapshot', () => {
   test('renders correctly', () => {
-    const tree = renderWithProviders(<PersonRequestsPage />).toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = renderWithProviders(<PersonRequestsPage />);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import LoginPage from '../../src/components/authorization/login-page';
+import { render } from '@testing-library/react';
 
 // Мокаем зависимости компонента
 jest.mock('react-redux', () => ({
@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('LoginPage Snapshot', () => {
   test('renders correctly', () => {
-    const tree = renderer.create(<LoginPage />).toJSON();
-    expect(tree).toMatchSnapshot();
+    const { container } = render(<LoginPage />);
+    expect(container).toMatchSnapshot();
   });
 });
