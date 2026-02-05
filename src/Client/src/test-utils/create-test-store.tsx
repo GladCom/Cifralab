@@ -15,12 +15,13 @@ import { groupsApi } from '../../src/storage/service/groups-api';
 import { configureStore } from '@reduxjs/toolkit';
 
 // Мок-редюсер для user
-const userReducer = (state = { userName: 'Test User' }, _action) => {
+const userReducer = (state = { loggedIn: true, userName: 'Test User' }, _action) => {
   return state;
 };
 
-export const createTestStore = () =>
+export const createTestStore = (preloadedState = {}) =>
   configureStore({
+    preloadedState,
     reducer: {
       user: userReducer,
       [requestsApi.reducerPath]: requestsApi.reducer,
