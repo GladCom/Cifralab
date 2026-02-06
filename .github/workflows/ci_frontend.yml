@@ -12,21 +12,9 @@ jobs:
     steps:  
       - uses: actions/checkout@v5
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        id: npm-cache
-        with:
-            path: src/Client/node_modules
-            key: node-modules-${{ hashFiles('src/Client/package-lock.json') }}
-
       - name: Install dependencies
         working-directory: ./src/Client
-        run: |
-            if [ -f package-lock.json ]; then
-              npm ci
-            else
-              npm install --legacy-peer-deps
-            fi
+        run: npm ci --legacy-peer-deps
     
       - name: Run strict linter (no warnings allowed)
         working-directory: ./src/Client
@@ -34,7 +22,9 @@ jobs:
 
       - name: Build frontend
         working-directory: ./src/Client
-        run: CI=false npm run build
+        env:
+          CI: false
+        run: npm run build
 
   test_frontend:
     runs-on: ubuntu-latest
@@ -48,16 +38,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: src/Client/node_modules
-          key: node-modules-${{ hashFiles('src/Client/package-lock.json') }}
+      - name: Install dependencies
+        working-directory: ./src/Client
+        run: npm ci --legacy-peer-deps
       
       - name: Run tests
         working-directory: ./src/Client
         env:
-          JEST_JUNIT_OUTPUT: junit.xml
+          JEST_JUNIT_OUTPUT_DIR: ./
         run: npx jest --coverage --testResultsProcessor=jest-junit
       
       - name: Upload coverage report
