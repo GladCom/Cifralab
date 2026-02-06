@@ -1,14 +1,13 @@
 ﻿import { Button, Card, Divider, Flex, message, Space, Typography } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { RangeValue } from '@components/report/types';
 import { useMutation } from '@tanstack/react-query';
-import { ReportRequest } from '@/api/reports-api';
 import { DateTimePicker } from '../shared/control/date-time-picker';
-import { ReportConfig } from '@/storage/catalog-config/report-config';
-import { GroupMultiSelect } from '@components/shared/control/selects/group-select';
-import { DisplayMode } from '@components/shared/control/multi-mode-control/types';
-
+import { ReportConfig } from '../../storage/catalog-config/report-config';
+import { RangeValue } from './types';
+import { ReportRequest } from '../../api/reports-api';
+import { GroupMultiSelect } from '../shared/control/selects/group-select';
+import { DisplayMode } from '../shared/control/multi-mode-control/types';
 const { Paragraph, Title } = Typography;
 
 export interface IProps {

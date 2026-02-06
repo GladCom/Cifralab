@@ -1,0 +1,28 @@
+{
+  /**
+  * Этот файл настраивает TypeScript ТОЛЬКО для тестов.
+  * Он наследует основные настройки из tsconfig.json, но добавляет типы Jest.
+  */
+
+  "extends": "./tsconfig.json",
+
+  "compilerOptions": {
+    /**
+     * Добавляем типы для глобальных переменных Jest (describe, test, expect)
+     * и Node.js (process, __dirname и т.д.).
+     */
+    "types": ["jest", "node"]
+  },
+
+  /**
+   * Включаем в проверку:
+   * - Все тесты в __tests__
+   * - Конфигурационные файлы Jest (они тоже на TS!)
+   */
+  "include": ["__tests__/**/*", "**/*.test.ts", "**/*.test.tsx", "jest.config.js", "jest.setup.js"],
+
+  /**
+   * Исключаем node_modules и сборочные папки — они не нужны в проверке типов.
+   */
+  "exclude": ["node_modules", "dist"]
+}

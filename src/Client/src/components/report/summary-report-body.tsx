@@ -1,5 +1,5 @@
-﻿import { DefaultReportBody } from '@components/report/deafault-report-card-body';
-import { SummaryReportConfig } from '@/storage/catalog-config/report-config';
+﻿import { SummaryReportConfig } from '../../storage/catalog-config/report-config';
+import { DefaultReportBody } from './deafault-report-card-body';
 
 export const SummaryReportBody = () => {
   const summaryReportConfig = new SummaryReportConfig();
