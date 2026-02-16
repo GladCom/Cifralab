@@ -114,14 +114,14 @@ export default [
     },
   },
 
-  // КОНФИГУРАЦИЯ ДЛЯ ТЕСТОВ
+  // Конфигурация для тестов
   {
     files: ['__tests__/**/*', '**/*.test.ts', '**/*.test.tsx'],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest, // Глобальные переменные Jest
+        ...globals.jest,
         jest: 'readonly',
         describe: 'readonly',
         test: 'readonly',
@@ -135,7 +135,7 @@ export default [
       },
       parser: typescriptParser,
       parserOptions: {
-        project: './tsconfig.test.json', // Тестовый tsconfig
+        project: './tsconfig.test.json',
       },
     },
     plugins: {
@@ -158,7 +158,7 @@ export default [
     files: ['src/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       globals: {
-        process: 'readonly', // ← добавляем process здесь тоже
+        process: 'readonly',
       },
     },
     rules: {
