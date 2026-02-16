@@ -7,7 +7,7 @@ jobs:
   frontend-ci:
     runs-on: ubuntu-latest
     container:
-      image: node:22.14.0-alpine3.19
+      image: node:22-alpine
     steps:
       - uses: actions/checkout@v5
       - name: Install dependencies
