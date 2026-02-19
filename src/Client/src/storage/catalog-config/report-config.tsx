@@ -1,4 +1,4 @@
-﻿import { fetchPfdoReport, fetchRostatReport, ReportRequest, fetchSummaryReport } from '@/api/reports-api';
+﻿import { fetchPfdoReport, fetchRostatReport, fetchSummaryReport, ReportRequest } from '../../api/reports-api';
 
 export interface ReportCrud {
   getReport: (params: ReportRequest) => Promise<void>;

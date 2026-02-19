@@ -1,6 +1,6 @@
 ﻿import { z } from 'zod';
-import { apiFileRequest } from '@/api/api-client';
 import { message } from 'antd';
+import { apiFileRequest } from './api-client';
 
 export const ReportRequestSchema = z.object({
   studentId: z.string().nullable(),
