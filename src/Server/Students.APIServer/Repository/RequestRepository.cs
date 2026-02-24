@@ -297,19 +297,34 @@ public class RequestRepository : GenericRepository<Request>, IRequestRepository
                 }).ToList();
     }
 
-    /// <inheritdoc/>
-    public override async Task<IEnumerable<Request>> GetSearched(Search<Request> search)
+    /// <inheritdoc />
+    public async Task<IEnumerable<RequestDTO>> SearchData(Search<Request> search)
     {
-        IQueryable<Request> query = this.DbSet
+        var predicate = search.GetSearchPredicate();
+
+        var baseQuery = this.DbSet.AsNoTracking()
             .Include(r => r.Student)
             .ThenInclude(s => s!.TypeEducation)
+            .Include(r => r.PhantomStudent)
+            .ThenInclude(s => s!.TypeEducation)
             .Include(r => r.EducationProgram)
-            .Include(r => r.Status);
+            .Include(r => r.Status)
+            .Include(r => r.Orders)!
+            .ThenInclude(o => o.KindOrder)
+            .AsEnumerable()            
+            .Where(r => predicate(r));
 
-        var predicate = search.GetSearchPredicate();
-        return await this.Get(predicate, query);
+        var result = new List<RequestDTO>();
+
+        foreach (var r in baseQuery)
+        {
+            var dto = await this._mapper.RequestToRequestDTO(r);
+            result.Add(dto);
+        }
+
+        return result;
     }
-
+    
     /// <summary>
     /// Определение студента к заявке
     /// </summary>

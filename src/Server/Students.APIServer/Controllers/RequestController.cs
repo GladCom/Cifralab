@@ -1,9 +1,11 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Students.APIServer.Controllers.Interfaces;
 using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.Searches;
 
 namespace Students.APIServer.Controllers;
 
@@ -13,233 +15,263 @@ namespace Students.APIServer.Controllers;
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
-public class RequestController : GenericAPiController<Request>
+public class RequestController : GenericAPiController<Request>, ISearchExecutionService
 {
-    #region Поля и свойства
+  #region Поля и свойства
 
-    private readonly IRequestRepository _requestRepository;
+  private readonly IRequestRepository _requestRepository;
 
-    #endregion
+  #endregion
 
-    #region Методы
+  #region Методы
 
-    /// <summary>
-    /// Создание новой заявки с фронта.
-    /// </summary>
-    /// <param name="form">DTO заявки с данными о потенциальном студенте.</param>
-    /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
-    [HttpPost("NewRequest")]
-    public async Task<IActionResult> Post([FromBody] NewRequestDTO form)
+  /// <summary>
+  /// Создание новой заявки с фронта.
+  /// </summary>
+  /// <param name="form">DTO заявки с данными о потенциальном студенте.</param>
+  /// <returns>Новая заявка (попутно создается новый студент, если не был найден).</returns>
+  [HttpPost("NewRequest")]
+  public async Task<IActionResult> Post([FromBody] NewRequestDTO form)
+  {
+    try
     {
-        try
-        {
-            var result = await this._requestRepository.Create(form);
-            return this.Ok(result);
-        }
-        catch (ArgumentException argEx)
-        {
-            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
-            return this.BadRequest(argEx.Message);
-        }
-        catch (InvalidOperationException invOpEx)
-        {
-            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
-            return this.BadRequest(invOpEx.Message);
-        }
-        catch (Exception e)
-        {
-            this.Logger.LogError(e, "Error while creating Entity");
-            return this.Exception();
-        }
+      var result = await this._requestRepository.Create(form);
+      return this.Ok(result);
     }
-
-    /// <summary>
-    /// Обновить заявку и её студента.
-    /// </summary>
-    /// <param name="id">Id заявки.</param>
-    /// <param name="form">DTO заявки.</param>
-    /// <returns>DTO заявки.</returns>
-    [HttpPut("EditRequest/{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromBody] RequestDTO form)
+    catch (ArgumentException argEx)
     {
-        try
-        {
-            var result = await this._requestRepository.Update(id, form);
-            return result is null ? this.NotFoundException() : this.Ok(form);
-        }
-        catch (ArgumentException argEx)
-        {
-            this.Logger.LogWarning(argEx, "Invalid argument while updating Entity");
-            return this.BadRequest(argEx.Message);
-        }
-        catch (InvalidOperationException invOpEx)
-        {
-            this.Logger.LogWarning(invOpEx, "Invalid operation while updating Entity");
-            return this.BadRequest(invOpEx.Message);
-        }
-        catch (Exception e)
-        {
-            this.Logger.LogError(e, "Error while updating Entity");
-            return this.Exception();
-        }
+      this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+      return this.BadRequest(argEx.Message);
     }
-
-    /// <summary>
-    /// Добавление приказа.
-    /// </summary>
-    /// <param name="requestId">Идентификатор заявки.</param>
-    /// <param name="order">Приказ.</param>
-    /// <returns>Состояние запроса.</returns>
-    [HttpPost("AddOrderToRequest")]
-    public async Task<IActionResult> AddOrderToRequest(Guid requestId, [FromBody] Order order)
+    catch (InvalidOperationException invOpEx)
     {
-        try
-        {
-            var request = await this._requestRepository.AddOrderToRequest(requestId, order);
-            return request is null ? this.NotFoundException() : this.Ok();
-        }
-        catch (Exception e)
-        {
-            this.Logger.LogError(e, "Error while creating Entity");
-            return this.Exception();
-        }
+      this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+      return this.BadRequest(invOpEx.Message);
     }
-
-    /// <summary>
-    /// Список заявок с разделением по страницам.
-    /// </summary>
-    /// <returns>Состояние запроса + список заявок с разделением по страницам.</returns>
-    [HttpGet("paged")]
-    public async Task<IActionResult> ListAllPagedDTO([FromQuery] Pageable pageable, [FromQuery] string? filterString = null, [FromQuery] string? sortingField = "StudentFullName", [FromQuery] bool isSortAsc = true)
+    catch (Exception e)
     {
-        try
-        {
-            if (string.IsNullOrEmpty(filterString))
-            {
-                filterString = "{}";
-            }
-            var items = await this._requestRepository.GetRequestDTOByPageFilteredSorted(pageable.PageNumber, pageable.PageSize, sortingField ?? "StudentFullName", isSortAsc, filterString!);
-            return this.Ok(items);
-        }
-        catch (ArgumentException argEx)
-        {
-            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
-            return this.BadRequest(argEx.Message);
-        }
-        catch (InvalidOperationException invOpEx)
-        {
-            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
-            return this.BadRequest(invOpEx.Message);
-        }
-        catch (Exception e)
-        {
-            this.Logger.LogError(e, "Error while getting Entities");
-            return this.Exception();
-        }
+      this.Logger.LogError(e, "Error while creating Entity");
+      return this.Exception();
     }
+  }
 
-    /// <summary>
-    /// Справочник статусов вступительного испытания
-    /// </summary>
-    /// <returns>Список статусов.</returns>
-    [HttpGet("entranceExamStatuses")]
-    public async Task<IActionResult> GetEntranceExamStatuses()
+  /// <summary>
+  /// Обновить заявку и её студента.
+  /// </summary>
+  /// <param name="id">Id заявки.</param>
+  /// <param name="form">DTO заявки.</param>
+  /// <returns>DTO заявки.</returns>
+  [HttpPut("EditRequest/{id}")]
+  public async Task<IActionResult> Put(Guid id, [FromBody] RequestDTO form)
+  {
+    try
     {
-        try
-        {
-            var statuses = await _requestRepository.GetEntranceExamStatuses();
-            return this.Ok(statuses);
-        }
-        catch (ArgumentException argEx)
-        {
-            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
-            return this.BadRequest(argEx.Message);
-        }
-        catch (InvalidOperationException invOpEx)
-        {
-            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
-            return this.BadRequest(invOpEx.Message);
-        }
-        catch (Exception e)
-        {
-            this.Logger.LogError(e, "Error while getting entrance exam statuses");
-            return this.Exception();
-        }
+      var result = await this._requestRepository.Update(id, form);
+      return result is null ? this.NotFoundException() : this.Ok(form);
     }
-
-    /// <summary>
-    /// Получение DTO заявки по идентификатору.
-    /// </summary>
-    /// <param name="id">Идентификатор заявки.</param>
-    /// <returns>DTO заявки.</returns>
-    [HttpGet("GetDTO/{id}")]
-    public async Task<IActionResult> GetRequestDTO(Guid id)
+    catch (ArgumentException argEx)
     {
-        try
-        {
-            var requestDTO = await this._requestRepository.GetRequestDTO(id);
-            return requestDTO is null ? this.NotFoundException() : this.Ok(requestDTO);
-        }
-        catch (ArgumentException argEx)
-        {
-            this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
-            return this.BadRequest(argEx.Message);
-        }
-        catch (InvalidOperationException invOpEx)
-        {
-            this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
-            return this.BadRequest(invOpEx.Message);
-        }
-        catch (Exception e)
-        {
-            this.Logger.LogError(e, "Error while getting Entity by Id");
-            return this.Exception();
-        }
+      this.Logger.LogWarning(argEx, "Invalid argument while updating Entity");
+      return this.BadRequest(argEx.Message);
     }
-
-
-    /// <summary>
-    /// Привязать студента к заявке
-    /// </summary>
-    /// <param name="studentRequest">Идентификаторы заявки + студента</param>
-    /// <returns>Обновленная заявка</returns>
-    [HttpPatch("SetStudent")]
-    public async Task<IActionResult> SetStudentToRequest([FromBody] StudentRequestDTO studentRequest)
+    catch (InvalidOperationException invOpEx)
     {
-        try
-        {
-            var requestDto = await this._requestRepository.SetStudentToRequest(studentRequest.RequestId, studentRequest.StudentId);
-            return this.Ok(requestDto);
-        }
-        catch (ArgumentException argEx)
-        {
-            this.Logger.LogError(argEx, "Invalid argument while getting entity");
-            return this.BadRequest(argEx.Message);
-        }
-        catch (Exception e)
-        {
-            this.Logger.LogError(e, "Error while setting student to request");
-            return this.Exception();
-        }
+      this.Logger.LogWarning(invOpEx, "Invalid operation while updating Entity");
+      return this.BadRequest(invOpEx.Message);
     }
-    #endregion
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while updating Entity");
+      return this.Exception();
+    }
+  }
 
-        #region Базовый класс
+  /// <summary>
+  /// Добавление приказа.
+  /// </summary>
+  /// <param name="requestId">Идентификатор заявки.</param>
+  /// <param name="order">Приказ.</param>
+  /// <returns>Состояние запроса.</returns>
+  [HttpPost("AddOrderToRequest")]
+  public async Task<IActionResult> AddOrderToRequest(Guid requestId, [FromBody] Order order)
+  {
+    try
+    {
+      var request = await this._requestRepository.AddOrderToRequest(requestId, order);
+      return request is null ? this.NotFoundException() : this.Ok();
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while creating Entity");
+      return this.Exception();
+    }
+  }
 
-        #endregion
+  /// <summary>
+  /// Список заявок с разделением по страницам.
+  /// </summary>
+  /// <returns>Состояние запроса + список заявок с разделением по страницам.</returns>
+  [HttpGet("paged")]
+  public async Task<IActionResult> ListAllPagedDTO([FromQuery] Pageable pageable,
+    [FromQuery] string? filterString = null, [FromQuery] string? sortingField = "StudentFullName",
+    [FromQuery] bool isSortAsc = true)
+  {
+    try
+    {
+      if (string.IsNullOrEmpty(filterString))
+      {
+        filterString = "{}";
+      }
 
-        #region Конструкторы
+      var items = await this._requestRepository.GetRequestDTOByPageFilteredSorted(pageable.PageNumber,
+        pageable.PageSize, sortingField ?? "StudentFullName", isSortAsc, filterString!);
+      return this.Ok(items);
+    }
+    catch (ArgumentException argEx)
+    {
+      this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+      return this.BadRequest(argEx.Message);
+    }
+    catch (InvalidOperationException invOpEx)
+    {
+      this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+      return this.BadRequest(invOpEx.Message);
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while getting Entities");
+      return this.Exception();
+    }
+  }
 
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="logger">Логгер.</param>
-        /// <param name="requestRepository">Репозиторий заявок.</param>
-    public RequestController(IRequestRepository requestRepository,
+  /// <summary>
+  /// Справочник статусов вступительного испытания
+  /// </summary>
+  /// <returns>Список статусов.</returns>
+  [HttpGet("entranceExamStatuses")]
+  public async Task<IActionResult> GetEntranceExamStatuses()
+  {
+    try
+    {
+      var statuses = await _requestRepository.GetEntranceExamStatuses();
+      return this.Ok(statuses);
+    }
+    catch (ArgumentException argEx)
+    {
+      this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+      return this.BadRequest(argEx.Message);
+    }
+    catch (InvalidOperationException invOpEx)
+    {
+      this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+      return this.BadRequest(invOpEx.Message);
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while getting entrance exam statuses");
+      return this.Exception();
+    }
+  }
+
+  /// <summary>
+  /// Получение DTO заявки по идентификатору.
+  /// </summary>
+  /// <param name="id">Идентификатор заявки.</param>
+  /// <returns>DTO заявки.</returns>
+  [HttpGet("GetDTO/{id}")]
+  public async Task<IActionResult> GetRequestDTO(Guid id)
+  {
+    try
+    {
+      var requestDTO = await this._requestRepository.GetRequestDTO(id);
+      return requestDTO is null ? this.NotFoundException() : this.Ok(requestDTO);
+    }
+    catch (ArgumentException argEx)
+    {
+      this.Logger.LogWarning(argEx, "Invalid argument while creating Entity");
+      return this.BadRequest(argEx.Message);
+    }
+    catch (InvalidOperationException invOpEx)
+    {
+      this.Logger.LogWarning(invOpEx, "Invalid operation while creating Entity");
+      return this.BadRequest(invOpEx.Message);
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while getting Entity by Id");
+      return this.Exception();
+    }
+  }
+
+
+  /// <summary>
+  /// Привязать студента к заявке
+  /// </summary>
+  /// <param name="studentRequest">Идентификаторы заявки + студента</param>
+  /// <returns>Обновленная заявка</returns>
+  [HttpPatch("SetStudent")]
+  public async Task<IActionResult> SetStudentToRequest([FromBody] StudentRequestDTO studentRequest)
+  {
+    try
+    {
+      var requestDto =
+        await this._requestRepository.SetStudentToRequest(studentRequest.RequestId, studentRequest.StudentId);
+      return this.Ok(requestDto);
+    }
+    catch (ArgumentException argEx)
+    {
+      this.Logger.LogError(argEx, "Invalid argument while getting entity");
+      return this.BadRequest(argEx.Message);
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while setting student to request");
+      return this.Exception();
+    }
+  }
+
+  /// <summary>
+  /// Поиск.
+  /// </summary>
+  /// <param name="searchWithoutType">JSON-строка с параметрами поиска.</param>
+  /// <returns>Список найденных объектов.</returns>
+  [HttpGet("Search")]
+  public async Task<IActionResult> SearchAsync([FromQuery] string searchWithoutType)
+  {
+    try
+    {
+      var search = SearchSerializer.SearchToTypedSearch<Request>(searchWithoutType);
+      if (search is null)
+        return this.BadRequest();
+
+      var items = await this._requestRepository.SearchData(search);
+      return this.Ok(items);
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while searching Requests DTO");
+      return this.Exception();
+    }
+  }
+  
+  #endregion
+
+  #region Базовый класс
+
+  #endregion
+
+  #region Конструкторы
+
+  /// <summary>
+  /// Конструктор.
+  /// </summary>
+  /// <param name="logger">Логгер.</param>
+  /// <param name="requestRepository">Репозиторий заявок.</param>
+  public RequestController(IRequestRepository requestRepository,
     ILogger<Request> logger) : base(requestRepository, logger)
-    {
-        this._requestRepository = requestRepository;
-    }
+  {
+    this._requestRepository = requestRepository;
+  }
 
-    #endregion
+  #endregion
 }

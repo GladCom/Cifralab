@@ -1,13 +1,14 @@
 ﻿using Students.APIServer.DTO;
 using Students.APIServer.Extension.Pagination;
 using Students.Models;
+using Students.Models.Searches.Searches;
 
 namespace Students.APIServer.Repository.Interfaces;
 
 /// <summary>
 /// Интерфейс репозитория заявки.
 /// </summary>
-public interface IRequestRepository : IGenericRepository<Request>
+public interface IRequestRepository : IGenericRepository<Request>, ISearchRepository<Request, RequestDTO>
 {
     /// <summary>
     /// Создание новой заявки с тильды.

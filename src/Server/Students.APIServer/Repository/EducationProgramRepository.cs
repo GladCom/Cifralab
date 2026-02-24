@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Students.APIServer.DTO;
 using Students.APIServer.Repository.Interfaces;
 using Students.DBCore.Contexts;
 using Students.Models;
 using Students.Models.Filters.Filters;
+using Students.Models.Searches.Searches;
 
 namespace Students.APIServer.Repository;
 
@@ -33,6 +35,19 @@ public class EducationProgramRepository : GenericRepository<EducationProgram>, I
     return await this.Update(educationProgramId, educationProgram);
   }
 
+  /// <inheritdoc />
+  public async Task<IEnumerable<EducationProgram>> SearchData(Search<EducationProgram> search)
+  {
+    var predicate = search.GetSearchPredicate();
+
+    var result = this.DbSet
+      .AsNoTracking()
+      .AsEnumerable()
+      .Where(p => predicate(p))
+      .ToList();
+
+    return result;
+  }
   #endregion
 
   #region Базовый класс

@@ -40,10 +40,19 @@ namespace Students.Models.Searches.Searches
       return r =>
       {
         if (r.Student != null && 
-            ((r.Student.FullName.ToLower().Contains(normalizedQuery)) ||
-             (r.RegistrationNumber.ToLower().Contains(normalizedQuery)) ||
-             (r.Email.ToLower().Contains(normalizedQuery)) ||
-             (r.Phone.ToLower().Contains(normalizedQuery))))
+            ((r.Student.FullName != null && r.Student.FullName.ToLower().Contains(normalizedQuery)) ||
+             (r.RegistrationNumber != null && r.RegistrationNumber.ToLower().Contains(normalizedQuery)) ||
+             (r.Email != null && r.Email.ToLower().Contains(normalizedQuery)) ||
+             (r.Phone != null && r.Phone.ToLower().Contains(normalizedQuery))))
+        {
+          return true;
+        }
+
+        if (r.PhantomStudent != null && 
+            ((r.PhantomStudent.FullName != null && r.PhantomStudent.FullName.ToLower().Contains(normalizedQuery)) ||
+             (r.RegistrationNumber != null && r.RegistrationNumber.ToLower().Contains(normalizedQuery)) ||
+             (r.Email != null && r.Email.ToLower().Contains(normalizedQuery)) ||
+             (r.Phone != null && r.Phone.ToLower().Contains(normalizedQuery))))
         {
           return true;
         }

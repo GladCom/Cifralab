@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Students.APIServer.Controllers.Interfaces;
 using Students.APIServer.Repository.Interfaces;
 using Students.Models;
+using Students.Models.Searches;
 
 namespace Students.APIServer.Controllers;
 
@@ -11,7 +13,7 @@ namespace Students.APIServer.Controllers;
 [ApiController]
 [Route("[controller]")]
 [ApiVersion("1.0")]
-public class EducationProgramController : GenericAPiController<EducationProgram>
+public class EducationProgramController : GenericAPiController<EducationProgram> , ISearchExecutionService
 {
   #region Поля и свойства
 
@@ -37,6 +39,26 @@ public class EducationProgramController : GenericAPiController<EducationProgram>
     catch(Exception e)
     {
       this.Logger.LogError(e, "Error while updating Entity");
+      return this.Exception();
+    }
+  }
+
+  /// <inheritdoc />
+  [HttpGet("Search")]
+  public async Task<IActionResult> SearchAsync([FromQuery] string searchWithoutType)
+  {
+    try
+    {
+      var search = SearchSerializer.SearchToTypedSearch<EducationProgram>(searchWithoutType);
+      if (search is null)
+        return this.BadRequest();
+
+      var items = await this._educationProgramRepository.SearchData(search);
+      return this.Ok(items);
+    }
+    catch (Exception e)
+    {
+      this.Logger.LogError(e, "Error while searching EducationProgram");
       return this.Exception();
     }
   }
