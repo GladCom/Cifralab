@@ -6,7 +6,6 @@ import { Email } from '../../components/shared/control/email';
 import { PhoneNumber } from '../../components/shared/control/phone-number';
 import { EducationProgramSelect } from '../../components/shared/control/selects/education-program-select';
 import { EducationTypeSelect } from '../../components/shared/control/selects/education-type-select';
-import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
 import { StatusEntrancExamsSelect } from '../../components/shared/control/selects/status-entranc-exams-select';
 import { StringControl } from '../../components/shared/control/string-control';
 import { DtoKeys } from '../service/types';
@@ -110,25 +109,6 @@ export const personRequestFormModel: FormModel = {
   email: {
     name: 'E-mail',
     type: Email,
-  },
-  scopeOfActivityLevelOneId: {
-    name: 'Сфера деятельности уровень 1',
-    type: ScopeOfActivitySelect,
-    formParams: {
-      key: DtoKeys.SCOPE_OF_ACTIVITY_LEVEL_ONE_ID,
-    },
-  },
-  scopeOfActivityLevelTwoId: {
-    name: 'Сфера деятельности уровень 2',
-    type: ScopeOfActivitySelect,
-    formParams: {
-      key: DtoKeys.SCOPE_OF_ACTIVITY_LEVEL_TWO_ID,
-      rules: [
-        {
-          required: false,
-        },
-      ],
-    },
   },
   agreement: {
     name: 'Согласие на обработку перс. даннных',
