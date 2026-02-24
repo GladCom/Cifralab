@@ -1,8 +1,7 @@
 import { Rule } from 'antd/es/form';
 import config from '../../../../storage/catalog-config/type-education';
 import { FormParams } from '../multi-mode-control/types';
-import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
-import { QueryableSelectControl } from './common/queryable-select-control';
+import { MultimodeControl, MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import merge from 'lodash/merge';
 
 const rules: Rule[] = [
@@ -28,5 +27,5 @@ export const EducationTypeSelect: React.FC<MultimodeControlProps> = (props) => {
     externalFormParams, // переопределения
   );
 
-  return <QueryableSelectControl {...props} crud={crud} formParams={finalFormParams} />;
+  return <MultimodeControl {...props} crud={crud} formParams={finalFormParams} />;
 };
