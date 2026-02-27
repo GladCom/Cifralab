@@ -1,15 +1,13 @@
-import { Empty } from 'antd';
+import { Empty as AntEmpty } from 'antd';
 
-const CustomEmpty = () => {
+export const Empty = () => {
   const style = {
     height: '10vh',
   };
 
   return (
     <div className="row h-100 align-items-center justify-content-center" style={style}>
-      <Empty />
+      <AntEmpty />
     </div>
   );
 };
-
-export default CustomEmpty;

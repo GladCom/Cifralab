@@ -1,13 +1,11 @@
-import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-config/type-education';
-import Catalog from '../shared/catalog-provider/catalog';
+import { typeEducationConfig } from '../../storage/catalog-config/type-education';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const TypeEducationPage = () => {
+export const TypeEducationPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Тип образования" />
+      <Catalog config={typeEducationConfig} title="Тип образования" />
     </Layout>
   );
 };
-
-export default TypeEducationPage;

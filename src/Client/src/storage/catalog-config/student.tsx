@@ -11,7 +11,7 @@ import {
 } from '../crud/student-crud';
 import { studentFormModel } from '../form-model/student';
 
-export default {
+export const studentConfig = {
   detailsLink: 'student',
   hasDetailsPage: true,
   serverPaged: true,

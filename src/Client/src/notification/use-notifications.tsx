@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import NotificationContext from './notification-context';
+import { NotificationContext } from './notification-context';
 
-const useNotifications = () => {
+export const useNotifications = () => {
   const api = useContext(NotificationContext);
 
   const showSuccess = (message, description) => {
@@ -27,5 +27,3 @@ const useNotifications = () => {
 
   return { showSuccess, showError, showInfo };
 };
-
-export default useNotifications;

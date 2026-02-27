@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { actions as userActions } from '../../../storage/slice/user-slice';
-import Logo from './logo';
 import { Flex, Layout, Button, Typography } from 'antd';
+import { Logo } from './logo';
 
 const { Text, Title } = Typography;
 
-const { Header } = Layout;
+const { Header: AntHeader } = Layout;
 
-const MyHeader = ({ title, style }) => {
+export const Header = ({ title, style }) => {
   const dispatch = useDispatch();
   const { userName } = useSelector((state) => state.user);
 
@@ -16,7 +16,7 @@ const MyHeader = ({ title, style }) => {
   };
 
   return (
-    <Header style={style} className="border-bottom border-primary">
+    <AntHeader style={style} className="border-bottom border-primary">
       <Flex style={{ height: '100%' }}>
         <Flex justify="center" align="center" style={{ width: '15%' }}>
           <Logo />
@@ -33,8 +33,6 @@ const MyHeader = ({ title, style }) => {
           </Button>
         </Flex>
       </Flex>
-    </Header>
+    </AntHeader>
   );
 };
-
-export default MyHeader;

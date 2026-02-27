@@ -11,7 +11,7 @@ import {
 } from '../crud/group-crud';
 import { groupFormModel } from '../form-model/group';
 
-export default {
+export const groupConfig = {
   detailsLink: 'group',
   hasDetailsPage: true,
   serverPaged: false,

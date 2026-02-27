@@ -1,17 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import config from '../../storage/catalog-config/group';
 import type { Group } from '../../storage/service/types';
 import { DetailsPageData } from '../shared/layout/details-page-data';
+import { groupConfig } from '../../storage/catalog-config/group';
+import { Loading } from '../shared/layout/loading';
+import { Layout } from '../shared/layout/layout';
+import { DetailsPageHeader } from '../shared/layout/details-page-header';
+import { RoutingWarningModal } from '../shared/layout/routing-warning-modal';
 
-const GroupDetailsPage = () => {
+export const GroupDetailsPage = () => {
   const { id } = useParams();
   const [groupData, setGroupData] = useState<Group>();
   const [initialData, setInitialData] = useState<Group>();
   const [isChanged, setIsChanged] = useState(false);
-  const { formModel, crud } = config;
+  const { formModel, crud } = groupConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
@@ -68,5 +71,3 @@ const GroupDetailsPage = () => {
     </Layout>
   );
 };
-
-export default GroupDetailsPage;

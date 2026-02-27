@@ -1,12 +1,11 @@
-import { Layout, EntityTable } from '../shared/layout/index';
-import config from '../../storage/catalog-config/group';
+import { groupConfig } from '../../storage/catalog-config/group';
+import { EntityTable } from '../shared/layout/entity-table';
+import { Layout } from '../shared/layout/layout';
 
-const GroupsPage = () => {
+export const GroupsPage = () => {
   return (
     <Layout>
-      <EntityTable config={config} title="Группы" />
+      <EntityTable config={groupConfig} title="Группы" />
     </Layout>
   );
 };
-
-export default GroupsPage;

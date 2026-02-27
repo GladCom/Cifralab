@@ -2,9 +2,9 @@ import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
-import { TablePageHeader } from '../layout/index';
-import FilterPanel, { Query, FilterConfig } from '../catalog-provider/filter-panel';
+import { Query, FilterConfig, FilterPanel } from '../catalog-provider/filter-panel';
 import { FormModel } from '../../../storage/form-model/types';
+import { TablePageHeader } from './table-page-header';
 
 type TableColumn = ColumnType<unknown> & {
   sorterKey?: string;
@@ -59,7 +59,7 @@ type EntityTableProps = {
   title: string;
 };
 
-const EntityTable = ({ config, title }: EntityTableProps) => {
+export const EntityTable = ({ config, title }: EntityTableProps) => {
   const { detailsLink, crud, columns, serverPaged, dataConverter } = config;
   const { useGetAllPagedAsync, useSearchAsync } = crud;
 
@@ -221,5 +221,3 @@ const EntityTable = ({ config, title }: EntityTableProps) => {
     </>
   );
 };
-
-export default EntityTable;

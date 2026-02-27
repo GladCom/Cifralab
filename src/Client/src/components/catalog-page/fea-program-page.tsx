@@ -1,13 +1,11 @@
-import Catalog from '../shared/catalog-provider/catalog';
-import config from '../../storage/catalog-config/fea-program';
-import { Layout } from '../shared/layout';
+import { feaProgramConfig } from '../../storage/catalog-config/fea-program';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const FEAProgramPage = () => {
+export const FEAProgramPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="ВЭД программы" />
+      <Catalog config={feaProgramConfig} title="ВЭД программы" />
     </Layout>
   );
 };
-
-export default FEAProgramPage;

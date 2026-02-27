@@ -1,16 +1,14 @@
 import { Flex, Layout, Typography } from 'antd';
 
-const { Footer } = Layout;
+const { Footer: AntFooter } = Layout;
 const { Text } = Typography;
 
-const MyFooter = ({ style }) => {
+export const Footer = ({ style }) => {
   return (
-    <Footer style={style} className="border-top border-primary">
+    <AntFooter style={style} className="border-top border-primary">
       <Flex align="center" justify="center">
         <Text>Академия Цифра © 2024</Text>
       </Flex>
-    </Footer>
+    </AntFooter>
   );
 };
-
-export default MyFooter;

@@ -18,7 +18,7 @@ const customParser = (value) => {
   return value; // Возвращаем оригинальное значение, если формат не соответствует
 };
 */
-const DateFilter = ({ placeholder, onChange }) => {
+export const DateFilter = ({ placeholder, onChange }) => {
   return (
     <div className="col-2">
       <Space>
@@ -33,5 +33,3 @@ const DateFilter = ({ placeholder, onChange }) => {
     </div>
   );
 };
-
-export default DateFilter;

@@ -20,7 +20,7 @@ const items = [
   },
 ];
 
-const GenderFilter = ({ onChange }) => {
+export const GenderFilter = ({ onChange }) => {
   const [gender, setGender] = useState('пол');
 
   const onClick = useCallback(
@@ -62,5 +62,3 @@ const GenderFilter = ({ onChange }) => {
     </div>
   );
 };
-
-export default GenderFilter;

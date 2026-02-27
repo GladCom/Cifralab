@@ -16,7 +16,7 @@ const openedKey = {
   '/kindEducationProgram': 'settings',
 };
 
-const useMenuConfig = () => {
+export const useMenuConfig = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -158,5 +158,3 @@ const useMenuConfig = () => {
     menuItems,
   };
 };
-
-export default useMenuConfig;

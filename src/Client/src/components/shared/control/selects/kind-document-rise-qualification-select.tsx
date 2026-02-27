@@ -1,9 +1,9 @@
 import { Rule } from 'antd/es/form';
-import config from '../../../../storage/catalog-config/kind-document-rise-qualification';
 import { FormParams } from '../multi-mode-control/types';
 import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import { QueryableSelectControl } from './common/queryable-select-control';
 import merge from 'lodash/merge';
+import { kindDocumentRiseQualificationConfig } from '../../../../storage/catalog-config/kind-document-rise-qualification';
 
 const rules: Rule[] = [
   {
@@ -20,7 +20,7 @@ const formParams: FormParams = {
 };
 
 export const KindDocumentRiseQualificationSelect: React.FC<MultimodeControlProps> = (props) => {
-  const { crud } = config;
+  const { crud } = kindDocumentRiseQualificationConfig;
   const { formParams: externalFormParams } = props;
   const finalFormParams = merge(
     {},

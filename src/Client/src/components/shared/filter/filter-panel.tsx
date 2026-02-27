@@ -3,7 +3,7 @@ const style: React.CSSProperties = {
   minHeight: '50px',
 };
 
-const FilterPanel = ({ children }) => {
+export const FilterPanel = ({ children }) => {
   return (
     <div
       className="
@@ -20,5 +20,3 @@ const FilterPanel = ({ children }) => {
     </div>
   );
 };
-
-export default FilterPanel;

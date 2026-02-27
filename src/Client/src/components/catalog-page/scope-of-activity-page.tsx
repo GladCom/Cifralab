@@ -1,13 +1,11 @@
-import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-config/scope-of-activity';
-import Catalog from '../shared/catalog-provider/catalog';
+import { scopeOfActivityConfig } from '../../storage/catalog-config/scope-of-activity';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const ScopeOfActivityPage = () => {
+export const ScopeOfActivityPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Сферы деятельности" />
+      <Catalog config={scopeOfActivityConfig} title="Сферы деятельности" />
     </Layout>
   );
 };
-
-export default ScopeOfActivityPage;

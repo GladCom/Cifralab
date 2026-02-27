@@ -9,7 +9,7 @@ import {
 } from '../crud/financing-type-crud';
 import { financingTypeFormModel } from '../form-model/financing-type';
 
-export default {
+export const financingTypeConfig = {
   detailsLink: 'financingType',
   hasDetailsPage: false,
   serverPaged: false,

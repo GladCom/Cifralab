@@ -1,13 +1,11 @@
-import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-config/student-status';
-import Catalog from '../shared/catalog-provider/catalog';
+import { studentStatusConfig } from '../../storage/catalog-config/student-status';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const StudentStatusPage = () => {
+export const StudentStatusPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Статус студента" />
+      <Catalog config={studentStatusConfig} title="Статус студента" />
     </Layout>
   );
 };
-
-export default StudentStatusPage;

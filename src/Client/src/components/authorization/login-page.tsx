@@ -15,7 +15,7 @@ type ValidationState = {
   message?: string;
 };
 
-const LoginPage = () => {
+export const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [validationState, setValidationState] = useState<ValidationState>({});
@@ -94,5 +94,3 @@ const LoginPage = () => {
     </Flex>
   );
 };
-
-export default LoginPage;

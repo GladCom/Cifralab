@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import useNotifications from '../../notification/use-notifications';
 import {
   useGetPersonRequestsQuery,
   useGetPersonRequestsPagedQuery,
@@ -9,6 +8,7 @@ import {
   useRemovePersonRequestMutation,
   useGetPersonRequestSearchQuery,
 } from '../service/request-api';
+import { useNotifications } from '../../notification/use-notifications';
 
 const useGetAllAsync = () => {
   const { data, isError, isSuccess, error, isLoading, isFetching, refetch } = useGetPersonRequestsQuery(undefined);

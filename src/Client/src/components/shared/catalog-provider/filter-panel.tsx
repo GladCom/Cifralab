@@ -43,7 +43,7 @@ export type FilterSelectProps = {
   setQuery: React.Dispatch<React.SetStateAction<Query>>;
 };
 
-const FilterSelect: React.FC<FilterSelectProps> = ({ filter, query, setQuery }) => {
+export const FilterSelect: React.FC<FilterSelectProps> = ({ filter, query, setQuery }) => {
   const { backendKey, label, placeholder, useQuery, mapOptions } = filter;
   const { data, isLoading } = useQuery({});
   const options = mapOptions ? mapOptions(data) : [];
@@ -82,7 +82,7 @@ export type FilterPanelProps = {
   setQuery: React.Dispatch<React.SetStateAction<Query>>;
 };
 
-const FilterPanel: React.FC<FilterPanelProps> = ({ config, query, setQuery }) => {
+export const FilterPanel: React.FC<FilterPanelProps> = ({ config, query, setQuery }) => {
   const { filters } = config || {};
 
   if (!filters || filters.length === 0) {
@@ -100,5 +100,3 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ config, query, setQuery }) =>
     </Flex>
   );
 };
-
-export default FilterPanel;

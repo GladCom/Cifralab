@@ -4,8 +4,6 @@ const logoStyle = {
   height: '80%',
 };
 
-const Logo = () => {
+export const Logo = () => {
   return <img src={logo} style={logoStyle} alt="Логотип Академии цифра" />;
 };
-
-export default Logo;

@@ -13,12 +13,10 @@ const overlayStyle: React.CSSProperties = {
   zIndex: 9999,
 };
 
-const Spinner = () => {
+export const Spinner = () => {
   return (
     <div style={overlayStyle}>
       <TailSpin height="80" width="80" color="#00BFFF" ariaLabel="loading" />
     </div>
   );
 };
-
-export default Spinner;

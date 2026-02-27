@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import { DetermineStudentModal } from './determine-student-modal';
@@ -8,6 +7,10 @@ import { useAssignStudentToRequestMutation } from '../../storage/service/request
 import { personRequestConfig } from '../../storage/catalog-config/person-request';
 import { DetailsPageData } from '../shared/layout/details-page-data';
 import { RequestDTO } from '../../storage/service/types';
+import { Loading } from '../shared/layout/loading';
+import { DetailsPageHeader } from '../shared/layout/details-page-header';
+import { Layout } from '../shared/layout/layout';
+import { RoutingWarningModal } from '../shared/layout/routing-warning-modal';
 
 const isRequestDTO = (data: unknown): data is RequestDTO => {
   return typeof data === 'object' && data !== null;

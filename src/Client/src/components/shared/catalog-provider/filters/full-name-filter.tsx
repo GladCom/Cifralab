@@ -1,7 +1,7 @@
 import { Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-const FullNameFilter = ({ name, query, setQuery }) => {
+export const FullNameFilter = ({ name, query, setQuery }) => {
   return (
     <>
       <Space>
@@ -17,5 +17,3 @@ const FullNameFilter = ({ name, query, setQuery }) => {
     </>
   );
 };
-
-export default FullNameFilter;

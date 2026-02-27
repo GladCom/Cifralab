@@ -17,7 +17,7 @@ const dateFormat = 'DD.MM.YYYY';
   return value;
 };
 */
-const DateFilter = ({ placeholder, onChange }) => {
+export const DateFilter = ({ placeholder, onChange }) => {
   return (
     <div className="col-2">
       <Space>
@@ -32,5 +32,3 @@ const DateFilter = ({ placeholder, onChange }) => {
     </div>
   );
 };
-
-export default DateFilter;

@@ -9,7 +9,7 @@ import {
 } from '../crud/education-form-crud';
 import { educationFormFormModel } from '../form-model/education-form';
 
-export default {
+export const educationFormConfig = {
   detailsLink: 'educationForm',
   hasDetailsPage: false,
   serverPaged: false,

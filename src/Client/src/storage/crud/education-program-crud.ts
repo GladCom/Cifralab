@@ -8,7 +8,7 @@ import {
   useRemoveEducationProgramMutation,
   useGetEducationProgramSearchQuery,
 } from '../service/education-program-api';
-import useNotifications from '../../notification/use-notifications';
+import { useNotifications } from '../../notification/use-notifications';
 
 const useEditOneAsync = () => {
   const [editItem, editingResult] = useEditEducationProgramMutation();

@@ -1,6 +1,6 @@
 import React from 'react';
-import PersonRequestsPage from '../../src/components/request/person-requests-page';
 import { renderWithProviders } from '../../src/test-utils/render-with-providers';
+import { PersonRequestsPage } from '../../src/components/request/person-requests-page';
 
 describe('PersonRequestsPage Snapshot', () => {
   test('renders correctly', () => {

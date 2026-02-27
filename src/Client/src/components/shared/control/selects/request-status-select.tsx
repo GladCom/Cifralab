@@ -1,9 +1,9 @@
 import { Rule } from 'antd/es/form';
-import config from '../../../../storage/catalog-config/request-status';
 import { FormParams } from '../multi-mode-control/types';
 import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import { QueryableSelectControl } from './common/queryable-select-control';
 import merge from 'lodash/merge';
+import { requestStatusConfig } from '../../../../storage/catalog-config/request-status';
 
 const rules: Rule[] = [
   {
@@ -20,7 +20,7 @@ const formParams: FormParams = {
 };
 
 export const RequestStatusSelect: React.FC<MultimodeControlProps> = (props) => {
-  const { crud } = config;
+  const { crud } = requestStatusConfig;
   const { formParams: externalFormParams } = props;
   const finalFormParams = merge(
     {},

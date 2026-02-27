@@ -1,18 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import config from '../../storage/catalog-config/education-program';
 import { DetailsPageData } from '../shared/layout/details-page-data';
 import { EducationProgram } from '../../storage/service/types';
+import { Loading } from '../shared/layout/loading';
+import { Layout } from '../shared/layout/layout';
+import { DetailsPageHeader } from '../shared/layout/details-page-header';
+import { RoutingWarningModal } from '../shared/layout/routing-warning-modal';
+import { educationProgramConfig } from '../../storage/catalog-config/education-program';
 
-const ProgramDetailsPage = () => {
+export const ProgramDetailsPage = () => {
   const { id } = useParams();
   const [programData, setProgramData] = useState<EducationProgram>();
   const [initialData, setInitialData] = useState<EducationProgram>();
   const [isChanged, setIsChanged] = useState(false);
   const [isSaveInProgress] = useState(false);
-  const { formModel, crud } = config;
+  const { formModel, crud } = educationProgramConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching } = useGetOneByIdAsync(id);
 
@@ -71,5 +74,3 @@ const ProgramDetailsPage = () => {
     </Layout>
   );
 };
-
-export default ProgramDetailsPage;

@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Layout, Loading, RoutingWarningModal, DetailsPageHeader } from '../shared/layout/index';
 import { useParams, useBlocker } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
-import config from '../../storage/catalog-config/student';
 import { StudentForm } from './student-form';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { Student } from '../../storage/service/types';
+import { studentConfig } from '../../storage/catalog-config/student';
+import { Loading } from '../shared/layout/loading';
+import { Layout } from '../shared/layout/layout';
+import { DetailsPageHeader } from '../shared/layout/details-page-header';
+import { RoutingWarningModal } from '../shared/layout/routing-warning-modal';
 
 export const StudentDetailsPage = () => {
   const { id } = useParams();
@@ -15,7 +18,7 @@ export const StudentDetailsPage = () => {
   const [formKeyValue, setFormKeyValue] = useState(0);
   const [isChanged, setIsChanged] = useState(false);
 
-  const { crud } = config;
+  const { crud } = studentConfig;
   const { useGetOneByIdAsync, useEditOneAsync } = crud;
   const { data, isLoading, isFetching } = useGetOneByIdAsync(id || skipToken);
   const [editStudent] = useEditOneAsync();

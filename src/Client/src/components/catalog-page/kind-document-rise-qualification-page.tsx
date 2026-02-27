@@ -1,13 +1,11 @@
-import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-config/kind-document-rise-qualification';
-import Catalog from '../shared/catalog-provider/catalog';
+import { kindDocumentRiseQualificationConfig } from '../../storage/catalog-config/kind-document-rise-qualification';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const KindDocumentRiseQualificationPage = () => {
+export const KindDocumentRiseQualificationPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Вид документа повышения квалификации" />
+      <Catalog config={kindDocumentRiseQualificationConfig} title="Вид документа повышения квалификации" />
     </Layout>
   );
 };
-
-export default KindDocumentRiseQualificationPage;

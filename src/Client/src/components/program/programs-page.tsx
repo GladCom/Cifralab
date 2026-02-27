@@ -1,12 +1,11 @@
-import { Layout, EntityTable } from '../shared/layout/index';
-import config from '../../storage/catalog-config/education-program';
+import { educationProgramConfig } from '../../storage/catalog-config/education-program';
+import { EntityTable } from '../shared/layout/entity-table';
+import { Layout } from '../shared/layout/layout';
 
-const ProgramsPage = () => {
+export const ProgramsPage = () => {
   return (
     <Layout>
-      <EntityTable config={config} title="Программы" />
+      <EntityTable config={educationProgramConfig} title="Программы" />
     </Layout>
   );
 };
-
-export default ProgramsPage;

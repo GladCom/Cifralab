@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { AddOneForm } from '../catalog-provider/forms/add-one-form';
 import { SearchInput } from '../control/search-input';
 import { EntityTableConfig } from './entity-table';
-import Spinner from './spinner';
+import { Spinner } from './spinner';
 
 const containerStyle = {
   height: '7vh',

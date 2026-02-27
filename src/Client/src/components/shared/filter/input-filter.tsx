@@ -1,7 +1,7 @@
 import { Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-const InputFilter = ({ placeholder, onChange }) => {
+export const InputFilter = ({ placeholder, onChange }) => {
   return (
     <div className="col-3">
       <Space>
@@ -14,5 +14,3 @@ const InputFilter = ({ placeholder, onChange }) => {
     </div>
   );
 };
-
-export default InputFilter;

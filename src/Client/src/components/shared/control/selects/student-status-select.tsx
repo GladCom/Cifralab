@@ -1,9 +1,9 @@
 import { Rule } from 'antd/es/form';
-import config from '../../../../storage/catalog-config/student-status';
 import { FormParams } from '../multi-mode-control/types';
 import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import { QueryableSelectControl } from './common/queryable-select-control';
 import merge from 'lodash/merge';
+import { studentStatusConfig } from '../../../../storage/catalog-config/student-status';
 
 const rules: Rule[] = [
   {
@@ -20,7 +20,7 @@ const formParams: FormParams = {
 };
 
 export const StudentStatusSelect: React.FC<MultimodeControlProps> = (props) => {
-  const { crud } = config;
+  const { crud } = studentStatusConfig;
   const { formParams: externalFormParams } = props;
   const finalFormParams = merge(
     {},

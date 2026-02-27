@@ -9,7 +9,7 @@ import {
 } from '../crud/kind-education-program-crud';
 import { kindOrderFormModel } from '../form-model/kind-order';
 
-export default {
+export const kindOrderConfig = {
   detailsLink: 'kindOrder',
   hasDetailsPage: false,
   serverPaged: false,

@@ -1,9 +1,9 @@
-import config from '../../../../storage/catalog-config/education-form';
 import { FormParams } from '../multi-mode-control/types';
 import { Rule } from 'antd/es/form';
 import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import { QueryableSelectControl } from './common/queryable-select-control';
 import merge from 'lodash/merge';
+import { educationFormConfig } from '../../../../storage/catalog-config/education-form';
 
 const rules: Rule[] = [
   {
@@ -20,7 +20,7 @@ const formParams: FormParams = {
 };
 
 export const EducationFormSelect: React.FC<MultimodeControlProps> = (props) => {
-  const { crud } = config;
+  const { crud } = educationFormConfig;
   const { formParams: externalFormParams } = props;
   const finalFormParams = merge(
     {},

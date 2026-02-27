@@ -9,7 +9,7 @@ import {
 } from '../crud/fea-program-crud';
 import { feaProgramFormModel } from '../form-model/fea-program';
 
-export default {
+export const feaProgramConfig = {
   detailsLink: 'feaProgram',
   hasDetailsPage: false,
   serverPaged: false,

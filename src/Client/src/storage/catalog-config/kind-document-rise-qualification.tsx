@@ -9,7 +9,7 @@ import {
 } from '../crud/kind-document-rise-qualification-crud';
 import { kindDocumentRiseQualificationFormModel } from '../form-model/kind-document-rise-qualification';
 
-export default {
+export const kindDocumentRiseQualificationConfig = {
   detailsLink: 'kindDocumentRiseQualification',
   hasDetailsPage: false,
   serverPaged: false,

@@ -1,7 +1,6 @@
-import Spinner from './spinner';
-import Empty from './empty';
+import { Spinner } from './spinner';
 
-const Loading = () => {
+export const Loading = () => {
   return (
     <>
       <Spinner />
@@ -9,5 +8,3 @@ const Loading = () => {
     </>
   );
 };
-
-export default Loading;

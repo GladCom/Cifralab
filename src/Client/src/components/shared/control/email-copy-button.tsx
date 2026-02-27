@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tooltip } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
-import useNotifications from '../../../notification/use-notifications';
+import { useNotifications } from '../../../notification/use-notifications';
 
 export interface EmailCopyButtonProps {
   email: string;

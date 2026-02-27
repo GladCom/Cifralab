@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Spin, Row, Col, Button } from 'antd';
 import { Student } from '../../storage/service/types';
 import { ConfirmStudentSelectionModal } from './confirm-student-selection-modal';
-import useNotifications from '../../notification/use-notifications';
+import { useNotifications } from '../../notification/use-notifications';
 
 type StudentWithId = Student & { id?: string };
 

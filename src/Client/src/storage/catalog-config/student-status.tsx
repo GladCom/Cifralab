@@ -9,7 +9,7 @@ import {
 } from '../crud/student-status-crud';
 import { studentStatusFormModel } from '../form-model/student-status';
 
-export default {
+export const studentStatusConfig = {
   detailsLink: 'studentStatus',
   hasDetailsPage: false,
   serverPaged: false,

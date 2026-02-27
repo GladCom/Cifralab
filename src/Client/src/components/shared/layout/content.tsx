@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 
-const { Content } = Layout;
+const { Content: AntContent } = Layout;
 
 const contentStyle = {
   backgroundColor: '#fff',
@@ -8,8 +8,6 @@ const contentStyle = {
   flex: 1,
 };
 
-const MyContent = ({ children }) => {
-  return <Content style={contentStyle}>{children}</Content>;
+export const Content = ({ children }) => {
+  return <AntContent style={contentStyle}>{children}</AntContent>;
 };
-
-export default MyContent;

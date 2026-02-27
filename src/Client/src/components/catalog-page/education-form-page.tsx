@@ -1,13 +1,11 @@
-import Catalog from '../shared/catalog-provider/catalog';
-import config from '../../storage/catalog-config/education-form';
-import { Layout } from '../shared/layout';
+import { educationFormConfig } from '../../storage/catalog-config/education-form';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const EducationFormPage = () => {
+export const EducationFormPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Формы образования" />
+      <Catalog config={educationFormConfig} title="Формы образования" />
     </Layout>
   );
 };
-
-export default EducationFormPage;

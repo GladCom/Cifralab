@@ -1,7 +1,7 @@
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-const PhoneFilter = ({ placeholder }) => {
+export const PhoneFilter = ({ placeholder }) => {
   return (
     <div className="col-2">
       <PhoneInput
@@ -18,5 +18,3 @@ const PhoneFilter = ({ placeholder }) => {
     </div>
   );
 };
-
-export default PhoneFilter;

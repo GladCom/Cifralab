@@ -1,9 +1,9 @@
 import { Rule } from 'antd/es/form';
-import config from '../../../../storage/catalog-config/kind-order';
 import { FormParams } from '../multi-mode-control/types';
 import { MultimodeControlProps } from '../multi-mode-control/multi-mode-control';
 import { QueryableSelectControl } from './common/queryable-select-control';
 import merge from 'lodash/merge';
+import { kindOrderConfig } from '../../../../storage/catalog-config/kind-order';
 
 const rules: Rule[] = [
   {
@@ -20,7 +20,7 @@ const formParams: FormParams = {
 };
 
 export const KindOrderSelectSelect: React.FC<MultimodeControlProps> = (props) => {
-  const { crud } = config;
+  const { crud } = kindOrderConfig;
   const { formParams: externalFormParams } = props;
   const finalFormParams = merge(
     {},

@@ -40,7 +40,7 @@ const IsArchive = ({ record }) => {
   return <Checkbox ref={checkboxRef} defaultChecked={isArchive} onChange={onChange} />;
 };
 
-export default {
+export const educationProgramConfig = {
   detailsLink: 'educationProgram',
   hasDetailsPage: true,
   serverPaged: false,

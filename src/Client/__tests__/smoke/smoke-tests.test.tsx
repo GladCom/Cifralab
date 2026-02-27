@@ -1,26 +1,26 @@
 import React from 'react';
 
-import LoginPage from '../../src/components/authorization/login-page';
-import PersonRequestsPage from '../../src/components/request/person-requests-page';
+import { LoginPage } from '../../src/components/authorization/login-page';
+import { PersonRequestsPage } from '../../src/components/request/person-requests-page';
 import { RequestDetailPage } from '../../src/components/request/request-detail-page';
-import StudentsPage from '../../src/components/student/students-page';
+import { StudentsPage } from '../../src/components/student/students-page';
 import { StudentDetailsPage } from '../../src/components/student/student-details-page';
-import GroupsPage from '../../src/components/group/groups-page';
-import GroupDetailsPage from '../../src/components/group/group-details-page';
-import ProgramsPage from '../../src/components/program/programs-page';
-import ProgramDetailsPage from '../../src/components/program/program-details-page';
-import OrdersPage from '../../src/components/order/orders-page';
-import ReportsPage from '../../src/components/report/reports-page';
-import EducationFormPage from '../../src/components/catalog-page/education-form-page';
-import RequestStatusPage from '../../src/components/catalog-page/request-status-page';
-import TypeEducationPage from '../../src/components/catalog-page/type-education-page';
-import StudentStatusPage from '../../src/components/catalog-page/student-status-page';
-import KindOrderPage from '../../src/components/catalog-page/kind-order-page';
-import KindDocumentRiseQualificationPage from '../../src/components/catalog-page/kind-document-rise-qualification-page';
-import FinancingTypePage from '../../src/components/catalog-page/financing-type-page';
-import FEAProgramPage from '../../src/components/catalog-page/fea-program-page';
-import ScopeOfActivityPage from '../../src/components/catalog-page/scope-of-activity-page';
-import KindEducationProgramPage from '../../src/components/catalog-page/kind-education-program-page';
+import { GroupsPage } from '../../src/components/group/groups-page';
+import { GroupDetailsPage } from '../../src/components/group/group-details-page';
+import { ProgramsPage } from '../../src/components/program/programs-page';
+import { ProgramDetailsPage } from '../../src/components/program/program-details-page';
+import { OrdersPage } from '../../src/components/order/orders-page';
+import { ReportsPage } from '../../src/components/report/reports-page';
+import { EducationFormPage } from '../../src/components/catalog-page/education-form-page';
+import { RequestStatusPage } from '../../src/components/catalog-page/request-status-page';
+import { TypeEducationPage } from '../../src/components/catalog-page/type-education-page';
+import { StudentStatusPage } from '../../src/components/catalog-page/student-status-page';
+import { KindOrderPage } from '../../src/components/catalog-page/kind-order-page';
+import { KindDocumentRiseQualificationPage } from '../../src/components/catalog-page/kind-document-rise-qualification-page';
+import { FinancingTypePage } from '../../src/components/catalog-page/financing-type-page';
+import { FEAProgramPage } from '../../src/components/catalog-page/fea-program-page';
+import { ScopeOfActivityPage } from '../../src/components/catalog-page/scope-of-activity-page';
+import { KindEducationProgramPage } from '../../src/components/catalog-page/kind-education-program-page';
 
 import { renderWithProviders } from '../../src/test-utils/render-with-providers';
 

@@ -1,7 +1,5 @@
-import { Layout } from '../shared/layout/index';
+import { Layout } from '../shared/layout/layout';
 
-const OrdersPage = () => {
+export const OrdersPage = () => {
   return <Layout title="Приказы">{'Тут будут приказы!'}</Layout>;
 };
-
-export default OrdersPage;

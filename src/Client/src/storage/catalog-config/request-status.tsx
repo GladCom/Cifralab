@@ -9,7 +9,7 @@ import {
 } from '../crud/request-status-crud';
 import { requestStatusFormModel } from '../form-model/request-status';
 
-export default {
+export const requestStatusConfig = {
   detailsLink: 'statusRequest',
   hasDetailsPage: false,
   serverPaged: false,

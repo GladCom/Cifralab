@@ -1,13 +1,11 @@
-import { Layout } from '../shared/layout';
-import Catalog from '../shared/catalog-provider/catalog';
-import config from '../../storage/catalog-config/financing-type';
+import { financingTypeConfig } from '../../storage/catalog-config/financing-type';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const FinancingTypePage = () => {
+export const FinancingTypePage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Типы финансирования" />
+      <Catalog config={financingTypeConfig} title="Типы финансирования" />
     </Layout>
   );
 };
-
-export default FinancingTypePage;

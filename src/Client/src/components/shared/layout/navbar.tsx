@@ -1,5 +1,5 @@
 import { Menu, Layout } from 'antd';
-import useMenuConfig from './menu-config';
+import { useMenuConfig } from './menu-config';
 
 const { Sider } = Layout;
 
@@ -8,7 +8,7 @@ const siderStyle: React.CSSProperties = {
   backgroundColor: '#fff',
 };
 
-const Navbar = ({ width }) => {
+export const Navbar = ({ width }) => {
   const { selectedKey, openedKey, menuItems } = useMenuConfig();
 
   return (
@@ -17,5 +17,3 @@ const Navbar = ({ width }) => {
     </Sider>
   );
 };
-
-export default Navbar;

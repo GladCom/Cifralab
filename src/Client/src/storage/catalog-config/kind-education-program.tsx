@@ -9,7 +9,7 @@ import {
 } from '../crud/kind-education-program-crud';
 import { kindEducationProgramFormModel } from '../form-model/kind-education-program';
 
-export default {
+export const kindEducationProgramConfig = {
   detailsLink: 'kindEducationProgram',
   hasDetailsPage: false,
   serverPaged: false,

@@ -1,13 +1,11 @@
-import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-config/request-status';
-import Catalog from '../shared/catalog-provider/catalog';
+import { requestStatusConfig } from '../../storage/catalog-config/request-status';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const RequestStatusPage = () => {
+export const RequestStatusPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Статусы заявки" />
+      <Catalog config={requestStatusConfig} title="Статусы заявки" />
     </Layout>
   );
 };
-
-export default RequestStatusPage;

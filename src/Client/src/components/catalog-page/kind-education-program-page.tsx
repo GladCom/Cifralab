@@ -1,13 +1,11 @@
-import { Layout } from '../shared/layout';
-import config from '../../storage/catalog-config/kind-document-rise-qualification';
-import Catalog from '../shared/catalog-provider/catalog';
+import { kindEducationProgramConfig } from '../../storage/catalog-config/kind-education-program';
+import { Catalog } from '../shared/catalog-provider/catalog';
+import { Layout } from '../shared/layout/layout';
 
-const KindEducationProgramPage = () => {
+export const KindEducationProgramPage = () => {
   return (
     <Layout>
-      <Catalog config={config} title="Вид программы" />
+      <Catalog config={kindEducationProgramConfig} title="Вид программы" />
     </Layout>
   );
 };
-
-export default KindEducationProgramPage;

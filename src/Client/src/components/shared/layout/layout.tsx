@@ -1,9 +1,9 @@
-import Footer from './footer';
-import Header from './header';
-import Navbar from './navbar';
-import Content from './content';
 import { Layout as AntLayout } from 'antd';
 import { PropsWithChildren } from 'react';
+import { Header } from './header';
+import { Navbar } from './navbar';
+import { Content } from './content';
+import { Footer } from './footer';
 
 const headerStyle = {
   textAlign: 'center',

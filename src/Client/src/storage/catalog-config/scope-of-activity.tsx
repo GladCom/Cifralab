@@ -11,7 +11,7 @@ import {
 } from '../crud/scope-of-activity-crud';
 import { scopeOfActivityFormModel } from '../form-model/scope-of-activity';
 
-export default {
+export const scopeOfActivityConfig = {
   detailsLink: 'scopeOfActivity',
   hasDetailsPage: false,
   serverPaged: false,

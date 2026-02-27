@@ -9,7 +9,7 @@ import {
 } from '../crud/type-education-crud';
 import { typeEducationFormModel } from '../form-model/type-education';
 
-export default {
+export const typeEducationConfig = {
   detailsLink: 'typeEducation',
   hasDetailsPage: false,
   serverPaged: false,
