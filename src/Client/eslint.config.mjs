@@ -111,6 +111,20 @@ export default [
       indent: ['error', 2],
       'arrow-body-style': 'off',
       'prefer-arrow-callback': 'off',
+
+      // Правила для исполнения соглашений по кодированию
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@*'],
+              message: 'Алиасы запрещены. Используйте относительные пути (../../component)',
+              files: ['src/**/*.{js,jsx,ts,tsx}'],
+            },
+          ],
+        },
+      ],
     },
   },
 

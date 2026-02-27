@@ -7,7 +7,11 @@
   "eslint.format.enable": true,
   "eslint.useFlatConfig": true,
   "files.trimTrailingWhitespace": true,
+
   "typescript.preferences.importModuleSpecifier": "relative",
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "javascript.preferences.importModuleSpecifierEnding": "minimal",
   "typescript.preferences.quoteStyle": "single",
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "[typescript]": {
@@ -15,5 +19,7 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+
+  "explorer.confirmDragAndDrop": true
 }

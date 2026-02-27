@@ -20,19 +20,6 @@
     "esModuleInterop": true, // Упрощённый импорт CommonJS
     "skipLibCheck": true, // Пропускать проверку типов библиотек
     "forceConsistentCasingInFileNames": true, // Чувствительность к регистру в именах файлов
-    "baseUrl": "./src", // Базовый путь для импортов
-
-    "paths": {
-      "@/*": ["./*"], // Алиас @ для всех файлов в src
-      "@components/*": ["components/*"], // Алиас для компонентов
-      "@pages/*": ["pages/*"], // Алиас для страниц
-      "@utils/*": ["utils/*"], // Алиас для утилит
-      "@styles/*": ["styles/*"], // Алиас для стилей
-      "@assets/*": ["assets/*"], // Алиас для ассетов
-      "@hooks/*": ["hooks/*"], // Алиас для хуков
-      "@store/*": ["store/*"], // Алиас для хранилища (Redux/Zustand)
-      "@services/*": ["services/*"] // Алиас для API-сервисов
-    },
     "outDir": "./distWebpack", // Папка для скомпилированных файлов (если нужно)
     "isolatedModules": true, // Важно для работы с Babel/ESLint
     "allowSyntheticDefaultImports": true, // Для совместимости с CommonJS
