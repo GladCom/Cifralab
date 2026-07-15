@@ -1,5 +1,5 @@
-import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
-import { EducationProgramSelect } from '../../components/shared/control/selects/education-program-select';
+import { DisplayMode } from '../../features/shared/control/multi-mode-control/types';
+import { EducationProgramSelect } from '../../features/shared/control/selects/education-program-select';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,

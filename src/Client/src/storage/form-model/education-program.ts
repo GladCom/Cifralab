@@ -1,13 +1,13 @@
-import { ArchiveCheckbox } from '../../components/shared/control/archive-check-box';
-import { Cost } from '../../components/shared/control/cost';
-import { HoursCount } from '../../components/shared/control/hours-count';
-import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
-import { FEAProgramSelect } from '../../components/shared/control/selects/fea-program-select';
-import { FinancingTypeSelect } from '../../components/shared/control/selects/financing-type-select';
-import { KindDocumentRiseQualificationSelect } from '../../components/shared/control/selects/kind-document-rise-qualification-select';
-import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
-import { StringControl } from '../../components/shared/control/string-control';
-import { YesNoControl } from '../../components/shared/control/yes-no-control';
+import { ArchiveCheckbox } from '../../features/shared/control/archive-check-box';
+import { Cost } from '../../features/shared/control/cost';
+import { HoursCount } from '../../features/shared/control/hours-count';
+import { EducationFormSelect } from '../../features/shared/control/selects/education-form-select';
+import { FEAProgramSelect } from '../../features/shared/control/selects/fea-program-select';
+import { FinancingTypeSelect } from '../../features/shared/control/selects/financing-type-select';
+import { KindDocumentRiseQualificationSelect } from '../../features/shared/control/selects/kind-document-rise-qualification-select';
+import { KindEducationProgramSelect } from '../../features/shared/control/selects/kind-education-program-select';
+import { StringControl } from '../../features/shared/control/string-control';
+import { YesNoControl } from '../../features/shared/control/yes-no-control';
 import { DtoKeys } from '../service/types';
 import { FormModel } from './types';
 

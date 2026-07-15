@@ -1,15 +1,15 @@
-import { Address } from '../../components/shared/control/address';
-import { Age } from '../../components/shared/control/age';
-import { BirthDate } from '../../components/shared/control/birth-date';
-import { Email } from '../../components/shared/control/email';
-import { Gender } from '../../components/shared/control/gender';
-import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
-import { PhoneNumber } from '../../components/shared/control/phone-number';
-import { EducationTypeSelect } from '../../components/shared/control/selects/education-type-select';
-import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
-import { Snils } from '../../components/shared/control/snils';
-import { StringControl } from '../../components/shared/control/string-control';
-import { YesNoControl } from '../../components/shared/control/yes-no-control';
+import { Address } from '../../features/shared/control/address';
+import { Age } from '../../features/shared/control/age';
+import { BirthDate } from '../../features/shared/control/birth-date';
+import { Email } from '../../features/shared/control/email';
+import { Gender } from '../../features/shared/control/gender';
+import { DisplayMode } from '../../features/shared/control/multi-mode-control/types';
+import { PhoneNumber } from '../../features/shared/control/phone-number';
+import { EducationTypeSelect } from '../../features/shared/control/selects/education-type-select';
+import { ScopeOfActivitySelect } from '../../features/shared/control/selects/scope-of-activity-select';
+import { Snils } from '../../features/shared/control/snils';
+import { StringControl } from '../../features/shared/control/string-control';
+import { YesNoControl } from '../../features/shared/control/yes-no-control';
 import { FormModel } from './types';
 
 export const studentFormModel: FormModel = {

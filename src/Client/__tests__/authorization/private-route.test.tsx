@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { PrivateRoute } from '../../src/components/authorization/private-route';
+import { PrivateRoute } from '../../src/features/auth/private-route';
 import { createTestStore } from '../../src/test-utils/create-test-store';
 import React from 'react';
 

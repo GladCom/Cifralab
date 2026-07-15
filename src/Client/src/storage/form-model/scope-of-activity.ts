@@ -1,5 +1,5 @@
-import { ScopeOfActivityLevel } from '../../components/shared/control/scope-of-activity-level';
-import { StringControl } from '../../components/shared/control/string-control';
+import { ScopeOfActivityLevel } from '../../features/shared/control/scope-of-activity-level';
+import { StringControl } from '../../features/shared/control/string-control';
 import { FormModel } from './types';
 
 export const scopeOfActivityFormModel: FormModel = {

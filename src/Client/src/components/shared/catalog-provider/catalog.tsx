@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Table, ConfigProvider } from 'antd';
-import { TablePageHeader } from '../layout/table-page-header';
+import { TablePageHeader } from '../../../shared/layout/table-page-header';
 import { EditForm } from './forms/edit-form';
 import { RemoveForm } from './forms/remove-form';
-import { EntityTableConfig } from '../layout/entity-table';
+import { EntityTableConfig } from '../../../shared/layout/entity-table';
 import { FilterPanel } from './filter-panel';
 
 const { Column } = Table;

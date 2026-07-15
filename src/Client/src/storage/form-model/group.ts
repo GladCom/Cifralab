@@ -1,6 +1,6 @@
-import { DateControl } from '../../components/shared/control/date-control';
-import { EducationProgramSelect } from '../../components/shared/control/selects/education-program-select';
-import { StringControl } from '../../components/shared/control/string-control';
+import { DateControl } from '../../features/shared/control/date-control';
+import { EducationProgramSelect } from '../../features/shared/control/selects/education-program-select';
+import { StringControl } from '../../features/shared/control/string-control';
 import { FormModel } from './types';
 
 export const groupFormModel: FormModel = {

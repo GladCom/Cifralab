@@ -10,15 +10,15 @@ import {
 } from '../crud/person-request-crud';
 import { useGetRequestStatusQuery } from '../service/request-status-api';
 import { Select } from 'antd';
-import { BirthDate } from '../../components/shared/control/birth-date';
-import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
+import { BirthDate } from '../../features/shared/control/birth-date';
+import { DisplayMode } from '../../features/shared/control/multi-mode-control/types';
 import { personRequestFormModel } from '../form-model/person-request';
-import { EmailCopyButton } from '../../components/shared/control/email-copy-button';
-import { TransferToStudentButton } from '../../components/shared/control/transfer-to-student-button';
+import { EmailCopyButton } from '../../features/shared/control/email-copy-button';
+import { TransferToStudentButton } from '../../features/shared/control/transfer-to-student-button';
 import { useGetEducationProgramQuery } from '../service/education-program-api';
 import { useGetTypeEducationQuery } from '../service/type-education-api';
 import { useGetEntranceExamStatusesQuery } from '../service/request-api';
-import { EntityTableConfig } from '../../components/shared/layout/entity-table';
+import { EntityTableConfig } from '../../features/shared/layout/entity-table';
 import { InputStatus } from 'antd/es/_util/statusUtils';
 
 //  TODO    лучше перенести эту реализацию в компонент RequestStatusSelect в новый режим

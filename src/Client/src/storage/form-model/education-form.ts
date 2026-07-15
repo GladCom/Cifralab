@@ -1,6 +1,6 @@
 import { Rule } from 'antd/es/form';
-import { FormParams } from '../../components/shared/control/multi-mode-control/types';
-import { StringControl } from '../../components/shared/control/string-control';
+import { FormParams } from '../../features/shared/control/multi-mode-control/types';
+import { StringControl } from '../../features/shared/control/string-control';
 import { FormModel } from './types';
 
 const rules: Rule[] = [

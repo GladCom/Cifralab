@@ -1,5 +1,5 @@
-import { BirthDate } from '../../components/shared/control/birth-date';
-import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
+import { BirthDate } from '../../features/shared/control/birth-date';
+import { DisplayMode } from '../../features/shared/control/multi-mode-control/types';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,

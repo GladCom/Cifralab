@@ -1,5 +1,5 @@
-import { MultimodeControlProps } from '../../components/shared/control/multi-mode-control/multi-mode-control';
-import { BaseControlParams, FormParams } from '../../components/shared/control/multi-mode-control/types';
+import { MultimodeControlProps } from '../../features/shared/control/multi-mode-control/multi-mode-control';
+import { BaseControlParams, FormParams } from '../../features/shared/control/multi-mode-control/types';
 
 export type FormModel = Record<string, FormControlModel>;
 

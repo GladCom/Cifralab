@@ -1,5 +1,5 @@
 import { Modal, Form, Result } from 'antd';
-import { EntityTableConfig } from '../../layout/entity-table';
+import { EntityTableConfig } from '../../../../shared/layout/entity-table';
 
 type RemoveFormProps = {
   // TODO: уточнить типизацию

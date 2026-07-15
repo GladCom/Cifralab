@@ -1,8 +1,8 @@
 import { useState, useEffect, ComponentType } from 'react';
 import { Modal, Form } from 'antd';
-import { DisplayMode } from '../../control/multi-mode-control/types';
-import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
-import { EntityTableConfig } from '../../layout/entity-table';
+import { DisplayMode } from '../../../../shared/control/multi-mode-control/types';
+import { MultimodeControlProps } from '../../../../shared/control/multi-mode-control/multi-mode-control';
+import { EntityTableConfig } from '../../../../shared/layout/entity-table';
 
 type EditFormProps = {
   // TODO: уточнить типизацию

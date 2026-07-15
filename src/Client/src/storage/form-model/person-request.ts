@@ -1,14 +1,14 @@
-import { Address } from '../../components/shared/control/address';
-import { BirthDate } from '../../components/shared/control/birth-date';
-import { CheckBox } from '../../components/shared/control/check-box';
-import { DateTimeView } from '../../components/shared/control/date-time-view';
-import { Email } from '../../components/shared/control/email';
-import { PhoneNumber } from '../../components/shared/control/phone-number';
-import { EducationProgramSelect } from '../../components/shared/control/selects/education-program-select';
-import { EducationTypeSelect } from '../../components/shared/control/selects/education-type-select';
-import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
-import { StatusEntrancExamsSelect } from '../../components/shared/control/selects/status-entranc-exams-select';
-import { StringControl } from '../../components/shared/control/string-control';
+import { Address } from '../../features/shared/control/address';
+import { BirthDate } from '../../features/shared/control/birth-date';
+import { CheckBox } from '../../features/shared/control/check-box';
+import { DateTimeView } from '../../features/shared/control/date-time-view';
+import { Email } from '../../features/shared/control/email';
+import { PhoneNumber } from '../../features/shared/control/phone-number';
+import { EducationProgramSelect } from '../../features/shared/control/selects/education-program-select';
+import { EducationTypeSelect } from '../../features/shared/control/selects/education-type-select';
+import { ScopeOfActivitySelect } from '../../features/shared/control/selects/scope-of-activity-select';
+import { StatusEntrancExamsSelect } from '../../features/shared/control/selects/status-entranc-exams-select';
+import { StringControl } from '../../features/shared/control/string-control';
 import { DtoKeys } from '../service/types';
 import { FormModel } from './types';
 

@@ -1,5 +1,5 @@
-import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
-import { ScopeOfActivitySelect } from '../../components/shared/control/selects/scope-of-activity-select';
+import { DisplayMode } from '../../features/shared/control/multi-mode-control/types';
+import { ScopeOfActivitySelect } from '../../features/shared/control/selects/scope-of-activity-select';
 import {
   useGetAllAsync,
   useGetAllPagedAsync,

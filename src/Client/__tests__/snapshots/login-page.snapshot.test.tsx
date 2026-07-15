@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { LoginPage } from '../../src/components/authorization/login-page';
+import { LoginPage } from '../../src/features/auth/login-page';
 
 // Мокаем зависимости компонента
 jest.mock('react-redux', () => ({

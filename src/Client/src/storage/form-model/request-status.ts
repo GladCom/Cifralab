@@ -1,4 +1,4 @@
-import { StringControl } from '../../components/shared/control/string-control';
+import { StringControl } from '../../features/shared/control/string-control';
 import { FormModel } from './types';
 
 export const requestStatusFormModel: FormModel = {

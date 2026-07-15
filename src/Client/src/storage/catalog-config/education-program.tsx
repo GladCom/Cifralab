@@ -9,9 +9,9 @@ import {
   useRemoveOneAsync,
   useSearchAsync,
 } from '../crud/education-program-crud';
-import { KindEducationProgramSelect } from '../../components/shared/control/selects/kind-education-program-select';
-import { EducationFormSelect } from '../../components/shared/control/selects/education-form-select';
-import { DisplayMode } from '../../components/shared/control/multi-mode-control/types';
+import { KindEducationProgramSelect } from '../../features/shared/control/selects/kind-education-program-select';
+import { EducationFormSelect } from '../../features/shared/control/selects/education-form-select';
+import { DisplayMode } from '../../features/shared/control/multi-mode-control/types';
 import { educationProgramFormModel } from '../form-model/education-program';
 
 //  TODO    лучше перенести эту реализацию в компонент в новый режим

@@ -1,6 +1,6 @@
 import { Modal, Form, message } from 'antd';
-import { DisplayMode } from '../../control/multi-mode-control/types';
-import { MultimodeControlProps } from '../../control/multi-mode-control/multi-mode-control';
+import { DisplayMode } from '../../../../shared/control/multi-mode-control/types';
+import { MultimodeControlProps } from '../../../../shared/control/multi-mode-control/multi-mode-control';
 import { ComponentType } from 'react';
 import { FormModel } from '../../../../storage/form-model/types';
 
